@@ -102,6 +102,7 @@
                 <constraint firstItem="lEX-qR-lq2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="xHM-7a-yaV"/>
                 <constraint firstItem="bfx-9W-Vz7" firstAttribute="leading" secondItem="TBd-E3-7fK" secondAttribute="leading" id="zly-9A-0wR"/>
             </constraints>
+            <point key="canvasLocation" x="235" y="234"/>
         </view>
     </objects>
     <resources>

@@ -129,6 +129,7 @@ UIBarButtonItem *revealButtonItem;;
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
+     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     self.title=NSLocalizedString(@"Month Events", @"");
     [self.navigationItem setHidesBackButton:YES animated:NO];
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:0];

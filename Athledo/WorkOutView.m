@@ -55,18 +55,7 @@
     // Do any additional setup after loading the view from its nib.
    
     arrWorkOutData=[[NSMutableArray alloc] init];
-    
-    SWRevealViewController *revealController = [self revealViewController];
-    
-    [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
-    [self.view addGestureRecognizer:revealController.panGestureRecognizer];
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
-                                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
-    
-    self.navigationItem.leftBarButtonItem = revealButtonItem;
-    
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
-    
+
     
     UIButton *btnAddWorkout = [[UIButton alloc] initWithFrame:CGRectMake(220, 5, 44, 44)];
     UIImage *imageAdd=[UIImage imageNamed:@"add.png"];
@@ -125,6 +114,20 @@
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    SWRevealViewController *revealController = [self revealViewController];
+    
+    [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.panGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
+   
+   
+    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
+                                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
+    
+    self.navigationItem.leftBarButtonItem = revealButtonItem;
+    
+    self.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
+    
     
     [super viewWillAppear:NO];
     
@@ -135,7 +138,13 @@
     }
     
 }
-
+- (BOOL)revealController:(SWRevealViewController *)revealController
+panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    
+    return YES;
+    
+}
 -(void)AddNewWorkOut
 {
    //AddWorkOut *addNew=[[AddWorkOut alloc] init];
@@ -527,7 +536,7 @@
     cell.lblWorkoutCratedBy.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"createdby"] ;
     cell.lblWorkoutCratedBy.font=Textfont;
    
-    cell.rightUtilityButtons = [self rightButtons : indexPath.section];
+    cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
     cell.delegate=self;
     
     if (_notificationData) {
@@ -638,13 +647,7 @@
             
             break;
         }
-        case 1:
-        {
-            
-           
-            
-            break;
-        }
+        
         default:
             break;
     }
@@ -684,13 +687,13 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    buttonIndex==1 ? [self WebServiceDeleteWorkOut :alertView.tag] : @"";
+    buttonIndex==1 ? [self WebServiceDeleteWorkOut :(int)(alertView.tag)] : @"";
 
 }
 -(void)DeleteWorkOut:(id)sender
 {
     UIButton *btn=sender;
-    NSLog(@"tag %d",btn.tag);
+  
     [SingaltonClass initWithTitle:@"" message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
     
     

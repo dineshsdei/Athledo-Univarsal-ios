@@ -74,7 +74,7 @@
     }
   
 }
--(void)deleteMessageEvent:(int)index{
+-(void)deleteMessageEvent:(NSInteger)index{
     
     if ([SingaltonClass  CheckConnectivity]) {
     
@@ -236,6 +236,7 @@
     
     SWRevealViewController *revealController = [self revealViewController];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
+     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     
@@ -371,7 +372,7 @@
     
     [cell addSubview:img1];
     
-    cell.rightUtilityButtons = [self rightButtons :indexPath.section];
+    cell.rightUtilityButtons = [self rightButtons :(int)indexPath.section];
     cell.delegate=self;
 
     cell.backgroundColor=[UIColor clearColor];
@@ -424,28 +425,7 @@
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     
-    switch (index) {
-        case 0:
-        {
-            break;
-        }
-        case 1:
-        {
-            
-            break;
-        }
-        case 2:
-        {
-            
-            break;
-        }
-        case 3:
-        {
-            
-        }
-        default:
-            break;
-    }
+
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
@@ -494,14 +474,14 @@
 {
     UIButton *btn=sender;
 
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:btn.tag];
+    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)btn.tag];
 
     
 }
 -(void)archiveMessage:(id)sender;
 {
    UIButton *btn=sender;
-  [self archiveMessageMoveToInboxEvent:btn.tag];
+  [self archiveMessageMoveToInboxEvent:(int)btn.tag];
     
     
     

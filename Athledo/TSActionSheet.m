@@ -199,7 +199,7 @@
 - (void)buttonClicked:(id)sender 
 {
     /* Run the button's block */
-    int buttonIndex = [sender tag] - 1;
+    int buttonIndex = (int)([sender tag] - 1);
     [self dismissWithClickedButtonIndex:buttonIndex animated:YES];
 }
 

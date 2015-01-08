@@ -1,37 +1,3 @@
-//
-//  JSMessagesViewController.m
-//
-//  Created by Jesse Squires on 2/12/13.
-//  Copyright (c) 2013 Hexed Bits. All rights reserved.
-//
-//  http://www.hexedbits.com
-//
-//
-//  Largely based on work by Sam Soffes
-//  https://github.com/soffes
-//
-//  SSMessagesViewController
-//  https://github.com/soffes/ssmessagesviewcontroller
-//
-//
-//  The MIT License
-//  Copyright (c) 2013 Jesse Squires
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-//  associated documentation files (the "Software"), to deal in the Software without restriction, including
-//  without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
-//  following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-//  LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
-//  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 
 #import "JSMessagesViewController.h"
 #import "NSString+JSMessagesView.h"
@@ -205,12 +171,12 @@
         switch (type) {
             case JSBubbleMessageTypeIncoming:
                // [cell setAvatarImage:[self.dataSource avatarImageForIncomingMessage]];
-                [cell setImageIngoingWithUrl:[self.dataSource setImageWithUrl:indexPath.row]];
+                [cell setImageIngoingWithUrl:[self.dataSource setImageWithUrl:(int)indexPath.row]];
                 break;
                 
             case JSBubbleMessageTypeOutgoing:
                 //[cell setAvatarImage:[self.dataSource avatarImageForOutgoingMessage]];
-                 [cell setImageOutgoingWithUrl:[self.dataSource setImageWithUrl:indexPath.row]];
+                 [cell setImageOutgoingWithUrl:[self.dataSource setImageWithUrl:(int)indexPath.row]];
                 break;
         }
     }
@@ -379,39 +345,9 @@
 - (void)keyboardWillShowHide:(NSNotification *)notification
 {
     CGRect keyboardRect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-	UIViewAnimationCurve curve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
+	//UIViewAnimationCurve curve = [[notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue];
 	double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
-//    [UIView animateWithDuration:duration
-//                          delay:0.0f
-//                        options:[UIView animationOptionsForCurve:curve]
-//                     animations:^{
-//                         CGFloat keyboardY = [self.view convertRect:keyboardRect fromView:nil].origin.y;
-//                         
-//                         CGRect inputViewFrame = self.inputToolBarView.frame;
-//                         CGFloat inputViewFrameY = keyboardY - inputViewFrame.size.height;
-//                         
-//                         // for ipad modal form presentations
-//                         CGFloat messageViewFrameBottom = self.view.frame.size.height - INPUT_HEIGHT;
-//                         if(inputViewFrameY > messageViewFrameBottom)
-//                             inputViewFrameY = messageViewFrameBottom;
-//
-//                         self.inputToolBarView.frame = CGRectMake(inputViewFrame.origin.x,
-//                                                           inputViewFrameY,
-//                                                           inputViewFrame.size.width,
-//                                                           inputViewFrame.size.height);
-//                         
-//                         UIEdgeInsets insets = UIEdgeInsetsMake(0.0f,
-//                                                                0.0f,
-//                                                                self.view.frame.size.height - self.inputToolBarView.frame.origin.y - INPUT_HEIGHT,
-//                                                                0.0f);
-//                         
-//                         self.tableView.contentInset = insets;
-//                         self.tableView.scrollIndicatorInsets = insets;
-//                     }
-//                     completion:^(BOOL finished) {
-//                     }];
-
     [UIView animateWithDuration:duration
                           delay:0.0f
                         options:nil

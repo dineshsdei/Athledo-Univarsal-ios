@@ -38,7 +38,7 @@
 #import "NSString+JSMessagesView.h"
 #import "UIImage+JSMessagesView.h"
 
-CGFloat const kJSAvatarSize = 50.0f;
+CGFloat const kJSAvatarSize = 30.0f;
 
 #define kMarginTop 8.0f
 #define kMarginBottom 4.0f

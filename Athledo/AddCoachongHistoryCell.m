@@ -81,10 +81,6 @@
             txtField.attributedPlaceholder = str;
         }
         
-        
-//        txtField.text = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//        
-        
         [self addSubview:txtField];
         
         

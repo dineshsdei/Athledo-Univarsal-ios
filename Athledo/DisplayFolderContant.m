@@ -46,7 +46,7 @@
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int noOfRow=multimediaData.count/2;
+    int noOfRow=(int)multimediaData.count/2;
 
     if (noOfRow==0) {
 
@@ -63,7 +63,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = [NSString stringWithFormat:@"MultimediaCell_%d_%d",indexPath.section,indexPath.row ];
+    NSString *CellIdentifier = [NSString stringWithFormat:@"MultimediaCell_%d_%d",(int)indexPath.section,(int)indexPath.row ];
     static NSString *CellNib = @"MultimediaCell";
     MultimediaCell *cell;
     cell = (MultimediaCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];

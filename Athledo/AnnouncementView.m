@@ -334,14 +334,7 @@
 
     break;
     }
-
-    case 2:
-    {
-
-
-    break;
-    }
-
+            
     default:
     break;
     }
@@ -386,11 +379,10 @@
     }
 
     switch (userInfo.userType) {
-    case 1:
-
-    break;
+   
 
     case 2:
+    {
 
     tblUpdatesRecods.delegate=self;
     tblUpdatesRecods.dataSource=self;
@@ -398,7 +390,7 @@
     [tblUpdatesRecods reloadData];
 
     break;
-
+    }
     default:
     break;
     }
@@ -536,28 +528,18 @@
 
     arrAnnouncements=[[NSMutableArray alloc] init];
 
-    switch (userInfo.userType) {
-    case 1:
-    //self.title = NSLocalizedString(@"Announcements", nil);
-    break;
-    case 2:
-    //self.title = NSLocalizedString(@"Updates", nil);
-    break;
-
-    default:
-    break;
-    }
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
     [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
 
 
     SWRevealViewController *revealController = [self revealViewController];
+   // revealController.delegate=self;
 
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
-
-
+    [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
+    
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
     style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
 
@@ -579,6 +561,14 @@
 
     [self CerateLayOut];
 
+    
+}
+
+- (BOOL)revealController:(SWRevealViewController *)revealController
+panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    
+    return YES;
     
 }
 -(void)doneClicked

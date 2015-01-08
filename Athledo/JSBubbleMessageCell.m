@@ -122,10 +122,11 @@
     if(avatarStyle != JSAvatarStyleNone) {
         offsetX = 4.0f;
         bubbleX = kJSAvatarSize;
-        CGFloat avatarX = 0.5f;
+       // CGFloat avatarX =(isIPAD ? 20 : 10 );
+         CGFloat avatarX =.50f;
         
         if(type == JSBubbleMessageTypeOutgoing) {
-            avatarX = (self.contentView.frame.size.width - kJSAvatarSize);
+            avatarX = ((self.contentView.frame.size.width - kJSAvatarSize));
             offsetX = kJSAvatarSize - 4.0f;
         }
         self.avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(avatarX,
@@ -147,6 +148,8 @@
     self.bubbleView = [[JSBubbleView alloc] initWithFrame:frame
                                                bubbleType:type
                                               bubbleStyle:bubbleStyle];
+    
+  
     
     [self.contentView addSubview:self.bubbleView];
     [self.contentView sendSubviewToBack:self.bubbleView];
@@ -226,8 +229,8 @@
 {
     //self.avatarImageView.layer.masksToBounds = YES;
    // self.avatarImageView.layer.cornerRadius=15;
-    //(self.avatarImageView.frame.origin.y==-6 ? 15 :self.avatarImageView.frame.origin.y)
-    self.avatarImageView.frame=CGRectMake((isIPAD ? 20 :20 ),self.avatarImageView.frame.origin.y, 30, 30);
+   
+  //  self.avatarImageView.frame=CGRectMake((isIPAD ? 20 :20 ),self.avatarImageView.frame.origin.y, 30, 30);
 
     
     [self.avatarImageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
@@ -240,7 +243,7 @@
     //self.avatarImageView.layer.masksToBounds = YES;
     // self.avatarImageView.layer.cornerRadius=15;
     
-    self.avatarImageView.frame=CGRectMake((isIPAD ? 718 :270 ),self.avatarImageView.frame.origin.y, 30, 30);
+   // self.avatarImageView.frame=CGRectMake((isIPAD ? 718 :270 ),self.avatarImageView.frame.origin.y, 30, 30);
     
     [self.avatarImageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
     

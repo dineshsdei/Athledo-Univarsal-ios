@@ -444,9 +444,9 @@ static const unsigned int TOP_BACKGROUND_HEIGHT               = 35;
 			MAEvent *event = e;
 			
 			if (event.allDay) {
-				[self.allDayEventView addEventToOffset:d event:event];
+				[self.allDayEventView addEventToOffset:(int)d event:event];
 			} else {
-				[self.gridView addEventToOffset:d event:event weekView:self];
+				[self.gridView addEventToOffset:(int)d event:event weekView:self];
 			}
 		}
 		d++;
@@ -508,9 +508,9 @@ static const unsigned int TOP_BACKGROUND_HEIGHT               = 35;
 	
 	NSArray *monthSymbols = [formatter shortMonthSymbols];
 	
-	return [NSString stringWithFormat:@"%@, week %i",
+	return [NSString stringWithFormat:@"%@, week %d",
 			[monthSymbols objectAtIndex:[components month] - 1],
-			[components week]];
+			(int)([components week])];
 }
 
 @end
@@ -639,12 +639,12 @@ static NSString const * const HOURS_24[] = {
 	
 	NSArray *weekdaySymbols = [self.dateFormatter veryShortWeekdaySymbols];
 	CFCalendarRef currentCalendar = CFCalendarCopyCurrent();
-	int d = CFCalendarGetFirstWeekday(currentCalendar) - 1;
+	int d = (int)CFCalendarGetFirstWeekday(currentCalendar) - 1;
 	CFRelease(currentCalendar);
 	
 	for (NSDate *date in _weekdays) {
 		NSDateComponents *components = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:date];
-		NSString *displayText = [NSString stringWithFormat:@"%@ %i", [weekdaySymbols objectAtIndex:d], [components day]];
+		NSString *displayText = [NSString stringWithFormat:@"%@ %i", [weekdaySymbols objectAtIndex:d], (int)[components day]];
 		
 		CGSize sizeNecessary = [displayText sizeWithFont:self.textFont];
 		CGRect rect = CGRectMake(cellWidth * i + ((cellWidth - sizeNecessary.width) / 2.f),

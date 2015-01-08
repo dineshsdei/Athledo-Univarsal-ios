@@ -125,7 +125,7 @@
     [lbl setTextAlignment:NSTextAlignmentLeft];
     lbl.text=[arrMenuList objectAtIndex:indexPath.row];
     lbl.font=MenuTextfont;
-
+    
     switch (indexPath.row) {
         case 0:
         {
@@ -133,7 +133,7 @@
             lblShowUpdate.hidden=NO;
             NSArray *arrTemp=[notificationData valueForKey:@"announcements"];
             if (arrTemp.count > 0)
-                lblShowUpdate.text= [NSString stringWithFormat:@"%d",arrTemp.count];
+                lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
             else
                 lblShowUpdate.hidden=YES;
             
@@ -145,7 +145,7 @@
             
             NSArray *arrTemp=[notificationData valueForKey:@"workouts"];
             if (arrTemp.count > 0)
-                lblShowUpdate.text= [NSString stringWithFormat:@"%d",arrTemp.count];
+                lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
             else
                 lblShowUpdate.hidden=YES;
             break;
@@ -169,7 +169,7 @@
             
             NSArray *arrTemp=[notificationData valueForKey:@"events"];
             if (arrTemp.count > 0)
-                lblShowUpdate.text= [NSString stringWithFormat:@"%d",arrTemp.count];
+                lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
             else
                 lblShowUpdate.hidden=YES;
             break;
@@ -402,7 +402,7 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-   // [SingaltonClass RemoveActivityIndicator:self.view];
+    // [SingaltonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -425,9 +425,31 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
+    [self.revealViewController.frontViewController.view  addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
+    
+    NSArray *navArray=[[[self.revealViewController childViewControllers] objectAtIndex:1] viewControllers];
+    
+    NSArray *arr=[[[self.revealViewController childViewControllers] objectAtIndex:0] viewControllers];
+    
+    
+    for (UIViewController * viewCotroller in navArray) {
+        if ([viewCotroller isKindOfClass:[WorkOutView class]]) {
+            
+            WorkOutView *WorkviewCntrler  = (WorkOutView *)viewCotroller;
+            NSArray *arrSubViews = (NSArray *) [WorkviewCntrler.view subviews];
+            
+            for (id object in arrSubViews) {
+                
+                if ([object isKindOfClass:[UITableView class]]) {
+                    UITableView *table= (UITableView *)object;
+                    table.userInteractionEnabled=NO;
+                }
+            }
+        }
+    }
     
     //[[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
     userInfo=[UserInformation shareInstance];
     
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
@@ -476,7 +498,7 @@
 {
     
     [super viewDidLoad];
-
+    
     [self setNeedsStatusBarAppearanceUpdate];
     
     //self.view.backgroundColor=[UIColor colorWithRed:63/255 green:76/255 blue:89/255 alpha:1];

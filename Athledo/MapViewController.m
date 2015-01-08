@@ -123,7 +123,7 @@ UIBarButtonItem *revealButtonItem;;
             if (Status==FALSE)
             {
                 CalendarDayViewController *dayView = [[CalendarDayViewController alloc]init];
-                dayView.eventDic=_eventDic;
+                dayView.eventDic=(NSMutableArray *)_eventDic;
                 [self.navigationController pushViewController:dayView animated:NO];
                 
             }
@@ -146,7 +146,7 @@ UIBarButtonItem *revealButtonItem;;
             if (Status==FALSE)
             {
                 WeekViewController *weekView = [[WeekViewController alloc]initWithNibName:@"WeekViewController" bundle:[NSBundle mainBundle]];
-                weekView.eventDic=_eventDic;
+                weekView.eventDic=(NSMutableArray *)_eventDic;
                 [self.navigationController pushViewController:weekView animated:NO];
                 
             }
@@ -195,6 +195,7 @@ UIBarButtonItem *revealButtonItem;;
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
+     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];

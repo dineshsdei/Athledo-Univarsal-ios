@@ -49,18 +49,10 @@
 -(NSString *)dateFormate : (NSString *)strdate
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    // df.dateFormat = @"MM-dd-YYYY hh:mm a";
-    
     [df setDateFormat:DATE_FORMAT_D_M_Y];
     
     NSDate *date=[df dateFromString:strdate];
-    
-    // NSDate *dte = [df dateFromString:strdate];
-    
     [df setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
-    
-    //df.dateFormat = @"dd-MM-YYYY";
-    
     NSString *str=@"";
     if (![[NSString stringWithFormat:@"%@", [df stringFromDate:date]] isEqualToString:@"(null)"]) {
         str=[NSString stringWithFormat:@"%@", [df stringFromDate:date]];
@@ -87,13 +79,10 @@
         {
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {// Now we Need to decrypt data
-                
-                
+            {
+                // Now we Need to decrypt data
+            
                 [SingaltonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
-                
-                
-                
                 
             }else{
                  self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -207,7 +196,6 @@
     [self.view addSubview:datePicker];
     
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 50)];
-    // UIImage *imageEdit=[UIImage imageNamed:@"edit.png"];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave addTarget:self action:@selector(sendAthleteHistory:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -230,9 +218,6 @@
     
     UITextField *textfieldStart=(UITextField *)[table viewWithTag:1002];
     UITextField *textfieldEnd=(UITextField *)[table viewWithTag:1003];
-    
-    //NSLog(@"%@",textfieldStart.text);
-    //NSLog(@"%@",textfieldEnd.text);
     
     NSDate *dateOne=[df dateFromString:textfieldStart.text];
     NSDate *dateTwo=[df dateFromString:textfieldEnd.text];
@@ -344,32 +329,13 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-   // UITableView *tblView = (UITableView *)[self.view viewWithTag:100];
-    
     currentText=textField;
-    
-    
-//    if(tblView.frame.origin.y>=55 && textField.tag > 1003 )
-//    {
-//        isKeyBoard=YES;
-//        [UIView beginAnimations:@"tblMove" context:nil];
-//        [UIView setAnimationDelegate:self];
-//        [UIView setAnimationDuration:0.29f];
-//        
-//        tblView.frame = CGRectMake(tblView.frame.origin.x, tblView.frame.origin.y-57, tblView.frame.size.width, tblView.frame.size.height);
-//        
-//        
-//        [UIView commitAnimations];
-//        
-//    }
-    
+
     [self setContentOffset:textField table:tableView];
     
     if (textField.tag==1003 || textField.tag==1002) {
         
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-        
-        //[self setToolbarVisibleAt:CGPointMake(160, toolBarPosition+70)];
         [self setDatePickerVisibleAt:YES];
         return NO;
         
@@ -422,15 +388,10 @@
      self.navigationItem.rightBarButtonItem.enabled=NO;
     
         NSMutableArray *arrdata=[[NSMutableArray alloc] init];
-        
-        //    self.navigationItem.leftBarButtonItem.enabled=NO;
         UserInformation *userInfo=[UserInformation shareInstance];
-       // [arrdata addObject:[NSString stringWithFormat:@"%d",userInfo.userId ]];
-        
-        if ([SingaltonClass  CheckConnectivity]) {
-            
-          
-            
+    
+    if ([SingaltonClass  CheckConnectivity])
+    {
             for (int i=0; i < arrHistoryInfo.count; i++) {
                 
                 //Check for empty Text box
@@ -440,9 +401,6 @@
                 UITableView *table=(UITableView *)[self.view viewWithTag:100];
                 
                 UITextField *textfield=(UITextField *)[table viewWithTag:tag];
-                
-                
-                
                 NSString *strError = @"";
                 if(textfield.text.length < 1 && tag==1000)
                 {
@@ -469,9 +427,6 @@
                     [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
-                
-                
-                
             }
             
             for (int i=0; i < arrHistoryInfo.count; i++) {
@@ -509,11 +464,7 @@
             }else{
                 
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"team\":\"%@\", \"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", userInfo.userId ,[arrdata objectAtIndex:0],[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
-                
-                
                 [webservice WebserviceCall:webServiceAddAthleteHistoryInfo:strURL :Successtag];
-                
-                
             }
 
    }else{
@@ -522,27 +473,11 @@
             [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
             
         }
-        
-    
 }
-
 
 
 -(void)doneClicked
 {
-//    if(isKeyBoard)
-//    {
-//        isKeyBoard=NO;
-//        [UIView beginAnimations:@"tblMove" context:nil];
-//        [UIView setAnimationDelegate:self];
-//        [UIView setAnimationDuration:0.29f];
-//        
-//        UITableView *tblView = (UITableView *)[self.view viewWithTag:100];
-//        
-//        tblView.frame = CGRectMake(tblView.frame.origin.x, tblView.frame.origin.y+57, tblView.frame.size.width, tblView.frame.size.height);
-//        [UIView commitAnimations];
-//    }
-    
     [currentText resignFirstResponder];
     
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -578,7 +513,6 @@
         [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(datePicker.frame.size.height/2)-22)];
         
     }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
         point.y=self.view.frame.size.height+(datePicker.frame.size.height/2);
     }
     
@@ -680,12 +614,7 @@
     }
 
     }
-
-    
 }
-
-
-
 
 - (void)didReceiveMemoryWarning
 {

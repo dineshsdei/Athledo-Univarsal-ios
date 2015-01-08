@@ -87,8 +87,6 @@
                 txtField.font = Textfont;
                 // Add Dic data in textfield and placeholder text
                 txtField.text=[self ValuesForKey:indexPath.section :WorkOutDic :arrfixCellFields];
-                //txtField.text=[WorkOutDic objectForKey:[arrfixCellFields objectAtIndex:indexPath.section]];
-               // txtField.placeholder = [arrfixCellFields objectAtIndex:indexPath.section];
                 txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:[arrfixCellFields objectAtIndex:indexPath.section] attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                 txtField.textColor=TextFieldColor;
                 
@@ -148,7 +146,6 @@
                     
                 }
                 
-                //txtField.clearButtonMode = UITextFieldViewModeWhileEditing;
                 [self addSubview:txtField];
                 
                 txtField=nil;
@@ -190,7 +187,6 @@
                 for (int i=0; i< arrlblText.count; i++) {
                     
                     btnWholeTeam=[UIButton buttonWithType:UIButtonTypeCustom];
-                    // btnWholeTeam.tag=i;
                     if (i==0 )
                     {
                         // Athletes section
@@ -250,8 +246,6 @@
                             }
                             case 2:
                             {
-                                //NSLog(@"%@",[WorkOutDic objectForKey:@"Groups"]);
-                                
                                 if (![[WorkOutDic objectForKey:@"Groups"] isEqual:@""])
                                 {
                                     btnWholeTeam.selected=YES;
@@ -415,12 +409,10 @@
                 
                 txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:[arrPlaceholdertext objectAtIndex:i] attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                 txtField.textColor=TextFieldColor;
-                
-                //txtField.placeholder =[arrPlaceholdertext objectAtIndex:i];
                 txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
                if (valueIndex >= 0){
                     
-                    txtField.text=[self LiftValuesForKey:indexPath.section-(arrfixCellFields.count-(count)) :liftPlaceholder :txtField.placeholder];
+                    txtField.text=[self LiftValuesForKey:(int)(indexPath.section-(arrfixCellFields.count-(count))) :liftPlaceholder :txtField.placeholder];
                 }
               
                 

@@ -1118,7 +1118,13 @@ const int FrontViewPositionNone = 0xff;
     
     return NO;
 }
-
+- (BOOL)revealController:(SWRevealViewController *)revealController
+panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    
+    return YES;
+    
+}
 
 - (BOOL)_tapGestureShouldBegin
 {

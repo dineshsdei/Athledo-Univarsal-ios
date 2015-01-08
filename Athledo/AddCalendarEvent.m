@@ -46,13 +46,8 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-//     ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-//    [acti removeFromSuperview];
-//    acti=nil;
+
     [SingaltonClass RemoveActivityIndicator:self.view];
-    
-    
-    
     switch (Tag)
     {
     case AddEventTag:
@@ -164,8 +159,6 @@
     }else{
         NSLog(@"Title is = %@", [addressModel fullAddress]);
     }
-    /////NSLog(@"Addrs = %@ ",[NSString stringWithFormat:@"%f,%f", addressModel.coordinate.latitude, addressModel.coordinate.longitude]);
-   // NSString *strLatLong = [NSString stringWithFormat:@"%f,%f", addressModel.coordinate.latitude, addressModel.coordinate.longitude];
     
     strLat= [NSString stringWithFormat:@"%f", addressModel.coordinate.latitude];
     strLong= [NSString stringWithFormat:@"%f",  addressModel.coordinate.longitude];
@@ -561,16 +554,7 @@
     {
             if ([[CalendarEvent ShareInstance].strEventType isEqualToString:@"Daily"]) {
                 // Daily event Calculate end date , End date after startdate of (Occurrance multiply by no of days)
-                /*
-                int endDateAfter;
-                NSDateFormatter *locFormater=[[NSDateFormatter alloc] init];
-                locFormater.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-                endDateAfter=[CalendarEvent ShareInstance].NoOfOccurrence*[CalendarEvent ShareInstance].NoOfDay;
-                NSDate *date=[locFormater dateFromString:strStartdate];
-                NSDate *newDate1 = [date dateByAddingTimeInterval:60*60*24*endDateAfter];
-                [CalendarEvent ShareInstance].strEndDate =[locFormater stringFromDate:newDate1];
-                
-                */
+               
                 enddate=[self CalculateEndDateIn_Daily_WorkingDay_Case];
                 //locFormater=nil;
                 
@@ -751,12 +735,6 @@
         [btnDelete setImage:imageDelete forState:UIControlStateNormal];
         UIBarButtonItem *ButtonItemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnDelete];
         
-//        CGRect applicationFrame = CGRectMake(100, 0, 220, 50);
-//        UIView * newView = [[UIView alloc] initWithFrame:applicationFrame] ;
-//        [newView addSubview:btnDelete];
-//        
-//        self.navigationItem.titleView=newView;
-        
         UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
         
         [btnSave addTarget:self action:@selector(SaveEvent) forControlEvents:UIControlEventTouchUpInside];
@@ -840,12 +818,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
     if (_eventDetailsDic) {
 
-    //[_eventDetailsDic setValue:_tfTitle.text forKey:@"text"];
-   // [_eventDetailsDic setValue:_tfLocation.text forKey:@"location"];
-   // [_eventDetailsDic setValue:_texviewDescription.text forKey:@"name"];
-    //[_eventDetailsDic setValue:_tfStartTime.text forKey:@"start_date"];
-   // [_eventDetailsDic setValue:_tfEndTime.text forKey:@"end_date"];
-
     }
 
 }
@@ -870,8 +842,6 @@
     _tfLocation.leftViewMode = UITextFieldViewModeAlways;
 
     // To move left decrease y and move up decrease x
-
-    //_texviewDescription.textContainerInset = UIEdgeInsetsMake(15, 18, 0, 0);
     _texviewDescription.textContainerInset = UIEdgeInsetsMake(15, 5, 0, 20);
 
 
@@ -981,8 +951,7 @@
         [df setDateFormat:DATE_FORMAT_AddEvent];
         _tfStartTime.text=[df stringFromDate:startdate ];
         _tfEndTime.text=[df stringFromDate:enddate];
-        // [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
-
+       
         NSString *timestampOne = [NSString stringWithFormat:@"%f", [startdate timeIntervalSince1970]];
         startTime = [timestampOne doubleValue];
         NSString *timestampTwo = [NSString stringWithFormat:@"%f", [enddate timeIntervalSince1970]];
@@ -1009,7 +978,7 @@
             if ([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Series"])
             {
                 NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_start_date"]];
-                // NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
+               
                 [df setDateFormat:DATE_FORMAT_AddEvent];
                 _tfStartTime.text=[df stringFromDate:startdate ];
                 
@@ -1068,7 +1037,6 @@
             if ([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Series"])
             {
                 NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_start_date"]];
-                // NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
                 [df setDateFormat:DATE_FORMAT_AddEvent];
                 _tfStartTime.text=[df stringFromDate:startdate ];
                 
@@ -1128,7 +1096,6 @@
             if ([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Series"])
             {
                 NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_start_date"]];
-                // NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
                 [df setDateFormat:DATE_FORMAT_AddEvent];
                 _tfStartTime.text=[df stringFromDate:startdate ];
                 
@@ -1235,9 +1202,6 @@
 
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 
-    //UIBarButtonItem *rightButton = [[[UIBarButtonItem alloc] initWithTitle:@"Item" style:UIBarButtonItemStyleBordered target:self action:@selector(btnItem2Pressed:)] autorelease];
-
-
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
@@ -1264,24 +1228,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
-//-(IBAction)EnableDisableBtnRepeat:(UIGestureRecognizer*) recognizer
-//{
-//    NSData *data1 = UIImagePNGRepresentation(_EnableDesableBtn.image);
-//    if (![[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"])
-//    {
-//        
-//    }
-//    
-//   }
-//
-//-(void)ClickOnReapt:(UIGestureRecognizer*) recognizer
-//{
-//    [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnEnable.png"]];
-//    [self doneClicked];
-//    RepeatCalendarEvent *repeatEvent=[[RepeatCalendarEvent alloc] init];
-//    repeatEvent.obj=_eventDetailsDic;
-//    [self.navigationController pushViewController:repeatEvent animated:NO];
-//}
+
 - (void)viewDidLayoutSubviews {
     
     if ( isDate==TRUE) {
@@ -1372,26 +1319,13 @@
    
     UIView* txt = textField;
     
-    UIScrollView *theTextFieldCell = (UIScrollView *)[textField superview];
-    
-    // Get the text fields location
-    CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_ScrollView];
-    
-    NSLog(@"%f",point.y + (txt.frame.origin.y));
-    NSLog(@"%f",(txt.frame.origin.y));
-    NSLog(@"%d",(scrollHeight));
-    
-    NSLog(@"%f",(txt.frame.origin.y));
-    
     // Scroll to cell
     int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
     
     NSLog(@"%d",position);
     scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
-    
-    //if ((position < scrollHeight )) {
-        [_scrollview setContentOffset:CGPointMake(0,2*(txt.frame.size.height+30)) animated: YES];
-    //}
+    [_scrollview setContentOffset:CGPointMake(0,2*(txt.frame.size.height+30)) animated: YES];
+  
     
 }
 

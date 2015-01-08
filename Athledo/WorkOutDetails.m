@@ -33,8 +33,6 @@
     CustomTextField *currentText;
     CustomTextField*mytextfiled;
     
-    int toolBarPosition;
-    
     NSMutableArray *arrAllAthlete;
     NSMutableArray *arrAllAthleteData;
     
@@ -281,17 +279,6 @@
     _lblWorkoutType.font=Textfont;
     _txtViewDescription.font=Textfont;
     ViewY=self.view.frame.origin.y;
-    
-    NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
-    
-    if ([[vComp objectAtIndex:0] intValue] < 8) {
-        
-        toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?300:210);
-
-        
-    } else {
-        toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?300:210);
-    }
   
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     

@@ -364,8 +364,6 @@
     [temp setObject: [_objData valueForKey:@"country_id"] forKey:@"country_id"];
 
     }
-
-    //[temp setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
     [temp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
 
 
@@ -382,15 +380,7 @@
     [temp setObject: [_objData valueForKey:@"school_level"] forKey:@"school_level"];
     [temp setObject: [_objData valueForKey:@"weight"] forKey:@"weight"];
     [temp setObject: [_objData valueForKey:@"school_id"] forKey:@"school_id"];
-    // [temp setObject: [_objData valueForKey:@"school_id"] forKey:@"school_id"];
-    // [temp setObject: [_objData valueForKey:@"school_id"] forKey:@"school_id"];
-
-    ////
-
-
-    //NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
-
-
+   
     NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
 
     [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];

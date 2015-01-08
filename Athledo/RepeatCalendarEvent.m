@@ -820,9 +820,6 @@ BOOL isMonth,isDay;
         if ([CalendarEvent ShareInstance].strEndDate.length > 0) {
             
             NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strEndDate];
-            
-            //formatter.dateFormat=DATE_FORMAT_D_M_Y;
-           
             tftemp.text=[formatter stringFromDate:date];
             
         }else{
@@ -860,28 +857,19 @@ BOOL isMonth,isDay;
 
 -(NSString *)IndexOfDay :(NSString *)day
 {
-    // NSMutableArray *temparr=[[NSMutableArray alloc] initWithArray:arrDays];
-    //[temparr insertObject:@" " atIndex:0];
-
     NSString *strday;
     for (int i=0; i < arrDays.count; i++) {
 
     if ([day isEqualToString:[arrDays objectAtIndex:i]]) {
-      // int jj=i+1;
         strday=[NSString stringWithFormat:@"%d",i];
         break;
     }
     }
-    // temparr=nil;
-
     return strday;
 }
 
 -(NSString *)IndexOfMonth :(NSString *)month
 {
-    // NSMutableArray *temparr=[[NSMutableArray alloc] initWithArray:arrDays];
-    //[temparr insertObject:@" " atIndex:0];
-    
     NSString *strday;
     for (int i=0; i < arrMonths.count; i++) {
         
@@ -891,8 +879,6 @@ BOOL isMonth,isDay;
             break;
         }
     }
-    // temparr=nil;
-    
     return strday;
 }
 
@@ -907,10 +893,7 @@ BOOL isMonth,isDay;
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:(NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekdayOrdinalCalendarUnit | NSDayCalendarUnit) fromDate:date];
-    
-    // NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
-    
-    NSString *strday=[self MonthsOnIndex:components.month-1];
+    NSString *strday=[self MonthsOnIndex:(int)(components.month-1)];
     
     return strday;
 }
@@ -931,7 +914,7 @@ BOOL isMonth,isDay;
     
    // NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
 
-    NSString *strday=[NSString stringWithFormat:@"%d",components.day];
+    NSString *strday=[NSString stringWithFormat:@"%d",(int)(components.day)];
     
     return strday;
 }
@@ -950,7 +933,7 @@ BOOL isMonth,isDay;
     
     // NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
     
-    NSString *strday=[NSString stringWithFormat:@"%d",components.month];
+    NSString *strday=[NSString stringWithFormat:@"%d",(int)(components.month)];
     
     return strday;
 }
@@ -1352,7 +1335,7 @@ BOOL isMonth,isDay;
     components.week=nth_Day;
     
     
-    return [self DayOnIndex:components.day];
+    return [self DayOnIndex:(int)components.day];
 }
 
 
@@ -1366,7 +1349,7 @@ BOOL isMonth,isDay;
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:(NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekdayOrdinalCalendarUnit | NSDayCalendarUnit) fromDate:date];
     
-    return [self MonthsOnIndex:components.month-1];
+    return [self MonthsOnIndex:(int)components.month-1];
 }
 
 

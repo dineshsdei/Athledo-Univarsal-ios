@@ -255,7 +255,6 @@ BOOL isKeyBoard;
                 [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                 
                 NSMutableData *data = [NSMutableData data];
-                //[data appendData:[[NSString stringWithFormat: @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"] dataUsingEncoding: NSUTF8StringEncoding]];
                 [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
                 [request setHTTPBody:data];
                 

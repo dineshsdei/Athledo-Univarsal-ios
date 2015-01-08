@@ -185,7 +185,6 @@
 
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 
-    //UIBarButtonItem *rightButton = [[[UIBarButtonItem alloc] initWithTitle:@"Item" style:UIBarButtonItemStyleBordered target:self action:@selector(btnItem2Pressed:)] autorelease];
     UIToolbar *toolBar;
     toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = 40;
@@ -509,12 +508,8 @@
     if (currentText.text.length > 0 && currentText.tag == 10) {
         
         [df setDateFormat:@"MMM dd,yyyy"];
-        ////NSLog(@"date %@",currentText.text);
-        
         NSDate *Date;
-        
         Date= [df dateFromString:currentText.text];
-        
         UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
         if (Date) {
             
@@ -527,9 +522,6 @@
         [df setTimeStyle:NSDateFormatterShortStyle];
         [df setDateFormat:@"hh:mm a"];
         
-        
-        // //NSLog(@"date %@",currentText.text);
-        
         NSDate *Date;
         
         Date= [df dateFromString:currentText.text];
@@ -539,10 +531,7 @@
             
             [tempdatePicker setDate:Date];
         }
-        
-        
     }
-
     
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
@@ -556,27 +545,11 @@
         [self setToolbarVisibleAt:CGPointMake(Point.x,Point.y-(datePicker.frame.size.height/2)-22)];
         
     }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
         Point.y=self.view.frame.size.height+(datePicker.frame.size.height/2);
     }
-    
-    
     [self.view viewWithTag:70].center = Point;
-    
     [UIView commitAnimations];
 }
-
-//-(void)setDatePickerVisibleAt:(CGPoint)point
-//{
-//    [UIView beginAnimations:@"tblViewMove" context:nil];
-//    [UIView setAnimationDelegate:self];
-//    [UIView setAnimationDuration:0.27f];
-//   
-//   
-//    [self.view viewWithTag:70].center = point;
-//
-//    [UIView commitAnimations];
-//}
 -(void)setPickerVisibleAt :(BOOL)ShowHide
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -591,7 +564,6 @@
         [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22)];
         
     }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
         point.y=self.view.frame.size.height+(pickerView.frame.size.height/2);
     }
     
@@ -614,7 +586,6 @@
     }else if (currentText.tag==11||selectedBtn.tag==502)
     {
     [df setDateFormat:@"hh:mm a"];
-    ////NSLog(@"date %@", [df stringFromDate:datePicker.date]);
     }
     currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
 
@@ -630,11 +601,6 @@
 - (void)setContentOffset:(id)textField table:(UIScrollView*)m_ScrollView {
     
     UIView* txt = textField;
-
-    UIScrollView *theTextFieldCell = (UIScrollView *)[textField superview];
-
-    // Get the text fields location
-    CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_ScrollView];
 
     // Scroll to cell
 
@@ -681,7 +647,6 @@
         {
             [df setDateFormat:@"hh:mm a"];
             currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-            ////NSLog(@"date %@", [df stringFromDate:datePicker.date]);
         }
         
         df=nil;
@@ -769,7 +734,7 @@
     emailBtn1.userInteractionEnabled=YES;
     emailNotification=@"0";
     }
-    //NSLog(@"%@",emailNotification);
+   
 }
 
 -(void)ChangeAllGroupStatus : (BOOL)Status
@@ -868,8 +833,6 @@
     if (button.tag ==1004) {
     for (id key in [selectedGroups allKeys])
     {
-    //[selectedGroups setObject:[NSNumber numberWithBool:NO] forKey:key];
-
     if ([[selectedGroups objectForKey:key] intValue] == 1) {
 
     button.selected=YES;

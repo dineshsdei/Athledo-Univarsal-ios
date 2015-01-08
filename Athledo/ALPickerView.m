@@ -137,7 +137,7 @@
             cell.selectionGroup = allSelected;
         }
         else {
-            int actualRow = indexPath.row - (allOptionTitle ? 3 : 2);
+            int actualRow = (int)(indexPath.row - (allOptionTitle ? 3 : 2));
             cell.textLabel.text = [delegate_ pickerView:self textForRow:actualRow];
             cell.selectionGroup = [delegate_ pickerView:self selectionGroupForRow:actualRow];
         }
@@ -156,7 +156,7 @@
         cell.selectionGroup = !cell.selectionGroup;
         
         // Inform delegate
-        int actualRow = indexPath.row - (allOptionTitle ? 3 : 2);
+        int actualRow = (int)(indexPath.row - (allOptionTitle ? 3 : 2));
         
         if (cell.selectionGroup != NO) {
             if ([self.delegate respondsToSelector:@selector(pickerView:didCheckRow:)])
@@ -169,7 +169,7 @@
         
         // Iterate visible cells and update them too
         for (ALPickerViewCell *aCell in tableView.visibleCells) {
-            int iterateRow = [tableView indexPathForCell:aCell].row - (allOptionTitle ? 3 : 2);
+            int iterateRow = (int)([tableView indexPathForCell:aCell].row - (allOptionTitle ? 3 : 2));
             
             if (allOptionTitle && iterateRow == -1) {
                 BOOL allSelected = YES;

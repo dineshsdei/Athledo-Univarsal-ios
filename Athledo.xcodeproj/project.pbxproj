@@ -123,8 +123,6 @@
 		7194AE4519C04BCE00DC0A23 /* JSBubbleMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7194AE4419C04BCE00DC0A23 /* JSBubbleMessageCell.m */; };
 		71950F8D19C152F600B4BF1A /* MessageInboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71950F8B19C152F600B4BF1A /* MessageInboxCell.m */; };
 		71950F8E19C152F600B4BF1A /* MessageInboxCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71950F8C19C152F600B4BF1A /* MessageInboxCell~iphone.xib */; };
-		71950F9319C1759F00B4BF1A /* demo-avatar-jobs.png in Resources */ = {isa = PBXBuildFile; fileRef = 71950F9119C1759F00B4BF1A /* demo-avatar-jobs.png */; };
-		71950F9419C1759F00B4BF1A /* demo-avatar-woz.png in Resources */ = {isa = PBXBuildFile; fileRef = 71950F9219C1759F00B4BF1A /* demo-avatar-woz.png */; };
 		71950F9619C175F600B4BF1A /* MessageDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71950F9519C175F600B4BF1A /* MessageDetails.xib */; };
 		71950F9A19C18FD800B4BF1A /* ComposeMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 71950F9819C18FD800B4BF1A /* ComposeMessage.m */; };
 		71950F9B19C18FD800B4BF1A /* ComposeMessage~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71950F9919C18FD800B4BF1A /* ComposeMessage~iphone.xib */; };
@@ -557,8 +555,6 @@
 		71950F8A19C152F600B4BF1A /* MessageInboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageInboxCell.h; sourceTree = "<group>"; };
 		71950F8B19C152F600B4BF1A /* MessageInboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageInboxCell.m; sourceTree = "<group>"; };
 		71950F8C19C152F600B4BF1A /* MessageInboxCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MessageInboxCell~iphone.xib"; sourceTree = "<group>"; };
-		71950F9119C1759F00B4BF1A /* demo-avatar-jobs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "demo-avatar-jobs.png"; sourceTree = "<group>"; };
-		71950F9219C1759F00B4BF1A /* demo-avatar-woz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "demo-avatar-woz.png"; sourceTree = "<group>"; };
 		71950F9519C175F600B4BF1A /* MessageDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageDetails.xib; sourceTree = "<group>"; };
 		71950F9719C18FD800B4BF1A /* ComposeMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeMessage.h; sourceTree = "<group>"; };
 		71950F9819C18FD800B4BF1A /* ComposeMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeMessage.m; sourceTree = "<group>"; };
@@ -917,9 +913,9 @@
 			isa = PBXGroup;
 			children = (
 				7197E864197E8B160086DA2E /* Athledo Basic Info.strings */,
-				3D9E050A197BCF7D005CCB10 /* PresentationLayer */,
-				3D9E0516197BD048005CCB10 /* ThirdParyLib */,
-				71999550197D2BA400C0F77F /* UserDataOrModelClasses */,
+				71A909001A5E8ED100AFB6AC /* Model */,
+				71A908EA1A5E894100AFB6AC /* Views */,
+				3D9E050A197BCF7D005CCB10 /* Controllers */,
 				3D9E04E1197BCF3C005CCB10 /* Athledo */,
 				3D9E04FA197BCF3C005CCB10 /* AthledoTests */,
 				3D9E04DA197BCF3C005CCB10 /* Frameworks */,
@@ -957,8 +953,6 @@
 				71A5799219C31500001CD0FC /* Athledo.entitlements */,
 				3D9E04EA197BCF3C005CCB10 /* AppDelegate.h */,
 				3D9E04EB197BCF3C005CCB10 /* AppDelegate.m */,
-				71999504197CC97800C0F77F /* SingaltonClass.h */,
-				71999505197CC97800C0F77F /* SingaltonClass.m */,
 				3D9E04ED197BCF3C005CCB10 /* Images.xcassets */,
 				3D9E04E2197BCF3C005CCB10 /* Supporting Files */,
 			);
@@ -968,9 +962,11 @@
 		3D9E04E2197BCF3C005CCB10 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				71A41EB11A5BABCD003EB086 /* NavBg_ipad.png */,
+				3D9E0516197BD048005CCB10 /* ThirdParyLib */,
+				71999550197D2BA400C0F77F /* UserDataOrModelClasses */,
 				71AC46E81A30606600204581 /* Images_iPad */,
 				71B142BE19C97A4D008EBC90 /* next.png */,
+				71A41EB11A5BABCD003EB086 /* NavBg_ipad.png */,
 				71B838001988E983005BF576 /* New Images_iPhone */,
 				7197E85D197E77870086DA2E /* images */,
 				3D9E04E3197BCF3C005CCB10 /* Athledo-Info.plist */,
@@ -999,7 +995,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		3D9E050A197BCF7D005CCB10 /* PresentationLayer */ = {
+		3D9E050A197BCF7D005CCB10 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				7197E854197E76750086DA2E /* Profile */,
@@ -1014,7 +1010,7 @@
 				7197E855197E76950086DA2E /* Login */,
 				7197E856197E76AA0086DA2E /* Team Selection */,
 			);
-			name = PresentationLayer;
+			name = Controllers;
 			path = Athledo;
 			sourceTree = "<group>";
 		};
@@ -1036,7 +1032,6 @@
 				3D9E0517197BD05A005CCB10 /* SMRevealViewController */,
 			);
 			name = ThirdParyLib;
-			path = Athledo;
 			sourceTree = "<group>";
 		};
 		3D9E0517197BD05A005CCB10 /* SMRevealViewController */ = {
@@ -1280,20 +1275,12 @@
 				71ACB500198A1834007C5AFA /* CustonCell */,
 				3D9E0520197BD146005CCB10 /* ProfileView.h */,
 				3D9E0521197BD146005CCB10 /* ProfileView.m */,
-				3D9E0522197BD146005CCB10 /* ProfileView~iphone.xib */,
-				71A8A8651A274DA5004D1A27 /* ProfileView~ipad.xib */,
 				7197E851197E76620086DA2E /* AddAthleteHistory.h */,
 				7197E852197E76620086DA2E /* AddAthleteHistory.m */,
-				7197E85E197E78BB0086DA2E /* AddAthleteHistory~iphone.xib */,
-				71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */,
 				71ACB4FB198A13E3007C5AFA /* AddCoachingHistory.h */,
 				71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */,
-				71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */,
-				71A53DB51A3585E400463864 /* AddCoachingHistory~ipad.xib */,
 				7195489419D1473900C58994 /* EditGenralInfo.h */,
 				7195489519D1473900C58994 /* EditGenralInfo.m */,
-				7195489619D1473900C58994 /* EditGenralInfo~iphone.xib */,
-				71A53DB21A356A4300463864 /* EditGenralInfo~ipad.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -1312,10 +1299,8 @@
 		7197E856197E76AA0086DA2E /* Team Selection */ = {
 			isa = PBXGroup;
 			children = (
-				3D9E0513197BCFE6005CCB10 /* DashBoard~iphone.xib */,
 				3D9E0511197BCFE6005CCB10 /* DashBoard.h */,
 				3D9E0512197BCFE6005CCB10 /* DashBoard.m */,
-				71A73C521A1DEEC3008C089A /* DashBoard~ipad.xib */,
 			);
 			name = "Team Selection";
 			sourceTree = "<group>";
@@ -1323,8 +1308,6 @@
 		7197E857197E76DA0086DA2E /* MenuList */ = {
 			isa = PBXGroup;
 			children = (
-				3D9E051D197BD0FA005CCB10 /* MenuLIstView~iphone.xib */,
-				71A73C571A1E0950008C089A /* MenuLIstView~ipad.xib */,
 				3D9E051B197BD0FA005CCB10 /* MenuLIstView.h */,
 				3D9E051C197BD0FA005CCB10 /* MenuLIstView.m */,
 			);
@@ -1336,18 +1319,12 @@
 			children = (
 				71F926021998BDEC001931D8 /* CustomCheckBox */,
 				719384C61980C1B700A790FF /* updateCell */,
-				3D9E0527197BD595005CCB10 /* AnnouncementView~iphone.xib */,
-				71A89A1F1A24505900CA9756 /* AnnouncementView~ipad.xib */,
 				3D9E0525197BD595005CCB10 /* AnnouncementView.h */,
 				3D9E0526197BD595005CCB10 /* AnnouncementView.m */,
 				719384D31981352000A790FF /* AddNewAnnouncement.h */,
 				719384D41981352000A790FF /* AddNewAnnouncement.m */,
-				719384D51981352000A790FF /* AddNewAnnouncement~iphone.xib */,
-				71A89A211A247AEC00CA9756 /* AddNewAnnouncement~ipad.xib */,
 				71967AD819A33F490081379B /* UpdateDetails.h */,
 				71967AD919A33F490081379B /* UpdateDetails.m */,
-				71967ADA19A33F490081379B /* UpdateDetails~iphone.xib */,
-				71A89A271A24B14700CA9756 /* UpdateDetails~ipad.xib */,
 			);
 			name = Announcements;
 			sourceTree = "<group>";
@@ -1356,26 +1333,16 @@
 			isa = PBXGroup;
 			children = (
 				71F925FB199895BE001931D8 /* WorkoutCustomCell */,
-				3D9E052C197BD5B6005CCB10 /* WorkOutView~iphone.xib */,
-				71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */,
 				3D9E052A197BD5B6005CCB10 /* WorkOutView.h */,
 				3D9E052B197BD5B6005CCB10 /* WorkOutView.m */,
 				71CBF4961A08CAD9005E2220 /* AddWorkOut.h */,
 				71BC76ED1A5A97E60085DE64 /* AddWorkOut.m */,
-				71BC76E91A5A466F0085DE64 /* AddWorkOut~ipad.xib */,
-				71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */,
 				71A0707F19AB291B00CA98D3 /* WorkOutHistory.h */,
 				71A0708019AB291B00CA98D3 /* WorkOutHistory.m */,
-				71A0708119AB291B00CA98D3 /* WorkOutHistory~iphone.xib */,
-				71A63E181A25AB2000D0DA99 /* WorkOutHistory~ipad.xib */,
 				71B4CC031A13825E00042568 /* WorkoutHistoryDetails.h */,
 				71B4CC041A13825E00042568 /* WorkoutHistoryDetails.m */,
-				71B4CC051A13825E00042568 /* WorkoutHistoryDetails~iphone.xib */,
-				71A63E1A1A25C81600D0DA99 /* WorkoutHistoryDetails~ipad.xib */,
 				7142C6DD19D2BD330047373C /* WorkOutDetails.h */,
 				7142C6DE19D2BD330047373C /* WorkOutDetails.m */,
-				7142C6DF19D2BD330047373C /* WorkOutDetails~iphone.xib */,
-				71BC76EF1A5AB3670085DE64 /* WorkOutDetails~ipad.xib */,
 			);
 			name = WorkOuts;
 			sourceTree = "<group>";
@@ -1383,43 +1350,28 @@
 		7197E85A197E771E0086DA2E /* Calender */ = {
 			isa = PBXGroup;
 			children = (
-				71B15ACB1A47DA7F008C0C71 /* CalendarEvent.h */,
-				71B15ACC1A47DA7F008C0C71 /* CalendarEvent.m */,
 				71A461BB19F4C8EB00CD2C13 /* CustomCell */,
 				710C634219B9E87C00F11983 /* Extensions */,
 				710C632A19B9E41C00F11983 /* CalendarDayViewController.h */,
 				710C632B19B9E41C00F11983 /* CalendarDayViewController.m */,
 				710C632C19B9E41C00F11983 /* CalendarMainViewController.h */,
 				710C632D19B9E41C00F11983 /* CalendarMainViewController.m */,
-				710C632E19B9E41C00F11983 /* CalendarMainViewController.xib */,
 				710C632F19B9E41C00F11983 /* CalendarMonthViewController.h */,
 				710C633019B9E41C00F11983 /* CalendarMonthViewController.m */,
-				71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */,
-				71A8A85E1A26EDF3004D1A27 /* CalendarMonthView~ipad.xib */,
 				710C633119B9E41C00F11983 /* MapViewController.h */,
 				710C633219B9E41C00F11983 /* MapViewController.m */,
-				710C633319B9E41C00F11983 /* MapViewController.xib */,
 				710C633419B9E41C00F11983 /* WeekViewController.h */,
 				710C633519B9E41C00F11983 /* WeekViewController.m */,
-				71A8A8621A273D08004D1A27 /* WeekViewController~ipad.xib */,
-				710C633619B9E41C00F11983 /* WeekViewController~iphone.xib */,
-				3D9E0531197BD5E0005CCB10 /* CalenderScheduleView.xib */,
 				3D9E052F197BD5E0005CCB10 /* CalenderScheduleView.h */,
 				3D9E0530197BD5E0005CCB10 /* CalenderScheduleView.m */,
 				7194ADD919C011B500DC0A23 /* CalenderEventDetails.h */,
 				7194ADDA19C011B500DC0A23 /* CalenderEventDetails.m */,
-				7194ADDB19C011B500DC0A23 /* CalenderEventDetails~iphone.xib */,
-				71B15AD01A48008B008C0C71 /* CalenderEventDetails~ipad.xib */,
 				71A6E75819EF78DF002416B4 /* AddCalendarEvent.h */,
 				71A6E75919EF78DF002416B4 /* AddCalendarEvent.m */,
-				71A6E75A19EF78DF002416B4 /* AddCalendarEvent~iphone.xib */,
-				71B15AD21A482603008C0C71 /* AddCalendarEvent~ipad.xib */,
 				71C9A89219ECE2B6001A4017 /* MyAnnotation.h */,
 				71C9A89319ECE2B6001A4017 /* MyAnnotation.m */,
 				71A461B519F4BF8200CD2C13 /* RepeatCalendarEvent.h */,
 				71A461B619F4BF8200CD2C13 /* RepeatCalendarEvent.m */,
-				71A461B719F4BF8200CD2C13 /* RepeatCalendarEvent~iphone.xib */,
-				71B15AD41A484605008C0C71 /* RepeatCalendarEvent~ipad.xib */,
 			);
 			name = Calender;
 			sourceTree = "<group>";
@@ -1428,25 +1380,16 @@
 			isa = PBXGroup;
 			children = (
 				71950F8819C152B200B4BF1A /* customCell */,
-				3D9E0536197BD603005CCB10 /* MessangerView~iphone.xib */,
-				71A63E201A25E32800D0DA99 /* MessangerView~ipad.xib */,
 				3D9E0534197BD603005CCB10 /* MessangerView.h */,
 				3D9E0535197BD603005CCB10 /* MessangerView.m */,
 				7157961A19C07AF00086E193 /* MessageDetails.h */,
 				7157961B19C07AF00086E193 /* MessageDetails.m */,
-				71950F9519C175F600B4BF1A /* MessageDetails.xib */,
 				71950F9719C18FD800B4BF1A /* ComposeMessage.h */,
 				71950F9819C18FD800B4BF1A /* ComposeMessage.m */,
-				71950F9919C18FD800B4BF1A /* ComposeMessage~iphone.xib */,
-				71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */,
 				71950FAD19C1AFE900B4BF1A /* SentItemsView.h */,
 				71950FAE19C1AFE900B4BF1A /* SentItemsView.m */,
-				71950FAF19C1AFE900B4BF1A /* SentItemsView~iphone.xib */,
-				71A63E241A26048A00D0DA99 /* SentItemsView~ipad.xib */,
 				71950FB219C1B01900B4BF1A /* ArichiveView.h */,
 				71950FB319C1B01900B4BF1A /* ArichiveView.m */,
-				71950FB419C1B01900B4BF1A /* ArichiveView~iphone.xib */,
-				71A63E261A2605D400D0DA99 /* ArichiveView~ipad.xib */,
 			);
 			name = Messanger;
 			sourceTree = "<group>";
@@ -1454,10 +1397,8 @@
 		7197E85C197E77660086DA2E /* Forgot Password */ = {
 			isa = PBXGroup;
 			children = (
-				71999544197CFB4000C0F77F /* ForgotPassword~iphone.xib */,
 				71999542197CFB4000C0F77F /* ForgotPassword.h */,
 				71999543197CFB4000C0F77F /* ForgotPassword.m */,
-				71A73C501A1DE648008C089A /* ForgotPassword~ipad.xib */,
 			);
 			name = "Forgot Password";
 			sourceTree = "<group>";
@@ -1518,19 +1459,16 @@
 				71A7B5B0197F770400038A15 /* Sports.m */,
 				71A7B5B2197F772000038A15 /* AthleteHistory.h */,
 				71A7B5B3197F772000038A15 /* AthleteHistory.m */,
-				71A513E719A6FCEE00DE911F /* WebServiceClass.h */,
-				71A513E819A6FCEE00DE911F /* WebServiceClass.m */,
 			);
 			name = UserDataOrModelClasses;
-			path = Athledo;
 			sourceTree = "<group>";
 		};
 		71999555197D30D400C0F77F /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				71999559197D312E00C0F77F /* DashBoardCell.xib */,
 				71999556197D310000C0F77F /* DashBoardCell.h */,
 				71999557197D310000C0F77F /* DashBoardCell.m */,
-				71999559197D312E00C0F77F /* DashBoardCell.xib */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -1638,6 +1576,246 @@
 				71A8CA3819937AA500B30DF7 /* ALPickerViewCell.m */,
 			);
 			name = CustomPicker;
+			sourceTree = "<group>";
+		};
+		71A908EA1A5E894100AFB6AC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				71A908EF1A5E8A5400AFB6AC /* iPad */,
+				71A908EC1A5E895500AFB6AC /* iphone */,
+			);
+			name = Views;
+			path = Athledo;
+			sourceTree = "<group>";
+		};
+		71A908EC1A5E895500AFB6AC /* iphone */ = {
+			isa = PBXGroup;
+			children = (
+				71A908ED1A5E8A0400AFB6AC /* Profile */,
+				71A908EE1A5E8A3400AFB6AC /* DashBoard */,
+				71A908F11A5E8AE100AFB6AC /* Multimedia */,
+				71A908F31A5E8B2300AFB6AC /* ForgotPassword */,
+				71A908F51A5E8B6F00AFB6AC /* Messenger */,
+				71A908F71A5E8BE200AFB6AC /* Calendar */,
+				71A908F91A5E8C5B00AFB6AC /* Workouts */,
+				71A908FC1A5E8D0B00AFB6AC /* Announcement */,
+				71A908FE1A5E8DEB00AFB6AC /* MenuLsit */,
+			);
+			name = iphone;
+			sourceTree = "<group>";
+		};
+		71A908ED1A5E8A0400AFB6AC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				3D9E0522197BD146005CCB10 /* ProfileView~iphone.xib */,
+				7197E85E197E78BB0086DA2E /* AddAthleteHistory~iphone.xib */,
+				71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */,
+				7195489619D1473900C58994 /* EditGenralInfo~iphone.xib */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		71A908EE1A5E8A3400AFB6AC /* DashBoard */ = {
+			isa = PBXGroup;
+			children = (
+				3D9E0513197BCFE6005CCB10 /* DashBoard~iphone.xib */,
+			);
+			name = DashBoard;
+			sourceTree = "<group>";
+		};
+		71A908EF1A5E8A5400AFB6AC /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				71A908FD1A5E8D7500AFB6AC /* Profile */,
+				71A908F01A5E8A6300AFB6AC /* DashBoard */,
+				71A908F21A5E8B0C00AFB6AC /* Multimedia */,
+				71A908F41A5E8B3B00AFB6AC /* ForgotPassword */,
+				71A908F61A5E8B7D00AFB6AC /* Messenger */,
+				71A908F81A5E8BF000AFB6AC /* Calendar */,
+				71A908FA1A5E8C9600AFB6AC /* Workouts */,
+				71A908FB1A5E8CEC00AFB6AC /* Announcement */,
+				71A908FF1A5E8E0C00AFB6AC /* MenuLsit */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		71A908F01A5E8A6300AFB6AC /* DashBoard */ = {
+			isa = PBXGroup;
+			children = (
+				71A73C521A1DEEC3008C089A /* DashBoard~ipad.xib */,
+			);
+			name = DashBoard;
+			sourceTree = "<group>";
+		};
+		71A908F11A5E8AE100AFB6AC /* Multimedia */ = {
+			isa = PBXGroup;
+			children = (
+				71B15AA71A47CDB1008C0C71 /* DisplayFolderContant.xib */,
+				71B15AAE1A47CDB1008C0C71 /* Multimedia~iphone.xib */,
+				71B15AB61A47CDB1008C0C71 /* MultimediaVideo~iphone.xib */,
+			);
+			name = Multimedia;
+			sourceTree = "<group>";
+		};
+		71A908F21A5E8B0C00AFB6AC /* Multimedia */ = {
+			isa = PBXGroup;
+			children = (
+				71B15AA81A47CDB1008C0C71 /* DisplayFolderContant~ipad.xib */,
+				71B15AAF1A47CDB1008C0C71 /* Multimedia~ipad.xib */,
+				71B15AB71A47CDB1008C0C71 /* MultimediaVideo~ipad.xib */,
+			);
+			name = Multimedia;
+			sourceTree = "<group>";
+		};
+		71A908F31A5E8B2300AFB6AC /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				71999544197CFB4000C0F77F /* ForgotPassword~iphone.xib */,
+			);
+			name = ForgotPassword;
+			sourceTree = "<group>";
+		};
+		71A908F41A5E8B3B00AFB6AC /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				71A73C501A1DE648008C089A /* ForgotPassword~ipad.xib */,
+			);
+			name = ForgotPassword;
+			sourceTree = "<group>";
+		};
+		71A908F51A5E8B6F00AFB6AC /* Messenger */ = {
+			isa = PBXGroup;
+			children = (
+				3D9E0536197BD603005CCB10 /* MessangerView~iphone.xib */,
+				71950F9519C175F600B4BF1A /* MessageDetails.xib */,
+				71950F9919C18FD800B4BF1A /* ComposeMessage~iphone.xib */,
+				71950FAF19C1AFE900B4BF1A /* SentItemsView~iphone.xib */,
+				71950FB419C1B01900B4BF1A /* ArichiveView~iphone.xib */,
+			);
+			name = Messenger;
+			sourceTree = "<group>";
+		};
+		71A908F61A5E8B7D00AFB6AC /* Messenger */ = {
+			isa = PBXGroup;
+			children = (
+				71A63E201A25E32800D0DA99 /* MessangerView~ipad.xib */,
+				71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */,
+				71A63E241A26048A00D0DA99 /* SentItemsView~ipad.xib */,
+				71A63E261A2605D400D0DA99 /* ArichiveView~ipad.xib */,
+			);
+			name = Messenger;
+			sourceTree = "<group>";
+		};
+		71A908F71A5E8BE200AFB6AC /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */,
+				710C633319B9E41C00F11983 /* MapViewController.xib */,
+				710C633619B9E41C00F11983 /* WeekViewController~iphone.xib */,
+				7194ADDB19C011B500DC0A23 /* CalenderEventDetails~iphone.xib */,
+				71A6E75A19EF78DF002416B4 /* AddCalendarEvent~iphone.xib */,
+				71A461B719F4BF8200CD2C13 /* RepeatCalendarEvent~iphone.xib */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
+		71A908F81A5E8BF000AFB6AC /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				710C632E19B9E41C00F11983 /* CalendarMainViewController.xib */,
+				71A8A85E1A26EDF3004D1A27 /* CalendarMonthView~ipad.xib */,
+				71A8A8621A273D08004D1A27 /* WeekViewController~ipad.xib */,
+				3D9E0531197BD5E0005CCB10 /* CalenderScheduleView.xib */,
+				71B15AD01A48008B008C0C71 /* CalenderEventDetails~ipad.xib */,
+				71B15AD21A482603008C0C71 /* AddCalendarEvent~ipad.xib */,
+				71B15AD41A484605008C0C71 /* RepeatCalendarEvent~ipad.xib */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
+		71A908F91A5E8C5B00AFB6AC /* Workouts */ = {
+			isa = PBXGroup;
+			children = (
+				3D9E052C197BD5B6005CCB10 /* WorkOutView~iphone.xib */,
+				71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */,
+				71A0708119AB291B00CA98D3 /* WorkOutHistory~iphone.xib */,
+				71B4CC051A13825E00042568 /* WorkoutHistoryDetails~iphone.xib */,
+				7142C6DF19D2BD330047373C /* WorkOutDetails~iphone.xib */,
+			);
+			name = Workouts;
+			sourceTree = "<group>";
+		};
+		71A908FA1A5E8C9600AFB6AC /* Workouts */ = {
+			isa = PBXGroup;
+			children = (
+				71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */,
+				71BC76E91A5A466F0085DE64 /* AddWorkOut~ipad.xib */,
+				71A63E181A25AB2000D0DA99 /* WorkOutHistory~ipad.xib */,
+				71A63E1A1A25C81600D0DA99 /* WorkoutHistoryDetails~ipad.xib */,
+				71BC76EF1A5AB3670085DE64 /* WorkOutDetails~ipad.xib */,
+			);
+			name = Workouts;
+			sourceTree = "<group>";
+		};
+		71A908FB1A5E8CEC00AFB6AC /* Announcement */ = {
+			isa = PBXGroup;
+			children = (
+				71A89A1F1A24505900CA9756 /* AnnouncementView~ipad.xib */,
+				71A89A211A247AEC00CA9756 /* AddNewAnnouncement~ipad.xib */,
+				71A89A271A24B14700CA9756 /* UpdateDetails~ipad.xib */,
+			);
+			name = Announcement;
+			sourceTree = "<group>";
+		};
+		71A908FC1A5E8D0B00AFB6AC /* Announcement */ = {
+			isa = PBXGroup;
+			children = (
+				3D9E0527197BD595005CCB10 /* AnnouncementView~iphone.xib */,
+				719384D51981352000A790FF /* AddNewAnnouncement~iphone.xib */,
+				71967ADA19A33F490081379B /* UpdateDetails~iphone.xib */,
+			);
+			name = Announcement;
+			sourceTree = "<group>";
+		};
+		71A908FD1A5E8D7500AFB6AC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				71A8A8651A274DA5004D1A27 /* ProfileView~ipad.xib */,
+				71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */,
+				71A53DB51A3585E400463864 /* AddCoachingHistory~ipad.xib */,
+				71A53DB21A356A4300463864 /* EditGenralInfo~ipad.xib */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		71A908FE1A5E8DEB00AFB6AC /* MenuLsit */ = {
+			isa = PBXGroup;
+			children = (
+				3D9E051D197BD0FA005CCB10 /* MenuLIstView~iphone.xib */,
+			);
+			name = MenuLsit;
+			sourceTree = "<group>";
+		};
+		71A908FF1A5E8E0C00AFB6AC /* MenuLsit */ = {
+			isa = PBXGroup;
+			children = (
+				71A73C571A1E0950008C089A /* MenuLIstView~ipad.xib */,
+			);
+			name = MenuLsit;
+			sourceTree = "<group>";
+		};
+		71A909001A5E8ED100AFB6AC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				71A513E719A6FCEE00DE911F /* WebServiceClass.h */,
+				71A513E819A6FCEE00DE911F /* WebServiceClass.m */,
+				71999504197CC97800C0F77F /* SingaltonClass.h */,
+				71999505197CC97800C0F77F /* SingaltonClass.m */,
+				71B15ACB1A47DA7F008C0C71 /* CalendarEvent.h */,
+				71B15ACC1A47DA7F008C0C71 /* CalendarEvent.m */,
+			);
+			name = Model;
+			path = Athledo;
 			sourceTree = "<group>";
 		};
 		71A98DB31A1C70CA00E30302 /* 1x */ = {
@@ -1764,16 +1942,10 @@
 				71B15AA41A47CD40008C0C71 /* CustomCell */,
 				71B15AA51A47CDB1008C0C71 /* DisplayFolderContant.h */,
 				71B15AA61A47CDB1008C0C71 /* DisplayFolderContant.m */,
-				71B15AA71A47CDB1008C0C71 /* DisplayFolderContant.xib */,
-				71B15AA81A47CDB1008C0C71 /* DisplayFolderContant~ipad.xib */,
 				71B15AAC1A47CDB1008C0C71 /* Multimedia.h */,
 				71B15AAD1A47CDB1008C0C71 /* Multimedia.m */,
-				71B15AAE1A47CDB1008C0C71 /* Multimedia~iphone.xib */,
-				71B15AAF1A47CDB1008C0C71 /* Multimedia~ipad.xib */,
 				71B15AB41A47CDB1008C0C71 /* MultimediaVideo.h */,
 				71B15AB51A47CDB1008C0C71 /* MultimediaVideo.m */,
-				71B15AB61A47CDB1008C0C71 /* MultimediaVideo~iphone.xib */,
-				71B15AB71A47CDB1008C0C71 /* MultimediaVideo~ipad.xib */,
 			);
 			name = Multimedia;
 			sourceTree = "<group>";
@@ -1801,8 +1973,6 @@
 				711F358419D41B6A00B4755B /* Menu_icon */,
 				7197A49319CC4B02004CC2E4 /* updated icon */,
 				719279DF19CB13FE0040EDC9 /* menu_sep.png */,
-				71950F9119C1759F00B4BF1A /* demo-avatar-jobs.png */,
-				71950F9219C1759F00B4BF1A /* demo-avatar-woz.png */,
 				7194ADDF19C0152F00DC0A23 /* add12.png */,
 				71937BA319B987AC000831A5 /* workouthistory.png */,
 				71937BA419B987AC000831A5 /* workoutlist.png */,
@@ -2016,7 +2186,6 @@
 				71A8A8631A273D08004D1A27 /* WeekViewController~ipad.xib in Resources */,
 				71A8CA3219937A7C00B30DF7 /* wheel_bg@2x.png in Resources */,
 				3D9E053B197BD895005CCB10 /* reveal-icon.png in Resources */,
-				71950F9319C1759F00B4BF1A /* demo-avatar-jobs.png in Resources */,
 				7198FEA519861783002925DA /* btnCamera.png in Resources */,
 				719279DD19CAEF1F0040EDC9 /* Athlete.png in Resources */,
 				71A63E251A26048A00D0DA99 /* SentItemsView~ipad.xib in Resources */,
@@ -2193,7 +2362,6 @@
 				71A53DB61A3585E400463864 /* AddCoachingHistory~ipad.xib in Resources */,
 				71ACB4FF198A140B007C5AFA /* AddCoachingHistory~iphone.xib in Resources */,
 				71B15ABF1A47CDB1008C0C71 /* Multimedia~iphone.xib in Resources */,
-				71950F9419C1759F00B4BF1A /* demo-avatar-woz.png in Resources */,
 				71B838151988EA36005BF576 /* location_icon.png in Resources */,
 				7194AE3919C04B8E00DC0A23 /* bubble-typing@2x.png in Resources */,
 				71A89A201A24505A00CA9756 /* AnnouncementView~ipad.xib in Resources */,

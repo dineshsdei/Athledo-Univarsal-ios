@@ -212,6 +212,7 @@
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
+     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
@@ -347,7 +348,7 @@
     cell.backgroundColor=[UIColor clearColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
   
-    cell.rightUtilityButtons = [self rightButtons : indexPath.section];
+    cell.rightUtilityButtons = [self rightButtons :(int)indexPath.section];
     cell.delegate=self;
 
     
@@ -393,28 +394,6 @@
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     
-    switch (index) {
-        case 0:
-        {
-            break;
-        }
-        case 1:
-        {
-            
-            break;
-        }
-        case 2:
-        {
-            
-            break;
-        }
-        case 3:
-        {
-            
-        }
-        default:
-            break;
-    }
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
@@ -450,7 +429,7 @@
     UIButton *btn=sender;
 
     
-      [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:btn.tag];
+      [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)btn.tag];
 }
 -(void)archiveMessage:(id)sender;
 {

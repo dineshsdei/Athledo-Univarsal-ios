@@ -12,20 +12,24 @@
 	<dict>
 		<key>34304A8327D214612DE2FF8F493E9FB56730FEA8</key>
 		<string>https://github.com/athleldo/athledo-ios.git</string>
+		<key>C2ADB35F705A4ED0137C8F18996F3FDD1E7C4AEF</key>
+		<string>https://github.com/dineshsdei/Athledo-Univarsal-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Athledo.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>34304A8327D214612DE2FF8F493E9FB56730FEA8</key>
+		<string>../../../athledo-ios</string>
+		<key>C2ADB35F705A4ED0137C8F18996F3FDD1E7C4AEF</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/athleldo/athledo-ios.git</string>
+	<string>https://github.com/dineshsdei/Athledo-Univarsal-ios.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>34304A8327D214612DE2FF8F493E9FB56730FEA8</string>
+	<string>C2ADB35F705A4ED0137C8F18996F3FDD1E7C4AEF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -35,6 +39,14 @@
 			<string>34304A8327D214612DE2FF8F493E9FB56730FEA8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>athledo-ios</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C2ADB35F705A4ED0137C8F18996F3FDD1E7C4AEF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Athledo-Univarsal-ios</string>
 		</dict>
 	</array>
 </dict>

@@ -49,12 +49,6 @@
 - (IBAction)emailBtnClick:(id)sender;
 
 - (IBAction)settingBtnClick:(id)sender;
-//- (IBAction)settingBtnCoachClick:(id)sender;
-//- (IBAction)settingBtnAthleteClick:(id)sender;
-//- (IBAction)settingBtnAluminiClick:(id)sender;
-
-
-
 - (IBAction)selectDate:(id)sender;
 - (IBAction)selectTime:(id)sender;
 

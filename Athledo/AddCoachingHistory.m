@@ -162,14 +162,6 @@ NSMutableArray *arrAwardsYear;
 
     //Set the Date picker view
 
-
-
-//    tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 10, self.view.frame.size.width, self.view.frame.size.height-13) style:UITableViewStylePlain];
-//    tableView.backgroundColor=[UIColor clearColor];
-//    tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-//    tableView.delegate = self;
-//    tableView.dataSource = self;
-//    [self.view addSubview:tableView];
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, datePicker.frame.size.height)];
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.date = [NSDate date];
@@ -233,18 +225,6 @@ NSMutableArray *arrAwardsYear;
 
 -(void)doneClicked
 {
-//    if(isKeyBoard)
-//    {
-//    isKeyBoard=NO;
-//    [UIView beginAnimations:@"tblMove" context:nil];
-//    [UIView setAnimationDelegate:self];
-//    [UIView setAnimationDuration:0.29f];
-//
-//    UITableView *tblView = (UITableView *)[self.view viewWithTag:100];
-//
-//    tblView.frame = CGRectMake(tblView.frame.origin.x, tblView.frame.origin.y+57, tblView.frame.size.width, tblView.frame.size.height);
-//    [UIView commitAnimations];
-//    }
 
     [currentText resignFirstResponder];
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -614,9 +594,6 @@ NSMutableArray *arrAwardsYear;
     UITextField *textfieldStart=(UITextField *)[tableView viewWithTag:1003];
     UITextField *textfieldEnd=(UITextField *)[tableView viewWithTag:1004];
 
-    //NSLog(@"%@",textfieldStart.text);
-    //NSLog(@"%@",textfieldEnd.text);
-
     NSDate *dateOne=[df dateFromString:textfieldStart.text];
     NSDate *dateTwo=[df dateFromString:textfieldEnd.text];
 
@@ -648,15 +625,6 @@ NSMutableArray *arrAwardsYear;
     }
 
     // To check end is greater or not uncomment
-
-    if(strError.length > 1)
-    {
-    // currentText.text=@"";
-
-    //[SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
-    // return;
-    }
-
     }
 
 
