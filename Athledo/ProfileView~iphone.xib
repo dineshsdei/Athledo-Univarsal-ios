@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileView">
+            <connections>
+                <outlet property="activityIndicator" destination="fO0-Da-TZG" id="Wmz-5f-yLa"/>
+                <outlet property="btncamera" destination="5Zk-Yo-Gj7" id="40Y-QW-2Od"/>
+                <outlet property="imageviewProfile" destination="yfA-aV-hHf" id="ImR-93-fVJ"/>
+                <outlet property="tblProfile" destination="eLv-Qt-sM2" id="HjV-X7-WQy"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" multipleTouchEnabled="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Zk-Yo-Gj7">
+                    <rect key="frame" x="113" y="13" width="100" height="100"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="uzO-05-ohh"/>
+                    </constraints>
+                    <state key="normal" image="btnCamera.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="EditSavePIc:" destination="-1" eventType="touchUpInside" id="85O-ne-ngq"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yfA-aV-hHf">
+                    <rect key="frame" x="113" y="14" width="100" height="100"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <tableView clipsSubviews="YES" tag="100" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eLv-Qt-sM2">
+                    <rect key="frame" x="0.0" y="140" width="320" height="428"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="kpA-oT-oih"/>
+                        <outlet property="delegate" destination="-1" id="jAl-UV-rIR"/>
+                    </connections>
+                </tableView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fO0-Da-TZG">
+                    <rect key="frame" x="150" y="55" width="20" height="20"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </activityIndicatorView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="rwp-4O-ZSz">
+                    <rect key="frame" x="0.0" y="565" width="320" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="YdE-EE-FS6"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="eLv-Qt-sM2" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="0G0-9C-pXf"/>
+                <constraint firstItem="5Zk-Yo-Gj7" firstAttribute="leading" secondItem="yfA-aV-hHf" secondAttribute="leading" id="7JT-02-S5z"/>
+                <constraint firstItem="5Zk-Yo-Gj7" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="113" id="DX2-3f-vh6"/>
+                <constraint firstItem="5Zk-Yo-Gj7" firstAttribute="top" secondItem="1" secondAttribute="top" constant="13" id="NaR-qa-N3r"/>
+                <constraint firstItem="yfA-aV-hHf" firstAttribute="top" secondItem="1" secondAttribute="top" constant="14" id="Nfy-aq-x8l"/>
+                <constraint firstItem="yfA-aV-hHf" firstAttribute="trailing" secondItem="5Zk-Yo-Gj7" secondAttribute="trailing" id="R6A-O4-zG1"/>
+                <constraint firstItem="rwp-4O-ZSz" firstAttribute="trailing" secondItem="eLv-Qt-sM2" secondAttribute="trailing" id="UKb-H5-uVt"/>
+                <constraint firstAttribute="bottom" secondItem="eLv-Qt-sM2" secondAttribute="bottom" id="X6l-b8-vtM"/>
+                <constraint firstItem="eLv-Qt-sM2" firstAttribute="centerX" secondItem="fO0-Da-TZG" secondAttribute="centerX" id="XWn-6I-9SW"/>
+                <constraint firstItem="fO0-Da-TZG" firstAttribute="top" secondItem="1" secondAttribute="top" constant="55" id="csT-E2-s6U"/>
+                <constraint firstItem="rwp-4O-ZSz" firstAttribute="leading" secondItem="eLv-Qt-sM2" secondAttribute="leading" id="lEr-2P-uwk"/>
+                <constraint firstItem="rwp-4O-ZSz" firstAttribute="bottom" secondItem="eLv-Qt-sM2" secondAttribute="bottom" id="mas-Ea-hyL"/>
+                <constraint firstItem="eLv-Qt-sM2" firstAttribute="top" secondItem="fO0-Da-TZG" secondAttribute="bottom" constant="65" id="obF-Zl-M5U"/>
+                <constraint firstAttribute="trailing" secondItem="eLv-Qt-sM2" secondAttribute="trailing" id="rOu-Uq-RWF"/>
+                <constraint firstItem="eLv-Qt-sM2" firstAttribute="top" secondItem="5Zk-Yo-Gj7" secondAttribute="bottom" constant="27" id="tEi-eS-TTd"/>
+                <constraint firstItem="eLv-Qt-sM2" firstAttribute="top" secondItem="yfA-aV-hHf" secondAttribute="bottom" constant="26" id="yhi-76-FwO"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+        <image name="btnCamera.png" width="32" height="28"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

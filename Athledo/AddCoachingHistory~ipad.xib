@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCoachingHistory">
+            <connections>
+                <outlet property="datePicker" destination="feE-tG-dax" id="agr-ck-f3u"/>
+                <outlet property="listPicker" destination="yVc-KJ-zZa" id="Lrt-Zz-iSO"/>
+                <outlet property="tableView" destination="fm5-Xd-IJE" id="0RO-fh-Ix3"/>
+                <outlet property="view" destination="iN0-l3-epB" id="pYe-Gp-09L"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fm5-Xd-IJE">
+                    <rect key="frame" x="0.0" y="10" width="768" height="1021"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1021" id="hJ8-RS-b6g"/>
+                    </constraints>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="wmV-ni-qOn"/>
+                        <outlet property="delegate" destination="-1" id="Etb-5l-6DV"/>
+                    </connections>
+                </tableView>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yVc-KJ-zZa">
+                    <rect key="frame" x="0.0" y="1200" width="768" height="216"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="p4w-bX-G1T"/>
+                        <outlet property="delegate" destination="-1" id="M0m-Ux-DeJ"/>
+                    </connections>
+                </pickerView>
+                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="feE-tG-dax">
+                    <rect key="frame" x="0.0" y="1200" width="768" height="216"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="216" id="n31-ks-DUS"/>
+                    </constraints>
+                    <date key="date" timeIntervalSinceReferenceDate="428501101.999668">
+                        <!--2014-07-31 12:05:01 +0000-->
+                    </date>
+                </datePicker>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zdk-iu-9Ps">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="bO0-Eo-G7F"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="feE-tG-dax" firstAttribute="top" secondItem="yVc-KJ-zZa" secondAttribute="top" id="6T7-U0-YD0"/>
+                <constraint firstItem="Zdk-iu-9Ps" firstAttribute="trailing" secondItem="feE-tG-dax" secondAttribute="trailing" id="8Gk-iY-bhj"/>
+                <constraint firstItem="feE-tG-dax" firstAttribute="bottom" secondItem="yVc-KJ-zZa" secondAttribute="bottom" id="9aw-WS-iN0"/>
+                <constraint firstItem="fm5-Xd-IJE" firstAttribute="trailing" secondItem="Zdk-iu-9Ps" secondAttribute="trailing" id="Ad0-nm-ZBJ"/>
+                <constraint firstItem="feE-tG-dax" firstAttribute="trailing" secondItem="yVc-KJ-zZa" secondAttribute="trailing" id="KfK-mO-1yM"/>
+                <constraint firstItem="feE-tG-dax" firstAttribute="leading" secondItem="yVc-KJ-zZa" secondAttribute="leading" id="Qev-bq-kaY"/>
+                <constraint firstItem="Zdk-iu-9Ps" firstAttribute="leading" secondItem="feE-tG-dax" secondAttribute="leading" id="RKa-ex-VhM"/>
+                <constraint firstAttribute="bottom" secondItem="Zdk-iu-9Ps" secondAttribute="bottom" id="X64-2V-xJt"/>
+                <constraint firstItem="Zdk-iu-9Ps" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="a3M-Cj-Yzu"/>
+                <constraint firstItem="Zdk-iu-9Ps" firstAttribute="leading" secondItem="fm5-Xd-IJE" secondAttribute="leading" id="o03-3l-9zr"/>
+                <constraint firstAttribute="trailing" secondItem="Zdk-iu-9Ps" secondAttribute="trailing" id="rnB-9v-d01"/>
+                <constraint firstItem="yVc-KJ-zZa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="1200" id="srB-Re-U2p"/>
+                <constraint firstItem="fm5-Xd-IJE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="yDm-ph-svc"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

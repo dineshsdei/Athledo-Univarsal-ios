@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginVeiw">
+            <connections>
+                <outlet property="loginTableView" destination="GLv-pf-dZW" id="nzR-HU-lxl"/>
+                <outlet property="view" destination="iN0-l3-epB" id="fNj-vU-FqJ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="HHE-Tq-jIF">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="9u6-He-Ira">
+                    <rect key="frame" x="259" y="195" width="250" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="250" id="FRS-b6-wpD"/>
+                        <constraint firstAttribute="height" constant="40" id="Tfy-U3-Bfg"/>
+                    </constraints>
+                </imageView>
+                <tableView clipsSubviews="YES" tag="100" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="5" sectionFooterHeight="5" translatesAutoresizingMaskIntoConstraints="NO" id="GLv-pf-dZW">
+                    <rect key="frame" x="184" y="400" width="400" height="190"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="190" id="d3V-fD-DjS"/>
+                        <constraint firstAttribute="width" constant="400" id="pXx-f0-1N5"/>
+                    </constraints>
+                    <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="FVK-2W-zDw"/>
+                        <outlet property="delegate" destination="-1" id="Zby-xn-Kur"/>
+                    </connections>
+                </tableView>
+                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nh-hL-cmW">
+                    <rect key="frame" x="184" y="592" width="400" height="64"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="PBj-wW-Pin"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                    <state key="normal" title="Login" backgroundImage="login_btn.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="MoveToDashBoard:" destination="-1" eventType="touchUpInside" id="I4m-nW-duE"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lki-JG-to5">
+                    <rect key="frame" x="334" y="671" width="250" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="LeE-Jw-rmY"/>
+                        <constraint firstAttribute="width" constant="250" id="TgW-yp-l33"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" title="          I Forgot My Password">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="ForgotPasswordClick:" destination="-1" eventType="touchUpInside" id="5L4-5a-yLj"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="6nh-hL-cmW" firstAttribute="trailing" secondItem="Lki-JG-to5" secondAttribute="trailing" id="3Pu-j8-M44"/>
+                <constraint firstAttribute="bottom" secondItem="HHE-Tq-jIF" secondAttribute="bottom" id="7eJ-UD-Rbp"/>
+                <constraint firstItem="9u6-He-Ira" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="195" id="8l3-DK-eC4"/>
+                <constraint firstItem="Lki-JG-to5" firstAttribute="top" secondItem="6nh-hL-cmW" secondAttribute="bottom" constant="15" id="EL1-s5-EaL"/>
+                <constraint firstItem="GLv-pf-dZW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="400" id="SEd-He-5rF"/>
+                <constraint firstItem="GLv-pf-dZW" firstAttribute="centerX" secondItem="9u6-He-Ira" secondAttribute="centerX" id="TYE-jy-CSx"/>
+                <constraint firstAttribute="trailing" secondItem="HHE-Tq-jIF" secondAttribute="trailing" id="XOr-Ta-pHf"/>
+                <constraint firstItem="HHE-Tq-jIF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Zem-vi-A6K"/>
+                <constraint firstItem="GLv-pf-dZW" firstAttribute="leading" secondItem="6nh-hL-cmW" secondAttribute="leading" id="ZfE-dW-bbP"/>
+                <constraint firstItem="GLv-pf-dZW" firstAttribute="trailing" secondItem="6nh-hL-cmW" secondAttribute="trailing" id="bJa-ff-EKn"/>
+                <constraint firstItem="9u6-He-Ira" firstAttribute="centerX" secondItem="HHE-Tq-jIF" secondAttribute="centerX" id="cuo-mg-wma"/>
+                <constraint firstItem="6nh-hL-cmW" firstAttribute="top" secondItem="GLv-pf-dZW" secondAttribute="bottom" constant="2" id="hMS-Rv-3b4"/>
+                <constraint firstItem="HHE-Tq-jIF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="z0R-9q-fCb"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="26" y="-482"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="login_bg.png" width="640" height="1136"/>
+        <image name="login_btn.png" width="470" height="91"/>
+        <image name="menu_logo.png" width="256" height="32"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileView">
+            <connections>
+                <outlet property="activityIndicator" destination="3Tr-lP-qUx" id="Abo-XK-QpG"/>
+                <outlet property="btncamera" destination="nBm-3d-scl" id="4Pm-m8-y3O"/>
+                <outlet property="imageviewProfile" destination="hX9-wh-7B3" id="1SP-nY-wII"/>
+                <outlet property="tblProfile" destination="RdU-An-juB" id="Rex-w3-tbN"/>
+                <outlet property="view" destination="iN0-l3-epB" id="YL7-XJ-T0M"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" multipleTouchEnabled="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBm-3d-scl">
+                    <rect key="frame" x="309" y="18" width="150" height="150"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" image="btnCamera.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="EditSavePIc:" destination="-1" eventType="touchUpInside" id="tns-BJ-JGA"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hX9-wh-7B3">
+                    <rect key="frame" x="309" y="18" width="150" height="150"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="LmF-pA-Gkk"/>
+                    </constraints>
+                </imageView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3Tr-lP-qUx">
+                    <rect key="frame" x="374" y="83" width="20" height="20"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </activityIndicatorView>
+                <tableView clipsSubviews="YES" tag="100" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RdU-An-juB">
+                    <rect key="frame" x="0.0" y="170" width="768" height="851"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="hFQ-Av-gzu"/>
+                        <outlet property="delegate" destination="-1" id="IUH-9i-qWd"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="aAi-Yt-IfL">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="3FT-WP-anr"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="nBm-3d-scl" firstAttribute="bottom" secondItem="hX9-wh-7B3" secondAttribute="bottom" id="17G-tN-qmJ"/>
+                <constraint firstItem="hX9-wh-7B3" firstAttribute="trailing" secondItem="nBm-3d-scl" secondAttribute="trailing" id="2E9-c0-3dr"/>
+                <constraint firstItem="aAi-Yt-IfL" firstAttribute="trailing" secondItem="RdU-An-juB" secondAttribute="trailing" id="4Y3-Le-5aO"/>
+                <constraint firstItem="RdU-An-juB" firstAttribute="top" secondItem="3Tr-lP-qUx" secondAttribute="bottom" constant="67" id="AJf-nF-SJe"/>
+                <constraint firstItem="hX9-wh-7B3" firstAttribute="centerY" secondItem="3Tr-lP-qUx" secondAttribute="centerY" id="BPz-Uw-cAv"/>
+                <constraint firstItem="aAi-Yt-IfL" firstAttribute="top" secondItem="RdU-An-juB" secondAttribute="bottom" id="HPg-LJ-H2W"/>
+                <constraint firstItem="hX9-wh-7B3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="HqU-cq-KtF"/>
+                <constraint firstAttribute="bottom" secondItem="aAi-Yt-IfL" secondAttribute="bottom" id="N2B-Ry-6Uz"/>
+                <constraint firstAttribute="trailing" secondItem="RdU-An-juB" secondAttribute="trailing" id="Phx-iW-e0e"/>
+                <constraint firstItem="hX9-wh-7B3" firstAttribute="leading" secondItem="nBm-3d-scl" secondAttribute="leading" id="Q1y-oa-PwU"/>
+                <constraint firstItem="RdU-An-juB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TWO-O5-R0t"/>
+                <constraint firstItem="hX9-wh-7B3" firstAttribute="centerX" secondItem="3Tr-lP-qUx" secondAttribute="centerX" id="XSp-An-udm"/>
+                <constraint firstItem="aAi-Yt-IfL" firstAttribute="leading" secondItem="RdU-An-juB" secondAttribute="leading" id="bf6-zB-c3T"/>
+                <constraint firstItem="3Tr-lP-qUx" firstAttribute="centerX" secondItem="RdU-An-juB" secondAttribute="centerX" id="gLB-S7-nab"/>
+                <constraint firstItem="RdU-An-juB" firstAttribute="top" secondItem="nBm-3d-scl" secondAttribute="bottom" constant="2" id="h2g-RO-jEm"/>
+                <constraint firstItem="nBm-3d-scl" firstAttribute="top" secondItem="hX9-wh-7B3" secondAttribute="top" id="iDP-2X-lN2"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+        <image name="btnCamera.png" width="32" height="28"/>
+    </resources>
+</document>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapViewController">
+            <connections>
+                <outlet property="mapView" destination="RKV-C2-hOJ" id="XNA-oD-M54"/>
+                <outlet property="tabBar" destination="8vP-Yd-yHe" id="5qx-kD-6XL"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RKV-C2-hOJ">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="brT-hp-KDF"/>
+                    </connections>
+                </mapView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UlT-q1-1jy">
+                    <rect key="frame" x="176" y="20" width="65" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="wnQ-4z-6Sg"/>
+                        <constraint firstAttribute="height" constant="30" id="xrr-Y0-ujv"/>
+                    </constraints>
+                    <state key="normal" title="Map" backgroundImage="login_btn.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="standardMap:" destination="-1" eventType="touchUpInside" id="hf1-OF-Q5d"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCr-ja-4ao">
+                    <rect key="frame" x="245" y="20" width="65" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="hUu-Fn-pWE"/>
+                    </constraints>
+                    <state key="normal" title="Satellite" backgroundImage="login_btn.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="satelliteMap:" destination="-1" eventType="touchUpInside" id="7NG-Nw-eAq"/>
+                    </connections>
+                </button>
+                <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8vP-Yd-yHe">
+                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <items>
+                        <tabBarItem title="Month" image="mnth_icon2.png" id="dhh-w8-opI">
+                            <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                        </tabBarItem>
+                        <tabBarItem tag="1" title="Week" image="week_icon.png" id="1g3-71-jNK"/>
+                        <tabBarItem tag="2" title="Today" image="today_icon.png" id="Iar-NX-vJJ"/>
+                        <tabBarItem tag="3" title="Map" image="tabmap_icon.png" id="Nam-TU-4Zm"/>
+                    </items>
+                </tabBar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="8vP-Yd-yHe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6DJ-Cf-3Vp"/>
+                <constraint firstItem="RKV-C2-hOJ" firstAttribute="leading" secondItem="8vP-Yd-yHe" secondAttribute="leading" id="7k1-gg-kdy"/>
+                <constraint firstItem="RKV-C2-hOJ" firstAttribute="trailing" secondItem="8vP-Yd-yHe" secondAttribute="trailing" id="9l1-0C-iIn"/>
+                <constraint firstItem="RKV-C2-hOJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Al7-bw-BPz"/>
+                <constraint firstItem="8vP-Yd-yHe" firstAttribute="top" secondItem="RKV-C2-hOJ" secondAttribute="bottom" id="GuQ-Wa-0MK"/>
+                <constraint firstAttribute="trailing" secondItem="wCr-ja-4ao" secondAttribute="trailing" constant="10" id="bCp-C1-N3z"/>
+                <constraint firstItem="wCr-ja-4ao" firstAttribute="top" secondItem="UlT-q1-1jy" secondAttribute="top" id="hyZ-9m-MUI"/>
+                <constraint firstItem="UlT-q1-1jy" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" symbolic="YES" id="iBF-J6-fXt"/>
+                <constraint firstAttribute="trailing" secondItem="RKV-C2-hOJ" secondAttribute="trailing" id="jpS-2Z-wnZ"/>
+                <constraint firstAttribute="bottom" secondItem="8vP-Yd-yHe" secondAttribute="bottom" id="m90-d2-gQp"/>
+                <constraint firstItem="wCr-ja-4ao" firstAttribute="leading" secondItem="UlT-q1-1jy" secondAttribute="trailing" constant="4" id="sLD-E5-yxf"/>
+                <constraint firstItem="UlT-q1-1jy" firstAttribute="bottom" secondItem="wCr-ja-4ao" secondAttribute="bottom" id="znR-Sm-BGA"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="login_btn.png" width="470" height="91"/>
+        <image name="mnth_icon2.png" width="30" height="30"/>
+        <image name="tabmap_icon.png" width="30" height="31"/>
+        <image name="today_icon.png" width="31" height="31"/>
+        <image name="week_icon.png" width="31" height="31"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

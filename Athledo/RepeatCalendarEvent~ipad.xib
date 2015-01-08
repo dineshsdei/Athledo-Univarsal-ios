@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RepeatCalendarEvent">
+            <connections>
+                <outlet property="listPicker" destination="r6I-4A-pN8" id="gQ9-dA-MLV"/>
+                <outlet property="segment" destination="8cr-eg-0qe" id="pTz-gR-52h"/>
+                <outlet property="tableview" destination="vaw-Ki-uHK" id="jeq-Dd-7IA"/>
+                <outlet property="view" destination="iN0-l3-epB" id="3Eb-ds-ncZ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8cr-eg-0qe">
+                    <rect key="frame" x="10" y="9" width="748" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="748" id="hTc-S5-XRc"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Daily"/>
+                        <segment title="Weekly"/>
+                        <segment title="Monthly"/>
+                        <segment title="Yearly"/>
+                    </segments>
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="ValueChange:" destination="-1" eventType="valueChanged" id="6sE-Qj-YOi"/>
+                    </connections>
+                </segmentedControl>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vaw-Ki-uHK">
+                    <rect key="frame" x="0.0" y="65" width="768" height="959"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="768" id="Nif-h5-0UT"/>
+                        <constraint firstAttribute="height" constant="959" id="Sfb-hh-lWo"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="IvW-1k-H48"/>
+                        <outlet property="delegate" destination="-1" id="BSy-bp-hm3"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Lv-pg-h24">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="Nod-iU-JZB"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="768" id="qEW-Qm-bT4"/>
+                    </constraints>
+                </imageView>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r6I-4A-pN8">
+                    <rect key="frame" x="0.0" y="1024" width="768" height="216"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="216" id="I0e-t8-oQq"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="76a-O9-Lrb"/>
+                        <outlet property="delegate" destination="-1" id="hST-79-gHM"/>
+                    </connections>
+                </pickerView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="vaw-Ki-uHK" firstAttribute="top" secondItem="8cr-eg-0qe" secondAttribute="bottom" constant="28" id="18X-0U-r8t"/>
+                <constraint firstItem="3Lv-pg-h24" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="7aP-9F-btw"/>
+                <constraint firstAttribute="trailing" secondItem="8cr-eg-0qe" secondAttribute="trailing" constant="10" id="FHh-Vy-rTI"/>
+                <constraint firstItem="r6I-4A-pN8" firstAttribute="top" secondItem="vaw-Ki-uHK" secondAttribute="bottom" id="Jni-W4-3fb"/>
+                <constraint firstAttribute="trailing" secondItem="vaw-Ki-uHK" secondAttribute="trailing" id="P2g-R7-eKe"/>
+                <constraint firstItem="8cr-eg-0qe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="UKy-Tg-5Ec"/>
+                <constraint firstItem="vaw-Ki-uHK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Wxf-So-3vO"/>
+                <constraint firstAttribute="trailing" secondItem="3Lv-pg-h24" secondAttribute="trailing" id="oBF-GF-Zsm"/>
+                <constraint firstItem="8cr-eg-0qe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="9" id="pmD-nh-zqy"/>
+                <constraint firstItem="r6I-4A-pN8" firstAttribute="leading" secondItem="3Lv-pg-h24" secondAttribute="leading" id="tXc-4y-j8S"/>
+                <constraint firstItem="r6I-4A-pN8" firstAttribute="trailing" secondItem="3Lv-pg-h24" secondAttribute="trailing" id="vn6-mI-U5m"/>
+                <constraint firstItem="r6I-4A-pN8" firstAttribute="top" secondItem="3Lv-pg-h24" secondAttribute="bottom" id="xOJ-ov-QNn"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+            <point key="canvasLocation" x="138" y="-7"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

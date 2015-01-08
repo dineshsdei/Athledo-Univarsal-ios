@@ -1,0 +1,261 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import "SingaltonClass.h"
+    #import "CustomAlertMessage.h"
+    #import "ActiveIndicator.h"
+    #import "UserInformation.h"
+    #import "UserTeam.h"
+    #import "Awards.h"
+#import "Sports.h"
+#import "AthleteHistory.h"
+#import "CoachingHistory.h"
+#import "CalendarEvent.h"
+
+#define listPickerHeight 162
+#define datePickerHeight 216
+#define topNavigationHeight 50
+#define visiblePicker self.view.frame.size.height+topNavigationHeight-(datePickerHeight/2)
+#define viewHeight self.view.frame.size.height
+#define invisiblePosition viewHeight+60
+#define toolBarHeight 44
+#define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
+#define SCREEN_WIDTH    [[UIScreen mainScreen] bounds].size.width
+
+
+# define tblViewY (([UIScreen mainScreen].bounds.size.height >= 568)?266:180)
+
+#define ACTIVITYTAG 50
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+#define iosVersion [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue]
+
+#define isIOS8 [[UIDevice currentDevice].systemVersion isEqualToString:@"8.0"]
+#define isIPAD [UIDevice currentDevice].userInterfaceIdiom==UIUserInterfaceIdiomPad
+
+#define fontName @"HelveticaNeue"
+#define SmallfontSize isIPAD ? 16 : 13
+#define BigfontSize isIPAD ? 18 : 14
+#define HeadingColor [UIColor whiteColor]
+#define TextColor [UIColor lightTextColor]
+#define NavFontSize isIPAD ? 25 : 18
+
+#define Textfont [UIFont fontWithName:fontName size:BigfontSize] ;
+#define SmallTextfont [UIFont fontWithName:fontName size:SmallfontSize] ;
+#define MenuTextfont isIPAD ?[UIFont boldSystemFontOfSize:20]  : [UIFont boldSystemFontOfSize:17] ;
+#define  pickerHeight isIPAD ? 216 : 162
+
+#define dateFormatMonthDateYearSlash @"MM/dd/yyyy"
+#define dateFormatDateMonthYearHiphen @"dd-MMM-yyyy"
+#define dateFormatDateMonthYearWithTime @"hh:mm a MM dd,yyyy"
+#define dateFormatDateMonthYearDot @"dd.MM.yyyy"
+#define dateFormatDAYNAMEDateMonthYearDot @"EEE dd.MM.yyyy"
+
+#define dateFormatDateMonthYearDotWithTime @"dd.MM.yyyy h:mm a"
+#define dateFormatDayNameDateMonthYearDotWithTime @"EEE dd.MM.yyyy h:mm a"
+
+#define dateFormatDateMonthYearDotWithTime24HourFormat @"dd.MM.yyyy HH:mm"
+#define dateFormatTime @"h:mm a"
+#define dateFormatYearMonthDateHiphenWithTimeForCal @"yyyy-MM-dd HH:mm:ss +0000"
+#define dateFormatYearMonthDateHiphenWithTime @"yyyy-MM-dd HH:mm:ss +0000"
+
+#define DATE_FORMAT                     @"dd/MM/yyyy"
+#define DATE_TIME_FORMAT                @"dd/MM/yyyy HH:mm:ss a"
+#define DATE_TIME_FORMAT_MESSAGE        @"yyyy-MM-dd HH:mm:ss"
+#define DATE_TIME_FORMAT_M_D_Y_h_m_s_A  @"MM-dd-yyyy hh:mm:ss a"
+#define DATE_FORMAT_M_D_Y               @"MM-dd-yyyy"
+#define DATE_FORMAT_Y_M_D              @"yyyy-MM-dd"
+#define TIME_FORMAT_h_m_s_A             @"hh:mm:ss a"
+#define TIME_FORMAT_h_m_A             @"hh:mm a"
+#define TIME_FORMAT_24h_m             @"HH:mm"
+#define TIME_FORMAT_h_m_s             @"hh:mm:ss"
+
+#define DATE_FORMAT_Y_M_D_H_M_S         @"yyyy-MM-dd HH:mm:ss"
+#define DATE_FORMAT_D_M_Y               @"dd-MM-yyyy"
+#define DATE_FORMAT_AddEvent          @"dd MMM yyyy HH:mm:ss"
+#define DATE_FORMAT_dd_MMM_yyyy         @"dd MMM yyyy"
+#define DATE_FORMAT_ThroughOut          @"dd MMM yyyy HH:mm:ss"
+#define DATE_FORMAT_M_D_Y_H_M     @"MMM dd, yyyy hh:mma"
+#define DATE_FORMAT_ThroughOut_Bday     @"MMM dd, yyyy"
+#define DATE_FORMAT_DOB                 @"yyyy-MM-dd"
+#define DATE_FORMAT_CLIENT              @"dd MMM, yyyy"
+#define DATE_FORMAT_ThroughOutNEW_Chat  @"EEE MMM dd HH:mm:ss Z yyyy"
+
+
+
+// Staging server
+
+//#define BaseUrl @"172.24.2.222:8024/webservices/"
+
+// Live server
+
+#define BaseUrl @"http://athledo.com/webservices/"
+
+#define webServiceLogin [BaseUrl stringByAppendingString:@"login"]
+#define webServiceForgotPassword [BaseUrl stringByAppendingString:@"forgotPassword"]
+
+// Profile
+#define webServiceUploadImage [BaseUrl stringByAppendingString:@"uploadPic"]
+#define webServiceProfileInfo [BaseUrl stringByAppendingString:@"profile"]
+
+#define webServiceEditProfileInfo [BaseUrl stringByAppendingString:@"editProfile"]
+#define webServiceGetCountryList [BaseUrl stringByAppendingString:@"getCountriesList"]
+#define webServiceGetStateList [BaseUrl stringByAppendingString:@"getState"]
+#define webServiceSearchAnnouncement [BaseUrl stringByAppendingString:@"getAnnouncement"]
+#define webServicedeleteAnnouncement [BaseUrl stringByAppendingString:@"deleteAnnouncement"]
+#define webServiceAddAnnouncement [BaseUrl stringByAppendingString:@"addAnnouncement"]
+#define webServiceGetGroups [BaseUrl stringByAppendingString:@"getGroups"]
+#define webServiceAddCoachingInfo [BaseUrl stringByAppendingString:@"addCoachingHistory"]
+#define webServiceAddCoachingAwardInfo [BaseUrl stringByAppendingString:@"addCoachAward"]
+#define webServiceAddAthleteHistoryInfo [BaseUrl stringByAppendingString:@"addAthleteHistory"]
+//Add WorkOut
+#define webServiceWorkoutInfo [BaseUrl stringByAppendingString:@"coachWorkoutList"]
+#define webServiceDeleteWorkOut [BaseUrl stringByAppendingString:@"deleteWorkout"]
+#define webServiceReAssignWorkOut [BaseUrl stringByAppendingString:@"coach_reassign"]
+#define webServiceGetWorkOutdropdownList [BaseUrl stringByAppendingString:@"workout_dropdown_data"]
+#define webServiceGetWorkOutUnitList [BaseUrl stringByAppendingString:@"workout_unit"]
+
+#define webUrlAddCustomTag [BaseUrl stringByAppendingString:@"workout_customtag_add"]
+#define webUrlDeleteCustomTag [BaseUrl stringByAppendingString:@"workout_customtag_delete"]
+#define webUrlAddExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_add"]
+#define webUrlDeleteExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_delete"]
+
+#define webUrlAddWorkOut [BaseUrl stringByAppendingString:@"workout_add"]
+#define webUrlSearchHistory [BaseUrl stringByAppendingString:@"workout_history"]
+#define WebServiceWorkoutDetails [BaseUrl stringByAppendingString:@"workout_view"]
+
+#define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
+
+
+
+
+//Calender
+
+// Live
+//#define webServiceGetEvents [BaseUrl stringByAppendingString:@"getEvents"]
+//#define webServiceAddEvents [BaseUrl stringByAppendingString:@"addEvent"]
+
+// Local
+//#define webServiceGetEvents @"http://172.24.2.222:8024/webservices/getEvents"
+//#define webServiceAddEvents @"http://172.24.2.222:8024/webservices/addEvent"
+
+// Temp Local
+//#define webServiceGetEvents @"http://172.24.2.222:8024/webservices/getEvents"
+//#define webServiceAddEvents @"http://172.24.2.222:8024/webservices/scheduler_data?editing=true"
+//#define webServiceDeleteEvents @"http://172.24.2.222:8024/webservices/scheduler_data?editing=true"
+
+// Temp Live
+#define webServiceGetEvents [BaseUrl stringByAppendingString:@"getEvents"]
+#define webServiceAddEvents [BaseUrl stringByAppendingString:@"scheduler_data?editing=true"]
+#define webServiceDeleteEvents [BaseUrl stringByAppendingString:@"scheduler_data?editing=true"]
+
+
+
+
+// Messages
+
+#define webServiceGetMessages [BaseUrl stringByAppendingString:@"inbox"]
+#define webServiceDeleteMessage [BaseUrl stringByAppendingString:@"message_delete"]
+#define webServiceMessageStatus [BaseUrl stringByAppendingString:@"message_status"]
+#define webServiceArchiveMessage [BaseUrl stringByAppendingString:@"message_archive"]
+#define webServiceGetSentMessageslist [BaseUrl stringByAppendingString:@"message_sent"]
+#define webServiceGetUserType [BaseUrl stringByAppendingString:@"getuserType"]
+#define webServiceGetConversation [BaseUrl stringByAppendingString:@"conversation"]
+#define webServiceSendConversation [BaseUrl stringByAppendingString:@"reply_conversation"]
+#define webServiceComposeMessage [BaseUrl stringByAppendingString:@"compose"]
+
+// Notification
+#define webServiceGetNotification [BaseUrl stringByAppendingString:@"getNotification"]
+#define webServiceDeleteNotification [BaseUrl stringByAppendingString:@"deleteNotification"]
+
+
+
+//Local server Multimedia
+//#define webServiceGetMultimediaPic @"http://172.24.2.222:8024/webservices/getMultimediaPhoto"
+//#define webServiceGetMultimediaVideos @"http://172.24.2.222:8024/webservices/getMultimediaVideo"
+//#define webServiceGetMultimediaAlbum @"http://172.24.2.222:8024/webservices/getMultimediaAlbumPhoto"
+
+//Live server Multimedia
+#define webServiceGetMultimediaPic [BaseUrl stringByAppendingString:@"getMultimediaPhoto"]
+#define webServiceGetMultimediaVideos [BaseUrl stringByAppendingString:@"getMultimediaVideo"]
+#define webServiceGetMultimediaAlbum [BaseUrl stringByAppendingString:@"getMultimediaAlbumPhoto"]
+
+
+
+//Live server of smartData
+/*
+#define webServiceLogin @"http://192.155.246.146:8020/webservices/login"
+#define webServiceForgotPassword @"http://192.155.246.146:8020/webservices/forgotPassword"
+#define webServiceProfileInfo @"http://192.155.246.146:8020/webservices/profile"
+#define webServiceEditProfileInfo @"http://192.155.246.146:8020/webservices/editProfile"
+#define webServiceGetCountryList @"http://192.155.246.146:8020/webservices/getCountriesList"
+#define webServiceGetStateList @"http://192.155.246.146:8020/webservices/getState"
+#define webServiceSearchAnnouncement @"http://192.155.246.146:8020/webservices/getAnnouncement"
+#define webServicedeleteAnnouncement @"http://192.155.246.146:8020/webservices/deleteAnnouncement"
+#define webServiceAddAnnouncement @"http://192.155.246.146:8020/webservices/addAnnouncement"
+#define webServiceGetGroups @"http://192.155.246.146:8020/webservices/getGroups"
+#define webServiceAddCoachingInfo @"http://192.155.246.146:8020/webservices/addCoachingHistory"
+#define webServiceAddCoachingAwardInfo @"http://192.155.246.146:8020/webservices/addCoachAward"
+#define webServiceAddAthleteHistoryInfo @"http://192.155.246.146:8020/webservices/addAthleteHistory"
+//Add WorkOut
+#define webServiceWorkoutInfo @"http://192.155.246.146:8020/webservices/coachWorkoutList"
+#define webServiceDeleteWorkOut @"http://192.155.246.146:8020/webservices/deleteWorkout"
+#define webServiceReAssignWorkOut @"http://192.155.246.146:8020/webservices/coach_reassign"
+#define webServiceGetWorkOutdropdownList @"http://192.155.246.146:8020/webservices/workout_dropdown_data"
+#define webServiceGetWorkOutUnitList @"http://192.155.246.146:8020/webservices/workout_unit"
+
+#define webUrlAddCustomTag @"http://192.155.246.146:8020/webservices/workout_customtag_add"
+#define webUrlDeleteCustomTag @"http://192.155.246.146:8020/webservices/workout_customtag_delete"
+#define webUrlAddExerciseType @"http://192.155.246.146:8020/webservices/workout_excercise_add"
+#define webUrlDeleteExerciseType @"http://192.155.246.146:8020/webservices/workout_excercise_delete"
+
+#define webUrlAddWorkOut @"http://192.155.246.146:8020/webservices/workout_add"
+*/
+//Local server of smartData
+/*
+
+#define webServiceLogin @"http://172.24.2.222:8024/webservices/login"
+#define webServiceForgotPassword @"http://192.155.246.146:8020/webservices/forgotPassword"
+#define webServiceProfileInfo @"http://172.24.2.222:8024/webservices/profile"
+#define webServiceEditProfileInfo @"http://172.24.2.222:8024/webservices/editProfile"
+#define webServiceGetCountryList @"http://172.24.2.222:8024/webservices/getCountriesList"
+#define webServiceGetStateList @"http://172.24.2.222:8024/webservices/getState"
+#define webServiceSearchAnnouncement @"http://172.24.2.222:8024/webservices/getAnnouncement"
+#define webServicedeleteAnnouncement @"http://172.24.2.222:8024/webservices/deleteAnnouncement"
+#define webServiceAddAnnouncement @"http://172.24.2.222:8024/webservices/addAnnouncement"
+#define webServiceGetGroups @"http://172.24.2.222:8024/webservices/getGroups"
+#define webServiceAddCoachingInfo @"http://172.24.2.222:8024/webservices/addCoachingHistory"
+#define webServiceAddCoachingAwardInfo @"http://172.24.2.222:8024/webservices/addCoachAward"
+#define webServiceAddAthleteHistoryInfo @"http://172.24.2.222:8024/webservices/addAthleteHistory"
+//Add WorkOut
+#define webServiceWorkoutInfo @"http://172.24.2.222:8024/webservices/coachWorkoutList"
+#define webServiceDeleteWorkOut @"http://172.24.2.222:8024/webservices/deleteWorkout"
+#define webServiceReAssignWorkOut @"http://172.24.2.222:8024/webservices/coach_reassign"
+#define webServiceGetWorkOutdropdownList @"http://172.24.2.222:8024/webservices/workout_dropdown_data"
+#define webServiceGetWorkOutUnitList @"http://172.24.2.222:8024/webservices/workout_unit"
+
+#define webUrlAddCustomTag @"http://172.24.2.222:8024/webservices/workout_customtag_add"
+#define webUrlDeleteCustomTag @"http://172.24.2.222:8024/webservices/workout_customtag_delete"
+#define webUrlAddExerciseType @"http://172.24.2.222:8024/webservices/workout_excercise_add"
+#define webUrlDeleteExerciseType @"http://172.24.2.222:8024/webservices/workout_excercise_delete"
+
+#define webUrlAddWorkOut @"http://172.24.2.222:8024/webservices/workout_add"
+*/
+
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
+
+#endif

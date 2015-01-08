@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SentItemsView">
+            <connections>
+                <outlet property="tabBar" destination="Wec-Tc-o9R" id="2w2-2N-oaJ"/>
+                <outlet property="table" destination="SXc-Hg-CXg" id="ISQ-v0-qZz"/>
+                <outlet property="view" destination="iN0-l3-epB" id="IOL-IA-Sn8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="74u-YZ-Vf6">
+                    <rect key="frame" x="56" y="2" width="320" height="568"/>
+                </imageView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="SXc-Hg-CXg">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="975"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="tLH-KJ-Aui"/>
+                        <outlet property="delegate" destination="-1" id="0bm-W8-FHU"/>
+                    </connections>
+                </tableView>
+                <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wec-Tc-o9R">
+                    <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <items>
+                        <tabBarItem title="Inbox" image="inbox_icon.png" id="iCV-Ve-b7l">
+                            <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                        </tabBarItem>
+                        <tabBarItem tag="1" title="Sent" image="sent_icon.png" id="qNM-3M-rTD"/>
+                        <tabBarItem tag="2" title="Archived" image="update_icon.png" id="vYf-QW-IyT"/>
+                    </items>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="lHG-Jo-6tR"/>
+                    </connections>
+                </tabBar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="SXc-Hg-CXg" secondAttribute="trailing" id="WPt-jx-8Qn"/>
+                <constraint firstAttribute="bottom" secondItem="Wec-Tc-o9R" secondAttribute="bottom" id="dXv-QC-NMk"/>
+                <constraint firstItem="Wec-Tc-o9R" firstAttribute="leading" secondItem="SXc-Hg-CXg" secondAttribute="leading" id="h8D-Bn-Npm"/>
+                <constraint firstItem="Wec-Tc-o9R" firstAttribute="top" secondItem="SXc-Hg-CXg" secondAttribute="bottom" id="nyi-53-y87"/>
+                <constraint firstItem="SXc-Hg-CXg" firstAttribute="trailing" secondItem="Wec-Tc-o9R" secondAttribute="trailing" id="oMk-Ue-mGk"/>
+                <constraint firstItem="SXc-Hg-CXg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="s09-7u-Wgf"/>
+                <constraint firstItem="SXc-Hg-CXg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="s2U-7b-N7z"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="74u-YZ-Vf6"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+    <resources>
+        <image name="inbox_icon.png" width="30" height="31"/>
+        <image name="sent_icon.png" width="31" height="31"/>
+        <image name="update_icon.png" width="31" height="31"/>
+    </resources>
+</document>

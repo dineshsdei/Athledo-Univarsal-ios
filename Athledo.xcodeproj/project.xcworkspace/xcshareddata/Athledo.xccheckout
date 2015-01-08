@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F2635514-7AA7-45DE-8559-D3D2281EB753</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Athledo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>34304A8327D214612DE2FF8F493E9FB56730FEA8</key>
+		<string>https://github.com/athleldo/athledo-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Athledo.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>34304A8327D214612DE2FF8F493E9FB56730FEA8</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/athleldo/athledo-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>34304A8327D214612DE2FF8F493E9FB56730FEA8</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>34304A8327D214612DE2FF8F493E9FB56730FEA8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>athledo-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RepeatCalendarEvent">
+            <connections>
+                <outlet property="listPicker" destination="0xS-TY-XWJ" id="y1z-Ra-wXl"/>
+                <outlet property="segment" destination="PhO-zD-54d" id="Hf7-Wl-qeg"/>
+                <outlet property="tableview" destination="Ndy-EO-Pf5" id="XFI-gK-mcH"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-6b-g2M">
+                    <rect key="frame" x="0.0" y="565" width="320" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="O1p-gS-E38"/>
+                    </constraints>
+                </imageView>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PhO-zD-54d">
+                    <rect key="frame" x="10" y="5" width="300" height="29"/>
+                    <segments>
+                        <segment title="Daily"/>
+                        <segment title="Weekly"/>
+                        <segment title="Monthly"/>
+                        <segment title="Yearly"/>
+                    </segments>
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="ValueChange:" destination="-1" eventType="valueChanged" id="RsP-li-z0g"/>
+                    </connections>
+                </segmentedControl>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ndy-EO-Pf5">
+                    <rect key="frame" x="0.0" y="58" width="320" height="504"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="54k-xa-cnI"/>
+                        <outlet property="delegate" destination="-1" id="wqo-pr-Eu4"/>
+                    </connections>
+                </tableView>
+                <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0xS-TY-XWJ">
+                    <rect key="frame" x="0.0" y="700" width="320" height="162"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="nOm-Im-T0q"/>
+                        <outlet property="delegate" destination="-1" id="JPC-bU-lhC"/>
+                    </connections>
+                </pickerView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="hlp-6b-g2M" secondAttribute="bottom" id="MVZ-iK-9yR"/>
+                <constraint firstAttribute="trailing" secondItem="Ndy-EO-Pf5" secondAttribute="trailing" id="MgI-OZ-qnf"/>
+                <constraint firstItem="Ndy-EO-Pf5" firstAttribute="top" secondItem="PhO-zD-54d" secondAttribute="bottom" constant="25" id="NnF-Z1-ryc"/>
+                <constraint firstItem="Ndy-EO-Pf5" firstAttribute="trailing" secondItem="PhO-zD-54d" secondAttribute="trailing" constant="10" id="NnP-5A-GFV"/>
+                <constraint firstItem="PhO-zD-54d" firstAttribute="leading" secondItem="Ndy-EO-Pf5" secondAttribute="leading" constant="10" id="OsR-u2-615"/>
+                <constraint firstItem="hlp-6b-g2M" firstAttribute="top" secondItem="Ndy-EO-Pf5" secondAttribute="bottom" constant="3" id="UVZ-ed-zp1"/>
+                <constraint firstItem="Ndy-EO-Pf5" firstAttribute="leading" secondItem="hlp-6b-g2M" secondAttribute="leading" id="Veg-PU-b9M"/>
+                <constraint firstItem="PhO-zD-54d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="Zw0-Hn-m4p"/>
+                <constraint firstItem="PhO-zD-54d" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="5" id="kd8-ve-afE"/>
+                <constraint firstItem="Ndy-EO-Pf5" firstAttribute="trailing" secondItem="hlp-6b-g2M" secondAttribute="trailing" id="oKz-lf-N8m"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

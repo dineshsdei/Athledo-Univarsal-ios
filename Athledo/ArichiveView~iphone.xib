@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ArichiveView">
+            <connections>
+                <outlet property="tabBar" destination="B5f-vc-dFg" id="yls-fv-kAZ"/>
+                <outlet property="table" destination="BIF-vM-z48" id="wTC-fA-Mq6"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iKL-B7-fcY">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                </imageView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BIF-vM-z48">
+                    <rect key="frame" x="0.0" y="2" width="320" height="517"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Qpi-ol-H9t"/>
+                        <outlet property="delegate" destination="-1" id="64T-Ss-dVa"/>
+                    </connections>
+                </tableView>
+                <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B5f-vc-dFg">
+                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <items>
+                        <tabBarItem title="Inbox" image="inbox_icon.png" id="voo-EF-Whe">
+                            <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                        </tabBarItem>
+                        <tabBarItem tag="1" title="Sent" image="sent_icon.png" id="Q5U-Sy-Ytg"/>
+                        <tabBarItem tag="2" title="Archived" image="update_icon.png" id="lHa-LC-eof"/>
+                    </items>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="evw-jW-v05"/>
+                    </connections>
+                </tabBar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="B5f-vc-dFg" secondAttribute="bottom" id="2p8-6f-c7U"/>
+                <constraint firstItem="BIF-vM-z48" firstAttribute="trailing" secondItem="iKL-B7-fcY" secondAttribute="trailing" id="QRG-jA-dad"/>
+                <constraint firstAttribute="trailing" secondItem="iKL-B7-fcY" secondAttribute="trailing" id="YO4-pU-sNe"/>
+                <constraint firstItem="iKL-B7-fcY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="d5S-eE-DVD"/>
+                <constraint firstItem="B5f-vc-dFg" firstAttribute="leading" secondItem="iKL-B7-fcY" secondAttribute="leading" id="eDJ-aL-v74"/>
+                <constraint firstItem="iKL-B7-fcY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="iQf-LA-z39"/>
+                <constraint firstItem="B5f-vc-dFg" firstAttribute="top" secondItem="BIF-vM-z48" secondAttribute="bottom" id="ojb-T3-MtG"/>
+                <constraint firstItem="BIF-vM-z48" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="2" id="q5m-Ko-Mkb"/>
+                <constraint firstItem="B5f-vc-dFg" firstAttribute="trailing" secondItem="BIF-vM-z48" secondAttribute="trailing" id="uwm-CP-eCc"/>
+                <constraint firstItem="B5f-vc-dFg" firstAttribute="leading" secondItem="BIF-vM-z48" secondAttribute="leading" id="yLO-cO-qpN"/>
+                <constraint firstAttribute="bottom" secondItem="iKL-B7-fcY" secondAttribute="bottom" id="zIt-Bo-5Mw"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="inbox_icon.png" width="30" height="31"/>
+        <image name="sent_icon.png" width="31" height="31"/>
+        <image name="update_icon.png" width="31" height="31"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditGenralInfo">
+            <connections>
+                <outlet property="listPicker" destination="qCU-D9-s80" id="XXA-St-2QE"/>
+                <outlet property="table" destination="Z1T-AJ-xcy" id="FSi-Tj-LMQ"/>
+                <outlet property="view" destination="iN0-l3-epB" id="54t-8Z-FZ8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" tag="100" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Z1T-AJ-xcy">
+                    <rect key="frame" x="0.0" y="10" width="768" height="1011"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="hZu-6f-Kbl"/>
+                        <outlet property="delegate" destination="-1" id="Ztu-go-To9"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="fqt-Vc-Bou">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="MTE-Q8-XGP"/>
+                    </constraints>
+                </imageView>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qCU-D9-s80">
+                    <rect key="frame" x="0.0" y="1200" width="768" height="216"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="216" id="v7i-Vn-I96"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="fuv-6r-2CL"/>
+                        <outlet property="delegate" destination="-1" id="LuL-bL-QKD"/>
+                    </connections>
+                </pickerView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Z1T-AJ-xcy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="6Xm-YI-bBg"/>
+                <constraint firstItem="fqt-Vc-Bou" firstAttribute="leading" secondItem="qCU-D9-s80" secondAttribute="leading" id="HhU-br-W46"/>
+                <constraint firstItem="qCU-D9-s80" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="1200" id="Jg2-jh-nRJ"/>
+                <constraint firstAttribute="trailing" secondItem="Z1T-AJ-xcy" secondAttribute="trailing" id="Un6-mp-nYZ"/>
+                <constraint firstItem="fqt-Vc-Bou" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VNr-Vi-ZXZ"/>
+                <constraint firstItem="fqt-Vc-Bou" firstAttribute="leading" secondItem="Z1T-AJ-xcy" secondAttribute="leading" id="YE2-Ur-1gH"/>
+                <constraint firstItem="fqt-Vc-Bou" firstAttribute="trailing" secondItem="Z1T-AJ-xcy" secondAttribute="trailing" id="d9C-Ha-QcQ"/>
+                <constraint firstAttribute="bottom" secondItem="fqt-Vc-Bou" secondAttribute="bottom" id="gRV-iE-qzv"/>
+                <constraint firstItem="fqt-Vc-Bou" firstAttribute="top" secondItem="Z1T-AJ-xcy" secondAttribute="bottom" id="icd-mr-3v4"/>
+                <constraint firstItem="qCU-D9-s80" firstAttribute="trailing" secondItem="fqt-Vc-Bou" secondAttribute="trailing" id="oYx-n5-OVG"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>
