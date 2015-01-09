@@ -1039,17 +1039,32 @@
     {
     
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-        [listPicker reloadAllComponents];
-        [listPicker selectRow:0 inComponent:0 animated:YES];
         
-       [self setPickerVisibleAt:YES:arrTime];
+        if (arrAllAthlete.count==0) {
+            [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
+            [SingaltonClass initWithTitle:@"" message:@"Athlete is not exist" delegate:nil btn1:@"OK"];
+            
+        }else
+        {
+            if (arrTime.count==0) {
+                
+            }else
+            {
+                [listPicker reloadAllComponents];
+                [listPicker selectRow:0 inComponent:0 animated:YES];
+                
+                [self setPickerVisibleAt:YES:arrTime];
+                
+            }
+
+        
+           
+        }
         
         return NO;
         
     }else{
-       // [listPicker reloadAllComponents];
-        //[listPicker selectRow:0 inComponent:0 animated:YES];
-       // [self setPickerVisibleAt:YES:arrTime];
+      
     }
     isDate=TRUE;
     return YES;

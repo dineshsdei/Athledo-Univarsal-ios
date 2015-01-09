@@ -10,6 +10,7 @@
 
 @interface CalendarEvent : NSObject
 {
+    
 }
 +(CalendarEvent *)ShareInstance;
 @property(nonatomic,strong)NSString *strEventAddOrEdit;

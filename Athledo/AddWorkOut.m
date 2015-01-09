@@ -1667,9 +1667,16 @@ static int LiftExerciseCount=0;
                         [self dateChange];
                 }else{
                     
-                    [listPicker reloadAllComponents];
-                    [listPicker selectRow:0 inComponent:0 animated:YES];
-                    [self setPickerVisibleAt:YES:arrTime];
+                    if (arrTime.count==0) {
+                        
+                    }else
+                    {
+                        [listPicker reloadAllComponents];
+                        [listPicker selectRow:0 inComponent:0 animated:YES];
+                        [self setPickerVisibleAt:YES:arrTime];
+                    }
+                    
+                  
                     
                 }
                 
@@ -1682,18 +1689,32 @@ static int LiftExerciseCount=0;
                 if([textField.placeholder isEqualToString:@"Workout Type"])
                 {
                    // [listPicker reloadComponent:0];
-                    [listPicker reloadAllComponents];
-                    [listPicker selectRow:0 inComponent:0 animated:YES];
-                    [self setPickerVisibleAt:YES:arrWorkOutList];
+                    if (arrWorkOutList.count==0) {
+                        
+                    }else
+                    {
+                        [listPicker reloadAllComponents];
+                        [listPicker selectRow:0 inComponent:0 animated:YES];
+                        [self setPickerVisibleAt:YES:arrWorkOutList];
+                    }
+
+                   
                     
                 }else if ([textField.placeholder isEqualToString:@"Unit."])
                 {
                     
                     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
                    // [listPicker reloadComponent:0];
-                    [listPicker reloadAllComponents];
-                    [listPicker selectRow:0 inComponent:0 animated:YES];
-                    [self setPickerVisibleAt:YES:arrLiftUnit];
+                    
+                    if (arrLiftUnit.count==0) {
+                        
+                    }else
+                    {
+                        [listPicker reloadAllComponents];
+                        [listPicker selectRow:0 inComponent:0 animated:YES];
+                        [self setPickerVisibleAt:YES:arrLiftUnit];
+
+                    }
                     
                     
                     

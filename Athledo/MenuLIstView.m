@@ -22,10 +22,13 @@
 #import "UIImageView+WebCache.h"
 #import "CalendarMonthViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MAWeekView.h"
+#import <MapKit/MapKit.h>
+
 
 @class CalenderScheduleView;
 
-#define getNotification 110
+#define getNotification 11110
 #define NUM_TOP_ITEMS 3
 #define NUM_SUBITEMS 4
 
@@ -66,6 +69,8 @@
 {
     return arrMenuList.count;
 }
+
+// This method, Add tableview cell images
 
 -(UIImage *)SetImage:(NSInteger)index
 {
@@ -379,15 +384,17 @@
 {
     [super viewWillDisappear:animated];
     //[[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [self EnableDisableTouch:YES];
 }
+
+//this method, call to get notification number to show on
+
 -(void)getNotificationData{
     
     if ([SingaltonClass  CheckConnectivity]) {
         userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
-        
-        //[SingaltonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetNotification :strURL :getNotification];
         
@@ -400,6 +407,8 @@
     
     
 }
+//this method, get webservice response from web
+
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     // [SingaltonClass RemoveActivityIndicator:self.view];
@@ -413,28 +422,26 @@
             {
                 notificationData=[MyResults objectForKey:@"data"];
                 NSLog(@"dict %@",notificationData);
-                [_rearTableView reloadData];
+               
             }
-            
+             [_rearTableView reloadData];
             break;
         }
             
     }
 }
 
--(void)viewWillAppear:(BOOL)animated
+//this method, enable or disable touch on frontview in swip inout viewcontroller
+
+-(void)EnableDisableTouch :(BOOL)status
 {
-    [super viewWillAppear:NO];
-    [self.revealViewController.frontViewController.view  addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
-    
     NSArray *navArray=[[[self.revealViewController childViewControllers] objectAtIndex:1] viewControllers];
     
-    NSArray *arr=[[[self.revealViewController childViewControllers] objectAtIndex:0] viewControllers];
+    // NSArray *arr=[[[self.revealViewController childViewControllers] objectAtIndex:0] viewControllers];
     
     
     for (UIViewController * viewCotroller in navArray) {
-        if ([viewCotroller isKindOfClass:[WorkOutView class]]) {
+        //if ([viewCotroller isKindOfClass:[WorkOutView class]]) {
             
             WorkOutView *WorkviewCntrler  = (WorkOutView *)viewCotroller;
             NSArray *arrSubViews = (NSArray *) [WorkviewCntrler.view subviews];
@@ -443,11 +450,49 @@
                 
                 if ([object isKindOfClass:[UITableView class]]) {
                     UITableView *table= (UITableView *)object;
-                    table.userInteractionEnabled=NO;
+                    table.userInteractionEnabled=status;
                 }
+                
+                if ([object isKindOfClass:[UISearchBar class]]) {
+                    UISearchBar *searchBar= (UISearchBar *)object;
+                    searchBar.userInteractionEnabled=status;
+                }
+                if ([object isKindOfClass:[UITextField class]]) {
+                    UITextField *textField= (UITextField *)object;
+                    textField.userInteractionEnabled=status;
+                }
+                if ([object isKindOfClass:[UISegmentedControl class]]) {
+                    UISegmentedControl *segmentControll= (UISegmentedControl *)object;
+                    segmentControll.userInteractionEnabled=status;
+                }
+                if ([object isKindOfClass:[TKCalendarMonthView class]]) {
+                    TKCalendarMonthView *Controll= (TKCalendarMonthView *)object;
+                    Controll.userInteractionEnabled=status;
+                }
+                if ([object isKindOfClass:[TKCalendarDayView class]]) {
+                    TKCalendarDayView *Controll= (TKCalendarDayView *)object;
+                    Controll.userInteractionEnabled=status;
+                }
+                if ([object isKindOfClass:[MAWeekView class]]) {
+                    MAWeekView *Controll= (MAWeekView *)object;
+                    Controll.userInteractionEnabled=status;
+                }
+                
+                if ([object isKindOfClass:[MKMapView class]]) {
+                    MKMapView *Controll= (MKMapView *)object;
+                    Controll.userInteractionEnabled=status;
+                }
+
+
             }
-        }
+       // }
     }
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:NO];
+   
+    [self EnableDisableTouch:NO];
     
     //[[UIApplication sharedApplication] setStatusBarHidden:YES];
     userInfo=[UserInformation shareInstance];
@@ -598,7 +643,7 @@
     [SingaltonClass ShareInstance].isMessangerInbox=TRUE;
     [SingaltonClass ShareInstance].isMessangerSent=TRUE;
     [SingaltonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
-    
+     notificationData=nil;
     [UserInformation resetSharedInstance];
     
     BOOL isLoginView=FALSE;

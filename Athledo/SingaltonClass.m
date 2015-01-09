@@ -126,4 +126,99 @@ static SingaltonClass *objSingaltonClass=nil;
         [acti removeFromSuperview];
 }
 
+#pragma mark -manage control position 
+
+-(void)setPickerVisibleAt :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar
+{
+    [UIView beginAnimations:@"tblViewMove" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.27f];
+    CGPoint point;
+    point.x=(SCREEN_WIDTH)/2;
+    
+    
+    if ([picker isKindOfClass:[UIDatePicker class]]) {
+        
+        UIDatePicker *pickerView=(UIDatePicker *)picker;
+        if (ShowHide) {
+            
+            point.y=(SCREEN_HEIGHT)-(pickerView.frame.size.height/2);
+            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolbar];
+            
+        }else{
+            point.y=SCREEN_HEIGHT+(pickerView.frame.size.height/2);
+        }
+        
+         pickerView.center = point;
+    }
+    
+    
+    
+   
+    
+    [UIView commitAnimations];
+}
+
+-(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar
+{
+    [UIView beginAnimations:@"tblViewMove" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.27f];
+    
+    UIToolbar *toolBar=(UIToolbar *)toolbar;
+    
+    toolBar.center = point;
+    
+    [UIView commitAnimations];
+}
+-(NSDictionary *)GetUSerSaveData
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"USERINFORMATION"];
+    NSDictionary *Dic = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    
+    return Dic;
+}
+-(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id
+{
+    NSMutableDictionary *Userdata;
+    if (![team_id isEqualToString:@""]) {
+        Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,team_id,sport_id] forKeys:@[@"email",@"id",@"type",@"image",@"sender",@"team_id",@"sport_id"]];
+    }else{
+        
+          Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,] forKeys:@[@"email",@"id",@"type",@"image",@"sender"]];
+    }
+   
+    
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:Userdata];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:encodedObject forKey:@"USERINFORMATION"];
+    [defaults synchronize];
+    
+//    
+//    NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:0] ;
+//    [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
+//    [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
+//    
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    NSData *encodedObject = [defaults objectForKey:@"USERINFORMATION"];
+//    NSArray *arr = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+//    
+//    NSMutableArray *arrTemp=[[NSMutableArray alloc] initWithArray:arr];
+//    
+//    if (arrTemp.count > 0) {
+//        [arrTemp addObject:[team objectForKey:@"team_id"]];
+//        [arrTemp addObject:[team objectForKey:@"sport_id"]];
+//        
+//    }
+//    
+//    NSData *encodedObject1 = [NSKeyedArchiver archivedDataWithRootObject:arr];
+//    NSUserDefaults *defaults1 = [NSUserDefaults standardUserDefaults];
+//    [defaults1 setObject:encodedObject1 forKey:@"USERINFORMATION"];
+//    [defaults1 synchronize];
+    
+}
+
+
+
 @end

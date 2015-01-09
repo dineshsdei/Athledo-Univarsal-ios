@@ -28,10 +28,27 @@ static UserInformation *objUserInfo=nil;
     return objUserInfo;
 }
 
+
+
 + (void)resetSharedInstance {
     
     objUserInfo = nil;
 }
 
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    [encoder encodeObject:self.userFname forKey:@"userfirstname"];
+   
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super init])) {
+        //decode properties, other class vars
+        self.userFname = [decoder decodeObjectForKey:@"userfirstname"];
+//        self.categoryName = [decoder decodeObjectForKey:@"category"];
+//        self.subCategoryName = [decoder decodeObjectForKey:@"subcategory"];
+    }
+    return self;
+}
 
 @end

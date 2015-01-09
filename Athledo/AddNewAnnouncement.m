@@ -57,28 +57,14 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification
-{
-    NSDictionary* info = [notification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    [self setToolbarVisibleAt:CGPointMake(160,self.view.frame.size.height-(kbSize.height+22))];
-    scrollHeight=kbSize.height;
-}
-
--(void)keyboardWillHide:(NSNotification *)notification{
-    
-    NSDictionary* info = [notification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    NSLog(@"The KeyBoardHeight is %f",kbSize.height);
-    //keyboardHeight = kbSize.height;
-}
-
 -(void)viewDidDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
     [super viewDidDisappear:animated];
 }
+
+// this method, set textfield font, color,size etc.
 
 -(void)setFieldsProperty
 {
@@ -281,6 +267,9 @@
     
     [scrollView setContentOffset:CGPointMake(0,scrollHeight+100) animated: YES];
 }
+
+// this method used to get list of groups, Athletes to send Announcement to them
+
 -(void)getGroupList{
     
     if ([SingaltonClass  CheckConnectivity]) {
@@ -335,6 +324,7 @@
 
 
 }
+// this method used to get web service response from server
 
 -(void)httpResponseReceived:(NSData *)webResponse
 {
@@ -452,6 +442,8 @@
     
 }
 
+// this method used to keep position down of picker, Datepicker,multiselection picker
+
 -(void)doneClicked
 {
     UIScrollView *scrllView = (UIScrollView *)[self.view viewWithTag:90];
@@ -482,6 +474,9 @@
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 
 }
+
+// this method used to hide listpicker , Datepicker when click on checkbox
+
 -(void)ClickCheckBoxHideControll
 {
     [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
@@ -490,6 +485,7 @@
     [self setDatePickerVisibleAt:NO];
     
 }
+// this method used to manage toolbar up/down on screen
 
 -(void)setToolbarVisibleAt:(CGPoint)point
 {
@@ -501,6 +497,8 @@
     
     [UIView commitAnimations];
 }
+
+// this method used to Datepicker up/down and initial date on picker also
 
 -(void)setDatePickerVisibleAt :(BOOL)ShowHide
 {
@@ -550,6 +548,9 @@
     [self.view viewWithTag:70].center = Point;
     [UIView commitAnimations];
 }
+
+// this method used to manage listpicker
+
 -(void)setPickerVisibleAt :(BOOL)ShowHide
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];

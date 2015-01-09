@@ -472,7 +472,8 @@
             [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
             [self setPickerVisibleAt:NO:arrSeasons];
         }
-           }
+        
+    }
 
     
     [textField resignFirstResponder];

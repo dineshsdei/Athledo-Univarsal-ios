@@ -70,6 +70,7 @@
                 <constraint firstItem="flH-SU-sR9" firstAttribute="trailing" secondItem="2eU-CN-xPA" secondAttribute="trailing" id="wOR-M6-7be"/>
                 <constraint firstItem="flH-SU-sR9" firstAttribute="top" secondItem="2eU-CN-xPA" secondAttribute="top" id="xUE-6G-5uV"/>
             </constraints>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
             <variation key="default">
                 <mask key="subviews">

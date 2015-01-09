@@ -177,7 +177,7 @@ UIBarButtonItem *revealButtonItem;;
     self.dayView.frame=CGRectMake(self.dayView.frame.origin.x, self.dayView.frame.origin.y, self.dayView.frame.size.width, self.dayView.frame.size.height-47);
     
     // 113 height is (49+64) tabbar height and navigationBar height
-    tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-120, [UIScreen mainScreen].bounds.size.width, 50)];
+    tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-113, [UIScreen mainScreen].bounds.size.width, 50)];
     
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
     

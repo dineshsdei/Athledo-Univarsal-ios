@@ -109,6 +109,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.title = NSLocalizedString(@"Workouts", nil);
+    tblList.userInteractionEnabled=YES;
     
     
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:

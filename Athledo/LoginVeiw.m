@@ -185,10 +185,12 @@
     userdata.userType=[[user objectForKey:@"type"] intValue];
     userdata.userPicUrl=[user valueForKey:@"image"];
     userdata.userFullName=[user valueForKey:@"sender"];
+        
+    SingaltonClass *obj=[SingaltonClass ShareInstance];
+    [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :@"" :@""];
+        
 
     NSArray *arrController=[self.navigationController viewControllers];
-
-
     if (userdata.arrUserTeam.count==1)
     {
 
@@ -199,7 +201,6 @@
     [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
     [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
 
-    NSArray *arrController=[self.navigationController viewControllers];
 
     for (id object in arrController)
     {

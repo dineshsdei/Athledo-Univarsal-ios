@@ -98,7 +98,7 @@ UIBarButtonItem *revealButtonItem;;
    // [self.monthView reloadData];
     
     // 113 height is (49+64) tabbar height and navigationBar height
-    tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-120, self.view.frame.size.width, 50)];
+    tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-113, self.view.frame.size.width, 50)];
     
     self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;

@@ -122,41 +122,8 @@
     imageviewProfile.layer.borderWidth=3;
     imageviewProfile.layer.borderColor=[UIColor lightGrayColor].CGColor;
  
-
-
     }
 
-
-
-    -(void)setProfilePicAt:(CGPoint)point
-    {
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-
-
-    [self.view viewWithTag:10].frame = CGRectMake( [self.view viewWithTag:10].frame.origin.x, [self.view viewWithTag:10].frame.origin.y+point.y, [self.view viewWithTag:10].frame.size.width, [self.view viewWithTag:10].frame.size.height);
-
-    [self.view viewWithTag:11].frame = CGRectMake( [self.view viewWithTag:11].frame.origin.x, [self.view viewWithTag:11].frame.origin.y+point.y, [self.view viewWithTag:11].frame.size.width, [self.view viewWithTag:11].frame.size.height);
-
-
-    [self.view viewWithTag:12].frame = CGRectMake( [self.view viewWithTag:12].frame.origin.x, [self.view viewWithTag:12].frame.origin.y+point.y, [self.view viewWithTag:12].frame.size.width, [self.view viewWithTag:12].frame.size.height);
-
-
-
-
-
-
-    //[self.view viewWithTag:11].center = point;
-    // [self.view viewWithTag:12].center = point;
-
-    [UIView commitAnimations];
-    }
-
-    -(void)EditProfile:(id)sender
-{
-    
-}
     - (void)getProfileData{
 
     self.navigationItem.leftBarButtonItem.enabled=NO;
@@ -188,22 +155,10 @@
     [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
     [request setHTTPBody:data];
 
-    // HttpRequest *http = [[HttpRequest alloc] init];
-    //[http request:request delegate:self tagNumber:100];
-
-    // NSURL *URL = [NSURL URLWithString:@"http://example.com"];
-
-    //NSURLRequest *request1 = [NSURLRequest requestWithURL:strURL];
-
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                               // ...
-                               
-                               //NSLog(@"reponse %@",response);
-                               
-                              
-                               
+                          
                                if (data!=nil)
                                {
                                    [self httpResponseReceived : data : GETPROFILEDATANUMBER];
@@ -251,13 +206,7 @@
     [SingaltonClass ShareInstance].isProfileSectionUpdate=FALSE;
 
     }
-
-
-
-
     [super viewWillAppear:NO];
-
-
 
     }
 
@@ -281,10 +230,7 @@
     NSError *error=nil;
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
 
-
-
     // Now we Need to decrypt data
-
 
     switch (tagNumber) {
     case GETPROFILEDATANUMBER:
@@ -365,10 +311,7 @@
                     }
                     
                    // //NSLog(@"%lu",(unsigned long)arrSportInfo.count);
-                    
-                  
                     userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
-                    
                     
                     break;
                 }
@@ -385,9 +328,6 @@
                     
                     [self.navigationController popToViewController:object animated:NO];
             }
-            
-            
-            
         }else{
             
             NSString *str=[myResults objectForKey:@"message"];
@@ -398,8 +338,6 @@
         }
         
         [tblProfile reloadData];
-
-      
          break;
     }
         
@@ -418,9 +356,7 @@
 
     -(void)AddAwardsInfo :(long int)tag
     {
-    //    AddAwardsInfo *objAwards=[[AddAwardsInfo alloc] init];
-    //    [self.navigationController pushViewController:objAwards animated:YES];
-
+ 
     AddCoachingHistory *AddCoachingInfo=[[AddCoachingHistory alloc] init];
     AddCoachingInfo.SectionTag=(int)tag;
     AddCoachingInfo.objData=nil;
@@ -457,17 +393,12 @@
     }else {
 
     // imageviewProfile.userInteractionEnabled=NO;
-
-
     [UserInformation shareInstance].userPicUrl=url;
      [imageviewProfile setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
 
     [activityIndicator stopAnimating];
     [activityIndicator setHidden:YES];
     }
-
-
-
     imageviewProfile.alpha=1;
     imageviewProfile.layer.masksToBounds = YES;
     imageviewProfile.layer.cornerRadius=imageviewProfile.frame.size.width/2;
@@ -520,20 +451,6 @@
     - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
     {
     [picker dismissViewControllerAnimated:YES completion:nil];
-
-    //NSLog(@"%@",info);
-
-    //    // get the ref url
-    //    NSURL *refURL = [info valueForKey:UIImagePickerControllerReferenceURL];
-    //    
-    //    // define the block to call when we get the asset based on the url (below)
-    //    ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *imageAsset)
-    //    {
-    //        ALAssetRepresentation *imageRep = [imageAsset defaultRepresentation];
-    //        //NSLog(@"[imageRep filename] : %@", [imageRep filename]);
-    //    };
-
-
 
     UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
 
@@ -667,6 +584,7 @@
 
     switch ([UserInformation shareInstance].userType)
     {
+   
     case 1:
     {
         
@@ -740,7 +658,6 @@
     -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     {
 
-
     switch ([UserInformation shareInstance].userType)
     {
     case 1:
@@ -777,7 +694,7 @@
         break;
     }
         
-        case 2:
+    case 2:
     {
         
         if (indexPath.section == 0)
@@ -786,7 +703,6 @@
             AddInfo.objData=[arrGenralinfo valueForKey:@"id"] ? arrGenralinfo : nil ;
             [self.navigationController pushViewController:AddInfo animated:YES];
 
-            
         }else  if (indexPath.section <  1+(arrCoaching.count))
         {
                            
@@ -798,14 +714,11 @@
             objAthleteHistory.objData=[[arrAwards objectAtIndex:index] valueForKey:@"id"] ?[arrAwards objectAtIndex:index] : nil ;
             [self.navigationController pushViewController:objAthleteHistory animated:YES];
             
-            
         }
 
         break;
     }
     }
-
-
     }
 
 

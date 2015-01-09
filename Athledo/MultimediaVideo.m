@@ -418,7 +418,7 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (currentText.text.length==0) {
-        currentText.text=[arrSeasons objectAtIndex:0];
+        arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :@""; 
         seasonId=[self KeyForValue:@"Season":currentText.text];
     }
     return [arrSeasons count];
@@ -465,9 +465,16 @@
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    currentText=textField;
-    [listPicker reloadComponent:0];
-    [self setPickerVisibleAt:YES:arrSeasons];
+    
+    if (arrSeasons.count > 0) {
+        currentText=textField;
+        [listPicker reloadComponent:0];
+        [self setPickerVisibleAt:YES:arrSeasons];
+    }else{
+        [SingaltonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
+    }
+    
+    
     
     return NO;
 }

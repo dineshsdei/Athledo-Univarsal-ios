@@ -16,5 +16,5 @@
 @property (weak, nonatomic) IBOutlet UITextField *textFieldSeason;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+@property (strong, nonatomic) IBOutlet UITabBar *tabBar;
 @end

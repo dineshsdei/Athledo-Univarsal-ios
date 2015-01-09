@@ -86,10 +86,43 @@
    // [self.NavViewController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navBg.png"] forBarMetrics:UIBarMetricsDefault];
     
     [self.NavViewController setNavigationBarHidden:YES];    // Override point for customization after application launch.
+   
+  
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"USERINFORMATION"];
+    NSDictionary *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    
+    if (user.count > 0) {
+        
+        UserInformation *userdata=[UserInformation shareInstance];
+        
+        userdata.userEmail=[user objectForKey:@"email"];
+        userdata.userId=[[user objectForKey:@"id"] intValue];
+        userdata.userType=[[user objectForKey:@"type"] intValue];
+        userdata.userPicUrl=[user valueForKey:@"image"];
+        userdata.userFullName=[user valueForKey:@"sender"];
+        userdata.userSelectedTeamid =[[user objectForKey:@"team_id"] intValue];
+        userdata.userSelectedSportid =[[user objectForKey:@"sport_id"] intValue];
+
+        
+        NSArray *arrController=[self.NavViewController viewControllers];
+        
+        for (id object in arrController)
+        {
+            if ([object isKindOfClass:[SWRevealViewController class]])
+                [self.NavViewController popToViewController:object animated:NO];
+            
+        }
+    }else{
+        
+    }
     
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.NavViewController;
-	[self.window makeKeyAndVisible];
+    [self.window makeKeyAndVisible];
+    
+    
+  
     
     if (iosVersion >= 8) {
         
@@ -183,6 +216,8 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+   
+    
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }

@@ -353,28 +353,28 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        NSArray *arrController=[self.navigationController viewControllers];
-        BOOL Status=FALSE;
-        for (id object in arrController)
-        {
-            
-            if ([object isKindOfClass:[ProfileView class]])
-            {
-                Status=TRUE;
-                [self.navigationController popToViewController:object animated:NO];
-            }
-        }
-        
-        if (Status==FALSE)
-        {
-            ProfileView *annView=[[ProfileView alloc] init];
-            
-            [self.navigationController pushViewController:annView animated:NO];
-            
-        }
-        
+    NSArray *arrController=[self.navigationController viewControllers];
+    BOOL Status=FALSE;
+    for (id object in arrController)
+    {
+
+    if ([object isKindOfClass:[ProfileView class]])
+    {
+        Status=TRUE;
+        [self.navigationController popToViewController:object animated:NO];
+    }
+    }
+
+    if (Status==FALSE)
+    {
+    ProfileView *annView=[[ProfileView alloc] init];
+
+    [self.navigationController pushViewController:annView animated:NO];
+
+    }
+
     }else{
-        
+
     }
     
 }
@@ -382,97 +382,96 @@
 
 - (IBAction)sendAthleteHistory : (id)sender {
     
-   
-     [SingaltonClass ShareInstance].isProfileSectionUpdate=TRUE;
+    [SingaltonClass ShareInstance].isProfileSectionUpdate=TRUE;
     self.navigationController.navigationItem.leftBarButtonItem.enabled=NO;
-     self.navigationItem.rightBarButtonItem.enabled=NO;
-    
-        NSMutableArray *arrdata=[[NSMutableArray alloc] init];
-        UserInformation *userInfo=[UserInformation shareInstance];
-    
+    self.navigationItem.rightBarButtonItem.enabled=NO;
+
+    NSMutableArray *arrdata=[[NSMutableArray alloc] init];
+    UserInformation *userInfo=[UserInformation shareInstance];
+
     if ([SingaltonClass  CheckConnectivity])
     {
-            for (int i=0; i < arrHistoryInfo.count; i++) {
-                
-                //Check for empty Text box
-                
-                int tag=i+1000;
-                
-                UITableView *table=(UITableView *)[self.view viewWithTag:100];
-                
-                UITextField *textfield=(UITextField *)[table viewWithTag:tag];
-                NSString *strError = @"";
-                if(textfield.text.length < 1 && tag==1000)
-                {
-                    strError = @"Please enter team name";
-                }
-                else if(textfield.text.length < 1 && tag==1001)
-                {
-                     strError = @"";
-                    
-                   
-                } else if(textfield.text.length < 1 && tag==1002)
-                {
-                     strError = @"Please enter start date";
-                    
-                }else if(textfield.text.length < 1 && tag==1003)
-                {
-                     strError = @"Please enter end date";
-                    
-                }
-                
-                if(strError.length > 1)
-                {
-                     self.navigationItem.rightBarButtonItem.enabled=YES;
-                    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
-                    return;
-                }
-            }
-            
-            for (int i=0; i < arrHistoryInfo.count; i++) {
-                
-                int tag=i+1000;
-                UITableView *table=(UITableView *)[self.view viewWithTag:100];
-                
-                UITextField *textfield=(UITextField *)[table viewWithTag:tag];
+    for (int i=0; i < arrHistoryInfo.count; i++) {
 
-                [arrdata addObject:textfield.text];
-        
-            }
-            
-            // ObjData in case edit
-            if (_objData) {
-                
-                NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:0],@"team",[arrdata objectAtIndex:1],@"description",[arrdata objectAtIndex:2],@"to",[arrdata objectAtIndex:3],@"from", nil];
-                
-                NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
-                
-                
-                NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-                
-                [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
-                [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-                
-                
-                [dict setObject:@"" forKey:@"UserProfile"];
-                [dict setObject:arrtemp forKey:@"athletic_hstry"];
-                
-                
-                [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
-                
-                
-            }else{
-                
-                NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"team\":\"%@\", \"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", userInfo.userId ,[arrdata objectAtIndex:0],[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
-                [webservice WebserviceCall:webServiceAddAthleteHistoryInfo:strURL :Successtag];
-            }
+    //Check for empty Text box
 
-   }else{
-             self.navigationItem.rightBarButtonItem.enabled=YES;
-            
-            [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-            
-        }
+    int tag=i+1000;
+
+    UITableView *table=(UITableView *)[self.view viewWithTag:100];
+
+    UITextField *textfield=(UITextField *)[table viewWithTag:tag];
+    NSString *strError = @"";
+    if(textfield.text.length < 1 && tag==1000)
+    {
+    strError = @"Please enter team name";
+    }
+    else if(textfield.text.length < 1 && tag==1001)
+    {
+     strError = @"";
+
+
+    } else if(textfield.text.length < 1 && tag==1002)
+    {
+     strError = @"Please enter start date";
+
+    }else if(textfield.text.length < 1 && tag==1003)
+    {
+     strError = @"Please enter end date";
+
+    }
+
+    if(strError.length > 1)
+    {
+     self.navigationItem.rightBarButtonItem.enabled=YES;
+    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    return;
+    }
+    }
+
+    for (int i=0; i < arrHistoryInfo.count; i++) {
+
+    int tag=i+1000;
+    UITableView *table=(UITableView *)[self.view viewWithTag:100];
+
+    UITextField *textfield=(UITextField *)[table viewWithTag:tag];
+
+    [arrdata addObject:textfield.text];
+
+    }
+
+    // ObjData in case edit
+    if (_objData) {
+
+    NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:0],@"team",[arrdata objectAtIndex:1],@"description",[arrdata objectAtIndex:2],@"to",[arrdata objectAtIndex:3],@"from", nil];
+
+    NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
+
+
+    NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
+
+    [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
+    [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
+
+
+    [dict setObject:@"" forKey:@"UserProfile"];
+    [dict setObject:arrtemp forKey:@"athletic_hstry"];
+
+
+    [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
+
+
+    }else{
+
+    NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"team\":\"%@\", \"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", userInfo.userId ,[arrdata objectAtIndex:0],[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
+    [webservice WebserviceCall:webServiceAddAthleteHistoryInfo:strURL :Successtag];
+    }
+
+    }else{
+    self.navigationItem.rightBarButtonItem.enabled=YES;
+
+    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+
+    }
 }
 
 
