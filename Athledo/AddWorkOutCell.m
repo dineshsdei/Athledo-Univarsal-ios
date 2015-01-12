@@ -86,7 +86,7 @@
                 txtField.delegate = del;
                 txtField.font = Textfont;
                 // Add Dic data in textfield and placeholder text
-                txtField.text=[self ValuesForKey:indexPath.section :WorkOutDic :arrfixCellFields];
+                txtField.text=[self ValuesForKey:(int)(indexPath.section) :WorkOutDic :arrfixCellFields];
                 txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:[arrfixCellFields objectAtIndex:indexPath.section] attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                 txtField.textColor=TextFieldColor;
                 
@@ -345,7 +345,7 @@
             UITextField *txtField;
             
              int count=[self CountOfExerciseObject:arrfixCellFields];
-            int valueIndex=indexPath.section-(arrfixCellFields.count-(count));
+            int valueIndex=(int)(indexPath.section-(arrfixCellFields.count-(count)));
             
             txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX, lbl.frame.size.height-10, ((CellWeight)-((isIPAD) ? 50 :40)), TextFeildHeight)];
             txtField.backgroundColor = [UIColor whiteColor];
@@ -361,7 +361,7 @@
             
             if (valueIndex >= 0) {
                   
-                  txtField.text=[self LiftValuesForKey:indexPath.section-(arrfixCellFields.count-(count)) :
+                  txtField.text=[self LiftValuesForKey:(int)(indexPath.section-(arrfixCellFields.count-(count))) :
                                 liftPlaceholder :txtField.placeholder];
               }
             txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;

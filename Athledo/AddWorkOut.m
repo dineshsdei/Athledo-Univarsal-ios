@@ -1819,7 +1819,7 @@ static int LiftExerciseCount=0;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSString *CellIdentifier =[NSString stringWithFormat:@"Cell%id %id",indexPath.section, indexPath.row];
+    NSString *CellIdentifier =[NSString stringWithFormat:@"Cell%d %d",(int)(indexPath.section), (int)(indexPath.row)];
     AddWorkOutCell * cell=nil;
     
     if (cell == nil )

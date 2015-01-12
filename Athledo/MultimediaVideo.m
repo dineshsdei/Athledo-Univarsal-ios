@@ -70,8 +70,7 @@
     AllMultimediaData=[[NSArray alloc] init];
     arrVisitedIndex=[[NSMutableArray alloc] init];
     
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
+   
     [self getMultimediaVideos];
     [self getSeasonData];
 }
@@ -139,7 +138,7 @@
 {
     UISegmentedControl *segment=sender;
     
-    [self sortedData:segment.selectedSegmentIndex];
+    [self sortedData:(int)(segment.selectedSegmentIndex)];
 }
 
 #pragma mark Webservice call event
@@ -147,6 +146,8 @@
     
     if ([SingaltonClass  CheckConnectivity]) {
 
+    webservice =[WebServiceClass shareInstance];
+    webservice.delegate=self;
     UserInformation *userInfo=[UserInformation shareInstance];
 
     [SingaltonClass addActivityIndicator:self.view];
@@ -164,6 +165,8 @@
 -(void)getMultimediaVideos{
     
     if ([SingaltonClass  CheckConnectivity]) {
+    webservice =[WebServiceClass shareInstance];
+    webservice.delegate=self;
     UserInformation *userInfo=[UserInformation shareInstance];
 
     NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\",\"tag_video\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId,@""];
@@ -277,7 +280,7 @@
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
-    UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:1];
+    UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:0];
     
     [_tabBar setSelectedItem:tabBarItem];
 }
@@ -288,7 +291,7 @@
     NSArray *arrController=[self.navigationController viewControllers];
 
     switch (item.tag) {
-    case 0:
+    case 1:
     {
     BOOL Status=FALSE;
     for (id object in arrController)
@@ -465,17 +468,15 @@
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    
     if (arrSeasons.count > 0) {
         currentText=textField;
+        webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
         [listPicker reloadComponent:0];
         [self setPickerVisibleAt:YES:arrSeasons];
     }else{
         [SingaltonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
     }
-    
-    
-    
     return NO;
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField

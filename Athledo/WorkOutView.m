@@ -33,6 +33,11 @@
 
 @implementation WorkOutView
 
+-(void)ReAsignWorkout :(int)index
+{
+    
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -41,7 +46,10 @@
     }
     return self;
 }
-
+-(void)ReAsignWorkOut:(id)sender
+{
+    
+}
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }

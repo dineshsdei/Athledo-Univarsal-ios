@@ -74,8 +74,8 @@
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="bl3-dA-2JW"/>
                     </constraints>
                     <items>
-                        <tabBarItem title="Photos" image="photo_icon.png" id="6VS-0z-gxL"/>
-                        <tabBarItem tag="1" title="Videos" image="video_icon.png" id="wXU-XL-ENC"/>
+                        <tabBarItem title="Videos" image="video_icon.png" id="6VS-0z-gxL"/>
+                        <tabBarItem tag="1" title="Photos" image="photo_icon.png" id="wXU-XL-ENC"/>
                     </items>
                     <connections>
                         <outlet property="delegate" destination="-1" id="IgK-bu-jkG"/>

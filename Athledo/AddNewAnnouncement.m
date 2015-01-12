@@ -100,7 +100,7 @@
 {
     self.title = _ScreenTitle;
 
-
+  NSLog(@"screen height %f",self.view.frame.size.height);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
     [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
@@ -112,8 +112,12 @@
         
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-         [self setDatePickerVisibleAt:NO];
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
+         //[self setDatePickerVisibleAt:NO];
+        //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
+        UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
+        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolbar];
+        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolbar];
+        [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22)):toolbar];
         scrollHeight=kbSize.height;
         
         
@@ -123,8 +127,10 @@
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+         // [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
+        [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22)) :toolbar];
         
     }];
     
@@ -452,9 +458,13 @@
     CheckboxButton *btn=(CheckboxButton *)selectGroupBtn;
 
     if(currentText.tag==10||currentText.tag==11 || btn ||selectDateBtn || selectTimeBtn) {
-    [self setDatePickerVisibleAt:NO];
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
-    [self setPickerVisibleAt:NO];
+    //[self setDatePickerVisibleAt:NO];
+    //[self setPickerVisibleAt:NO];
+    //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
+   
+     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
+     [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+     [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
     }
 
 
@@ -479,10 +489,13 @@
 
 -(void)ClickCheckBoxHideControll
 {
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
+   // [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
-    [self setPickerVisibleAt:NO];
-    [self setDatePickerVisibleAt:NO];
+   // [self setPickerVisibleAt:NO];
+   // [self setDatePickerVisibleAt:NO];
+    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
+    [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+    [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
     
 }
 // this method used to manage toolbar up/down on screen
@@ -494,82 +507,6 @@
     [UIView setAnimationDuration:0.27f];
     
     [self.view viewWithTag:40].center = point;
-    
-    [UIView commitAnimations];
-}
-
-// this method used to Datepicker up/down and initial date on picker also
-
--(void)setDatePickerVisibleAt :(BOOL)ShowHide
-{
-     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    if (currentText.text.length > 0 && currentText.tag == 10) {
-        
-        [df setDateFormat:@"MMM dd,yyyy"];
-        NSDate *Date;
-        Date= [df dateFromString:currentText.text];
-        UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
-        if (Date) {
-            
-            [tempdatePicker setDate:Date];
-        }
-        
-    }else{
-        
-        
-        [df setTimeStyle:NSDateFormatterShortStyle];
-        [df setDateFormat:@"hh:mm a"];
-        
-        NSDate *Date;
-        
-        Date= [df dateFromString:currentText.text];
-        
-        UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
-        if (Date) {
-            
-            [tempdatePicker setDate:Date];
-        }
-    }
-    
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint Point;
-    Point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        Point.y=self.view.frame.size.height-(datePicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(Point.x,Point.y-(datePicker.frame.size.height/2)-22)];
-        
-    }else{
-        Point.y=self.view.frame.size.height+(datePicker.frame.size.height/2);
-    }
-    [self.view viewWithTag:70].center = Point;
-    [UIView commitAnimations];
-}
-
-// this method used to manage listpicker
-
--(void)setPickerVisibleAt :(BOOL)ShowHide
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        point.y=self.view.frame.size.height-(pickerView.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22)];
-        
-    }else{
-        point.y=self.view.frame.size.height+(pickerView.frame.size.height/2);
-    }
-    
-    
-    [self.view viewWithTag:60].center = point;
     
     [UIView commitAnimations];
 }
@@ -617,6 +554,39 @@
     }
 }
 
+// Set date in date picker in edit mode of Announcement
+
+-(void)setDateInDatePicker
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    if (currentText.text.length > 0 && currentText.tag == 10) {
+        
+        [df setDateFormat:@"MMM dd,yyyy"];
+        NSDate *Date;
+        Date= [df dateFromString:currentText.text];
+        UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
+        if (Date) {
+            
+            [tempdatePicker setDate:Date];
+        }
+        
+    }else{
+        
+        
+        [df setTimeStyle:NSDateFormatterShortStyle];
+        [df setDateFormat:@"hh:mm a"];
+        
+        NSDate *Date;
+        
+        Date= [df dateFromString:currentText.text];
+        
+        UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
+        if (Date) {
+            
+            [tempdatePicker setDate:Date];
+        }
+    }
+}
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
@@ -625,8 +595,10 @@
     currentText=textField;
     if (textField.tag==10 || textField.tag==11) {
         
+        [self setDateInDatePicker];
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-        [self setPickerVisibleAt:NO];
+     
+        UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
         
         if (textField.tag==10)
         {
@@ -652,21 +624,16 @@
         
         df=nil;
         
-        [self setDatePickerVisibleAt:YES];
+        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
         
         return NO;
     }
-    
-   
-
-    
     return YES;
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-
-  
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -852,10 +819,6 @@
     {
 
     }
-
-
-
-
     }
     // All button selected
 
@@ -894,9 +857,6 @@
     }else if(button.tag>1000 && button.tag <1004){
 
     //NSLog(@"tag %d",button.tag);
-
-
-
     NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
     if (![settingArray containsObject:str1]) {
     [settingArray addObject:str1];
@@ -907,16 +867,12 @@
     }
     else{
     // For Group selected
-    [self setPickerVisibleAt:YES];
+        UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
+    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolbar];
     //}
 
-
-
     }
-
     button.selected=!button.selected;
-
-
     }
 }
 
@@ -934,7 +890,10 @@
     
     isKeyBoard=YES;
     [UIView commitAnimations];
-    [self setDatePickerVisibleAt:YES];
+   // [self setDatePickerVisibleAt:YES];
+    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
+    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
+   
 }
 - (IBAction)selectTime:(id)sender{
     selectedBtn=sender;
@@ -947,7 +906,9 @@
     [UIView commitAnimations];
 
     datePicker.datePickerMode = UIDatePickerModeTime;
-    [self setDatePickerVisibleAt:YES];
+   // [self setDatePickerVisibleAt:YES];
+    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
+    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
 }
 
 - (IBAction)saveAnnouncement:(id)sender {
@@ -1369,6 +1330,7 @@
 }
 
 - (IBAction)AluminiButtonEvent:(id)sender {
+    
     [self ClickCheckBoxHideControll];
     if ([sender isKindOfClass:[CheckboxButton class]])
     {
@@ -1406,32 +1368,20 @@
     [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
 
     button.selected=YES;
-
     int count=0;
-
     CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1001)];
-
     if (btnAthlete.selected==YES) {
-
     count++;
     }
     CheckboxButton *btnAlumini = (CheckboxButton*)[scrollView viewWithTag:(1002)];
-
     if (btnAlumini.selected==YES) {
-
     count++;
     }
-
     if (count==2) {
-
     CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
     [Allbtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
-
     Allbtn.selected=YES;
-
-
     }
-
     //Add values for use
     NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
     if (![settingArray containsObject:str1]) {
@@ -1446,15 +1396,13 @@
 - (IBAction)GroupsButtonEvent:(id)sender {
     
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    [self setDatePickerVisibleAt:NO];
-    
+    //[self setDatePickerVisibleAt:NO];
+    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
+    [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
     if (groupArray.count==0) {
-        
         [SingaltonClass initWithTitle:@"" message:@"Groups are not exist" delegate:nil btn1:@"Ok"];
         return;
-
     }
-
     if ([sender isKindOfClass:[CheckboxButton class]])
     {
     CheckboxButton *button=(CheckboxButton*)sender;
@@ -1462,43 +1410,30 @@
     if (button.tag == 1004 && button.selected==YES)
     {
     [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-
     button.selected=NO;
-
-
     }else if (button.tag == 1004 && button.selected==NO)
     {
     [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
 
     button.selected=YES;
-
-
     CheckboxButton *btnAll = (CheckboxButton*)[scrollView viewWithTag:(1000)];
 
     if (btnAll.selected==YES) {
-
     [btnAll setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
     btnAll.selected=NO;
-
     }
     CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1002)];
-
     if (btnAthlete.selected==YES) {
-
     [btnAthlete setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
     btnAthlete.selected=NO;
-
     NSString *str1=[NSString stringWithFormat:@"%d",(int)(btnAthlete.tag-1000)];
     if ([settingArray containsObject:str1]) {
     [settingArray removeObject:str1];
     }
-
     }
     }
     }
-
-
-    [self setPickerVisibleAt:YES];
-
+    UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
+    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolbar];
 }
 @end

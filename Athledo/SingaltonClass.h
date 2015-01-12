@@ -29,7 +29,8 @@
 @property(nonatomic,strong)NSString *strCalendarRepeatSting;
 @property(nonatomic,strong)NSString *strEventEndDate;
 
--(void)setPickerVisibleAt :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar;
++(void)setListPickerDatePickerMultipickerVisible :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar;
++(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar;
 -(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id;
 -(NSDictionary *)GetUSerSaveData;
 

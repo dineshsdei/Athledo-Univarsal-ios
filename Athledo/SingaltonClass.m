@@ -8,6 +8,7 @@
 
 #import "SingaltonClass.h"
 #import "Reachability.h"
+#import "ALPickerView.h"
 
 static SingaltonClass *objSingaltonClass=nil;
 
@@ -128,7 +129,7 @@ static SingaltonClass *objSingaltonClass=nil;
 
 #pragma mark -manage control position 
 
--(void)setPickerVisibleAt :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar
++(void)setListPickerDatePickerMultipickerVisible :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
@@ -136,30 +137,43 @@ static SingaltonClass *objSingaltonClass=nil;
     CGPoint point;
     point.x=(SCREEN_WIDTH)/2;
     
+    NSLog(@"screen height from gloable. %f",SCREEN_HEIGHT);
+    
     
     if ([picker isKindOfClass:[UIDatePicker class]]) {
         
         UIDatePicker *pickerView=(UIDatePicker *)picker;
         if (ShowHide) {
             
-            point.y=(SCREEN_HEIGHT)-(pickerView.frame.size.height/2);
-            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolbar];
+            point.y=(SCREEN_HEIGHT)-(PickerHeight);
+            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
             
         }else{
-            point.y=SCREEN_HEIGHT+(pickerView.frame.size.height/2);
+            point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
+            [self setToolbarVisibleAt:CGPointMake(point.x,(SCREEN_HEIGHT)+50):toolbar];
         }
         
          pickerView.center = point;
+    }else  if ([picker isKindOfClass:[ALPickerView class]]) {
+        
+        ALPickerView *pickerView=(ALPickerView *)picker;
+        if (ShowHide) {
+            
+            point.y=(SCREEN_HEIGHT)-((PickerHeight));
+            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolbar];
+            
+        }else{
+            point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
+            [self setToolbarVisibleAt:CGPointMake(point.x,(SCREEN_HEIGHT)+50):toolbar];
+        }
+        
+        pickerView.center = point;
     }
-    
-    
-    
-   
-    
+
     [UIView commitAnimations];
 }
 
--(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar
++(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
@@ -171,6 +185,7 @@ static SingaltonClass *objSingaltonClass=nil;
     
     [UIView commitAnimations];
 }
+
 -(NSDictionary *)GetUSerSaveData
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -194,28 +209,6 @@ static SingaltonClass *objSingaltonClass=nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:encodedObject forKey:@"USERINFORMATION"];
     [defaults synchronize];
-    
-//    
-//    NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:0] ;
-//    [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
-//    [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
-//    
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    NSData *encodedObject = [defaults objectForKey:@"USERINFORMATION"];
-//    NSArray *arr = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-//    
-//    NSMutableArray *arrTemp=[[NSMutableArray alloc] initWithArray:arr];
-//    
-//    if (arrTemp.count > 0) {
-//        [arrTemp addObject:[team objectForKey:@"team_id"]];
-//        [arrTemp addObject:[team objectForKey:@"sport_id"]];
-//        
-//    }
-//    
-//    NSData *encodedObject1 = [NSKeyedArchiver archivedDataWithRootObject:arr];
-//    NSUserDefaults *defaults1 = [NSUserDefaults standardUserDefaults];
-//    [defaults1 setObject:encodedObject1 forKey:@"USERINFORMATION"];
-//    [defaults1 synchronize];
     
 }
 

@@ -88,7 +88,7 @@ NSInteger MAEvent_sortByStartTime(id ev1, id ev2, void *keyForSorting) {
 	NSDateComponents *startComponents = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:_start];
 	
 	if (DATE_CMP(startComponents, displayComponents)) {
-		fromMidnight = [startComponents hour] * MINUTES_IN_HOUR + [startComponents minute];
+		fromMidnight = (int)([startComponents hour] * MINUTES_IN_HOUR + [startComponents minute]);
 	}
 	
 	/* The minimum duration for an event is 30 minutes because of the grid size.

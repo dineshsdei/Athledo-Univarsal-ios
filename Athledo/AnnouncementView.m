@@ -73,22 +73,18 @@
 }
 -(void)delete:(id)sender
 {
-    
 }
 
 -(void)deleteCell:(id)sender
 {
-    
 }
 
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    
 }
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -262,14 +258,10 @@
 
 
     }];
-
-
     }else{
-
     [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
-
 }
 
 -(NSMutableArray*)sortingArrayOfDict:(NSMutableArray *)arrayTosort sortByObject:(NSString*)sortKey
@@ -402,9 +394,6 @@
 
 -(IBAction)searchData:(NSString *)searchText
 {
-
-
-   
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
@@ -412,7 +401,6 @@
     if (searchBar.text.length==0) {
     [self getList];
     }
-
     [searchBar resignFirstResponder];
 }
 
@@ -518,9 +506,7 @@
 
 - (void)viewDidLoad
 {
-
     userInfo=[UserInformation shareInstance];
-
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     tblAnnouncementRecods.backgroundColor=[UIColor clearColor];
@@ -549,20 +535,12 @@
 
     btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 5, 44, 44)];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
-
-
-
     [btnAddNew addTarget:self action:@selector(AddNewAnnouncement) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setImage:imageEdit forState:UIControlStateNormal];
 
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
-
     self.navigationItem.rightBarButtonItem = ButtonItem;
-
-
     [self CerateLayOut];
-
-    
 }
 
 - (BOOL)revealController:(SWRevealViewController *)revealController
@@ -655,21 +633,14 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             cell.lblSenderName.font=[UIFont boldSystemFontOfSize:cell.lblSenderName.font.pointSize];
             cell.lblAnnoName.font=[UIFont boldSystemFontOfSize:cell.lblAnnoName.font.pointSize];
             // cell.backgroundColor=[UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1];
-            
-            
         }else{
-            
             cell.backgroundColor=[UIColor whiteColor];
-            
         }
     }
     UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-2, self.view.frame.size.width, 1)];
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     [cell addSubview:img1];
-
-
     return cell;
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -685,43 +656,32 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     UpdateDetails *updateDetails=[[UpdateDetails alloc] init];
     updateDetails.obj=[arrAnnouncements objectAtIndex:indexPath.section];
     updateDetails.strName=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"name"];
-
     updateDetails.strDate=[[[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_date"] stringByAppendingString:@" " ] stringByAppendingString:[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_time"]];
-
     updateDetails.strDes=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"description"];
-    
     NSArray *arrtemp=[notificationData valueForKey:@"announcements"];
-    
     if ([arrtemp containsObject:[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"id"]]) {
         updateDetails.NotificationStataus=TRUE;
         [[notificationData valueForKey:@"announcements"] removeObject:[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"id"]];
     }else{
         updateDetails.NotificationStataus=FALSE;
     }
-
-
     [self.navigationController pushViewController:updateDetails animated:YES];
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    
 }
 
 -(void)editCell:(id)sender
 {
-  
     UIButton *btn = (UIButton *)sender;
     //NSLog(@"%i",btn.tag);
     AddNewAnnouncement *addNew=[[AddNewAnnouncement alloc] init];
     addNew.obj = [arrAnnouncements objectAtIndex:btn.tag];
     [self.navigationController pushViewController:addNew animated:YES];
- 
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -729,6 +689,4 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-    @end
+@end

@@ -24,8 +24,8 @@
 #import "CoachingHistory.h"
 #import "CalendarEvent.h"
 
-#define listPickerHeight 162
-#define datePickerHeight 216
+#define listPickerHeight 168
+#define datePickerHeight 168
 #define topNavigationHeight 50
 #define visiblePicker self.view.frame.size.height+topNavigationHeight-(datePickerHeight/2)
 #define viewHeight self.view.frame.size.height
@@ -33,6 +33,7 @@
 #define toolBarHeight 44
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH    [[UIScreen mainScreen] bounds].size.width
+#define PickerHeight 168
 
 
 # define tblViewY (([UIScreen mainScreen].bounds.size.height >= 568)?266:180)

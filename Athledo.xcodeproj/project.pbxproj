@@ -1932,11 +1932,6 @@
 		71B15AA21A47CD2B008C0C71 /* Multimedia */ = {
 			isa = PBXGroup;
 			children = (
-				71A41EB61A5BF022003EB086 /* error_icon.png */,
-				71A41EBA1A5BF022003EB086 /* VideoPrivate.png */,
-				71A41EBC1A5BF022003EB086 /* youtube_play.png */,
-				71A41EBD1A5BF022003EB086 /* youtubePlaceholder.jpg */,
-				71B15AA91A47CDB1008C0C71 /* folder_image.png */,
 				71B15AAA1A47CDB1008C0C71 /* HCYoutubeParser.h */,
 				71B15AAB1A47CDB1008C0C71 /* HCYoutubeParser.m */,
 				71B15AA41A47CD40008C0C71 /* CustomCell */,
@@ -1964,6 +1959,7 @@
 		71B838001988E983005BF576 /* New Images_iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				71BA048E1A63932400E74472 /* MultiMedia */,
 				71A8A82D1A26DD1D004D1A27 /* App icon&Launcher */,
 				71A63E1E1A25D66500D0DA99 /* ViewBacground.png */,
 				71A98DB51A1C70FA00E30302 /* 2x */,
@@ -2010,6 +2006,18 @@
 				71B838101988EA36005BF576 /* trans_bg.png */,
 			);
 			name = "New Images_iPhone";
+			sourceTree = "<group>";
+		};
+		71BA048E1A63932400E74472 /* MultiMedia */ = {
+			isa = PBXGroup;
+			children = (
+				71A41EB61A5BF022003EB086 /* error_icon.png */,
+				71A41EBA1A5BF022003EB086 /* VideoPrivate.png */,
+				71A41EBC1A5BF022003EB086 /* youtube_play.png */,
+				71A41EBD1A5BF022003EB086 /* youtubePlaceholder.jpg */,
+				71B15AA91A47CDB1008C0C71 /* folder_image.png */,
+			);
+			name = MultiMedia;
 			sourceTree = "<group>";
 		};
 		71F925FB199895BE001931D8 /* WorkoutCustomCell */ = {

@@ -44,7 +44,7 @@
     AlbumId=@"";
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:0];
+    UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:1];
     [_tabBar setSelectedItem:tabBarItem];
     [super viewWillAppear:animated];
     
@@ -54,7 +54,7 @@
     //NSLog(@"tag %d",item.tag);
     NSArray *arrController=[self.navigationController viewControllers];
     switch (item.tag) {
-    case 1:
+    case 0:
     {
     BOOL Status=FALSE;
     for (id object in arrController)
@@ -114,8 +114,7 @@
     multimediaData=[[NSMutableArray alloc] init];
     AllMultimediaData=[[NSArray alloc] init];
     
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
+   
     [self getMultimediaPic];
     [self getSeasonData];
 }
@@ -293,6 +292,9 @@
 -(void)getSeasonData{
     
     if ([SingaltonClass  CheckConnectivity]) {
+    
+    webservice =[WebServiceClass shareInstance];
+    webservice.delegate=self;
 
     UserInformation *userInfo=[UserInformation shareInstance];
 
@@ -328,6 +330,9 @@
 -(void)getMultimediaPic{
     
     if ([SingaltonClass  CheckConnectivity]) {
+    
+    webservice =[WebServiceClass shareInstance];
+    webservice.delegate=self;
     UserInformation *userInfo=[UserInformation shareInstance];
 
     NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId];

@@ -21,6 +21,7 @@
 #import "CalendarMainViewController.h"
 #import "UIImageView+WebCache.h"
 #import "CalendarMonthViewController.h"
+#import "MultimediaVideo.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MAWeekView.h"
 #import <MapKit/MapKit.h>
@@ -343,9 +344,9 @@
         
     }else if (row == 4)
     {
-        if ( ![frontNavigationController.topViewController isKindOfClass:[Multimedia class]] )
+        if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
         {
-            Multimedia *frontViewController = [[Multimedia alloc] initWithNibName:@"Multimedia" bundle:nil];
+            MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
             
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];

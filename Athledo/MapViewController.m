@@ -262,7 +262,7 @@ UIBarButtonItem *revealButtonItem;;
 
 -(void)addAnnotationsOnMap:(NSArray *)arrOfAllIns
 {
-    unsigned int count = arrOfAllIns.count;
+     int count = (int)(arrOfAllIns.count);
     
     
     NSDateFormatter* df = [[NSDateFormatter alloc] init];

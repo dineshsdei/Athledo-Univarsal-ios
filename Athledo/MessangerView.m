@@ -451,7 +451,7 @@
     
     UIButton *btn=sender;
     
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:btn.tag];
+    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
     
 }
 -(void)archiveMessage:(id)sender;

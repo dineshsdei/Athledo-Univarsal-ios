@@ -66,8 +66,8 @@
                     <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <items>
-                        <tabBarItem title="Photos" image="photo_icon.png" id="DhZ-hn-Hx7"/>
-                        <tabBarItem tag="1" title="Videos" image="video_icon.png" id="Ymb-Su-dJM"/>
+                        <tabBarItem title="Videos" image="video_icon.png" id="DhZ-hn-Hx7"/>
+                        <tabBarItem tag="1" title="Photos" image="photo_icon.png" id="Ymb-Su-dJM"/>
                     </items>
                     <connections>
                         <outlet property="delegate" destination="-1" id="IaO-Fy-LgO"/>
