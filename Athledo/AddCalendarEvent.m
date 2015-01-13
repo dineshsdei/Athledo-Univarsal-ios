@@ -330,10 +330,21 @@
 
     
 }
-
+-(void)CheckUserValueChange
+{
+    if ([CalendarEvent ShareInstance].CalendarRepeatStatus==TRUE)
+    {
+        [CalendarEvent ShareInstance].strStartDate=[CalendarEvent ShareInstance].strStartDate.length==0 ? [_eventDetailsDic valueForKey:@"start_date"] :[CalendarEvent ShareInstance].strStartDate;
+        [CalendarEvent ShareInstance].strEndDate=[CalendarEvent ShareInstance].strEndDate.length==0 ? [_eventDetailsDic valueForKey:@"end_date"] :[CalendarEvent ShareInstance].strEndDate;
+         [CalendarEvent ShareInstance].strRepeatSting=[CalendarEvent ShareInstance].strRepeatSting.length==0 ? [_eventDetailsDic valueForKey:@"rec_type"] :[CalendarEvent ShareInstance].strRepeatSting;
+    }
+    
+}
 -(void)SaveEvent
 {
     // Create startdate first because start time used in end date time
+    
+    [self CheckUserValueChange];
     
     [SingaltonClass ShareInstance].isCalendarUpdate=TRUE;
     if ([SingaltonClass  CheckConnectivity])
@@ -439,8 +450,7 @@
             
             [dicttemp setObject:[NSString stringWithFormat:@"%d",[self CalculateTimeInterval:[_eventDetailsDic valueForKey:@"actual_start_date"] :[_eventDetailsDic valueForKey:@"start_date"] ]] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
 
-       }
-        else{
+       }else{
            // Edit simple event
 
         strAddBeforeTag=[NSString stringWithFormat:@"%@_",[_eventDetailsDic valueForKey:@"event_id"]];
@@ -467,8 +477,8 @@
     [dicttemp setObject:strNaveegatorStatus forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"!nativeeditor_status"]];
     [dicttemp setObject:@"mobile" forKey:@"interface"];
     [dicttemp setObject:[NSString stringWithFormat:@"%@",_tfLocation.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"location"]];
-    [dicttemp setObject:strLat forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lat"]];
-    [dicttemp setObject:strLong forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lng"]];
+        strLat.length > 0 ? [dicttemp setObject:strLat forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lat"]] : [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lat"]] ;
+        strLong.length > 0 ? [dicttemp setObject:strLong forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lng"]] :[dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lng"]] ;
     [dicttemp setObject:[NSString stringWithFormat:@"%@",_tfTitle.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"text"]];
     [dicttemp setObject:[NSString stringWithFormat:@"%@",_texviewDescription.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"name"]];
     [dicttemp setObject:[self CalculateStartdate] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"start_date"]];
@@ -476,34 +486,44 @@
 
     if ([CalendarEvent ShareInstance].CalendarRepeatStatus==TRUE)
     {
-    // Event Add or edit repeat case
+        // Event Add or edit repeat case
 
-    [dicttemp setObject:[self CalculateEventEndDate] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"end_date"]];
+        [dicttemp setObject:[self CalculateEventEndDate] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"end_date"]];
 
-    NSArray *arrComponents=[[CalendarEvent ShareInstance].strRepeatSting componentsSeparatedByString:@"#"];
+       
 
-    // In case Occurrence Add or edit rec_pattern and rec_type set black 
+        // In case Occurrence Add or edit rec_pattern and rec_type set black
 
-    if (![[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"]){
+        if (![[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"]){
+            
+             NSArray *arrComponents=[[CalendarEvent ShareInstance].strRepeatSting componentsSeparatedByString:@"#"];
+            
+            // if user not change reccurrence then [CalendarEvent ShareInstance].strRepeatSting is nil then get value from _eventDetailDic
+            
+            if (!arrComponents) {
+                
+                arrComponents=[[_eventDetailsDic valueForKey:@"rec_type"] componentsSeparatedByString:@"#"];
+                [CalendarEvent ShareInstance].strRepeatSting=[_eventDetailsDic valueForKey:@"rec_type"];
+            }
 
-    if (arrComponents.count > 0) {
-          [dicttemp setObject:[arrComponents objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
+            if (arrComponents.count > 0) {
+                  [dicttemp setObject:[arrComponents objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
+            }else{
+                 [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
+            }
+            [dicttemp setObject:[NSString stringWithFormat:@"%@",[CalendarEvent ShareInstance].strRepeatSting] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_type"]];
+        }else{
+
+            [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
+            [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_type"]];
+        }
+
     }else{
-         [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
-    }
-    [dicttemp setObject:[NSString stringWithFormat:@"%@",[CalendarEvent ShareInstance].strRepeatSting] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_type"]];
-    }else{
-
-    [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
-    [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_type"]];
-    }
-
-    }else{
-    // Event Add or edit non repeat case
-    [dicttemp setObject:[self DateINY_M_D_H_M_S:_tfEndTime.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"end_date"]];
-    [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
-    [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_type"]];
-    [dicttemp setObject:[NSString stringWithFormat:@"%@",@""] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
+        // Event Add or edit non repeat case
+        [dicttemp setObject:[self DateINY_M_D_H_M_S:_tfEndTime.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"end_date"]];
+        [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
+        [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_type"]];
+        [dicttemp setObject:[NSString stringWithFormat:@"%@",@""] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
     }
 
     isDate=FALSE;

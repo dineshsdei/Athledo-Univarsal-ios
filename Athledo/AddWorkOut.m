@@ -2191,6 +2191,7 @@ static int LiftExerciseCount=0;
    
     UITextField *textField = [alertView textFieldAtIndex:0];
     textField.placeholder=@"Custom Tags";
+    textField.textAlignment=NSTextAlignmentCenter;
    // [textField setInputView:datePicker];
     currentText=textField;
     //textField.delegate=self;
@@ -2216,6 +2217,7 @@ static int LiftExerciseCount=0;
     
     UITextField *textField = [alertView textFieldAtIndex:0];
     textField.placeholder=@"Exercise Type";
+     textField.textAlignment=NSTextAlignmentCenter;
     // [textField setInputView:datePicker];
     currentText=textField;
     //textField.delegate=self;
@@ -2242,6 +2244,7 @@ static int LiftExerciseCount=0;
     
     UITextField *textField = [alertView textFieldAtIndex:0];
     textField.placeholder=@"Exercise Type";
+    textField.textAlignment=NSTextAlignmentCenter;
     isWorkOut=NO;
     isExercise=YES;
     isCustomTag=NO;
@@ -2687,7 +2690,7 @@ static int LiftExerciseCount=0;
         
     }
     
-   }
+}
 
 -(NSMutableArray  *)LiftDataWithUnitCode:(NSMutableArray *)data
 {
@@ -2752,15 +2755,7 @@ static int LiftExerciseCount=0;
             
             [webservice WebserviceCall:webUrlAddCustomTag :strURL :AddCustomTag];
             
-        }else{
-            
-           
-            
         }
-        
-        
-        
-        
     }else if (alertView.tag ==DeletecustomAlertTag && buttonIndex==1)
     {
         if ([arrCustomList containsObject:currentText.text]) {
@@ -2861,6 +2856,7 @@ static int LiftExerciseCount=0;
     
     UITextField *textField = [alertView textFieldAtIndex:0];
     textField.placeholder=@"Custom Tags";
+    textField.textAlignment=NSTextAlignmentCenter;
     isWorkOut=NO;
     isExercise=NO;
     isCustomTag=YES;
@@ -2884,10 +2880,6 @@ static int LiftExerciseCount=0;
     imageview.frame=CGRectMake(textField.frame.size.width-imageview.frame.size.width, textField.frame.origin.x,imageview.frame.size.width, imageview.frame.size.height);
     
     [textField addSubview:imageview];
-    
-    
-    // textField.keyboardType = UIKeyboardTypeNumberPad;
-    
     [alertView show];
     //alertView=nil;
     
@@ -2895,11 +2887,8 @@ static int LiftExerciseCount=0;
 
 -(void)EmailCheckBoxEvent:(id)sender
 {
-    
     UIButton *btn=sender;
-    
     //NSLog(@"check box tag %d",btn.tag);
-    
     if (btn.tag==1000) {
         [workOutDic setObject:@"Yes" forKey:@"Email Notification"];
     }else{
@@ -2907,12 +2896,8 @@ static int LiftExerciseCount=0;
           [workOutDic setObject:@"No" forKey:@"Email Notification"];
     }
     
-    
     UITableViewCell *tableview1=(UITableViewCell *)[sender superview];
-    
     NSArray *subview=[tableview1 subviews];
-    
-    
     for (int i=0 ;i < subview.count ;i++)
     {
         id temp=[subview objectAtIndex:i];
@@ -2920,18 +2905,11 @@ static int LiftExerciseCount=0;
         if ([temp isKindOfClass:[UIButton class]])
         {
             UIButton *bb=temp;
-            
             ////NSLog(@"check box tag %d",bb.tag);
             bb.selected=NO;
-            
             [bb setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
         }
-        
-        
     }
-    
-    
-    
     if (btn.selected)
     {
         btn.selected=NO;
@@ -2944,28 +2922,6 @@ static int LiftExerciseCount=0;
     }
 
 }
-//- (void)keyboardWillShow:(NSNotification *)sender
-//{
-//    CGSize kbSize = [[[sender userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-//    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-//    
-//    [UIView animateWithDuration:duration animations:^{
-//        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, kbSize.height, 0);
-//        [tableview setContentInset:edgeInsets];
-//        [tableview setScrollIndicatorInsets:edgeInsets];
-//    }];
-//}
-//
-//- (void)keyboardWillHide:(NSNotification *)sender
-//{
-//    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-//    
-//    [UIView animateWithDuration:duration animations:^{
-//        UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
-//        [tableview setContentInset:edgeInsets];
-//        [tableview setScrollIndicatorInsets:edgeInsets];
-//    }];
-//}
 
 - (void)didReceiveMemoryWarning
 {

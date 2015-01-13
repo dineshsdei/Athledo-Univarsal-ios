@@ -2,7 +2,7 @@
 //  CalendarMainViewController.h
 //  Athledo
 //
-//  Created by Preetinder Kaur on 01/08/14.
+//  Created by Dinesh kumar on 01/08/14.
 //  Copyright (c) 2014 Dinesh. All rights reserved.
 //
 

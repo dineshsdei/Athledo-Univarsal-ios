@@ -68,7 +68,7 @@ UIBarButtonItem *revealButtonItem;;
 
     if ([SingaltonClass  CheckConnectivity]) {
     UserInformation *userInfo=[UserInformation shareInstance];
-
+    [SingaltonClass ShareInstance].isCalendarUpdate=FALSE;
     // NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,startdate,enddate];
     NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,startdate,enddate];
 
@@ -233,7 +233,7 @@ UIBarButtonItem *revealButtonItem;;
 
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    if (_eventDic.count == 0) {
+    if (_eventDic.count == 0 &&   [SingaltonClass ShareInstance].isCalendarUpdate==TRUE) {
     WeekEndDate =[self addDays:7 toDate:WeekStartDate];
     [self getEvents:WeekStartDate:WeekEndDate];
 
@@ -495,16 +495,6 @@ UIBarButtonItem *revealButtonItem;;
 
 - (void)weekView:(MAWeekView *)weekView eventTapped:(MAEvent *)event {
 
-	
-    //NSDateComponents *components = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:event.start];
-//	NSString *eventInfo = [NSString stringWithFormat:@"Description:%@", [event.userInfo objectForKey:@"text"]];
-//	
-//	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:event.title
-//                                                    message:eventInfo delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Edit",@"Delete",nil];
-//	[alert show];
-    
-   
-    
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController)

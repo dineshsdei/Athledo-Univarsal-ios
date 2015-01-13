@@ -72,7 +72,7 @@ UIBarButtonItem *revealButtonItem;;
     {
         case getEventTag:
         {
-           
+            eventData=nil;
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
@@ -152,7 +152,6 @@ UIBarButtonItem *revealButtonItem;;
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
     
     
-    
     [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
@@ -170,9 +169,6 @@ UIBarButtonItem *revealButtonItem;;
     
  
     // Last value for event tag for show in details
-    
-
-    
     
     self.dayView.frame=CGRectMake(self.dayView.frame.origin.x, self.dayView.frame.origin.y, self.dayView.frame.size.width, self.dayView.frame.size.height-47);
     
@@ -198,7 +194,6 @@ UIBarButtonItem *revealButtonItem;;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
-  
     NSDateFormatter *formater=[[NSDateFormatter alloc] init];
     [formater setDateFormat:DATE_FORMAT_Y_M_D];
     
@@ -218,10 +213,6 @@ UIBarButtonItem *revealButtonItem;;
         [self getEvents:enddate:[enddate stringByReplacingOccurrencesOfString:@"00:00:00" withString:@"24:00:00"]];
 
     }
-   
-    
-
-	
 }
 
 -(void)AddNewEvent
@@ -271,8 +262,6 @@ UIBarButtonItem *revealButtonItem;;
         
          return YES;
     }else{
-        
-        // return NO;
          return YES;
     }
    
@@ -367,7 +356,6 @@ UIBarButtonItem *revealButtonItem;;
 
     }
 
-
     break;
     }
     case 1:
@@ -412,8 +400,6 @@ UIBarButtonItem *revealButtonItem;;
     [self.navigationController pushViewController:mapView animated:NO];
 
     }
-
-
     break;
     }
 
@@ -423,17 +409,13 @@ UIBarButtonItem *revealButtonItem;;
     
     
 }
-
-
 - (void) viewWillDisappear:(BOOL)animated{
 	[super viewWillDisappear:animated];
 	self.navigationController.navigationBar.hairlineDividerView.hidden = NO;
 
 }
 
-
 #pragma mark TKCalendarDayViewDelegate
-
 
 - (NSArray *) calendarDayTimelineView:(TKCalendarDayView*)calendarDayTimeline eventsForDate:(NSDate *)eventDate{
 
@@ -472,12 +454,9 @@ UIBarButtonItem *revealButtonItem;;
     event.EventTag=[ar[6] intValue];
     [ret addObject:event];
 
-
-
     }
     return ret;
 	
-
 }
 - (void) calendarDayTimelineView:(TKCalendarDayView*)calendarDayTimeline eventViewWasSelected:(TKCalendarDayEventView *)eventView{
 	NSLog(@"%d",eventView.EventTag);
@@ -505,6 +484,4 @@ UIBarButtonItem *revealButtonItem;;
     [self.navigationController pushViewController:eventDetails animated:NO];
     }
 }
-
-
 @end

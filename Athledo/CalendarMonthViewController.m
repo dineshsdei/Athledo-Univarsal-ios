@@ -57,10 +57,6 @@ UIBarButtonItem *revealButtonItem;;
     eventArrDic=[[NSMutableArray alloc] init];
     startDateArr=[[NSMutableArray alloc] init];
     endDateArr=[[NSMutableArray alloc] init];
-    
-  //  tabBar_Y = (([[UIScreen mainScreen] bounds].size.height >= 568)?455:367);
-   // tbl_Y= (([[UIScreen mainScreen] bounds].size.height >= 568)?50:50);
-   
     revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
@@ -82,7 +78,7 @@ UIBarButtonItem *revealButtonItem;;
 	[self.monthView selectDate:[NSDate date]];
     //self.tableView.backgroundColor=[UIColor clearColor];
     
-  UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
+    UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
     
     
@@ -93,10 +89,7 @@ UIBarButtonItem *revealButtonItem;;
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    // self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-    //startDateArr= [[NSArray alloc] initWithObjects:@"2014/08/08",@"2014/08/10",@"2014/08/16", nil];
-   // [self.monthView reloadData];
-    
+      
     // 113 height is (49+64) tabbar height and navigationBar height
     tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-113, self.view.frame.size.width, 50)];
     
@@ -447,7 +440,6 @@ UIBarButtonItem *revealButtonItem;;
 
     //NSLog(@"Delegate Range: %@ %@ %@",start,end,@([start daysBetweenDate:end]));
 
-
     if (startDateArr.count > 0) {
 
     self.dataArray = [NSMutableArray array];
@@ -480,12 +472,10 @@ UIBarButtonItem *revealButtonItem;;
 
     strCalenderDate=[dateFormatter stringFromDate:calenderdate];
         
-        
     if([self date:[dateFormatter dateFromString:strCalenderDate] isBetweenDate:[dateFormatter dateFromString:startDate] andDate:[dateFormatter dateFromString:endDate]])
     // if ([startDate isEqualToString:strCalenderDate] || [endDate isEqualToString:strCalenderDate])
     {
-
-
+        
     NSDateComponents *info = [d dateComponentsWithTimeZone:self.monthView.timeZone];
     info.day--;
     NSDate *temp = [NSDate dateWithDateComponents:info];
@@ -512,7 +502,7 @@ UIBarButtonItem *revealButtonItem;;
     }
 
     if (!MatchStatus) {
-    
+        
     [self.dataArray addObject:@NO];
     
     }else
@@ -549,8 +539,6 @@ UIBarButtonItem *revealButtonItem;;
     startdate=[startdate stringByAppendingString:@" 00:00:00"];
     NSString *enddate=[formatter stringFromDate:endDate];
     enddate=[enddate stringByAppendingString:@" 24:00:00"];
-
-
     formatter=nil;
 
     if ([SingaltonClass  CheckConnectivity]) {
@@ -559,10 +547,7 @@ UIBarButtonItem *revealButtonItem;;
     NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,startdate,enddate];
 
     [SingaltonClass addActivityIndicator:self.view];
-
     [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
-
-
     }else{
 
     [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
@@ -607,12 +592,9 @@ UIBarButtonItem *revealButtonItem;;
     [eventArrDic addObject:[arrValues objectAtIndex:j]];
     [startDateArr addObject:[[arrValues objectAtIndex:j] valueForKey:@"start_date"]];
     [endDateArr addObject:[[arrValues objectAtIndex:j] valueForKey:@"end_date"]];
-    }
-    }
-
-    //[self.monthView reloadData];
-    //[self.tableView reloadData];
-    }
+            }
+        }
+        }
     }
     }
     

@@ -10,7 +10,7 @@
 #import "AnnouncementView.h"
 #import "AddNewAnnouncement.h"
 
-#define deleteAnnouncement 110
+#define deleteAnnouncement 1122220
 #define editAnnouncement 120
 #define deleteNotificationTag 130
 
@@ -41,6 +41,9 @@
     webservice.delegate=self;
 
     self.title=@"Detail";
+     //_lblName.lineBreakMode=NSLineBreakByWordWrapping;
+    //_lblName.numberOfLines=0;
+   // [_lblName sizeToFit];
     _lblName.text=strName;
     _lblDate.text=strDate;
     _tvDes.text=strDes;
@@ -124,28 +127,28 @@
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
     
     if ([SingaltonClass  CheckConnectivity]) {
-        
-        if (_obj) {
-            
-            UserInformation *userInfo= [UserInformation shareInstance];
-            //  {"type":"1","parent_id":"2","team_id":"13","user_id":"27"}
-            
-            NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",1,[[_obj objectForKey:@"id"] intValue],userInfo.userSelectedTeamid,userInfo.userId];
-            
-            //[SingaltonClass addActivityIndicator:self.view];
-            
-            [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
-        }
-        
+
+    if (_obj) {
+
+    UserInformation *userInfo= [UserInformation shareInstance];
+    //  {"type":"1","parent_id":"2","team_id":"13","user_id":"27"}
+
+    NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",1,[[_obj objectForKey:@"id"] intValue],userInfo.userSelectedTeamid,userInfo.userId];
+
+    //[SingaltonClass addActivityIndicator:self.view];
+
+    [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
+    }
+
     }else{
-        
-        //[SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
+
+    //[SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+
     }
 }
 -(void)DeleteAnnouncement:(id)sender
 {
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete announcement" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
+    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete announcement ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

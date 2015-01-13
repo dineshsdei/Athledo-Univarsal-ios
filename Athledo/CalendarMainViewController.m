@@ -2,7 +2,7 @@
 //  CalendarMainViewController.m
 //  Athledo
 //
-//  Created by Preetinder Kaur on 01/08/14.
+//  Created by Dinesh kumar on 01/08/14.
 //  Copyright (c) 2014 Dinesh. All rights reserved.
 //
 
@@ -14,16 +14,14 @@
 #import "WeekViewController.h"
 #import "MapViewController.h"
 
+#define getEventTag 119990
 @interface CalendarMainViewController ()
 {
-
-#define getEventTag 110
-
 WebServiceClass *webservice;
 NSArray *startDateArr;
 NSArray *endDateArr;
-
 NSArray *eventArrDic;
+
 }
 
 @end
@@ -91,8 +89,6 @@ NSArray *eventArrDic;
     //NSLog(@"%@",startDateArr);
     endDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"end_date"];
     //NSLog(@"%@",endDateArr);
-
-
     }
     }
     }
@@ -194,8 +190,6 @@ NSArray *eventArrDic;
         MapViewController *mapView = [[MapViewController alloc]initWithNibName:@"MapViewController" bundle:[NSBundle mainBundle]];
         [self.navigationController pushViewController:mapView animated:YES];
     }
-        
-	
 	if(self.calendarViewController && ([str isEqualToString:MONTH_GRID] || [str isEqualToString:DAY_VIEW]))
 		[self.calendarViewController setupWithMainController:vc];
 	else

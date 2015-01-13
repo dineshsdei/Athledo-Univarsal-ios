@@ -100,7 +100,7 @@
 {
     self.title = _ScreenTitle;
 
-  NSLog(@"screen height %f",self.view.frame.size.height);
+    NSLog(@"screen height %f",self.view.frame.size.height);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
     [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
@@ -112,15 +112,11 @@
         
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-         //[self setDatePickerVisibleAt:NO];
-        //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
         UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
         [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolbar];
         [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolbar];
         [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22)):toolbar];
         scrollHeight=kbSize.height;
-        
-        
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -133,12 +129,6 @@
         [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22)) :toolbar];
         
     }];
-    
-    
-    scrollHeight=0;
-
-
-
     scrollHeight=0;
 
     emailNotification=@"1";
@@ -190,10 +180,6 @@
 
 
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
-    // UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
-
-
-
     [btnSave addTarget:self action:@selector(saveAnnouncement:) forControlEvents:UIControlEventTouchUpInside];
     // [btnSave setBackgroundImage:imageEdit forState:UIControlStateNormal];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
@@ -238,20 +224,13 @@
     }
 
     NSString *settingStr = [obj valueForKey:@"privacy_setting"];
-
     NSArray *array = [settingStr componentsSeparatedByString:@","];
-
-
-
-
     for (int i=0; i<array.count; i++) {
     [privacySetting appendFormat:@"%@",array[i]];
     if (i<array.count-1) {
     [privacySetting appendString:@","];
     }
     }
-
-
     if ([array count]==3 && [array containsObject:@"2"]) {
     UIButton *btn = (UIButton*)[scrollView viewWithTag:1000];
     [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
@@ -281,9 +260,6 @@
     if ([SingaltonClass  CheckConnectivity]) {
 
     UserInformation *userInfo=[UserInformation shareInstance];
-
-
-
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
     indicator.tag = 50;
     [self.view addSubview:indicator];
@@ -298,9 +274,6 @@
 
     [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
     [request setHTTPBody:data];
-
-    //HttpRequest *http = [[HttpRequest alloc] init];
-    //[http request:request delegate:self tagNumber:200];
     [NSURLConnection sendAsynchronousRequest:request
     queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -354,9 +327,7 @@
     if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {
     AllGroupData=[[myResults  objectForKey:@"data"]valueForKey:@"Group"]  ;
-    //        //NSLog(@"%@",[data allValues]);
-
-
+  
     if (AllGroupData.count>0) {
 
 
@@ -369,9 +340,6 @@
     }
 
     for (int i=0;i< groupArray.count;i++){
-
-    //NSLog(@"%@",[groupArray objectAtIndex:i]);
-
     [selectedGroups setObject:[NSNumber numberWithBool:NO] forKey:[groupArray objectAtIndex:i]];
     }
 
@@ -408,9 +376,6 @@
     }
     if (tagNumber==102) {
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-
-
-    //NSLog(@"Data Saved Response >>%@",myResults);
 
     // Result is nill but announcement is adding on web , I don't know why it happen
 
@@ -458,10 +423,6 @@
     CheckboxButton *btn=(CheckboxButton *)selectGroupBtn;
 
     if(currentText.tag==10||currentText.tag==11 || btn ||selectDateBtn || selectTimeBtn) {
-    //[self setDatePickerVisibleAt:NO];
-    //[self setPickerVisibleAt:NO];
-    //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
-   
      UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
      [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
      [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
@@ -711,9 +672,6 @@
     [selectedGroups setObject:[NSNumber numberWithBool:Status] forKey:key];
 
     [pickerView  reloadAllComponents];
-
-
-    
 }
 
 
@@ -837,8 +795,6 @@
     NSString *str =[NSString stringWithFormat:@"%i",a];
     if (![settingArray containsObject:str])
     [settingArray addObject:str];
-
-    //btn.enabled=NO;
     }
     }else{
     [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
@@ -848,15 +804,11 @@
     NSString *str =[NSString stringWithFormat:@"%i",a];
     if ([settingArray containsObject:str])
     [settingArray removeObject:str];
-
-    // btn.enabled=YES;
     }
     }
 
     }
     }else if(button.tag>1000 && button.tag <1004){
-
-    //NSLog(@"tag %d",button.tag);
     NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
     if (![settingArray containsObject:str1]) {
     [settingArray addObject:str1];
@@ -879,9 +831,7 @@
 
 - (IBAction)selectDate:(id)sender{
     selectedBtn=sender;
-//    selectDateBtn.tag=501;
-   
-   currentText=dateTxt;
+    currentText=dateTxt;
     datePicker.datePickerMode = UIDatePickerModeDate;
     
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -890,7 +840,6 @@
     
     isKeyBoard=YES;
     [UIView commitAnimations];
-   // [self setDatePickerVisibleAt:YES];
     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
     [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
    
@@ -906,7 +855,6 @@
     [UIView commitAnimations];
 
     datePicker.datePickerMode = UIDatePickerModeTime;
-   // [self setDatePickerVisibleAt:YES];
     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
     [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
 }
@@ -1065,8 +1013,9 @@
 	return [[selectedGroups objectForKey:[groupArray objectAtIndex:row]] boolValue];
 }
 
+// Check whether all rows are checked or only one
 - (void)pickerView:(ALPickerView *)pickerView didCheckRow:(NSInteger)row {
-    // Check whether all rows are checked or only one
+    
     if (row == -1)
     for (id key in [selectedGroups allKeys])
     [selectedGroups setObject:[NSNumber numberWithBool:YES] forKey:key];
@@ -1080,7 +1029,6 @@
     BOOL status=FALSE;
     for (id key in [selectedGroups allKeys])
     {
-    //[selectedGroups setObject:[NSNumber numberWithBool:NO] forKey:key];
     if ([[selectedGroups objectForKey:key] intValue] == 1) {
     status=TRUE;
     }
@@ -1093,9 +1041,9 @@
     }
 }
 
-
+ // Check whether all rows are unchecked or only one
 - (void)pickerView:(ALPickerView *)pickerView didUncheckRow:(NSInteger)row {
-    // Check whether all rows are unchecked or only one
+   
     if (row == -1)
     for (id key in [selectedGroups allKeys])
     [selectedGroups setObject:[NSNumber numberWithBool:NO] forKey:key];
@@ -1103,13 +1051,13 @@
     [selectedGroups setObject:[NSNumber numberWithBool:NO] forKey:[groupArray objectAtIndex:row]];
     [self showBtnGroupStatus];
 }
+
+// All button Seleted No Or Selected yes
 - (IBAction)AllButtonEvent:(id)sender {
      [self ClickCheckBoxHideControll];
     if ([sender isKindOfClass:[CheckboxButton class]])
     {
     CheckboxButton *button=(CheckboxButton*)sender;
-
-    // All button Seleted No Or Selected yes
     if (button.tag == 1000 && button.selected==NO) {
 
     for (int i=0; i<4; i++)
@@ -1218,17 +1166,13 @@
 
     count++;
     }
-
     if (count==2) {
 
     CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
     [Allbtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
 
     Allbtn.selected=YES;
-
-
     }
-
     //Add values for use
     NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
     if (![settingArray containsObject:str1]) {
@@ -1299,18 +1243,13 @@
 
     CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
     [Allbtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
-
     Allbtn.selected=YES;
-
-
     }
     //Add values for use
     NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
     if (![settingArray containsObject:str1]) {
     [settingArray addObject:str1];
     }
-
-
     // If group already selected
     CheckboxButton *btnGroup = (CheckboxButton*)[scrollView viewWithTag:(1004)];
     NSString *str=[NSString stringWithFormat:@"%d",(int)(btnGroup.tag-1000)];
