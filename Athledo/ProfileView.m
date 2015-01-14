@@ -447,7 +447,6 @@
     }
     }
 
-
     - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
     {
     [picker dismissViewControllerAnimated:YES completion:nil];

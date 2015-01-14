@@ -339,9 +339,6 @@
     [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
     return;
     }
-
-
-
     }
 
     UserInformation *userInfo=[UserInformation shareInstance];
@@ -449,9 +446,6 @@
 
     // Scroll to cell
     [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
-
-
-
     }else{
 
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
@@ -495,8 +489,6 @@
     }else if (textField.tag > 1001 )
     {
     [self setContentOffset:textField table:table];
-
-
     }
 
     if (textField.tag==1003 || textField.tag==1004) {

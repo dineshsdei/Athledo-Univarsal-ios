@@ -2099,7 +2099,7 @@
 				ORGANIZATIONNAME = Dinesh;
 				TargetAttributes = {
 					3D9E04D7197BCF3C005CCB10 = {
-						DevelopmentTeam = K2QC2J9RH6;
+						DevelopmentTeam = V3TMTKXZ6L;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -2589,8 +2589,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2606,9 +2606,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "1849ae88-aec4-4ded-ade2-9ffe9d53f4b0";
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2630,7 +2630,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gilbert Quinones (7BK7SK3FYE)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2640,8 +2640,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "1849ae88-aec4-4ded-ade2-9ffe9d53f4b0";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2652,8 +2652,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Athledo/Athledo-Prefix.pch";
 				HEADER_SEARCH_PATHS = $SRCROOT/src;
@@ -2672,7 +2672,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1849ae88-aec4-4ded-ade2-9ffe9d53f4b0";
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2683,9 +2683,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cloud Advantage Services (K2QC2J9RH6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Athledo/Athledo-Prefix.pch";
 				HEADER_SEARCH_PATHS = $SRCROOT/src;
@@ -2696,7 +2696,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1849ae88-aec4-4ded-ade2-9ffe9d53f4b0";
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

@@ -572,10 +572,7 @@ NSMutableArray *arrAwardsYear;
     }else{
 
     }
-    
 }
-
-
 -(void)dateChange
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
@@ -586,11 +583,7 @@ NSMutableArray *arrAwardsYear;
 
     df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
     currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-
-
     // UITableView *table=(UITableView *)[self.view viewWithTag:100];
-
-
     UITextField *textfieldStart=(UITextField *)[tableView viewWithTag:1003];
     UITextField *textfieldEnd=(UITextField *)[tableView viewWithTag:1004];
 
@@ -673,9 +666,6 @@ NSMutableArray *arrAwardsYear;
     [UIView commitAnimations];
     
 }
-
-
-
 #pragma mark- UITableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -685,8 +675,6 @@ NSMutableArray *arrAwardsYear;
     }else{
         return 3;
     }
-    
-    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -757,9 +745,6 @@ NSMutableArray *arrAwardsYear;
 {
     return YES;
 }
-
-
-
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
@@ -864,8 +849,6 @@ NSMutableArray *arrAwardsYear;
         // Scroll to cell
         [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
         
-        
-        
     }else{
         
         UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
@@ -892,10 +875,7 @@ NSMutableArray *arrAwardsYear;
             m_TableView.scrollIndicatorInsets = contentInsets;
             [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
         }
-        
     }
-    
-    
 }
 
 - (void)didReceiveMemoryWarning
