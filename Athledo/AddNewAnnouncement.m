@@ -123,8 +123,6 @@
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-         // [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
-        
         UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
         [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22)) :toolbar];
         
@@ -418,17 +416,16 @@
 -(void)doneClicked
 {
     UIScrollView *scrllView = (UIScrollView *)[self.view viewWithTag:90];
+    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
 
     [scrllView setContentOffset:CGPointMake(0,0) animated: YES];
     CheckboxButton *btn=(CheckboxButton *)selectGroupBtn;
 
     if(currentText.tag==10||currentText.tag==11 || btn ||selectDateBtn || selectTimeBtn) {
-     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
+     
      [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
      [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
     }
-
-
     if (txtViewCurrent) {
     if (!(txtViewCurrent.text.length > 0)) {
     txtViewCurrent.text=@"Enter Description";
@@ -437,11 +434,8 @@
     [txtViewCurrent resignFirstResponder];
 
     }
-
-
-
     [self showBtnGroupStatus];
-
+    [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 
 }
@@ -450,28 +444,14 @@
 
 -(void)ClickCheckBoxHideControll
 {
-   // [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
+   
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
-   // [self setPickerVisibleAt:NO];
-   // [self setDatePickerVisibleAt:NO];
     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
     [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
     [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+    [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
     
 }
-// this method used to manage toolbar up/down on screen
-
--(void)setToolbarVisibleAt:(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    [self.view viewWithTag:40].center = point;
-    
-    [UIView commitAnimations];
-}
-
 
 -(void)dateChange
 {
@@ -746,15 +726,11 @@
     }
     }
 
-
-
     }
     }
     else
     {
     [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-
-
 
     if (button.tag ==1004) {
     for (id key in [selectedGroups allKeys])

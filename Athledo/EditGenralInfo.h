@@ -17,6 +17,7 @@
     IBOutlet UIPickerView *listPicker;
 
     int scrollHeight;
+    UIToolbar *toolBar;
     
  
 }

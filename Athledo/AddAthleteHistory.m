@@ -214,8 +214,6 @@
     currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
     
     UITableView *table=(UITableView *)[self.view viewWithTag:100];
-
-    
     UITextField *textfieldStart=(UITextField *)[table viewWithTag:1002];
     UITextField *textfieldEnd=(UITextField *)[table viewWithTag:1003];
     
@@ -251,9 +249,6 @@
         }
             
     }
-    
-   
-    
     if(strError.length > 1)
     {
         
@@ -284,13 +279,13 @@
     AddAthleteHistoryCell *cell = nil;
     if(cell == nil)
     {
-       
-        cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:@""];
-        
-        }
-    
-      cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
+
+    cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:@""];
+
+    }
+
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+
     return cell;
     
 }
@@ -408,8 +403,6 @@
     else if(textfield.text.length < 1 && tag==1001)
     {
      strError = @"";
-
-
     } else if(textfield.text.length < 1 && tag==1002)
     {
      strError = @"Please enter start date";
@@ -521,8 +514,6 @@
 
 -(void)checkTextField
 {
-    
-    
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -533,8 +524,6 @@
     }
     
     [textField resignFirstResponder];
-    
-    
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -572,25 +561,16 @@
 
     int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
     UIView* txt = textField;
-
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-
     // Get the text fields location
     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-
     NSLog(@"%f",point.y + (txt.frame.origin.y));
 
     // Scroll to cell
     [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
-
-
-
     }else{
-
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-
     NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
-
     // Get the text fields location
     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
 

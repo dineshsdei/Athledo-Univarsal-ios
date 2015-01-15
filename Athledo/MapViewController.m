@@ -334,9 +334,6 @@ UIBarButtonItem *revealButtonItem;;
     }
 }
 
-
-
-
 #pragma mark UITableView Delegate & DataSource
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -362,7 +359,6 @@ UIBarButtonItem *revealButtonItem;;
 	
 	
 }
-
 
 - (void)didReceiveMemoryWarning
 {

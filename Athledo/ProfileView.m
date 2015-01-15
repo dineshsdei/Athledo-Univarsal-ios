@@ -113,15 +113,15 @@
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
 
     btncamera.layer.masksToBounds = YES;
-   // btncamera.layer.cornerRadius=50;
+    // btncamera.layer.cornerRadius=50;
     btncamera.layer.cornerRadius= btncamera.frame.size.width/2;
-        
+
     imageviewProfile.alpha=1;
     imageviewProfile.layer.masksToBounds = YES;
     imageviewProfile.layer.cornerRadius=imageviewProfile.frame.size.width/2;
     imageviewProfile.layer.borderWidth=3;
     imageviewProfile.layer.borderColor=[UIColor lightGrayColor].CGColor;
- 
+
     }
 
     - (void)getProfileData{
@@ -156,21 +156,21 @@
     [request setHTTPBody:data];
 
     [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                          
-                               if (data!=nil)
-                               {
-                                   [self httpResponseReceived : data : GETPROFILEDATANUMBER];
-                               }else{
-                                    self.navigationItem.leftBarButtonItem.enabled=YES;
-                                   ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-                                   if(acti)
-                                       [acti removeFromSuperview];
-                               }
-                               
-                               
-                           }];
+    queue:[NSOperationQueue mainQueue]
+    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+
+    if (data!=nil)
+    {
+    [self httpResponseReceived : data : GETPROFILEDATANUMBER];
+    }else{
+    self.navigationItem.leftBarButtonItem.enabled=YES;
+    ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
+    if(acti)
+    [acti removeFromSuperview];
+    }
+
+
+    }];
 
 
     }else{
@@ -224,7 +224,7 @@
     if (isEditProfilePic==NO) {
     ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
     if(acti)
-    [acti removeFromSuperview];
+        [acti removeFromSuperview];
     }
 
     NSError *error=nil;
@@ -245,100 +245,100 @@
         
         //NSLog(@"Login Responce message is >>%@",myResults);
         
-            // ***Tag 100 for Profile data in web service UserType 2->Athlete 1->coach
+        // ***Tag 100 for Profile data in web service UserType 2->Athlete 1->coach
         
-        if([[myResults objectForKey:@"status"] isEqualToString:@"success"] && tagNumber==200)
-        {
-            
-            
-            switch (userInfo.userType) {
-                case 1:
-                {
-                    // coach  Section
-                    
-                    // Genral Info
-                    
-                    arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
-                    
-                    //[arrGenralinfo setObject:@"Dinesh" forKey:@"firstname"];
-                    
-                    arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"cochng_hstry"];
-                    
-                    if (arrCoaching.count==0) {
-                        
-                        NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"from",@"",@"description",@"",@"school_name",@"",@"sport_name", @"",@"to",nil];
-                        [arrCoaching addObject:dic];
-                        
-                    }
-                    arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"awards"];
+    if([[myResults objectForKey:@"status"] isEqualToString:@"success"] && tagNumber==200)
+    {
 
-                    if (arrAwards.count==0) {
-                        
-                        NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"title",@"",@"description",@"",@"year_of_award", nil];
-                        [arrAwards addObject:dic];
-                        
-                    }
-                    
-                    userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
-                    
-                    break;
-                }
-                case 2:
-                {
-                    // Genral Info
-                    
-                    arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
-                    
-                    if ([[[myResults objectForKey:@"data"] objectForKey:@"AthleteSport"] isEqual:@""]) {
-                        
-                        [arrCoaching addObject:@""];
-                    }else{
-                        
-                        arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"AthleteSport"];
 
-                    }
-                    
-                    //NSLog(@"%@",[[myResults objectForKey:@"data"] valueForKey:@"athltc_hstry"]);
-                    
-                    arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"athltc_hstry"];
+    switch (userInfo.userType) {
+    case 1:
+    {
+    // coach  Section
 
-                    
-                    if (arrAwards.count==0) {
-                    
-                       NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"team",@"",@"description", nil];
-                        [arrAwards addObject:dic];
-                        
-                    }
-                    
-                   // //NSLog(@"%lu",(unsigned long)arrSportInfo.count);
-                    userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
-                    
-                    break;
-                }
-                    
-                default:
-                    break;
-            }
-            [self AddProfilePic : userInfo.userProfilePicUrl];
-            
-            NSArray *arrController=[self.navigationController viewControllers];
-            
-            for (id object in arrController) {
-                if ([object isKindOfClass:[DashBoard class]])
-                    
-                    [self.navigationController popToViewController:object animated:NO];
-            }
-        }else{
-            
-            NSString *str=[myResults objectForKey:@"message"];
-            
-            if (str !=nil) {
-                [SingaltonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
-            }
-        }
+    // Genral Info
+
+    arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
+
+    //[arrGenralinfo setObject:@"Dinesh" forKey:@"firstname"];
+
+    arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"cochng_hstry"];
+
+    if (arrCoaching.count==0) {
+        
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"from",@"",@"description",@"",@"school_name",@"",@"sport_name", @"",@"to",nil];
+        [arrCoaching addObject:dic];
+        
+    }
+    arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"awards"];
+
+    if (arrAwards.count==0) {
+        
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"title",@"",@"description",@"",@"year_of_award", nil];
+        [arrAwards addObject:dic];
+        
+    }
+
+    userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
+
+    break;
+    }
+    case 2:
+    {
+    // Genral Info
+
+    arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
+
+    if ([[[myResults objectForKey:@"data"] objectForKey:@"AthleteSport"] isEqual:@""]) {
+        
+        [arrCoaching addObject:@""];
+    }else{
+        
+        arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"AthleteSport"];
+        
+    }
+
+    //NSLog(@"%@",[[myResults objectForKey:@"data"] valueForKey:@"athltc_hstry"]);
+
+    arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"athltc_hstry"];
+
+
+    if (arrAwards.count==0) {
+        
+        NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"team",@"",@"description", nil];
+        [arrAwards addObject:dic];
+        
+    }
+
+    // //NSLog(@"%lu",(unsigned long)arrSportInfo.count);
+    userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
+
+    break;
+    }
+
+    default:
+    break;
+    }
+    [self AddProfilePic : userInfo.userProfilePicUrl];
+
+    NSArray *arrController=[self.navigationController viewControllers];
+
+    for (id object in arrController) {
+    if ([object isKindOfClass:[DashBoard class]])
+
+    [self.navigationController popToViewController:object animated:NO];
+    }
+    }else{
+
+    NSString *str=[myResults objectForKey:@"message"];
+
+    if (str !=nil) {
+    [SingaltonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
+    }
+    }
         
         [tblProfile reloadData];
-         break;
+        break;
     }
         
     default:
@@ -356,7 +356,7 @@
 
     -(void)AddAwardsInfo :(long int)tag
     {
- 
+
     AddCoachingHistory *AddCoachingInfo=[[AddCoachingHistory alloc] init];
     AddCoachingInfo.SectionTag=(int)tag;
     AddCoachingInfo.objData=nil;
@@ -377,7 +377,7 @@
     -(void)AddHistoryInfo :(long int)tag
     {
     AddAthleteHistory *objAthleteHistory=[[AddAthleteHistory alloc] init];
-        objAthleteHistory.objData=nil;
+    objAthleteHistory.objData=nil;
     [self.navigationController pushViewController:objAthleteHistory animated:YES];
     }
 
@@ -388,13 +388,13 @@
     if ([temp isEqualToString:@"no_image.png"]) {
 
     url=@"";
-     [activityIndicator setHidden:YES];
+    [activityIndicator setHidden:YES];
     // imageviewProfile.userInteractionEnabled=NO;
     }else {
 
     // imageviewProfile.userInteractionEnabled=NO;
     [UserInformation shareInstance].userPicUrl=url;
-     [imageviewProfile setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
+    [imageviewProfile setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
 
     [activityIndicator stopAnimating];
     [activityIndicator setHidden:YES];
@@ -500,7 +500,7 @@
         
         if([[MyResults objectForKey:@"status"] isEqualToString:@"sucess"])
         {
-     
+            
             // Now we Need to decrypt data
             
             [self getProfileData];
@@ -583,7 +583,7 @@
 
     switch ([UserInformation shareInstance].userType)
     {
-   
+        
     case 1:
     {
         
@@ -599,14 +599,14 @@
             
         }else  if (indexPath.section <  1+(arrCoaching.count)+arrAwards.count)
         {
-             long int index=indexPath.section - (1+ arrCoaching.count);
+            long int index=indexPath.section - (1+ arrCoaching.count);
             
             if (index == 0) {
                 
                 return 165;
             }else
             {
-
+                
                 return 114;
             }
             
@@ -614,20 +614,10 @@
         
         
         break;
-      }
+    }
         
     case 2:
     {
-       /*
-        if (arrCellHeight.count > indexPath.section)
-        {
-            
-            return [[arrAthleteCellHeight objectAtIndex:indexPath.section] floatValue] ?[[arrCellHeight objectAtIndex:indexPath.section] floatValue] :114 ;
-            
-        }else{
-            return 114 ;
-        }*/
-        
         if (indexPath.section == 0)
         {
             
@@ -639,14 +629,14 @@
             
             
         }
-
+        
         
         break;
-     }
-
+    }
+        
     default:
         
-         return 130 ;
+        return 130 ;
         
         break;
     }
@@ -668,7 +658,7 @@
             AddInfo.objData=arrGenralinfo ;
             [self.navigationController pushViewController:AddInfo animated:YES];
             
-           
+            
         }else  if (indexPath.section <  1+(arrCoaching.count))
         {
             AddCoachingHistory *AddCoachingInfo=[[AddCoachingHistory alloc] initWithNibName:@"AddCoachingHistory" bundle:nil];
@@ -701,10 +691,10 @@
             EditGenralInfo *AddInfo=[[EditGenralInfo alloc] init];
             AddInfo.objData=[arrGenralinfo valueForKey:@"id"] ? arrGenralinfo : nil ;
             [self.navigationController pushViewController:AddInfo animated:YES];
-
+            
         }else  if (indexPath.section <  1+(arrCoaching.count))
         {
-                           
+            
         }else  if (indexPath.section <  1+(arrCoaching.count)+arrAwards.count)
         {
             long int index=indexPath.section - (1+ arrCoaching.count);
@@ -714,7 +704,7 @@
             [self.navigationController pushViewController:objAthleteHistory animated:YES];
             
         }
-
+        
         break;
     }
     }

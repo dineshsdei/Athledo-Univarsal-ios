@@ -437,95 +437,85 @@
 -(void)EnableDisableTouch :(BOOL)status
 {
     NSArray *navArray=[[[self.revealViewController childViewControllers] objectAtIndex:1] viewControllers];
-    
-    // NSArray *arr=[[[self.revealViewController childViewControllers] objectAtIndex:0] viewControllers];
-    
-    
+
     for (UIViewController * viewCotroller in navArray) {
-        //if ([viewCotroller isKindOfClass:[WorkOutView class]]) {
-            
-            WorkOutView *WorkviewCntrler  = (WorkOutView *)viewCotroller;
-            NSArray *arrSubViews = (NSArray *) [WorkviewCntrler.view subviews];
-            
-            for (id object in arrSubViews) {
-                
-                if ([object isKindOfClass:[UITableView class]]) {
-                    UITableView *table= (UITableView *)object;
-                    table.userInteractionEnabled=status;
-                }
-                
-                if ([object isKindOfClass:[UISearchBar class]]) {
-                    UISearchBar *searchBar= (UISearchBar *)object;
-                    searchBar.userInteractionEnabled=status;
-                }
-                if ([object isKindOfClass:[UITextField class]]) {
-                    UITextField *textField= (UITextField *)object;
-                    textField.userInteractionEnabled=status;
-                }
-                if ([object isKindOfClass:[UISegmentedControl class]]) {
-                    UISegmentedControl *segmentControll= (UISegmentedControl *)object;
-                    segmentControll.userInteractionEnabled=status;
-                }
-                if ([object isKindOfClass:[TKCalendarMonthView class]]) {
-                    TKCalendarMonthView *Controll= (TKCalendarMonthView *)object;
-                    Controll.userInteractionEnabled=status;
-                }
-                if ([object isKindOfClass:[TKCalendarDayView class]]) {
-                    TKCalendarDayView *Controll= (TKCalendarDayView *)object;
-                    Controll.userInteractionEnabled=status;
-                }
-                if ([object isKindOfClass:[MAWeekView class]]) {
-                    MAWeekView *Controll= (MAWeekView *)object;
-                    Controll.userInteractionEnabled=status;
-                }
-                
-                if ([object isKindOfClass:[MKMapView class]]) {
-                    MKMapView *Controll= (MKMapView *)object;
-                    Controll.userInteractionEnabled=status;
-                }
+    
+    WorkOutView *WorkviewCntrler  = (WorkOutView *)viewCotroller;
+    NSArray *arrSubViews = (NSArray *) [WorkviewCntrler.view subviews];
 
+    for (id object in arrSubViews) {
 
-            }
-       // }
+    if ([object isKindOfClass:[UITableView class]]) {
+    UITableView *table= (UITableView *)object;
+    table.userInteractionEnabled=status;
+    }
+
+    if ([object isKindOfClass:[UISearchBar class]]) {
+    UISearchBar *searchBar= (UISearchBar *)object;
+    searchBar.userInteractionEnabled=status;
+    }
+    if ([object isKindOfClass:[UITextField class]]) {
+    UITextField *textField= (UITextField *)object;
+    textField.userInteractionEnabled=status;
+    }
+    if ([object isKindOfClass:[UISegmentedControl class]]) {
+    UISegmentedControl *segmentControll= (UISegmentedControl *)object;
+    segmentControll.userInteractionEnabled=status;
+    }
+    if ([object isKindOfClass:[TKCalendarMonthView class]]) {
+    TKCalendarMonthView *Controll= (TKCalendarMonthView *)object;
+    Controll.userInteractionEnabled=status;
+    }
+    if ([object isKindOfClass:[TKCalendarDayView class]]) {
+    TKCalendarDayView *Controll= (TKCalendarDayView *)object;
+    Controll.userInteractionEnabled=status;
+    }
+    if ([object isKindOfClass:[MAWeekView class]]) {
+    MAWeekView *Controll= (MAWeekView *)object;
+    Controll.userInteractionEnabled=status;
+    }
+
+    if ([object isKindOfClass:[MKMapView class]]) {
+    MKMapView *Controll= (MKMapView *)object;
+    Controll.userInteractionEnabled=status;
+    }
+    }
     }
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
-   
     [self EnableDisableTouch:NO];
-    
-    //[[UIApplication sharedApplication] setStatusBarHidden:YES];
     userInfo=[UserInformation shareInstance];
-    
+
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-    
-    
+
+
     switch (userInfo.userType) {
-        case 1:
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
-            
-            break;
-        case 2:
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
-            
-            
-            break;
-            
-        default:
-            break;
+    case 1:
+    arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+
+    break;
+    case 2:
+    arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
+
+
+    break;
+
+    default:
+    break;
     }
-    
+
     if ([UserInformation shareInstance].userType==1) {
-        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
+    arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
     }else{
-        
-        arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
-        
-        
-        
+
+    arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
+
+
+
     }
-    
+
     [_rearTableView reloadData];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
@@ -605,15 +595,6 @@
     // otherwise, we are in the top reveal controller, so we just add a title
     else
     {
-        
-        //        UIBarButtonItem *LogoutButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
-        //
-        //          self.navigationItem.leftBarButtonItem = LogoutButtonItem;
-        
-        
-        //        self.navigationItem.title = @"Menu";
-        //        self.navigationController.navigationBar.titleTextAttributes= @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-        //self.navigationController.navigationBar.hidden=YES;
     }
     
 }

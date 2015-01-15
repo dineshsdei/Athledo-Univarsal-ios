@@ -170,7 +170,8 @@
 }
 -(void)getNotificationData{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingaltonClass  CheckConnectivity])
+    {
         userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
@@ -357,13 +358,9 @@
     //            [arrAnnouncements removeObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
     //            }
     }
-
-
     tblAnnouncementRecods.delegate=self;
     tblAnnouncementRecods.dataSource=self;
-
     [tblAnnouncementRecods reloadData];
-
     }else
     {
     [arrAnnouncements removeObject:[[data objectAtIndex:0]objectForKey:@"Announcement"]];
@@ -456,8 +453,6 @@
     tblUpdatesRecods.dataSource=self;
 
     [tblUpdatesRecods reloadData];
-
-
     break;
     }
     }
@@ -683,7 +678,10 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     addNew.obj = [arrAnnouncements objectAtIndex:btn.tag];
     [self.navigationController pushViewController:addNew animated:YES];
 }
-
+-(void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

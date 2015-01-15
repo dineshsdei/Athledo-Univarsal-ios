@@ -39,8 +39,8 @@
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-
-     seasonId=@"";
+    
+    seasonId=@"";
     AlbumId=@"";
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
@@ -54,44 +54,44 @@
     //NSLog(@"tag %d",item.tag);
     NSArray *arrController=[self.navigationController viewControllers];
     switch (item.tag) {
-    case 0:
-    {
-    BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-        if ([object isKindOfClass:[MultimediaVideo class]])
+        case 0:
         {
-            Status=TRUE;
-            [self.navigationController popToViewController:object animated:NO];
+            BOOL Status=FALSE;
+            for (id object in arrController)
+            {
+                if ([object isKindOfClass:[MultimediaVideo class]])
+                {
+                    Status=TRUE;
+                    [self.navigationController popToViewController:object animated:NO];
+                }
+            }
+            if (Status==FALSE)
+            {
+                MultimediaVideo *arichive=[[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
+                [self.navigationController pushViewController:arichive animated:NO];
+            }
+            break;
         }
+            
+            
+        default:
+            break;
     }
-    if (Status==FALSE)
-    {
-        MultimediaVideo *arichive=[[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
-        [self.navigationController pushViewController:arichive animated:NO];
-    }
-    break;
-    }
-
-
-    default:
-    break;
-    }
-
+    
     
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
+    
     SWRevealViewController *revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
-     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
-                                                                     style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
+                                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     NSLog(@"view weight %f",[UIScreen mainScreen].bounds.size.height);
-        NSLog(@"view weight %f",[UIScreen mainScreen].bounds.size.width);
+    NSLog(@"view weight %f",[UIScreen mainScreen].bounds.size.width);
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
     listPicker=[[UIPickerView alloc] init];
@@ -108,82 +108,82 @@
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,btnDone,nil];
     [self.view addSubview:toolBar];
-
+    
     seasonId=@"";
     AlbumId=@"";
     multimediaData=[[NSMutableArray alloc] init];
     AllMultimediaData=[[NSArray alloc] init];
     
-   
+    
     [self getMultimediaPic];
     [self getSeasonData];
 }
 -(void)sortedData :(int)index
 {
     switch (index) {
-    case 0:
-    {
-        [multimediaData removeAllObjects];
-        for (int i=0; i< AllMultimediaData.count; i++) {
-        
-        NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
-                
-        [multimediaData addObject:temp];
-            
-        }
-
-        [_tableView reloadData];
-        break;
-    }case 1:
-    {
-        [multimediaData removeAllObjects];
-        
-        for (int i=0; i< AllMultimediaData.count; i++) {
-            
-            if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==1) {
+        case 0:
+        {
+            [multimediaData removeAllObjects];
+            for (int i=0; i< AllMultimediaData.count; i++) {
                 
                 NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
                 
                 [multimediaData addObject:temp];
-            }
-        }
-        
-        [_tableView reloadData];
-        
-        break;
-    }
-    case 2:
-    {
-        [multimediaData removeAllObjects];
-        
-        for (int i=0; i< AllMultimediaData.count; i++) {
-            
-            if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==2) {
                 
-                [multimediaData addObject:[AllMultimediaData objectAtIndex:i]];
             }
+            
+            [_tableView reloadData];
+            break;
+        }case 1:
+        {
+            [multimediaData removeAllObjects];
+            
+            for (int i=0; i< AllMultimediaData.count; i++) {
+                
+                if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==1) {
+                    
+                    NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
+                    
+                    [multimediaData addObject:temp];
+                }
+            }
+            
+            [_tableView reloadData];
+            
+            break;
         }
-        
-        [_tableView reloadData];
-        
-        break;
+        case 2:
+        {
+            [multimediaData removeAllObjects];
+            
+            for (int i=0; i< AllMultimediaData.count; i++) {
+                
+                if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==2) {
+                    
+                    [multimediaData addObject:[AllMultimediaData objectAtIndex:i]];
+                }
+            }
+            
+            [_tableView reloadData];
+            
+            break;
+        }
+        case 3:
+        {
+            [self getMultimediaAlbum];
+            
+            break;
+        }
+        default:
+            break;
     }
-    case 3:
-    {
-       [self getMultimediaAlbum];
-        
-        break;
-    }
-    default:
-        break;
-    }
-   
+    
 }
 -(IBAction)SegmentSelected:(id)sender
 {
     UISegmentedControl *segment=sender;
     
-   [self sortedData:(int)(segment.selectedSegmentIndex)];
+    [self sortedData:(int)(segment.selectedSegmentIndex)];
 }
 -(void)doneClicked
 {
@@ -206,31 +206,31 @@
     [UIView setAnimationDuration:0.27f];
     CGPoint point;
     point.x=self.view.frame.size.width/2;
-
+    
     if (ShowHide) {
-
-    if (currentText.text.length > 0) {
-    for (int i=0; i< data.count; i++) {
-
-    if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-
-    [listPicker selectRow:i inComponent:0 animated:YES];
-
-    break;
-    }
-    }
-    }
-    point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-    [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-
+        
+        if (currentText.text.length > 0) {
+            for (int i=0; i< data.count; i++) {
+                
+                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                    
+                    [listPicker selectRow:i inComponent:0 animated:YES];
+                    
+                    break;
+                }
+            }
+        }
+        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
+        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
+        
     }else{
-    [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-    point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
+        [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
+        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
     }
-
-
+    
+    
     [self.view viewWithTag:listPickerTag].center = point;
-
+    
     [UIView commitAnimations];
 }
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -244,9 +244,9 @@
         arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :@"";
         seasonId=[self KeyForValue:@"Season":currentText.text];
     }
-
+    
     return [arrSeasons count];
-
+    
 }
 
 #pragma mark- Picker delegate method
@@ -269,21 +269,21 @@
 
 {
     NSArray *arrValues=[[DicData objectForKey:superKey] allValues];
-
+    
     NSArray *arrkeys=[[DicData objectForKey:superKey] allKeys];
-
+    
     NSString *strValue=@"";
-
+    
     for (int i=0; i<arrValues.count; i++) {
-
-    if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
-    {
-        strValue=[arrkeys objectAtIndex:i];
         
-        break;
+        if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
+        {
+            strValue=[arrkeys objectAtIndex:i];
+            
+            break;
+            
+        }
         
-    }
-
     }
     return strValue;
     
@@ -292,159 +292,159 @@
 -(void)getSeasonData{
     
     if ([SingaltonClass  CheckConnectivity]) {
-    
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
-
-    UserInformation *userInfo=[UserInformation shareInstance];
-
-    [SingaltonClass addActivityIndicator:self.view];
-
-    NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
-
-    [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getSeasonTag];
-
+        
+        webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
+        
+        UserInformation *userInfo=[UserInformation shareInstance];
+        
+        [SingaltonClass addActivityIndicator:self.view];
+        
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
+        
+        [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getSeasonTag];
+        
     }else{
-
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        
+        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        
     }
 }
 -(void)getMultimediaAlbum{
     
     if ([SingaltonClass  CheckConnectivity]) {
-    UserInformation *userInfo=[UserInformation shareInstance];
-
-    NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"album_id\":\"%@\"}",userInfo.userId,AlbumId];
-
-    [SingaltonClass addActivityIndicator:self.view];
-
-    [webservice WebserviceCall:webServiceGetMultimediaAlbum :strURL :getAlbumDataTag];
-
+        UserInformation *userInfo=[UserInformation shareInstance];
+        
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"album_id\":\"%@\"}",userInfo.userId,AlbumId];
+        
+        [SingaltonClass addActivityIndicator:self.view];
+        
+        [webservice WebserviceCall:webServiceGetMultimediaAlbum :strURL :getAlbumDataTag];
+        
     }else{
-
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        
+        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        
     }
 }
 -(void)getMultimediaPic{
     
     if ([SingaltonClass  CheckConnectivity]) {
-    
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
-    UserInformation *userInfo=[UserInformation shareInstance];
-
-    NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId];
-
-    [SingaltonClass addActivityIndicator:self.view];
-
-    [webservice WebserviceCall:webServiceGetMultimediaPic :strURL :getPicDataTag];
-
+        
+        webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
+        UserInformation *userInfo=[UserInformation shareInstance];
+        
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId];
+        
+        [SingaltonClass addActivityIndicator:self.view];
+        
+        [webservice WebserviceCall:webServiceGetMultimediaPic :strURL :getPicDataTag];
+        
     }else{
-
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        
+        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingaltonClass RemoveActivityIndicator:self.view];
-
+    
     switch (Tag)
     {
-    case getPicDataTag :
-    {
-        [multimediaData removeAllObjects];
-
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-    {
-    AllMultimediaData=[[MyResults valueForKey:@"data"] copy];
-   
-    for (int i=0; i< AllMultimediaData.count; i++) {
-        NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
-        [multimediaData addObject:temp];
-    }
-    _segmentControl.selectedSegmentIndex=0;
-        
-    [_tableView reloadData];
-    }else{
-    [multimediaData removeAllObjects];
-    [_tableView reloadData];
-    [SingaltonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
-    }
-
-    break;
-    } case getSeasonTag:
-    {
-
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-    {
-        DicData=[MyResults  objectForKey:@"data"];
-        arrSeasons=[[NSMutableArray alloc] init];
-        NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues];
-        //To remove off season
-        for (int i=0;i<arrtemp.count; i++) {
+        case getPicDataTag :
+        {
+            [multimediaData removeAllObjects];
             
-            if (![[arrtemp objectAtIndex:i] isEqualToString:@"Off Season"]) {
-                [arrSeasons addObject:[arrtemp objectAtIndex:i]];
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {
+                AllMultimediaData=[[MyResults valueForKey:@"data"] copy];
+                
+                for (int i=0; i< AllMultimediaData.count; i++) {
+                    NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
+                    [multimediaData addObject:temp];
+                }
+                _segmentControl.selectedSegmentIndex=0;
+                
+                [_tableView reloadData];
+            }else{
+                [multimediaData removeAllObjects];
+                [_tableView reloadData];
+                [SingaltonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
             }
+            
+            break;
+        } case getSeasonTag:
+        {
+            
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {
+                DicData=[MyResults  objectForKey:@"data"];
+                arrSeasons=[[NSMutableArray alloc] init];
+                NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues];
+                //To remove off season
+                for (int i=0;i<arrtemp.count; i++) {
+                    
+                    if (![[arrtemp objectAtIndex:i] isEqualToString:@"Off Season"]) {
+                        [arrSeasons addObject:[arrtemp objectAtIndex:i]];
+                    }
+                }
+            }else{
+                //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+            }
+            
+            break;
         }
-    }else{
-        //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
-    }
-
-    break;
-    }
-    case getAlbumDataTag :
-    {
-
-    if([AlbumId isEqualToString:@""])
-    {
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-    {
-    [multimediaData removeAllObjects];
-
-    NSArray *temp=[[MyResults valueForKey:@"data"] copy];
-
-    for (int i=0; i< temp.count; i++) {
-    NSDictionary *tempDic=[[temp objectAtIndex:i] valueForKey:@"MultimediaAlbum"];
-    [multimediaData addObject:tempDic];
-    }
-    [_tableView reloadData];
-    } else
-    {
-    [SingaltonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
-    AlbumId=@"";
-
-    }
-
-
-    }else{
-
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-    {
-    NSArray *temp=[MyResults valueForKey:@"data"] ;
-
-    //            for (int i=0; i< temp.count; i++) {
-    //                NSDictionary *tempDic=[[temp objectAtIndex:i] valueForKey:@"MultimediaAlbum"];
-    //                [multimediaData addObject:tempDic];
-    //            }
-
-    DisplayFolderContant *obj=[[DisplayFolderContant alloc] initWithNibName:@"DisplayFolderContant" bundle:nil];
-    obj.picData=temp;
-    obj.screenTitle=[[multimediaData objectAtIndex:titleIndex] valueForKey:@"name"];
-    [self.navigationController pushViewController:obj animated:NO];
-
-    } else
-    {
-    [SingaltonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
-    AlbumId=@"";
-
-    }
-    }
-
-    }
+        case getAlbumDataTag :
+        {
+            
+            if([AlbumId isEqualToString:@""])
+            {
+                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                {
+                    [multimediaData removeAllObjects];
+                    
+                    NSArray *temp=[[MyResults valueForKey:@"data"] copy];
+                    
+                    for (int i=0; i< temp.count; i++) {
+                        NSDictionary *tempDic=[[temp objectAtIndex:i] valueForKey:@"MultimediaAlbum"];
+                        [multimediaData addObject:tempDic];
+                    }
+                    [_tableView reloadData];
+                } else
+                {
+                    [SingaltonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
+                    AlbumId=@"";
+                    
+                }
+                
+                
+            }else{
+                
+                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                {
+                    NSArray *temp=[MyResults valueForKey:@"data"] ;
+                    
+                    //            for (int i=0; i< temp.count; i++) {
+                    //                NSDictionary *tempDic=[[temp objectAtIndex:i] valueForKey:@"MultimediaAlbum"];
+                    //                [multimediaData addObject:tempDic];
+                    //            }
+                    
+                    DisplayFolderContant *obj=[[DisplayFolderContant alloc] initWithNibName:@"DisplayFolderContant" bundle:nil];
+                    obj.picData=temp;
+                    obj.screenTitle=[[multimediaData objectAtIndex:titleIndex] valueForKey:@"name"];
+                    [self.navigationController pushViewController:obj animated:NO];
+                    
+                } else
+                {
+                    [SingaltonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
+                    AlbumId=@"";
+                    
+                }
+            }
+            
+        }
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -461,35 +461,35 @@
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     int noOfRow=(int)(multimediaData.count/2);
-
+    
     if (noOfRow==0) {
         if (multimediaData.count==1) {
             return (multimediaData.count/2+1);
         }else
-         return (multimediaData.count/2);
+            return (multimediaData.count/2);
     }else{
-         return (multimediaData.count/2+1);
+        return (multimediaData.count/2+1);
     }
-
+    
     return (multimediaData.count/2);
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-     NSString *CellIdentifier = [NSString stringWithFormat:@"MultimediaCell_%d_%d",(int)indexPath.section,(int)indexPath.row ];
+    NSString *CellIdentifier = [NSString stringWithFormat:@"MultimediaCell_%d_%d",(int)indexPath.section,(int)indexPath.row ];
     static NSString *CellNib = @"MultimediaCell";
     MultimediaCell *cell;
     cell = (MultimediaCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
+    
     if (cell==nil) {
-    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
-    cell = (MultimediaCell *)[nib objectAtIndex:0];
-    cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    cell.First_imageview.layer.borderWidth=.50;
-    cell.Second_imageview.layer.borderWidth=.50;
-    cell.First_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    cell.Second_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
-
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
+        cell = (MultimediaCell *)[nib objectAtIndex:0];
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.First_imageview.layer.borderWidth=.50;
+        cell.Second_imageview.layer.borderWidth=.50;
+        cell.First_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        cell.Second_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        
     }
     
     if (_segmentControl.selectedSegmentIndex==3)
@@ -507,21 +507,21 @@
         //pgr=nil;
         
         UITapGestureRecognizer *pgr1 = [[UITapGestureRecognizer alloc]
-                                       initWithTarget:self action:@selector(handlePinch:)];
+                                        initWithTarget:self action:@selector(handlePinch:)];
         [pgr1 setNumberOfTouchesRequired:1];
         [pgr1 setNumberOfTapsRequired:1];
         [pgr1 setDelegate:self];
         [cell.Second_imageview addGestureRecognizer:pgr1];
         
-       // pgr1=nil;
+        // pgr1=nil;
         
         if (multimediaData.count > 2*indexPath.row ) {
-             cell.First_imageview.tag=2*indexPath.row;
+            cell.First_imageview.tag=2*indexPath.row;
             [cell.First_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
-           
+            
             [cell.First_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] : @""];
             [cell.First_textViewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"]  :@""];
-        
+            
         }else
         {
             cell.First_imageview.hidden=YES;
@@ -530,7 +530,7 @@
         }
         
         if (multimediaData.count > 2*indexPath.row+1) {
-             cell.Second_imageview.tag=2*indexPath.row+1;
+            cell.Second_imageview.tag=2*indexPath.row+1;
             [cell.Second_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
             [cell.Second_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row+1)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)+1] valueForKey:@"name"] : @""];
             [cell.SecondTextviewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"]  :@""];
@@ -540,36 +540,36 @@
             cell.Second_lblName.hidden=YES;
             cell.SecondTextviewDes.hidden=YES;
         }
-    
-    }else
-    {
-    
-    if (multimediaData.count > 2*indexPath.row ) {
-        [cell.First_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
-        [cell.First_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:(2*indexPath.row)]];
-        [cell.First_textViewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row)]];
-    }else
-    {
-        cell.First_imageview.hidden=YES;
-        cell.First_lblName.hidden=YES;
-        cell.First_textViewDes.hidden=YES;
-    }
-
-    
-    if (multimediaData.count > 2*indexPath.row+1) {
-    
-        [cell.Second_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row+1)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
-        [cell.Second_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:indexPath.row+1]];
-        [cell.SecondTextviewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row+1)]];
         
-     }else
-     {
-         
-         cell.Second_imageview.hidden=YES;
-         cell.Second_lblName.hidden=YES;
-         cell.SecondTextviewDes.hidden=YES;
-     }
-     }
+    }else
+    {
+        
+        if (multimediaData.count > 2*indexPath.row ) {
+            [cell.First_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
+            [cell.First_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:(2*indexPath.row)]];
+            [cell.First_textViewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row)]];
+        }else
+        {
+            cell.First_imageview.hidden=YES;
+            cell.First_lblName.hidden=YES;
+            cell.First_textViewDes.hidden=YES;
+        }
+        
+        
+        if (multimediaData.count > 2*indexPath.row+1) {
+            
+            [cell.Second_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row+1)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
+            [cell.Second_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:indexPath.row+1]];
+            [cell.SecondTextviewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row+1)]];
+            
+        }else
+        {
+            
+            cell.Second_imageview.hidden=YES;
+            cell.Second_lblName.hidden=YES;
+            cell.SecondTextviewDes.hidden=YES;
+        }
+    }
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -589,11 +589,11 @@
 -(void)handlePinch :(UITapGestureRecognizer *)pinchGestureRecognizer
 {
     
-
+    
     titleIndex=(int)pinchGestureRecognizer.view.tag;
     AlbumId=[[multimediaData objectAtIndex:pinchGestureRecognizer.view.tag] valueForKey:@"id"];
     [self getMultimediaAlbum];
-
+    
     
 }
 
@@ -601,20 +601,20 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     if (arrSeasons.count > 0) {
-    currentText=textField;
-    [listPicker reloadComponent:0];
-    [self setPickerVisibleAt:YES:arrSeasons];
+        currentText=textField;
+        [listPicker reloadComponent:0];
+        [self setPickerVisibleAt:YES:arrSeasons];
         
     }else{
-     [SingaltonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
+        [SingaltonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
     }
-   
+    
     
     return NO;
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-
+    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -630,13 +630,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

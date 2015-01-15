@@ -150,7 +150,7 @@ static SingaltonClass *objSingaltonClass=nil;
             
         }else{
             point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
-            [self setToolbarVisibleAt:CGPointMake(point.x,(SCREEN_HEIGHT)+50):toolbar];
+           
         }
         
          pickerView.center = point;
@@ -164,7 +164,19 @@ static SingaltonClass *objSingaltonClass=nil;
             
         }else{
             point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
-            [self setToolbarVisibleAt:CGPointMake(point.x,(SCREEN_HEIGHT)+50):toolbar];
+        }
+        
+        pickerView.center = point;
+    }else  if ([picker isKindOfClass:[UIPickerView class]]) {
+        
+        UIPickerView *pickerView=(UIPickerView *)picker;
+        if (ShowHide) {
+            
+            point.y=(SCREEN_HEIGHT)-(PickerHeight);
+            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
+            
+        }else{
+            point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
         }
         
         pickerView.center = point;

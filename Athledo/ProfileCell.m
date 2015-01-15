@@ -21,7 +21,7 @@
 #define FieldClearBackground [UIColor clearColor]
 #define FieldWhiteBackground [UIColor whiteColor]
 
-#define SchoolInfoX isIPAD ? 270 : 60
+#define SchoolInfoX isIPAD ? 240 : 60
 #define SchoolInfoDateW isIPAD ? 110 : 80
 #define SchoolInfoDateX isIPAD ? 300 : 70
 #define SchoolInfoDesW isIPAD ? 300 : 200
@@ -31,8 +31,8 @@
 #define LINE_SEP_X isIPAD ? 170 : 50
 #define LINE_SEP_W isIPAD ? 468 : 220
 
-#define AwardInfoCupX isIPAD ? 370 : 140
-#define AwardInfoX isIPAD ? 300 : 60
+#define AwardInfoCupX isIPAD ? 360 : 140
+#define AwardInfoX isIPAD ? 290 : 60
 #define AwardInfoW isIPAD ? 200 : 200
 
 #define FName_W isIPAD ? 135 : 130
@@ -41,6 +41,7 @@
 #define AthleteSportX 182
 
 #define VIEW_X  30
+#define sportinfoFont isIPAD ? [UIFont fontWithName:@"HelveticaNeue" size:16] : [UIFont fontWithName:@"HelveticaNeue" size:13];
 
 @implementation ProfileCell
 @synthesize addProfileDelegate;
@@ -125,46 +126,17 @@
     imageAddIndicator.image=[UIImage imageNamed:@"location_icon.png"];
 
     [self addSubview:imageAddIndicator];
-/*
 
-    UITextField *txtViewAddress = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 32, GenralInfoWeight, 20)];
-    txtViewAddress.tag = (indexPath.section+1)*1000+Fsection;
-    txtViewAddress.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
-    txtViewAddress.delegate = del;
-    txtViewAddress.font =Textfont;
-    //txtViewAddress.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    txtViewAddress.textColor=isEdit ? ColorLightgray : ColorGray;;
-    txtViewAddress.borderStyle = isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
-    //txtViewAddress.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [txtViewAddress setTextAlignment:GenralInfoAlignment];
-
-    txtViewAddress.text =[GenralInfo objectForKey:@"address"];
-    // txtViewAddress.placeholder = @"address";
-    txtViewAddress.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"address" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-
-    txtViewAddress.alpha = 1.0;
-    txtViewAddress.userInteractionEnabled = isEdit;
-
-    [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtViewAddress.tag]];
-    [self addSubview:txtViewAddress];
-        */
         UILabel *txtViewAddress = [[UILabel alloc] initWithFrame:CGRectMake(((GenralInfoX)), 22, GenralInfoWeight, 40)];
         txtViewAddress.tag = (indexPath.section+1)*1000+Fsection;
         txtViewAddress.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
-        //txtViewAddress.delegate = del;
         txtViewAddress.font =Textfont;
-        //txtViewAddress.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
         txtViewAddress.textColor=isEdit ? ColorLightgray : ColorGray;;
-        //txtViewAddress.borderStyle = isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
-        //txtViewAddress.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         [txtViewAddress setTextAlignment:GenralInfoAlignment];
         
         txtViewAddress.text =[GenralInfo objectForKey:@"address"];
         txtViewAddress.lineBreakMode=NSLineBreakByWordWrapping;
         txtViewAddress.numberOfLines=2;
-        // txtViewAddress.placeholder = @"address";
-        //txtViewAddress.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"address" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-        
         txtViewAddress.alpha = 1.0;
         txtViewAddress.userInteractionEnabled = isEdit;
         
@@ -221,9 +193,9 @@
     Fsection=Fsection+1;
 
     // UILabel *lblapt= [[UILabel alloc] initWithFrame:CGRectMake(43, 96, 45, 20)];
-    UILabel *lblapt= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 96, 45, 20)];
+    UILabel *lblapt= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 96, 65, 20)];
     lblapt.text = @"Unit No-";
-    lblapt.font = [UIFont fontWithName:@"HelveticaNeue" size:10];
+    lblapt.font = isIPAD ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:13];
     lblapt.textColor=isEdit ? ColorLightgray : ColorGray;;
     lblapt.alpha = 1.0;
     lblapt.userInteractionEnabled = isEdit;
@@ -252,9 +224,9 @@
     [self addSubview:txtfieldAppt];
     Fsection=Fsection+1;
 
-    UILabel *lblZip= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 117, 25, 20)];
+    UILabel *lblZip= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 117, 45, 20)];
     lblZip.text = @"Zip-";
-    lblZip.font = [UIFont fontWithName:@"HelveticaNeue" size:10];
+        lblZip.font =isIPAD ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:13];
     lblZip.textColor=isEdit ? ColorLightgray : ColorGray;;
     lblZip.alpha = 1.0;
     lblZip.userInteractionEnabled = NO;
@@ -522,9 +494,7 @@
 
     [self addSubview:txtDescription];
     if (index==coachingInfo.count-1) {
-    //                    UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(80,135, 180, 2)];
-    //                    img.image=[UIImage imageNamed:@"red_line.png"];
-    //                    [self addSubview:img];
+   
     }
     else{
     UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,135, LINE_SEP_W, 1)];
@@ -544,16 +514,16 @@
     img1.image=[UIImage imageNamed:@"red_line.png"];
     [self addSubview:img1];
 
-    UILabel *lblAge= [[UILabel alloc] initWithFrame:CGRectMake(GenralInfoX, 15, 60, 20)];
+    UILabel *lblAge= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 15, 90, 25)];
     lblAge.text = @"Age :";
-    lblAge.font = [UIFont boldSystemFontOfSize:13];
+        lblAge.font = sportinfoFont;
     lblAge.textColor=isEdit ? ColorLightgray : ColorGray;;
     lblAge.alpha = 1.0;
     lblAge.userInteractionEnabled = isEdit;
 
     [self addSubview:lblAge];
 
-    UITextField *txtAge = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblAge.frame.size.width), 15, 98, 20)];
+    UITextField *txtAge = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblAge.frame.size.width)-40, 15, 98, 20)];
     txtAge.tag = (indexPath.section+1)*1000+Ssection;
     //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtAge.tag]);
     txtAge.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
@@ -578,10 +548,9 @@
     Ssection=Ssection+1;
 
 
-    UILabel *lblHeight= [[UILabel alloc] initWithFrame:CGRectMake(GenralInfoX, 37, 60, 20)];
+    UILabel *lblHeight= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 37, 90, 25)];
     lblHeight.text = @"Height :";
-    lblHeight.font = [UIFont boldSystemFontOfSize:13];
-    // lblHeight.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
+    lblHeight.font = sportinfoFont;
     lblHeight.textColor=isEdit ? ColorLightgray : ColorGray;;
 
     lblHeight.alpha = 1.0;
@@ -590,7 +559,7 @@
     [self addSubview:lblHeight];
 
 
-    UITextField *txtHeight = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblHeight.frame.size.width), 37, 98, 20)];
+    UITextField *txtHeight = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblHeight.frame.size.width)-40, 37, 98, 20)];
     txtHeight.tag = (indexPath.section+1)*1000+Ssection;
     //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtHeight.tag]);
     txtHeight.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
@@ -613,9 +582,9 @@
     Ssection=Ssection+1;
 
 
-    UILabel *lblWeight= [[UILabel alloc] initWithFrame:CGRectMake(GenralInfoX, 59, 60, 20)];
+    UILabel *lblWeight= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 59, 90, 25)];
     lblWeight.text = @"Weight :";
-    lblWeight.font = [UIFont boldSystemFontOfSize:13];
+    lblWeight.font =sportinfoFont;
     // lblWeight.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
     lblWeight.textColor=isEdit ? ColorLightgray : ColorGray;;
 
@@ -625,7 +594,7 @@
     [self addSubview:lblWeight];
 
 
-    UITextField *txtWeight = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblWeight.frame.size.width), 59, 98, 20)];
+    UITextField *txtWeight = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblWeight.frame.size.width)-40, 59, 98, 20)];
     txtWeight.tag = (indexPath.section+1)*1000+Ssection;
     txtWeight.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtWeight.delegate = del;
@@ -648,10 +617,9 @@
     Ssection=Ssection+1;
 
 
-    UILabel *lblYear= [[UILabel alloc] initWithFrame:CGRectMake(GenralInfoX, 81, 90, 20)];
+    UILabel *lblYear= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 81, 90, 25)];
     lblYear.text = @"Class Year :";
-    //lblYear.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
-    lblYear.font = [UIFont boldSystemFontOfSize:13];
+    lblYear.font = sportinfoFont;
     lblYear.textColor=isEdit ? ColorLightgray : ColorGray;;
 
     lblYear.alpha = 1.0;
@@ -660,7 +628,7 @@
     [self addSubview:lblYear];
 
 
-    UITextField *txtYear = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblYear.frame.size.width), 81, 78, 20)];
+    UITextField *txtYear = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblYear.frame.size.width)-40, 81, 78, 20)];
     txtYear.tag = (indexPath.section+1)*1000+Ssection;
     txtYear.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtYear.delegate = del;

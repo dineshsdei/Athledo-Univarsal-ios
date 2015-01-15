@@ -18,6 +18,7 @@
      WebServiceClass *webservice;
     
      int scrollHeight;
+    UIToolbar *toolBar;
 }
 @property (strong, nonatomic) id keyboardAppear;
 @property (strong, nonatomic) id keyboardHide;

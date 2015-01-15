@@ -221,71 +221,64 @@ BOOL isKeyBoard;
 }
 
 - (IBAction)submitdata:(id)sender {
-    
-  
-    //NSLog(@"text %@",txtFieldUserId.text);
  
     if ([SingaltonClass  CheckConnectivity]) {
-        
-        //Check for empty Text box
-        NSString *strError = @"";
-        if(txtFieldUserId.text.length < 1 )
-        {
-            strError = @"Please enter mail id";
-        }
-               
-        if(strError.length > 1)
-        {
-            [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
-            return;
-        }else{
-            
-               BOOL emailValid=[SingaltonClass emailValidate:txtFieldUserId.text];
-            
-            if (emailValid) {
-                
-                ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-                indicator.tag = 50;
-                [self.view addSubview:indicator];
-                
-                NSString *strURL = [NSString stringWithFormat:@"{\"email\":\"%@\"}",[txtFieldUserId.text lowercaseString]];
-                
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceForgotPassword]];
-                [request setHTTPMethod:@"POST"];
-                [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-                
-                NSMutableData *data = [NSMutableData data];
-                [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
-                [request setHTTPBody:data];
-                
-                [NSURLConnection sendAsynchronousRequest:request
-                                                   queue:[NSOperationQueue mainQueue]
-                                       completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                           // ...
-                                           
-                                           //NSLog(@"reponse %@",response);
-                                           
-                                           if (data!=nil)
-                                           {
-                                               [self httpResponseReceived : data];
-                                           }else{
-                                               ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-                                               if(acti)
-                                                   [acti removeFromSuperview];
-                                           }
-                                           
-                                           
-                                       }];
-            }else{
-                
-                 [SingaltonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
-            }
-        }
-        
+
+    //Check for empty Text box
+    NSString *strError = @"";
+    if(txtFieldUserId.text.length < 1 )
+    {
+    strError = @"Please enter mail id";
+    }
+
+    if(strError.length > 1)
+    {
+    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    return;
     }else{
-        
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
+
+    BOOL emailValid=[SingaltonClass emailValidate:txtFieldUserId.text];
+
+    if (emailValid) {
+
+    ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
+    indicator.tag = 50;
+    [self.view addSubview:indicator];
+
+    NSString *strURL = [NSString stringWithFormat:@"{\"email\":\"%@\"}",[txtFieldUserId.text lowercaseString]];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceForgotPassword]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    NSMutableData *data = [NSMutableData data];
+    [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
+    [request setHTTPBody:data];
+
+    [NSURLConnection sendAsynchronousRequest:request
+    queue:[NSOperationQueue mainQueue]
+    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    if (data!=nil)
+    {
+    [self httpResponseReceived : data];
+    }else{
+    ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
+    if(acti)
+    [acti removeFromSuperview];
+    }
+
+
+    }];
+    }else{
+
+    [SingaltonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
+    }
+    }
+
+    }else{
+
+    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+
     }
     
 }

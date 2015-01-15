@@ -50,28 +50,28 @@
 }
 
 - (NSMutableDictionary *)dictionaryFromQueryStringComponents {
-
+    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-
+    
     for (NSString *keyValue in [self componentsSeparatedByString:@"&"]) {
         NSArray *keyValueArray = [keyValue componentsSeparatedByString:@"="];
         if ([keyValueArray count] < 2) {
             continue;
         }
-
+        
         NSString *key = [[keyValueArray objectAtIndex:0] stringByDecodingURLFormat];
         NSString *value = [[keyValueArray objectAtIndex:1] stringByDecodingURLFormat];
-
+        
         NSMutableArray *results = [parameters objectForKey:key];
-
+        
         if(!results) {
             results = [NSMutableArray arrayWithCapacity:1];
             [parameters setObject:results forKey:key];
         }
-
+        
         [results addObject:value];
     }
-
+    
     return parameters;
 }
 
@@ -109,20 +109,20 @@
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setValue:kUserAgent forHTTPHeaderField:@"User-Agent"];
         [request setHTTPMethod:@"GET"];
-
+        
         NSURLResponse *response = nil;
         NSError *error = nil;
         NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-
+        
         if (!error) {
             NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-
+            
             NSMutableDictionary *parts = [responseString dictionaryFromQueryStringComponents];
-
+            
             if (parts) {
                 NSString *fmtStreamMapString = [[parts objectForKey:@"url_encoded_fmt_stream_map"] objectAtIndex:0];
                 if (fmtStreamMapString.length > 0) {
-
+                    
                     NSArray *fmtStreamMapArray = [fmtStreamMapString componentsSeparatedByString:@","];
                     NSMutableDictionary *videoDictionary = [NSMutableDictionary dictionary];
                     
@@ -130,16 +130,16 @@
                         NSMutableDictionary *videoComponents = [videoEncodedString dictionaryFromQueryStringComponents];
                         NSString *type = [[[videoComponents objectForKey:@"type"] objectAtIndex:0] stringByDecodingURLFormat];
                         NSString *signature = nil;
-
+                        
                         if (![videoComponents objectForKey:@"stereo3d"]) {
                             if ([videoComponents objectForKey:@"itag"]) {
                                 signature = [[videoComponents objectForKey:@"itag"] objectAtIndex:0];
                             }
-
+                            
                             if (signature && [type rangeOfString:@"mp4"].length > 0) {
                                 NSString *url = [[[videoComponents objectForKey:@"url"] objectAtIndex:0] stringByDecodingURLFormat];
                                 url = [NSString stringWithFormat:@"%@&signature=%@", url, signature];
-
+                                
                                 NSString *quality = [[[videoComponents objectForKey:@"quality"] objectAtIndex:0] stringByDecodingURLFormat];
                                 if ([videoComponents objectForKey:@"stereo3d"] && [[videoComponents objectForKey:@"stereo3d"] boolValue]) {
                                     quality = [quality stringByAppendingString:@"-stereo3d"];
@@ -217,7 +217,7 @@
 + (NSURL *)thumbnailUrlForYoutubeURL:(NSURL *)youtubeURL
                        thumbnailSize:(YouTubeThumbnail)thumbnailSize{
     NSURL *url = nil;
-
+    
     if(youtubeURL){
         NSString *thumbnailSizeString = nil;
         switch (thumbnailSize) {
@@ -240,7 +240,7 @@
         NSString *youtubeID = [self youtubeIDFromYoutubeURL:youtubeURL];
         url = [NSURL URLWithString:[NSString stringWithFormat:kYoutubeThumbnailURL, youtubeID, thumbnailSizeString]];
     }
-
+    
     return  url;
 }
 
@@ -264,12 +264,12 @@
                 thumbnailSizeString = @"default";
                 break;
         }
-
+        
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kYoutubeThumbnailURL, youtubeID, thumbnailSizeString]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [request setValue:kUserAgent forHTTPHeaderField:@"User-Agent"];
         [request setHTTPMethod:@"GET"];
-
+        
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             if (!error) {
@@ -294,7 +294,7 @@
     if (youtubeID)
     {
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:kYoutubeDataURL, youtubeID]]];
-
+        
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             if (!error) {
