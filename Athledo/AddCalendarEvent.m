@@ -1103,9 +1103,6 @@
                     [CalendarEvent ShareInstance].strActualStartDate=[_eventDetailsDic valueForKey:@"actual_start_date"];
                     [CalendarEvent ShareInstance].strEndDate=[df stringFromDate:enddate];
                 }
-
-                
-                
             }
             break;
         }
@@ -1471,19 +1468,20 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
+     // to manage placeholder text 
     if (textView.text.length==0)
     {
-        //textView.textColor=[UIColor lightGrayColor];
-        textView.text=@"Description";
+       // textView.text=@"Description";
     }
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    // to manage placeholder text
     if ([textView.text isEqualToString:@"Description"])
     {
         
-        textView.text=@"";
+        //textView.text=@"";
     }
     
     return YES;
@@ -1517,8 +1515,6 @@
     if (![[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"]){
 
     [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnEnable.png"]];
-   
-        
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
         for (id object in arrController)
@@ -1539,8 +1535,6 @@
             repeatEvent.obj=_eventDetailsDic;
             [self.navigationController pushViewController:repeatEvent animated:NO];
         }
-
-  
 
     }else
     {

@@ -64,15 +64,11 @@
     }
     return self;
 }
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return arrMenuList.count;
 }
-
 // This method, Add tableview cell images
-
 -(UIImage *)SetImage:(NSInteger)index
 {
     UIImage *image;
@@ -277,8 +273,7 @@
             WorkOutView *workoutViewController = [[WorkOutView alloc] initWithNibName:@"WorkOutView" bundle:nil];
             workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:workoutViewController];
-            
-            //[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
+    
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             
@@ -322,9 +317,8 @@
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
         {
-            UIViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
-            //  UIViewController   *vc =  [[CalendarMonthViewController alloc] initWithNibName:@"CalendarMonthView" bundle:nil];
-            //CalendarMainViewController *calendarViewController = [[CalendarMainViewController alloc] init];
+            CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
+             vc.objNotificationData=notificationData ;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
             
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
@@ -404,9 +398,6 @@
         [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
-    
-    
-    
 }
 //this method, get webservice response from web
 
@@ -499,7 +490,6 @@
     case 2:
     arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
 
-
     break;
 
     default:
@@ -511,8 +501,6 @@
     }else{
 
     arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
-
-
 
     }
 

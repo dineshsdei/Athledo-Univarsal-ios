@@ -59,13 +59,6 @@
                        [NSDate date],
                        nil];
     
-    
-   // self.timestamps = [[NSMutableArray alloc]init];
-    
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward
-//                                                                                           target:self
-//                                                                                           action:@selector(buttonPressed:)];
-
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
@@ -149,6 +142,8 @@
                 }
                 arrSenderids=[MyResults objectForKey:@"receiver_id"];
                // //NSLog(@"dict %@",[MyResults valueForKey:@"desc"]);
+                
+                self.tableView.frame=CGRectMake(self.view.frame.origin.x+10, 0, self.view.frame.size.width-20, self.view.frame.size.height);
                 [self.tableView reloadData];
             }
             
@@ -279,20 +274,19 @@
 
     
 }
+// Use this method when satatic images shows
+// Uncommnet method from tableview cell
+
 - (UIImage *)avatarImageForIncomingMessage
 {
-    // Use this method when satatic images shows
-    // Uncommnet method from tableview cell
     
     return [UIImage imageNamed:@"demo-avatar-woz"];
 }
-
+// Use this method when satatic images shows
+// Uncommnet method from tableview cell
 - (UIImage *)avatarImageForOutgoingMessage
 {
-    // Use this method when satatic images shows
-    // Uncommnet method from tableview cell
-
-
+   
     return [UIImage imageNamed:@"demo-avatar-jobs"];
 }
 

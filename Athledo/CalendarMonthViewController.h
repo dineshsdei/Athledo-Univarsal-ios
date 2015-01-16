@@ -48,6 +48,7 @@
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic,strong) NSMutableDictionary *dataDictionary;
+@property(weak,nonatomic)id objNotificationData;
 
 //- (void) generateRandomDataForStartDate:(NSDate*)start endDate:(NSDate*)end;
 

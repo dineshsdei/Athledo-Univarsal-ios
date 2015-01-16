@@ -351,7 +351,9 @@ UIBarButtonItem *revealButtonItem;;
     if (Status==FALSE)
     {
     CalendarMonthViewController *weekView = [[CalendarMonthViewController alloc]init];
-    //weekView.eventDic=_eventDic;
+        if (_objNotificationData) {
+            weekView.objNotificationData=_objNotificationData;
+        }
     [self.navigationController pushViewController:weekView animated:NO];
 
     }
@@ -374,7 +376,9 @@ UIBarButtonItem *revealButtonItem;;
     if (Status==FALSE)
     {
     WeekViewController *weekView = [[WeekViewController alloc]init];
-    // weekView.eventDic=_eventDic;
+        if (_objNotificationData) {
+            weekView.objNotificationData=_objNotificationData;
+        }
     [self.navigationController pushViewController:weekView animated:NO];
 
     }
@@ -397,6 +401,9 @@ UIBarButtonItem *revealButtonItem;;
     {
     MapViewController *mapView = [[MapViewController alloc]init];
     mapView.eventDic=_eventDic;
+        if (_objNotificationData) {
+            mapView.objNotificationData=_objNotificationData;
+        }
     [self.navigationController pushViewController:mapView animated:NO];
 
     }
@@ -472,6 +479,9 @@ UIBarButtonItem *revealButtonItem;;
     CalenderEventDetails *eventDetails=(CalenderEventDetails*)(object);
     eventDetails.eventDetailsDic=[_eventDic objectAtIndex:eventView.EventTag];
     eventDetails.strMoveControllerName=@"CalendarDayViewController";
+        if (_objNotificationData) {
+            eventDetails.objNotificationData=_objNotificationData;
+        }
     [self.navigationController popToViewController:eventDetails animated:NO];
     }
     }
@@ -481,6 +491,9 @@ UIBarButtonItem *revealButtonItem;;
     CalenderEventDetails *eventDetails=[[CalenderEventDetails alloc] init];
     eventDetails.eventDetailsDic=[_eventDic objectAtIndex:eventView.EventTag];
     eventDetails.strMoveControllerName=@"CalendarDayViewController";
+        if (_objNotificationData) {
+            eventDetails.objNotificationData=_objNotificationData;
+        }
     [self.navigationController pushViewController:eventDetails animated:NO];
     }
 }

@@ -22,4 +22,5 @@
 @property(nonatomic,strong) NSArray *eventDic;
 - (IBAction)standardMap:(id)sender;
 - (IBAction)satelliteMap:(id)sender;
+@property(weak,nonatomic)id objNotificationData;
 @end

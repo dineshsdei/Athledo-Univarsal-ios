@@ -78,7 +78,7 @@
                                     <rect key="frame" x="0.0" y="208" width="770" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="right" id="FEm-ac-Adk">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" keyboardDismissMode="interactive" id="FEm-ac-Adk">
                                             <rect key="frame" x="116" y="1" width="654" height="50"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>

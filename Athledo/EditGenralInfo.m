@@ -103,9 +103,7 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-        [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22)) :toolBar];
+        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
         scrollHeight=kbSize.height;
         
         
@@ -116,9 +114,9 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
-        // [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-        [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22)) :toolBar];
+        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        
+        
         
     }];
     
@@ -172,7 +170,7 @@
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
-    listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, listPicker.frame.size.height);
+    listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag=60;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
     
@@ -210,32 +208,32 @@
     
     self.navigationItem.leftBarButtonItem.enabled=NO;
     if ([SingaltonClass  CheckConnectivity]) {
-    NSString *strURL = [NSString stringWithFormat:@"{\"country_id\":\"%d\"}",CountryCode];
-
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetStateList]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
-    NSMutableData *data = [NSMutableData data];
-
-    [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
-    [request setHTTPBody:data];
-
-    [NSURLConnection sendAsynchronousRequest:request
-    queue:[NSOperationQueue mainQueue]
-    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-
-    if (data!=nil)
-    {
-    [self httpResponseReceived : data : STATELISTNUMBER];
+        NSString *strURL = [NSString stringWithFormat:@"{\"country_id\":\"%d\"}",CountryCode];
+        
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetStateList]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        NSMutableData *data = [NSMutableData data];
+        
+        [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
+        [request setHTTPBody:data];
+        
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:[NSOperationQueue mainQueue]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                   
+                                   if (data!=nil)
+                                   {
+                                       [self httpResponseReceived : data : STATELISTNUMBER];
+                                   }else{
+                                   }
+                               }];
+        
     }else{
-    }
-    }];
-
-    }else{
-
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        
+        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        
     }
 }
 
@@ -341,6 +339,9 @@
                 [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                 return;
             }
+            
+            
+            
         }
         
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -404,14 +405,15 @@
         [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
+    
+    
 }
 
 -(void)doneClicked
 {
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+50) :toolBar];
-    //[self setPickerVisibleAt:NO];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+50)];
+    [self setPickerVisibleAt:NO :arrStateList];
     [self setContentOffsetDown:currentText table:table];
 }
 
@@ -447,6 +449,9 @@
         
         // Scroll to cell
         [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
+        
+        
+        
     }else{
         
         UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
@@ -490,6 +495,8 @@
     }else if (textField.tag > 1001 )
     {
         [self setContentOffset:textField table:table];
+        
+        
     }
     
     if (textField.tag==1003 || textField.tag==1004) {
@@ -501,8 +508,7 @@
             
             [listPicker reloadComponent:0];
             
-            //[self setPickerVisibleAt:YES];
-            [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+            arrCountryList.count > 0 ? [self setPickerVisibleAt:YES :arrCountryList] : @"";
             
             return NO;
             
@@ -511,16 +517,17 @@
             [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
             
             if (arrStateList.count == 0) {
+                //[self setToolbarVisibleAt:CGPointMake(160, 700)];
                 [SingaltonClass initWithTitle:@"" message:@"Please select country name" delegate:nil btn1:@"Ok"];
                 
                 return NO;
             }
             
             isState=TRUE;
-            [listPicker reloadComponent:0];
+           [listPicker reloadComponent:0];
+            arrStateList.count > 0 ?  [self setPickerVisibleAt:YES : arrStateList] : @"";
+           
             
-            //[self setPickerVisibleAt:YES];
-            [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
             return NO;
             
         }
@@ -528,9 +535,10 @@
         
     }else
     {
-        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-        //[self setPickerVisibleAt:NO];
+        [self setPickerVisibleAt:NO :arrStateList];
     }
+    
+  
     
     return YES;
 }
@@ -550,7 +558,7 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    // [self doneClicked];
+    [self doneClicked];
     [textField resignFirstResponder];
     return YES;
 }
@@ -647,18 +655,23 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (isState) {
-        if (arrStateList.count > 0) {
-            currentText.text=@"";
+        if (arrStateList.count > 0 && currentText.text.length == 0) {
+            //currentText.text=@"";
             currentText.text=[arrStateList objectAtIndex:0];
         }
         
         return [arrStateList count];
     }else
     {
-        if (arrCountryList.count > 0) {
-            currentText.text=@"";
+        if (arrCountryList.count > 0 && currentText.text.length == 0) {
+            //currentText.text=@"";
             currentText.text=[arrCountryList objectAtIndex:0];
         }
+        
+        if (arrStateList.count ==0 && arrCountryCode.count > 0 ) {
+            [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+        }
+        
         return [arrCountryList count];
     }
     
@@ -714,7 +727,7 @@
         
     }
 }
-
+/*
 -(void)setPickerVisibleAt :(BOOL)ShowHide
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -736,6 +749,47 @@
     [self.view viewWithTag:60].center = point;
     [UIView commitAnimations];
     
+}
+*/
+-(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
+{
+    [UIView beginAnimations:@"tblViewMove" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.27f];
+    CGPoint point;
+    point.x=self.view.frame.size.width/2;
+   
+    if (ShowHide) {
+        
+        if (currentText.text.length > 0) {
+            for (int i=0; i< data.count; i++) {
+                
+                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                    
+                    if (currentText.tag==1003 && arrStateList.count==0) {
+                        CountryCodeIndex=i;
+                        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+                         [listPicker reloadAllComponents];
+                    }
+                    
+                    [listPicker selectRow:i inComponent:0 animated:YES];
+                    
+                    break;
+                }
+            }
+        }
+        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
+        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
+        
+    }else{
+        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
+        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
+    }
+    
+    
+   listPicker.center = point;
+    
+    [UIView commitAnimations];
 }
 
 

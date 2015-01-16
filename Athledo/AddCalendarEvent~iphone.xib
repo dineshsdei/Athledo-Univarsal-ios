@@ -84,7 +84,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" keyboardDismissMode="interactive" textAlignment="right" id="Ldm-k3-1VX">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" keyboardDismissMode="interactive" id="Ldm-k3-1VX">
                                             <rect key="frame" x="95" y="1" width="228" height="50"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>

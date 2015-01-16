@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebServiceClass.h"
 
-@interface CalenderEventDetails : UIViewController<UIAlertViewDelegate>
+@interface CalenderEventDetails : UIViewController<UIAlertViewDelegate,WebServiceDelegate>
+@property(weak,nonatomic)id objNotificationData;
 @property (weak, nonatomic) IBOutlet UILabel *lblEventTitle;
 @property (weak, nonatomic) IBOutlet UITextView *lblEventDescription;
 @property (weak, nonatomic) IBOutlet UILabel *lblEventLocation;

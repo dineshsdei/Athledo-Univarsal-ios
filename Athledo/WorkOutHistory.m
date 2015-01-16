@@ -69,30 +69,30 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (isSeasons) {
-    if (currentText.text.length==0) {
-        currentText.text=[arrSeasons objectAtIndex:0];
-        seasonId=[self KeyForValue:@"Season":currentText.text];
-    }
-
-    return [arrSeasons count];
-
+        if (currentText.text.length==0) {
+            currentText.text=[arrSeasons objectAtIndex:0];
+            seasonId=[self KeyForValue:@"Season":currentText.text];
+        }
+        
+        return [arrSeasons count];
+        
     }else if (isWorkOutType)
     {
-    if (currentText.text.length==0) {
-        currentText.text=[arrWorkOut objectAtIndex:0];
-        workoutId=[self KeyForValue:@"Workout Type":currentText.text];
-    }
-
-    return [arrWorkOut count];
+        if (currentText.text.length==0) {
+            currentText.text=[arrWorkOut objectAtIndex:0];
+            workoutId=[self KeyForValue:@"Workout Type":currentText.text];
+        }
+        
+        return [arrWorkOut count];
     }else if (isAthletes)
     {
-    if (currentText.text.length==0) {
-        currentText.text=[arrAthletes objectAtIndex:0];
-        AthleteId=[self KeyForValue:@"Athletes":currentText.text];
-    }
-    return [arrAthletes count];
+        if (currentText.text.length==0) {
+            currentText.text=[arrAthletes objectAtIndex:0];
+            AthleteId=[self KeyForValue:@"Athletes":currentText.text];
+        }
+        return [arrAthletes count];
     }else
-    return 0;
+        return 0;
 }
 
 #pragma mark- Picker delegate method
@@ -121,19 +121,19 @@
 {
     
     if (isWorkOutType) {
-
-    currentText.text=arrWorkOut.count > row ? [arrWorkOut objectAtIndex:row] : [arrWorkOut objectAtIndex:row-1] ;
-
-    workoutId=[self KeyForValue:@"Workout Type":currentText.text];
-
+        
+        currentText.text=arrWorkOut.count > row ? [arrWorkOut objectAtIndex:row] : [arrWorkOut objectAtIndex:row-1] ;
+        
+        workoutId=[self KeyForValue:@"Workout Type":currentText.text];
+        
     }else  if (isAthletes)
     {
-    currentText.text=arrAthletes.count > row ? [arrAthletes objectAtIndex:row] : [arrAthletes objectAtIndex:row-1] ;
-    AthleteId=[self KeyForValue:@"Athletes":currentText.text];
+        currentText.text=arrAthletes.count > row ? [arrAthletes objectAtIndex:row] : [arrAthletes objectAtIndex:row-1] ;
+        AthleteId=[self KeyForValue:@"Athletes":currentText.text];
     }else if (isSeasons)
     {
-    currentText.text=arrSeasons.count > row ? [arrSeasons objectAtIndex:row] : [arrSeasons objectAtIndex:row-1] ;
-    seasonId=[self KeyForValue:@"Season":currentText.text];
+        currentText.text=arrSeasons.count > row ? [arrSeasons objectAtIndex:row] : [arrSeasons objectAtIndex:row-1] ;
+        seasonId=[self KeyForValue:@"Season":currentText.text];
     }
 }
 
@@ -142,19 +142,19 @@
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController) {
-
-    if ([object isKindOfClass:[WorkOutView class]])
-    {
-        Status=TRUE;
-        [self.navigationController popToViewController:object animated:NO];
+        
+        if ([object isKindOfClass:[WorkOutView class]])
+        {
+            Status=TRUE;
+            [self.navigationController popToViewController:object animated:NO];
+        }
     }
-    }
-
+    
     if (Status==FALSE)
     {
-    WorkOutView *addNew=[[WorkOutView alloc] init];
-    [self.navigationController pushViewController:addNew animated:NO];
-
+        WorkOutView *addNew=[[WorkOutView alloc] init];
+        [self.navigationController pushViewController:addNew animated:NO];
+        
     }
     
 }
@@ -184,25 +184,25 @@
     
     if (isIPAD) {
         
-    _txtFieldWorkoutType.layer.cornerRadius=5;
-    _txtFieldWorkoutType.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
-    _txtFieldWorkoutType.leftViewMode = UITextFieldViewModeAlways;
-    _txtFieldWorkoutType.layer.borderWidth=.5;
-    _txtFieldWorkoutType.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    
-    _txtFieldSeason.layer.cornerRadius=5;
-    _txtFieldSeason.layer.borderWidth=.5;
-    _txtFieldSeason.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    _txtFieldSeason.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
-    _txtFieldSeason.leftViewMode = UITextFieldViewModeAlways;
-    
-    
-    _txtFieldAthlete.layer.borderWidth=.5;
-    _txtFieldAthlete.layer.cornerRadius=5;
-    _txtFieldAthlete.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    _txtFieldAthlete.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
-    _txtFieldAthlete.leftViewMode = UITextFieldViewModeAlways;
-    
+        _txtFieldWorkoutType.layer.cornerRadius=5;
+        _txtFieldWorkoutType.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
+        _txtFieldWorkoutType.leftViewMode = UITextFieldViewModeAlways;
+        _txtFieldWorkoutType.layer.borderWidth=.5;
+        _txtFieldWorkoutType.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        
+        _txtFieldSeason.layer.cornerRadius=5;
+        _txtFieldSeason.layer.borderWidth=.5;
+        _txtFieldSeason.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        _txtFieldSeason.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
+        _txtFieldSeason.leftViewMode = UITextFieldViewModeAlways;
+        
+        
+        _txtFieldAthlete.layer.borderWidth=.5;
+        _txtFieldAthlete.layer.cornerRadius=5;
+        _txtFieldAthlete.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        _txtFieldAthlete.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
+        _txtFieldAthlete.leftViewMode = UITextFieldViewModeAlways;
+        
         
         
         
@@ -264,19 +264,19 @@
 -(void)getSeasonOrWorkoutOrAthletesData{
     
     if ([SingaltonClass  CheckConnectivity]) {
-
-    UserInformation *userInfo=[UserInformation shareInstance];
-
-    [SingaltonClass addActivityIndicator:self.view];
-
-    NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
-
-    [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getDataTag];
-
+        
+        UserInformation *userInfo=[UserInformation shareInstance];
+        
+        [SingaltonClass addActivityIndicator:self.view];
+        
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
+        
+        [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getDataTag];
+        
     }else{
-
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        
+        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        
     }
 }
 
@@ -286,21 +286,21 @@
     NSArray *arrValues;
     NSArray *arrkeys;
     [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrValues=[[DicData objectForKey:superKey] allValues] : @"";
-
+    
     [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ?  arrkeys=[[DicData objectForKey:superKey] allKeys] : @"";
-
+    
     NSString *strValue=@"";
-
+    
     for (int i=0; i<arrValues.count; i++) {
-
-    if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
-    {
-    strValue=[arrkeys objectAtIndex:i];
-
-    break;
-
-    }
-
+        
+        if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
+        {
+            strValue=[arrkeys objectAtIndex:i];
+            
+            break;
+            
+        }
+        
     }
     return strValue;
     
@@ -312,15 +312,15 @@
     isPicker=FALSE;
     [self doneClicked];
     if ([SingaltonClass  CheckConnectivity]) {
-    [SingaltonClass addActivityIndicator:self.view];
-    NSString *strURL = [NSString stringWithFormat:@"{\"season_id\":\"%@\",\"workout_type_id\":\"%@\",\"user_id\":\"%@\"}",seasonId,workoutId,AthleteId];
-
-    [webservice WebserviceCall:webUrlSearchHistory :strURL :getSearchDataTag];
-
+        [SingaltonClass addActivityIndicator:self.view];
+        NSString *strURL = [NSString stringWithFormat:@"{\"season_id\":\"%@\",\"workout_type_id\":\"%@\",\"user_id\":\"%@\"}",seasonId,workoutId,AthleteId];
+        
+        [webservice WebserviceCall:webUrlSearchHistory :strURL :getSearchDataTag];
+        
     }else{
-
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        
+        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        
     }
     
     
@@ -328,68 +328,64 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingaltonClass RemoveActivityIndicator:self.view];
-
+    
     switch (Tag)
     {
-    case getDataTag:
-    {
-
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-    {
-    //NSLog(@"%@",MyResults);
-
-    DicData=[MyResults  objectForKey:@"data"];
-
-    // check if nsdictionary object then find allvalues otherwise  this @"" statement execute . it do nothing
-
-    [[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] allValues] : @"";
-
-    [[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] allValues]] : @"";
-
-    [[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues] :@"";
-
-    [arrAthletes addObject:@"Whole Team"];
-
-    }else{
-    [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+        case getDataTag:
+        {
+            
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {
+                //NSLog(@"%@",MyResults);
+                
+                DicData=[MyResults  objectForKey:@"data"];
+                
+                // check if nsdictionary object then find allvalues otherwise  this @"" statement execute . it do nothing
+                
+                [[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] allValues] : @"";
+                
+                [[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] allValues]] : @"";
+                
+                [[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues] :@"";
+                
+                [arrAthletes addObject:@"Whole Team"];
+                
+            }else{
+                [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+            }
+            
+            break;
+        }
+        case getSearchDataTag:
+        {
+            
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {
+                //NSLog(@"%@",MyResults);
+                
+                [arrSearchData removeAllObjects];
+                
+                [arrSearchData addObjectsFromArray:[MyResults  objectForKey:@"data"] ];
+                
+                if (arrSearchData.count==0) {
+                    [SingaltonClass initWithTitle:@"" message:@"Data Not Found!" delegate:nil btn1:@"Ok"];
+                    
+                }
+                [tableview reloadData];
+            }else{
+                [SingaltonClass initWithTitle:@"" message:@"Try again!" delegate:nil btn1:@"Ok"];
+            }
+            
+            break;
+        }
+            
+            
+            
+        default:
+            break;
     }
-
-    break;
-    }
-    case getSearchDataTag:
-    {
-
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-    {
-    //NSLog(@"%@",MyResults);
-
-    [arrSearchData removeAllObjects];
-
-    [arrSearchData addObjectsFromArray:[MyResults  objectForKey:@"data"] ];
-
-    if (arrSearchData.count==0) {
-        
-        [SingaltonClass initWithTitle:@"" message:@"Data Not Found!" delegate:nil btn1:@"Ok"];
-        
-    }else{
-        
-        [tableview reloadData];
-    }
-
-    }else{
-    [SingaltonClass initWithTitle:@"" message:@"Try again!" delegate:nil btn1:@"Ok"];
-    }
-
-    break;
-    }
-
-
-
-    default:
-    break;
-    }
-
-
+    
+    
 }
 -(void)doneClicked
 {
@@ -411,51 +407,64 @@
 {
     
     currentText=textField;
-
+    
     isSeasons=[textField.placeholder isEqualToString:@"Select Season"] ? YES : NO ;
     isWorkOutType=[textField.placeholder isEqualToString:@"Select Workout Type"] ? YES : NO ;
     isAthletes=[textField.placeholder isEqualToString:@"Select Athlete"] ? YES : NO ;
     isPicker=FALSE;
-
+    
     //NSLog(@"y position %f",[textField superview].frame.origin.y);
     //NSLog(@"The picker Values are %@",[NSValue valueWithCGRect:listPicker.frame]);
-
+    
     if (isAthletes) {
-
-    isPicker=TRUE;
-    arrAthletes.count > 0 ? [self setPickerVisibleAt:YES:arrAthletes] :[SingaltonClass initWithTitle:@"" message:@"Athletes are not exist" delegate:nil btn1:@"Ok"];
-    if (arrAthletes.count==0) {
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    [self setPickerVisibleAt:NO:arrSeasons];
-    }
-
+        
+        isPicker=TRUE;
+        arrAthletes.count > 0 ? [self setPickerVisibleAt:YES:arrAthletes] :[SingaltonClass initWithTitle:@"" message:@"Athletes are not exist" delegate:nil btn1:@"Ok"];
+        if (arrAthletes.count==0)
+        {
+            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
+            [self setPickerVisibleAt:NO:arrAthletes];
+        }else{
+            
+            [listPicker reloadAllComponents];
+            [self setPickerVisibleAt:YES:arrAthletes];
+        }
+        
     }else if(isWorkOutType){
-
-    isPicker=TRUE;
-    arrWorkOut.count > 0 ? [self setPickerVisibleAt:YES:arrWorkOut]:[SingaltonClass initWithTitle:@"" message:@"Workouts are not exist" delegate:nil btn1:@"Ok"];
-    if (arrWorkOut.count==0) {
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    [self setPickerVisibleAt:NO:arrSeasons];
-    }
-
+        
+        isPicker=TRUE;
+        arrWorkOut.count > 0 ? [self setPickerVisibleAt:YES:arrWorkOut]:[SingaltonClass initWithTitle:@"" message:@"Workouts are not exist" delegate:nil btn1:@"Ok"];
+        if (arrWorkOut.count==0) {
+            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
+            [self setPickerVisibleAt:NO:arrWorkOut];
+        }else{
+            
+            [listPicker reloadAllComponents];
+            [self setPickerVisibleAt:YES:arrWorkOut];
+        }
+        
     }else if(isSeasons){
-
-    isPicker=TRUE;
-
-    arrSeasons.count > 0 ?  [self setPickerVisibleAt:YES:arrSeasons]:[SingaltonClass initWithTitle:@"" message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
-    if (arrSeasons.count==0) {
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    [self setPickerVisibleAt:NO:arrSeasons];
+        
+        isPicker=TRUE;
+        
+        arrSeasons.count > 0 ?  [self setPickerVisibleAt:YES:arrSeasons]:[SingaltonClass initWithTitle:@"" message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
+        if (arrSeasons.count==0) {
+            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
+            [self setPickerVisibleAt:NO:arrSeasons];
+        }else{
+            
+            [listPicker reloadAllComponents];
+            [self setPickerVisibleAt:YES:arrSeasons];
+        }
+        
     }
-
-    }
-
-
+    
+    
     [textField resignFirstResponder];
-    [listPicker reloadAllComponents];
-    [listPicker selectRow:0 inComponent:0 animated:YES];
-
-
+    
+    // [listPicker selectRow:0 inComponent:0 animated:YES];
+    
+    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -476,31 +485,31 @@
     [UIView setAnimationDuration:0.27f];
     CGPoint point;
     point.x=self.view.frame.size.width/2;
-
+    
     if (ShowHide) {
-
-    if (currentText.text.length > 0) {
-    for (int i=0; i< data.count; i++) {
         
-    if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+        if (currentText.text.length > 0) {
+            for (int i=0; i< data.count; i++) {
+                
+                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                    
+                    [listPicker selectRow:i inComponent:0 animated:YES];
+                    
+                    break;
+                }
+            }
+        }
+        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
+        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
         
-        [listPicker selectRow:i inComponent:0 animated:YES];
-        
-        break;
-    }
-    }
-    }
-    point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-    [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-
     }else{
-    // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-    point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
+        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
+        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
     }
-
-
+    
+    
     [self.view viewWithTag:listPickerTag].center = point;
-
+    
     [UIView commitAnimations];
 }
 -(void)setToolbarVisibleAt:(CGPoint)point
@@ -556,7 +565,7 @@
         cell.lblWorkoutDate.text=[formater stringFromDate:date];
         [formater setDateFormat:DATE_FORMAT_Y_M_D];
     }
-
+    
     cell.backgroundColor=[UIColor clearColor];
     
     return cell;

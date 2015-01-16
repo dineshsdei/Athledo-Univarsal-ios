@@ -8,8 +8,12 @@
 
 #import "CalenderEventDetails.h"
 #import "AddCalendarEvent.h"
+#define deleteNotificationTag 111.0
 
 @interface CalenderEventDetails ()
+{
+    WebServiceClass *webservice;
+}
 
 @end
 
@@ -49,7 +53,7 @@
     NSDateFormatter* df = [[NSDateFormatter alloc] init];
     [df setDateFormat:dateFormatYearMonthDateHiphenWithTime];
     NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"start_date"]];
-     NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"end_date"]];
+     NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
    
     [df setDateFormat:DATE_FORMAT_M_D_Y_H_M];
     
@@ -99,6 +103,22 @@
              _lblEndDate.text=strEndDate;
         }
     }
+    
+    if (_objNotificationData) {
+        
+        if (_objNotificationData)
+        {
+            NSArray *arrTemp=[_objNotificationData valueForKey:@"events"];
+            if ([arrTemp containsObject:[_eventDetailsDic valueForKey:@"event_id"]])
+            {
+               
+               [self DeleteNotificationFromWeb];
+            }
+        }
+
+        
+       
+    }
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -120,6 +140,35 @@
     }
     
     [super viewWillAppear:animated];
+}
+
+-(void)DeleteNotificationFromWeb
+{
+    //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
+    
+    webservice=[WebServiceClass shareInstance];
+    webservice.delegate=self;
+    
+    if ([SingaltonClass  CheckConnectivity]) {
+        
+        if (_objNotificationData) {
+            
+            UserInformation *userInfo= [UserInformation shareInstance];
+            
+            NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",2,[[_eventDetailsDic valueForKey:@"event_id"] intValue],userInfo.userSelectedTeamid,userInfo.userId];
+            
+            [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
+        }
+        
+    }else{
+    }
+}
+-(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
+{
+    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+    {
+        
+    }
 }
 -(void)editEventDetails
 {
@@ -153,10 +202,6 @@
             addEvent.strMoveControllerName=_strMoveControllerName;
             [self.navigationController pushViewController:addEvent animated:NO];
         }
-
-        
-        
-        
     }else{
          [SingaltonClass initWithTitle:@"" message:@"Do you want to edit the whole set of repeated events?" delegate:self btn1:@"Cancel" btn2:@"Edit Occurrence" btn3:@"Edit Series" tagNumber:101];
     }
@@ -165,8 +210,6 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex==0) {
-        
-      
         
     }else if (buttonIndex==1)
     {
@@ -204,8 +247,6 @@
         
     }else if (buttonIndex==2)
     {
-       
-        
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
         for (id object in arrController)

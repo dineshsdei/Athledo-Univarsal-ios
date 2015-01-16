@@ -124,6 +124,9 @@ UIBarButtonItem *revealButtonItem;;
             {
                 CalendarDayViewController *dayView = [[CalendarDayViewController alloc]init];
                 dayView.eventDic=(NSMutableArray *)_eventDic;
+                if (_objNotificationData) {
+                    dayView.objNotificationData=_objNotificationData;
+                }
                 [self.navigationController pushViewController:dayView animated:NO];
                 
             }
@@ -147,6 +150,9 @@ UIBarButtonItem *revealButtonItem;;
             {
                 WeekViewController *weekView = [[WeekViewController alloc]initWithNibName:@"WeekViewController" bundle:[NSBundle mainBundle]];
                 weekView.eventDic=(NSMutableArray *)_eventDic;
+                if (_objNotificationData) {
+                    weekView.objNotificationData=_objNotificationData;
+                }
                 [self.navigationController pushViewController:weekView animated:NO];
                 
             }
@@ -168,7 +174,9 @@ UIBarButtonItem *revealButtonItem;;
             if (Status==FALSE)
             {
                 CalendarMonthViewController *monthview = [[CalendarMonthViewController alloc]init];
-                 //monthview.dataArray=_eventDic;
+                if (_objNotificationData) {
+                    monthview.objNotificationData=_objNotificationData;
+                }
                 [self.navigationController pushViewController:monthview animated:NO];
                 
             }
@@ -212,11 +220,11 @@ UIBarButtonItem *revealButtonItem;;
     mapTableView.backgroundColor=[UIColor clearColor];
     mapView.showsUserLocation=YES;
     
-//    [self setLocationManager:[[CLLocationManager alloc]init]];
-   // [locationManager setDelegate:self];
-   // [locationManager setDistanceFilter:kCLDistanceFilterNone];
-   // [locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
-   // [locationManager startUpdatingLocation];
+    locationManager=[[CLLocationManager alloc]init];
+    [locationManager setDelegate:self];
+    [locationManager setDistanceFilter:kCLDistanceFilterNone];
+    [locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+    [locationManager startUpdatingLocation];
     
      [self addAnnotationsOnMap:_eventDic];
     
@@ -257,6 +265,9 @@ UIBarButtonItem *revealButtonItem;;
     
     CalenderEventDetails *eventDetails=[[CalenderEventDetails alloc] init];
     eventDetails.eventDetailsDic=[_eventDic objectAtIndex:btn.tag];
+    if (_objNotificationData) {
+        eventDetails.objNotificationData=_objNotificationData;
+    }
     [self.navigationController pushViewController:eventDetails animated:NO];
 }
 

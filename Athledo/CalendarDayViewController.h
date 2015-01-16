@@ -22,5 +22,6 @@
 @property(nonatomic,strong)NSString *strComeFrom;
 @property(nonatomic,strong) NSMutableArray *eventDic;
 @property (nonatomic,strong) NSMutableArray *data;
+@property(weak,nonatomic)id objNotificationData;
 
 @end

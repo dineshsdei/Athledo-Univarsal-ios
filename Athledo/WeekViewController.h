@@ -45,5 +45,6 @@
 }
 @property(nonatomic,strong) IBOutlet UIView* weekView;
 @property(nonatomic,strong) NSMutableArray *eventDic;
+@property(weak,nonatomic)id objNotificationData;
 
 @end

@@ -273,7 +273,9 @@ UIBarButtonItem *revealButtonItem;;
             if (Status==FALSE)
             {
                 CalendarDayViewController *dayView = [[CalendarDayViewController alloc]init];
-                // dayView.eventDic=_eventDic;
+                if (_objNotificationData) {
+                    dayView.objNotificationData=_objNotificationData;
+                }
                 [self.navigationController pushViewController:dayView animated:NO];
                 
             }
@@ -296,6 +298,9 @@ UIBarButtonItem *revealButtonItem;;
             if (Status==FALSE)
             {
                 CalendarMonthViewController *weekview = [[CalendarMonthViewController alloc]init];
+                if (_objNotificationData) {
+                    weekview.objNotificationData=_objNotificationData;
+                }
                 [self.navigationController pushViewController:weekview animated:NO];
                 
             }
@@ -317,7 +322,9 @@ UIBarButtonItem *revealButtonItem;;
             if (Status==FALSE)
             {
                 MapViewController *mapView = [[MapViewController alloc]init];
-                // mapView.eventDic=_eventDic;
+                if (_objNotificationData) {
+                    mapView.objNotificationData=_objNotificationData;
+                }
                 [self.navigationController pushViewController:mapView animated:NO];
                 
             }
@@ -506,7 +513,9 @@ UIBarButtonItem *revealButtonItem;;
             CalenderEventDetails *eventDetails=(CalenderEventDetails*)(object);
             eventDetails.eventDetailsDic=[_eventDic objectAtIndex:event.EventTag];
             eventDetails.strMoveControllerName=@"WeekViewController";
-
+            if (_objNotificationData) {
+                eventDetails.objNotificationData=_objNotificationData;
+            }
             
             [self.navigationController popToViewController:eventDetails animated:NO];
         }
@@ -517,7 +526,9 @@ UIBarButtonItem *revealButtonItem;;
         CalenderEventDetails *eventDetails=[[CalenderEventDetails alloc] init];
         eventDetails.eventDetailsDic=[_eventDic objectAtIndex:event.EventTag];
         eventDetails.strMoveControllerName=@"WeekViewController";
-        
+        if (_objNotificationData) {
+            eventDetails.objNotificationData=_objNotificationData;
+        }
         [self.navigationController pushViewController:eventDetails animated:NO];
     }
 
@@ -544,7 +555,9 @@ UIBarButtonItem *revealButtonItem;;
             CalenderEventDetails *eventDetails=(CalenderEventDetails*)(object);
             eventDetails.eventDetailsDic=[_eventDic objectAtIndex:event.EventTag];
             eventDetails.strMoveControllerName=@"WeekViewController";
-            
+            if (_objNotificationData) {
+                eventDetails.objNotificationData=_objNotificationData;
+            }
             
             [self.navigationController popToViewController:eventDetails animated:NO];
         }
@@ -555,7 +568,9 @@ UIBarButtonItem *revealButtonItem;;
         CalenderEventDetails *eventDetails=[[CalenderEventDetails alloc] init];
         eventDetails.eventDetailsDic=[_eventDic objectAtIndex:event.EventTag];
         eventDetails.strMoveControllerName=@"WeekViewController";
-        
+        if (_objNotificationData) {
+            eventDetails.objNotificationData=_objNotificationData;
+        }
         [self.navigationController pushViewController:eventDetails animated:NO];
     }
 }
