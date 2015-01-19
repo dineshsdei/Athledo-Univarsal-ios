@@ -25,6 +25,7 @@
     
     BOOL isU_Type;
     int scrollHeight;
+    UIToolbar *toolBar;
 
 }
 @property (strong, nonatomic) id keyboardAppear;

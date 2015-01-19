@@ -339,7 +339,7 @@
      [cell.senderPic setImageWithURL:[NSURL URLWithString:[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
     cell.senderPic.layer.masksToBounds = YES;
     cell.senderPic.layer.cornerRadius=(cell.senderPic.frame.size.width)/2;
-    cell.senderPic.layer.borderWidth=2.0f;
+    cell.senderPic.layer.borderWidth=1.0f;
     cell.senderPic.layer.borderColor=[UIColor lightGrayColor].CGColor;
     
     if ([[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"sender_type"] intValue] == 1) {
@@ -370,7 +370,7 @@
     }
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     
-    [cell addSubview:img1];
+   // [cell addSubview:img1];
     
     cell.rightUtilityButtons = [self rightButtons :(int)indexPath.section];
     cell.delegate=self;
@@ -399,7 +399,7 @@
     
     if(isIPAD)
     {
-        return 100;
+        return 111;
         
     }else{
         

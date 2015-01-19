@@ -244,6 +244,26 @@
         [self setPickerVisibleAt:YES];
     }
 }
+- (void)orientationChanged :(NSNotification *)notification
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    
+    NSLog(@"height %f, width%f",self.view.frame.size.width,self.view.frame.size.height);
+   
+    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight))) {
+        
+         listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
+         pickerView.frame=CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
+          toolBar.frame = CGRectMake(0, self.view.frame.size.height, SCREEN_HEIGHT,44);
+    }else{
+        
+        listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216);
+        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216)];
+        toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,44)];
+    }
+
+}
+
 - (void)viewDidLoad
 {
     
@@ -323,6 +343,8 @@
     _textviewDesc.layer.borderColor=(__bridge CGColorRef)([UIColor lightTextColor]);
     _textviewDesc.layer.borderWidth=2;
     
+    
+    
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216);
     listPicker.tag=listPickerTag;
     listPicker.delegate=self;
@@ -339,18 +361,20 @@
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,44)];
     toolBar.tag = toolBarTag;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
     
     // Static data 1 passed, because
+    [self getUser:[@"1" intValue]];
     
-    [self getUser:[@"1" intValue]]   ;
-    
-    
-    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
 }
 
 
@@ -358,22 +382,20 @@
 - (void)setContentOffset:(id)textField :(UIScrollView*)ScrollView {
     
     UIView* txt = textField;
-    
-    UIScrollView *theTextFieldCell = (UIScrollView *)[textField superview];
-    
+   // UIScrollView *theTextFieldCell = (UIScrollView *)[textField superview];
     // Get the text fields location
-    CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_ScrollView];
+  //  CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_ScrollView];
     
-    NSLog(@"%f",point.y + (txt.frame.origin.y));
-    NSLog(@"%f",(txt.frame.origin.y));
-    NSLog(@"%d",(scrollHeight));
+//    NSLog(@"%f",point.y + (txt.frame.origin.y));
+//    NSLog(@"%f",(txt.frame.origin.y));
+//    NSLog(@"%d",(scrollHeight));
+//    NSLog(@"%f",(txt.frame.origin.y));
     
-    NSLog(@"%f",(txt.frame.origin.y));
     // Scroll to cell
     
     int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
     
-    NSLog(@"%d",position);
+   // NSLog(@"%d",position);
     
     scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
     
@@ -435,8 +457,6 @@
             [SingaltonClass initWithTitle:@"" message:@"Selected user type are not available " delegate:nil btn1:@"Ok"];
             
         }
-        
-        
         
         return NO;
         
@@ -703,14 +723,10 @@
                 values =[values stringByAppendingString:[NSString stringWithFormat:@"%@,", arrKeys[i] ] ];
             else
                 values =[values stringByAppendingString:[NSString stringWithFormat:@"%@", arrKeys[i] ] ];
-            
         }
-        
     }
     return values;
 }
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

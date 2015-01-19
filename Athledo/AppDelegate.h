@@ -18,5 +18,6 @@
 @property(nonatomic)BOOL isProfileUpdate;
 @property(nonatomic)BOOL isProfilePicUpload;
 @property (strong, nonatomic) NSMutableArray *arrCellFieldTag;
-
+@property (nonatomic) BOOL restrictRotation;
++(void) restrictRotation:(BOOL) restriction;
 @end

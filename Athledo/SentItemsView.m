@@ -342,7 +342,7 @@
     }
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     
-    [cell addSubview:img1];
+    //[cell addSubview:img1];
 
     
     cell.backgroundColor=[UIColor clearColor];
@@ -371,7 +371,7 @@
     
     if(isIPAD)
     {
-        return 100;
+        return 111;
         
     }else{
         

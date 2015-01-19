@@ -121,20 +121,24 @@
     self.window.rootViewController = self.NavViewController;
     [self.window makeKeyAndVisible];
     
-    
-  
-    
-    if (iosVersion >= 8) {
-        
-        [[UITableView appearanceWhenContainedIn:[UIDatePicker class], nil] setBackgroundColor:nil]; // for iOS
-    }
-    else{
-        
-        [[UITableViewCell appearanceWhenContainedIn:[UIDatePicker class], [UITableView class], nil] setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.0]]; // for iOS 7
-    }
+
     
     return YES;
 }
+
+-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    if(self.restrictRotation)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskAll;
+}
++(void) restrictRotation:(BOOL) restriction
+{
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    appDelegate.restrictRotation = restriction;
+}
+
 - (NSString*)stringFromFrontViewPosition:(FrontViewPosition)position
 {
     NSString *str = nil;

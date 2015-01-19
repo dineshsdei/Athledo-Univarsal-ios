@@ -267,22 +267,19 @@
 
 - (void)viewDidLoad
 {
+    if (isIPAD) {
+        [AppDelegate restrictRotation:NO];
+    }else{
+        
+         [AppDelegate restrictRotation:YES];
+    }
     
-    //self.view.backgroundColor=[UIColor colorWithRed:63/255 green:76/255 blue:89/255 alpha:1];
-
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
     //[self setNeedsStatusBarAppearanceUpdate];
-
     self.loginTableView.backgroundColor=[UIColor clearColor];
-
     AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-
     delegate.isStart=TRUE;
-
-    
-    
 }
 
 

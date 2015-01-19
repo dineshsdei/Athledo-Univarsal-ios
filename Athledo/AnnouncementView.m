@@ -45,8 +45,8 @@
     UITextField *currentText;
     UITextView *txtViewCurrent;
     NSArray *notificationData;
-    
-    bool isShowingLandscapeView ;
+
+    UIDeviceOrientation oraintation;
 
 }
 
@@ -63,25 +63,77 @@
     }
     return self;
 }
-//- (void)awakeFromNib
+- (void)awakeFromNib
+{
+   
+  
+}
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+//    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+//    oraintation=deviceOrientation;
+//    
+//    if (isIPAD) {
+//        
+//        if ([UserInformation shareInstance].userType==1) {
+//            
+//            [tblAnnouncementRecods reloadData];
+//        }else{
+//            [tblUpdatesRecods reloadData];
+//        }
+//        
+//    }
+    
+    
+}
+//-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 //{
-//    isShowingLandscapeView = NO;
-//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(orientationChanged:)
-//                                                 name:UIDeviceOrientationDidChangeNotification
-//                                               object:nil];
+//   // oraintation=toInterfaceOrientation;
+//}
+//-(BOOL)shouldAutorotate {
+//    
+//    if (oraintation ==UIInterfaceOrientationMaskPortrait) {
+//        return YES;
+//    }else if((isIPAD) && (oraintation ==UIDeviceOrientationPortraitUpsideDown ))
+//    {
+//        return YES;
+//    }else if((isIPAD) && (oraintation ==UIDeviceOrientationLandscapeLeft))
+//    {
+//        return YES;
+//    }else if((isIPAD) && (oraintation ==UIDeviceOrientationLandscapeRight))
+//    {
+//        return YES;
+//    }else
+//    {
+//        return  false ;
+//    }
+//    
+//    return YES;
+//    
+//}
+//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+//   
+//    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+//    
+//    [tblAnnouncementRecods reloadData];
+//    [tblUpdatesRecods reloadData];
+//    
+//    
 //}
 //
-//- (void)orientationChanged:(NSNotification *)notification
+//
+//- (NSUInteger)supportedInterfaceOrientations
 //{
-//    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-//    if (UIDeviceOrientationIsLandscape(deviceOrientation) &&
-//        !isShowingLandscapeView)
-//    {
-//        isShowingLandscapeView = YES;
-//        //[self performSegueWithIdentifier:@"toLandscape" sender:self];
+//    if (isIPAD) {
+//        oraintation=UIDeviceOrientationLandscapeRight;
+//         return UIInterfaceOrientationMaskLandscapeRight;
+//    }else{
+//        oraintation=UIDeviceOrientationLandscapeRight;
+//         return UIInterfaceOrientationMaskPortraitUpsideDown;
 //    }
+//    
+//   
 //}
 
 -(void)AddNewAnnouncement
@@ -558,6 +610,12 @@
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     self.navigationItem.rightBarButtonItem = ButtonItem;
     [self CerateLayOut];
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
 }
 
 - (BOOL)revealController:(SWRevealViewController *)revealController

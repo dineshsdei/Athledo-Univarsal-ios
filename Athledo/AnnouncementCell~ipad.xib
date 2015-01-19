@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,37 +14,67 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Iuq-7J-P3W" id="cp8-t0-bF0">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2av-RF-FbI">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2av-RF-FbI">
                         <rect key="frame" x="20" y="45" width="600" height="25"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="03z-z7-9Zh"/>
+                        </constraints>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Jim Thomas" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nPx-CA-csB">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Jim Thomas" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nPx-CA-csB">
                         <rect key="frame" x="20" y="6" width="600" height="25"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="600" id="deV-dk-9OY"/>
+                            <constraint firstAttribute="height" constant="25" id="f4S-05-aRh"/>
+                        </constraints>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ezI-tF-d7Y">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ezI-tF-d7Y">
                         <rect key="frame" x="595" y="4" width="150" height="30"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="UHb-nf-oe8"/>
+                        </constraints>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n41-3L-imx">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n41-3L-imx">
                         <rect key="frame" x="20" y="79" width="600" height="25"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vhc-FL-I55">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vhc-FL-I55">
                         <rect key="frame" x="0.0" y="108" width="768" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="0lv-mc-uRZ"/>
+                        </constraints>
                     </imageView>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="ezI-tF-d7Y" firstAttribute="top" secondItem="cp8-t0-bF0" secondAttribute="topMargin" constant="-4" id="1X7-Wm-bfI"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ezI-tF-d7Y" secondAttribute="trailing" constant="-18" id="62n-Cd-9TY"/>
+                    <constraint firstItem="2av-RF-FbI" firstAttribute="top" secondItem="nPx-CA-csB" secondAttribute="bottom" constant="14" id="6F6-lu-SBZ"/>
+                    <constraint firstItem="n41-3L-imx" firstAttribute="leading" secondItem="2av-RF-FbI" secondAttribute="leading" id="6JD-an-BBz"/>
+                    <constraint firstItem="nPx-CA-csB" firstAttribute="leading" secondItem="cp8-t0-bF0" secondAttribute="leadingMargin" constant="12" id="8fU-yW-h0c"/>
+                    <constraint firstItem="vhc-FL-I55" firstAttribute="leading" secondItem="cp8-t0-bF0" secondAttribute="leading" id="IOU-7s-Ogu"/>
+                    <constraint firstItem="nPx-CA-csB" firstAttribute="leading" secondItem="2av-RF-FbI" secondAttribute="leading" id="Lu0-d4-RJG"/>
+                    <constraint firstItem="n41-3L-imx" firstAttribute="trailing" secondItem="2av-RF-FbI" secondAttribute="trailing" id="QBR-xa-0E8"/>
+                    <constraint firstItem="n41-3L-imx" firstAttribute="top" secondItem="2av-RF-FbI" secondAttribute="bottom" constant="9" id="Qw1-1Q-GQa"/>
+                    <constraint firstAttribute="bottom" secondItem="vhc-FL-I55" secondAttribute="bottom" id="XKg-4d-TKU"/>
+                    <constraint firstItem="2av-RF-FbI" firstAttribute="top" secondItem="ezI-tF-d7Y" secondAttribute="bottom" constant="11" id="YuU-DF-D7L"/>
+                    <constraint firstItem="vhc-FL-I55" firstAttribute="top" secondItem="n41-3L-imx" secondAttribute="bottom" constant="4" id="moX-Dj-2s7"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="vhc-FL-I55" secondAttribute="trailing" constant="-41" id="pev-ST-tCY"/>
+                    <constraint firstItem="2av-RF-FbI" firstAttribute="trailing" secondItem="nPx-CA-csB" secondAttribute="trailing" id="wBD-V7-IOc"/>
+                    <constraint firstItem="nPx-CA-csB" firstAttribute="top" secondItem="cp8-t0-bF0" secondAttribute="topMargin" constant="-2" id="zVB-Gs-rdu"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="lblAnnoDate" destination="ezI-tF-d7Y" id="DDd-Wn-8Nm"/>

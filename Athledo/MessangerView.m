@@ -336,7 +336,7 @@
      cell.delegate=self;
 
     
-    [cell addSubview:img1];
+    //[cell addSubview:img1];
     
     
     
@@ -365,7 +365,7 @@
 {
     if(isIPAD)
     {
-        return 110;
+        return 111;
         
     }else{
         
@@ -381,11 +381,7 @@
     details.webmail_id=[[messageArrDic  objectAtIndex:indexPath.section] valueForKey:@"webmail_id"];
     details.webmail_parent_id=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"webmail_parent_id"];
     [self.navigationController pushViewController:details animated:NO];
-    
-    
 }
-
-
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
@@ -401,9 +397,7 @@
    NSArray *arrButtons=cell.rightUtilityButtons;
     
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:0];
-    
-    
-   
+
     switch (index) {
         case 0:
         {
@@ -448,9 +442,7 @@
 
 -(void)deleteMessage:(id)sender
 {
-    
     UIButton *btn=sender;
-    
     [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
     
 }
@@ -483,7 +475,6 @@
             BOOL Status=FALSE;
             for (id object in arrController)
             {
-                
                 if ([object isKindOfClass:[ArichiveView class]])
                 {
                     Status=TRUE;
@@ -494,15 +485,11 @@
             if (Status==FALSE)
             {
                 ArichiveView *arichive=[[ArichiveView alloc] initWithNibName:@"ArichiveView" bundle:nil];
-                
                 [self.navigationController pushViewController:arichive animated:NO];
-                
             }
-
-            
             break;
         }
-            case 1:
+        case 1:
         {
             BOOL Status=FALSE;
             for (id object in arrController)

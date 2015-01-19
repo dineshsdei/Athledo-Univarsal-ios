@@ -58,6 +58,7 @@
                 <constraint firstItem="qXi-wZ-RtW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="zwt-Ed-RJK"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+            <point key="canvasLocation" x="465" y="98"/>
         </view>
     </objects>
     <resources>

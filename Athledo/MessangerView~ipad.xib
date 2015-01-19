@@ -21,7 +21,7 @@
                     <rect key="frame" x="66" y="10" width="320" height="568"/>
                 </imageView>
                 <tableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wdE-fF-wbu">
-                    <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="972"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -46,9 +46,9 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="wdE-fF-wbu" secondAttribute="bottom" id="87S-AJ-FIs"/>
+                <constraint firstAttribute="bottom" secondItem="wdE-fF-wbu" secondAttribute="bottom" constant="52" id="87S-AJ-FIs"/>
                 <constraint firstItem="wdE-fF-wbu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AOm-95-Z6y"/>
-                <constraint firstItem="wdE-fF-wbu" firstAttribute="bottom" secondItem="VNh-91-cYn" secondAttribute="bottom" id="HWY-hG-dOS"/>
+                <constraint firstItem="wdE-fF-wbu" firstAttribute="bottom" secondItem="VNh-91-cYn" secondAttribute="bottom" constant="-52" id="HWY-hG-dOS"/>
                 <constraint firstItem="VNh-91-cYn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WvC-E7-Y7G"/>
                 <constraint firstItem="wdE-fF-wbu" firstAttribute="trailing" secondItem="VNh-91-cYn" secondAttribute="trailing" id="czc-8p-dFY"/>
                 <constraint firstAttribute="trailing" secondItem="VNh-91-cYn" secondAttribute="trailing" id="lmC-Py-dmQ"/>
