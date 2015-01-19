@@ -136,20 +136,15 @@
         
         [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
         scrollHeight=kbSize.height;
-        
-        
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
         [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
      
     }];
-
-    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
@@ -159,8 +154,6 @@
         
         arrAthleteHistory=[[NSArray alloc] initWithObjects:[_objData valueForKey:@"team"],[_objData valueForKey:@"description"],[self dateFormate:[_objData valueForKey:@"from"] ],[self dateFormate:[_objData valueForKey:@"to"] ],nil];
     }
-    
-    
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
     
     if ([[vComp objectAtIndex:0] intValue] < 8) {
@@ -170,8 +163,6 @@
     } else {
         toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?266:180)-40;
     }
-    
-    
     //Set the Date picker view
      
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, (SCREEN_HEIGHT)+50,SCREEN_WIDTH , 216)];
@@ -221,10 +212,6 @@
     NSDate *dateTwo=[df dateFromString:textfieldEnd.text];
     
     if (textfieldStart.text.length !=0 && textfieldEnd.text.length !=0) {
-        
-   
-   
-    
     NSString *strError=@"";
     switch ([dateOne compare:dateTwo]) {
         case NSOrderedAscending:
@@ -279,11 +266,8 @@
     AddAthleteHistoryCell *cell = nil;
     if(cell == nil)
     {
-
     cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:@""];
-
     }
-
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
 
     return cell;
@@ -297,24 +281,19 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    
     [textView becomeFirstResponder];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    
     return YES;
 }
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
-    
-    
     return YES;
 }
 
@@ -328,21 +307,18 @@
 
     [self setContentOffset:textField table:tableView];
     
-    if (textField.tag==1003 || textField.tag==1002) {
-        
+    if (textField.tag==1003 || textField.tag==1002)
+    {
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [self setDatePickerVisibleAt:YES];
         return NO;
         
     }
-
     return YES;
-    
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -448,11 +424,7 @@
 
     [dict setObject:@"" forKey:@"UserProfile"];
     [dict setObject:arrtemp forKey:@"athletic_hstry"];
-
-
     [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
-
-
     }else{
 
     NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"team\":\"%@\", \"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", userInfo.userId ,[arrdata objectAtIndex:0],[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
@@ -519,29 +491,22 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     if (textField.tag ==1002 ) {
-        
         strDate=textField.text;
     }
-    
     [textField resignFirstResponder];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     [self doneClicked];
-    
     UITableView *tblView = (UITableView *)[self.view viewWithTag:100];
-    
     if(isKeyBoard)
     {
         isKeyBoard=NO;
         [UIView beginAnimations:@"tblMove" context:nil];
         [UIView setAnimationDelegate:self];
         [UIView setAnimationDuration:0.29f];
-        
-        
         tblView.frame = CGRectMake(tblView.frame.origin.x, tblView.frame.origin.y+57, tblView.frame.size.width, tblView.frame.size.height);
         [UIView commitAnimations];
     }
@@ -586,7 +551,6 @@
     } else {
     contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
     }
-
     m_TableView.contentInset = contentInsets;
     m_TableView.scrollIndicatorInsets = contentInsets;
     [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];

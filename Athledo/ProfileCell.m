@@ -38,7 +38,8 @@
 #define FName_W isIPAD ? 135 : 130
 
 #define SportInfoAlignment NSTextAlignmentLeft
-#define AthleteSportX 182
+#define AthleteSportX isIPAD ? 300 : 90
+
 
 #define VIEW_X  30
 #define sportinfoFont isIPAD ? [UIFont fontWithName:@"HelveticaNeue" size:16] : [UIFont fontWithName:@"HelveticaNeue" size:13];
@@ -471,24 +472,17 @@
     Ssection=Ssection+1;
 
 
-    UITextField *txtDescription = [[UITextField alloc] initWithFrame:CGRectMake(SchoolInfoX, 87,SchoolInfoDesW, 60)];
+    UITextView *txtDescription = [[UITextView alloc] initWithFrame:CGRectMake(SchoolInfoX, 87,SchoolInfoDesW, 60)];
     txtDescription.tag = (indexPath.section+1)*1000+Ssection;
     txtDescription.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtDescription.delegate = del;
+    txtDescription.editable=NO;
     txtDescription.font = Textfont;
     //txtDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     txtDescription.textColor=isEdit ? ColorLightgray : ColorGray;;
-    txtDescription.clearButtonMode = UITextFieldViewModeWhileEditing;
-    txtDescription.borderStyle=  isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
-    txtDescription.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [txtDescription setTextAlignment:textAlignment];
     txtDescription.text =[[coachingInfo objectAtIndex:index] objectForKey:@"description"];
     txtDescription.alpha = 1.0;
-    txtDescription.userInteractionEnabled = isEdit;
-    // txtDescription.placeholder=@"description";
-
-    txtDescription.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"description" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtDescription.tag]];
     Ssection=Ssection+1;
 
@@ -497,7 +491,7 @@
    
     }
     else{
-    UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,135, LINE_SEP_W, 1)];
+    UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,155, LINE_SEP_W, 1)];
     img.image=[UIImage imageNamed:@"menu_sep.png"];
     [self addSubview:img];
     }
@@ -523,7 +517,7 @@
 
     [self addSubview:lblAge];
 
-    UITextField *txtAge = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblAge.frame.size.width)-40, 15, 98, 20)];
+    UITextField *txtAge = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblAge.frame.size.width), 15, 98, 20)];
     txtAge.tag = (indexPath.section+1)*1000+Ssection;
     //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtAge.tag]);
     txtAge.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
@@ -559,7 +553,7 @@
     [self addSubview:lblHeight];
 
 
-    UITextField *txtHeight = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblHeight.frame.size.width)-40, 37, 98, 20)];
+    UITextField *txtHeight = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblHeight.frame.size.width), 37, 98, 20)];
     txtHeight.tag = (indexPath.section+1)*1000+Ssection;
     //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtHeight.tag]);
     txtHeight.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
@@ -594,7 +588,7 @@
     [self addSubview:lblWeight];
 
 
-    UITextField *txtWeight = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblWeight.frame.size.width)-40, 59, 98, 20)];
+    UITextField *txtWeight = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblWeight.frame.size.width), 59, 98, 20)];
     txtWeight.tag = (indexPath.section+1)*1000+Ssection;
     txtWeight.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtWeight.delegate = del;
@@ -628,7 +622,7 @@
     [self addSubview:lblYear];
 
 
-    UITextField *txtYear = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)+lblYear.frame.size.width)-40, 81, 78, 20)];
+    UITextField *txtYear = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblYear.frame.size.width), 81, 78, 20)];
     txtYear.tag = (indexPath.section+1)*1000+Ssection;
     txtYear.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtYear.delegate = del;
@@ -651,11 +645,6 @@
 
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtYear.tag]];
     [self addSubview:txtYear];
-
-
-
-
-
     }
 
     if (delegate.arrCellFieldTag.count > (indexPath.section + Ssection)) {
@@ -681,7 +670,7 @@
 
     UITextField *txtyear;
     UITextField *txtAwardName;
-    UITextField *txtdescription;
+    UITextView *txtdescription;
 
     if (index==0) {
     UIImageView *imgLine=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X, 5, LINE_SEP_W, 2)];
@@ -706,14 +695,14 @@
 
     txtyear = [[UITextField alloc] initWithFrame:CGRectMake(AwardInfoX, 83, AwardInfoW, 20)];
     txtAwardName = [[UITextField alloc] initWithFrame:CGRectMake(AwardInfoX, 110, AwardInfoW, 20)];
-    txtdescription = [[UITextField alloc] initWithFrame:CGRectMake(AwardInfoX, 137, AwardInfoW, 20)];
+    txtdescription = [[UITextView alloc] initWithFrame:CGRectMake(AwardInfoX, 125, AwardInfoW, 35)];
     }
     else {
 
     txtyear = [[UITextField alloc] initWithFrame:CGRectMake(AwardInfoX, 10, AwardInfoW, 20)];
 
     txtAwardName = [[UITextField alloc] initWithFrame:CGRectMake(AwardInfoX, 40, AwardInfoW, 20)];
-    txtdescription = [[UITextField alloc] initWithFrame:CGRectMake(AwardInfoX, 70, AwardInfoW, 20)];
+    txtdescription = [[UITextView alloc] initWithFrame:CGRectMake(AwardInfoX, 60, AwardInfoW, 35)];
 
     UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,100, LINE_SEP_W, 1)];
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
@@ -765,28 +754,17 @@
     txtdescription.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtdescription.delegate = del;
     txtdescription.font =Textfont;
-    // txtdescription.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
     txtdescription.textColor=isEdit ? ColorLightgray : ColorGray;;
-    txtdescription.clearButtonMode = UITextFieldViewModeWhileEditing;
-    txtdescription.borderStyle = isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
-    txtdescription.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     txtdescription.text =  [[awardInfo objectAtIndex:index] objectForKey:@"description"];
     [txtdescription setTextAlignment:textAlignment];
     txtdescription.alpha = 1.0;
-    // txtdescription.placeholder=@"description";
-    txtdescription.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"description" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-
-    txtdescription.userInteractionEnabled = isEdit;
+    txtdescription.editable=NO;
+   
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtdescription.tag]];
     [self addSubview:txtdescription];
 
-
-
     }else
     {
-
-
-
     ///   Athelete History info section
 
     if (index == 0)
@@ -803,7 +781,7 @@
     }
 
 
-    UITextField *txtTeam = [[UITextField alloc] initWithFrame:CGRectMake((SchoolInfoX)+20, 22, 200, 20)];
+    UITextField *txtTeam = [[UITextField alloc] initWithFrame:CGRectMake((SchoolInfoX), 22, 200, 20)];
     txtTeam.tag = (indexPath.section+1)*1000+Thsection;
     txtTeam.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtTeam.delegate = del;
@@ -817,7 +795,7 @@
     [txtTeam setTextAlignment:textAlignment];
     txtTeam.text =[[awardInfo objectAtIndex:index] objectForKey:@"team"];;
     //txtTeam.placeholder=@"team";
-    txtTeam.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"team" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
+    txtTeam.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Add Team info" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
 
     txtTeam.alpha = 1.0;
     txtTeam.userInteractionEnabled = isEdit;
@@ -826,7 +804,7 @@
     [self addSubview:txtTeam];
     Thsection=Thsection+1;
 
-    UITextField *txtTeamDiscription = [[UITextField alloc] initWithFrame:CGRectMake((SchoolInfoX)+20, 47, 200, 60)];
+    UITextView *txtTeamDiscription = [[UITextView alloc] initWithFrame:CGRectMake((SchoolInfoX), 47, 200, 60)];
     txtTeamDiscription.tag = (indexPath.section+1)*1000+Thsection;
     txtTeamDiscription.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtTeamDiscription.delegate = del;
@@ -837,18 +815,10 @@
 
     txtTeamDiscription.text =[[awardInfo objectAtIndex:index] objectForKey:@"description"];;
     txtTeamDiscription.alpha = 1.0;
-    txtTeamDiscription.userInteractionEnabled = isEdit;
-    txtTeamDiscription.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"description" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-
+    txtTeamDiscription.editable=NO;
     txtTeamDiscription.textColor=isEdit ? ColorLightgray : ColorGray;;
-
-    txtTeamDiscription.clearButtonMode = UITextFieldViewModeWhileEditing;
-    txtTeamDiscription.borderStyle = isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
-    txtTeamDiscription.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [txtTeamDiscription setTextAlignment:textAlignment];
-
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtTeamDiscription.tag]];
-
     [self addSubview:txtTeamDiscription];
 
 
@@ -872,10 +842,6 @@
     {
 
     }
-
-
-
-
     }
     
     

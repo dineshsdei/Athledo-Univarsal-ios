@@ -45,6 +45,8 @@
     UITextField *currentText;
     UITextView *txtViewCurrent;
     NSArray *notificationData;
+    
+    bool isShowingLandscapeView ;
 
 }
 
@@ -61,6 +63,26 @@
     }
     return self;
 }
+//- (void)awakeFromNib
+//{
+//    isShowingLandscapeView = NO;
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(orientationChanged:)
+//                                                 name:UIDeviceOrientationDidChangeNotification
+//                                               object:nil];
+//}
+//
+//- (void)orientationChanged:(NSNotification *)notification
+//{
+//    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+//    if (UIDeviceOrientationIsLandscape(deviceOrientation) &&
+//        !isShowingLandscapeView)
+//    {
+//        isShowingLandscapeView = YES;
+//        //[self performSegueWithIdentifier:@"toLandscape" sender:self];
+//    }
+//}
 
 -(void)AddNewAnnouncement
 {
