@@ -113,8 +113,6 @@
     AlbumId=@"";
     multimediaData=[[NSMutableArray alloc] init];
     AllMultimediaData=[[NSArray alloc] init];
-    
-    
     [self getMultimediaPic];
     [self getSeasonData];
 }

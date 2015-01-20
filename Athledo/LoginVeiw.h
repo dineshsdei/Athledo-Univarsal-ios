@@ -14,6 +14,8 @@
 {
      int scrollHeight;
 }
+@property (strong, nonatomic) IBOutlet UIButton *btnForgotPassword;
+@property (strong, nonatomic) IBOutlet UIButton *btnLogin;
 - (IBAction)ForgotPasswordClick:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *loginTableView;
 

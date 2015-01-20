@@ -476,6 +476,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
+
+    [self ChangeOrientation];
     [self EnableDisableTouch:NO];
     userInfo=[UserInformation shareInstance];
 
@@ -520,8 +522,9 @@
 
 - (void)viewDidLoad
 {
-    
+    self.view.backgroundColor=[UIColor colorWithRed:41.0/255.0 green:58.0/255 blue:71.0/255 alpha:1];
     [super viewDidLoad];
+    _btnLanscapLogout.hidden=YES;
     
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -585,7 +588,33 @@
     {
     }
     
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(ChangeOrientation)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+    
 }
+
+-(void)ChangeOrientation
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight)))
+    {
+       // UIButton *btn=(UIButton *)[self.view viewWithTag:-200];
+   // btn.frame=CGRectMake(30, 560, btn.frame.size.width, btn.frame.size.height);
+        
+        //[self.view bringSubviewToFront:btn];
+        
+        _btnLanscapLogout.hidden=NO;
+
+    }else{
+        
+         _btnLanscapLogout.hidden=YES;
+    }
+    
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(isIPAD)

@@ -51,9 +51,9 @@
                     </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="313-lK-Xrn">
-                    <rect key="frame" x="354" y="212" width="112" height="30"/>
+                    <rect key="frame" x="354" y="212" width="112" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="PM3-er-SL7"/>
+                        <constraint firstAttribute="height" constant="40" id="PM3-er-SL7"/>
                         <constraint firstAttribute="width" constant="112" id="pRa-0j-fTq"/>
                     </constraints>
                     <state key="normal" title="GO" backgroundImage="login_btn.png">
@@ -111,7 +111,7 @@
                 <constraint firstItem="4wd-lW-LdE" firstAttribute="centerX" secondItem="f6b-Tz-mG3" secondAttribute="centerX" id="6ha-8z-5um"/>
                 <constraint firstItem="yii-fi-W71" firstAttribute="leading" secondItem="zkX-kI-YX2" secondAttribute="leading" id="74L-h6-Dsc"/>
                 <constraint firstItem="yii-fi-W71" firstAttribute="top" secondItem="zkX-kI-YX2" secondAttribute="bottom" constant="19" id="BlE-DW-yEQ"/>
-                <constraint firstItem="f6b-Tz-mG3" firstAttribute="top" secondItem="313-lK-Xrn" secondAttribute="bottom" constant="26" id="CGk-aP-fLu"/>
+                <constraint firstItem="f6b-Tz-mG3" firstAttribute="top" secondItem="313-lK-Xrn" secondAttribute="bottom" constant="16" id="CGk-aP-fLu"/>
                 <constraint firstItem="zkX-kI-YX2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="F68-Ot-0yO"/>
                 <constraint firstItem="313-lK-Xrn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="354" id="GWF-R4-ZBe"/>
                 <constraint firstItem="cDJ-e9-qhx" firstAttribute="leading" secondItem="6AT-33-szX" secondAttribute="leading" id="Hxe-BU-ufq"/>

@@ -266,10 +266,8 @@
 
 - (void)viewDidLoad
 {
-    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
-        
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         [self setMultipleSlectionPicker:NO];

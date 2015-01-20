@@ -263,7 +263,12 @@
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self ChangeOrientation];
+}
 
 - (void)viewDidLoad
 {
@@ -280,8 +285,34 @@
     self.loginTableView.backgroundColor=[UIColor clearColor];
     AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     delegate.isStart=TRUE;
-}
+    
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(ChangeOrientation)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
 
+}
+-(void)ChangeOrientation
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight)))
+    {
+        //_btnLogin.center=CGPointMake(_btnLogin.frame.origin.x, _btnLogin.frame.origin.y-200);
+//        
+//        NSLog(@"view frame %@",NSStringFromCGRect(self.view.frame)) ;
+//        NSLog(@"view frame height %f",self.view.frame.size.height);
+//         NSLog(@"view frame width %f",self.view.frame.size.width);
+//        
+//        _btnLogin.frame=CGRectMake(_btnLogin.frame.origin.x, _btnLogin.frame.origin.y-300, _btnLogin.frame.size.width, _btnLogin.frame.size.height);
+//        _loginTableView.frame=CGRectMake(_loginTableView.frame.origin.x, _loginTableView.frame.origin.y-150, _loginTableView.frame.size.width, _loginTableView.frame.size.height);
+//         _btnForgotPassword.frame=CGRectMake(_btnForgotPassword.frame.origin.x, _btnForgotPassword.frame.origin.y-150, _btnForgotPassword.frame.size.width, _btnForgotPassword.frame.size.height);
+//        
+//        [self.view reloadInputViews];
+    }
+    
+}
 
 #pragma mark- TableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
@@ -431,6 +462,7 @@
     {
         Status=TRUE;
         [self.navigationController popToViewController:object animated:NO];
+        break;
     }
     }
     if (Status==FALSE)

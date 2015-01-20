@@ -14,6 +14,20 @@
 {
     int toolBarPosition = [[UIScreen mainScreen] bounds].size.height;
     
+    int X_Prosition;
+    int Y_Position;
+    
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight)))
+    {
+        X_Prosition=[[UIScreen mainScreen] bounds].size.height/2-50;
+        Y_Position=[[UIScreen mainScreen] bounds].size.width/2-50;
+        
+    }else{
+         X_Prosition=[[UIScreen mainScreen] bounds].size.width/2-50;
+         Y_Position=[[UIScreen mainScreen] bounds].size.height/2-50;
+    }
+    
     NSLog(@"weight %f",[[UIScreen mainScreen] bounds].size.width);
     
     self = [super initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, toolBarPosition)];
@@ -23,7 +37,7 @@
         UIView *progress;
         
         if (isIPAD) {
-             progress = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width/2-50, self.frame.size.height/2-100, 100, 100)];
+             progress = [[UIView alloc] initWithFrame:CGRectMake(X_Prosition, Y_Position, 100, 100)];
         }else{
              progress = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width/2-40, self.frame.size.height/2-80, 80, 80)];
         }

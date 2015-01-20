@@ -288,18 +288,13 @@
     if(acti)
     [acti removeFromSuperview];
     }
-
-
     }];
-
 
     }else{
 
     [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
-
-
 }
 // this method used to get web service response from server
 

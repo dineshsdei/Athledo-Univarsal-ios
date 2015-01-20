@@ -15,6 +15,8 @@
 {
     WebServiceClass *webservice;
 }
+@property (strong, nonatomic) IBOutlet UIButton *btnLanscapLogout;
+@property (strong, nonatomic) IBOutlet UIButton *btnLogout;
 @property (nonatomic,strong) CalenderScheduleView *calendarViewController;
 @property (nonatomic, retain) IBOutlet UITableView *rearTableView;
 - (IBAction)logout:(id)sender;

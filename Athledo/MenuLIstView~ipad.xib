@@ -7,6 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuLIstView">
             <connections>
+                <outlet property="btnLanscapLogout" destination="ddv-UV-BKg" id="t0W-ND-m4w"/>
+                <outlet property="btnLogout" destination="270-JJ-nkI" id="BRq-MK-JVY"/>
                 <outlet property="rearTableView" destination="RcN-zS-ZCh" id="bp1-8D-L6x"/>
                 <outlet property="view" destination="iN0-l3-epB" id="C9N-3z-71s"/>
             </connections>
@@ -16,15 +18,15 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="viewBg.png" translatesAutoresizingMaskIntoConstraints="NO" id="SVz-Ic-4xF">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SVz-Ic-4xF">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1050"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RcN-zS-ZCh">
-                    <rect key="frame" x="0.0" y="0.0" width="768" height="700"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="500"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="700" id="Aih-s9-29W"/>
+                        <constraint firstAttribute="height" constant="500" id="Aih-s9-29W"/>
                     </constraints>
                     <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -32,8 +34,8 @@
                         <outlet property="delegate" destination="-1" id="BKR-QH-AN5"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="270-JJ-nkI">
-                    <rect key="frame" x="30" y="821" width="200" height="60"/>
+                <button opaque="NO" tag="-200" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="270-JJ-nkI">
+                    <rect key="frame" x="30" y="819" width="200" height="60"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="FQW-bN-3LT"/>
                         <constraint firstAttribute="height" constant="60" id="e3r-5s-1OL"/>
@@ -53,26 +55,40 @@
                         <constraint firstAttribute="height" constant="1" id="Xse-pO-0ou"/>
                     </constraints>
                 </imageView>
+                <button opaque="NO" tag="-200" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddv-UV-BKg">
+                    <rect key="frame" x="30" y="592" width="200" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="bJV-vy-hIM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                    <state key="normal" title="Logout">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="logout:" destination="-1" eventType="touchUpInside" id="347-jm-yw0"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="SVz-Ic-4xF" secondAttribute="bottom" constant="-26" id="5yf-7D-bSS"/>
                 <constraint firstItem="ZSp-bv-EVH" firstAttribute="leading" secondItem="SVz-Ic-4xF" secondAttribute="leading" id="6Hk-Dt-vj0"/>
                 <constraint firstItem="ZSp-bv-EVH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9s1-9C-TKC"/>
+                <constraint firstItem="ddv-UV-BKg" firstAttribute="leading" secondItem="270-JJ-nkI" secondAttribute="leading" id="Fhg-qG-M0V"/>
                 <constraint firstItem="RcN-zS-ZCh" firstAttribute="leading" secondItem="ZSp-bv-EVH" secondAttribute="leading" id="G0O-0T-S1D"/>
                 <constraint firstItem="270-JJ-nkI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="Qhg-9v-SSa"/>
                 <constraint firstItem="SVz-Ic-4xF" firstAttribute="trailing" secondItem="ZSp-bv-EVH" secondAttribute="trailing" id="ags-TX-JND"/>
+                <constraint firstItem="ddv-UV-BKg" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="bottom" constant="92" id="bqF-yt-K0B"/>
                 <constraint firstItem="SVz-Ic-4xF" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="top" id="c9S-v8-G2o"/>
                 <constraint firstItem="RcN-zS-ZCh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eWl-9c-r3M"/>
-                <constraint firstItem="270-JJ-nkI" firstAttribute="top" secondItem="ZSp-bv-EVH" secondAttribute="bottom" constant="35" id="exr-g0-JQz"/>
+                <constraint firstItem="270-JJ-nkI" firstAttribute="top" secondItem="ZSp-bv-EVH" secondAttribute="bottom" constant="33" id="exr-g0-JQz"/>
                 <constraint firstAttribute="trailing" secondItem="RcN-zS-ZCh" secondAttribute="trailing" id="gp9-51-JzO"/>
-                <constraint firstItem="ZSp-bv-EVH" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="bottom" constant="85" id="ivb-80-9dW"/>
+                <constraint firstItem="ddv-UV-BKg" firstAttribute="trailing" secondItem="270-JJ-nkI" secondAttribute="trailing" id="hjp-Gl-lhg"/>
+                <constraint firstItem="ZSp-bv-EVH" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="bottom" constant="285" id="ivb-80-9dW"/>
                 <constraint firstItem="ZSp-bv-EVH" firstAttribute="trailing" secondItem="RcN-zS-ZCh" secondAttribute="trailing" id="oII-vf-eaW"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
         </view>
     </objects>
-    <resources>
-        <image name="viewBg.png" width="191" height="48"/>
-    </resources>
 </document>

@@ -84,7 +84,7 @@ BOOL isKeyBoard;
     
     NSArray *arrController=[self.navigationController viewControllers];
     
-    BOOL is_Existing;
+    BOOL is_Existing=NO;;
     
     for (id object in arrController) {
         
@@ -92,9 +92,7 @@ BOOL isKeyBoard;
         {
             is_Existing=YES;
             [self.navigationController popToViewController:object animated:NO];
-        }else{
-            
-            is_Existing=NO;
+            break;
         }
     }
     
