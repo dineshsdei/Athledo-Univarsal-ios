@@ -120,7 +120,7 @@
         receiver_ids=[receiver_ids stringByReplacingCharactersInRange:NSMakeRange(receiver_ids.length-1, 1) withString:@""];
     }
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         //Check for empty Text box
@@ -138,20 +138,20 @@
         }
         if(strError.length > 2)
         {
-            [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
             return;
         }
         
         
         NSString *strURL = [NSString stringWithFormat:@"{\"option_id\":\"%d\",\"user_id\":\"%d\",\"team_id\":\"%d\",\"receiver_id\":\"%@\",\"description\":\"%@\"}",option_id,userInfo.userId,userInfo.userSelectedTeamid,receiver_ids,[self.textviewDesc.text stringByReplacingOccurrencesOfString:@"\n" withString:@"" ]];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceComposeMessage :strURL :sendMessageTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -159,7 +159,7 @@
 
 -(void)getUser:(int)optionId{
     
-    if ([SingaltonClass  CheckConnectivity])
+    if ([SingletonClass  CheckConnectivity])
     {
         UserInformation *userInfo=[UserInformation shareInstance];
         
@@ -172,7 +172,7 @@
     }else
     {
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -180,7 +180,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -220,7 +220,7 @@
                 _textviewDesc.text=@"";
                 _txtTo.text=@"";
                  [m_ScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-                [SingaltonClass initWithTitle:@"" message:@"Message send successfully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Message send successfully" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -452,7 +452,7 @@
             
         }else{
             
-            [SingaltonClass initWithTitle:@"" message:@"Selected user type are not available " delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:@"" message:@"Selected user type are not available " delegate:nil btn1:@"Ok"];
             
         }
         
@@ -733,7 +733,7 @@
 
 - (IBAction)SendMessage:(id)sender {
     
-    [SingaltonClass ShareInstance].isMessangerSent =TRUE;
+    [SingletonClass ShareInstance].isMessangerSent =TRUE;
     
     [self WebServiceComposeMessage];
     

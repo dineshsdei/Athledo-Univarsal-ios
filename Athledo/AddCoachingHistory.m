@@ -41,7 +41,7 @@ NSMutableArray *arrAwardsYear;
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -52,14 +52,14 @@ NSMutableArray *arrAwardsYear;
             {// Now we Need to decrypt data
                 
                 
-                [SingaltonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
                 
                 
                 
                 
             }else{
                 
-                [SingaltonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -72,14 +72,14 @@ NSMutableArray *arrAwardsYear;
             {// Now we Need to decrypt data
                 
                 
-                [SingaltonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
                 
                 
                 
                 
             }else{
                 
-                [SingaltonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
             
             
@@ -274,9 +274,9 @@ NSMutableArray *arrAwardsYear;
 
 - (IBAction)sendCoachingOrAwardsData : (id)sender {
     
-    [SingaltonClass ShareInstance].isProfileSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     self.navigationController.navigationItem.leftBarButtonItem.enabled=NO;
     self.navigationItem.rightBarButtonItem.enabled=NO;
@@ -294,7 +294,7 @@ NSMutableArray *arrAwardsYear;
         UserInformation *userInfo=[UserInformation shareInstance];
         [arrdata addObject:[NSString stringWithFormat:@"%d",userInfo.userId ]];
         
-        if ([SingaltonClass  CheckConnectivity]) {
+        if ([SingletonClass  CheckConnectivity]) {
             
             for (int i=0; i < 5; i++) {
                 
@@ -327,7 +327,7 @@ NSMutableArray *arrAwardsYear;
                 if(strError.length > 1)
                 {
                     self.navigationItem.rightBarButtonItem.enabled=YES;
-                    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
                 
@@ -381,7 +381,7 @@ NSMutableArray *arrAwardsYear;
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
             
-            [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
             
         }
         
@@ -396,7 +396,7 @@ NSMutableArray *arrAwardsYear;
         UserInformation *userInfo=[UserInformation shareInstance];
         [arrdata addObject:[NSString stringWithFormat:@"%d",userInfo.userId ]];
         
-        if ([SingaltonClass  CheckConnectivity]) {
+        if ([SingletonClass  CheckConnectivity]) {
             
             for (int i=0; i < 5; i++) {
                 
@@ -426,7 +426,7 @@ NSMutableArray *arrAwardsYear;
                 if(strError.length > 1)
                 {
                     self.navigationItem.rightBarButtonItem.enabled=YES;
-                    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
                 
@@ -477,7 +477,7 @@ NSMutableArray *arrAwardsYear;
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
             
-            [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
             
         }
         
@@ -508,10 +508,10 @@ NSMutableArray *arrAwardsYear;
             
             NSString *str=[myResults objectForKey:@"message"];
             if ([str isEqualToString:@"Data saved successfuly!"]) {
-                [SingaltonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
             }else{
                 self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingaltonClass initWithTitle:@"Invalid Data" message:str delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"Invalid Data" message:str delegate:nil btn1:@"Ok"];
                 
             }
             
@@ -524,10 +524,10 @@ NSMutableArray *arrAwardsYear;
             
             NSString *str=[myResults objectForKey:@"message"];
             if ([str isEqualToString:@"Data saved successfuly!"]) {
-                [SingaltonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
             }else{
                 self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingaltonClass initWithTitle:@"Invalid Data" message:str delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"Invalid Data" message:str delegate:nil btn1:@"Ok"];
                 
             }
             

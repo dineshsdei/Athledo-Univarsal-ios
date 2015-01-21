@@ -106,7 +106,7 @@ static int LiftExerciseCount=0;
 {
     
     @try {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
 
     switch (Tag)
     {
@@ -154,10 +154,10 @@ static int LiftExerciseCount=0;
         
         [WebWorkOutData setObject:[Tempdic1 copy] forKey:@"Custom Tags"];
         Tempdic1=nil;
-        [SingaltonClass initWithTitle:@"" message:@"Custom tag added successfully" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Custom tag added successfully" delegate:nil btn1:@"Ok"];
         
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
     }
 
     break;
@@ -186,10 +186,10 @@ static int LiftExerciseCount=0;
         [workOutDic setObject:[Tempdic copy] forKey:@"Custom Tags"];
         Tempdic=nil;
         
-        [SingaltonClass initWithTitle:@"" message:@"Custom tag removed successfully" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Custom tag removed successfully" delegate:nil btn1:@"Ok"];
         
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
     }
 
     break;
@@ -201,10 +201,10 @@ static int LiftExerciseCount=0;
     {
         [arrExerciseType insertObject:currentText.text atIndex:0];
         
-        [SingaltonClass initWithTitle:@"" message:@"Exercise Type added successfully" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Exercise Type added successfully" delegate:nil btn1:@"Ok"];
         
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
     }
 
     break;
@@ -215,10 +215,10 @@ static int LiftExerciseCount=0;
     {
         [arrExerciseType removeObject:currentText.text];
         
-        [SingaltonClass initWithTitle:@"" message:@"Exercise Type removed successfully" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Exercise Type removed successfully" delegate:nil btn1:@"Ok"];
         
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
     }
 
     break;
@@ -228,9 +228,9 @@ static int LiftExerciseCount=0;
     if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
     {
         
-        [SingaltonClass initWithTitle:@"" message:@"Workout saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
+        [SingletonClass initWithTitle:@"" message:@"Workout saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
     }
 
     break;
@@ -462,10 +462,10 @@ static int LiftExerciseCount=0;
     {
     if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {
-    [SingaltonClass initWithTitle:@"" message:@"Workout saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
+    [SingletonClass initWithTitle:@"" message:@"Workout saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
 
     }else{
-    [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
     }
     }
 }
@@ -473,7 +473,7 @@ static int LiftExerciseCount=0;
    
     @try {
 
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     UserInformation *userInfo=[UserInformation shareInstance];
 
@@ -512,7 +512,7 @@ static int LiftExerciseCount=0;
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 
@@ -529,7 +529,7 @@ static int LiftExerciseCount=0;
 
 -(void)getWorkOutUnit : (NSString *)WorkOutType : (NSString *)Exercise{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     NSString *strURL = [NSString stringWithFormat:@"{\"workout_type\":\"%@\",\"excercise_type\":\"%@\"}",WorkOutType,Exercise];
 
@@ -565,7 +565,7 @@ static int LiftExerciseCount=0;
 
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -579,14 +579,23 @@ static int LiftExerciseCount=0;
 {
 
 }
-
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [tableview reloadData];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     isChangeWorkoutType=FALSE;
-    
-      
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -834,11 +843,8 @@ static int LiftExerciseCount=0;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-     [self getWorkOutList];
-    
+    [self getWorkOutList];
     [super viewWillAppear:NO];
-    
-   
 }
 
 -(void)saveDicData
@@ -858,22 +864,16 @@ static int LiftExerciseCount=0;
         
         [[arrLiftPlaceholder objectAtIndex:currentText.tag] setValue:currentText.text forKey:currentText.placeholder];
     }
-
-
-
     [workOutDic setObject:arrLiftPlaceholder forKey:@"Lift"];
+    
     }
-
-
     if(([currentText.placeholder isEqualToString:@"Workout Type"]  ) )
     {
-
-    if (currentText.text.length > 0) {
-        
+        if (currentText.text.length > 0) {
         NSString *code= [self KeyForValue:@"Workout Type" :currentText.text];
         [self getWorkOutUnit:code :@""];
         [self ShowFieldsRegardingWorkOutType:currentText.text];
-    }
+        }
 
     }else if([strPlaceHolder isEqualToString:@"Athletes"] || [strPlaceHolder isEqualToString:@"Groups"] )
     {
@@ -918,8 +918,6 @@ static int LiftExerciseCount=0;
     [[arrLiftPlaceholder objectAtIndex:currentText.tag] setValue:currentText.text forKey:currentText.placeholder];
     }
 
-
-
     [workOutDic setObject:arrLiftPlaceholder forKey:@"Lift"];
     }
     
@@ -933,8 +931,7 @@ static int LiftExerciseCount=0;
     [self getWorkOutUnit:code :ExerciseCode];
 
     }
-
-
+    
     if(([currentText.placeholder isEqualToString:@"Workout Type"]  ) )
     {
     if (currentText.text.length > 0) {
@@ -996,8 +993,8 @@ static int LiftExerciseCount=0;
 
 -(void)DeleteExistingFieldsRegardingWorkOutType : (NSString *)workOutType
 {
-    
     if ([workOutType isEqualToString:@"Cardio"]) {
+        
         [arrFieldsPlaceholder removeObject:@"Exercise Type"];
         [arrFieldsPlaceholder removeObject:@"Unit"];
         [workOutDic setObject:@"" forKey:@"Unit"];
@@ -1025,11 +1022,11 @@ static int LiftExerciseCount=0;
         
     }else if ([workOutType isEqualToString:@"Interval"] ) {
     
-    [arrFieldsPlaceholder removeObject:@"Exercise Type"];
-     [arrFieldsPlaceholder removeObject:@"# of Intervals"];
-     [arrFieldsPlaceholder removeObject:@"Unit"];
-    [workOutDic setObject:@"" forKey:@"Unit"];
-    [workOutDic setObject:@"" forKey:@"# of Intervals"];
+        [arrFieldsPlaceholder removeObject:@"Exercise Type"];
+        [arrFieldsPlaceholder removeObject:@"# of Intervals"];
+        [arrFieldsPlaceholder removeObject:@"Unit"];
+        [workOutDic setObject:@"" forKey:@"Unit"];
+        [workOutDic setObject:@"" forKey:@"# of Intervals"];
    
     }else if ([workOutType isEqualToString:@"Lift"]) {
         LiftExerciseCount=0;
@@ -1688,7 +1685,7 @@ static int LiftExerciseCount=0;
 
     if (arrCustomList.count == 0) {
         
-         [SingaltonClass initWithTitle:@"" message:@"Please add custom tag first" delegate:nil btn1:@"Ok"];
+         [SingletonClass initWithTitle:@"" message:@"Please add custom tag first" delegate:nil btn1:@"Ok"];
     }else
     {
         [self selectCustomTags];
@@ -2298,7 +2295,7 @@ static int LiftExerciseCount=0;
 
 -(void)SaveWorkOutData:(id)sender
 {
-    [SingaltonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
     self.navigationItem.leftBarButtonItem.enabled=NO;
     self.navigationItem.rightBarButtonItem.enabled=NO;
     @try {
@@ -2359,7 +2356,7 @@ static int LiftExerciseCount=0;
 
     if([[workOutDic valueForKey:@"# of Intervals"] intValue ] < 2){
     self.navigationItem.rightBarButtonItem.enabled=YES;
-    [SingaltonClass initWithTitle:@"" message:@"Please Enter # of intervals greater than one" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Please Enter # of intervals greater than one" delegate:nil btn1:@"Ok"];
     return;
     }else
 
@@ -2416,13 +2413,13 @@ static int LiftExerciseCount=0;
     if(strError.length > 2 )
     {
     self.navigationItem.rightBarButtonItem.enabled=YES;
-    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
     return;
     }else{
 
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
 
     NSString *strWorkOutId=@"";
     if (objEditModeData) {
@@ -2507,7 +2504,7 @@ static int LiftExerciseCount=0;
 
     self.navigationItem.rightBarButtonItem.enabled=YES;
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
     }
 
@@ -2521,7 +2518,7 @@ static int LiftExerciseCount=0;
     }else{
     self.navigationItem.rightBarButtonItem.enabled=YES;
 
-    [SingaltonClass initWithTitle:@"" message:@"Please select workout type" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Please select workout type" delegate:nil btn1:@"Ok"];
     }
 
     }
@@ -2589,7 +2586,7 @@ static int LiftExerciseCount=0;
 
     if (currentText.text.length > 0) {
 
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
 
     NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"tag_name\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,currentText.text];
 
@@ -2605,7 +2602,7 @@ static int LiftExerciseCount=0;
     if (currentText.text.length > 0) {
 
     [self getWorkOutList];
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
     NSString *customId=[self KeyForValue:@"Custom Tags" :currentText.text];
 
     NSString *strURL = [NSString stringWithFormat:@"{\"workoutcustom_id\":\"%@\"}",customId];
@@ -2616,7 +2613,7 @@ static int LiftExerciseCount=0;
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"No Custom Tag Found!" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"No Custom Tag Found!" delegate:nil btn1:@"Ok"];
     }
 
     }else if (alertView.tag == AddexerciseAlertTag && buttonIndex==1)
@@ -2624,7 +2621,7 @@ static int LiftExerciseCount=0;
         
     if (currentText.text.length > 0) {
 
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
 
     NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"excercise_name\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,currentText.text];
 
@@ -2642,7 +2639,7 @@ static int LiftExerciseCount=0;
         //  [arrExerciseType removeObject:currentText.text];
         [self getWorkOutList];
 
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
 
         NSString *exerciseId=[self KeyForValue:@"Exercise" :currentText.text];
 
@@ -2653,7 +2650,7 @@ static int LiftExerciseCount=0;
 
         }else{
 
-        [SingaltonClass initWithTitle:@"" message:@"No Exercise Name Found!" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"No Exercise Name Found!" delegate:nil btn1:@"Ok"];
         }
         }
         

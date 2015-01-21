@@ -24,7 +24,7 @@ static WebServiceClass *objWebService=nil;
 
 -(void)WebserviceCall : (NSString *)StrUrl  :(NSString *)strParameters :(int)Tag
 {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
     @try {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:StrUrl]];
     [request setHTTPMethod:@"POST"];
@@ -57,14 +57,14 @@ static WebServiceClass *objWebService=nil;
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 }
 
 -(void)WebserviceCallwithDic :(NSDictionary*)DicData :(NSString *)StrUrl :(int)Tag
 {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     @try {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:DicData options:0 error:NULL];
@@ -101,7 +101,7 @@ static WebServiceClass *objWebService=nil;
     }
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 }

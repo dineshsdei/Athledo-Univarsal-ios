@@ -220,7 +220,7 @@ BOOL isKeyBoard;
 
 - (IBAction)submitdata:(id)sender {
  
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     //Check for empty Text box
     NSString *strError = @"";
@@ -231,11 +231,11 @@ BOOL isKeyBoard;
 
     if(strError.length > 1)
     {
-    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
     return;
     }else{
 
-    BOOL emailValid=[SingaltonClass emailValidate:txtFieldUserId.text];
+    BOOL emailValid=[SingletonClass emailValidate:txtFieldUserId.text];
 
     if (emailValid) {
 
@@ -269,13 +269,13 @@ BOOL isKeyBoard;
     }];
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
     }
     }
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
     
@@ -297,10 +297,10 @@ BOOL isKeyBoard;
    
     if ([[myResults objectForKey:@"status"] isEqualToString:@"success"]) {
         
-         [SingaltonClass initWithTitle:@"" message:[myResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
+         [SingletonClass initWithTitle:@"" message:[myResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
     }else
     {
-          [SingaltonClass initWithTitle:@"" message:[myResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
+          [SingletonClass initWithTitle:@"" message:[myResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
     }
     
 }

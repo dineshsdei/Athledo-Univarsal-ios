@@ -49,7 +49,7 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -58,13 +58,13 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                [SingaltonClass ShareInstance].isProfileSectionUpdate=TRUE;
+                [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
                 
-                [SingaltonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
                 
             }else{
                 
-                [SingaltonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -180,7 +180,7 @@
 }
 
 - (void)getCountryList{
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetCountryList]];
@@ -198,7 +198,7 @@
                                }];
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -207,7 +207,7 @@
 - (void)getStateList : (int )CountryCode{
     
     self.navigationItem.leftBarButtonItem.enabled=NO;
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         NSString *strURL = [NSString stringWithFormat:@"{\"country_id\":\"%d\"}",CountryCode];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetStateList]];
@@ -232,7 +232,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -282,7 +282,7 @@
 
 -(void)SendGenralInfo:(id)sender
 {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         for (int i=0; i < arrTextFieldText.count; i++) {
             
@@ -336,7 +336,7 @@
             
             if(strError.length > 1)
             {
-                [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                 return;
             }
             
@@ -390,7 +390,7 @@
             [dict setObject:temp forKey:@"UserProfile"];
             [dict setObject:@"" forKey:@"cochng_hstry"];
             [dict setObject:@"" forKey:@"awards"];
-            [SingaltonClass addActivityIndicator:self.view];
+            [SingletonClass addActivityIndicator:self.view];
             
             [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
             
@@ -402,7 +402,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -518,7 +518,7 @@
             
             if (arrStateList.count == 0) {
                 //[self setToolbarVisibleAt:CGPointMake(160, 700)];
-                [SingaltonClass initWithTitle:@"" message:@"Please select country name" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Please select country name" delegate:nil btn1:@"Ok"];
                 
                 return NO;
             }

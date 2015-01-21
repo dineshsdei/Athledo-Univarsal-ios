@@ -126,7 +126,7 @@
 {
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     if (_obj) {
 
@@ -148,14 +148,14 @@
 }
 -(void)DeleteAnnouncement:(id)sender
 {
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete announcement ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
+    [SingletonClass initWithTitle:@"" message: @"Do you want to delete announcement ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
 
-    [SingaltonClass ShareInstance].isAnnouncementUpdate=TRUE;
+    [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
 
     [self deletCellFromWeb];
 
@@ -187,23 +187,23 @@
 
 - (void)deletCellFromWeb
 {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     int Ann_id=[[_obj valueForKey:@"id"] intValue];
 
     NSString *strURL = [NSString stringWithFormat:@"{\"ancmnt_id\":\"%d\"}",Ann_id];
 
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
 
     [webservice WebserviceCall:webServicedeleteAnnouncement :strURL :deleteAnnouncement];
     }else{
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
 
     switch (Tag)
     {
@@ -214,7 +214,7 @@
     {
     //[SingaltonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok"];
 
-    [SingaltonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
+    [SingletonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
 
     }
     }

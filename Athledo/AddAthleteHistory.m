@@ -71,7 +71,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -82,11 +82,11 @@
             {
                 // Now we Need to decrypt data
             
-                [SingaltonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
                 
             }else{
                  self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingaltonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -99,14 +99,14 @@
             {// Now we Need to decrypt data
                 
                 
-                [SingaltonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
                 
                 
                 
                 
             }else{
                 
-                [SingaltonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
             
             
@@ -353,14 +353,14 @@
 
 - (IBAction)sendAthleteHistory : (id)sender {
     
-    [SingaltonClass ShareInstance].isProfileSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     self.navigationController.navigationItem.leftBarButtonItem.enabled=NO;
     self.navigationItem.rightBarButtonItem.enabled=NO;
 
     NSMutableArray *arrdata=[[NSMutableArray alloc] init];
     UserInformation *userInfo=[UserInformation shareInstance];
 
-    if ([SingaltonClass  CheckConnectivity])
+    if ([SingletonClass  CheckConnectivity])
     {
     for (int i=0; i < arrHistoryInfo.count; i++) {
 
@@ -392,7 +392,7 @@
     if(strError.length > 1)
     {
      self.navigationItem.rightBarButtonItem.enabled=YES;
-    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
     return;
     }
     }
@@ -434,7 +434,7 @@
     }else{
     self.navigationItem.rightBarButtonItem.enabled=YES;
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 }

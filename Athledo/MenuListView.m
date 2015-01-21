@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Dinesh. All rights reserved.
 //
 
-#import "MenuLIstView.h"
+#import "MenuListView.h"
 #import "ProfileView.h"
 #import "DashBoard.h"
 #import "LoginVeiw.h"
@@ -33,7 +33,7 @@
 #define NUM_TOP_ITEMS 3
 #define NUM_SUBITEMS 4
 
-@interface MenuLIstView ()
+@interface MenuListView ()
 {
     NSArray *arrMenuList;
     
@@ -53,7 +53,7 @@
 
 @end
 
-@implementation MenuLIstView
+@implementation MenuListView
 @synthesize rearTableView = _rearTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -74,7 +74,6 @@
     UIImage *image;
     NSString *imageName=[arrImagesName objectAtIndex:index];
     image=[UIImage imageNamed:imageName];
-    
     return image;
 }
 
@@ -154,8 +153,6 @@
         }
         case 2:
         {
-            
-            
             if ([[NSString stringWithFormat:@"%@",[notificationData valueForKey:@"message"]] intValue] > 0)
             {
                 lblShowUpdate.hidden=NO;
@@ -193,13 +190,13 @@
     ////// delegate.isStart useed for refresh profile data on view
     lblLoginName.text=[UserInformation shareInstance].userFullName;
     
-    [SingaltonClass ShareInstance].isProfileSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     //[SingaltonClass ShareInstance].isAnnouncementUpdate=TRUE;
-    [SingaltonClass ShareInstance].isMessangerInbox=TRUE;
-    [SingaltonClass ShareInstance].isMessangerSent=TRUE;
-    [SingaltonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
-    [SingaltonClass ShareInstance].isCalendarUpdate=TRUE;
-    [SingaltonClass ShareInstance].isMessangerArchive=TRUE;
+    [SingletonClass ShareInstance].isMessangerInbox=TRUE;
+    [SingletonClass ShareInstance].isMessangerSent=TRUE;
+    [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
+    [SingletonClass ShareInstance].isMessangerArchive=TRUE;
     
     AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     
@@ -386,7 +383,7 @@
 
 -(void)getNotificationData{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
@@ -395,7 +392,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -637,11 +634,11 @@
     
     //NSLog(@"Logout");
     
-    [SingaltonClass ShareInstance].isProfileSectionUpdate=TRUE;
-    [SingaltonClass ShareInstance].isAnnouncementUpdate=TRUE;
-    [SingaltonClass ShareInstance].isMessangerInbox=TRUE;
-    [SingaltonClass ShareInstance].isMessangerSent=TRUE;
-    [SingaltonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
+    [SingletonClass ShareInstance].isMessangerInbox=TRUE;
+    [SingletonClass ShareInstance].isMessangerSent=TRUE;
+    [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
      notificationData=nil;
     [UserInformation resetSharedInstance];
     

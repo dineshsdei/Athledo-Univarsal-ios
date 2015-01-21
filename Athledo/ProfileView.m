@@ -133,7 +133,7 @@
     
     UserInformation *userInfo=[UserInformation shareInstance];
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         
         if (isEditProfilePic==NO) {
@@ -169,7 +169,7 @@
                                }];
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -181,7 +181,7 @@
     Objwebcervice =[WebServiceClass shareInstance];
     Objwebcervice.delegate=self;
     
-    if ( [SingaltonClass ShareInstance].isProfileSectionUpdate==TRUE) {
+    if ( [SingletonClass ShareInstance].isProfileSectionUpdate==TRUE) {
         
         arrAwards=nil;
         arrGenralinfo=nil;
@@ -195,7 +195,7 @@
         
         [self performSelectorOnMainThread:@selector(getProfileData) withObject:nil waitUntilDone:YES];
         
-        [SingaltonClass ShareInstance].isProfileSectionUpdate=FALSE;
+        [SingletonClass ShareInstance].isProfileSectionUpdate=FALSE;
         
     }
     [super viewWillAppear:NO];
@@ -325,7 +325,7 @@
                 NSString *str=[myResults objectForKey:@"message"];
                 
                 if (str !=nil) {
-                    [SingaltonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
                 }
             }
             
@@ -461,7 +461,7 @@
     isEditProfilePic=YES;
     NSData *imageData = UIImagePNGRepresentation(Img);
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"image\":\"%@\"}",userInfo.userId,[imageData base64Encoding]];
@@ -472,7 +472,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -480,7 +480,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {

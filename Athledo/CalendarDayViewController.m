@@ -41,20 +41,20 @@ UIBarButtonItem *revealButtonItem;;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
 
-        [SingaltonClass ShareInstance].isCalendarUpdate=FALSE;
+        [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,startDate,endDate];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
         
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -66,7 +66,7 @@ UIBarButtonItem *revealButtonItem;;
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -99,7 +99,7 @@ UIBarButtonItem *revealButtonItem;;
                 
             }else
             {
-                [SingaltonClass initWithTitle:@"" message:@"Events don't exist today" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Events don't exist today" delegate:nil btn1:@"Ok"];
                 
             }
         }
@@ -308,7 +308,7 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationController.navigationBar.hairlineDividerView.hidden = YES;
     self.dayView.daysBackgroundView.backgroundColor = [UIColor colorWithHex:0xf8f8f8];
 
-    if ([SingaltonClass ShareInstance].isCalendarUpdate) {
+    if ([SingletonClass ShareInstance].isCalendarUpdate) {
 
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;

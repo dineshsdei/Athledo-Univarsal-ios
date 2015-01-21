@@ -299,14 +299,14 @@ BOOL isMonth,isDay;
     
     
     
-    listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, pickerHeight);
+    listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, PickerHeight);
     listPicker.tag=listPickerTag;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
     
     //Set the Date picker view
     
     _datePicker=[[UIDatePicker alloc] init];
-    _datePicker.frame=CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, pickerHeight);
+    _datePicker.frame=CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, PickerHeight);
     [_datePicker setDatePickerMode:UIDatePickerModeDateAndTime];
     _datePicker.date = [NSDate date];
     _datePicker.tag=70;
@@ -1663,7 +1663,7 @@ BOOL isMonth,isDay;
     // NSLog(@"index path %ld",indexPath.section);
     
     if (textField.text.length==0) {
-        [SingaltonClass initWithTitle:@"" message:@"Please enter value" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Please enter value" delegate:nil btn1:@"Ok"];
     }else{
         
         [self CreateRepeatString:strRepeatEvent :0:textField];

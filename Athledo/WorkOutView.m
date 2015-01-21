@@ -129,7 +129,7 @@
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
     [super viewWillAppear:NO];
     
-    if ([SingaltonClass ShareInstance].isWorkOutSectionUpdate == TRUE) {
+    if ([SingletonClass ShareInstance].isWorkOutSectionUpdate == TRUE) {
         [self getList];
     }
 }
@@ -165,7 +165,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 - (void)getList
 
 {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     UserInformation *userInfo=[UserInformation shareInstance];
 
@@ -203,7 +203,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     }];
     }else{
         
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -212,7 +212,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
 - (void)WebServiceDeleteWorkOut : (int )Index
 {
-    if ([SingaltonClass  CheckConnectivity])
+    if ([SingletonClass  CheckConnectivity])
     {
     self.navigationItem.rightBarButtonItem.enabled=NO;
     self.navigationItem.leftBarButtonItem.enabled=NO;
@@ -249,7 +249,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     }
     }];
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -272,7 +272,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
     if (tagNumber == GetWorkOutListTag)
     {
-    [SingaltonClass ShareInstance].isWorkOutSectionUpdate =FALSE;
+    [SingletonClass ShareInstance].isWorkOutSectionUpdate =FALSE;
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
 
     if ([[myResults objectForKey:@"status"] isEqualToString:@"success"])
@@ -296,7 +296,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
     }else
     {
-    [SingaltonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
     }
 
     }else if (tagNumber == SearchWorkOutTag)
@@ -324,7 +324,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     {
     [self getList];
 
-    [SingaltonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
     }
     }else if (tagNumber == DeleteWorkOutTag)
     {
@@ -333,13 +333,13 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
     if ([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {
-    [SingaltonClass initWithTitle:@"" message:@"Workout has been deleted successfully." delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Workout has been deleted successfully." delegate:nil btn1:@"Ok"];
     [self getList];
     }else
     {
     // [self getList];
 
-    [SingaltonClass initWithTitle:@"" message:@"Try Again!" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Try Again!" delegate:nil btn1:@"Ok"];
     }
 
     }
@@ -366,7 +366,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 {
     if(theSearchBar.text.length>0)
     {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     UserInformation *userInfo=[UserInformation shareInstance];
     //Check for empty Text box
@@ -378,7 +378,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
     if(strError.length > 1)
     {
-    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
     return;
 
     }else{
@@ -419,7 +419,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 
@@ -604,7 +604,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 -(void)DeleteWorkOut:(id)sender
 {
     UIButton *btn=sender;
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
+    [SingletonClass initWithTitle:@"" message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
 }
 - (void)didReceiveMemoryWarning
 {

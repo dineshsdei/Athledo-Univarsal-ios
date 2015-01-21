@@ -95,10 +95,35 @@
     timeTxt.leftViewMode = UITextFieldViewModeAlways;
 
 }
-
+- (void)orientationChanged
+{
+     NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [pickerView removeFromSuperview];
+        pickerView=nil;
+        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+50, self.view.frame.size.width, 216)];
+        pickerView.backgroundColor=[UIColor whiteColor];
+        pickerView.tag=60;
+        pickerView.delegate=self;
+        [self.view addSubview:pickerView];
+        
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
+    }
+    
+   
+    
+}
 - (void)viewDidLoad
 {
     self.title = _ScreenTitle;
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
 
     NSLog(@"screen height %f",self.view.frame.size.height);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
@@ -106,17 +131,26 @@
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
 
     [super viewDidLoad];
-
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
-        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolbar];
-        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolbar];
-        [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22)):toolbar];
-        scrollHeight=kbSize.height;
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolbar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolbar];
+        
+        if (iosVersion < 8) {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolbar];
+            scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+        }else{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolbar];
+            scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+        }
+        
+       
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -124,7 +158,7 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
-        [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22)) :toolbar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolbar];
         
     }];
     scrollHeight=0;
@@ -146,9 +180,7 @@
 
     [self setFieldsProperty];
 
-    NSLog(@"frame %f%f%f%f",self.view.frame.size.width,self.view.frame.size.height,self.view.bounds.size.height,self.view.bounds.size.width);
-
-
+    //NSLog(@"frame %f%f%%f",self.view.frame.size.width,self.view.frame.size.height,self.view.bounds.size.height,self.view.bounds.size.width)
     //Set the Date picker view
    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216)];
@@ -165,7 +197,7 @@
 
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 
-    UIToolbar *toolBar;
+   
     toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
@@ -191,11 +223,24 @@
 
     [self getGroupList];
 
-    pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+50, self.view.frame.size.width, 216)];
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    
+    if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)))
+    {
+        if (iosVersion < 8) {
+             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,[[UIScreen mainScreen] bounds].size.width+50, [[UIScreen mainScreen] bounds].size.height, 216)];
+        }else{
+            
+             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,[[UIScreen mainScreen] bounds].size.height+50, [[UIScreen mainScreen] bounds].size.width, 216)];
+        }
+        
+    }else{
+         pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+50, self.view.frame.size.width, 216)];
+    }
+   
     pickerView.backgroundColor=[UIColor whiteColor];
     pickerView.tag=60;
     pickerView.delegate=self;
-    //    pickerView.dataSource=self;
     [self.view addSubview:pickerView];
 
     if(obj)
@@ -255,7 +300,7 @@
 
 -(void)getGroupList{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     UserInformation *userInfo=[UserInformation shareInstance];
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
@@ -292,7 +337,7 @@
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 }
@@ -375,12 +420,12 @@
     if([[myResults objectForKey:@"status"] isEqualToString:@"success"] || ( myResults==nil))
     {
 
-    [SingaltonClass initWithTitle:@"" message:@"Announcement saved successfully" delegate:self btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Announcement saved successfully" delegate:self btn1:@"Ok"];
     }else{
 
     self.navigationItem.rightBarButtonItem.enabled=YES;
 
-    [SingaltonClass initWithTitle:@"" message:[myResults valueForKey:@"message"] delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:[myResults valueForKey:@"message"] delegate:nil btn1:@"Ok"];
     }
 
     }
@@ -411,15 +456,19 @@
 -(void)doneClicked
 {
     UIScrollView *scrllView = (UIScrollView *)[self.view viewWithTag:90];
-    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
-
     [scrllView setContentOffset:CGPointMake(0,0) animated: YES];
     CheckboxButton *btn=(CheckboxButton *)selectGroupBtn;
 
     if(currentText.tag==10||currentText.tag==11 || btn ||selectDateBtn || selectTimeBtn) {
-     
-     [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
-     [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        
+    [UIView beginAnimations:@"tblViewMove" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.27f];
+
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+
+    [UIView commitAnimations];
     }
     if (txtViewCurrent) {
     if (!(txtViewCurrent.text.length > 0)) {
@@ -430,7 +479,7 @@
 
     }
     [self showBtnGroupStatus];
-    [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+   // [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 
 }
@@ -441,10 +490,9 @@
 {
    
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
-    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
-    [SingaltonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
     
 }
 
@@ -533,8 +581,6 @@
         
         [self setDateInDatePicker];
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-     
-        UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
         
         if (textField.tag==10)
         {
@@ -560,8 +606,8 @@
         
         df=nil;
         
-        [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
-        [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
         
         return NO;
     }
@@ -791,7 +837,7 @@
     else{
     // For Group selected
         UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolbar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolbar];
     //}
 
     }
@@ -812,7 +858,7 @@
     isKeyBoard=YES;
     [UIView commitAnimations];
     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
    
 }
 - (IBAction)selectTime:(id)sender{
@@ -827,12 +873,12 @@
 
     datePicker.datePickerMode = UIDatePickerModeTime;
     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
 }
 
 - (IBAction)saveAnnouncement:(id)sender {
     
-    [SingaltonClass ShareInstance].isAnnouncementUpdate=TRUE;
+    [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
     self.navigationItem.rightBarButtonItem.enabled=NO;
     //Check for empty Text box
     NSString *strError = @"";
@@ -853,11 +899,11 @@
     if(strError.length>2)
     {
     self.navigationItem.rightBarButtonItem.enabled=YES;
-    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
     return;
     }else{
 
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     UserInformation *userInfo=[UserInformation shareInstance];
 
@@ -957,7 +1003,7 @@
     }else{
     self.navigationItem.rightBarButtonItem.enabled=YES;
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 }
@@ -1308,9 +1354,9 @@
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     //[self setDatePickerVisibleAt:NO];
     UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
     if (groupArray.count==0) {
-        [SingaltonClass initWithTitle:@"" message:@"Groups are not exist" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Groups are not exist" delegate:nil btn1:@"Ok"];
         return;
     }
     if ([sender isKindOfClass:[CheckboxButton class]])
@@ -1344,6 +1390,6 @@
     }
     }
     UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
-    [SingaltonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolbar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolbar];
 }
 @end

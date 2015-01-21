@@ -1,6 +1,5 @@
 //
 //  ActiveIndicator.m
-//  InspectionSoft
 //
 //  Created by am on 08/11/12.
 //  Copyright (c) 2012 am. All rights reserved.
@@ -20,8 +19,24 @@
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
     if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight)))
     {
-        X_Prosition=[[UIScreen mainScreen] bounds].size.height/2-50;
-        Y_Position=[[UIScreen mainScreen] bounds].size.width/2-50;
+        if (iosVersion < 8) {
+            X_Prosition=[[UIScreen mainScreen] bounds].size.height/2-50;
+            Y_Position=[[UIScreen mainScreen] bounds].size.width/2-50;
+        }else{
+            X_Prosition=[[UIScreen mainScreen] bounds].size.width/2-50;
+            Y_Position=[[UIScreen mainScreen] bounds].size.height/2-50;
+        }
+       
+        
+    }else if ((isIPAD) &&(deviceOrientation==UIDeviceOrientationUnknown))
+    {
+        if (iosVersion < 8) {
+            X_Prosition=[[UIScreen mainScreen] bounds].size.height/2-50;
+            Y_Position=[[UIScreen mainScreen] bounds].size.width/2-50;
+        }else{
+            X_Prosition=[[UIScreen mainScreen] bounds].size.width/2-50;
+            Y_Position=[[UIScreen mainScreen] bounds].size.height/2-50;
+        }
         
     }else{
          X_Prosition=[[UIScreen mainScreen] bounds].size.width/2-50;

@@ -66,23 +66,23 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     
     switch (Tag)
     {
         case deleteWorkoutTag:
         {
-            [SingaltonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+            [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 
                 
-                [SingaltonClass initWithTitle:@"" message:@"Workout deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
+                [SingletonClass initWithTitle:@"" message:@"Workout deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
             }else{
                 
-                [SingaltonClass initWithTitle:@"" message:@"Workout delete fail try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Workout delete fail try again" delegate:nil btn1:@"Ok"];
             }
             
             
@@ -90,16 +90,16 @@
         }
         case ReassignWorkoutTag:
         {
-            [SingaltonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+            [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 
-                [SingaltonClass initWithTitle:@"" message:@"Workout has been reassigned successfully." delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Workout has been reassigned successfully." delegate:nil btn1:@"Ok"];
                 
             }else{
                 
-                [SingaltonClass initWithTitle:@"" message:@"Workout reassign fail try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Workout reassign fail try again" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -180,11 +180,11 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 
-                [SingaltonClass initWithTitle:@"" message:@"Workout details saved successfully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Workout details saved successfully" delegate:nil btn1:@"Ok"];
                 
             }else{
                 
-                [SingaltonClass initWithTitle:@"" message:@"Fail try again!" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Fail try again!" delegate:nil btn1:@"Ok"];
             }
             
             
@@ -208,21 +208,21 @@
 
 -(void)GetWorkoutData
 {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         if (_obj) {
             
             NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"workout_id\":\"%d\",\"team_id\":\"%d\"}",[UserInformation shareInstance].userId,[UserInformation shareInstance].userType,[[_obj objectForKey:@"Workout Id"] intValue],[UserInformation shareInstance].userSelectedTeamid];
             //  NSString *strURL = [NSString stringWithFormat:@"{\"workout_id\":\"%d\",\"team_id\":\"%d\"}",[@"8" intValue],[@"13" intValue]];
             
-            [SingaltonClass addActivityIndicator:self.view];
+            [SingletonClass addActivityIndicator:self.view];
             
             [webservice WebserviceCall:WebServiceWorkoutDetails :strURL :getDetailDataTag];
         }
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -442,25 +442,25 @@
 
 -(void)DeleteWorkout:(id)sender
 {
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
+    [SingletonClass initWithTitle:@"" message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
     
 }
 -(void)DeleteFromWeb
 {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         if (_obj) {
             
             NSString *strURL = [NSString stringWithFormat:@"{\"workout_id\":\"%d\"}",[[_obj objectForKey:@"Workout Id"] intValue]];
             
-            [SingaltonClass addActivityIndicator:self.view];
+            [SingletonClass addActivityIndicator:self.view];
             
             [webservice WebserviceCall:webServiceDeleteWorkOut :strURL :deleteWorkoutTag];
         }
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -468,7 +468,7 @@
 {
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         if (_obj) {
             
@@ -487,7 +487,7 @@
 {
     if (buttonIndex == 1 && alertView.tag==1) {
         
-        [SingaltonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+        [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
         
         [self DeleteFromWeb];
         
@@ -549,7 +549,7 @@
 -(void)ReassignWorkout:(id)sender
 {
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         if (_obj) {
             
@@ -558,14 +558,14 @@
             NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"workout_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\"}",userInfo.userSelectedTeamid,[[_obj objectForKey:@"Workout Id"] intValue],userInfo.userSelectedSportid,[[_obj objectForKey:@"user_id"] intValue]];
             
             
-            [SingaltonClass addActivityIndicator:self.view];
+            [SingletonClass addActivityIndicator:self.view];
             
             [webservice WebserviceCall:webServiceReAssignWorkOut :strURL :ReassignWorkoutTag];
         }
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -979,7 +979,7 @@
         
         if (arrAllAthlete.count==0) {
             [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
-            [SingaltonClass initWithTitle:@"" message:@"Athlete is not exist" delegate:nil btn1:@"OK"];
+            [SingletonClass initWithTitle:@"" message:@"Athlete is not exist" delegate:nil btn1:@"OK"];
             
         }else
         {
@@ -1810,14 +1810,14 @@
         return;
     }
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         if (_obj) {
             
             
             if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"])
             {
-                [SingaltonClass addActivityIndicator:self.view];
+                [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
                 
                 [dict setObject:arrWorkOuts forKey:@"WorkoutAthleteLift"];
@@ -1827,7 +1827,7 @@
                 
             }else{
                 
-                [SingaltonClass addActivityIndicator:self.view];
+                [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
                 
                 [dict setObject:arrWorkOuts forKey:@"WorkoutAthlete"];
@@ -1840,7 +1840,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     

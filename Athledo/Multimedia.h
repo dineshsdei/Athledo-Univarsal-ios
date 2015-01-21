@@ -12,6 +12,9 @@
 #import "MultimediaVideo.h"
 
 @interface Multimedia : UIViewController<WebServiceDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
+{
+    UIToolbar *toolBar;
+}
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldSeason;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;

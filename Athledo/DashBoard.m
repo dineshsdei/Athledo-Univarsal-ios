@@ -76,7 +76,7 @@
     [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
     [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
         
-    SingaltonClass *obj=[SingaltonClass ShareInstance];
+    SingletonClass *obj=[SingletonClass ShareInstance];
         NSDictionary *user=[obj GetUSerSaveData];
     [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :[team objectForKey:@"team_id"] :[team objectForKey:@"sport_id"]];
     

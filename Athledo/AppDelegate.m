@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginVeiw.h"
 #import "DashBoard.h"
-#import "MenuLIstView.h"
+#import "MenuListView.h"
 #import "ProfileView.h"
 #import "SWRevealViewController.h"
 #import "ForgotPassword.h"
@@ -31,7 +31,7 @@
     
     // First time call webservice or buffer data
     
-    [SingaltonClass ShareInstance].isAnnouncementUpdate=TRUE;
+    [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
     
     
     [[UINavigationBar appearance] setTitleTextAttributes:
@@ -50,7 +50,7 @@
      _arrCellFieldTag=[[NSMutableArray alloc] init];
     
     AnnouncementView *frontViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
-	MenuLIstView *rearViewController = [[MenuLIstView alloc] initWithNibName:@"MenuLIstView" bundle:nil];
+	MenuListView *rearViewController = [[MenuListView alloc] initWithNibName:@"MenuListView" bundle:nil];
     
     UINavigationController *frontNavigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
     

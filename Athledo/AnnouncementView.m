@@ -87,54 +87,6 @@
     
     
 }
-//-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-//{
-//   // oraintation=toInterfaceOrientation;
-//}
-//-(BOOL)shouldAutorotate {
-//    
-//    if (oraintation ==UIInterfaceOrientationMaskPortrait) {
-//        return YES;
-//    }else if((isIPAD) && (oraintation ==UIDeviceOrientationPortraitUpsideDown ))
-//    {
-//        return YES;
-//    }else if((isIPAD) && (oraintation ==UIDeviceOrientationLandscapeLeft))
-//    {
-//        return YES;
-//    }else if((isIPAD) && (oraintation ==UIDeviceOrientationLandscapeRight))
-//    {
-//        return YES;
-//    }else
-//    {
-//        return  false ;
-//    }
-//    
-//    return YES;
-//    
-//}
-//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-//   
-//    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-//    
-//    [tblAnnouncementRecods reloadData];
-//    [tblUpdatesRecods reloadData];
-//    
-//    
-//}
-//
-//
-//- (NSUInteger)supportedInterfaceOrientations
-//{
-//    if (isIPAD) {
-//        oraintation=UIDeviceOrientationLandscapeRight;
-//         return UIInterfaceOrientationMaskLandscapeRight;
-//    }else{
-//        oraintation=UIDeviceOrientationLandscapeRight;
-//         return UIInterfaceOrientationMaskPortraitUpsideDown;
-//    }
-//    
-//   
-//}
 
 -(void)AddNewAnnouncement
 {
@@ -171,7 +123,7 @@
 
     if(theSearchBar.text.length>0)
     {
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     //Check for empty Text box
     NSString *strError = @"";
@@ -182,7 +134,7 @@
 
     if(strError.length > 1)
     {
-    [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
     return;
     }else{
 
@@ -228,7 +180,7 @@
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 
@@ -244,7 +196,7 @@
 }
 -(void)getNotificationData{
     
-    if ([SingaltonClass  CheckConnectivity])
+    if ([SingletonClass  CheckConnectivity])
     {
         userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
@@ -258,7 +210,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -295,7 +247,7 @@
 {
     //NSLog(@"user type %d",[UserInformation shareInstance].userType);
 
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
     indicator.tag = 50;
@@ -334,7 +286,7 @@
 
     }];
     }else{
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 }
@@ -384,7 +336,7 @@
     }else
     {
 
-    [SingaltonClass initWithTitle:@"" message:@"No Data Found !" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"No Data Found !" delegate:nil btn1:@"Ok"];
 
     [self getList];
 
@@ -438,7 +390,7 @@
     }else
     {
     [arrAnnouncements removeObject:[[data objectAtIndex:0]objectForKey:@"Announcement"]];
-    [SingaltonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
     }
 
     switch (userInfo.userType) {
@@ -497,11 +449,11 @@
     }
 
     [super viewWillAppear:NO];
-    if ([SingaltonClass ShareInstance].isAnnouncementUpdate == TRUE) {
+    if ([SingletonClass ShareInstance].isAnnouncementUpdate == TRUE) {
     self.navigationItem.rightBarButtonItem.enabled=NO;
     [self getList];
 
-    [SingaltonClass ShareInstance].isAnnouncementUpdate=FALSE;
+    [SingletonClass ShareInstance].isAnnouncementUpdate=FALSE;
     }else{
 
     [arrAnnouncements removeAllObjects];

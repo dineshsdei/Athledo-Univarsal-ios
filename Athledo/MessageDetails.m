@@ -74,7 +74,7 @@
 #pragma mark Webservice call event
 -(void)getConversation{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\",\"webmail_parent_id\":\"%d\"}",userInfo.userId,[_webmail_id intValue],[_webmail_parent_id intValue]];
@@ -85,14 +85,14 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
 -(void)sendConversation : (NSString * )description
 {
-    [SingaltonClass ShareInstance].isMessangerSent =TRUE;
-     [SingaltonClass ShareInstance].isMessangerInbox =TRUE;
+    [SingletonClass ShareInstance].isMessangerSent =TRUE;
+     [SingletonClass ShareInstance].isMessangerInbox =TRUE;
     
     NSString *strReceiver_id=@"";
     
@@ -106,7 +106,7 @@
         }
     }
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         //{"user_id":"1", "webmail_id": "1" , "webmail_parent_id":"2", "description":"test reply to all", "receiver_id" :"27,52"}
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\",\"webmail_parent_id\":\"%d\",\"description\":\"%@\",\"receiver_id\":\"%@\"}",userInfo.userId,[_webmail_id intValue],[_webmail_parent_id intValue],description,strReceiver_id];
@@ -117,14 +117,14 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
      }
     
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {

@@ -66,27 +66,27 @@ UIBarButtonItem *revealButtonItem;;
 
     formatter=nil;
 
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
     UserInformation *userInfo=[UserInformation shareInstance];
-    [SingaltonClass ShareInstance].isCalendarUpdate=FALSE;
+    [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
     // NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,startdate,enddate];
     NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,startdate,enddate];
 
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
 
     [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
 
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -97,7 +97,7 @@ UIBarButtonItem *revealButtonItem;;
     if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
     {
     // Now we Need to decrypt data
-    [SingaltonClass ShareInstance].isCalendarUpdate=FALSE;
+    [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
 
 
     eventData =[MyResults objectForKey:@"data"];
@@ -121,7 +121,7 @@ UIBarButtonItem *revealButtonItem;;
 
     }else
     {
-    [SingaltonClass initWithTitle:@"" message:@"Events don't exist in this week" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Events don't exist in this week" delegate:nil btn1:@"Ok"];
 
     }
     }
@@ -229,11 +229,11 @@ UIBarButtonItem *revealButtonItem;;
 {
    
 
-    if ([SingaltonClass ShareInstance].isCalendarUpdate==TRUE) {
+    if ([SingletonClass ShareInstance].isCalendarUpdate==TRUE) {
 
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    if (_eventDic.count == 0 &&   [SingaltonClass ShareInstance].isCalendarUpdate==TRUE) {
+    if (_eventDic.count == 0 &&   [SingletonClass ShareInstance].isCalendarUpdate==TRUE) {
     WeekEndDate =[self addDays:7 toDate:WeekStartDate];
     [self getEvents:WeekStartDate:WeekEndDate];
 

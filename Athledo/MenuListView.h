@@ -11,7 +11,7 @@
 #import "WebServiceClass.h"
 
 @class CalenderScheduleView;
-@interface MenuLIstView : UIViewController<UITableViewDelegate, UITableViewDataSource,WebServiceDelegate>
+@interface MenuListView : UIViewController<UITableViewDelegate, UITableViewDataSource,WebServiceDelegate>
 {
     WebServiceClass *webservice;
 }

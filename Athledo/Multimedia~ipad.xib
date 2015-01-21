@@ -30,7 +30,7 @@
                         <outlet property="delegate" destination="-1" id="OS7-rh-47H"/>
                     </connections>
                 </textField>
-                <button opaque="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BED-dX-quU">
+                <button opaque="NO" userInteractionEnabled="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BED-dX-quU">
                     <rect key="frame" x="725" y="19" width="15" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="3b5-86-byI"/>

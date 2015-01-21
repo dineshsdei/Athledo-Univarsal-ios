@@ -31,7 +31,7 @@
     
     UIDatePicker *datePicker;
     ALPickerView *pickerView;
-    
+    UIToolbar *toolBar;
     int scrollHeight;
     
 }

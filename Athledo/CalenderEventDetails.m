@@ -149,7 +149,7 @@
     webservice=[WebServiceClass shareInstance];
     webservice.delegate=self;
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         if (_objNotificationData) {
             
@@ -203,7 +203,7 @@
             [self.navigationController pushViewController:addEvent animated:NO];
         }
     }else{
-         [SingaltonClass initWithTitle:@"" message:@"Do you want to edit the whole set of repeated events?" delegate:self btn1:@"Cancel" btn2:@"Edit Occurrence" btn3:@"Edit Series" tagNumber:101];
+         [SingletonClass initWithTitle:@"" message:@"Do you want to edit the whole set of repeated events?" delegate:self btn1:@"Cancel" btn2:@"Edit Occurrence" btn3:@"Edit Series" tagNumber:101];
     }
    
 }

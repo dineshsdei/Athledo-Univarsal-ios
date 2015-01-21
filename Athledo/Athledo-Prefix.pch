@@ -13,7 +13,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
-    #import "SingaltonClass.h"
+    #import "SingletonClass.h"
     #import "CustomAlertMessage.h"
     #import "ActiveIndicator.h"
     #import "UserInformation.h"
@@ -33,7 +33,7 @@
 #define toolBarHeight 44
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH    [[UIScreen mainScreen] bounds].size.width
-#define PickerHeight 168
+#define PickerHeight isIPAD ? 162 : 162
 
 
 # define tblViewY (([UIScreen mainScreen].bounds.size.height >= 568)?266:180)
@@ -57,7 +57,7 @@
 #define Textfont [UIFont fontWithName:fontName size:BigfontSize] ;
 #define SmallTextfont [UIFont fontWithName:fontName size:SmallfontSize] ;
 #define MenuTextfont isIPAD ?[UIFont boldSystemFontOfSize:20]  : [UIFont boldSystemFontOfSize:17] ;
-#define  pickerHeight isIPAD ? 216 : 162
+//#define  pickerHeight isIPAD ? 216 : 162
 
 #define dateFormatMonthDateYearSlash @"MM/dd/yyyy"
 #define dateFormatDateMonthYearHiphen @"dd-MMM-yyyy"

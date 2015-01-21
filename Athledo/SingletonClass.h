@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SingaltonClass : NSObject
-+(SingaltonClass *)ShareInstance;
+@interface SingletonClass : NSObject
++(SingletonClass *)ShareInstance;
 +(BOOL)CheckConnectivity;
 +(BOOL)emailValidate:(NSString *)email;
 +(void)initWithTitle:(NSString *)title message:(NSString *)msg delegate:(id)del btn1:(NSString *)btn1 btn2:(NSString *)btn2 btn3:(NSString *)btn3 tagNumber:(int)tagNum;
@@ -33,5 +33,6 @@
 +(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar;
 -(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id;
 -(NSDictionary *)GetUSerSaveData;
++(UIDeviceOrientation )getOrientation;
 
 @end

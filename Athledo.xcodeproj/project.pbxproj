@@ -24,8 +24,8 @@
 		3D9E0514197BCFE6005CCB10 /* DashBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9E0512197BCFE6005CCB10 /* DashBoard.m */; };
 		3D9E0515197BCFE6005CCB10 /* DashBoard~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D9E0513197BCFE6005CCB10 /* DashBoard~iphone.xib */; };
 		3D9E051A197BD098005CCB10 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9E0519197BD098005CCB10 /* SWRevealViewController.m */; };
-		3D9E051E197BD0FA005CCB10 /* MenuLIstView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9E051C197BD0FA005CCB10 /* MenuLIstView.m */; };
-		3D9E051F197BD0FA005CCB10 /* MenuLIstView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D9E051D197BD0FA005CCB10 /* MenuLIstView~iphone.xib */; };
+		3D9E051E197BD0FA005CCB10 /* MenuListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9E051C197BD0FA005CCB10 /* MenuListView.m */; };
+		3D9E051F197BD0FA005CCB10 /* MenuListView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D9E051D197BD0FA005CCB10 /* MenuListView~iphone.xib */; };
 		3D9E0523197BD146005CCB10 /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9E0521197BD146005CCB10 /* ProfileView.m */; };
 		3D9E0524197BD146005CCB10 /* ProfileView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D9E0522197BD146005CCB10 /* ProfileView~iphone.xib */; };
 		3D9E0528197BD595005CCB10 /* AnnouncementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D9E0526197BD595005CCB10 /* AnnouncementView.m */; };
@@ -107,7 +107,7 @@
 		7197E865197E8B160086DA2E /* Athledo Basic Info.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7197E864197E8B160086DA2E /* Athledo Basic Info.strings */; };
 		7198FEA01986068C002925DA /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7198FE9F1986068C002925DA /* ProfileCell.m */; };
 		71999503197CC86000C0F77F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 71999502197CC86000C0F77F /* Reachability.m */; };
-		71999506197CC97800C0F77F /* SingaltonClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 71999505197CC97800C0F77F /* SingaltonClass.m */; };
+		71999506197CC97800C0F77F /* SingletonClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 71999505197CC97800C0F77F /* SingletonClass.m */; };
 		71999537197CEBF000C0F77F /* ActiveIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 71999526197CEBF000C0F77F /* ActiveIndicator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		71999538197CEBF000C0F77F /* CustomAlertMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 71999528197CEBF000C0F77F /* CustomAlertMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		71999539197CEBF000C0F77F /* DDProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7199952A197CEBF000C0F77F /* DDProgressView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -284,7 +284,7 @@
 		71A73C4E1A1DB1BD008C089A /* LoginVeiw~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A73C4D1A1DB1BD008C089A /* LoginVeiw~ipad.xib */; };
 		71A73C511A1DE648008C089A /* ForgotPassword~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A73C501A1DE648008C089A /* ForgotPassword~ipad.xib */; };
 		71A73C531A1DEEC3008C089A /* DashBoard~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A73C521A1DEEC3008C089A /* DashBoard~ipad.xib */; };
-		71A73C581A1E0950008C089A /* MenuLIstView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A73C571A1E0950008C089A /* MenuLIstView~ipad.xib */; };
+		71A73C581A1E0950008C089A /* MenuListView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A73C571A1E0950008C089A /* MenuListView~ipad.xib */; };
 		71A7B5AA197F756700038A15 /* CoachingHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A7B5A9197F756700038A15 /* CoachingHistory.m */; };
 		71A7B5AE197F762100038A15 /* Awards.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A7B5AD197F762100038A15 /* Awards.m */; };
 		71A7B5B1197F770400038A15 /* Sports.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A7B5B0197F770400038A15 /* Sports.m */; };
@@ -395,9 +395,9 @@
 		3D9E0513197BCFE6005CCB10 /* DashBoard~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DashBoard~iphone.xib"; sourceTree = "<group>"; };
 		3D9E0518197BD098005CCB10 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		3D9E0519197BD098005CCB10 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
-		3D9E051B197BD0FA005CCB10 /* MenuLIstView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuLIstView.h; sourceTree = "<group>"; };
-		3D9E051C197BD0FA005CCB10 /* MenuLIstView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuLIstView.m; sourceTree = "<group>"; };
-		3D9E051D197BD0FA005CCB10 /* MenuLIstView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MenuLIstView~iphone.xib"; sourceTree = "<group>"; };
+		3D9E051B197BD0FA005CCB10 /* MenuListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuListView.h; sourceTree = "<group>"; };
+		3D9E051C197BD0FA005CCB10 /* MenuListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuListView.m; sourceTree = "<group>"; };
+		3D9E051D197BD0FA005CCB10 /* MenuListView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MenuListView~iphone.xib"; sourceTree = "<group>"; };
 		3D9E0520197BD146005CCB10 /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
 		3D9E0521197BD146005CCB10 /* ProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileView.m; sourceTree = "<group>"; };
 		3D9E0522197BD146005CCB10 /* ProfileView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ProfileView~iphone.xib"; sourceTree = "<group>"; };
@@ -533,8 +533,8 @@
 		7198FE9F1986068C002925DA /* ProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
 		71999501197CC86000C0F77F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		71999502197CC86000C0F77F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		71999504197CC97800C0F77F /* SingaltonClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingaltonClass.h; sourceTree = "<group>"; };
-		71999505197CC97800C0F77F /* SingaltonClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingaltonClass.m; sourceTree = "<group>"; };
+		71999504197CC97800C0F77F /* SingletonClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonClass.h; sourceTree = "<group>"; };
+		71999505197CC97800C0F77F /* SingletonClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingletonClass.m; sourceTree = "<group>"; };
 		71999525197CEBF000C0F77F /* ActiveIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveIndicator.h; sourceTree = "<group>"; };
 		71999526197CEBF000C0F77F /* ActiveIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveIndicator.m; sourceTree = "<group>"; };
 		71999527197CEBF000C0F77F /* CustomAlertMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertMessage.h; sourceTree = "<group>"; };
@@ -747,7 +747,7 @@
 		71A73C4D1A1DB1BD008C089A /* LoginVeiw~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "LoginVeiw~ipad.xib"; sourceTree = "<group>"; };
 		71A73C501A1DE648008C089A /* ForgotPassword~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ForgotPassword~ipad.xib"; sourceTree = "<group>"; };
 		71A73C521A1DEEC3008C089A /* DashBoard~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DashBoard~ipad.xib"; sourceTree = "<group>"; };
-		71A73C571A1E0950008C089A /* MenuLIstView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MenuLIstView~ipad.xib"; sourceTree = "<group>"; };
+		71A73C571A1E0950008C089A /* MenuListView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MenuListView~ipad.xib"; sourceTree = "<group>"; };
 		71A7B5A8197F756700038A15 /* CoachingHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoachingHistory.h; sourceTree = "<group>"; };
 		71A7B5A9197F756700038A15 /* CoachingHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoachingHistory.m; sourceTree = "<group>"; };
 		71A7B5AC197F762100038A15 /* Awards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Awards.h; sourceTree = "<group>"; };
@@ -1158,7 +1158,7 @@
 		7197E854197E76750086DA2E /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				71ACB500198A1834007C5AFA /* CustonCell */,
+				71ACB500198A1834007C5AFA /* CustomCell */,
 				3D9E0520197BD146005CCB10 /* ProfileView.h */,
 				3D9E0521197BD146005CCB10 /* ProfileView.m */,
 				7197E851197E76620086DA2E /* AddAthleteHistory.h */,
@@ -1194,8 +1194,8 @@
 		7197E857197E76DA0086DA2E /* MenuList */ = {
 			isa = PBXGroup;
 			children = (
-				3D9E051B197BD0FA005CCB10 /* MenuLIstView.h */,
-				3D9E051C197BD0FA005CCB10 /* MenuLIstView.m */,
+				3D9E051B197BD0FA005CCB10 /* MenuListView.h */,
+				3D9E051C197BD0FA005CCB10 /* MenuListView.m */,
 			);
 			name = MenuList;
 			sourceTree = "<group>";
@@ -1832,7 +1832,7 @@
 		71A908FE1A5E8DEB00AFB6AC /* MenuLsit */ = {
 			isa = PBXGroup;
 			children = (
-				3D9E051D197BD0FA005CCB10 /* MenuLIstView~iphone.xib */,
+				3D9E051D197BD0FA005CCB10 /* MenuListView~iphone.xib */,
 			);
 			name = MenuLsit;
 			sourceTree = "<group>";
@@ -1840,7 +1840,7 @@
 		71A908FF1A5E8E0C00AFB6AC /* MenuLsit */ = {
 			isa = PBXGroup;
 			children = (
-				71A73C571A1E0950008C089A /* MenuLIstView~ipad.xib */,
+				71A73C571A1E0950008C089A /* MenuListView~ipad.xib */,
 			);
 			name = MenuLsit;
 			sourceTree = "<group>";
@@ -1850,8 +1850,8 @@
 			children = (
 				71A513E719A6FCEE00DE911F /* WebServiceClass.h */,
 				71A513E819A6FCEE00DE911F /* WebServiceClass.m */,
-				71999504197CC97800C0F77F /* SingaltonClass.h */,
-				71999505197CC97800C0F77F /* SingaltonClass.m */,
+				71999504197CC97800C0F77F /* SingletonClass.h */,
+				71999505197CC97800C0F77F /* SingletonClass.m */,
 				71B15ACB1A47DA7F008C0C71 /* CalendarEvent.h */,
 				71B15ACC1A47DA7F008C0C71 /* CalendarEvent.m */,
 			);
@@ -1859,7 +1859,7 @@
 			path = Athledo;
 			sourceTree = "<group>";
 		};
-		71ACB500198A1834007C5AFA /* CustonCell */ = {
+		71ACB500198A1834007C5AFA /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
 				7198FE9E1986068C002925DA /* ProfileCell.h */,
@@ -1869,7 +1869,7 @@
 				71977E221990DEBE00477EAF /* AddAthleteHistoryCell.h */,
 				71977E231990DEBE00477EAF /* AddAthleteHistoryCell.m */,
 			);
-			name = CustonCell;
+			name = CustomCell;
 			sourceTree = "<group>";
 		};
 		71B142AA19C974C1008EBC90 /* SWTableViewCell */ = {
@@ -2075,7 +2075,7 @@
 				71A368BA1A6E19F000DDF05C /* VideoPrivate.png in Resources */,
 				71A368DA1A6E1A4A00DDF05C /* icon-152x152.png in Resources */,
 				71A3697A1A6E1DA300DDF05C /* location_icon.png in Resources */,
-				71A73C581A1E0950008C089A /* MenuLIstView~ipad.xib in Resources */,
+				71A73C581A1E0950008C089A /* MenuListView~ipad.xib in Resources */,
 				71A369701A6E1DA300DDF05C /* Coach.png in Resources */,
 				71A3697C1A6E1DA300DDF05C /* login_btn.png in Resources */,
 				71A368D51A6E1A4A00DDF05C /* icon-80x80.png in Resources */,
@@ -2191,7 +2191,7 @@
 				71A368AA1A6E191200DDF05C /* login_bg copy.png in Resources */,
 				71A3691B1A6E1C3A00DDF05C /* reassign.png in Resources */,
 				3D9E0515197BCFE6005CCB10 /* DashBoard~iphone.xib in Resources */,
-				3D9E051F197BD0FA005CCB10 /* MenuLIstView~iphone.xib in Resources */,
+				3D9E051F197BD0FA005CCB10 /* MenuListView~iphone.xib in Resources */,
 				71B15AC61A47CDB1008C0C71 /* MultimediaVideo~ipad.xib in Resources */,
 				71A369351A6E1CAD00DDF05C /* schedule_icon.png in Resources */,
 				71A3698B1A6E1DA400DDF05C /* selectedCheck.png in Resources */,
@@ -2334,7 +2334,7 @@
 				71950F9A19C18FD800B4BF1A /* ComposeMessage.m in Sources */,
 				3D9E04EC197BCF3C005CCB10 /* AppDelegate.m in Sources */,
 				710C633719B9E41C00F11983 /* CalendarDayViewController.m in Sources */,
-				71999506197CC97800C0F77F /* SingaltonClass.m in Sources */,
+				71999506197CC97800C0F77F /* SingletonClass.m in Sources */,
 				71F926051998BE30001931D8 /* CheckboxButton.m in Sources */,
 				7197A48D19CC29D0004CC2E4 /* NSObject+SBJSON.m in Sources */,
 				3D9E0528197BD595005CCB10 /* AnnouncementView.m in Sources */,
@@ -2345,7 +2345,7 @@
 				7199957C197D44AB00C0F77F /* UserTeam.m in Sources */,
 				71A0708219AB291C00CA98D3 /* WorkOutHistory.m in Sources */,
 				3D9E0537197BD603005CCB10 /* MessangerView.m in Sources */,
-				3D9E051E197BD0FA005CCB10 /* MenuLIstView.m in Sources */,
+				3D9E051E197BD0FA005CCB10 /* MenuListView.m in Sources */,
 				719B77E519B497960088A71E /* HistoryCell.m in Sources */,
 				710C633B19B9E41C00F11983 /* MapViewController.m in Sources */,
 				7194ADFA19C04B5100DC0A23 /* JSMessageSoundEffect.m in Sources */,

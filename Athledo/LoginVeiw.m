@@ -54,17 +54,17 @@
     // Get the text fields location
     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:self.view];
     
-    if ((self.view.frame.size.height-(point.y+txtfield.frame.size.height)) < 216) {
+   // if ((self.view.frame.size.height-(point.y+txtfield.frame.size.height)) < 216) {
 
     NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
     UIEdgeInsets contentInsets;
-    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (txtfield.frame.size.height), 0.0);
+    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (2*txtfield.frame.size.height), 0.0);
 
     m_TableView.contentInset = contentInsets;
     m_TableView.scrollIndicatorInsets = contentInsets;
     [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
    
-    }
+   // }
 
 
     
@@ -76,7 +76,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:txtFieldPassword.text forKey:@"PASSWORD"];
 
 
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
 
     //Check for empty Text box
     NSString *strError = @"";
@@ -90,12 +90,12 @@
     }
     if(strError.length>2)
     {
-        [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
         return;
     }else{
         
         
-    BOOL emailValid=[SingaltonClass emailValidate:txtFieldUserId.text];
+    BOOL emailValid=[SingletonClass emailValidate:txtFieldUserId.text];
 
     if (emailValid) {
 
@@ -133,7 +133,7 @@
 
     }else
     {
-    [SingaltonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
 
     }
         
@@ -142,7 +142,7 @@
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
     
@@ -186,7 +186,7 @@
     userdata.userPicUrl=[user valueForKey:@"image"];
     userdata.userFullName=[user valueForKey:@"sender"];
         
-    SingaltonClass *obj=[SingaltonClass ShareInstance];
+    SingletonClass *obj=[SingletonClass ShareInstance];
     [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :@"" :@""];
         
 
@@ -251,7 +251,7 @@
     txtFieldPassword.text=@"";
     //txtFieldUserId.text=@"";
 
-    [SingaltonClass initWithTitle:@"" message:@"Invalid User" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Invalid User" delegate:nil btn1:@"Ok"];
 
 
     }

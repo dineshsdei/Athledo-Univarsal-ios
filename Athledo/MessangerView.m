@@ -42,18 +42,18 @@
 #pragma mark Webservice call event
 -(void)getMessages{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetMessages :strURL :getMessagesTag];
               
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -62,18 +62,18 @@
 }
 -(void)deleteMessageEvent :(int)Webmail_id :(int)webmail_receiver_id{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\",\"webmail_receiver_id\":\"%d\"}",userInfo.userId,Webmail_id,webmail_receiver_id];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceDeleteMessage :strURL :deleteMessagesTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -82,18 +82,18 @@
 }
 -(void)archiveMessageEvent :(int)webmail_parent_id{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
        
         
         NSString *strURL = [NSString stringWithFormat:@"{\"status\":\"%@\",\"webmail_parent_id\":\"%d\"}",@"archive",webmail_parent_id];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceMessageStatus:strURL :archiveMessagesTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -104,7 +104,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -127,13 +127,13 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 
-               [SingaltonClass RemoveActivityIndicator:self.view];
+               [SingletonClass RemoveActivityIndicator:self.view];
                
-                [SingaltonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
-                  [SingaltonClass RemoveActivityIndicator:self.view];
-                [SingaltonClass initWithTitle:@"" message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
+                  [SingletonClass RemoveActivityIndicator:self.view];
+                [SingletonClass initWithTitle:@"" message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
             
              break;
@@ -146,14 +146,14 @@
                 
                 //messageArrDic =[MyResults objectForKey:@"data"];
                 ////NSLog(@"dict %@",messageArrDic);
-                  [SingaltonClass RemoveActivityIndicator:self.view];
-                 [SingaltonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
+                  [SingletonClass RemoveActivityIndicator:self.view];
+                 [SingletonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                  [self getMessages];
             }else{
                 
-                 [SingaltonClass RemoveActivityIndicator:self.view];
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 
-                 [SingaltonClass initWithTitle:@"" message:@"Message archived fail try again" delegate:nil btn1:@"Ok"];
+                 [SingletonClass initWithTitle:@"" message:@"Message archived fail try again" delegate:nil btn1:@"Ok"];
             }
             
              break;
@@ -173,13 +173,13 @@
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     [super viewWillAppear:animated];
     
-    if ([SingaltonClass ShareInstance].isMessangerInbox == TRUE) {
+    if ([SingletonClass ShareInstance].isMessangerInbox == TRUE) {
         
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         
          [self getMessages];
-        [SingaltonClass ShareInstance].isMessangerInbox =FALSE;
+        [SingletonClass ShareInstance].isMessangerInbox =FALSE;
         
     }
     
@@ -241,7 +241,7 @@
       self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
     [self getMessages];
-    [SingaltonClass ShareInstance].isMessangerInbox =FALSE;
+    [SingletonClass ShareInstance].isMessangerInbox =FALSE;
 }
 
 
@@ -443,7 +443,7 @@
 -(void)deleteMessage:(id)sender
 {
     UIButton *btn=sender;
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
+    [SingletonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
     
 }
 -(void)archiveMessage:(id)sender;

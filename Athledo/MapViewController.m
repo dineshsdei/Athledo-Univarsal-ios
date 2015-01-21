@@ -41,19 +41,19 @@ UIBarButtonItem *revealButtonItem;;
 #pragma mark Webservice call event
 -(void)getEvents{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
         
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 
@@ -61,7 +61,7 @@ UIBarButtonItem *revealButtonItem;;
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -71,7 +71,7 @@ UIBarButtonItem *revealButtonItem;;
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 // Now we Need to decrypt data
-                [SingaltonClass ShareInstance].isCalendarUpdate=FALSE;
+                [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
                 
                 _eventDic =[MyResults objectForKey:@"data"];
                 
@@ -93,7 +93,7 @@ UIBarButtonItem *revealButtonItem;;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
-    if ([SingaltonClass ShareInstance].isCalendarUpdate==TRUE) {
+    if ([SingletonClass ShareInstance].isCalendarUpdate==TRUE) {
         
         [self getEvents];
     }

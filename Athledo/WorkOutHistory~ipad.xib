@@ -53,6 +53,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="313-lK-Xrn">
                     <rect key="frame" x="354" y="212" width="112" height="40"/>
                     <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="112" id="8ZC-AX-2cG"/>
                         <constraint firstAttribute="height" constant="40" id="PM3-er-SL7"/>
                         <constraint firstAttribute="width" constant="112" id="pRa-0j-fTq"/>
                     </constraints>
@@ -124,6 +125,7 @@
                 <constraint firstAttribute="trailing" secondItem="cDJ-e9-qhx" secondAttribute="trailing" id="R4v-ji-gl5"/>
                 <constraint firstItem="cDJ-e9-qhx" firstAttribute="trailing" secondItem="f6b-Tz-mG3" secondAttribute="trailing" id="TcS-ar-oME"/>
                 <constraint firstItem="cDJ-e9-qhx" firstAttribute="leading" secondItem="f6b-Tz-mG3" secondAttribute="leading" id="VdT-5C-Lm5"/>
+                <constraint firstAttribute="trailing" secondItem="313-lK-Xrn" secondAttribute="trailing" constant="302" id="Yyz-dG-8dA"/>
                 <constraint firstItem="zkX-kI-YX2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21" id="aJf-Oe-A8K"/>
                 <constraint firstItem="y3V-6n-kTm" firstAttribute="trailing" secondItem="deR-6t-Cov" secondAttribute="trailing" id="bjA-vD-ARm"/>
                 <constraint firstItem="313-lK-Xrn" firstAttribute="top" secondItem="4wd-lW-LdE" secondAttribute="bottom" constant="33" id="dTI-EG-F23"/>

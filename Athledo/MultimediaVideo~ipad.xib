@@ -37,7 +37,7 @@
                         <outlet property="delegate" destination="-1" id="Xg5-02-34c"/>
                     </connections>
                 </textField>
-                <button opaque="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnf-n9-R08">
+                <button opaque="NO" userInteractionEnabled="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mnf-n9-R08">
                     <rect key="frame" x="722" y="15" width="15" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="BNC-AE-1fh"/>

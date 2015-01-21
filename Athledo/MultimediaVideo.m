@@ -26,6 +26,7 @@
     UITextField *currentText;
     NSString *seasonId;
     NSMutableArray *arrVisitedIndex;
+    UIToolbar *toolBar;
     
 }
 
@@ -33,8 +34,24 @@
 
 @implementation MultimediaVideo
 
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
+    }
+    
+    
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     // Do any additional setup after loading the view from its nib.
     
     
@@ -60,7 +77,7 @@
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,btnDone,nil];
     [self.view addSubview:toolBar];
@@ -76,7 +93,13 @@
 }
 -(void)doneClicked
 {
-    [self setPickerVisibleAt:NO:arrSeasons];
+   
+    [UIView beginAnimations:@"tblViewMove" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.27f];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+    [UIView commitAnimations];
     [self getMultimediaVideos];
 }
 -(void)sortedData :(int)index
@@ -144,13 +167,13 @@
 #pragma mark Webservice call event
 -(void)getSeasonData{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         UserInformation *userInfo=[UserInformation shareInstance];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
         
@@ -158,32 +181,32 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
 -(void)getMultimediaVideos{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\",\"tag_video\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId,@""];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetMultimediaVideos :strURL :getPicDataTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -207,7 +230,7 @@
             }else{
                 [multimediaData removeAllObjects];
                 [_tableView reloadData];
-                [SingaltonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -374,45 +397,6 @@
     
 }
 #pragma mark- UIPickerView
--(void)setToolbarVisibleAt :(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    [self.view viewWithTag:40].center = point;
-    [UIView commitAnimations];
-}
--(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        if (currentText.text.length > 0) {
-            for (int i=0; i< data.count; i++) {
-                
-                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-                    
-                    [listPicker selectRow:i inComponent:0 animated:YES];
-                    
-                    break;
-                }
-            }
-        }
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-        
-    }else{
-        [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
-    }
-    [self.view viewWithTag:listPickerTag].center = point;
-    [UIView commitAnimations];
-}
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
@@ -473,9 +457,10 @@
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         [listPicker reloadComponent:0];
-        [self setPickerVisibleAt:YES:arrSeasons];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+        //[self setPickerVisibleAt:YES:arrSeasons];
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
     }
     return NO;
 }

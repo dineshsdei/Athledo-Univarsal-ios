@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuLIstView">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuListView">
             <connections>
                 <outlet property="btnLanscapLogout" destination="ddv-UV-BKg" id="t0W-ND-m4w"/>
                 <outlet property="btnLogout" destination="270-JJ-nkI" id="BRq-MK-JVY"/>

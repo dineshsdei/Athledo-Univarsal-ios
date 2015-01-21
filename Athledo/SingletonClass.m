@@ -6,19 +6,19 @@
 //  Copyright (c) 2014 Dinesh. All rights reserved.
 //
 
-#import "SingaltonClass.h"
+#import "SingletonClass.h"
 #import "Reachability.h"
 #import "ALPickerView.h"
 
-static SingaltonClass *objSingaltonClass=nil;
+static SingletonClass *objSingaltonClass=nil;
 
-@implementation SingaltonClass
+@implementation SingletonClass
 
-+(SingaltonClass *)ShareInstance
++(SingletonClass *)ShareInstance
 {
     if (objSingaltonClass == nil) {
     
-        objSingaltonClass=[[SingaltonClass alloc] init];
+        objSingaltonClass=[[SingletonClass alloc] init];
     }
     
     
@@ -131,71 +131,113 @@ static SingaltonClass *objSingaltonClass=nil;
 
 +(void)setListPickerDatePickerMultipickerVisible :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar
 {
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
+   
     CGPoint point;
-    point.x=(SCREEN_WIDTH)/2;
     
-    NSLog(@"screen height from gloable. %f",SCREEN_HEIGHT);
+    float SCREENWIDTH;
+    float SCREENHEIGHT;
+    
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    
+    if (iosVersion < 8)
+    {
+        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)))
+        {
+            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
+            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
+            
+        }else{
+            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+        }
+    }else{
+        
+        SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+        SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+        
+    }
+
+    point.x=(SCREENWIDTH)/2;
+    
+    NSLog(@"screen height from gloable. %f",SCREENWIDTH);
+    toolbar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolbar.frame.size.height);
     
     
     if ([picker isKindOfClass:[UIDatePicker class]]) {
         
         UIDatePicker *pickerView=(UIDatePicker *)picker;
+        pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
         if (ShowHide) {
             
-            point.y=(SCREEN_HEIGHT)-(PickerHeight);
+            point.y=(SCREENHEIGHT)-(PickerHeight);
             [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
             
         }else{
-            point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
+            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height/2);
            
         }
-        
+      
          pickerView.center = point;
+        
     }else  if ([picker isKindOfClass:[ALPickerView class]]) {
         
         ALPickerView *pickerView=(ALPickerView *)picker;
+        // pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
         if (ShowHide) {
-            
-            point.y=(SCREEN_HEIGHT)-((PickerHeight));
+            point.y=(SCREENHEIGHT)-((PickerHeight));
             [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolbar];
             
         }else{
-            point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
+            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height/2);
         }
         
         pickerView.center = point;
     }else  if ([picker isKindOfClass:[UIPickerView class]]) {
         
         UIPickerView *pickerView=(UIPickerView *)picker;
+         pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
         if (ShowHide) {
             
-            point.y=(SCREEN_HEIGHT)-(PickerHeight);
+            point.y=(SCREENHEIGHT+15)-(PickerHeight);
             [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
             
         }else{
-            point.y=(SCREEN_HEIGHT)+(pickerView.frame.size.height/2);
+            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height/2);
         }
         
         pickerView.center = point;
     }
 
-    [UIView commitAnimations];
+  
 }
 
 +(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar
 {
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    float SCREENWIDTH;
+    float SCREENHEIGHT;
+    
+    if (iosVersion < 8)
+    {
+        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)))
+        {
+            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
+            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
+            
+        }else{
+            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+        }
+    }else{
+        
+        SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+        SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+
+    }
     
     UIToolbar *toolBar=(UIToolbar *)toolbar;
-    
+    toolBar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolBar.frame.size.height);
     toolBar.center = point;
-    
-    [UIView commitAnimations];
 }
 
 -(NSDictionary *)GetUSerSaveData
@@ -222,6 +264,12 @@ static SingaltonClass *objSingaltonClass=nil;
     [defaults setObject:encodedObject forKey:@"USERINFORMATION"];
     [defaults synchronize];
     
+}
+
++(UIDeviceOrientation )getOrientation
+{
+    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    return deviceOrientation;
 }
 
 

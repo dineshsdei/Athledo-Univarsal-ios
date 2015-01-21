@@ -52,21 +52,21 @@ NSArray *eventArrDic;
 #pragma mark Webservice call event
 -(void)getEvents{
     
-    if ([SingaltonClass  CheckConnectivity])
+    if ([SingletonClass  CheckConnectivity])
     {
         
     UserInformation *userInfo=[UserInformation shareInstance];
 
     NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
 
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
 
     [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
 
 
     }else{
 
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 
@@ -74,7 +74,7 @@ NSArray *eventArrDic;
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {

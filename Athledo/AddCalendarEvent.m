@@ -47,7 +47,7 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
 
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag)
     {
     case AddEventTag:
@@ -56,12 +56,12 @@
     if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
     {// Now we Need to decrypt data
          self.navigationItem.rightBarButtonItem.enabled=YES;
-        [SingaltonClass ShareInstance].isCalendarUpdate=TRUE;
-        [SingaltonClass initWithTitle:@"" message:@"Event saved successfully" delegate:self btn1:@"Ok"];
+        [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
+        [SingletonClass initWithTitle:@"" message:@"Event saved successfully" delegate:self btn1:@"Ok"];
     }else {
         
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        [SingaltonClass initWithTitle:@"" message:@"Event have not saved" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Event have not saved" delegate:nil btn1:@"Ok"];
 
     }
 
@@ -72,12 +72,12 @@
     if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
     {// Now we Need to decrypt data
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        [SingaltonClass ShareInstance].isCalendarUpdate=TRUE;
-        [SingaltonClass initWithTitle:@"" message:@"Event delete successfully" delegate:self btn1:@"Ok"];
+        [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
+        [SingletonClass initWithTitle:@"" message:@"Event delete successfully" delegate:self btn1:@"Ok"];
     }else {
         
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        [SingaltonClass initWithTitle:@"" message:@"Event didn't delete" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Event didn't delete" delegate:nil btn1:@"Ok"];
         
     }
 
@@ -87,7 +87,7 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-     [SingaltonClass RemoveActivityIndicator:self.view];
+     [SingletonClass RemoveActivityIndicator:self.view];
     if (alertView.tag==10) {
         
         if (buttonIndex==0) {
@@ -174,7 +174,7 @@
     if([error code] == 1)
     {
         
-            [SingaltonClass initWithTitle:@"" message:@"Please enter valid city name" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:@"" message:@"Please enter valid city name" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -197,11 +197,11 @@
 }
 -(void)DeleteEventAlert:(id)sender
 {
-     [SingaltonClass initWithTitle:@"" message:@"Event will be deleted permanently, are you sure?" delegate:self btn1:@"YES" btn2:@"NO" tagNumber:10];
+     [SingletonClass initWithTitle:@"" message:@"Event will be deleted permanently, are you sure?" delegate:self btn1:@"YES" btn2:@"NO" tagNumber:10];
 }
 -(void)deleteEvent
 {
-    if ([SingaltonClass  CheckConnectivity])
+    if ([SingletonClass  CheckConnectivity])
     {
     NSString *strAddBeforeParameter=@"";
     NSString *strStatus=@"";
@@ -317,14 +317,14 @@
         [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userId] forKey:@"user_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedTeamid] forKey:@"team_id"];
 
-    [SingaltonClass addActivityIndicator:self.view];
+    [SingletonClass addActivityIndicator:self.view];
 
     [webservice WebserviceCallwithDic:dicttemp :webServiceAddEvents :DeleteEventTag];
 
 
     }else{
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 
@@ -346,8 +346,8 @@
     
     [self CheckUserValueChange];
     
-    [SingaltonClass ShareInstance].isCalendarUpdate=TRUE;
-    if ([SingaltonClass  CheckConnectivity])
+    [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
+    if ([SingletonClass  CheckConnectivity])
     {
         self.navigationItem.rightBarButtonItem.enabled=NO;
         NSString *strError = @"";
@@ -375,7 +375,7 @@
         if(strError.length>2)
         {
             self.navigationItem.rightBarButtonItem.enabled=YES;
-            [SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
             return;
        
         }else{
@@ -383,7 +383,7 @@
           
         }
         
-    if ([SingaltonClass  CheckConnectivity])
+    if ([SingletonClass  CheckConnectivity])
     {
         
     UserInformation *userInfo=[UserInformation shareInstance];
@@ -529,14 +529,14 @@
     isDate=FALSE;
 
 
-   [SingaltonClass addActivityIndicator:self.view];
+   [SingletonClass addActivityIndicator:self.view];
 
     [webservice WebserviceCallwithDic:dicttemp :webServiceAddEvents :AddEventTag];
 
 
     }else{
     self.navigationItem.rightBarButtonItem.enabled=YES;
-    [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
 
     }
 
@@ -1225,7 +1225,7 @@
     [self.view addSubview:toolBar];
 
     //Set the Date picker view
-    _datePicker.frame=CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, pickerHeight);
+    _datePicker.frame=CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, PickerHeight);
 
     _datePicker.date = [NSDate date];
     _datePicker.tag=70;
@@ -1504,7 +1504,7 @@
 
     if ([CalendarEvent ShareInstance].strStartDate.length==0 || [CalendarEvent ShareInstance].strEndDate.length==0 ) {
 
-    [SingaltonClass initWithTitle:@"" message:@"Please select event start & end date " delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:@"" message:@"Please select event start & end date " delegate:nil btn1:@"Ok"];
 
     }else{
     if([CalendarEvent ShareInstance].strRepeatSting.length > 0)

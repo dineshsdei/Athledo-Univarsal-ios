@@ -44,12 +44,12 @@
     
     [tabBar setSelectedItem:tabBarItem];
 
-    if ([SingaltonClass ShareInstance].isMessangerArchive == TRUE) {
+    if ([SingletonClass ShareInstance].isMessangerArchive == TRUE) {
         
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         [self getMessages];
-        [SingaltonClass ShareInstance].isMessangerArchive =FALSE;
+        [SingletonClass ShareInstance].isMessangerArchive =FALSE;
         
     }
     
@@ -58,25 +58,25 @@
 #pragma mark Webservice call event
 -(void)getMessages{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceArchiveMessage :strURL :getMessagesTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
   
 }
 -(void)deleteMessageEvent:(NSInteger)index{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
     
         NSString *strURL=@"";
         
@@ -98,7 +98,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -107,7 +107,7 @@
 }
 -(void)archiveMessageMoveToInboxEvent:(int)index{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         NSString *strURL=@"";
         
@@ -127,7 +127,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -138,7 +138,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -147,7 +147,7 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                 [SingaltonClass ShareInstance].isMessangerArchive =FALSE;
+                 [SingletonClass ShareInstance].isMessangerArchive =FALSE;
                 // Now we Need to decrypt data
                 
                 messageArrDic =[MyResults objectForKey:@"data"];
@@ -165,12 +165,12 @@
                 
                 // messageArrDic =[MyResults objectForKey:@"data"];
                 // //NSLog(@"dict %@",messageArrDic);
-                   [SingaltonClass ShareInstance].isMessangerInbox = TRUE;
-                [SingaltonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
+                   [SingletonClass ShareInstance].isMessangerInbox = TRUE;
+                [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
                 
-                [SingaltonClass initWithTitle:@"" message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -181,13 +181,13 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 
-                [SingaltonClass ShareInstance].isMessangerInbox = TRUE;
+                [SingletonClass ShareInstance].isMessangerInbox = TRUE;
                 
-                [SingaltonClass initWithTitle:@"" message:@"Message restored successully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Message restored successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
                 
-                [SingaltonClass initWithTitle:@"" message:@"Message restored fail try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Message restored fail try again" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -253,7 +253,7 @@
    
  
 
-    if ([SingaltonClass ShareInstance].isMessangerArchive==TRUE) {
+    if ([SingletonClass ShareInstance].isMessangerArchive==TRUE) {
         
         [self getMessages];
        
@@ -474,7 +474,7 @@
 {
     UIButton *btn=sender;
 
-    [SingaltonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)btn.tag];
+    [SingletonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)btn.tag];
 
     
 }

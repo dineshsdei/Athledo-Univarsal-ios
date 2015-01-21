@@ -28,8 +28,7 @@
     NSArray *arrWorkOut;
     NSArray *arrSeasons;
     NSMutableArray *arrAthletes;
-    
-    int toolBarPosition;
+
     BOOL isKeyBoard;
     
     WebServiceClass *webservice;
@@ -45,6 +44,7 @@
     BOOL isPicker;
     
     NSDateFormatter *formater;
+    UIToolbar *toolBar;
     
 }
 
@@ -167,9 +167,23 @@
         listPicker.center=CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height-listPicker.frame.size.height/2);
     }
 }
-
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        isPicker=FALSE;
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
+    }
+}
 - (void)viewDidLoad
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
     self.title = NSLocalizedString(@"Workout History", nil);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
@@ -222,9 +236,6 @@
     arrSearchData=[[NSMutableArray alloc] init];
     //arrAthletes =[[NSArray alloc] init];
     
-    
-    toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?300:250);
-    
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag=listPickerTag;
     listPicker.delegate=self;
@@ -233,7 +244,7 @@
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = toolBarTag;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
@@ -263,11 +274,11 @@
 
 -(void)getSeasonOrWorkoutOrAthletesData{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         UserInformation *userInfo=[UserInformation shareInstance];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
         
@@ -275,7 +286,7 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -311,15 +322,15 @@
     
     isPicker=FALSE;
     [self doneClicked];
-    if ([SingaltonClass  CheckConnectivity]) {
-        [SingaltonClass addActivityIndicator:self.view];
+    if ([SingletonClass  CheckConnectivity]) {
+        [SingletonClass addActivityIndicator:self.view];
         NSString *strURL = [NSString stringWithFormat:@"{\"season_id\":\"%@\",\"workout_type_id\":\"%@\",\"user_id\":\"%@\"}",seasonId,workoutId,AthleteId];
         
         [webservice WebserviceCall:webUrlSearchHistory :strURL :getSearchDataTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
     
@@ -327,7 +338,7 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -351,7 +362,7 @@
                 [arrAthletes addObject:@"Whole Team"];
                 
             }else{
-                [SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -368,12 +379,12 @@
                 [arrSearchData addObjectsFromArray:[MyResults  objectForKey:@"data"] ];
                 
                 if (arrSearchData.count==0) {
-                    [SingaltonClass initWithTitle:@"" message:@"Data Not Found!" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:@"" message:@"Data Not Found!" delegate:nil btn1:@"Ok"];
                     
                 }
                 [tableview reloadData];
             }else{
-                [SingaltonClass initWithTitle:@"" message:@"Try again!" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Try again!" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -394,14 +405,27 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.29f];
     // if condition -> for not Lift workout
-    
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    [self setPickerVisibleAt:NO:arrSeasons];
+    isPicker=FALSE;
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
     
     [UIView commitAnimations];
     
 }
-
+-(void)showPickerSelectedText :(NSArray*)data
+{
+    if (currentText.text.length > 0) {
+        for (int i=0; i< data.count; i++) {
+            
+            if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                
+                [listPicker selectRow:i inComponent:0 animated:YES];
+                
+                break;
+            }
+        }
+    }
+}
 #pragma mark- UITextfield Delegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -419,52 +443,54 @@
     if (isAthletes) {
         
         isPicker=TRUE;
-        arrAthletes.count > 0 ? [self setPickerVisibleAt:YES:arrAthletes] :[SingaltonClass initWithTitle:@"" message:@"Athletes are not exist" delegate:nil btn1:@"Ok"];
+        arrAthletes.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Athletes are not exist" delegate:nil btn1:@"Ok"];
         if (arrAthletes.count==0)
         {
-            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-            [self setPickerVisibleAt:NO:arrAthletes];
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
+             [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         }else{
             
             [listPicker reloadAllComponents];
-            [self setPickerVisibleAt:YES:arrAthletes];
+            [self showPickerSelectedText:arrAthletes];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+           
         }
         
     }else if(isWorkOutType){
         
         isPicker=TRUE;
-        arrWorkOut.count > 0 ? [self setPickerVisibleAt:YES:arrWorkOut]:[SingaltonClass initWithTitle:@"" message:@"Workouts are not exist" delegate:nil btn1:@"Ok"];
-        if (arrWorkOut.count==0) {
-            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-            [self setPickerVisibleAt:NO:arrWorkOut];
+        arrWorkOut.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Workouts are not exist" delegate:nil btn1:@"Ok"];
+        if (arrWorkOut.count==0)
+        {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         }else{
             
             [listPicker reloadAllComponents];
-            [self setPickerVisibleAt:YES:arrWorkOut];
+            [self showPickerSelectedText:arrWorkOut];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+            
         }
         
     }else if(isSeasons){
         
         isPicker=TRUE;
         
-        arrSeasons.count > 0 ?  [self setPickerVisibleAt:YES:arrSeasons]:[SingaltonClass initWithTitle:@"" message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
-        if (arrSeasons.count==0) {
-            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-            [self setPickerVisibleAt:NO:arrSeasons];
+        arrSeasons.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
+        if (arrSeasons.count==0)
+        {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         }else{
             
             [listPicker reloadAllComponents];
-            [self setPickerVisibleAt:YES:arrSeasons];
+            [self showPickerSelectedText:arrSeasons];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+            
         }
         
     }
-    
-    
     [textField resignFirstResponder];
-    
-    // [listPicker selectRow:0 inComponent:0 animated:YES];
-    
-    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -475,52 +501,6 @@
 {
     [textField resignFirstResponder];
     return YES;
-}
-
-
--(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        if (currentText.text.length > 0) {
-            for (int i=0; i< data.count; i++) {
-                
-                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-                    
-                    [listPicker selectRow:i inComponent:0 animated:YES];
-                    
-                    break;
-                }
-            }
-        }
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-        
-    }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
-    }
-    
-    
-    [self.view viewWithTag:listPickerTag].center = point;
-    
-    [UIView commitAnimations];
-}
--(void)setToolbarVisibleAt:(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    [self.view viewWithTag:toolBarTag].center = point;
-    
-    [UIView commitAnimations];
 }
 
 #pragma mark- TableviewDelegate

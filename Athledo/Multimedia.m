@@ -32,6 +32,7 @@
     
 }
 @end
+
 @implementation Multimedia
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -49,6 +50,7 @@
     [super viewWillAppear:animated];
     
 }
+
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     //NSLog(@"tag %d",item.tag);
@@ -73,15 +75,27 @@
             break;
         }
             
-            
         default:
             break;
     }
-    
-    
 }
+
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     // Do any additional setup after loading the view from its nib.
     
     SWRevealViewController *revealController = [self revealViewController];
@@ -95,7 +109,7 @@
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
     listPicker=[[UIPickerView alloc] init];
-    listPicker.frame =CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 216);
+    listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag=listPickerTag;
     listPicker.delegate=self;
     listPicker.dataSource=self;
@@ -104,7 +118,7 @@
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 44)];
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,btnDone,nil];
     [self.view addSubview:toolBar];
@@ -115,7 +129,9 @@
     AllMultimediaData=[[NSArray alloc] init];
     [self getMultimediaPic];
     [self getSeasonData];
+    
 }
+
 -(void)sortedData :(int)index
 {
     switch (index) {
@@ -175,8 +191,8 @@
         default:
             break;
     }
-    
 }
+
 -(IBAction)SegmentSelected:(id)sender
 {
     UISegmentedControl *segment=sender;
@@ -185,7 +201,13 @@
 }
 -(void)doneClicked
 {
-    [self setPickerVisibleAt:NO:arrSeasons];
+    [UIView beginAnimations:@"tblViewMove" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.27f];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+    [UIView commitAnimations];
+    
     [self getMultimediaPic];
 }
 #pragma mark- UIPickerView
@@ -289,14 +311,14 @@
 #pragma mark Webservice call event
 -(void)getSeasonData{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         
         UserInformation *userInfo=[UserInformation shareInstance];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
         
@@ -304,30 +326,30 @@
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
 -(void)getMultimediaAlbum{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"album_id\":\"%@\"}",userInfo.userId,AlbumId];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetMultimediaAlbum :strURL :getAlbumDataTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
 -(void)getMultimediaPic{
     
-    if ([SingaltonClass  CheckConnectivity]) {
+    if ([SingletonClass  CheckConnectivity]) {
         
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
@@ -335,19 +357,19 @@
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId];
         
-        [SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetMultimediaPic :strURL :getPicDataTag];
         
     }else{
         
-        [SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingaltonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -369,7 +391,7 @@
             }else{
                 [multimediaData removeAllObjects];
                 [_tableView reloadData];
-                [SingaltonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -412,7 +434,7 @@
                     [_tableView reloadData];
                 } else
                 {
-                    [SingaltonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
                     AlbumId=@"";
                     
                 }
@@ -436,7 +458,7 @@
                     
                 } else
                 {
-                    [SingaltonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
                     AlbumId=@"";
                     
                 }
@@ -492,10 +514,8 @@
     
     if (_segmentControl.selectedSegmentIndex==3)
     {
-        
         UITapGestureRecognizer *pgr = [[UITapGestureRecognizer alloc]
                                        initWithTarget:self action:@selector(handlePinch:)];
-        
         [pgr setNumberOfTouchesRequired:1];
         [pgr setNumberOfTapsRequired:1];
         [pgr setDelegate:self];
@@ -586,13 +606,9 @@
 }
 -(void)handlePinch :(UITapGestureRecognizer *)pinchGestureRecognizer
 {
-    
-    
     titleIndex=(int)pinchGestureRecognizer.view.tag;
     AlbumId=[[multimediaData objectAtIndex:pinchGestureRecognizer.view.tag] valueForKey:@"id"];
     [self getMultimediaAlbum];
-    
-    
 }
 
 #pragma mark- UITextfield Delegate
@@ -601,10 +617,10 @@
     if (arrSeasons.count > 0) {
         currentText=textField;
         [listPicker reloadComponent:0];
-        [self setPickerVisibleAt:YES:arrSeasons];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
         
     }else{
-        [SingaltonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
     }
     
     
