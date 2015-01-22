@@ -392,7 +392,7 @@
             txtField=nil;
             lbl=nil;
             
-            int gap=(isIPAD ? 30 : 10),lblWight=(isIPAD ? 172 : 70);
+            int gap=(isIPAD ? 30 : 10),lblWight=(isIPAD ?  ((([SingletonClass getOrientation]== UIDeviceOrientationLandscapeLeft ) || ([SingletonClass getOrientation]== UIDeviceOrientationLandscapeRight)) ? 233 : 172) : 70);
             
             NSArray *arrPlaceholdertext=[[NSArray alloc] initWithObjects:@"Sets",@"Reps",@"Weight",@"Unit." ,nil];
         

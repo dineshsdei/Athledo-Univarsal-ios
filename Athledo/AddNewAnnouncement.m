@@ -141,14 +141,22 @@
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolbar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolbar];
         
-        if (iosVersion < 8) {
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolbar];
-            scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-        }else{
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
             
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolbar];
-            scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-        }
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolbar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolbar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+
+            
+        }completion:^(BOOL finished){
+            
+        }];
+        
         
        
     }];
@@ -479,7 +487,12 @@
 
     }
     [self showBtnGroupStatus];
-   // [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+    [UIView beginAnimations:@"tblViewMove" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:0.27f];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+    [UIView commitAnimations];
+  
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 
 }

@@ -401,15 +401,15 @@
 -(void)doneClicked
 {
     
-    [UIView beginAnimations:@"tblMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.29f];
+//    [UIView beginAnimations:@"tblMove" context:nil];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDuration:0.29f];
     // if condition -> for not Lift workout
     isPicker=FALSE;
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
     
-    [UIView commitAnimations];
+   // [UIView commitAnimations];
     
 }
 -(void)showPickerSelectedText :(NSArray*)data

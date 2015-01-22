@@ -42,7 +42,7 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nh-hL-cmW">
-                    <rect key="frame" x="184" y="559" width="400" height="64"/>
+                    <rect key="frame" x="184" y="524" width="400" height="64"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="FqQ-nf-1Bq"/>
                     </constraints>
@@ -56,7 +56,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lki-JG-to5">
-                    <rect key="frame" x="334" y="651" width="250" height="60"/>
+                    <rect key="frame" x="334" y="616" width="250" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="NVP-Cq-zwM"/>
                         <constraint firstAttribute="width" constant="250" id="udT-uU-7el"/>
@@ -77,7 +77,7 @@
                 <constraint firstItem="9u6-He-Ira" firstAttribute="centerX" secondItem="GLv-pf-dZW" secondAttribute="centerX" id="8Kd-KW-chY"/>
                 <constraint firstAttribute="trailing" secondItem="HHE-Tq-jIF" secondAttribute="trailing" id="8bz-h3-0pQ"/>
                 <constraint firstItem="GLv-pf-dZW" firstAttribute="trailing" secondItem="6nh-hL-cmW" secondAttribute="trailing" id="Bwr-bT-IYk"/>
-                <constraint firstItem="6nh-hL-cmW" firstAttribute="top" secondItem="GLv-pf-dZW" secondAttribute="bottom" constant="41" id="MQa-LU-Azo"/>
+                <constraint firstItem="6nh-hL-cmW" firstAttribute="top" secondItem="GLv-pf-dZW" secondAttribute="bottom" constant="6" id="MQa-LU-Azo"/>
                 <constraint firstItem="6nh-hL-cmW" firstAttribute="trailing" secondItem="Lki-JG-to5" secondAttribute="trailing" id="by0-Tw-Uzo"/>
                 <constraint firstItem="9u6-He-Ira" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="195" id="e4V-Or-WuR"/>
                 <constraint firstAttribute="bottom" secondItem="HHE-Tq-jIF" secondAttribute="bottom" id="ga9-Ec-GDq"/>

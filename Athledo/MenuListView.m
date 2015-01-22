@@ -25,6 +25,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MAWeekView.h"
 #import <MapKit/MapKit.h>
+#import "AppDelegate.h"
 
 
 @class CalenderScheduleView;
@@ -519,6 +520,12 @@
 
 - (void)viewDidLoad
 {
+    if (isIPAD) {
+        
+    }else{
+         [AppDelegate restrictRotation:YES];
+    }
+   
     self.view.backgroundColor=[UIColor colorWithRed:41.0/255.0 green:58.0/255 blue:71.0/255 alpha:1];
     [super viewDidLoad];
     _btnLanscapLogout.hidden=YES;

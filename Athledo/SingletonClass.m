@@ -169,11 +169,11 @@ static SingletonClass *objSingaltonClass=nil;
         pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
         if (ShowHide) {
             
-            point.y=(SCREENHEIGHT)-(PickerHeight);
+            point.y=(SCREENHEIGHT+15)-(PickerHeight);
             [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
             
         }else{
-            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height/2);
+            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
            
         }
       
@@ -182,27 +182,33 @@ static SingletonClass *objSingaltonClass=nil;
     }else  if ([picker isKindOfClass:[ALPickerView class]]) {
         
         ALPickerView *pickerView=(ALPickerView *)picker;
-        // pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
+        if (iosVersion < 8) {
+        //pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
+        }
+      
         if (ShowHide) {
-            point.y=(SCREENHEIGHT)-((PickerHeight));
+            point.y=(SCREENHEIGHT+15)-((PickerHeight));
             [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolbar];
             
         }else{
-            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height/2);
+            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
         }
         
         pickerView.center = point;
     }else  if ([picker isKindOfClass:[UIPickerView class]]) {
         
         UIPickerView *pickerView=(UIPickerView *)picker;
-         pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
+        if (iosVersion < 8) {
+            pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
+        }
+        
         if (ShowHide) {
             
             point.y=(SCREENHEIGHT+15)-(PickerHeight);
             [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
             
         }else{
-            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height/2);
+            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
         }
         
         pickerView.center = point;
@@ -237,7 +243,8 @@ static SingletonClass *objSingaltonClass=nil;
     
     UIToolbar *toolBar=(UIToolbar *)toolbar;
     toolBar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolBar.frame.size.height);
-    toolBar.center = point;
+     toolBar.center = point;
+    
 }
 
 -(NSDictionary *)GetUSerSaveData

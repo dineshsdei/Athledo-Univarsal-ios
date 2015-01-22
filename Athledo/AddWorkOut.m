@@ -81,6 +81,7 @@ static int LiftExerciseCount=0;
     NSString *strPlaceHolder;
     
     WebServiceClass *webservice;
+    UIToolbar *toolBar;
     
     
     
@@ -581,9 +582,25 @@ static int LiftExerciseCount=0;
 }
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    
     if (isIPAD) {
-        [tableview reloadData];
+        [pickerView removeFromSuperview];
+        pickerView=nil;
+        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+50, self.view.frame.size.width, 216)];
+        pickerView.backgroundColor=[UIColor whiteColor];
+        pickerView.tag=60;
+        pickerView.delegate=self;
+        [self.view addSubview:pickerView];
+        
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500) :toolBar];
+        
+        NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+        if (isIPAD) {
+            [tableview reloadData];
+        }
     }
 }
 - (void)viewDidLoad
@@ -602,19 +619,36 @@ static int LiftExerciseCount=0;
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        scrollHeight=kbSize.height;
-        
-        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
     }];
+    
+   
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        [self setMultipleSlectionPicker:NO];
-        [self setDatePickerVisibleAt:NO];
-        [self setPickerVisibleAt:NO:arrTime];
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar]  ;
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar] ;
+        
+        if ((currentText) && !([currentText.placeholder isEqualToString:@"Name"]||[currentText.placeholder isEqualToString:@"Sets"] || [currentText.placeholder isEqualToString:@"Reps"]||[currentText.placeholder isEqualToString:@"Weight"])) {
+             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+        }
+      
         
     }];
 
@@ -784,9 +818,9 @@ static int LiftExerciseCount=0;
     pickerView.delegate=self;
     //pickerView.dataSource=self;
     [self.view addSubview:pickerView];
-    UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
+    UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(Done)];
     
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = toolBarTag;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
@@ -812,23 +846,21 @@ static int LiftExerciseCount=0;
 }
 -(void)Done
 {
-   
-    [self Done:CGPointMake(self.view.frame.size.width, self.view.frame.size.height+50)];
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    [self setContentOffsetDown:currentText table:tableview];
+    [self doneClicked];
   
 }
--(void)Done :(CGPoint)point
-{
-    
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-   [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    [self.view viewWithTag:toolBar1Tag].center = point;
-        
-    [UIView commitAnimations];
-   }
+//-(void)Done :(CGPoint)point
+//{
+//    
+//    [UIView beginAnimations:@"tblViewMove" context:nil];
+//   [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDuration:0.27f];
+//    
+//    [self.view viewWithTag:toolBar1Tag].center = point;
+//        
+//    [UIView commitAnimations];
+//   }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -963,30 +995,35 @@ static int LiftExerciseCount=0;
     if ((currentText) && !([currentText.placeholder isEqualToString:@"Name"]||[currentText.placeholder isEqualToString:@"Sets"] || [currentText.placeholder isEqualToString:@"Reps"]||[currentText.placeholder isEqualToString:@"Weight"])) {
 
     [self setContentOffsetDown:currentText table:tableview];
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
 
 
     }else
     {
 
     }
-    currentText=nil;
-    [UIView beginAnimations:@"tblMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.29f];
+    //currentText=nil;
+//    [UIView beginAnimations:@"tblMove" context:nil];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDuration:0.29f];
 
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    
 
-    [self setDatePickerVisibleAt:NO];
-    [self setPickerVisibleAt:NO:arrTime];
-    [self setMultipleSlectionPicker:NO];
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
-
-    [UIView commitAnimations];
+    //[self setDatePickerVisibleAt:NO];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+   // [self setPickerVisibleAt:NO:arrTime];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar]  ;
+    //[self setMultipleSlectionPicker:NO];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar]  ;
+   
+   // [UIView commitAnimations];
 
     if ( isChangeWorkoutType==TRUE) {
+    
     [self ShowFieldsRegardingWorkOutType:currentText.text];
-
     isChangeWorkoutType=FALSE;
+        
     }
     
 }
@@ -1150,7 +1187,7 @@ static int LiftExerciseCount=0;
     if (ShowHide) {
         
         point.y=self.view.frame.size.height-(pickerView.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22)];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolBar];
         
     }else{
         // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
@@ -1174,7 +1211,7 @@ static int LiftExerciseCount=0;
     if (ShowHide) {
 
     Point.y=self.view.frame.size.height-(datePicker.frame.size.height/2);
-    [self setToolbarVisibleAt:CGPointMake(Point.x,Point.y-(datePicker.frame.size.height/2)-22)];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(Point.x,Point.y-(datePicker.frame.size.height/2)-22) :toolBar];
 
     }else{
     // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
@@ -1187,7 +1224,21 @@ static int LiftExerciseCount=0;
 
     [UIView commitAnimations];
 }
+-(void)showSletedTextInPicker :(NSArray*)data
+{
+    if (currentText.text.length > 0 && (data.count > 0)) {
+        
+    for (int i=0; i< data.count; i++) {
 
+    if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+        
+        [listPicker selectRow:i inComponent:0 animated:YES];
+        
+        break;
+    }
+    }
+    }
+}
 -(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -1210,7 +1261,7 @@ static int LiftExerciseCount=0;
     }
     }
     point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-    [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22):toolBar];
 
     }else{
     point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
@@ -1243,9 +1294,7 @@ static int LiftExerciseCount=0;
     {
 
     }
-
 }
-
 #pragma mark- UIPickerView
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
@@ -1387,9 +1436,6 @@ static int LiftExerciseCount=0;
 }
 
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionStateForRow:(NSInteger)row {
-    
-    //NSLog(@"");
-    
 	return [[selectedUnits objectForKey:[UnitsArray objectAtIndex:row]] boolValue];
 }
 
@@ -1402,8 +1448,6 @@ static int LiftExerciseCount=0;
 		[selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:[UnitsArray objectAtIndex:row]];
     [self saveMultiPickerValues];
 }
-
-
 - (void)pickerView:(ALPickerView *)pickerView didUncheckRow:(NSInteger)row {
 	// Check whether all rows are unchecked or only one
 	if (row == -1)
@@ -1472,8 +1516,6 @@ static int LiftExerciseCount=0;
     values =[values stringByAppendingString:[NSString stringWithFormat:@"%@,", arrKeys[i] ] ];
     else
     values =[values stringByAppendingString:[NSString stringWithFormat:@"%@", arrKeys[i] ] ];
-
-
     }
 
     }
@@ -1491,9 +1533,7 @@ static int LiftExerciseCount=0;
 
     }
     
-   }
-
-
+}
 
 #pragma mark setcontent offset
 - (void)setContentOffsetDown:(id)textField table:(UITableView*)m_TableView {
@@ -1519,12 +1559,25 @@ static int LiftExerciseCount=0;
     scrollHeight=216;
     }
     }
-    CGSize keyboardSize = CGSizeMake(320,scrollHeight+44);
+    CGSize keyboardSize;
+
+     keyboardSize= CGSizeMake(320,scrollHeight+44);
+    
+    UIDeviceOrientation orentation=[SingletonClass getOrientation];
+    
+    if ((isIPAD) && (orentation==UIDeviceOrientationLandscapeRight || orentation==UIDeviceOrientationLandscapeLeft)) {
+        
+        if ([currentText.placeholder isEqualToString:@"Sets"] || [currentText.placeholder isEqualToString:@"Reps"] || [currentText.placeholder isEqualToString:@"Weight"]) {
+            keyboardSize= CGSizeMake(320,scrollHeight+100);
+        }
+        
+    }
+   
     UIEdgeInsets contentInsets;
     if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
     contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
     } else {
-    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
     }
 
     m_TableView.contentInset = contentInsets;
@@ -1540,29 +1593,25 @@ static int LiftExerciseCount=0;
 {
     @try {
     isKeyBoard=FALSE;
-
-
     if (currentText) {
     [self doneClicked];
     }
-
-    [self setContentOffset:textField table:tableview];
     currentText=textField;
-
-
+    [self setContentOffset:textField table:tableview];
     isExercise=[textField.placeholder isEqualToString:@"Exercise Type"] ? YES : NO ;
     isCustomTag=[textField.placeholder isEqualToString:@"Custom Tags"] ? YES : NO ;
     isWorkOut=[textField.placeholder isEqualToString:@"Workout Type"] ? YES : NO ;
     isLiftUnit=[textField.placeholder isEqualToString:@"Unit."] ? YES : NO ;
     isTime=([textField.placeholder isEqualToString:@"WarmUp Time"] || [textField.placeholder isEqualToString:@"CoolDown Time"]) ? YES : NO ;
 
-
-
     if([textField.placeholder isEqualToString:@"Enter Tag Name"] || [textField.placeholder isEqualToString:@"Exercise Type"]  )
     {
+        
     [textField resignFirstResponder];
     [listPicker reloadComponent:0];
-    [self setPickerVisibleAt:YES:arrExerciseType];
+    //[self setPickerVisibleAt:YES:arrExerciseType];
+    [self showSletedTextInPicker:arrExerciseType];
+    arrExerciseType.count > 0 ? [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"" ;
 
     return NO;
 
@@ -1585,9 +1634,11 @@ static int LiftExerciseCount=0;
 
     if([textField.placeholder isEqualToString:@"Workout Date"]  )
     {
+        
     [textField resignFirstResponder];
     datePicker.datePickerMode = UIDatePickerModeDate;
-    [self setDatePickerVisibleAt:YES];
+    //[self setDatePickerVisibleAt:YES];
+      [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
     if(currentText.text.length==0)
     [self dateChange];
 
@@ -1595,12 +1646,12 @@ static int LiftExerciseCount=0;
 
     }else if ([textField.placeholder isEqualToString:@"WarmUp Time"]|| [textField.placeholder isEqualToString:@"CoolDown Time"] || [textField.placeholder isEqualToString:@"Total Time"] )
     {
+        
     [textField resignFirstResponder];
-
-
     if ([textField.placeholder isEqualToString:@"Total Time"]) {
     datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
-    [self setDatePickerVisibleAt:YES];
+    //[self setDatePickerVisibleAt:YES];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
     if(currentText.text.length==0)
         [self dateChange];
     }else{
@@ -1611,7 +1662,8 @@ static int LiftExerciseCount=0;
     {
         [listPicker reloadAllComponents];
         [listPicker selectRow:0 inComponent:0 animated:YES];
-        [self setPickerVisibleAt:YES:arrTime];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+        //[self setPickerVisibleAt:YES:arrTime];
     }
 
 
@@ -1632,8 +1684,10 @@ static int LiftExerciseCount=0;
     }else
     {
         [listPicker reloadAllComponents];
-        [listPicker selectRow:0 inComponent:0 animated:YES];
-        [self setPickerVisibleAt:YES:arrWorkOutList];
+        //[listPicker selectRow:0 inComponent:0 animated:YES];
+       // [self setPickerVisibleAt:YES:arrWorkOutList];
+        [self showSletedTextInPicker:arrWorkOutList];
+        arrWorkOutList.count > 0 ? [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"" ;
     }
 
 
@@ -1649,8 +1703,10 @@ static int LiftExerciseCount=0;
     }else
     {
         [listPicker reloadAllComponents];
-        [listPicker selectRow:0 inComponent:0 animated:YES];
-        [self setPickerVisibleAt:YES:arrLiftUnit];
+        //[listPicker selectRow:0 inComponent:0 animated:YES];
+        //[self setPickerVisibleAt:YES:arrLiftUnit];
+        [self showSletedTextInPicker:arrLiftUnit];
+        arrLiftUnit.count > 0 ? [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"" ;
 
     }
     }
@@ -1662,15 +1718,18 @@ static int LiftExerciseCount=0;
 
     if (([textField.placeholder isEqualToString:@"Name"] ||[textField.placeholder isEqualToString:@"Sets"]||[textField.placeholder isEqualToString:@"Reps"]||[textField.placeholder isEqualToString:@"Weight"]) && arrLiftPlaceholder.count > 0) {
 
-    isKeyBoard=TRUE;
-    if ([textField.placeholder isEqualToString:@"Name"]) {
+        isKeyBoard=TRUE;
+        if ([textField.placeholder isEqualToString:@"Name"]) {
 
-    textField.keyboardType=UIKeyboardTypeDefault;
+        textField.keyboardType=UIKeyboardTypeDefault;
 
-    }else{
+        }else{
 
-    textField.keyboardType=UIKeyboardTypeNumberPad;
-    }
+        textField.keyboardType=UIKeyboardTypeNumberPad;
+        }
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(scrollHeight+22)):toolBar];
+        
+        
     }else if([textField.placeholder isEqualToString:@"Unit"]   )
     {
     [textField resignFirstResponder];
@@ -1863,7 +1922,8 @@ static int LiftExerciseCount=0;
     {
 
      [pickerView reloadAllComponents];
-    [self setMultipleSlectionPicker:YES];
+    //[self setMultipleSlectionPicker:YES];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolBar];
     }
     
 }
@@ -1881,7 +1941,8 @@ static int LiftExerciseCount=0;
     
     
     [pickerView reloadAllComponents];
-    [self setMultipleSlectionPicker:YES];
+    //[self setMultipleSlectionPicker:YES];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolBar]  ;
     
 }
 -(void)selectCustomTags
@@ -1897,7 +1958,8 @@ static int LiftExerciseCount=0;
     
     
     [pickerView reloadAllComponents];
-    [self setMultipleSlectionPicker:YES];
+    //[self setMultipleSlectionPicker:YES];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolBar]  ;
     
 }
 -(void)SetValuesforShowInMultiPicker

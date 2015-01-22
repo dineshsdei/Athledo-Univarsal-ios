@@ -19,6 +19,7 @@
  
     UITextField *txtFieldUserId;
     UITextField *txtFieldPassword;
+    UITextField *currentText;
     NSString *date;
 }
 @end
@@ -32,42 +33,6 @@
         // Custom initialization
     }
     return self;
-}
-
-
-- (void)setContentOffsetDown:(id)textField table:(UITableView*)m_TableView {
-    
-     self.loginTableView.scrollEnabled=NO;
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    
-    [m_TableView setContentOffset:CGPointMake(0, 0) animated:YES];
-}
-
-
-- (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
-    
-    UITextField *txtfield=textField;
-
-    self.loginTableView.scrollEnabled=YES;
-
-    UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-    // Get the text fields location
-    CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:self.view];
-    
-   // if ((self.view.frame.size.height-(point.y+txtfield.frame.size.height)) < 216) {
-
-    NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
-    UIEdgeInsets contentInsets;
-    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (2*txtfield.frame.size.height), 0.0);
-
-    m_TableView.contentInset = contentInsets;
-    m_TableView.scrollIndicatorInsets = contentInsets;
-    [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-   
-   // }
-
-
-    
 }
 
 - (IBAction)MoveToDashBoard:(id)sender {
@@ -266,10 +231,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self ChangeOrientation];
 }
-
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
+    [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
+}
 - (void)viewDidLoad
 {
     if (isIPAD) {
@@ -279,6 +246,48 @@
          [AppDelegate restrictRotation:YES];
     }
     
+    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        // message received
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+      
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+        [UIView setAnimationCurve:[note.userInfo[UIKeyboardAnimationCurveUserInfoKey]integerValue]];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        
+        int dif=0;
+        
+        UITableViewCell *theTextFieldCell = (UITableViewCell *)[currentText superview];
+        // Get the text fields location
+        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:self.view];
+        if ((point.y - kbSize.height) < (dif=([SingletonClass getOrientation]==UIDeviceOrientationPortrait) ? 70: 180) ) {
+          self.view.frame=CGRectMake(0, 0, self.view.frame.size.width,  self.view.frame.size.height);
+            CGRect frame = self.view.frame;
+            frame.origin.y = self.view.frame.origin.y - 2*(currentText.frame.size.height);
+            self.view.frame = frame;
+        }
+    
+        [UIView commitAnimations];
+        
+    }];
+    
+    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
+        [UIView setAnimationCurve:[note.userInfo[UIKeyboardAnimationCurveUserInfoKey]integerValue]];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        
+        // Frame Update
+        CGRect frame = self.view.frame;
+        frame.origin.y = 0;
+        self.view.frame = frame;
+        
+        [UIView commitAnimations];
+        
+    }];
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //[self setNeedsStatusBarAppearanceUpdate];
@@ -287,33 +296,9 @@
     delegate.isStart=TRUE;
     
     
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(ChangeOrientation)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+   
 
 }
--(void)ChangeOrientation
-{
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight)))
-    {
-        //_btnLogin.center=CGPointMake(_btnLogin.frame.origin.x, _btnLogin.frame.origin.y-200);
-//        
-//        NSLog(@"view frame %@",NSStringFromCGRect(self.view.frame)) ;
-//        NSLog(@"view frame height %f",self.view.frame.size.height);
-//         NSLog(@"view frame width %f",self.view.frame.size.width);
-//        
-//        _btnLogin.frame=CGRectMake(_btnLogin.frame.origin.x, _btnLogin.frame.origin.y-300, _btnLogin.frame.size.width, _btnLogin.frame.size.height);
-//        _loginTableView.frame=CGRectMake(_loginTableView.frame.origin.x, _loginTableView.frame.origin.y-150, _loginTableView.frame.size.width, _loginTableView.frame.size.height);
-//         _btnForgotPassword.frame=CGRectMake(_btnForgotPassword.frame.origin.x, _btnForgotPassword.frame.origin.y-150, _btnForgotPassword.frame.size.width, _btnForgotPassword.frame.size.height);
-//        
-//        [self.view reloadInputViews];
-    }
-    
-}
-
 #pragma mark- TableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
@@ -428,7 +413,8 @@
 #pragma mark- UITextfield Delegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self setContentOffset:textField table:self.loginTableView];
+    currentText=textField;
+    [textField returnKeyType];
   
 }
 
@@ -439,7 +425,7 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self setContentOffsetDown:textField table:self.loginTableView];
+    [textField resignFirstResponder];
 
     return YES;
 }

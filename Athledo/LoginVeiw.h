@@ -13,7 +13,10 @@
 @interface LoginVeiw : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
      int scrollHeight;
+    
 }
+@property (strong, nonatomic) id keyboardAppear;
+@property (strong, nonatomic) id keyboardHide;
 @property (strong, nonatomic) IBOutlet UIButton *btnForgotPassword;
 @property (strong, nonatomic) IBOutlet UIButton *btnLogin;
 - (IBAction)ForgotPasswordClick:(id)sender;
