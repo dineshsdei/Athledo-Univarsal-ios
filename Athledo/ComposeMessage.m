@@ -241,39 +241,86 @@
 {
     if (isUserType) {
         
-        [self setPickerVisibleAt:YES];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
     }
 }
-- (void)orientationChanged :(NSNotification *)notification
+//- (void)orientationChanged :(NSNotification *)notification
+//{
+//    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+//    
+//    NSLog(@"height %f, width%f",self.view.frame.size.width,self.view.frame.size.height);
+//   
+//    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight))) {
+//        
+//         listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
+//         pickerView.frame=CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
+//          toolBar.frame = CGRectMake(0, self.view.frame.size.height, SCREEN_HEIGHT,44);
+//    }else{
+//        
+//        listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216);
+//        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216)];
+//        toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,44)];
+//    }
+//
+//}
+// this method call, when user rotate your device
+- (void)orientationChanged
 {
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    
-    NSLog(@"height %f, width%f",self.view.frame.size.width,self.view.frame.size.height);
-   
-    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight))) {
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
         
-         listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
-         pickerView.frame=CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
-          toolBar.frame = CGRectMake(0, self.view.frame.size.height, SCREEN_HEIGHT,44);
-    }else{
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
+        [pickerView removeFromSuperview];
+        pickerView=nil;
+        UIDeviceOrientation orientation=[SingletonClass getOrientation];
+        if(orientation == UIDeviceOrientationLandscapeRight ||orientation == UIDeviceOrientationLandscapeLeft)
+        {
+            pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 1024,216)];
+        }else{
+            pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 768,216)];
+        }
         
-        listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216);
-        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216)];
-        toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,44)];
+        pickerView.backgroundColor=[UIColor whiteColor];
+        pickerView.tag=60;
+        pickerView.delegate=self;
+        [self.view addSubview:pickerView];
+        
     }
-
 }
-
 - (void)viewDidLoad
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
+    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        [self setMultipleSlectionPicker:NO];
-        [self setPickerVisibleAt:NO];
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        scrollHeight=kbSize.height;
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+      
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
+
+        
         
     }];
     
@@ -282,7 +329,16 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+      //  [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+           [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
+
         
     }];
     
@@ -343,13 +399,24 @@
     
     
     
-    listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216);
+    listPicker.frame =CGRectMake(0, self.view.frame.size.height+350, self.view.frame.size.width,216);
     listPicker.tag=listPickerTag;
     listPicker.delegate=self;
     listPicker.dataSource=self;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
     
-    pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216)];
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    if (isIPAD) {
+        if(orientation == UIDeviceOrientationLandscapeRight ||orientation == UIDeviceOrientationLandscapeLeft)
+        {
+            pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 1024,216)];
+        }else{
+            pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 768,216)];
+        }
+    }else{
+         pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, self.view.frame.size.width,216)];
+    }
+    
     pickerView.backgroundColor=[UIColor whiteColor];
     pickerView.tag=MultipleSelectionPickerTag;
     pickerView.delegate=self;
@@ -368,33 +435,16 @@
     // Static data 1 passed, because
     [self getUser:[@"1" intValue]];
     
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
 }
 
 
 #pragma mark setcontent offset
+ // Scroll to cell
 - (void)setContentOffset:(id)textField :(UIScrollView*)ScrollView {
     
     UIView* txt = textField;
-   // UIScrollView *theTextFieldCell = (UIScrollView *)[textField superview];
-    // Get the text fields location
-  //  CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_ScrollView];
-    
-//    NSLog(@"%f",point.y + (txt.frame.origin.y));
-//    NSLog(@"%f",(txt.frame.origin.y));
-//    NSLog(@"%d",(scrollHeight));
-//    NSLog(@"%f",(txt.frame.origin.y));
-    
-    // Scroll to cell
-    
+   
     int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
-    
-   // NSLog(@"%d",position);
-    
     scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
     
     if ((position < scrollHeight )) {
@@ -406,20 +456,16 @@
 -(void)doneClicked
 {
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    
-    [self setPickerVisibleAt:NO];
-    [self setMultipleSlectionPicker:NO];
-    
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    [m_ScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-    
-    [UIView commitAnimations];
+    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+         [m_ScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+        
+    }completion:^(BOOL finished){
+        
+    }];
     currentText=nil;
-    
 }
 
 #pragma mark- UITextfield Delegate
@@ -430,7 +476,7 @@
     
     if (currentText) {
         
-        [self doneClicked];
+       // [self doneClicked];
     }
     currentText=textField;
     [self setContentOffset:textField :m_ScrollView];
@@ -441,21 +487,18 @@
     
     
     if ([textField.placeholder isEqualToString:@"To"]) {
-        
-        
-        NSLog(@"verson %d",[[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] );
+         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         
         if (ToDataArray.count > 0) {
             
             [pickerView reloadAllComponents];
-            [self setMultipleSlectionPicker:YES];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:YES :pickerView :toolBar];
             
         }else{
             
             [SingletonClass initWithTitle:@"" message:@"Selected user type are not available " delegate:nil btn1:@"Ok"];
-            
         }
-        
         return NO;
         
     }else if ([textField.placeholder isEqualToString:@"Select User Type"]) {
@@ -464,8 +507,9 @@
         currentText1=textField;
       
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
         [listPicker reloadComponent:0];
-        [self setPickerVisibleAt:YES];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
         return NO;
     }
     

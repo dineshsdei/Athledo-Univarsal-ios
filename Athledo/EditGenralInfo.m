@@ -94,8 +94,23 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
 }
 
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
+        [table reloadData];
+    }
+}
+
 - (void)viewDidLoad
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
     
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
@@ -103,8 +118,22 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        scrollHeight=kbSize.height;
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
+
         
         
     }];
@@ -114,7 +143,13 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
         
         
         
@@ -412,9 +447,17 @@
 -(void)doneClicked
 {
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+50)];
-    [self setPickerVisibleAt:NO :arrStateList];
+    
+    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+350) : toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+
+        
+    }completion:^(BOOL finished){
+        
+    }];
     [self setContentOffsetDown:currentText table:table];
+    
 }
 
 -(void)setToolbarVisibleAt:(CGPoint)point
@@ -507,8 +550,8 @@
             [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
             
             [listPicker reloadComponent:0];
-            
-            arrCountryList.count > 0 ? [self setPickerVisibleAt:YES :arrCountryList] : @"";
+            [self ShowPickerValueSelected:arrCountryList];
+            arrCountryList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"";
             
             return NO;
             
@@ -525,7 +568,8 @@
             
             isState=TRUE;
            [listPicker reloadComponent:0];
-            arrStateList.count > 0 ?  [self setPickerVisibleAt:YES : arrStateList] : @"";
+            [self ShowPickerValueSelected:arrStateList];
+            arrStateList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"";
            
             
             return NO;
@@ -655,24 +699,24 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (isState) {
-        if (arrStateList.count > 0 && currentText.text.length == 0) {
-            //currentText.text=@"";
-            currentText.text=[arrStateList objectAtIndex:0];
-        }
-        
-        return [arrStateList count];
+    if (arrStateList.count > 0 && currentText.text.length == 0) {
+        //currentText.text=@"";
+        currentText.text=[arrStateList objectAtIndex:0];
+    }
+
+    return [arrStateList count];
     }else
     {
-        if (arrCountryList.count > 0 && currentText.text.length == 0) {
-            //currentText.text=@"";
-            currentText.text=[arrCountryList objectAtIndex:0];
-        }
-        
-        if (arrStateList.count ==0 && arrCountryCode.count > 0 ) {
-            [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
-        }
-        
-        return [arrCountryList count];
+    if (arrCountryList.count > 0 && currentText.text.length == 0) {
+        //currentText.text=@"";
+        currentText.text=[arrCountryList objectAtIndex:0];
+    }
+
+    if (arrStateList.count ==0 && arrCountryCode.count > 0 ) {
+        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+    }
+
+    return [arrCountryList count];
     }
     
 }
@@ -681,27 +725,27 @@
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     @try {
+
+    NSString *str=@"";
+    if (isState) {
+        str= row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];
         
-        NSString *str=@"";
-        if (isState) {
-            str= row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];
-            
-        }else
-        {
-            str= row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
-            
-            
-        }
+    }else
+    {
+        str= row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
         
-        NSArray *arr =[str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
         
-        return [arr objectAtIndex:0];
+    }
+
+    NSArray *arr =[str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
+
+    return [arr objectAtIndex:0];
     }
     @catch (NSException *exception) {
-        
+
     }
     @finally {
-        
+
     }
     
 }
@@ -712,45 +756,38 @@
         
         currentText.text=row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];;
         stateCodeIndex=row > arrStateList.count ? arrStateList.count-1: row;;
-        
-        // [self saveEditData];
     }else
     {
         currentText.text=row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
         CountryCodeIndex=row > arrCountryList.count ? arrCountryList.count-1: row;;
-        
-        // [self saveEditData];
-        
-        //  //NSLog(@"selected row %@", [arrCountryList objectAtIndex:row]);
-        
         [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
         
     }
 }
-/*
--(void)setPickerVisibleAt :(BOOL)ShowHide
+-(void)ShowPickerValueSelected : (NSArray *)data
 {
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-        
-    }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
+    if (data.count > 0) {
+
+    if (currentText.text.length > 0) {
+    for (int i=0; i< data.count; i++) {
+
+    if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+
+    if (currentText.tag==1003 && arrStateList.count==0) {
+        CountryCodeIndex=i;
+        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+        [listPicker reloadAllComponents];
+    }
+
+    [listPicker selectRow:i inComponent:0 animated:YES];
+
+    break;
+    }
+    }
+    }
     }
     
-    [self.view viewWithTag:60].center = point;
-    [UIView commitAnimations];
-    
 }
-*/
 -(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -760,30 +797,29 @@
     point.x=self.view.frame.size.width/2;
    
     if (ShowHide) {
+    if (currentText.text.length > 0) {
+    for (int i=0; i< data.count; i++) {
+
+    if ([[data objectAtIndex:i] isEqual:currentText.text]) {
         
-        if (currentText.text.length > 0) {
-            for (int i=0; i< data.count; i++) {
-                
-                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-                    
-                    if (currentText.tag==1003 && arrStateList.count==0) {
-                        CountryCodeIndex=i;
-                        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
-                         [listPicker reloadAllComponents];
-                    }
-                    
-                    [listPicker selectRow:i inComponent:0 animated:YES];
-                    
-                    break;
-                }
-            }
+        if (currentText.tag==1003 && arrStateList.count==0) {
+            CountryCodeIndex=i;
+            [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+             [listPicker reloadAllComponents];
         }
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
         
+        [listPicker selectRow:i inComponent:0 animated:YES];
+        
+        break;
+    }
+    }
+    }
+    point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
+    [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
+
     }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
+    // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
+    point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
     }
     
     

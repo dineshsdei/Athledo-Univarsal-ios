@@ -26,15 +26,18 @@
 
 - (id)initWithStyle :(UITableViewCellStyle)style reuseIdentifier :(NSString *)reuseIdentifier indexPath :(NSIndexPath *)indexPath delegate:(id)del textData :(NSArray *)arrCoachongInfo :(NSString *)TextFeildText
 {
-   
-    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
         CGRect screenSize=[[UIScreen mainScreen] bounds];
         
-        UITextField *txtField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, screenSize.size.width-40, self.frame.size.height-6)];
-        
+        UIDeviceOrientation deviceOrientation=[SingletonClass getOrientation];
+        UITextField *txtField;
+        if ((isIPAD) && (deviceOrientation==UIDeviceOrientationLandscapeLeft || deviceOrientation==UIDeviceOrientationLandscapeRight)) {
+            txtField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0,984, self.frame.size.height-6)];
+        }else{
+            txtField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, screenSize.size.width-40, self.frame.size.height-6)];
+        }
         //txtField.backgroundColor = [UIColor clearColor];
         txtField.delegate = del;
         txtField.text=TextFeildText;
@@ -80,28 +83,23 @@
             NSAttributedString *str = [[NSAttributedString alloc] initWithString:[arrCoachongInfo objectAtIndex:4] attributes:@{ NSForegroundColorAttributeName : placeHolderColor }];
             txtField.attributedPlaceholder = str;
         }
-        
         [self addSubview:txtField];
-        
-        
-        UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,(self.frame.size.height)+5, screenSize.size.width, 1)];
+        UIImageView *img1;
+        if ((isIPAD) && (deviceOrientation==UIDeviceOrientationLandscapeLeft || deviceOrientation==UIDeviceOrientationLandscapeRight)) {
+           img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,(self.frame.size.height)+5, 1024, 1)];
+        }else{
+           img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,(self.frame.size.height)+5, screenSize.size.width, 1)];
+        }
         img1.image=[UIImage imageNamed:@"menu_sep.png"];
         [self addSubview:img1];
-        
-       
-        
     }
     self.backgroundColor=[UIColor clearColor];
     
     return self;
 }
-
-
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 

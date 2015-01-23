@@ -44,7 +44,7 @@
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        [SingletonClass addActivityIndicator:self.view];
+        //[SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetSentMessageslist :strURL :getMessagesTag];
         
@@ -111,7 +111,7 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                [SingletonClass RemoveActivityIndicator:self.view];
+                //[SingletonClass RemoveActivityIndicator:self.view];
                 messageArrDic =[MyResults objectForKey:@"data"];
                 //NSLog(@"dict %@",messageArrDic);
                 [table reloadData];

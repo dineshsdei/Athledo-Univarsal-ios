@@ -223,6 +223,10 @@
                         <!--2014-10-16 08:35:33 +0000-->
                     </date>
                 </datePicker>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" id="N51-VV-xRW">
+                    <rect key="frame" x="0.0" y="565" width="320" height="3"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
             <inset key="insetFor6xAndEarlier" minX="0.0" minY="0.0" maxX="50" maxY="100"/>
@@ -230,6 +234,7 @@
         </view>
     </objects>
     <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
         <image name="btnEnable.png" width="48" height="48"/>
         <image name="next.png" width="24" height="38"/>
     </resources>

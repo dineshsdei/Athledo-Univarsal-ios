@@ -28,11 +28,17 @@
 {
     CGRect screenSize=[[UIScreen mainScreen] bounds];
     
+    UIDeviceOrientation deviceOrientation=[SingletonClass getOrientation];
+    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        UITextField *txtField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, screenSize.size.width-40, self.frame.size.height-6)];
-        
+        UITextField *txtField;
+        if ((isIPAD) && (deviceOrientation==UIDeviceOrientationLandscapeLeft || deviceOrientation==UIDeviceOrientationLandscapeRight)) {
+            txtField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0,984, self.frame.size.height-6)];
+        }else{
+            txtField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, screenSize.size.width-40, self.frame.size.height-6)];
+        }
         txtField.backgroundColor = [UIColor clearColor];
         txtField.delegate = del;
         txtField.textColor = txtColor;
@@ -47,16 +53,17 @@
         txtField.attributedPlaceholder = str;
                
         [self addSubview:txtField];
-        
-        
     }
     self.backgroundColor=[UIColor clearColor];
+    UIImageView *img1;
+    if ((isIPAD) && (deviceOrientation==UIDeviceOrientationLandscapeLeft || deviceOrientation==UIDeviceOrientationLandscapeRight)) {
+       img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,(self.frame.size.height)+5, 1024, 1)];
+    }else{
+        img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,(self.frame.size.height)+5, screenSize.size.width, 1)];
+    }
     
-    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,(self.frame.size.height)+5, screenSize.size.width, 1)];
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     [self addSubview:img1];
-
-    
     return self;
 }
 

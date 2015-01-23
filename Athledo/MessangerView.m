@@ -47,7 +47,7 @@
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        [SingletonClass addActivityIndicator:self.view];
+        //[SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetMessages :strURL :getMessagesTag];
               
@@ -104,7 +104,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingletonClass RemoveActivityIndicator:self.view];
+   // [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -205,20 +205,14 @@
     webservice.delegate=self;
     
     messageArrDic=[[NSArray alloc] init];
-    
-   
 
     table.allowsMultipleSelectionDuringEditing = YES;
     
-    
-    
-  UIButton  *btnCompose = [[UIButton alloc] initWithFrame:CGRectMake(160, 5, 50, 40)];
+  UIButton  *btnCompose = [[UIButton alloc] initWithFrame:CGRectMake(160, 5, 25, 25)];
     UIImage *imageEdit=[UIImage imageNamed:@"compose_icon.png"];
-    
-    
-    
+
     [btnCompose addTarget:self action:@selector(ComposeMessage:) forControlEvents:UIControlEventTouchUpInside];
-    [btnCompose setImage:imageEdit forState:UIControlStateNormal];
+    [btnCompose setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnCompose];
     

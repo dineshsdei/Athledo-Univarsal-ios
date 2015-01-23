@@ -95,6 +95,8 @@
     timeTxt.leftViewMode = UITextFieldViewModeAlways;
 
 }
+
+// this method call, when user rotate your device
 - (void)orientationChanged
 {
      NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
@@ -111,9 +113,6 @@
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
     [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
     }
-    
-   
-    
 }
 - (void)viewDidLoad
 {
@@ -165,8 +164,13 @@
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        UIToolbar *toolbar=(UIToolbar *)[self.view viewWithTag:40];
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolbar];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
+
         
     }];
     scrollHeight=0;

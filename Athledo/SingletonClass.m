@@ -177,7 +177,7 @@ static SingletonClass *objSingaltonClass=nil;
            
         }
       
-         pickerView.center = point;
+         pickerView.center= point;
         
     }else  if ([picker isKindOfClass:[ALPickerView class]]) {
         
@@ -198,9 +198,9 @@ static SingletonClass *objSingaltonClass=nil;
     }else  if ([picker isKindOfClass:[UIPickerView class]]) {
         
         UIPickerView *pickerView=(UIPickerView *)picker;
-        if (iosVersion < 8) {
+        //if (iosVersion < 8) {
             pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
-        }
+        //}
         
         if (ShowHide) {
             

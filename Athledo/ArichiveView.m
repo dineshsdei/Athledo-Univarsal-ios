@@ -63,7 +63,7 @@
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        [SingletonClass addActivityIndicator:self.view];
+        //[SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceArchiveMessage :strURL :getMessagesTag];
         
@@ -138,7 +138,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingletonClass RemoveActivityIndicator:self.view];
+   // [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -151,7 +151,6 @@
                 // Now we Need to decrypt data
                 
                 messageArrDic =[MyResults objectForKey:@"data"];
-                //NSLog(@"dict %@",messageArrDic);
                 [table reloadData];
             }
             
@@ -249,18 +248,8 @@
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
-   
- 
-
-    if ([SingletonClass ShareInstance].isMessangerArchive==TRUE) {
-        
-        [self getMessages];
+    [self getMessages];
        
-    }else{
-        
-        messageArrDic=[[NSUserDefaults standardUserDefaults]  objectForKey:@"archive"];
-    }
     
 }
 

@@ -72,18 +72,18 @@
                         </textView>
                     </subviews>
                 </scrollView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" id="iml-9p-9fJ">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </imageView>
                 <pickerView contentMode="scaleToFill" id="szp-Ur-OZW">
-                    <rect key="frame" x="0.0" y="1024" width="768" height="216"/>
+                    <rect key="frame" x="0.0" y="1030" width="768" height="216"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Md8-M0-Ezj"/>
                         <outlet property="delegate" destination="-1" id="VLh-Tm-1Vd"/>
                     </connections>
                 </pickerView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" id="iml-9p-9fJ">
-                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>

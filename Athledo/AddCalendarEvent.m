@@ -29,6 +29,7 @@
     NSString *strNaveegatorStatus;
 
     BOOL isDate;
+    UIToolbar *toolBar;
 }
 
 @end
@@ -803,9 +804,24 @@
 
     NSDictionary* info = [note userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    [self setDatePickerVisibleAt:NO];
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-    scrollHeight=kbSize.height;
+    
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+        
+    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+
+    if (iosVersion < 8) {
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+        scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+    }else{
+        
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+        scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+    }
+
+
+    }completion:^(BOOL finished){
+
+    }];
 
 
     }];
@@ -815,7 +831,14 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+       // [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
+
         
     }];
 
@@ -823,7 +846,7 @@
 
     imageview1.image=[UIImage imageNamed:@"bottomBorder.png"];
 
-    [self.view addSubview:imageview1];
+    //[self.view addSubview:imageview1];
 
     scrollHeight=0;
 
@@ -842,8 +865,23 @@
 
 }
 
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
+    }
+}
+
 - (void)viewDidLoad
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
 
@@ -885,18 +923,12 @@
     _tfTitle.layer.borderColor=[UIColor lightGrayColor].CGColor;
     _tfLocation.layer.borderWidth=1.0;
     _tfLocation.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    
-    
     _tfRepeat.text=@"Never";
-
     // In Edit mode
     if (_eventDetailsDic) {
 
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-
-
-
     _tfTitle.text=[_eventDetailsDic valueForKey:@"text"];
     _tfLocation.text=[_eventDetailsDic valueForKey:@"location"];
     _texviewDescription.text=[_eventDetailsDic valueForKey:@"name"];
@@ -906,9 +938,7 @@
 
         int RepeatIndex=0;
     if (str.length > 0) {
-        
         // If event repeat type
-        
         const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
         if (c[0]=='d') {
         _tfRepeat.text=@"Daily";
@@ -1008,9 +1038,6 @@
                 
                 _tfEndTime.text=[df stringFromDate:enddate];
                 [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
-                
-                [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
-                
                 NSString *timestampOne = [NSString stringWithFormat:@"%f", [startdate timeIntervalSince1970]];
                 startTime = [timestampOne doubleValue];
                 NSString *timestampTwo = [NSString stringWithFormat:@"%f", [enddate timeIntervalSince1970]];
@@ -1160,9 +1187,6 @@
                     [CalendarEvent ShareInstance].strActualStartDate=[_eventDetailsDic valueForKey:@"actual_start_date"];
                     [CalendarEvent ShareInstance].strEndDate=[df stringFromDate:enddate];
                 }
-                
-                
-                
             }
             break;
             
@@ -1211,15 +1235,10 @@
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-
-
-
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
-
-
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
@@ -1279,8 +1298,6 @@
         dformate.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
         
         [CalendarEvent ShareInstance].strEndDate= [dformate stringFromDate:_datePicker.date];
-
-
     }
 }
 
@@ -1301,10 +1318,7 @@
         // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
         Point.y=self.view.frame.size.height+(_datePicker.frame.size.height/2);
     }
-    
-    
     [self.view viewWithTag:70].center = Point;
-    
     [UIView commitAnimations];
 }
 
@@ -1323,8 +1337,8 @@
 {
      [_scrollview setContentOffset:CGPointMake(0,0) animated: NO];
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
-     [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    [self setDatePickerVisibleAt:NO];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) :toolBar];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -1363,66 +1377,64 @@
   
     if (textField.tag==1003 || textField.tag==1004) {
 
-    isDate=TRUE;
+        isDate=TRUE;
 
-    [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
+        [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    df.dateFormat =DATE_FORMAT_AddEvent;
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        df.dateFormat =DATE_FORMAT_AddEvent;
 
 
-    if (currentText.text.length > 0) {
+        if (currentText.text.length > 0) {
 
-    NSDate *date=[df dateFromString:currentText.text];
+        NSDate *date=[df dateFromString:currentText.text];
 
-    [_datePicker setDate:date];
+        [_datePicker setDate:date];
 
-    }else{
-        
-        // Default case when no date is selected
+        }else{
+            
+            // Default case when no date is selected
 
-   
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    df.dateFormat =DATE_FORMAT_AddEvent;
-  
+       
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        df.dateFormat =DATE_FORMAT_AddEvent;
+      
 
-    if (currentText.tag==1003) {
-        
-        // Automatic set current date and time in text field
-        
-        dateIs = [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
-        currentText.text = dateIs;
-         [_datePicker setDate:[NSDate date]];
-        NSString *timestamp = [NSString stringWithFormat:@"%f", [[_datePicker date] timeIntervalSince1970]];
-        startTime = [timestamp doubleValue];
-        df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-        
-        [CalendarEvent ShareInstance].strStartDate= [df stringFromDate:_datePicker.date];
-        [CalendarEvent ShareInstance].strActualStartDate=[df stringFromDate:_datePicker.date];
-        
-    }else  if (currentText.tag==1004) {
-        
-        // Automatic set date and time After one hour of start time in text field
-        
-        NSDate *enddate=[[_datePicker date] dateByAddingTimeInterval:(60*60)];
-        [_datePicker setDate:enddate];
+            if (currentText.tag==1003) {
+                
+                // Automatic set current date and time in text field
+                
+                dateIs = [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
+                currentText.text = dateIs;
+                 [_datePicker setDate:[NSDate date]];
+                NSString *timestamp = [NSString stringWithFormat:@"%f", [[_datePicker date] timeIntervalSince1970]];
+                startTime = [timestamp doubleValue];
+                df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
+                
+                [CalendarEvent ShareInstance].strStartDate= [df stringFromDate:_datePicker.date];
+                [CalendarEvent ShareInstance].strActualStartDate=[df stringFromDate:_datePicker.date];
+                
+            }else  if (currentText.tag==1004) {
+                
+                // Automatic set date and time After one hour of start time in text field
+                
+                NSDate *enddate=[[_datePicker date] dateByAddingTimeInterval:(60*60)];
+                [_datePicker setDate:enddate];
 
-        dateIs = [NSString stringWithFormat:@"%@", [df stringFromDate:[_datePicker date]]];
-        currentText.text = dateIs;
-        NSString *timestamp = [NSString stringWithFormat:@"%f", [[_datePicker date] timeIntervalSince1970]];
-        endTime = [timestamp doubleValue];
-        df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-        
-        [CalendarEvent ShareInstance].strEndDate= [df stringFromDate:_datePicker.date];
-        
-        
-    }
-    df=nil;
-    }
-    
-   [self setDatePickerVisibleAt:YES];
-
-    return NO;
+                dateIs = [NSString stringWithFormat:@"%@", [df stringFromDate:[_datePicker date]]];
+                currentText.text = dateIs;
+                NSString *timestamp = [NSString stringWithFormat:@"%f", [[_datePicker date] timeIntervalSince1970]];
+                endTime = [timestamp doubleValue];
+                df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
+                
+                [CalendarEvent ShareInstance].strEndDate= [df stringFromDate:_datePicker.date];
+                
+                
+            }
+            df=nil;
+            }
+      [SingletonClass setListPickerDatePickerMultipickerVisible:YES :_datePicker :toolBar];
+      return NO;
     }else
     {
 

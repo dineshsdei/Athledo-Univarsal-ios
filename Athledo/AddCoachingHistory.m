@@ -98,9 +98,22 @@ NSMutableArray *arrAwardsYear;
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
 }
-
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
+        [tableView reloadData];
+    }
+}
 - (void)viewDidLoad
 {
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     webservice =[WebServiceClass shareInstance];
@@ -114,8 +127,22 @@ NSMutableArray *arrAwardsYear;
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        scrollHeight=kbSize.height;
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
+
         
         
     }];
@@ -125,11 +152,14 @@ NSMutableArray *arrAwardsYear;
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
-        [self setPickerVisibleAt:NO];
-        
-        
-        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
+
     }];
     
     scrollHeight=0;
@@ -229,10 +259,15 @@ NSMutableArray *arrAwardsYear;
     [currentText resignFirstResponder];
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
-    [self setDatePickerVisibleAt:NO];
-    
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    [self setPickerVisibleAt:NO];
+    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) : toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
+
+    }completion:^(BOOL finished){
+        
+    }];
     [self setContentOffsetDown:currentText table:tableView];
     
 }
@@ -775,12 +810,14 @@ NSMutableArray *arrAwardsYear;
                 
                 df=nil;
             }
-            
-            [self setDatePickerVisibleAt:YES];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
+            //[self setDatePickerVisibleAt:YES];
         }else{
             
             [listPicker reloadComponent:0];
-            [self setPickerVisibleAt:YES];
+           // [self setPickerVisibleAt:YES];
+            [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+            
         }
         return NO;
         

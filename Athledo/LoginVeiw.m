@@ -261,7 +261,7 @@
         UITableViewCell *theTextFieldCell = (UITableViewCell *)[currentText superview];
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:self.view];
-        if ((point.y - kbSize.height) < (dif=([SingletonClass getOrientation]==UIDeviceOrientationPortrait) ? 70: 180) ) {
+        if ((point.y - kbSize.height) < (dif=([SingletonClass getOrientation]==UIDeviceOrientationPortrait) ? 140: 180) ) {
           self.view.frame=CGRectMake(0, 0, self.view.frame.size.width,  self.view.frame.size.height);
             CGRect frame = self.view.frame;
             frame.origin.y = self.view.frame.origin.y - 2*(currentText.frame.size.height);

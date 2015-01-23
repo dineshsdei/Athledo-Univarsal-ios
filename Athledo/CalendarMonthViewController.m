@@ -75,7 +75,11 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
     //self.title = NSLocalizedString(@"Calendar", @"");
+    self.monthView.frame=CGRectMake(0, 0, 1024, 265);
     [self.monthView selectDate:[NSDate date]];
+    //[self.monthView setAutoresizesSubviews:YES];
+   // [self.monthView setAutoresizingMask: UIViewAutoresizingFlexibleHeight  | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin];
+     
     //self.tableView.backgroundColor=[UIColor clearColor];
     
     UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];

@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="dsB-8P-oN4">
-                    <rect key="frame" x="0.0" y="-15" width="320" height="568"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 </imageView>
                 <tableView clipsSubviews="YES" tag="100" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="5" sectionFooterHeight="5" translatesAutoresizingMaskIntoConstraints="NO" id="OFd-Qo-62n">
                     <rect key="frame" x="20" y="168" width="280" height="140"/>
@@ -70,12 +70,12 @@
                 <constraint firstItem="dsB-8P-oN4" firstAttribute="centerX" secondItem="8bM-OV-pK2" secondAttribute="centerX" id="08T-Kc-f59"/>
                 <constraint firstAttribute="trailing" secondItem="dsB-8P-oN4" secondAttribute="trailing" id="1No-VP-het"/>
                 <constraint firstItem="sTz-MA-9Uf" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="61" id="4f8-rt-NJ7"/>
-                <constraint firstItem="dsB-8P-oN4" firstAttribute="top" secondItem="1" secondAttribute="top" constant="-15" id="5UY-Iv-LM6"/>
+                <constraint firstItem="dsB-8P-oN4" firstAttribute="top" secondItem="1" secondAttribute="top" id="5UY-Iv-LM6"/>
                 <constraint firstItem="sTz-MA-9Uf" firstAttribute="centerX" secondItem="OFd-Qo-62n" secondAttribute="centerX" id="7QT-X5-Drl"/>
                 <constraint firstItem="OFd-Qo-62n" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="CPS-h1-5bC"/>
                 <constraint firstItem="OFd-Qo-62n" firstAttribute="top" secondItem="sTz-MA-9Uf" secondAttribute="bottom" constant="57" id="Gnd-gi-acD"/>
                 <constraint firstItem="8bM-OV-pK2" firstAttribute="leading" secondItem="OFd-Qo-62n" secondAttribute="leading" id="Iy5-zd-2eF"/>
-                <constraint firstAttribute="bottom" secondItem="dsB-8P-oN4" secondAttribute="bottom" constant="15" id="Nne-6V-JhE"/>
+                <constraint firstAttribute="bottom" secondItem="dsB-8P-oN4" secondAttribute="bottom" id="Nne-6V-JhE"/>
                 <constraint firstItem="OFd-Qo-62n" firstAttribute="trailing" secondItem="8bM-OV-pK2" secondAttribute="trailing" id="Sd4-0Q-vug"/>
                 <constraint firstItem="dsB-8P-oN4" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Tic-wM-bCF"/>
                 <constraint firstItem="8bM-OV-pK2" firstAttribute="trailing" secondItem="xRh-NN-d35" secondAttribute="trailing" id="VNA-kM-xIl"/>
