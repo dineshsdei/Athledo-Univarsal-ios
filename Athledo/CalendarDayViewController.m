@@ -19,7 +19,6 @@
 @implementation CalendarDayViewController
 
 WebServiceClass *webservice;
-int tabBar_Y;
 SWRevealViewController *revealController;
 UIBarButtonItem *revealButtonItem;;
 
@@ -73,6 +72,7 @@ UIBarButtonItem *revealButtonItem;;
         case getEventTag:
         {
             eventData=nil;
+            [_eventDic removeAllObjects];
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
@@ -104,6 +104,7 @@ UIBarButtonItem *revealButtonItem;;
             }
         }
     }
+   
     for (int i=0; i< _eventDic.count; i++) {
         
         if ([self TodayDate:[[_eventDic objectAtIndex:i]valueForKey:@"start_date"]]) {
@@ -120,14 +121,40 @@ UIBarButtonItem *revealButtonItem;;
     
    
 }
+#pragma change control frame when device rotate
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    NSLog(@"view bounds %@",NSStringFromCGRect(self.view.bounds));
+    
+    if ((isIPAD)) {
+        
+        dayView.frame=CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
+        NSArray *arr= dayView.subviews;
+        UIView *view=(UIView *)[arr objectAtIndex:1];
+        UIScrollView *scrollview=(UIScrollView *)[arr objectAtIndex:0];
+        scrollview.frame=CGRectMake(0,view.frame.origin.y, self.view.frame.size.width, view.frame.size.height);
+        UILabel *lblTopContaint=(UILabel *)[arr objectAtIndex:2];
+
+        view.frame=CGRectMake(view.frame.origin.x,view.frame.origin.y, self.view.frame.size.width, view.frame.size.height);
+        lblTopContaint.frame=CGRectMake(lblTopContaint.frame.origin.x,lblTopContaint.frame.origin.y, self.view.frame.size.width, lblTopContaint.frame.size.height);
+        
+        tabBar.frame =CGRectMake(0, self.view.frame.size.height-56, self.view.frame.size.width, 50);
+    }
+}
 
  // Uncomment if you want to show date on top of calendar view the uncomment code on TKCalendar view screen
 
 - (void) viewDidLoad{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
 	[super viewDidLoad];
     self.data=[[NSMutableArray alloc] init];
 	self.title = NSLocalizedString(@"Day Events", @"");
-    tabBar_Y = (([[UIScreen mainScreen] bounds].size.height >= 568)?455:367);
     self.view.backgroundColor=[UIColor whiteColor];
 
     revealController = [self revealViewController];
@@ -170,10 +197,28 @@ UIBarButtonItem *revealButtonItem;;
  
     // Last value for event tag for show in details
     
-    self.dayView.frame=CGRectMake(self.dayView.frame.origin.x, self.dayView.frame.origin.y, self.dayView.frame.size.width, self.dayView.frame.size.height-47);
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
+        
+        self.dayView.frame=CGRectMake(self.dayView.frame.origin.x, self.dayView.frame.origin.y, self.dayView.frame.size.width, self.dayView.frame.size.height-47);
+    }else{
+        
+          self.dayView.frame=CGRectMake(self.dayView.frame.origin.x, self.dayView.frame.origin.y, self.dayView.frame.size.width, self.dayView.frame.size.height-47);
+    }
+
+    
+  
     
     // 113 height is (49+64) tabbar height and navigationBar height
-    tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-113, [UIScreen mainScreen].bounds.size.width, 50)];
+   // tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-120, [UIScreen mainScreen].bounds.size.width, 50)];
+   // UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
+        
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width-130, self.view.frame.size.height, 50)];
+           }else{
+        
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-130, self.view.frame.size.width, 50)];
+           }
     
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
     
@@ -299,6 +344,8 @@ UIBarButtonItem *revealButtonItem;;
 }
 - (void) viewWillAppear:(BOOL)animated{
     
+   
+    
     [self.navigationItem setHidesBackButton:YES animated:NO];
 
     [super viewWillAppear:animated];
@@ -320,6 +367,7 @@ UIBarButtonItem *revealButtonItem;;
 
     [self getEvents:enddate:[enddate stringByReplacingOccurrencesOfString:@"00:00:00" withString:@"24:00:00"]];
     }
+    [self orientationChanged];
 }
 - (NSDate *)addDays:(NSInteger)days toDate:(NSDate *)originalDate {
     NSDateComponents *components= [[NSDateComponents alloc] init];
@@ -431,6 +479,7 @@ UIBarButtonItem *revealButtonItem;;
     dayView=calendarDayTimeline;
     dayView.currentDay=_CalendarDisplayDate;
     [dayView _updateDateLabel];
+    [self orientationChanged];
     }
 
     if([eventDate compare:[NSDate dateWithTimeIntervalSinceNow:-24*60*60]] == NSOrderedAscending) return @[];

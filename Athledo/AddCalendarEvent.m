@@ -30,6 +30,8 @@
 
     BOOL isDate;
     UIToolbar *toolBar;
+    
+    BOOL SaveWithoutChange;
 }
 
 @end
@@ -58,6 +60,7 @@
     {// Now we Need to decrypt data
          self.navigationItem.rightBarButtonItem.enabled=YES;
         [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
+        
         [SingletonClass initWithTitle:@"" message:@"Event saved successfully" delegate:self btn1:@"Ok"];
     }else {
         
@@ -103,12 +106,44 @@
     BOOL Status=FALSE;
     for (id object in arrController)
     {
-        
-        if ([object isKindOfClass:[_strMoveControllerName class]])
+        if ([_strMoveControllerName isEqualToString:@"CalendarMonthViewController"]) {
+            
+            if ([object isKindOfClass:[CalendarMonthViewController class]])
+            {
+                Status=TRUE;
+                [self.navigationController popToViewController:object animated:NO];
+                 return;
+            }
+        }else   if ([_strMoveControllerName isEqualToString:@"CalendarDayViewController"])
         {
-            Status=TRUE;
-            [self.navigationController popToViewController:object animated:NO];
+            for (int i=0; i< arrController.count; i++) {
+                
+                if ([[arrController objectAtIndex:i] isKindOfClass:[CalendarDayViewController class]])
+                {
+                    CalendarDayViewController *annView=[[CalendarDayViewController alloc] init];
+                    NSArray *vCs=[[self navigationController] viewControllers];
+                    NSMutableArray *nvCs=nil;
+                    //remove the view controller before the current view controller
+                    nvCs=[[NSMutableArray alloc]initWithArray:vCs];
+                    [nvCs replaceObjectAtIndex:i withObject:annView];
+                    [[self navigationController] setViewControllers:nvCs];
+                    [self.navigationController popToViewController:annView animated:NO];
+                    Status=TRUE;
+                    return;
+                }
+            }
+            
+        }else   if ([_strMoveControllerName isEqualToString:@"WeekViewController"])
+        {
+            if ([object isKindOfClass:[WeekViewController class]])
+            {
+                Status=TRUE;
+                [self.navigationController popToViewController:object animated:NO];
+                 return;
+            }
         }
+        
+       
     }
 
     if (Status==FALSE)
@@ -335,8 +370,14 @@
 {
     if ([CalendarEvent ShareInstance].CalendarRepeatStatus==TRUE)
     {
+        if ([CalendarEvent ShareInstance].strRepeatSting.length==0) {
+            
+            SaveWithoutChange=TRUE;
+        }else{
+            
+            SaveWithoutChange=FALSE;
+        }
         [CalendarEvent ShareInstance].strStartDate=[CalendarEvent ShareInstance].strStartDate.length==0 ? [_eventDetailsDic valueForKey:@"start_date"] :[CalendarEvent ShareInstance].strStartDate;
-        [CalendarEvent ShareInstance].strEndDate=[CalendarEvent ShareInstance].strEndDate.length==0 ? [_eventDetailsDic valueForKey:@"end_date"] :[CalendarEvent ShareInstance].strEndDate;
          [CalendarEvent ShareInstance].strRepeatSting=[CalendarEvent ShareInstance].strRepeatSting.length==0 ? [_eventDetailsDic valueForKey:@"rec_type"] :[CalendarEvent ShareInstance].strRepeatSting;
     }
     
@@ -347,7 +388,7 @@
     
     [self CheckUserValueChange];
     
-    [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
+    
     if ([SingletonClass  CheckConnectivity])
     {
         self.navigationItem.rightBarButtonItem.enabled=NO;
@@ -558,9 +599,29 @@
 
 -(NSString *)CalculateEventEndDate
 {
+    
+    if (SaveWithoutChange==TRUE) {
+        
+        if (([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Series"]))
+        {
+            return [_eventDetailsDic valueForKey:@"actual_end_date"];
+            
+        }else  if (([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"])){
+            
+            return [_eventDetailsDic valueForKey:@"actual_end_date"];
+            
+        }
+        else{
+            
+             return [_eventDetailsDic valueForKey:@"end_date"];
+        }
+    }
+    else
+    {
     NSString *enddate=@"";
-
+    
     NSString *strStartdate=[CalendarEvent ShareInstance].strStartDate;
+
 
     if ([[CalendarEvent ShareInstance].strEventType isEqualToString:@"Daily"] || [[CalendarEvent ShareInstance].strEventType isEqualToString:@"Weekly"]) {
 
@@ -667,8 +728,8 @@
              enddate=[[[[CalendarEvent ShareInstance].strEndDate componentsSeparatedByString:@" "] objectAtIndex:0] stringByAppendingFormat:@" 00:00:00"];
         }
     }
-
     return enddate;
+}
 }
 
 -(NSString *)CalculateEndDateIn_Daily_WorkingDay_Case

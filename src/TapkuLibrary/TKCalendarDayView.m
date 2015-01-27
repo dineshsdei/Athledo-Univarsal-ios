@@ -97,8 +97,6 @@
 @property (nonatomic,strong) NSDateFormatter *formatter;
 @property (nonatomic,strong) NSMutableArray *pages;
 @property (nonatomic,strong) UIScrollView *horizontalScrollView;
-
-@property (nonatomic,strong) NSMutableArray *weekdayPages;
 @property (nonatomic,strong) UIScrollView *daysScrollView;
 
 //@property (nonatomic,strong) NSDate *currentDay;

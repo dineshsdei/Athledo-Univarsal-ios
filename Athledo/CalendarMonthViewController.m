@@ -45,10 +45,44 @@ UIBarButtonItem *revealButtonItem;;
     self.title=NSLocalizedString(@"Back", @"");
     
 }
+#pragma change control frame when device rotate
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    NSLog(@"view bounds %@",NSStringFromCGRect(self.view.bounds));
+    if (isIPAD) {
+        
+        CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
+        
+        NSArray *arrController=[self.navigationController viewControllers];
+        
+        for (int i=0; i< arrController.count; i++) {
+        
+                    if ([[arrController objectAtIndex:i] isKindOfClass:[CalendarMonthViewController class]])
+                    {
+                       
+                        NSArray *vCs=[[self navigationController] viewControllers];
+                        NSMutableArray *nvCs=nil;
+                        //remove the view controller before the current view controller
+                        nvCs=[[NSMutableArray alloc]initWithArray:vCs];
+                        [nvCs replaceObjectAtIndex:i withObject:vc];
+                        [[self navigationController] setViewControllers:nvCs];
+                        
+                    }
+                }
+
+        tabBar.frame =CGRectMake(0, self.view.frame.size.height-50, self.view.frame.size.width, 50);
+        self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
+    }
+}
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
     [super viewDidLoad];
-    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     
     strCurrentMonth=@"";
     
@@ -74,13 +108,7 @@ UIBarButtonItem *revealButtonItem;;
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
-    //self.title = NSLocalizedString(@"Calendar", @"");
-    self.monthView.frame=CGRectMake(0, 0, 1024, 265);
     [self.monthView selectDate:[NSDate date]];
-    //[self.monthView setAutoresizesSubviews:YES];
-   // [self.monthView setAutoresizingMask: UIViewAutoresizingFlexibleHeight  | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin];
-     
-    //self.tableView.backgroundColor=[UIColor clearColor];
     
     UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
@@ -95,9 +123,22 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
     // 113 height is (49+64) tabbar height and navigationBar height
-    tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-113, self.view.frame.size.width, 50)];
+     NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+     NSLog(@"view bounds %@",NSStringFromCGRect(self.view.bounds));
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
+        
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width-120, self.view.frame.size.height, 50)];
+        self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
+        
+    }else{
+        
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-120, self.view.frame.size.width, 50)];
+        self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
+    }
     
-    self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
+   
+    
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
@@ -126,6 +167,7 @@ UIBarButtonItem *revealButtonItem;;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    //[self orientationChanged];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     self.title=NSLocalizedString(@"Month Events", @"");
@@ -234,21 +276,40 @@ UIBarButtonItem *revealButtonItem;;
     
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-        
-        if ([object isKindOfClass:[AddCalendarEvent class]])
-        {
-            Status=TRUE;
-            AddCalendarEvent *temp=(AddCalendarEvent *)object;
-            temp.screentitle=@"Add Event";
-            temp.eventDetailsDic=nil;
-            temp.strMoveControllerName=@"CalendarMonthViewController";
-            
-            [self.navigationController popToViewController:temp animated:NO];
-        }
-    }
+//    for (id object in arrController)
+//    {
     
+//        if ([object isKindOfClass:[AddCalendarEvent class]])
+//        {
+//            Status=TRUE;
+//            AddCalendarEvent *temp=(AddCalendarEvent *)object;
+//            temp.screentitle=@"Add Event";
+//            temp.eventDetailsDic=nil;
+//            temp.strMoveControllerName=@"CalendarMonthViewController";
+//            
+//            [self.navigationController popToViewController:temp animated:NO];
+//        }
+        
+        for (int i=0; i< arrController.count; i++) {
+            
+            if ([[arrController objectAtIndex:i] isKindOfClass:[AddCalendarEvent class]])
+            {
+                AddCalendarEvent *addEvent=[[AddCalendarEvent alloc] initWithNibName:@"AddCalendarEvent" bundle:nil];
+                addEvent.screentitle=@"Add Event";
+                addEvent.eventDetailsDic=nil;
+                addEvent.strMoveControllerName=@"CalendarMonthViewController";
+                NSArray *vCs=[[self navigationController] viewControllers];
+                NSMutableArray *nvCs=nil;
+                //remove the view controller before the current view controller
+                nvCs=[[NSMutableArray alloc]initWithArray:vCs];
+                [nvCs replaceObjectAtIndex:i withObject:addEvent];
+                [[self navigationController] setViewControllers:nvCs];
+                [self.navigationController popToViewController:addEvent animated:NO];
+                Status=TRUE;
+                break;
+            }
+        }
+
     if (Status==FALSE)
     {
         AddCalendarEvent *addEvent=[[AddCalendarEvent alloc] initWithNibName:@"AddCalendarEvent" bundle:nil];
@@ -475,7 +536,6 @@ UIBarButtonItem *revealButtonItem;;
                 
                 NSString *strCalenderDate=[NSString stringWithFormat:@"%@",d];
                 NSDate *calenderdate=[dateFormatter dateFromString:strCalenderDate];
-                
                 
                 [dateFormatter setDateFormat:DATE_FORMAT_M_D_Y];
                 

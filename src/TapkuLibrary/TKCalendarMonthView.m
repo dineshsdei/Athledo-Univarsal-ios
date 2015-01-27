@@ -51,14 +51,15 @@ static UIImage *tileImage;
 #define TOP_BAR_HEIGHT 45.0f
 #define DOT_FONT_SIZE 18.0f
 #define DATE_FONT_SIZE 24.0f
-#define VIEW_WIDTH [UIDevice currentDevice].userInterfaceIdiom==UIUserInterfaceIdiomPad ? 768.0f :320.0f
+#define VIEW_WIDTH isIPad ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 1024 :768.0f) :320.0f
 #define VIEW_HEIGHT [UIDevice currentDevice].userInterfaceIdiom==UIUserInterfaceIdiomPad ? 1500 :320.0f
+#define  Box_W isIPad ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 146 : 110.0f ): 46
+#define  Box_H isIPad ? 44 : 44
 
 #define  SelectedImage_H isIPad ? 45 : 45
-#define  SelectedImage_W isIPad ? 110 : 47
+#define  SelectedImage_W isIPad ? Box_W : 47
 
-#define  Box_W isIPad ? 110 : 46
-#define  Box_H isIPad ? 44 : 44
+
 
 #pragma mark - TKCalendarMonthTiles
 @interface TKCalendarMonthTiles : UIView {
@@ -91,6 +92,7 @@ static UIImage *tileImage;
 + (void) initialize{
     if (self == [TKCalendarMonthTiles class]){
         tileImage = [UIImage imageWithContentsOfFile:TKBUNDLE(@"calendar/Month Calendar Date Tile.png")];
+        
     }
 }
 
@@ -102,8 +104,6 @@ static UIImage *tileImage;
     if (_accessibleElements!=nil) return _accessibleElements;
 
     _accessibleElements = [[NSMutableArray alloc] init];
-	
-	
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[formatter setDateStyle:NSDateFormatterFullStyle];
@@ -111,7 +111,6 @@ static UIImage *tileImage;
 	[formatter setTimeZone:self.timeZone];
 	
 	NSDate *firstDate = (self.datesArray)[0];
-	
 	for(NSInteger i=0;i<self.marks.count;i++){
 		UIAccessibilityElement *element = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
 		
@@ -127,9 +126,6 @@ static UIImage *tileImage;
 		[_accessibleElements addObject:element];
 		
 	}
-	
-	
-	
     return _accessibleElements;
 }
 - (NSInteger) accessibilityElementCount{
@@ -659,6 +655,11 @@ static UIImage *tileImage;
 		numberFormatter = [[NSNumberFormatter alloc] init];
     }
 }
+-(void)RefreshView
+{
+
+    
+}
 - (instancetype) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{
 	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH, VIEW_WIDTH)])) return nil;
 	self.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
@@ -713,7 +714,7 @@ static UIImage *tileImage;
 	for(NSString *s in ar){
         UILabel *label;
         if (isIPad) {
-            label = [[UILabel alloc] initWithFrame:CGRectMake(109*i + (i==0?0:-1), 30, 109, 15)];
+            label = [[UILabel alloc] initWithFrame:CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15)];
         }else
         {
             label = [[UILabel alloc] initWithFrame:CGRectMake(46*i + (i==0?0:-1), 30, 45, 15)];

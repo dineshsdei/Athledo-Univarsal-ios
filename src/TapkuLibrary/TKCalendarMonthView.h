@@ -92,6 +92,7 @@
  @param next YES for next month, NO for previous month.
  */
 - (void) animateToNextOrPreviousMonth:(BOOL)next;
+- (void) _updateSubviewFramesWithTile:(UIView*)tile;
 
 
 @end

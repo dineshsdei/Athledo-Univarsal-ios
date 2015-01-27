@@ -43,7 +43,9 @@
 @property (nonatomic,strong) UILabel *monthYearLabel;
 @property (nonatomic,strong) NSCalendar *calendar;
 @property (nonatomic,strong) NSDate *currentDay;
+@property (nonatomic,strong) NSMutableArray *weekdayPages;
 - (void) _updateDateLabel;
+- (void) _realignEventsAtIndex:(NSInteger)index;
 
 - (instancetype) initWithFrame:(CGRect)frame calendar:(NSCalendar*)calendar;
 
