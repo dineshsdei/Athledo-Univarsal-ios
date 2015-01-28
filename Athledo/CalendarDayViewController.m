@@ -118,8 +118,6 @@ UIBarButtonItem *revealButtonItem;;
     }
     
     [dayView reloadData];
-    
-   
 }
 #pragma change control frame when device rotate
 - (void)orientationChanged
@@ -139,7 +137,14 @@ UIBarButtonItem *revealButtonItem;;
         view.frame=CGRectMake(view.frame.origin.x,view.frame.origin.y, self.view.frame.size.width, view.frame.size.height);
         lblTopContaint.frame=CGRectMake(lblTopContaint.frame.origin.x,lblTopContaint.frame.origin.y, self.view.frame.size.width, lblTopContaint.frame.size.height);
         
-        tabBar.frame =CGRectMake(0, self.view.frame.size.height-56, self.view.frame.size.width, 50);
+        UIDeviceOrientation orientation=[SingletonClass getOrientation];
+        if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
+            
+            tabBar.frame =CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 56 : 49), self.view.frame.size.width, 50);
+        }else{
+            
+             tabBar.frame =CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 56 : 49), self.view.frame.size.width, 50);
+        }
     }
 }
 
@@ -214,10 +219,10 @@ UIBarButtonItem *revealButtonItem;;
    // UIDeviceOrientation orientation=[SingletonClass getOrientation];
     if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
         
-        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width-130, self.view.frame.size.height, 50)];
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width-(iosVersion < 8 ? 120 : 113), self.view.frame.size.height, 50)];
            }else{
         
-        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-130, self.view.frame.size.width, 50)];
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 120 : 113), self.view.frame.size.width, 50)];
            }
     
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];

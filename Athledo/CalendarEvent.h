@@ -18,6 +18,7 @@
 @property(nonatomic)int NoOfDay;
 @property(nonatomic)int NoOfOccurrence;
 @property(nonatomic,strong)NSString *strEventType;
+@property(nonatomic,strong)NSString *strDailyEventSubType;
 @property(nonatomic,strong)NSString *strRepeatSting;
 @property(nonatomic,strong)NSString *strEndDate;
 @property(nonatomic,strong)NSString *strStartDate;

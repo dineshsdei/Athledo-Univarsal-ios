@@ -744,26 +744,38 @@
 
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:(NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekdayOrdinalCalendarUnit | NSDayCalendarUnit) fromDate:date];
-
-    int loopEnd=[CalendarEvent ShareInstance].NoOfOccurrence ;
-
-    for (int i=1; i <= loopEnd; i++) {
-
-    if (((components.day%7) == 6) || ((components.day%7) == 0) ) {
-
-    loopEnd=loopEnd+1;
-    components.day=components.day+1;
+    
+    if ([[CalendarEvent ShareInstance].strDailyEventSubType isEqualToString:@"nonworkingday" ]) {
+        
+        components.day=components.day+([CalendarEvent ShareInstance].NoOfOccurrence * [CalendarEvent ShareInstance].NoOfDay);
+        NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
+        
+        NSString *enddate=[formatter stringFromDate:dayOneInCurrentMonth];
+        return enddate;
+        
         
     }else{
 
-    components.day=components.day+1;
-    }
-    }
-    NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
+        int loopEnd=[CalendarEvent ShareInstance].NoOfOccurrence ;
 
-    NSString *enddate=[formatter stringFromDate:dayOneInCurrentMonth];
-    
-    return enddate;
+        for (int i=1; i <= loopEnd; i++) {
+
+        if (((components.day%7) == 6) || ((components.day%7) == 0) ) {
+
+        loopEnd=loopEnd+1;
+        components.day=components.day+1;
+            
+        }else{
+
+        components.day=components.day+1;
+        }
+        }
+        NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
+
+        NSString *enddate=[formatter stringFromDate:dayOneInCurrentMonth];
+        
+        return enddate;
+    }
 }
 
 // append time of startdate in end date time in only repeat occurrence case
@@ -920,10 +932,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
-    if (_eventDetailsDic) {
-
-    }
-
 }
 
 - (void)orientationChanged
@@ -1305,13 +1313,13 @@
     [self.view addSubview:toolBar];
 
     //Set the Date picker view
-    _datePicker.frame=CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, PickerHeight);
-
+    _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, self.view.frame.size.height+350, self.view.frame.size.width, 216)];
     _datePicker.date = [NSDate date];
     _datePicker.tag=70;
     //[datePicker setHidden:YES];
     _datePicker.backgroundColor=[UIColor whiteColor];
     [_datePicker addTarget:self action:@selector(dateChange) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_datePicker];
 
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(RepeatClick:)];
     tapGesture.numberOfTouchesRequired = 1;
@@ -1329,7 +1337,7 @@
 - (void)viewDidLayoutSubviews {
     
     if ( isDate==TRUE) {
-         [self.view viewWithTag:70].center = CGPointMake(160, visiblePicker);
+         //[self.view viewWithTag:70].center = CGPointMake(160, visiblePicker);
     }
 }
 

@@ -71,8 +71,8 @@ UIBarButtonItem *revealButtonItem;;
                     }
                 }
 
-        tabBar.frame =CGRectMake(0, self.view.frame.size.height-50, self.view.frame.size.width, 50);
-        self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
+        //tabBar.frame =CGRectMake(0, self.view.frame.size.height-49, self.view.frame.size.width, 50);
+       // self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, (self.view.frame.size.height)-(self.monthView.frame.size.height + tabBar.frame.size.height));
     }
 }
 #pragma mark View Lifecycle
@@ -126,19 +126,18 @@ UIBarButtonItem *revealButtonItem;;
      NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
      NSLog(@"view bounds %@",NSStringFromCGRect(self.view.bounds));
     UIDeviceOrientation orientation=[SingletonClass getOrientation];
+   
     if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
         
-        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width-120, self.view.frame.size.height, 50)];
-        self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, (iosVersion < 8 ? 648 : 655), 1024, 50)];
+        self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, (768-(tabBar.frame.size.height + self.monthView.frame.size.height )));
+        
         
     }else{
         
-        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-120, self.view.frame.size.width, 50)];
+        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 120 : 113), self.view.frame.size.width, 50)];
         self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
     }
-    
-   
-    
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
@@ -343,7 +342,7 @@ UIBarButtonItem *revealButtonItem;;
     
     return self.dataArray;
 }
-
+ // Shift back by 1 index array because api shown event next day
 -(void)siftValues
 {
     for (int i=0; i< self.dataArray.count-1 ; i++) {
@@ -359,16 +358,43 @@ UIBarButtonItem *revealButtonItem;;
     // Move on dayview calendar
     if(self.dataDictionary.count > 0)
     {
-        CalendarDayViewController *dayView = [[CalendarDayViewController alloc]init];
-        NSLog(@"data for key %@",[self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", date ]]);
-        //dayView.eventDic=[self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", date ]];
-        dayView.eventDic=nil;
-        dayView.strComeFrom=@"MonthView";
-        dayView.CalendarDisplayDate=date;
-        if (_objNotificationData) {
-            dayView.objNotificationData=_objNotificationData;
+        NSArray *arrController=[self.navigationController viewControllers];
+        BOOL Status=FALSE;
+        for (int i=0; i< arrController.count; i++) {
+                    
+            if ([[arrController objectAtIndex:i] isKindOfClass:[CalendarDayViewController class]])
+            {
+                CalendarDayViewController *dayView = [[CalendarDayViewController alloc]init];
+                dayView.eventDic=nil;
+                dayView.strComeFrom=@"MonthView";
+                dayView.CalendarDisplayDate=date;
+                if (_objNotificationData) {
+                    dayView.objNotificationData=_objNotificationData;
+                }
+                NSArray *vCs=[[self navigationController] viewControllers];
+                NSMutableArray *nvCs=nil;
+                //remove the view controller before the current view controller
+                nvCs=[[NSMutableArray alloc]initWithArray:vCs];
+                [nvCs replaceObjectAtIndex:i withObject:dayView];
+                [[self navigationController] setViewControllers:nvCs];
+                [self.navigationController popToViewController:dayView animated:NO];
+                Status=TRUE;
+                return;
+            }
         }
-        [self.navigationController pushViewController:dayView animated:NO];
+        if (Status==FALSE)
+        {
+          
+            CalendarDayViewController *dayView=[[CalendarDayViewController alloc] init];
+            dayView.eventDic=nil;
+            dayView.strComeFrom=@"MonthView";
+            dayView.CalendarDisplayDate=date;
+            if (_objNotificationData) {
+                dayView.objNotificationData=_objNotificationData;
+            }
+            [self.navigationController pushViewController:dayView animated:NO];
+        }
+
     }
     
 }

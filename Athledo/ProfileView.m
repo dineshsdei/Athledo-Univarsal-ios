@@ -74,9 +74,20 @@
 {
     return UIStatusBarStyleLightContent;
 }
-
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [tblProfile reloadData];
+    }
+}
 - (void)viewDidLoad
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     [self setNeedsStatusBarAppearanceUpdate];
     
     self.title = @"Profile";

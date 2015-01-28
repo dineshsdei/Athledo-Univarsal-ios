@@ -39,7 +39,7 @@
 - (IBAction)RepeatClick:(id)sender;
 - (void)setContentOffset:(id)textField table:(UIScrollView*)m_ScrollView ;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
-@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property(weak,nonatomic)NSString *strRepeat;
 @property(nonatomic,retain)NSDictionary *eventDetailsDic;
 @property(nonatomic,strong)NSString *strMoveControllerName;

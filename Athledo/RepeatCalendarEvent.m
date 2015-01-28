@@ -172,9 +172,24 @@ BOOL isMonth,isDay;
     
 }
 
-
+- (void)orientationChanged
+{
+    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
+    if (isIPAD) {
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
+        [self.tableview reloadData];
+        
+    }
+}
 - (void)viewDidLoad
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     self.title=NSLocalizedString(@"Repeat Event", @"");
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
@@ -185,11 +200,23 @@ BOOL isMonth,isDay;
         
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        [self setDatePickerVisibleAt:NO];
-        [self setPickerVisibleAt:NO:arrMonths];
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        scrollHeight=kbSize.height;
-        
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
         
     }];
     
@@ -197,8 +224,12 @@ BOOL isMonth,isDay;
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
         
     }];
     
@@ -231,6 +262,7 @@ BOOL isMonth,isDay;
         const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
         if (c[0]=='d') {
             strRepeatEvent=@"Daily";
+            [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
             segment.selectedSegmentIndex=0;
         }else  if (c[0]=='w') {
             strRepeatEvent=@"Weekly";
@@ -248,6 +280,7 @@ BOOL isMonth,isDay;
         
         // Default setting for Daily event
         NSString *str=@"day_1___#no";
+         [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
         
         if ([CalendarEvent ShareInstance].strRepeatSting.length > 0) {
             str=[CalendarEvent ShareInstance].strRepeatSting;
@@ -292,7 +325,7 @@ BOOL isMonth,isDay;
     //UIBarButtonItem *rightButton = [[[UIBarButtonItem alloc] initWithTitle:@"Item" style:UIBarButtonItemStyleBordered target:self action:@selector(btnItem2Pressed:)] autorelease];
     
     
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 44)];
+   toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 44)];
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
@@ -478,6 +511,20 @@ BOOL isMonth,isDay;
 //    [UIView commitAnimations];
 //
 //}
+-(void)ShowPickerSelection : (NSArray *)data
+{
+    if (currentText.text.length > 0) {
+        for (int i=0; i< data.count; i++) {
+            
+            if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                
+                [listPicker selectRow:i inComponent:0 animated:YES];
+                
+                break;
+            }
+        }
+    }
+}
 -(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -994,11 +1041,23 @@ BOOL isMonth,isDay;
     cell.backgroundColor=[UIColor clearColor];
     
     cell.tag=indexPath.section;
-    
-    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,137, self.view.frame.size.width, 1)];
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIImageView *img1;
+    if (isIPAD) {
+        
+        if ((orientation==UIDeviceOrientationLandscapeLeft) || orientation == UIDeviceOrientationLandscapeRight) {
+            
+            img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,137, self.view.frame.size.width, 1)];
+        }else{
+            img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,137, self.view.frame.size.width, 1)];
+        }
+    }else{
+         img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,137, self.view.frame.size.width, 1)];
+    }
+  
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     if(indexPath.section==0)
-        [cell addSubview:img1];
+    [cell addSubview:img1];
     cell.delegate=self;
     
     return cell;
@@ -1056,6 +1115,7 @@ BOOL isMonth,isDay;
     if (objSegment.selectedSegmentIndex==0) {
         strRepeatEvent=@"Daily";
         NSString *str=@"day_1___#no";
+         [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
         
         [arrEventSting removeAllObjects];
         [self SpliteEventString:str];
@@ -1126,6 +1186,7 @@ BOOL isMonth,isDay;
             {
                 
                 [arrEventSting replaceObjectAtIndex:0 withObject:@"day_"];
+                 [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
                 [arrEventSting replaceObjectAtIndex:1 withObject:textfield.text];
                 
                 if (arrEventSting.count > 5 && [[arrEventSting objectAtIndex:5] isEqualToString:@"1,2,3,4,5"])
@@ -1137,6 +1198,7 @@ BOOL isMonth,isDay;
                 
             }else if( btnTwo.selected==YES)
             {
+                 [CalendarEvent ShareInstance].strDailyEventSubType=@"workingday";
                 [arrEventSting replaceObjectAtIndex:0 withObject:@"week_"];
                 [arrEventSting replaceObjectAtIndex:1 withObject:@"1"];
                 [arrEventSting insertObject:@"1,2,3,4,5" atIndex:5];
@@ -1619,8 +1681,11 @@ BOOL isMonth,isDay;
         
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [listPicker reloadComponent:0];
-        [self setDatePickerVisibleAt:NO];
-        [self setPickerVisibleAt:YES:arrMonths];
+        [self ShowPickerSelection:arrMonths];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+        //[self setDatePickerVisibleAt:NO];
+        //[self setPickerVisibleAt:YES:arrMonths];
         
         return NO;
         
@@ -1628,8 +1693,11 @@ BOOL isMonth,isDay;
     {
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [listPicker reloadComponent:0];
-        [self setDatePickerVisibleAt:NO];
-        [self setPickerVisibleAt:YES:arrDays];
+        [self ShowPickerSelection:arrDays];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
+       // [self setDatePickerVisibleAt:NO];
+       // [self setPickerVisibleAt:YES:arrDays];
         
         return NO;
     }else if ([textField.placeholder isEqualToString:@"Date"]) {
@@ -1638,11 +1706,13 @@ BOOL isMonth,isDay;
         df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
         currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-        [self setDatePickerVisibleAt:YES];
+        //[self setDatePickerVisibleAt:YES];
+         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :_datePicker :toolBar];
         
         return NO;
     }else{
-        [self setPickerVisibleAt:NO:arrDays];
+        //[self setPickerVisibleAt:NO:arrDays];
+        // [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     }
     
     

@@ -11,9 +11,11 @@
 
 
 #define textAlignment NSTextAlignmentCenter
-#define iconleftPosition isIPAD ? 300 : 80
+#define iconleftPosition isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :300) : 80
+
 #define iconRightPosition 265
-#define GenralInfoX isIPAD ? 365 : 150
+#define GenralInfoX isIPAD ?  (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 505  :365) : 150
+
 #define GenralInfoWeight isIPAD ? 210 : 150
 #define GenralInfoAlignment NSTextAlignmentLeft
 #define ColorLightgray [UIColor lightGrayColor]
@@ -21,24 +23,24 @@
 #define FieldClearBackground [UIColor clearColor]
 #define FieldWhiteBackground [UIColor whiteColor]
 
-#define SchoolInfoX isIPAD ? 240 : 60
+#define SchoolInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 380  :240) : 60
 #define SchoolInfoDateW isIPAD ? 110 : 80
-#define SchoolInfoDateX isIPAD ? 300 : 70
+#define SchoolInfoDateX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 450  :300) : 70
 #define SchoolInfoDesW isIPAD ? 300 : 200
 
 #define SchoolInfoDashX isIPAD ? 110 : 150
 
-#define LINE_SEP_X isIPAD ? 170 : 50
+#define LINE_SEP_X isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 310  :170) : 50
 #define LINE_SEP_W isIPAD ? 468 : 220
 
-#define AwardInfoCupX isIPAD ? 360 : 140
-#define AwardInfoX isIPAD ? 290 : 60
+#define AwardInfoCupX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 500  :360)  : 140
+#define AwardInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 430  :290)   : 60
 #define AwardInfoW isIPAD ? 200 : 200
 
 #define FName_W isIPAD ? 135 : 130
 
 #define SportInfoAlignment NSTextAlignmentLeft
-#define AthleteSportX isIPAD ? 300 : 90
+#define AthleteSportX isIPAD ?(([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :300) : 90
 
 
 #define VIEW_X  30

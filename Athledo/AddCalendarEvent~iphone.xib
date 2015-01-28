@@ -9,7 +9,6 @@
             <connections>
                 <outlet property="EnableDesableBtn" destination="RjI-WJ-B1h" id="jc1-pS-eB0"/>
                 <outlet property="btnRepeat" destination="rUc-aM-zpi" id="wcO-qh-9Z2"/>
-                <outlet property="datePicker" destination="exA-u0-ojw" id="WXN-ca-nkD"/>
                 <outlet property="scrollview" destination="ZhJ-v8-GYn" id="aje-Xk-o5V"/>
                 <outlet property="tempView" destination="yhi-eu-zu0" id="U8G-RN-lqw"/>
                 <outlet property="texviewDescription" destination="Ldm-k3-1VX" id="xQI-sN-f7n"/>
@@ -214,15 +213,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </scrollView>
-                <datePicker autoresizesSubviews="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" id="exA-u0-ojw">
-                    <rect key="frame" x="0.0" y="700" width="320" height="162"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <date key="date" timeIntervalSinceReferenceDate="435141333.254767">
-                        <!--2014-10-16 08:35:33 +0000-->
-                    </date>
-                </datePicker>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" id="N51-VV-xRW">
                     <rect key="frame" x="0.0" y="565" width="320" height="3"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>

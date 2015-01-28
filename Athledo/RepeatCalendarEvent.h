@@ -24,6 +24,7 @@
     NSMutableArray *arrEventSting;
     NSDateFormatter *dformate;
     NSString *strSelectedEndDate;
+    UIToolbar *toolBar;
 }
 @property (strong, nonatomic) id obj;
 @property (strong, nonatomic) id keyboardAppear;

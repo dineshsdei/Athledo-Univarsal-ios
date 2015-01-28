@@ -9,7 +9,6 @@
             <connections>
                 <outlet property="EnableDesableBtn" destination="DtC-9B-Etl" id="VAz-H1-8Zu"/>
                 <outlet property="btnRepeat" destination="z34-ff-7VN" id="eek-hr-Lmu"/>
-                <outlet property="datePicker" destination="lx5-Mj-BDy" id="joo-qR-rzm"/>
                 <outlet property="lblDescHeader" destination="8gS-4Q-l4c" id="Lht-lC-mvi"/>
                 <outlet property="lblEndDateHeader" destination="VdJ-q6-hfd" id="1MF-F0-7zL"/>
                 <outlet property="lblStartdateHeader" destination="RYv-1b-axd" id="JYU-kM-LWw"/>
@@ -216,14 +215,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </scrollView>
-                <datePicker autoresizesSubviews="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" id="lx5-Mj-BDy">
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <date key="date" timeIntervalSinceReferenceDate="435141333.254767">
-                        <!--2014-10-16 08:35:33 +0000-->
-                    </date>
-                </datePicker>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" id="3dw-3r-Mes">
                     <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>

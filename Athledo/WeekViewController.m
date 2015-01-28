@@ -172,6 +172,20 @@ UIBarButtonItem *revealButtonItem;;
     
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
+    NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
+    
+    UITabBarItem *tabBarItem1 = [[UITabBarItem alloc] initWithTitle:@"Month" image:[UIImage imageNamed:@"mnth_icon2.png"] tag:0];
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Week" image:[UIImage imageNamed:@"week_icon.png"] tag:1];
+    UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Today" image:[UIImage imageNamed:@"today_icon.png"] tag:2];;
+    UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Map" image:[UIImage imageNamed:@"tabmap_icon.png"] tag:3];
+    
+    [tabBarItems addObject:tabBarItem1];
+    [tabBarItems addObject:tabBarItem2];
+    [tabBarItems addObject:tabBarItem3];
+    [tabBarItems addObject:tabBarItem4];
+    
+    tabBar.items = tabBarItems;
+    
     
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
