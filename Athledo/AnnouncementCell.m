@@ -67,9 +67,6 @@
 
 -(IBAction)delete:(id)sender
 {
-    //UIButton *button = (UIButton *)sender;
-    //NSLog(@"btn tag %ld",(long)button.tag);
-    
     [delegate deleteCell:sender];
 }
 

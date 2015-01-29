@@ -992,9 +992,6 @@ static UIImage *tileImage;
 
 	_rightArrow = [UIButton buttonWithType:UIButtonTypeCustom];
 	_rightArrow.tag = 1;
-    
-    NSLog(@"weif=ght %f",VIEW_WIDTH);
-    
     if (isIPad) {
         	_rightArrow.frame = CGRectMake((VIEW_WIDTH)-52, 0, 52, 36);
     }else{

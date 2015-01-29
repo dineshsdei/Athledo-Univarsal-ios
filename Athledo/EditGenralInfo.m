@@ -96,8 +96,7 @@
 
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
-    if (isIPAD) {
+      if (isIPAD) {
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
         [table reloadData];
     }
@@ -487,14 +486,8 @@
         
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-        
-        //NSLog(@"%f",point.y + (txt.frame.origin.y));
-        
         // Scroll to cell
-        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
-        
-        
-        
+        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];       
     }else{
         
         UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];

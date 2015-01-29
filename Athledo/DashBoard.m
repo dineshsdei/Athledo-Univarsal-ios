@@ -62,14 +62,8 @@
     
     CGPoint tapLocation = [recognizer locationInView:self.dashboardTableView];
     NSIndexPath *indexPath = [self.dashboardTableView indexPathForRowAtPoint:tapLocation];
-
-    NSLog(@"index path %li",(long)indexPath.section);
-
-
     if (isPush==FALSE) {
-
     isPush=TRUE;
-
     @try {
 
     NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:indexPath.row] ;

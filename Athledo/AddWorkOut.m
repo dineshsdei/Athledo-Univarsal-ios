@@ -545,11 +545,7 @@ static int LiftExerciseCount=0;
     [NSURLConnection sendAsynchronousRequest:request
     queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    // ...
-
-    //NSLog(@"announcement response:%@",response);
-
-    if (data!=nil)
+     if (data!=nil)
     {
     [self httpResponseReceived : data :GetWorkOutUnitTag];
     }else{
@@ -596,8 +592,6 @@ static int LiftExerciseCount=0;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500) :toolBar];
-        
-        NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
         if (isIPAD) {
             [tableview reloadData];
         }
@@ -875,8 +869,9 @@ static int LiftExerciseCount=0;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self getWorkOutList];
     [super viewWillAppear:NO];
+    [self getWorkOutList];
+    [self orientationChanged];
 }
 
 -(void)saveDicData
@@ -886,8 +881,6 @@ static int LiftExerciseCount=0;
     [workOutDic setObject:currentText.text forKey:currentText.placeholder];
 
     }else if([currentText.placeholder isEqualToString:@"Name"] || [currentText.placeholder isEqualToString:@"Sets"] || [currentText.placeholder isEqualToString:@"Reps"]||[currentText.placeholder isEqualToString:@"Unit."]||[currentText.placeholder isEqualToString:@"Weight"]) {
-
-    //NSLog(@"tag %d",currentText.tag);
 
     if ([currentText.placeholder isEqualToString:@"Unit."]) {
         
@@ -939,8 +932,6 @@ static int LiftExerciseCount=0;
     [workOutDic setObject:currentText.text forKey:currentText.placeholder];
 
     }else if([currentText.placeholder isEqualToString:@"Name"] || [currentText.placeholder isEqualToString:@"Sets"] || [currentText.placeholder isEqualToString:@"Reps"]||[currentText.placeholder isEqualToString:@"Unit."]||[currentText.placeholder isEqualToString:@"Weight"]) {
-
-    //NSLog(@"tag %d",currentText.tag);
 
     if ([currentText.placeholder isEqualToString:@"Unit."]) {
 
@@ -1871,7 +1862,6 @@ static int LiftExerciseCount=0;
     {
     UIButton *bb=temp;
 
-    //NSLog(@"check box tag %d",bb.tag);
     bb.selected=NO;
 
     [bb setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
@@ -2097,8 +2087,7 @@ static int LiftExerciseCount=0;
     {
     [selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:[UnitsArray objectAtIndex:i]];
     strPlaceHolder=Key;
-    NSString *str= [self PickerSlectedValues:selectedUnits];
-
+        NSString *str= [self PickerSlectedValues:selectedUnits];
     NSLog(@"%@",str);
 
 
@@ -2211,8 +2200,6 @@ static int LiftExerciseCount=0;
 -(void)deleteExerciseSection:(id)sender
 {
     UIButton *btn=sender;
-    //NSLog(@"btn tag %d",btn.tag);
-   
     [arrFieldsPlaceholder removeObjectAtIndex:arrFieldsPlaceholder.count-1];
     [arrLiftPlaceholder removeObjectAtIndex:btn.tag];
     [workOutDic setObject:arrLiftPlaceholder forKey:@"Lift"];
@@ -2237,8 +2224,6 @@ static int LiftExerciseCount=0;
     NSArray *arrKeys=[pickerData allKeys];
     NSArray *arrValues;
     NSString *values=@"";
-
-    //NSLog(@"code %@ ",[pickerData allValues]);
 
     if ([pickerData allValues]) {
 
@@ -2375,16 +2360,12 @@ static int LiftExerciseCount=0;
     case 2:
     {
     strAthletesIds=[self GetCode:[workOutDic objectForKey:@"Athletes"] :@"Athletes"];
-    //NSLog(@"unit %@",strAthletesIds);
-
-
+   
     break;
     }
     case 3:
     {
     strGroupsIds=[self GetCode:[workOutDic objectForKey:@"Groups"] :@"Groups"];
-    //NSLog(@"unit %@",strGroupsIds);
-
     break;
     }
     default:
@@ -2392,13 +2373,9 @@ static int LiftExerciseCount=0;
     }
 
     NSString *strCustomTagsIds=[self GetCode:[workOutDic objectForKey:@"Custom Tags"] :@"Custom Tags"];
-    // //NSLog(@"unit %@",strCustomTagsIds);
 
     NSString *strExerciseIds=[self KeyForValue:@"Exercise" :[workOutDic objectForKey:@"Exercise Type"]];
-    // //NSLog(@"unit %@",strExerciseIds);
-
     NSString *strWorkOutTypeIds=[self KeyForValue:@"Workout Type" :[workOutDic objectForKey:@"Workout Type"]];
-    // //NSLog(@"unit %@",strWorkOutTypeIds);
 
     NSString *strWorkOutName=[workOutDic objectForKey:@"Workout Name"];
     NSString *strWorkOutDate=[workOutDic objectForKey:@"Workout Date"];
@@ -2790,7 +2767,6 @@ static int LiftExerciseCount=0;
 -(void)EmailCheckBoxEvent:(id)sender
 {
     UIButton *btn=sender;
-    //NSLog(@"check box tag %d",btn.tag);
     if (btn.tag==1000) {
     [workOutDic setObject:@"Yes" forKey:@"Email Notification"];
     }else{
@@ -2807,7 +2783,6 @@ static int LiftExerciseCount=0;
     if ([temp isKindOfClass:[UIButton class]])
     {
     UIButton *bb=temp;
-    ////NSLog(@"check box tag %d",bb.tag);
     bb.selected=NO;
     [bb setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
     }

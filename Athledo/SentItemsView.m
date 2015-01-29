@@ -112,8 +112,8 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 //[SingletonClass RemoveActivityIndicator:self.view];
+                [SingletonClass ShareInstance].isMessangerSent =TRUE;
                 messageArrDic =[MyResults objectForKey:@"data"];
-                //NSLog(@"dict %@",messageArrDic);
                 [table reloadData];
             }
             
@@ -125,9 +125,7 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                    [SingletonClass ShareInstance].isMessangerInbox = TRUE;
-                // messageArrDic =[MyResults objectForKey:@"data"];
-                // //NSLog(@"dict %@",messageArrDic);
-                [SingletonClass RemoveActivityIndicator:self.view];
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
@@ -172,8 +170,6 @@
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         [self getMessages];
-        [SingletonClass ShareInstance].isMessangerSent =FALSE;
-        
     }
     
 }
@@ -227,7 +223,7 @@
 
     
     [self getMessages];
-    [SingletonClass ShareInstance].isMessangerSent =TRUE;
+    
 }
 
 -(void)ComposeMessage:(id)sender
@@ -275,11 +271,6 @@
     
     static NSString *CellIdentifier = @"MessageInboxCell";
     static NSString *CellNib = @"MessageInboxCell";
-    
-    //NSLog(@"coutn %d",messageArrDic.count);
-    
-    //  NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    
     MessageInboxCell *cell = (MessageInboxCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
@@ -452,9 +443,6 @@
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    
-    //NSLog(@"tag %d",item.tag);
-    
     NSArray *arrController=[self.navigationController viewControllers];
     
     switch (item.tag) {

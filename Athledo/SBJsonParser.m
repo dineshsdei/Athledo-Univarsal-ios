@@ -342,7 +342,7 @@ static char ctrl[0x22];
             return NO;
             
         } else {
-            //dbd//NSLog(@"should not be able to get here");
+          
         }
     } while (*c);
     

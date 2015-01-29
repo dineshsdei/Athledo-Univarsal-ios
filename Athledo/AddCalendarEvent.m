@@ -189,13 +189,6 @@
     
     Address *addressModel =locations.count > 0 ? [locations objectAtIndex:0] : @"";
   
-    if([addressModel title])
-    {
-        ///  NSLog(@"Title is = %@",[addressModel title]);
-    }else{
-        NSLog(@"Title is = %@", [addressModel fullAddress]);
-    }
-    
     strLat= [NSString stringWithFormat:@"%f", addressModel.coordinate.latitude];
     strLong= [NSString stringWithFormat:@"%f",  addressModel.coordinate.longitude];
 
@@ -203,10 +196,6 @@
 - (void)geocoder:(MJGeocoder *)geocoder didFailWithError:(NSError *)error
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
-    NSLog(@"GEOCODE ERROR CODE: %ld", (long)[error code]);
-    
-    
     if([error code] == 1)
     {
         
@@ -936,7 +925,6 @@
 
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
@@ -957,8 +945,6 @@
     _texviewDescription.textColor=[UIColor colorWithRed:170/255.0 green:170/255.0 blue:170/255.0 alpha:1];
     self.title=NSLocalizedString(_screentitle, @"");
     [self.navigationController.navigationItem setHidesBackButton:YES];
-
-    NSLog(@"datta %@",_eventDetailsDic);
 
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 55)];
     _tfTitle.leftView = paddingView;
@@ -1398,7 +1384,6 @@
                          [self.view viewWithTag:40].center = point;
                      }
                      completion:^(BOOL finished){
-                         NSLog(@"completion block");
                      }];
     
 }
@@ -1420,9 +1405,8 @@
     UIView* txt = textField;
     
     // Scroll to cell
-    int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
+   // int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
     
-    NSLog(@"%d",position);
     scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
     [_scrollview setContentOffset:CGPointMake(0,2*(txt.frame.size.height+30)) animated: YES];
   
@@ -1621,8 +1605,6 @@
     {
 
     }
-
-    NSLog(@"repeat click");
     }
     
    

@@ -161,10 +161,7 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
-                // messageArrDic =[MyResults objectForKey:@"data"];
-                // //NSLog(@"dict %@",messageArrDic);
-                   [SingletonClass ShareInstance].isMessangerInbox = TRUE;
+                [SingletonClass ShareInstance].isMessangerInbox = TRUE;
                 [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
@@ -477,8 +474,6 @@
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    
-    //NSLog(@"tag %d",item.tag);
     
     NSArray *arrController=[self.navigationController viewControllers];
     

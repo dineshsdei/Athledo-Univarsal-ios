@@ -53,7 +53,6 @@
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    //NSLog(@"tag %d",item.tag);
     NSArray *arrController=[self.navigationController viewControllers];
     switch (item.tag) {
         case 0:
@@ -82,7 +81,6 @@
 
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
@@ -104,8 +102,6 @@
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
-    NSLog(@"view weight %f",[UIScreen mainScreen].bounds.size.height);
-    NSLog(@"view weight %f",[UIScreen mainScreen].bounds.size.width);
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
     listPicker=[[UIPickerView alloc] init];
@@ -289,9 +285,7 @@
 
 {
     NSArray *arrValues=[[DicData objectForKey:superKey] allValues];
-    
     NSArray *arrkeys=[[DicData objectForKey:superKey] allKeys];
-    
     NSString *strValue=@"";
     
     for (int i=0; i<arrValues.count; i++) {
@@ -299,9 +293,7 @@
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
             strValue=[arrkeys objectAtIndex:i];
-            
             break;
-            
         }
         
     }
@@ -505,10 +497,10 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (MultimediaCell *)[nib objectAtIndex:0];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        cell.First_imageview.layer.borderWidth=.50;
-        cell.Second_imageview.layer.borderWidth=.50;
-        cell.First_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        cell.Second_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
+       // cell.First_imageview.layer.borderWidth=.50;
+        //cell.Second_imageview.layer.borderWidth=.50;
+       // cell.First_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        //cell.Second_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
         
     }
     
@@ -522,18 +514,13 @@
         cell.First_imageview.userInteractionEnabled=YES;
         cell.Second_imageview.userInteractionEnabled=YES;
         [cell.First_imageview addGestureRecognizer:pgr];
-        //pgr=nil;
-        
-        UITapGestureRecognizer *pgr1 = [[UITapGestureRecognizer alloc]
+         UITapGestureRecognizer *pgr1 = [[UITapGestureRecognizer alloc]
                                         initWithTarget:self action:@selector(handlePinch:)];
         [pgr1 setNumberOfTouchesRequired:1];
         [pgr1 setNumberOfTapsRequired:1];
         [pgr1 setDelegate:self];
         [cell.Second_imageview addGestureRecognizer:pgr1];
-        
-        // pgr1=nil;
-        
-        if (multimediaData.count > 2*indexPath.row ) {
+         if (multimediaData.count > 2*indexPath.row ) {
             cell.First_imageview.tag=2*indexPath.row;
             [cell.First_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
             
@@ -572,8 +559,6 @@
             cell.First_lblName.hidden=YES;
             cell.First_textViewDes.hidden=YES;
         }
-        
-        
         if (multimediaData.count > 2*indexPath.row+1) {
             
             [cell.Second_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row+1)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
@@ -582,7 +567,6 @@
             
         }else
         {
-            
             cell.Second_imageview.hidden=YES;
             cell.Second_lblName.hidden=YES;
             cell.SecondTextviewDes.hidden=YES;
@@ -622,8 +606,6 @@
     }else{
         [SingletonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
     }
-    
-    
     return NO;
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
@@ -639,7 +621,6 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     return YES;
 }
 

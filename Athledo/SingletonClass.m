@@ -141,7 +141,7 @@ static SingletonClass *objSingaltonClass=nil;
     
     if (iosVersion < 8)
     {
-        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)))
+        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)) && (isIPAD))
         {
             SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
             SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
@@ -158,11 +158,7 @@ static SingletonClass *objSingaltonClass=nil;
     }
 
     point.x=(SCREENWIDTH)/2;
-    
-    NSLog(@"screen height from gloable. %f",SCREENWIDTH);
     toolbar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolbar.frame.size.height);
-    
-    
     if ([picker isKindOfClass:[UIDatePicker class]]) {
         
         UIDatePicker *pickerView=(UIDatePicker *)picker;
@@ -225,7 +221,7 @@ static SingletonClass *objSingaltonClass=nil;
     
     if (iosVersion < 8)
     {
-        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)))
+        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)) && (isIPAD))
         {
             SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
             SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;

@@ -45,6 +45,7 @@
     NSMutableArray *arrRateTimeDistanceStatus;
     
     BOOL isRate,isDistance,isTime,isSplit,isSelectAthlete;
+    UIToolbar *toolBar;
     
     
     int ViewY;
@@ -260,7 +261,7 @@
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
+   toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = toolBarTag;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
@@ -368,9 +369,22 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        scrollHeight=kbSize.height;
-        
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
         
     }];
     
@@ -378,8 +392,12 @@
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        [self setPickerVisibleAt:NO:arrTime];
-        [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
         
     }];
     
@@ -664,7 +682,6 @@
         
         NSString *athleteName=@"";
         NSString *athleteExerciseName=@"";
-        //NSLog(@"%d%d",indexPath.section,indexPath.row);
         athleteName=[arrAthleteName objectAtIndex:indexPath.section];
         athleteExerciseName=[arrAthleteExerciseName objectAtIndex:indexPath.section];
         
@@ -817,8 +834,6 @@
         }
     }else
     {
-        
-        
         CustomTextField *txtFieldLeftHeader=(CustomTextField *)[cell viewWithTag:1001];
         CustomTextField *txtField=(CustomTextField *)[cell viewWithTag:1002];
         txtFieldLeftHeader.textColor=[UIColor darkGrayColor];
@@ -843,10 +858,6 @@
             txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"CoolDown Time" attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor],NSFontAttributeName : (isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12] }];
             
         }else{
-            
-            //NSLog(@" index Section  %d",(int)indexPath.section);
-            ////NSLog(@" index row %d",(int)indexPath.row);
-            
             NSArray *arrTemp=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"Units"];
             NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:indexPath.row-2] allKeys];
             
@@ -925,7 +936,7 @@
         scrollHeight=216;
     }
     
-    CGSize keyboardSize = CGSizeMake(320,scrollHeight+70);
+    CGSize keyboardSize = CGSizeMake(310,scrollHeight+70);
     UIEdgeInsets contentInsets;
     if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
         contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
@@ -954,8 +965,9 @@
     
     [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
     
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
-    [self setPickerVisibleAt:NO:arrTime];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+
 }
 
 #pragma mark- UITextfield Delegate
@@ -977,7 +989,7 @@
         
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         
-        if (arrAllAthlete.count==0) {
+        if (arrAllAthlete.count==0 && [textField.placeholder isEqualToString:@"Select athlete"]) {
             [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
             [SingletonClass initWithTitle:@"" message:@"Athlete is not exist" delegate:nil btn1:@"OK"];
             
@@ -989,8 +1001,8 @@
             {
                 [listPicker reloadAllComponents];
                 [listPicker selectRow:0 inComponent:0 animated:YES];
-                
-                [self setPickerVisibleAt:YES:arrTime];
+                [self showPickerSeleted:arrTime];
+                [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
                 
             }
         }
@@ -999,6 +1011,7 @@
         
     }else{
         
+         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     }
     isDate=TRUE;
     return YES;
@@ -1189,7 +1202,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    [self setToolbarVisibleAt:CGPointMake(160, 600)];
+   // [self setToolbarVisibleAt:CGPointMake(160, 600)];
     
     return YES;
 }
@@ -1278,7 +1291,9 @@
 }
 + (void)setContentOffsetOfScrollView:(id)textField table:(UIScrollView*)m_TableView {
     
-    int moveUp= (([[UIScreen mainScreen] bounds].size.height >= 568)?50:130);
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    
+    int moveUp= (([[UIScreen mainScreen] bounds].size.height >= 568)?((orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft)? 150 : 50):130);
     
     if (moveUp) {
         
@@ -1308,6 +1323,7 @@
     {
         if (currentText.text.length==0) {
             currentText.text=[arrTime objectAtIndex:0];
+             [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
             
         }
         return [arrTime count];
@@ -1716,11 +1732,6 @@
     
     dicTemp=nil;
     arrTotalTimeComponenet=nil;
-    
-    
-    ////NSLog(@"Avg time %@",TimeAVG);
-    // //NSLog(@"Avg Distance %ld",DistanceAVG);
-    
 }
 
 -(void)updateValue :(NSString *)Key :(NSString *)value : (int)rowindex : (int)sectionindex
@@ -1748,6 +1759,20 @@
         }
     }
     
+}
+-(void)showPickerSeleted :(NSArray *)data
+{
+    if (currentText.text.length > 0) {
+        for (int i=0; i< data.count; i++) {
+            
+            if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                
+                [listPicker selectRow:i inComponent:0 animated:YES];
+                
+                break;
+            }
+        }
+    }
 }
 
 -(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data

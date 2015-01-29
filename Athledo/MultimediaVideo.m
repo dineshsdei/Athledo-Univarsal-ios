@@ -36,7 +36,6 @@
 
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
@@ -279,8 +278,6 @@
     UIWebView *videoView = [[UIWebView alloc] initWithFrame:frame];
     [videoView loadHTMLString:html baseURL:nil];
     [self.view addSubview:videoView];
-    
-    NSLog(@"%@",html);
 }
 
 -(void)PlayVideo:(id)sender
@@ -309,9 +306,7 @@
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    //NSLog(@"tag %d",item.tag);
-    
-    NSArray *arrController=[self.navigationController viewControllers];
+     NSArray *arrController=[self.navigationController viewControllers];
     
     switch (item.tag) {
         case 1:
@@ -365,8 +360,8 @@
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         //cell.btnPlay.hidden=YES;
         cell.btnPlay.tag=indexPath.row;
-        cell.imageView.layer.borderWidth=.50;
-        cell.imageView.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        //cell.imageView.layer.borderWidth=.50;
+        //cell.imageView.layer.borderColor=[UIColor lightGrayColor].CGColor;
         
         
         NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"]]]];

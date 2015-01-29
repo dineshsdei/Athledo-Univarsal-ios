@@ -126,9 +126,6 @@
             cell.textLabel.text = allOptionTitle;
             BOOL allSelected = YES;
             for (int i = 0; i < [self.delegate numberOfRowsForPickerView:self]; i++) {
-                
-               // //NSLog(@"%d",[delegate_ pickerView:self selectionGroupForRow:i]);
-                
                 if ([delegate_ pickerView:self selectionGroupForRow:i] == NO) {
                     allSelected = NO;
                     break;

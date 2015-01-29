@@ -43,8 +43,6 @@
         
         if (!([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Exercise"])  ) {
             
-            
-            //NSLog(@"Placeholder %@",[arrfixCellFields objectAtIndex:indexPath.section]);
             //  If section will design ui for all but else for  Email Notification and Athletes section
             // BTNSave - > for Save button in last cell
             if( (!([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Athletes"]) && !([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Email Notification"])) && !([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"BTNSave"]))

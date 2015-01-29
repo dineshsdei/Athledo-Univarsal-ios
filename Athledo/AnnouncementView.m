@@ -13,6 +13,7 @@
 #import "UIImageView+WebCache.h"
 #import "AddNewAnnouncement.h"
 #import "UpdateDetails.h"
+#import "AppDelegate.h"
 
 # define tblViewY (([UIScreen mainScreen].bounds.size.height >= 568)?266:180)
 
@@ -161,9 +162,6 @@
     [NSURLConnection sendAsynchronousRequest:request
     queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    // ...
-
-    //NSLog(@"reponse %@",response);
     tagNumber=201;
     if (data!=nil)
     {
@@ -226,9 +224,7 @@
     if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
     {
     notificationData=[MyResults objectForKey:@"data"];
-    NSLog(@"dict %@",notificationData);
-
-    if (userInfo.userType==1) {
+      if (userInfo.userType==1) {
         [tblAnnouncementRecods reloadData];
     }else{
         
@@ -245,8 +241,6 @@
 - (void)getList
 
 {
-    //NSLog(@"user type %d",[UserInformation shareInstance].userType);
-
     if ([SingletonClass  CheckConnectivity]) {
 
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
@@ -269,9 +263,6 @@
     [NSURLConnection sendAsynchronousRequest:request
     queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    // ...
-
-    //NSLog(@"announcement response:%@",response);
     tagNumber=200;
     if (data!=nil)
     {
@@ -368,8 +359,6 @@
     {
     [arrAnnouncements removeAllObjects];
     // Now we Need to decrypt data        
-    //NSLog(@"data %@",data);
-
     // for sorting data
 
     //data = [data sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"schedule_date" ascending:YES]]];
@@ -527,6 +516,12 @@
 
 - (void)viewDidLoad
 {
+    if (isIPAD) {
+         [AppDelegate restrictRotation :NO];
+    }else{
+         [AppDelegate restrictRotation :YES];
+    }
+   
     userInfo=[UserInformation shareInstance];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -664,9 +659,9 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             cell.backgroundColor=[UIColor whiteColor];
         }
     }
-    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-2, self.view.frame.size.width, 1)];
-    img1.image=[UIImage imageNamed:@"menu_sep.png"];
-    [cell addSubview:img1];
+//    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-2, self.view.frame.size.width, 1)];
+//    img1.image=[UIImage imageNamed:@"menu_sep.png"];
+//    //[cell addSubview:img1];
     return cell;
 }
 
@@ -674,7 +669,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 {
     if(isIPAD)
     {
-    return 110;
+    return 115;
     }else{
 
     return 90;
@@ -705,7 +700,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 -(void)editCell:(id)sender
 {
     UIButton *btn = (UIButton *)sender;
-    //NSLog(@"%i",btn.tag);
     AddNewAnnouncement *addNew=[[AddNewAnnouncement alloc] init];
     addNew.obj = [arrAnnouncements objectAtIndex:btn.tag];
     [self.navigationController pushViewController:addNew animated:YES];

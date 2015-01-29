@@ -104,7 +104,7 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-   // [SingletonClass RemoveActivityIndicator:self.view];
+    [SingletonClass RemoveActivityIndicator:self.view];
     
     switch (Tag)
     {
@@ -115,7 +115,6 @@
             {// Now we Need to decrypt data
                 //[SingaltonClass RemoveActivityIndicator:self.view];
                 messageArrDic =[MyResults objectForKey:@"data"];
-               //NSLog(@"dict %@",messageArrDic);
                 [table reloadData];
             }
             
@@ -143,9 +142,6 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
-                //messageArrDic =[MyResults objectForKey:@"data"];
-                ////NSLog(@"dict %@",messageArrDic);
                   [SingletonClass RemoveActivityIndicator:self.view];
                  [SingletonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                  [self getMessages];
@@ -261,9 +257,6 @@
     
     static NSString *CellIdentifier = @"MessageInboxCell";
     static NSString *CellNib = @"MessageInboxCell";
-    
-    //NSLog(@"coutn %d",messageArrDic.count);
-
     
     MessageInboxCell *cell = (MessageInboxCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -458,9 +451,6 @@
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-  
-    //NSLog(@"tag %d",item.tag);
-    
     NSArray *arrController=[self.navigationController viewControllers];
     
     switch (item.tag) {

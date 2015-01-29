@@ -76,7 +76,6 @@
 }
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         [tblProfile reloadData];
     }
@@ -245,9 +244,6 @@
             arrCoaching=nil;
             userInfo.userProfilePicUrl=@"";
             
-            
-            //NSLog(@"Login Responce message is >>%@",myResults);
-            
             // ***Tag 100 for Profile data in web service UserType 2->Athlete 1->coach
             
             if([[myResults objectForKey:@"status"] isEqualToString:@"success"] && tagNumber==200)
@@ -301,20 +297,14 @@
                             
                         }
                         
-                        //NSLog(@"%@",[[myResults objectForKey:@"data"] valueForKey:@"athltc_hstry"]);
-                        
-                        arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"athltc_hstry"];
-                        
-                        
+                    arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"athltc_hstry"];
                         if (arrAwards.count==0) {
                             
                             NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"team",@"",@"description", nil];
                             [arrAwards addObject:dic];
                             
                         }
-                        
-                        // //NSLog(@"%lu",(unsigned long)arrSportInfo.count);
-                        userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
+                       userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
                         
                         break;
                     }
@@ -516,9 +506,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
-    // //NSLog(@"count %d",(3+arrCoaching.count+arrAwards.count));
-    //  //NSLog(@"count %d",(arrCoaching.count));
-    // //NSLog(@"count %d",(arrAwards.count));
     
     if (arrGenralinfo.count > 0 && [UserInformation shareInstance].userType==1) {
         
@@ -528,7 +515,6 @@
     }else if (arrGenralinfo.count > 0 && [UserInformation shareInstance].userType==2) {
         
         //arrCoaching.count/4 because Athlete sport info is fixed 4 so it will 1
-        
         return (1+(arrCoaching.count)+arrAwards.count);
         
     }else{

@@ -169,7 +169,6 @@
 }
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         isPicker=FALSE;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
@@ -347,8 +346,6 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                //NSLog(@"%@",MyResults);
-                
                 DicData=[MyResults  objectForKey:@"data"];
                 
                 // check if nsdictionary object then find allvalues otherwise  this @"" statement execute . it do nothing
@@ -372,10 +369,7 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                //NSLog(@"%@",MyResults);
-                
                 [arrSearchData removeAllObjects];
-                
                 [arrSearchData addObjectsFromArray:[MyResults  objectForKey:@"data"] ];
                 
                 if (arrSearchData.count==0) {
@@ -436,10 +430,6 @@
     isWorkOutType=[textField.placeholder isEqualToString:@"Select Workout Type"] ? YES : NO ;
     isAthletes=[textField.placeholder isEqualToString:@"Select Athlete"] ? YES : NO ;
     isPicker=FALSE;
-    
-    //NSLog(@"y position %f",[textField superview].frame.origin.y);
-    //NSLog(@"The picker Values are %@",[NSValue valueWithCGRect:listPicker.frame]);
-    
     if (isAthletes) {
         
         isPicker=TRUE;

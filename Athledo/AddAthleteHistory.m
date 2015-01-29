@@ -529,8 +529,6 @@
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
     // Get the text fields location
     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-    NSLog(@"%f",point.y + (txt.frame.origin.y));
-
     // Scroll to cell
     [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
     }else{

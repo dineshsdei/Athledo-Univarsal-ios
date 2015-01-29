@@ -367,6 +367,7 @@
 		71BC76F01A5AB3670085DE64 /* WorkOutDetails~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BC76EF1A5AB3670085DE64 /* WorkOutDetails~ipad.xib */; };
 		71C9A89419ECE2B6001A4017 /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C9A89319ECE2B6001A4017 /* MyAnnotation.m */; };
 		71C9A89719ECE93A001A4017 /* CalendarMonthView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */; };
+		71E7A9AA1A7A122F00CED0D1 /* map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E7A9A91A7A122F00CED0D1 /* map_icon.png */; };
 		71F925FF199895F9001931D8 /* WorkOutListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F925FD199895F9001931D8 /* WorkOutListCell.m */; };
 		71F92600199895F9001931D8 /* WorkOutListCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71F925FE199895F9001931D8 /* WorkOutListCell~iphone.xib */; };
 		71F926051998BE30001931D8 /* CheckboxButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F926041998BE30001931D8 /* CheckboxButton.m */; };
@@ -887,6 +888,7 @@
 		71C9A89319ECE2B6001A4017 /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "CalendarMonthView~iphone.xib"; sourceTree = "<group>"; };
 		71CBF4961A08CAD9005E2220 /* AddWorkOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkOut.h; sourceTree = "<group>"; };
+		71E7A9A91A7A122F00CED0D1 /* map_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_icon.png; sourceTree = "<group>"; };
 		71F925FC199895F9001931D8 /* WorkOutListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkOutListCell.h; sourceTree = "<group>"; };
 		71F925FD199895F9001931D8 /* WorkOutListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkOutListCell.m; sourceTree = "<group>"; };
 		71F925FE199895F9001931D8 /* WorkOutListCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutListCell~iphone.xib"; sourceTree = "<group>"; };
@@ -1557,6 +1559,7 @@
 		71A368EF1A6E1B4600DDF05C /* 1x */ = {
 			isa = PBXGroup;
 			children = (
+				71E7A9A91A7A122F00CED0D1 /* map_icon.png */,
 				71A369021A6E1BC400DDF05C /* inbox_icon.png */,
 				71A369031A6E1BC400DDF05C /* sent_icon.png */,
 				71A369041A6E1BC400DDF05C /* tabmap_icon.png */,
@@ -2230,6 +2233,7 @@
 				71A369741A6E1DA300DDF05C /* frame_left@2x.png in Resources */,
 				71A368D71A6E1A4A00DDF05C /* icon-114x114.png in Resources */,
 				3D9E04E6197BCF3C005CCB10 /* InfoPlist.strings in Resources */,
+				71E7A9AA1A7A122F00CED0D1 /* map_icon.png in Resources */,
 				71A368FA1A6E1B8E00DDF05C /* mnth_icon2@2x.png in Resources */,
 				71A3696C1A6E1DA300DDF05C /* btnEnable.png in Resources */,
 				71A369011A6E1B8E00DDF05C /* week_icon@2x.png in Resources */,

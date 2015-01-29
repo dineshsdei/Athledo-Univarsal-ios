@@ -41,8 +41,6 @@
          Y_Position=[[UIScreen mainScreen] bounds].size.height/2-50;
     }
     
-    NSLog(@"weight %f",[[UIScreen mainScreen] bounds].size.width);
-    
     self = [super initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, toolBarPosition)];
     self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LoadingScreen.png"]];
     if (self)

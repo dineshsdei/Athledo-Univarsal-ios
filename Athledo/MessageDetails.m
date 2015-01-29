@@ -141,8 +141,6 @@
                     [self.messages addObject: [[arrMessageConversation objectAtIndex:i] valueForKey:@"desc"]];
                 }
                 arrSenderids=[MyResults objectForKey:@"receiver_id"];
-               // //NSLog(@"dict %@",[MyResults valueForKey:@"desc"]);
-                
                 self.tableView.frame=CGRectMake(self.view.frame.origin.x+10, 0, self.view.frame.size.width-20, self.view.frame.size.height);
                 [self.tableView reloadData];
             }
@@ -192,9 +190,6 @@
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //return (indexPath.row % 2) ? JSBubbleMessageTypeIncoming : JSBubbleMessageTypeOutgoing;
-    
-   // //NSLog(@"user id %d ",[UserInformation shareInstance].userId);
-     ////NSLog(@"Sender  id %d ",[[[arrMessageConversation objectAtIndex:indexPath.row] valueForKey:@"sender_id"] intValue]);
     
     if (arrMessageConversation.count > indexPath.row) {
         if ([UserInformation shareInstance].userId == [[[arrMessageConversation objectAtIndex:indexPath.row] valueForKey:@"sender_id"] intValue]) {
@@ -253,8 +248,6 @@
 }
 -(NSString *)setImageWithUrl:(int)index
 {
-    ////NSLog(@"image url %@",[[arrMessageConversation objectAtIndex:index] valueForKey:@"image"]);
-    
     if (arrMessageConversation.count > index)
     {
         if ([UserInformation shareInstance].userId == [[[arrMessageConversation objectAtIndex:index] valueForKey:@"sender_id"] intValue]) {

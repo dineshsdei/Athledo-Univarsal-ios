@@ -244,29 +244,10 @@
     [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
     }
 }
-//- (void)orientationChanged :(NSNotification *)notification
-//{
-//    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-//    
-//    NSLog(@"height %f, width%f",self.view.frame.size.width,self.view.frame.size.height);
-//   
-//    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight))) {
-//        
-//         listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
-//         pickerView.frame=CGRectMake(0, self.view.frame.size.height+50, SCREEN_HEIGHT,216);
-//          toolBar.frame = CGRectMake(0, self.view.frame.size.height, SCREEN_HEIGHT,44);
-//    }else{
-//        
-//        listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216);
-//        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width,216)];
-//        toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,44)];
-//    }
-//
-//}
+
 // this method call, when user rotate your device
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
@@ -723,7 +704,6 @@
     if ([currentText.placeholder isEqualToString:@"To"] && isTo==YES)
     {
         currentText.text = [self PickerSlectedValues:ToSelectedData];
-        //NSLog(@"text %@",currentText.text);
         receiver_ids=[self PickerSlectedIds :ToSelectedData:userToData];
     }
 }

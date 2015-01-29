@@ -122,9 +122,6 @@ UIBarButtonItem *revealButtonItem;;
 #pragma change control frame when device rotate
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
-    NSLog(@"view bounds %@",NSStringFromCGRect(self.view.bounds));
-    
     if ((isIPAD)) {
         
         dayView.frame=CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
@@ -217,13 +214,23 @@ UIBarButtonItem *revealButtonItem;;
     // 113 height is (49+64) tabbar height and navigationBar height
    // tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-120, [UIScreen mainScreen].bounds.size.width, 50)];
    // UIDeviceOrientation orientation=[SingletonClass getOrientation];
-    if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
+    if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight )
+    {
         
         tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width-(iosVersion < 8 ? 120 : 113), self.view.frame.size.height, 50)];
-           }else{
         
-        tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 120 : 113), self.view.frame.size.width, 50)];
-           }
+    }else{
+        
+        if (isIPAD) {
+             tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 120 : 113), self.view.frame.size.width, 50)];
+            
+        }else{
+            
+             tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(113), self.view.frame.size.width, 50)];
+        }
+        
+       
+    }
     
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
     
@@ -383,7 +390,6 @@ UIBarButtonItem *revealButtonItem;;
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    //NSLog(@"tag %d",item.tag);
     NSArray *arrController=[self.navigationController viewControllers];
 
     switch (item.tag) {
@@ -520,8 +526,6 @@ UIBarButtonItem *revealButtonItem;;
 	
 }
 - (void) calendarDayTimelineView:(TKCalendarDayView*)calendarDayTimeline eventViewWasSelected:(TKCalendarDayEventView *)eventView{
-	NSLog(@"%d",eventView.EventTag);
-    
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController)

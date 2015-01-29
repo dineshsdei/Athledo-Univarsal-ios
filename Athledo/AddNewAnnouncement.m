@@ -99,11 +99,10 @@
 // this method call, when user rotate your device
 - (void)orientationChanged
 {
-     NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         [pickerView removeFromSuperview];
         pickerView=nil;
-        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+50, self.view.frame.size.width, 216)];
+        pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+350, self.view.frame.size.width, 216)];
         pickerView.backgroundColor=[UIColor whiteColor];
         pickerView.tag=60;
         pickerView.delegate=self;
@@ -123,8 +122,6 @@
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-
-    NSLog(@"screen height %f",self.view.frame.size.height);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
     [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
@@ -192,7 +189,6 @@
 
     [self setFieldsProperty];
 
-    //NSLog(@"frame %f%f%%f",self.view.frame.size.width,self.view.frame.size.height,self.view.bounds.size.height,self.view.bounds.size.width)
     //Set the Date picker view
    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216)];
@@ -234,20 +230,17 @@
     //set pickerView
 
     [self getGroupList];
-
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
-    
     if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)))
     {
         if (iosVersion < 8) {
-             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,[[UIScreen mainScreen] bounds].size.width+50, [[UIScreen mainScreen] bounds].size.height, 216)];
+             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,[[UIScreen mainScreen] bounds].size.width+350, [[UIScreen mainScreen] bounds].size.width, 216)];
         }else{
             
-             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,[[UIScreen mainScreen] bounds].size.height+50, [[UIScreen mainScreen] bounds].size.width, 216)];
+             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,[[UIScreen mainScreen] bounds].size.height+350, [[UIScreen mainScreen] bounds].size.width+50, 216)];
         }
         
     }else{
-         pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+50, self.view.frame.size.width, 216)];
+         pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+350, self.view.frame.size.width, 216)];
     }
    
     pickerView.backgroundColor=[UIColor whiteColor];
@@ -332,10 +325,7 @@
     [NSURLConnection sendAsynchronousRequest:request
     queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    // ...
-
-    //NSLog(@"announcement response:%@",response);
-    tagNumber=101;
+    //tagNumber=101;
     if (data!=nil)
     {
     [self httpResponseReceived : data];
@@ -372,8 +362,6 @@
 
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
 
-    //NSLog(@"Get groups Response >>%@",myResults);
-
     if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {
     AllGroupData=[[myResults  objectForKey:@"data"]valueForKey:@"Group"]  ;
@@ -404,8 +392,6 @@
 
 
     for (int i=0;i< array.count;i++){
-
-    //NSLog(@"%@",[array objectAtIndex:i]);
 
     [selectedGroups setObject:[NSNumber numberWithBool:YES] forKey:[AllGroupData objectForKey:[array objectAtIndex:i] ]];
     }
@@ -545,9 +531,7 @@
 
     int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
 
-    NSLog(@"%d",position);
-
-    scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
+     scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
 
     if ((position < scrollHeight )) {
 
@@ -718,8 +702,6 @@
     {
     CheckboxButton *button=(CheckboxButton*)sender;
 
-    //NSLog(@"tag %d",button.tag);
-
     if (!button.selected)
     {
     [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
@@ -867,29 +849,15 @@
     selectedBtn=sender;
     currentText=dateTxt;
     datePicker.datePickerMode = UIDatePickerModeDate;
-    
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
     isKeyBoard=YES;
-    [UIView commitAnimations];
-    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
     [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
    
 }
 - (IBAction)selectTime:(id)sender{
     selectedBtn=sender;
     currentText=timeTxt;
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
     isKeyBoard=YES;
-    [UIView commitAnimations];
-
     datePicker.datePickerMode = UIDatePickerModeTime;
-    UIToolbar *toolBar=(UIToolbar *)[self.view viewWithTag:40];
     [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
 }
 
@@ -1005,7 +973,6 @@
     [NSURLConnection sendAsynchronousRequest:request
     queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    // ...//NSLog(@"announcement response:%@",response);
     tagNumber=102;
     if (data!=nil)
     {
@@ -1026,7 +993,6 @@
 }
 
 }
-
 #pragma mark -
 #pragma mark ALPickerView delegate methods
 

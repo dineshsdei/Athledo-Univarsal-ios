@@ -81,9 +81,6 @@ static WebServiceClass *objWebService=nil;
     [NSURLConnection sendAsynchronousRequest:request
        queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    // ...
-
-    //NSLog(@"announcement response:%@",response);
 
     if (data!=nil)
     {

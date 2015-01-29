@@ -35,8 +35,6 @@ BOOL isMonth,isDay;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
-    
-    
 }
 #pragma mark setcontent offset
 #pragma mark setcontent offset
@@ -174,7 +172,6 @@ BOOL isMonth,isDay;
 
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
@@ -308,11 +305,9 @@ BOOL isMonth,isDay;
         }
         
         arrEventSting=[[NSMutableArray alloc] init];
-        
         [self SpliteEventString:str];
         
     }
-    
     
     arrDays=[[NSArray alloc] initWithObjects:@"Sunday",@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday", nil];
     arrMonths=[[NSArray alloc] initWithObjects:@"January",@"February",@"March",@"April",@"May",@"June",@"July",@"August",@"September",@"October",@"November",@"December", nil];
@@ -322,15 +317,10 @@ BOOL isMonth,isDay;
     
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    //UIBarButtonItem *rightButton = [[[UIBarButtonItem alloc] initWithTitle:@"Item" style:UIBarButtonItemStyleBordered target:self action:@selector(btnItem2Pressed:)] autorelease];
-    
-    
    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 44)];
     toolBar.tag = 40;
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
-    
-    
     
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, PickerHeight);
     listPicker.tag=listPickerTag;
@@ -347,8 +337,6 @@ BOOL isMonth,isDay;
     [self.view addSubview:_datePicker];
     
     [_datePicker addTarget:self action:@selector(dateChange) forControlEvents:UIControlEventValueChanged];
-    
-    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
     [self.tableview addGestureRecognizer:tap];
     [super viewDidLoad];
@@ -364,15 +352,11 @@ BOOL isMonth,isDay;
     
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
-    
-    
 }
 -(void)dateChange
 {
     dformate = [[NSDateFormatter alloc] init];
     dformate.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-    
-    
     currentText.text=[NSString stringWithFormat:@"%@", [ dformate stringFromDate:[_datePicker date] ]];
     strSelectedEndDate=currentText.text;
     
@@ -407,13 +391,11 @@ BOOL isMonth,isDay;
             [CalendarEvent ShareInstance].NoOfOccurrence=noOfOccurrence;
             
             // end date for case repeat nth day of every nth month
-            
             [self CalculateEndDate];
             
         }else{
             
             // if user select no of occurrence and repeat type Daily and weekly
-            
             int noOfday=[[arrEventSting objectAtIndex:1] intValue];
             int noOfOccurrence=[[arrEventSting objectAtIndex:arrEventSting.count-1] intValue];
             [CalendarEvent ShareInstance].strNoOfDaysWeekCase =[arrEventSting objectAtIndex:5];
@@ -471,11 +453,8 @@ BOOL isMonth,isDay;
 
 -(void)didTapOnTableView:(UIGestureRecognizer*) recognizer {
     
-    CGPoint tapLocation = [recognizer locationInView:self.tableview];
-    NSIndexPath *indexPath = [self.tableview indexPathForRowAtPoint:tapLocation];
-    
-    NSLog(@"index path %li",(long)indexPath.section);
-    
+   // CGPoint tapLocation = [recognizer locationInView:self.tableview];
+   // NSIndexPath *indexPath = [self.tableview indexPathForRowAtPoint:tapLocation];
 }
 -(void)doneClicked
 {
@@ -487,30 +466,12 @@ BOOL isMonth,isDay;
     }
     
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
-    [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
-    [self setDatePickerVisibleAt:NO];
-    [self setPickerVisibleAt:NO:arrDays];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     [self setContentOffsetDown:currentText table:self.tableview];
 }
--(void)setToolbarVisibleAt :(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    [self.view viewWithTag:40].center = point;
-    [UIView commitAnimations];
-}
-//-(void)setPickerVisibleAt :(BOOL)ShowHide
-//{
-//    [UIView beginAnimations:@"tblViewMove" context:nil];
-//    [UIView setAnimationDelegate:self];
-//    [UIView setAnimationDuration:0.27f];
-//
-//
-//    [self.view viewWithTag:60].center = point;
-//    [UIView commitAnimations];
-//
-//}
+
 -(void)ShowPickerSelection : (NSArray *)data
 {
     if (currentText.text.length > 0) {
@@ -525,41 +486,6 @@ BOOL isMonth,isDay;
         }
     }
 }
--(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        if (currentText.text.length > 0) {
-            for (int i=0; i< data.count; i++) {
-                
-                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-                    
-                    [listPicker selectRow:i inComponent:0 animated:YES];
-                    
-                    break;
-                }
-            }
-        }
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-        
-    }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
-    }
-    
-    
-    [self.view viewWithTag:listPickerTag].center = point;
-    
-    [UIView commitAnimations];
-}
-
 #pragma mark- UIPickerView
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
@@ -729,8 +655,6 @@ BOOL isMonth,isDay;
         UITextField *textfieldThree=(UITextField *)[tableCell viewWithTag:4004];
         UITextField *textfieldFour=(UITextField *)[tableCell viewWithTag:4005];
         UITextField *textfieldFive=(UITextField *)[tableCell viewWithTag:4006];
-        
-        
         // Case 1 when repeat on like (repeat 4 day every 1 month)
         
         if([[arrEventSting objectAtIndex:3] isEqualToString:@"_"])
@@ -1157,19 +1081,12 @@ BOOL isMonth,isDay;
         UIView* contentView =[textfield superview];
         CGPoint center = [self.tableview convertPoint:textfield.center fromView:contentView];
         NSIndexPath *indexpath =[self.tableview indexPathForRowAtPoint:center];
-        NSLog(@"indexPath:%@", indexpath);
-        
         tempcell=(RepeatEventCell *)[self.tableview cellForRowAtIndexPath:indexpath];
         
     }else{
         
         tempcell=(RepeatEventCell *)[[textfield superview] superview]  ;
     }
-    
-    // NSIndexPath *indexPath = [self.tableview indexPathForCell:tempcell];
-    // NSLog(@"index path %ld",(long)indexPath.section);
-    // NSLog(@"section %ld",(long)tempcell.tag);
-    
     
     if (tempcell.tag==0)
     {
@@ -1684,9 +1601,6 @@ BOOL isMonth,isDay;
         [self ShowPickerSelection:arrMonths];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-        //[self setDatePickerVisibleAt:NO];
-        //[self setPickerVisibleAt:YES:arrMonths];
-        
         return NO;
         
     }else  if (isDay)
@@ -1696,8 +1610,6 @@ BOOL isMonth,isDay;
         [self ShowPickerSelection:arrDays];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-       // [self setDatePickerVisibleAt:NO];
-       // [self setPickerVisibleAt:YES:arrDays];
         
         return NO;
     }else if ([textField.placeholder isEqualToString:@"Date"]) {
@@ -1711,8 +1623,7 @@ BOOL isMonth,isDay;
         
         return NO;
     }else{
-        //[self setPickerVisibleAt:NO:arrDays];
-        // [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+       
     }
     
     
@@ -1727,11 +1638,6 @@ BOOL isMonth,isDay;
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
-    //  UITableViewCell *tempcell=(UITableViewCell *)[textField superview] ;
-    // NSIndexPath *indexPath = [self.tableview indexPathForCell:tempcell];
-    // NSLog(@"index path %ld",indexPath.section);
-    
     if (textField.text.length==0) {
         [SingletonClass initWithTitle:@"" message:@"Please enter value" delegate:nil btn1:@"Ok"];
     }else{
@@ -1746,44 +1652,6 @@ BOOL isMonth,isDay;
     [textField resignFirstResponder];
     
     return YES;
-}
-//-(void)setDatePickerVisibleAt:(CGPoint)point
-//{
-//    [self setToolbarVisibleAt:CGPointMake(160, point.y-(datePickerHeight/2+toolBarHeight/2))];
-//
-//    [UIView animateWithDuration:0.27f
-//    animations:^{
-//    [self.view viewWithTag:70].center = point;
-//
-//    }
-//    completion:^(BOOL finished){
-//    NSLog(@"completion date picker block");
-//    }];
-//
-//}
-
--(void)setDatePickerVisibleAt :(BOOL)ShowHide
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint Point;
-    Point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        Point.y=self.view.frame.size.height-(_datePicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(Point.x,Point.y-(_datePicker.frame.size.height/2)-22)];
-        
-    }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        Point.y=self.view.frame.size.height+(_datePicker.frame.size.height/2);
-    }
-    
-    
-    [self.view viewWithTag:70].center = Point;
-    
-    [UIView commitAnimations];
 }
 
 

@@ -411,8 +411,6 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 notificationData=[MyResults objectForKey:@"data"];
-                NSLog(@"dict %@",notificationData);
-               
             }
              [_rearTableView reloadData];
             break;
@@ -638,9 +636,6 @@
 }
 
 - (IBAction)logout:(id)sender {
-    
-    //NSLog(@"Logout");
-    
     [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
     [SingletonClass ShareInstance].isMessangerInbox=TRUE;

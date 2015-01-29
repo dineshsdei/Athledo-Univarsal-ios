@@ -23,7 +23,7 @@
 #define FieldClearBackground [UIColor clearColor]
 #define FieldWhiteBackground [UIColor whiteColor]
 
-#define SchoolInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 380  :240) : 60
+#define SchoolInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 420  :240) : 60
 #define SchoolInfoDateW isIPAD ? 110 : 80
 #define SchoolInfoDateX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 450  :300) : 70
 #define SchoolInfoDesW isIPAD ? 300 : 200
@@ -345,8 +345,6 @@
     {
     ///   Coach Coaching info section
 
-
-
     long int index=indexPath.section-1;
 
     if (index==0)
@@ -404,8 +402,6 @@
     //txtGame.placeholder=@"sport_name";
     txtGame.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"sport_name" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
 
-    //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtGame.tag]);
-
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtGame.tag]];
 
     [self addSubview:txtGame];
@@ -434,8 +430,6 @@
     // txtFromDate.placeholder=@"to";
 
     txtFromDate.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"from" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-    //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtFromDate.tag]);
-
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtFromDate.tag]];
     [self addSubview:txtFromDate];
     Ssection=Ssection+1;
@@ -448,9 +442,6 @@
     lblDash.userInteractionEnabled = isEdit;
     lblDash.textColor=isEdit ? ColorLightgray : ColorGray;;
     [self addSubview:lblDash];
-
-    //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)indexPath.section]);
-
     UITextField *txtToDate = [[UITextField alloc] initWithFrame:CGRectMake(((SchoolInfoDateX)+(SchoolInfoDateW) + (lblDash.frame.size.width+5)), 67, SchoolInfoDateW, 20)];
     txtToDate.tag = (indexPath.section+1)*1000+Ssection;
     txtToDate.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
@@ -521,11 +512,9 @@
 
     UITextField *txtAge = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblAge.frame.size.width), 15, 98, 20)];
     txtAge.tag = (indexPath.section+1)*1000+Ssection;
-    //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtAge.tag]);
     txtAge.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtAge.delegate = del;
     txtAge.font = Textfont;
-    // txtAge.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
     txtAge.textColor=isEdit ? ColorLightgray : ColorGray;;
     txtAge.keyboardType=UIKeyboardTypeNumbersAndPunctuation;
     txtAge.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -534,8 +523,6 @@
     txtAge.text =[[coachingInfo objectAtIndex:index] objectForKey:@"age"];
     txtAge.alpha = 1.0;
     txtAge.userInteractionEnabled = isEdit;
-    // txtAge.placeholder=@"age";
-
     txtAge.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"age" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
 
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtAge.tag]];
@@ -557,11 +544,9 @@
 
     UITextField *txtHeight = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblHeight.frame.size.width), 37, 98, 20)];
     txtHeight.tag = (indexPath.section+1)*1000+Ssection;
-    //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtHeight.tag]);
     txtHeight.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtHeight.delegate = del;
     txtHeight.font =Textfont;
-    //txtHeight.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
     txtHeight.textColor=isEdit ? ColorLightgray : ColorGray;;
     txtHeight.keyboardType=UIKeyboardTypeNumbersAndPunctuation;
 
@@ -571,7 +556,6 @@
     txtHeight.text =[[coachingInfo objectAtIndex:index] objectForKey:@"height"];
     txtHeight.alpha = 1.0;
     txtHeight.userInteractionEnabled = isEdit;
-    // txtHeight.placeholder=@"height";
     txtHeight.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"height" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtHeight.tag]];
     [self addSubview:txtHeight];
@@ -581,7 +565,6 @@
     UILabel *lblWeight= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 59, 90, 25)];
     lblWeight.text = @"Weight :";
     lblWeight.font =sportinfoFont;
-    // lblWeight.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
     lblWeight.textColor=isEdit ? ColorLightgray : ColorGray;;
 
     lblWeight.alpha = 1.0;
@@ -643,7 +626,6 @@
 
     txtYear.userInteractionEnabled = isEdit;
 
-    //NSLog(@"tag %@",[NSString stringWithFormat:@"%ld",(long)txtYear.tag]);
 
     [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtYear.tag]];
     [self addSubview:txtYear];

@@ -100,7 +100,6 @@ NSMutableArray *arrAwardsYear;
 }
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
     if (isIPAD) {
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
         [tableView reloadData];
@@ -163,9 +162,6 @@ NSMutableArray *arrAwardsYear;
     }];
     
     scrollHeight=0;
-    
-    
-    //NSLog(@"data %@",_objData);
     
     delegate.isStart=TRUE;
     [super viewDidLoad];
@@ -896,10 +892,7 @@ NSMutableArray *arrAwardsYear;
         
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-        
-        NSLog(@"%f",point.y + (txt.frame.origin.y));
-        
-        // Scroll to cell
+         // Scroll to cell
         [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
         
         

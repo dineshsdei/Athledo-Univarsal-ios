@@ -265,9 +265,6 @@ UIBarButtonItem *revealButtonItem;;
 
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    
-    //NSLog(@"tag %d",item.tag);
-    
     NSArray *arrController=[self.navigationController viewControllers];
     
     switch (item.tag) {
@@ -482,9 +479,6 @@ UIBarButtonItem *revealButtonItem;;
     NSArray *startTimeComp=[[[[[_eventDic objectAtIndex:index] valueForKey:@"start_date"] componentsSeparatedByString:@" "] objectAtIndex:1] componentsSeparatedByString:@":"];
     
     NSDateComponents *components = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:date];
-    
-    //NSLog(@"date %d",[[startTimeComp objectAtIndex:0] intValue]);
-    
     [components setHour:[[startTimeComp objectAtIndex:0] intValue]];
     [components setMinute:[[startTimeComp objectAtIndex:1] intValue]];
     [components setSecond:[[startTimeComp objectAtIndex:2] intValue]];

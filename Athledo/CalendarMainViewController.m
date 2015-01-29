@@ -84,11 +84,8 @@ NSArray *eventArrDic;
     {// Now we Need to decrypt data
 
     eventArrDic =[MyResults objectForKey:@"data"];
-    //NSLog(@"dict %@",eventArrDic);
     startDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"start_date"];
-    //NSLog(@"%@",startDateArr);
     endDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"end_date"];
-    //NSLog(@"%@",endDateArr);
     }
     }
     }

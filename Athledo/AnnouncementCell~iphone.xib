@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,38 +15,66 @@
                 <rect key="frame" x="0.0" y="0.0" width="287" height="89"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PHd-HQ-JX9">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PHd-HQ-JX9">
                         <rect key="frame" x="19" y="35" width="198" height="18"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Jim Thomas" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c37-Af-Nqw">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Jim Thomas" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c37-Af-Nqw">
                         <rect key="frame" x="20" y="9" width="198" height="18"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aAL-YX-UZn">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aAL-YX-UZn">
                         <rect key="frame" x="220" y="9" width="84" height="25"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="84" id="HZo-bT-5d5"/>
+                        </constraints>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9QY-Ek-LAM">
+                    <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9QY-Ek-LAM">
                         <rect key="frame" x="19" y="62" width="234" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="xGs-i5-Rqg"/>
+                        </constraints>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L2F-Ra-odR">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_sep.png" translatesAutoresizingMaskIntoConstraints="NO" id="L2F-Ra-odR">
                         <rect key="frame" x="0.0" y="88" width="320" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="LzH-Oz-ifX"/>
+                        </constraints>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="9QY-Ek-LAM" firstAttribute="top" secondItem="PHd-HQ-JX9" secondAttribute="bottom" constant="9" id="5rR-lw-Txi"/>
+                    <constraint firstAttribute="bottom" secondItem="L2F-Ra-odR" secondAttribute="bottom" id="6y0-St-hxt"/>
+                    <constraint firstItem="9QY-Ek-LAM" firstAttribute="leading" secondItem="PHd-HQ-JX9" secondAttribute="leading" id="C8B-ZV-5Ka"/>
+                    <constraint firstItem="aAL-YX-UZn" firstAttribute="top" secondItem="c37-Af-Nqw" secondAttribute="top" id="CJM-hS-jGf"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="aAL-YX-UZn" secondAttribute="trailing" constant="-25" id="EUm-6L-Yx8"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="PHd-HQ-JX9" secondAttribute="trailing" constant="62" id="HLb-et-GAM"/>
+                    <constraint firstItem="L2F-Ra-odR" firstAttribute="top" secondItem="9QY-Ek-LAM" secondAttribute="bottom" constant="10" id="Oe9-xO-Pep"/>
+                    <constraint firstItem="PHd-HQ-JX9" firstAttribute="centerY" secondItem="s6H-dR-4Db" secondAttribute="centerY" id="Ovq-GR-gwS"/>
+                    <constraint firstItem="9QY-Ek-LAM" firstAttribute="top" secondItem="aAL-YX-UZn" secondAttribute="bottom" constant="28" id="Wsk-ip-kgY"/>
+                    <constraint firstItem="c37-Af-Nqw" firstAttribute="top" secondItem="s6H-dR-4Db" secondAttribute="topMargin" constant="1" id="YKG-NR-8S7"/>
+                    <constraint firstItem="L2F-Ra-odR" firstAttribute="leading" secondItem="s6H-dR-4Db" secondAttribute="leading" id="eei-6B-2q6"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="9QY-Ek-LAM" secondAttribute="trailing" constant="26" id="gvP-y4-FSU"/>
+                    <constraint firstItem="PHd-HQ-JX9" firstAttribute="leading" secondItem="s6H-dR-4Db" secondAttribute="leadingMargin" constant="11" id="iqs-Xy-Eyg"/>
+                    <constraint firstItem="c37-Af-Nqw" firstAttribute="leading" secondItem="s6H-dR-4Db" secondAttribute="leadingMargin" constant="12" id="mVm-aC-bX9"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="L2F-Ra-odR" secondAttribute="trailing" constant="-41" id="pNU-du-mrs"/>
+                    <constraint firstItem="aAL-YX-UZn" firstAttribute="leading" secondItem="c37-Af-Nqw" secondAttribute="trailing" constant="2" id="u3j-YL-rdq"/>
+                    <constraint firstItem="PHd-HQ-JX9" firstAttribute="top" secondItem="c37-Af-Nqw" secondAttribute="bottom" constant="8" symbolic="YES" id="ybW-bA-rei"/>
+                </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
@@ -56,6 +85,9 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="menu_sep.png" width="400" height="2"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

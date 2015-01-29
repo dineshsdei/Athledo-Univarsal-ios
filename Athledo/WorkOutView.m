@@ -571,7 +571,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 -(void)EditWorkOut:(id)sender
 {
     UIButton *btn=sender;
-    // //NSLog(@"edit tag %d",btn.tag);
     AddWorkOut *edit=[[AddWorkOut alloc] init];
     edit.objEditModeData=[arrWorkOutData objectAtIndex:btn.tag];
     [self.navigationController pushViewController:edit animated:YES];

@@ -38,12 +38,6 @@
     [button setImage:icon forState:UIControlStateNormal];
     button.tag=btnTag;
     [self addObject:button];
-    
-    NSLog(@"btn height %f",button.frame.size.height);
-    NSLog(@"btn width %f",button.frame.size.width);
-    NSLog(@"icon height %f",button.frame.size.height);
-    NSLog(@"icon width %f",button.frame.size.width);
-    
 }
 
 - (void)sw_addUtilityButtonWithColor:(UIColor *)color normalIcon:(UIImage *)normalIcon selectedIcon:(UIImage *)selectedIcon {

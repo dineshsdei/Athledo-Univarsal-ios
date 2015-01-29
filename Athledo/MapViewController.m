@@ -85,7 +85,6 @@ UIBarButtonItem *revealButtonItem;;
 {
      [self.navigationItem setHidesBackButton:YES animated:NO];
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:3];
-   // NSLog(@"tag %d",tabBarItem.tag);
      tabBar.delegate=self;
     [tabBar setSelectedItem:tabBarItem];
     [super viewWillAppear:animated];
@@ -97,13 +96,10 @@ UIBarButtonItem *revealButtonItem;;
         
         [self getEvents];
     }
-    
+    [locationManager stopUpdatingHeading];
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    
-   // NSLog(@"tag %d",item.tag);
-    
     NSArray *arrController=[self.navigationController viewControllers];
     
     switch (item.tag) {
@@ -250,8 +246,6 @@ UIBarButtonItem *revealButtonItem;;
 #pragma mark - Map
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
-	//NSLog(@"welcome into the map view annotation");
-	
 	// if it's the user location, just return nil.
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
@@ -274,9 +268,6 @@ UIBarButtonItem *revealButtonItem;;
 -(void)showDetails:(id)sender
 {
     UIButton *btn=sender;
-    
-   // NSLog(@"%d",btn.tag);
-    
     CalenderEventDetails *eventDetails=[[CalenderEventDetails alloc] init];
     eventDetails.eventDetailsDic=[_eventDic objectAtIndex:btn.tag];
     if (_objNotificationData) {
@@ -353,7 +344,6 @@ UIBarButtonItem *revealButtonItem;;
         }
         @catch (NSException *exception)
         {
-            NSLog(@"exception %@",exception);
         }
         
     }

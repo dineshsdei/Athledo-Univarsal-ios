@@ -48,8 +48,6 @@ UIBarButtonItem *revealButtonItem;;
 #pragma change control frame when device rotate
 - (void)orientationChanged
 {
-    NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
-    NSLog(@"view bounds %@",NSStringFromCGRect(self.view.bounds));
     if (isIPAD) {
         
         CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
@@ -123,8 +121,6 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
     // 113 height is (49+64) tabbar height and navigationBar height
-     NSLog(@"view fram %@",NSStringFromCGRect(self.view.frame));
-     NSLog(@"view bounds %@",NSStringFromCGRect(self.view.bounds));
     UIDeviceOrientation orientation=[SingletonClass getOrientation];
    
     if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
@@ -135,7 +131,13 @@ UIBarButtonItem *revealButtonItem;;
         
     }else{
         
+        if(isIPAD)
+        {
         tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 120 : 113), self.view.frame.size.width, 50)];
+        }else{
+            
+             tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(113), self.view.frame.size.width, 50)];
+        }
         self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
     }
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -535,10 +537,6 @@ UIBarButtonItem *revealButtonItem;;
     // this function sets up dataArray & dataDictionary
     // dataArray: has boolean markers for each day to pass to the calendar view (via the delegate function)
     // dataDictionary: has items that are associated with date keys (for tableview)
-    
-    
-    //NSLog(@"Delegate Range: %@ %@ %@",start,end,@([start daysBetweenDate:end]));
-    
     if (startDateArr.count > 0) {
         
         self.dataArray = [NSMutableArray array];
