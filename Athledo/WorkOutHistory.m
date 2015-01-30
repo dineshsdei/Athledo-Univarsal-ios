@@ -172,7 +172,7 @@
     if (isIPAD) {
         isPicker=FALSE;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50):toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500):toolBar];
     }
 }
 - (void)viewDidLoad

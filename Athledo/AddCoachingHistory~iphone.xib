@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCoachingHistory">
             <connections>
-                <outlet property="listPicker" destination="5cf-xO-46h" id="RaJ-t1-JaJ"/>
                 <outlet property="tableView" destination="gwz-vN-hc1" id="mSj-7m-mNO"/>
                 <outlet property="view" destination="1" id="6c2-FD-cqP"/>
             </connections>
@@ -41,10 +40,6 @@
                 <pickerView contentMode="scaleToFill" id="5cf-xO-46h">
                     <rect key="frame" x="0.0" y="600" width="320" height="162"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="A33-xt-9GD"/>
-                        <outlet property="delegate" destination="-1" id="5Ma-4T-jAn"/>
-                    </connections>
                 </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditGenralInfo">
             <connections>
-                <outlet property="listPicker" destination="qCU-D9-s80" id="XXA-St-2QE"/>
                 <outlet property="table" destination="Z1T-AJ-xcy" id="FSi-Tj-LMQ"/>
                 <outlet property="view" destination="iN0-l3-epB" id="54t-8Z-FZ8"/>
             </connections>
@@ -37,10 +36,6 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="216" id="v7i-Vn-I96"/>
                     </constraints>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="fuv-6r-2CL"/>
-                        <outlet property="delegate" destination="-1" id="LuL-bL-QKD"/>
-                    </connections>
                 </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

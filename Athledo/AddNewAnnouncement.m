@@ -325,7 +325,7 @@
     [NSURLConnection sendAsynchronousRequest:request
     queue:[NSOperationQueue mainQueue]
     completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    //tagNumber=101;
+    tagNumber=1015555;
     if (data!=nil)
     {
     [self httpResponseReceived : data];
@@ -358,7 +358,7 @@
 
     NSError *error=nil;
 
-    if (tagNumber==101) {
+    if (tagNumber==1015555) {
 
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
 
@@ -367,8 +367,6 @@
     AllGroupData=[[myResults  objectForKey:@"data"]valueForKey:@"Group"]  ;
   
     if (AllGroupData.count>0) {
-
-
     NSArray *arr = [AllGroupData allValues];
 
     for (int i=0; i<[arr count]; i++) {
@@ -410,21 +408,22 @@
     }
     [pickerView  reloadAllComponents];
     }
-    if (tagNumber==102) {
-    NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-
-    // Result is nill but announcement is adding on web , I don't know why it happen
-
-    if([[myResults objectForKey:@"status"] isEqualToString:@"success"] || ( myResults==nil))
+    if (tagNumber==102)
     {
+        NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
 
-    [SingletonClass initWithTitle:@"" message:@"Announcement saved successfully" delegate:self btn1:@"Ok"];
-    }else{
+        // Result is nill but announcement is adding on web , I don't know why it happen
 
-    self.navigationItem.rightBarButtonItem.enabled=YES;
+        if([[myResults objectForKey:@"status"] isEqualToString:@"success"] || ( myResults==nil))
+        {
 
-    [SingletonClass initWithTitle:@"" message:[myResults valueForKey:@"message"] delegate:nil btn1:@"Ok"];
-    }
+        [SingletonClass initWithTitle:@"" message:@"Announcement saved successfully" delegate:self btn1:@"Ok"];
+        }else{
+
+        self.navigationItem.rightBarButtonItem.enabled=YES;
+
+        [SingletonClass initWithTitle:@"" message:[myResults valueForKey:@"message"] delegate:nil btn1:@"Ok"];
+        }
 
     }
 

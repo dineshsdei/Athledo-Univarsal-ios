@@ -109,8 +109,6 @@
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-
-    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -127,14 +125,9 @@
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
             }
-            
-            
         }completion:^(BOOL finished){
             
         }];
-
-        
-        
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -149,9 +142,6 @@
         }completion:^(BOOL finished){
             
         }];
-        
-        
-        
     }];
     
     scrollHeight=0;
@@ -172,8 +162,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
     arrPlaceHolder=[[NSArray alloc] initWithObjects:@"First Name",@"Last Name",@"Address",@"Country ",@"State",@"City",@"Unit No.",@"Zip",@"Phone No", nil];
-    
-    
+
     if (_objData) {
         arrTextFieldText =[[NSMutableArray alloc] initWithObjects:[_objData valueForKey:@"firstname"],[_objData valueForKey:@"lastname"],[_objData valueForKey:@"address"],[_objData valueForKey:@"country_name"],[_objData valueForKey:@"state_name"],[_objData valueForKey:@"city"],[_objData valueForKey:@"apt_no"],[_objData valueForKey:@"zip"],[_objData valueForKey:@"cellphone"], nil];
     }else{
@@ -203,11 +192,13 @@
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
+    listPicker=[[UIPickerView alloc] init];
+    listPicker.delegate=self;
+    listPicker.dataSource=self;
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag=60;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
-    
+    [self.view addSubview: listPicker];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -294,13 +285,8 @@
         {
             arrStateList=[myResults allValues];
             arrStateCode=[myResults allKeys];
-            
-            
-            
             break;
         }
-            
-            
         default:
             break;
     }
@@ -310,7 +296,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self getCountryList];
 }
 
@@ -392,15 +377,10 @@
                 
             }else
             {
-                
                 [temp setObject: [_objData valueForKey:@"state_id"] forKey:@"state_id"];
-                
                 [temp setObject: [_objData valueForKey:@"country_id"] forKey:@"country_id"];
-                
             }
             [temp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-            
-            
             //Use less but mandatory field on web
             
             [temp setObject: [_objData valueForKey:@"age"] forKey:@"age"];
@@ -416,7 +396,6 @@
             [temp setObject: [_objData valueForKey:@"school_id"] forKey:@"school_id"];
             
             NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-            
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
             
@@ -511,10 +490,7 @@
             m_TableView.scrollIndicatorInsets = contentInsets;
             [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
         }
-        
     }
-    
-    
 }
 #pragma mark- UITextfield Delegate
 
@@ -531,8 +507,6 @@
     }else if (textField.tag > 1001 )
     {
         [self setContentOffset:textField table:table];
-        
-        
     }
     
     if (textField.tag==1003 || textField.tag==1004) {
@@ -553,7 +527,6 @@
             [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
             
             if (arrStateList.count == 0) {
-                //[self setToolbarVisibleAt:CGPointMake(160, 700)];
                 [SingletonClass initWithTitle:@"" message:@"Please select country name" delegate:nil btn1:@"Ok"];
                 
                 return NO;
@@ -563,20 +536,12 @@
            [listPicker reloadComponent:0];
             [self ShowPickerValueSelected:arrStateList];
             arrStateList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"";
-           
-            
             return NO;
-            
         }
-        
-        
     }else
     {
         [self setPickerVisibleAt:NO :arrStateList];
     }
-    
-  
-    
     return YES;
 }
 
@@ -585,14 +550,10 @@
 {
     
 }
-
-
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [arrTextFieldText replaceObjectAtIndex:(textField.tag-1000) withObject:textField.text];
 }
-
-
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self doneClicked];
@@ -617,20 +578,16 @@
         BOOL Status=FALSE;
         for (id object in arrController)
         {
-            
             if ([object isKindOfClass:[ProfileView class]])
             {
                 Status=TRUE;
                 [self.navigationController popToViewController:object animated:NO];
             }
         }
-        
         if (Status==FALSE)
         {
             ProfileView *annView=[[ProfileView alloc] init];
-            
             [self.navigationController pushViewController:annView animated:NO];
-            
         }
         
     }else{
@@ -722,12 +679,9 @@
     NSString *str=@"";
     if (isState) {
         str= row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];
-        
     }else
     {
         str= row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
-        
-        
     }
 
     NSArray *arr =[str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
@@ -800,9 +754,7 @@
             [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
              [listPicker reloadAllComponents];
         }
-        
         [listPicker selectRow:i inComponent:0 animated:YES];
-        
         break;
     }
     }
@@ -811,17 +763,11 @@
     [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
 
     }else{
-    // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
     point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
     }
-    
-    
    listPicker.center = point;
-    
     [UIView commitAnimations];
 }
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

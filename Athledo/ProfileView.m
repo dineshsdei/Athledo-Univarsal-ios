@@ -76,7 +76,8 @@
 }
 - (void)orientationChanged
 {
-    if (isIPAD) {
+    UIDeviceOrientation oreintation=[SingletonClass getOrientation];
+    if ((isIPAD) && (oreintation==UIDeviceOrientationLandscapeLeft || (oreintation==UIDeviceOrientationLandscapeLeft))) {
         [tblProfile reloadData];
     }
 }
@@ -557,6 +558,10 @@
         
     }else
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    
+    cell.frame=CGRectMake(0, 0, self.view.frame.size.width, cell.frame.size.height);
+    
+    NSLog(@"cell frame %@",NSStringFromCGRect(cell.frame));
     
     return cell;
 }

@@ -49,7 +49,7 @@
     
     
     int ViewY;
-    int isDate;
+    int isKeyboard;
 }
 
 @end
@@ -151,9 +151,6 @@
                     
                 }
                 
-                
-                
-                
             }else if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Interval"] )
             {
                 arrWorkOuts=[[MyResults valueForKey:@"data"] valueForKey:@"WorkoutAthlete"];
@@ -230,6 +227,7 @@
 
 - (void)viewDidLayoutSubviews {
     
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -238,12 +236,24 @@
     
     [super viewWillAppear:animated];
 }
+- (void)orientationChanged
+{
+    if (isIPAD) {
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     // Do any additional setup after loading the view from its nib.
     btnSave.titleLabel.textColor=[UIColor whiteColor];
-    isDate=FALSE;
     isSelectAthlete=FALSE;
     
     self.title =@"Detail";
@@ -372,6 +382,8 @@
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
             
+            isKeyboard=TRUE;
+            
             if (iosVersion < 8) {
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
@@ -392,8 +404,12 @@
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            isKeyboard=FALSE;
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+        [self setContentOffsetOfTableDown];
+            [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
             
         }completion:^(BOOL finished){
             
@@ -975,7 +991,7 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    isDate=FALSE;
+    
     isSelectAthlete=[textField.placeholder isEqualToString:@"Select athlete"] ? YES:NO ;
     
     currentText=(CustomTextField *)textField;
@@ -1013,7 +1029,6 @@
         
          [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     }
-    isDate=TRUE;
     return YES;
 }
 
@@ -1202,8 +1217,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-   // [self setToolbarVisibleAt:CGPointMake(160, 600)];
-    
+
     return YES;
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -1321,7 +1335,7 @@
         return [arrAllAthlete count];
     }else
     {
-        if (currentText.text.length==0) {
+        if (currentText.text.length==0 && ([currentText.placeholder isEqualToString:@"WarmUp Time"] || [currentText.placeholder isEqualToString:@"CoolDown Time"] )) {
             currentText.text=[arrTime objectAtIndex:0];
              [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
             
@@ -1346,7 +1360,7 @@
     }else
     {
         str = [arrTime objectAtIndex:row];
-        if (currentText.text.length==0) {
+        if (currentText.text.length==0 && ([currentText.placeholder isEqualToString:@"WarmUp Time"] || [currentText.placeholder isEqualToString:@"CoolDown Time"] )) {
             
             currentText.text=[arrTime objectAtIndex:row] ;
             
@@ -1360,8 +1374,6 @@
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    // currentText.text=[[arrTime objectAtIndex:row] stringByAppendingString:@" Minutes"];
-    isDate=TRUE;
     if (isSelectAthlete) {
         
         currentText.text=[arrAllAthlete objectAtIndex:row] ;
@@ -1373,11 +1385,14 @@
         
         [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
     }
-    
 }
 
 -(void)updateLiftValue :(int)AthleteIndex :(NSString *)value : (int)rowindex : (int)sectionindex :(id)textField
 {
+    if (value ==nil) {
+        
+        return;
+    }
     UITextField *txtfield=(UITextField *)textField;
     
     if ([txtfield.placeholder isEqualToString:@"Weight"]) {
@@ -1386,18 +1401,18 @@
     }else if ([txtfield.placeholder isEqualToString:@"Repetitions"]){
         
         [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:sectionindex] valueForKey:@"exerciseDetail"] objectAtIndex:rowindex]setValue:value forKey:@"rep_value"];
-        
-        
     }
     
 }
 
 -(BOOL)CheckStatus :(NSString *)StrValues :(long)section
 {
+    if (StrValues ==nil) {
+        
+        return NO;
+    }
+    
     BOOL status=false;
-    
-    
-    
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"];
     
     for (int i=0; i < arrTemp.count ; i++) {
@@ -1417,11 +1432,6 @@
             unitKey=[arrUnitKeys objectAtIndex:0];
             
         }
-        
-        
-        // NSString *values=[[[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"] objectAtIndex:i] valueForKey:unitKey];
-        
-        
         NSString *value;
         NSString *myString = unitKey;
         NSRange startRange = [myString rangeOfString:@"("];
@@ -1453,9 +1463,7 @@
 -(int)CheckTimeDestanceRateExist:(long)section
 {
     int count=0;
-    
-    
-    
+
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"];
     count=(int)arrTemp.count;
     for (int i=0; i < arrTemp.count ; i++) {
@@ -1736,6 +1744,11 @@
 
 -(void)updateValue :(NSString *)Key :(NSString *)value : (int)rowindex : (int)sectionindex
 {
+    if (((Key == nil) || (value ==nil))) {
+        
+        return;
+    }
+    
     if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]){
         
         [[[[arrWorkOuts objectAtIndex:sectionindex] valueForKey:@"Units"] objectAtIndex:rowindex] setValue:value forKey:Key];
@@ -1773,52 +1786,6 @@
             }
         }
     }
-}
-
--(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        if (currentText.text.length > 0) {
-            for (int i=0; i< data.count; i++) {
-                
-                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-                    
-                    [listPicker selectRow:i inComponent:0 animated:YES];
-                    
-                    break;
-                }
-            }
-        }
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-        
-    }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
-    }
-    
-    
-    [self.view viewWithTag:listPickerTag].center = point;
-    
-    [UIView commitAnimations];
-}
-
--(void)setToolbarVisibleAt:(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    [self.view viewWithTag:toolBarTag].center = point;
-    
-    [UIView commitAnimations];
 }
 
 - (void)didReceiveMemoryWarning

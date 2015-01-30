@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditGenralInfo">
             <connections>
-                <outlet property="listPicker" destination="gtD-uK-rmH" id="p3i-Mn-tFn"/>
                 <outlet property="table" destination="5vO-GN-zS7" id="AkD-Xt-hH2"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -34,10 +33,6 @@
                 </imageView>
                 <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gtD-uK-rmH">
                     <rect key="frame" x="0.0" y="700" width="320" height="162"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="tCp-oK-1bY"/>
-                        <outlet property="delegate" destination="-1" id="DaT-8f-XXG"/>
-                    </connections>
                 </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

@@ -199,6 +199,9 @@ NSMutableArray *arrAwardsYear;
     
     [self.view addSubview:datePicker];
     
+    listPicker=[[UIPickerView alloc] init];
+    listPicker.dataSource=self;
+    listPicker.delegate=self;
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, listPicker.frame.size.height);
     listPicker.tag=listPickerTag;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];

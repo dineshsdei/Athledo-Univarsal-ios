@@ -363,10 +363,18 @@
 		71B4CC071A13825E00042568 /* WorkoutHistoryDetails~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B4CC051A13825E00042568 /* WorkoutHistoryDetails~iphone.xib */; };
 		71BC592219DA7488002B56DB /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BC592119DA7488002B56DB /* CustomTextField.m */; };
 		71BC76EA1A5A466F0085DE64 /* AddWorkOut~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BC76E91A5A466F0085DE64 /* AddWorkOut~ipad.xib */; };
-		71BC76EE1A5A97E60085DE64 /* AddWorkOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BC76ED1A5A97E60085DE64 /* AddWorkOut.m */; };
 		71BC76F01A5AB3670085DE64 /* WorkOutDetails~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BC76EF1A5AB3670085DE64 /* WorkOutDetails~ipad.xib */; };
 		71C9A89419ECE2B6001A4017 /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C9A89319ECE2B6001A4017 /* MyAnnotation.m */; };
 		71C9A89719ECE93A001A4017 /* CalendarMonthView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */; };
+		71D66E301A7BA7FD00B75F86 /* AddWorkOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D66E2F1A7BA7FD00B75F86 /* AddWorkOut.m */; };
+		71D66E391A7BA9C100B75F86 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E311A7BA9C100B75F86 /* back.png */; };
+		71D66E3A1A7BA9C100B75F86 /* btnCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E321A7BA9C100B75F86 /* btnCamera.png */; };
+		71D66E3B1A7BA9C100B75F86 /* btnCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E331A7BA9C100B75F86 /* btnCamera@2x.png */; };
+		71D66E3C1A7BA9C100B75F86 /* login_bg copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E341A7BA9C100B75F86 /* login_bg copy.png */; };
+		71D66E3D1A7BA9C100B75F86 /* mnth_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E351A7BA9C100B75F86 /* mnth_icon.png */; };
+		71D66E3E1A7BA9C100B75F86 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E361A7BA9C100B75F86 /* placeholder.png */; };
+		71D66E3F1A7BA9C100B75F86 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E371A7BA9C100B75F86 /* reveal-icon.png */; };
+		71D66E401A7BA9C100B75F86 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E381A7BA9C100B75F86 /* reveal-icon@2x.png */; };
 		71E7A9AA1A7A122F00CED0D1 /* map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E7A9A91A7A122F00CED0D1 /* map_icon.png */; };
 		71F925FF199895F9001931D8 /* WorkOutListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F925FD199895F9001931D8 /* WorkOutListCell.m */; };
 		71F92600199895F9001931D8 /* WorkOutListCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71F925FE199895F9001931D8 /* WorkOutListCell~iphone.xib */; };
@@ -882,12 +890,20 @@
 		71BC592019DA7488002B56DB /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
 		71BC592119DA7488002B56DB /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
 		71BC76E91A5A466F0085DE64 /* AddWorkOut~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddWorkOut~ipad.xib"; sourceTree = "<group>"; };
-		71BC76ED1A5A97E60085DE64 /* AddWorkOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkOut.m; sourceTree = "<group>"; };
 		71BC76EF1A5AB3670085DE64 /* WorkOutDetails~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutDetails~ipad.xib"; sourceTree = "<group>"; };
 		71C9A89219ECE2B6001A4017 /* MyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnnotation.h; sourceTree = "<group>"; };
 		71C9A89319ECE2B6001A4017 /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "CalendarMonthView~iphone.xib"; sourceTree = "<group>"; };
 		71CBF4961A08CAD9005E2220 /* AddWorkOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkOut.h; sourceTree = "<group>"; };
+		71D66E2F1A7BA7FD00B75F86 /* AddWorkOut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkOut.m; sourceTree = "<group>"; };
+		71D66E311A7BA9C100B75F86 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		71D66E321A7BA9C100B75F86 /* btnCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btnCamera.png; sourceTree = "<group>"; };
+		71D66E331A7BA9C100B75F86 /* btnCamera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnCamera@2x.png"; sourceTree = "<group>"; };
+		71D66E341A7BA9C100B75F86 /* login_bg copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_bg copy.png"; sourceTree = "<group>"; };
+		71D66E351A7BA9C100B75F86 /* mnth_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mnth_icon.png; sourceTree = "<group>"; };
+		71D66E361A7BA9C100B75F86 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		71D66E371A7BA9C100B75F86 /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
+		71D66E381A7BA9C100B75F86 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
 		71E7A9A91A7A122F00CED0D1 /* map_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_icon.png; sourceTree = "<group>"; };
 		71F925FC199895F9001931D8 /* WorkOutListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkOutListCell.h; sourceTree = "<group>"; };
 		71F925FD199895F9001931D8 /* WorkOutListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkOutListCell.m; sourceTree = "<group>"; };
@@ -978,6 +994,14 @@
 		3D9E04E2197BCF3C005CCB10 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				71D66E311A7BA9C100B75F86 /* back.png */,
+				71D66E321A7BA9C100B75F86 /* btnCamera.png */,
+				71D66E331A7BA9C100B75F86 /* btnCamera@2x.png */,
+				71D66E341A7BA9C100B75F86 /* login_bg copy.png */,
+				71D66E351A7BA9C100B75F86 /* mnth_icon.png */,
+				71D66E361A7BA9C100B75F86 /* placeholder.png */,
+				71D66E371A7BA9C100B75F86 /* reveal-icon.png */,
+				71D66E381A7BA9C100B75F86 /* reveal-icon@2x.png */,
 				71A3689B1A6E18A900DDF05C /* images */,
 				3D9E0516197BD048005CCB10 /* ThirdParyLib */,
 				71999550197D2BA400C0F77F /* UserDataOrModelClasses */,
@@ -1320,7 +1344,7 @@
 				3D9E052A197BD5B6005CCB10 /* WorkOutView.h */,
 				3D9E052B197BD5B6005CCB10 /* WorkOutView.m */,
 				71CBF4961A08CAD9005E2220 /* AddWorkOut.h */,
-				71BC76ED1A5A97E60085DE64 /* AddWorkOut.m */,
+				71D66E2F1A7BA7FD00B75F86 /* AddWorkOut.m */,
 				71A0707F19AB291B00CA98D3 /* WorkOutHistory.h */,
 				71A0708019AB291B00CA98D3 /* WorkOutHistory.m */,
 				71B4CC031A13825E00042568 /* WorkoutHistoryDetails.h */,
@@ -2187,6 +2211,7 @@
 				71A369781A6E1DA300DDF05C /* list_icon.png in Resources */,
 				71A369181A6E1C3A00DDF05C /* compose_icon.png in Resources */,
 				71A89A221A247AED00CA9756 /* AddNewAnnouncement~ipad.xib in Resources */,
+				71D66E391A7BA9C100B75F86 /* back.png in Resources */,
 				7197E865197E8B160086DA2E /* Athledo Basic Info.strings in Resources */,
 				71A63E131A259DFB00D0DA99 /* WorkOutView~ipad.xib in Resources */,
 				71A89A281A24B14700CA9756 /* UpdateDetails~ipad.xib in Resources */,
@@ -2231,6 +2256,7 @@
 				71A369941A6E21EB00DDF05C /* icon-57x57.png in Resources */,
 				7194AE4319C04B8E00DC0A23 /* messageSent.aiff in Resources */,
 				71A369741A6E1DA300DDF05C /* frame_left@2x.png in Resources */,
+				71D66E3C1A7BA9C100B75F86 /* login_bg copy.png in Resources */,
 				71A368D71A6E1A4A00DDF05C /* icon-114x114.png in Resources */,
 				3D9E04E6197BCF3C005CCB10 /* InfoPlist.strings in Resources */,
 				71E7A9AA1A7A122F00CED0D1 /* map_icon.png in Resources */,
@@ -2297,6 +2323,7 @@
 				71950F9619C175F600B4BF1A /* MessageDetails.xib in Resources */,
 				71ADF1B21A70F1B200457FB9 /* bubble-default-incoming-green.png in Resources */,
 				71C9A89719ECE93A001A4017 /* CalendarMonthView~iphone.xib in Resources */,
+				71D66E3E1A7BA9C100B75F86 /* placeholder.png in Resources */,
 				71F92600199895F9001931D8 /* WorkOutListCell~iphone.xib in Resources */,
 				71ADF1B91A70F1B200457FB9 /* bubble-default-outgoing-green@2x.png in Resources */,
 				71A368AB1A6E191200DDF05C /* mnth_icon.png in Resources */,
@@ -2306,6 +2333,7 @@
 				71A369091A6E1BC400DDF05C /* sent_icon.png in Resources */,
 				71A368B01A6E191200DDF05C /* user-icon.png in Resources */,
 				71A369791A6E1DA300DDF05C /* listing_side.png in Resources */,
+				71D66E3A1A7BA9C100B75F86 /* btnCamera.png in Resources */,
 				71A368EC1A6E1AAD00DDF05C /* iTunesArtwork@2x.png in Resources */,
 				719B77E619B497960088A71E /* HistoryCell.xib in Resources */,
 				71ADF1BD1A70F1B200457FB9 /* bubble-default-outgoing@2x.png in Resources */,
@@ -2318,10 +2346,12 @@
 				71A3691B1A6E1C3A00DDF05C /* reassign.png in Resources */,
 				71A7CE381A790FA700A67905 /* btnCamera.png in Resources */,
 				3D9E0515197BCFE6005CCB10 /* DashBoard~iphone.xib in Resources */,
+				71D66E401A7BA9C100B75F86 /* reveal-icon@2x.png in Resources */,
 				3D9E051F197BD0FA005CCB10 /* MenuListView~iphone.xib in Resources */,
 				71B15AC61A47CDB1008C0C71 /* MultimediaVideo~ipad.xib in Resources */,
 				71A369351A6E1CAD00DDF05C /* schedule_icon.png in Resources */,
 				71A3698B1A6E1DA400DDF05C /* selectedCheck.png in Resources */,
+				71D66E3B1A7BA9C100B75F86 /* btnCamera@2x.png in Resources */,
 				710C633E19B9E41C00F11983 /* WeekViewController~iphone.xib in Resources */,
 				71A6E75C19EF78DF002416B4 /* AddCalendarEvent~iphone.xib in Resources */,
 				71A368A91A6E191200DDF05C /* btnCamera@2x.png in Resources */,
@@ -2346,6 +2376,7 @@
 				71A369981A6E276800DDF05C /* Cell_Bg.png in Resources */,
 				71A3696F1A6E1DA300DDF05C /* check@2x.png in Resources */,
 				71A7CE391A790FA700A67905 /* btnCamera@2x.png in Resources */,
+				71D66E3D1A7BA9C100B75F86 /* mnth_icon.png in Resources */,
 				71950F8E19C152F600B4BF1A /* MessageInboxCell~iphone.xib in Resources */,
 				71A3690A1A6E1BC400DDF05C /* tabmap_icon.png in Resources */,
 				71A369221A6E1C5F00DDF05C /* add@2x.png in Resources */,
@@ -2374,6 +2405,7 @@
 				71ACB4FF198A140B007C5AFA /* AddCoachingHistory~iphone.xib in Resources */,
 				71A3698A1A6E1DA400DDF05C /* restore.png in Resources */,
 				71A369711A6E1DA300DDF05C /* cup_icon.png in Resources */,
+				71D66E3F1A7BA9C100B75F86 /* reveal-icon.png in Resources */,
 				71ADF1BE1A70F1B200457FB9 /* bubble-square-incoming-selected.png in Resources */,
 				71A369081A6E1BC400DDF05C /* inbox_icon.png in Resources */,
 				71B15ABF1A47CDB1008C0C71 /* Multimedia~iphone.xib in Resources */,
@@ -2501,7 +2533,7 @@
 				71B142BA19C974FE008EBC90 /* SWUtilityButtonView.m in Sources */,
 				71999538197CEBF000C0F77F /* CustomAlertMessage.m in Sources */,
 				71999570197D3DB300C0F77F /* SDWebImageDownloader.m in Sources */,
-				71BC76EE1A5A97E60085DE64 /* AddWorkOut.m in Sources */,
+				71D66E301A7BA7FD00B75F86 /* AddWorkOut.m in Sources */,
 				71999558197D310000C0F77F /* DashBoardCell.m in Sources */,
 				719A192F19B5782000F1155A /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				71950FB019C1AFE900B4BF1A /* SentItemsView.m in Sources */,

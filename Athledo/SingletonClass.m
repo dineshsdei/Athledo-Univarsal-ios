@@ -158,7 +158,6 @@ static SingletonClass *objSingaltonClass=nil;
     }
 
     point.x=(SCREENWIDTH)/2;
-    toolbar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolbar.frame.size.height);
     if ([picker isKindOfClass:[UIDatePicker class]]) {
         
         UIDatePicker *pickerView=(UIDatePicker *)picker;

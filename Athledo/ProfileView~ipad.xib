@@ -76,6 +76,7 @@
                 <constraint firstItem="RdU-An-juB" firstAttribute="top" secondItem="nBm-3d-scl" secondAttribute="bottom" constant="2" id="h2g-RO-jEm"/>
                 <constraint firstItem="nBm-3d-scl" firstAttribute="top" secondItem="hX9-wh-7B3" secondAttribute="top" id="iDP-2X-lN2"/>
             </constraints>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
         </view>
     </objects>

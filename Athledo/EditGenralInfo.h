@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WebServiceClass.h"
 
-@interface EditGenralInfo : UIViewController<UITextFieldDelegate,UITextFieldDelegate,UIAlertViewDelegate,WebServiceDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface EditGenralInfo : UIViewController<UITextFieldDelegate,UITextFieldDelegate,UIAlertViewDelegate,WebServiceDelegate,UITableViewDataSource,UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {
     IBOutlet UITableView *table;
     WebServiceClass *webservice;

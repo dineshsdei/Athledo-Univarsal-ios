@@ -8,7 +8,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCoachingHistory">
             <connections>
                 <outlet property="datePicker" destination="feE-tG-dax" id="agr-ck-f3u"/>
-                <outlet property="listPicker" destination="yVc-KJ-zZa" id="Lrt-Zz-iSO"/>
                 <outlet property="tableView" destination="fm5-Xd-IJE" id="0RO-fh-Ix3"/>
                 <outlet property="view" destination="iN0-l3-epB" id="pYe-Gp-09L"/>
             </connections>
@@ -32,10 +31,6 @@
                 </tableView>
                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yVc-KJ-zZa">
                     <rect key="frame" x="0.0" y="1200" width="768" height="216"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="p4w-bX-G1T"/>
-                        <outlet property="delegate" destination="-1" id="M0m-Ux-DeJ"/>
-                    </connections>
                 </pickerView>
                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="feE-tG-dax">
                     <rect key="frame" x="0.0" y="1200" width="768" height="216"/>

@@ -23,9 +23,9 @@
 #define FieldClearBackground [UIColor clearColor]
 #define FieldWhiteBackground [UIColor whiteColor]
 
-#define SchoolInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 420  :240) : 60
+#define SchoolInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 370  :240) : 60
 #define SchoolInfoDateW isIPAD ? 110 : 80
-#define SchoolInfoDateX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 450  :300) : 70
+#define SchoolInfoDateX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 420  :300) : 70
 #define SchoolInfoDesW isIPAD ? 300 : 200
 
 #define SchoolInfoDashX isIPAD ? 110 : 150
