@@ -12,8 +12,6 @@
 #import "WeekViewController.h"
 #import "AddCalendarEvent.h"
 
-
-
 int tagNumber;
 WebServiceClass *webservice;
 NSMutableArray *startDateArr;
@@ -29,11 +27,32 @@ UIBarButtonItem *revealButtonItem;;
 #pragma mark - CalendarMonthViewController
 @implementation CalendarMonthViewController
 
-- (NSUInteger) supportedInterfaceOrientations{
+- (NSUInteger) supportedInterfaceOrientations
+{
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    if (isIPAD)
+    {
+        if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
+            return UIInterfaceOrientationMaskPortrait;
+        }else if (orientation == UIDeviceOrientationPortrait) {
+            return UIInterfaceOrientationMaskLandscape;
+        }else{
+             return UIInterfaceOrientationMaskLandscape;
+        }
+    }
+    else
     return  UIInterfaceOrientationMaskPortrait;
 }
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
     return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+}
+-(BOOL)shouldAutorotate
+{
+    if (isIPAD)
+    return YES;
+    else
+    return NO;
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -48,31 +67,37 @@ UIBarButtonItem *revealButtonItem;;
 #pragma change control frame when device rotate
 - (void)orientationChanged
 {
-    if (isIPAD) {
-        
-        CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
-        
-        NSArray *arrController=[self.navigationController viewControllers];
-        
-        for (int i=0; i< arrController.count; i++) {
-        
-                    if ([[arrController objectAtIndex:i] isKindOfClass:[CalendarMonthViewController class]])
-                    {
-                       
-                        NSArray *vCs=[[self navigationController] viewControllers];
-                        NSMutableArray *nvCs=nil;
-                        //remove the view controller before the current view controller
-                        nvCs=[[NSMutableArray alloc]initWithArray:vCs];
-                        [nvCs replaceObjectAtIndex:i withObject:vc];
-                        [[self navigationController] setViewControllers:nvCs];
-                        
-                    }
-                }
-
-        //tabBar.frame =CGRectMake(0, self.view.frame.size.height-49, self.view.frame.size.width, 50);
-       // self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, (self.view.frame.size.height)-(self.monthView.frame.size.height + tabBar.frame.size.height));
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    if(currentOrientation ==orientation)
+    {
+        return ;
     }
+    currentOrientation=orientation;
+    if ((isIPAD ) && (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationPortrait)) {
+        
+        if (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft)
+        {
+           tabBar.frame =CGRectMake(0, 651, self.view.frame.size.width, 53);
+            NSLog( @"tabbar fram landscape %@",NSStringFromCGRect(tabBar.frame));
+        }else if(orientation==UIDeviceOrientationPortrait || orientation==UIDeviceOrientationPortraitUpsideDown)
+        {
+            tabBar.frame =CGRectMake(0, 906, self.view.frame.size.width, 53);
+            NSLog( @"tabbar fram protrait %@",NSStringFromCGRect(tabBar.frame));
+        }else
+        {
+             tabBar.frame =CGRectMake(0, [UIScreen mainScreen].bounds.size.height-50, [UIScreen mainScreen].bounds.size.width, 53);
+             NSLog( @"tabbar fram non %@",NSStringFromCGRect(tabBar.frame));
+            
+        }
+        self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
+        [self.monthView RefreshView];
+        [self.tableView reloadData];
+    }
+    
+  
 }
+
+
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
     [super viewDidLoad];
@@ -81,6 +106,7 @@ UIBarButtonItem *revealButtonItem;;
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+    
     
     strCurrentMonth=@"";
     
@@ -96,7 +122,6 @@ UIBarButtonItem *revealButtonItem;;
     
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
-    
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
@@ -111,13 +136,10 @@ UIBarButtonItem *revealButtonItem;;
     UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
     
-    
-    
     [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
-    
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
     // 113 height is (49+64) tabbar height and navigationBar height
@@ -161,7 +183,7 @@ UIBarButtonItem *revealButtonItem;;
     
     if (strCurrentMonth.length > 0) {
         
-        [self getEvents:SelectedMonthStart:SelectedMonthEnd];
+       // [self getEvents:SelectedMonthStart:SelectedMonthEnd];
     }
     
     
@@ -177,9 +199,14 @@ UIBarButtonItem *revealButtonItem;;
     tabBar.delegate=self;
     [tabBar setSelectedItem:tabBarItem];
     
-    if (strCurrentMonth.length > 0 ) {
-        
-        [self getEvents:SelectedMonthStart:SelectedMonthEnd];
+    // use this after
+    
+    // [self.monthView RefreshView];
+    //[self.tableView reloadData];
+    
+    if (strCurrentMonth.length > 0 )
+    {
+       // [self getEvents:SelectedMonthStart:SelectedMonthEnd];
     }
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
@@ -325,6 +352,10 @@ UIBarButtonItem *revealButtonItem;;
 #pragma mark MonthView Delegate & DataSource
 - (NSArray*) calendarMonthView:(TKCalendarMonthView*)monthView marksFromDate:(NSDate*)startDate toDate:(NSDate*)lastDate{
     
+    if (!_monthview) {
+        _monthview=monthView;
+    }
+    
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     formatter.dateFormat=DATE_FORMAT_dd_MMM_yyyy;
     
@@ -337,7 +368,7 @@ UIBarButtonItem *revealButtonItem;;
         strCurrentMonth=[arrComponents objectAtIndex:1];
         SelectedMonthStart=startDate;
         SelectedMonthEnd=lastDate;
-        [self getEvents:startDate:lastDate];
+       [self getEvents:startDate:lastDate];
     }
     formatter=nil;
     [self MarkCalendarDataForStartDate:startDate endDate:lastDate];
@@ -603,7 +634,6 @@ UIBarButtonItem *revealButtonItem;;
                 
             }else
             {
-                
                 [self.dataArray addObject:@YES];
                 
             }
@@ -668,22 +698,16 @@ UIBarButtonItem *revealButtonItem;;
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                // Now we Need to decrypt data
-                //[SingaltonClass ShareInstance].isCalendarUpdate=FALSE;
-                
-                // eventArrDic =[MyResults objectForKey:@"data"];
                 eventData =[MyResults objectForKey:@"data"];
-                if(eventData.count == 0)
-                {
-                    return;
-                }
                 NSArray *arrKeys=[eventData allKeys ];
                 
-                for (int i=0; i<arrKeys.count; i++) {
+                for (int i=0; i<arrKeys.count; i++)
+                {
                     
                     NSArray *arrValues=[eventData valueForKey:[arrKeys objectAtIndex:i] ];
                     
-                    for (int j=0; j< arrValues.count; j++) {
+                    for (int j=0; j< arrValues.count; j++)
+                    {
                         
                         [eventArrDic addObject:[arrValues objectAtIndex:j]];
                         [startDateArr addObject:[[arrValues objectAtIndex:j] valueForKey:@"start_date"]];
@@ -691,6 +715,13 @@ UIBarButtonItem *revealButtonItem;;
                     }
                 }
             }
+            
+             if([[MyResults objectForKey:@"message"] isEqualToString:@"No record found!"])
+             {
+                  [SingletonClass initWithTitle:@"" message:@"Events don't exist this month" delegate:nil btn1:@"Ok"];
+             }
+            
+            
         }
     }
     

@@ -16,10 +16,6 @@
 #import "MessageDetails.h"
 #import "SWRevealViewController.h"
 
-#define getMessagesTag 510
-#define deleteMessagesTag 520
-#define archiveMessagesTag 530
-
 
 @interface SentItemsView ()
 
@@ -114,6 +110,8 @@
                 //[SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass ShareInstance].isMessangerSent =TRUE;
                 messageArrDic =[MyResults objectForKey:@"data"];
+                [SingletonClass deleteUnUsedLableFromTable:table];
+               messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
                 [table reloadData];
             }
             
@@ -178,10 +176,20 @@
     return UIStatusBarStyleLightContent;
 }
 
+-(void)orientationChanged
+{
+   [SingletonClass deleteUnUsedLableFromTable:table];
+    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     messageArrDic=[[NSArray alloc] init];

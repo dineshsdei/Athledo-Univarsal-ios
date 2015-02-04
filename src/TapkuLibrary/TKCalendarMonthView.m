@@ -657,15 +657,160 @@ static UIImage *tileImage;
 }
 -(void)RefreshView
 {
+   
+    if (isIPad) {
+        _rightArrow.frame = CGRectMake((VIEW_WIDTH)-52, 0, 52, 36);
+    }else{
+        _rightArrow.frame = CGRectMake((VIEW_WIDTH)-52, 0, 52, 36);
+    }
+    _monthYear.frame = CGRectInset(CGRectMake(0, 0, VIEW_WIDTH, 36), 40, 6);
+    
+    BOOL isNext = NO;
+    NSDate *nextMonth = isNext ? [self.currentTile.monthDate currentMonthWithTimeZone:self.timeZone] : [self.currentTile.monthDate currentMonthWithTimeZone:self.timeZone];
+    
+    NSDateComponents *nextInfo = [nextMonth dateComponentsWithTimeZone:self.timeZone];
+    NSDate *localNextMonth = [NSDate dateWithDateComponents:nextInfo];
+    
+    
+    NSArray *dates = [TKCalendarMonthTiles rangeOfDatesInMonthGrid:nextMonth startOnSunday:self.sunday timeZone:self.timeZone];
+    NSArray *ar1 = [self.dataSource calendarMonthView:self marksFromDate:dates[0] toDate:[dates lastObject]];
+    TKCalendarMonthTiles *newTile = [[TKCalendarMonthTiles alloc] initWithMonth:nextMonth marks:ar1 startDayOnSunday:self.sunday timeZone:self.timeZone];
+    [newTile setTarget:self action:@selector(_tileSelectedWithData:)];
+    
+    
+    NSInteger overlap =  0;
+    
+    if(isNext)
+        overlap = [newTile.monthDate isEqualToDate:dates[0]] ? 0 : 44;
+    else
+        overlap = [self.currentTile.monthDate compare:[dates lastObject]] !=  NSOrderedDescending ? 44 : 0;
+    
+    
+    float y = isNext ? CGRectGetHeight(self.currentTile.frame) - overlap : CGRectGetHeight(newTile.frame) * -1 + overlap +2;
+    
+    newTile.frame = CGRectMakeWithSize(0, y, newTile.frame.size);
+    newTile.alpha = 0;
+    [self.tileBox addSubview:newTile];
+    
+    
+//    [UIView beginAnimations:nil context:nil];
+//    [UIView setAnimationDuration:0.1];
+    newTile.alpha = 1;
+    
+   // [UIView commitAnimations];
+    //self.userInteractionEnabled = NO;
+    
+//    [UIView beginAnimations:nil context:nil];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+//    [UIView setAnimationDidStopSelector:@selector(animationEnded)];
+//    [UIView setAnimationDelay:0.1];
+//    [UIView setAnimationDuration:0.4];
+    
+    if(isNext){
+        self.currentTile.frame = CGRectMakeWithSize(0, -1 * CGRectGetHeight(self.currentTile.frame) + overlap + 2,  self.currentTile.frame.size);
+        newTile.frame = CGRectMakeWithSize(0, 1, newTile.frame.size);
+    }else{
+        newTile.frame = CGRectMakeWithSize(0, 1, newTile.frame.size);
+        self.currentTile.frame = CGRectMakeWithSize(0, CGRectGetHeight(newTile.frame) - overlap, self.currentTile.frame.size);
+    }
+    
+    [self _updateSubviewFramesWithTile:newTile];
+    
+    //[UIView commitAnimations];
+    
+    self.oldTile = self.currentTile;
+    self.currentTile = newTile;
+    _monthYear.text = [localNextMonth monthYearStringWithTimeZone:self.timeZone];
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    dateFormat.dateFormat = @"eee";
+    dateFormat.timeZone = self.timeZone;
+    
+    NSDateComponents *sund = [[NSDateComponents alloc] init];
+    sund.day = 5;
+    sund.month = 12;
+    sund.year = 2010;
+    sund.hour = sund.minute = sund.second = sund.weekday = 0;
+    sund.timeZone = self.timeZone;
+    
+    
+    NSString * sun = [dateFormat stringFromDate:[NSDate dateWithDateComponents:sund]];
+    
+    sund.day = 6;
+    NSString *mon = [dateFormat stringFromDate:[NSDate dateWithDateComponents:sund]];
+    
+    sund.day = 7;
+    NSString *tue = [dateFormat stringFromDate:[NSDate dateWithDateComponents:sund]];
+    
+    sund.day = 8;
+    NSString *wed = [dateFormat stringFromDate:[NSDate dateWithDateComponents:sund]];
+    
+    sund.day = 9;
+    NSString *thu = [dateFormat stringFromDate:[NSDate dateWithDateComponents:sund]];
+    
+    sund.day = 10;
+    NSString *fri = [dateFormat stringFromDate:[NSDate dateWithDateComponents:sund]];
+    
+    sund.day = 11;
+    NSString *sat = [dateFormat stringFromDate:[NSDate dateWithDateComponents:sund]];
+    
+    NSArray *ar;
+    if(self.sunday) ar = @[sun,mon,tue,wed,thu,fri,sat];
+    else ar = @[mon,tue,wed,thu,fri,sat,sun];
+    
+    NSInteger i = 0;
+    
+    for(NSString *s in ar){
+        UILabel *label =(UILabel *)[self.arrLable objectAtIndex:i];
+        if (isIPad) {
+           // label = [[UILabel alloc] initWithFrame:CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15)];
+        }
+        label.frame = CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15);
+        //label.textAlignment=NSTextAlignmentRight;
+ 
+//        }else
+//        {
+//            label = [[UILabel alloc] initWithFrame:CGRectMake(46*i + (i==0?0:-1), 30, 45, 15)];
+//        }
+//        [self addSubview:label];
+//        
+//        // Added Accessibility Labels
+//        if ([s isEqualToString:@"Sun"]) {
+//            label.accessibilityLabel = @"Sunday";
+//        } else if ([s isEqualToString:@"Mon"]) {
+//            label.accessibilityLabel = @"Monday";
+//        } else if ([s isEqualToString:@"Tue"]) {
+//            label.accessibilityLabel = @"Tuesday";
+//        } else if ([s isEqualToString:@"Wed"]) {
+//            label.accessibilityLabel = @"Wednesday";
+//        } else if ([s isEqualToString:@"Thu"]) {
+//            label.accessibilityLabel = @"Thursday";
+//        } else if ([s isEqualToString:@"Fri"]) {
+//            label.accessibilityLabel = @"Friday";
+//        } else if ([s isEqualToString:@"Sat"]) {
+//            label.accessibilityLabel = @"Saturday";
+//        }
+//        label.text=@"";
+//        label.text = s;
+//        label.textAlignment = NSTextAlignmentCenter;
+//        label.shadowColor = [UIColor whiteColor];
+//        label.shadowOffset = CGSizeMake(0, 1);
+//        label.font = [UIFont boldSystemFontOfSize:10];
+//        label.backgroundColor = [UIColor clearColor];
+//        label.textColor = TEXT_COLOR;
+        i++;
+    }
 
     
 }
+
 - (instancetype) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{
 	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH, VIEW_WIDTH)])) return nil;
 	self.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
 	self.timeZone = timeZone;
 	self.sunday = s;
-	
+    self.arrLable=[[NSMutableArray alloc] init];
 	[self addSubview:self.dropshadow];
 	[self addSubview:self.topBackground];
 	[self addSubview:self.leftArrow];
@@ -719,6 +864,8 @@ static UIImage *tileImage;
         {
             label = [[UILabel alloc] initWithFrame:CGRectMake(46*i + (i==0?0:-1), 30, 45, 15)];
         }
+        label.tag=75757575*i;
+        [self.arrLable addObject:label];
 		[self addSubview:label];
         
         // Added Accessibility Labels

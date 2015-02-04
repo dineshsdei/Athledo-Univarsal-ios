@@ -68,7 +68,7 @@
 /** The time zone for calendar grid. */
 @property (nonatomic,strong) NSTimeZone *timeZone;
 
-
+@property (nonatomic,strong) NSMutableArray *arrLable;
 /** The current date highlighted on the month grid.
  @return An `NSDate` object set to the month, year and day of the current selection.
  */
@@ -93,8 +93,9 @@
  */
 - (void) animateToNextOrPreviousMonth:(BOOL)next;
 - (void) _updateSubviewFramesWithTile:(UIView*)tile;
-
-
+- (void) drawRect:(CGRect)rect;
+- (void) changeMonthAnimation:(UIView*)sender;
+-(void)RefreshView;
 @end
 
 #pragma mark - TKCalendarMonthViewDelegate

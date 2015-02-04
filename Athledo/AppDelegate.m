@@ -119,9 +119,8 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.NavViewController;
+    //[self.window setRootViewController:self.NavViewController];
     [self.window makeKeyAndVisible];
-    
-
     
     return YES;
 }
@@ -152,7 +151,6 @@
 
 - (void)revealController:(SWRevealViewController *)revealController willMoveToPosition:(FrontViewPosition)position
 {
-    
 }
 
 - (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position

@@ -64,10 +64,7 @@
 
     if (emailValid) {
 
-    ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-    indicator.tag = 50;
-    [self.view addSubview:indicator];
-
+        [SingletonClass addActivityIndicator:self.view];
     NSString *strURL = [NSString stringWithFormat:@"{\"email\":\"%@\", \"password\":\"%@\", \"device_id\":\"%@\"}", [txtFieldUserId.text lowercaseString],[txtFieldPassword.text lowercaseString],@"321434"];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceLogin]];
@@ -86,10 +83,9 @@
     if (data!=nil)
     {
     [self httpResponseReceived : data];
-    }else{
-    ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-    if(acti)
-       [acti removeFromSuperview];
+    }else
+    {
+        [SingletonClass RemoveActivityIndicator:self.view];
     }
 
                            
@@ -130,12 +126,8 @@
 
     if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {
-    // Now remove the Active indicator
-    ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-    if(acti)
-    [acti removeFromSuperview];
-
-
+   
+    [SingletonClass RemoveActivityIndicator:self.view];
     NSMutableDictionary *user=[[myResults objectForKey:@"data"] objectForKey:@"User"];
 
 
@@ -237,8 +229,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
 }
+- (void)orientationChanged:(NSNotification *)notification
+{
+    [SingletonClass RemoveActivityIndicator:self.view];
+}
 - (void)viewDidLoad
 {
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     if (isIPAD) {
         [AppDelegate restrictRotation:NO];
     }else{

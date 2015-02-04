@@ -112,10 +112,56 @@ static SingletonClass *objSingaltonClass=nil;
     
     return [regExPredicate evaluateWithObject:email];
 }
+#pragma Show Empty Data Messsage in lable
++(void)deleteUnUsedLableFromTable :(UITableView *)table
+{
+    UILabel *lblTemp= (UILabel *)[table viewWithTag:emptyLableMessagesTag];
+    if (lblTemp !=nil) {
+        [lblTemp removeFromSuperview];
+    }
+}
++(UILabel *)ShowEmptyMessage :(NSString *)text
+{
+    UILabel *lblShowEmptyMessage;
+    
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    float SCREENWIDTH;
+    float SCREENHEIGHT;
+    
+    if (iosVersion < 8)
+    {
+        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)) && (isIPAD))
+        {
+            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
+            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
+            
+        }else{
+            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+        }
+    }else{
+        
+        SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+        SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+        
+    }
+   
+    lblShowEmptyMessage=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/2-150, SCREENHEIGHT/3,300, 100)];
+         lblShowEmptyMessage.text=text;
+    lblShowEmptyMessage.tag=emptyLableMessagesTag;
+    lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
+    lblShowEmptyMessage.font=[UIFont systemFontOfSize:30];
+    lblShowEmptyMessage.textColor=[UIColor grayColor];
+
+    return lblShowEmptyMessage;
+}
+
+#pragma Add/Remove ActivityIndicator
 
 +(void)addActivityIndicator :(UIView *)view
 {
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
+   // [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     indicator.tag = ACTIVITYTAG;
     [view addSubview:indicator];
 }
@@ -123,6 +169,7 @@ static SingletonClass *objSingaltonClass=nil;
 {
     // Now remove the Active indicator
     ActiveIndicator *acti = (ActiveIndicator *)[view viewWithTag:ACTIVITYTAG];
+   // [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     if(acti)
         [acti removeFromSuperview];
 }

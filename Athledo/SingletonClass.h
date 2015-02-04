@@ -34,5 +34,7 @@
 -(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id;
 -(NSDictionary *)GetUSerSaveData;
 +(UIDeviceOrientation )getOrientation;
++(UILabel *)ShowEmptyMessage :(NSString *)text;
++(void)deleteUnUsedLableFromTable :(UITableView *)table;
 
 @end

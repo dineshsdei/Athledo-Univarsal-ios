@@ -55,7 +55,6 @@
     {
         case EditData:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
@@ -79,15 +78,10 @@
         {
             arrStateList=[MyResults allValues];
             arrStateCode=[MyResults allKeys];
-            
             break;
         }
-            
-            
     }
 }
-
-
 -(void)viewDidDisappear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
@@ -147,8 +141,7 @@
     scrollHeight=0;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
-    
+
     arrCountryList=[[NSMutableArray alloc] init];
     arrCountryCode=[[NSMutableArray alloc] init];;
     

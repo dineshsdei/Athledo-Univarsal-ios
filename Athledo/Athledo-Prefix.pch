@@ -24,6 +24,17 @@
 #import "CoachingHistory.h"
 #import "CalendarEvent.h"
 
+// for webservice response tag
+
+#define getAnnouncementTag 7000
+#define searchAnnouncementTag 7001
+#define getNotification 7002
+#define getMessagesTag 7003
+#define deleteMessagesTag 7004
+#define archiveMessagesTag 7005
+#define emptyLableMessagesTag 345667
+
+
 #define listPickerHeight 168
 #define datePickerHeight 168
 #define topNavigationHeight 50

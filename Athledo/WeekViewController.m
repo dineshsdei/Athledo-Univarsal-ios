@@ -158,12 +158,10 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
     
-  [self.navigationItem setHidesBackButton:YES animated:NO];
+    [self.navigationItem setHidesBackButton:YES animated:NO];
     
     UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
-    
-    
     
     [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setBackgroundImage:imageEdit forState:UIControlStateNormal];
@@ -203,10 +201,7 @@ UIBarButtonItem *revealButtonItem;;
     [CalendarEvent ShareInstance].strRepeatSting=@"";
     [CalendarEvent ShareInstance].strEventEditBy=@"";
      [CalendarEvent ShareInstance].CalendarRepeatStatus=FALSE;
-    
-   
-    
-    
+ 
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController)
@@ -241,8 +236,6 @@ UIBarButtonItem *revealButtonItem;;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-   
-
     if ([SingletonClass ShareInstance].isCalendarUpdate==TRUE) {
 
     webservice =[WebServiceClass shareInstance];
@@ -322,7 +315,6 @@ UIBarButtonItem *revealButtonItem;;
             BOOL Status=FALSE;
             for (id object in arrController)
             {
-                
                 if ([object isKindOfClass:[MapViewController class]])
                 {
                     Status=TRUE;
@@ -339,16 +331,12 @@ UIBarButtonItem *revealButtonItem;;
                 [self.navigationController pushViewController:mapView animated:NO];
                 
             }
-            
-            
             break;
         }
             
         default:
             break;
     }
-    
-    
 }
 
 
@@ -539,9 +527,6 @@ UIBarButtonItem *revealButtonItem;;
         }
         [self.navigationController pushViewController:eventDetails animated:NO];
     }
-
-    
-    
 }
 
 - (void)weekView:(MAWeekView *)weekView eventDragged:(MAEvent *)event {

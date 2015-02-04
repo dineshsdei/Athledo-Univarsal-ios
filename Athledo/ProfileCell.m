@@ -13,41 +13,36 @@
 #define textAlignment NSTextAlignmentCenter
 #define iconleftPosition isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :300) : 80
 
-#define iconRightPosition 265
-#define GenralInfoX isIPAD ?  (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 505  :365) : 150
+#define SchoolInfoDashX isIPAD ? 110 : 150
+#define SchoolInfoDateW isIPAD ? 110 : 80
+#define SchoolInfoDesW isIPAD ? 300 : 200
+#define LINE_SEP_W isIPAD ? 468 : 220
+#define AwardInfoW isIPAD ? 200 : 200
+#define FName_W isIPAD ? 135 : 130
 
+#define iconRightPosition 265
 #define GenralInfoWeight isIPAD ? 210 : 150
 #define GenralInfoAlignment NSTextAlignmentLeft
+#define SportInfoAlignment NSTextAlignmentLeft
 #define ColorLightgray [UIColor lightGrayColor]
 #define ColorGray [UIColor grayColor]
 #define FieldClearBackground [UIColor clearColor]
 #define FieldWhiteBackground [UIColor whiteColor]
-
-#define SchoolInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 370  :240) : 60
-#define SchoolInfoDateW isIPAD ? 110 : 80
-#define SchoolInfoDateX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 420  :300) : 70
-#define SchoolInfoDesW isIPAD ? 300 : 200
-
-#define SchoolInfoDashX isIPAD ? 110 : 150
-
-#define LINE_SEP_X isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 310  :170) : 50
-#define LINE_SEP_W isIPAD ? 468 : 220
-
-#define AwardInfoCupX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 500  :360)  : 140
-#define AwardInfoX isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 430  :290)   : 60
-#define AwardInfoW isIPAD ? 200 : 200
-
-#define FName_W isIPAD ? 135 : 130
-
-#define SportInfoAlignment NSTextAlignmentLeft
-#define AthleteSportX isIPAD ?(([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :300) : 90
-
 
 #define VIEW_X  30
 #define sportinfoFont isIPAD ? [UIFont fontWithName:@"HelveticaNeue" size:16] : [UIFont fontWithName:@"HelveticaNeue" size:13];
 
 @implementation ProfileCell
 @synthesize addProfileDelegate;
+
+int GenralInfoX;
+int TeamInfoX;
+int SchoolInfoX;
+int SchoolInfoDateX;
+int LINE_SEP_X;
+int AwardInfoCupX;
+int AwardInfoX;
+int AthleteSportX;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -57,10 +52,35 @@
     }
     return self;
 }
+-(void)refreshValues
+{
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    if ((orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationPortrait)) {
+    
+    GenralInfoX = isIPAD ?  (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 505  :365) : 150;
+    TeamInfoX =isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 410  :270) : 60;
+     SchoolInfoX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 360  :240) : 60;
+    SchoolInfoDateX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 400  :270) : 70;
+    LINE_SEP_X=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 310  :170) : 50;
+    AwardInfoCupX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight)? 500  :360)  : 140;
+    AwardInfoX =isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight)  ? 430  :290)   : 60;
+    AthleteSportX=isIPAD ?(([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :320) : 90;
+    }
 
+
+}
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath delegate:(id)del GenralInfo:(NSDictionary *)GenralInfo coachingInfo:(NSArray *)coachingInfo awardInfo:(NSArray *)awardInfo :(BOOL)isEdit
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+//    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+//    if(currentOrientation ==orientation)
+//    {
+//        return ;
+//    }
+//    currentOrientation=orientation;
+    
+    [self refreshValues];
 
     AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     UIColor *colorPlaceHolder = [UIColor lightGrayColor];
@@ -92,7 +112,7 @@
     // txtFName.placeholder = @"firstname";
 
     txtFName.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"firstname" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-
+        
     txtFName.alpha = 1.0;
     txtFName.userInteractionEnabled = isEdit;
 
@@ -765,7 +785,7 @@
     }
 
 
-    UITextField *txtTeam = [[UITextField alloc] initWithFrame:CGRectMake((SchoolInfoX), 22, 200, 20)];
+    UITextField *txtTeam = [[UITextField alloc] initWithFrame:CGRectMake((TeamInfoX), 22, 200, 20)];
     txtTeam.tag = (indexPath.section+1)*1000+Thsection;
     txtTeam.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtTeam.delegate = del;
@@ -788,7 +808,7 @@
     [self addSubview:txtTeam];
     Thsection=Thsection+1;
 
-    UITextView *txtTeamDiscription = [[UITextView alloc] initWithFrame:CGRectMake((SchoolInfoX), 47, 200, 60)];
+    UITextView *txtTeamDiscription = [[UITextView alloc] initWithFrame:CGRectMake((TeamInfoX), 47, 200, 60)];
     txtTeamDiscription.tag = (indexPath.section+1)*1000+Thsection;
     txtTeamDiscription.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
     txtTeamDiscription.delegate = del;

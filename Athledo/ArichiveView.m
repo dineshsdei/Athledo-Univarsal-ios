@@ -15,10 +15,6 @@
 #import "MessageDetails.h"
 #import "SWRevealViewController.h"
 
-#define getMessagesTag 510
-#define deleteMessagesTag 520
-#define archiveMessagesTag 530
-
 @interface ArichiveView ()
 
 @end
@@ -60,7 +56,8 @@
     
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
-        
+        webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
         //[SingletonClass addActivityIndicator:self.view];
@@ -89,9 +86,6 @@
             strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\"}",[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_sender_id"] intValue],[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_id"] intValue]];
 
         }
-        
-      
-        
         //[SingaltonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceDeleteMessage :strURL :deleteMessagesTag];
@@ -147,10 +141,10 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                 [SingletonClass ShareInstance].isMessangerArchive =FALSE;
-                // Now we Need to decrypt data
-                
+                [SingletonClass ShareInstance].isMessangerArchive =FALSE;
                 messageArrDic =[MyResults objectForKey:@"data"];
+                [SingletonClass deleteUnUsedLableFromTable:table];
+                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
                 [table reloadData];
             }
             
@@ -194,12 +188,20 @@
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
+-(void)orientationChanged
+{
+    [SingletonClass deleteUnUsedLableFromTable:table];
+    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+}
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     

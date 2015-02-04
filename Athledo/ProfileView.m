@@ -65,6 +65,25 @@
     }
     return self;
 }
+- (NSUInteger) supportedInterfaceOrientations
+{
+    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    
+    if (isIPAD)
+    {
+        if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
+            return UIInterfaceOrientationMaskPortrait;
+        }else if (orientation == UIDeviceOrientationPortrait) {
+            return UIInterfaceOrientationMaskLandscape;
+        }else{
+            return UIInterfaceOrientationMaskPortrait;
+        }
+        
+        
+    }
+    else
+        return  UIInterfaceOrientationMaskPortrait;
+}
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:NO];
@@ -76,8 +95,8 @@
 }
 - (void)orientationChanged
 {
-    UIDeviceOrientation oreintation=[SingletonClass getOrientation];
-    if ((isIPAD) && (oreintation==UIDeviceOrientationLandscapeLeft || (oreintation==UIDeviceOrientationLandscapeLeft))) {
+    //UIDeviceOrientation oreintation=[SingletonClass getOrientation];
+    if ((isIPAD)) {
         [tblProfile reloadData];
     }
 }

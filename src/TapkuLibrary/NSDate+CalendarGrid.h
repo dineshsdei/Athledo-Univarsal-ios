@@ -36,6 +36,7 @@
 - (NSDate*) firstOfMonthWithTimeZone:(NSTimeZone*)timeZone;
 - (NSDate*) nextMonthWithTimeZone:(NSTimeZone*)timeZone;
 - (NSDate*) previousMonthWithTimeZone:(NSTimeZone*)timeZone;
+- (NSDate*) currentMonthWithTimeZone:(NSTimeZone*)timeZone;
 
 - (NSDate*) lastOfMonthDateWithTimeZone:(NSTimeZone*)timeZone;
 + (NSDate*) lastofMonthDateWithTimeZone:(NSTimeZone*)timeZone;

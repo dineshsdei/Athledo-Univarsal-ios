@@ -996,7 +996,7 @@
     
     currentText=(CustomTextField *)textField;
     
-    textField.keyboardType=UIKeyboardTypeNumberPad;
+    textField.keyboardType=UIKeyboardTypePhonePad;
     [WorkOutDetails setContentOffsetOfScrollView:textField table:scrollView];
     [self setContentOffsetOfTableDown:textField table:table];
     
@@ -1223,6 +1223,15 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     
+    NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:string];
+    
+    BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
+    
+    if (!stringIsValid) {
+        
+        return NO;
+    }
     CustomTextField *LocalTxtFeild=(CustomTextField *)textField;
     
     if ([string isEqualToString:@""]) {
@@ -1237,11 +1246,6 @@
             
             return NO;
         }
-        
-        
-        
-        // [self updateLiftValue:currentText.liftAthleteIndex :textField.text :currentText.RowIndex :currentText.liftExerciseIndex];
-        
     }else{
         
         // This code not work for lift and interval ( in both case method work updateLiftValue)

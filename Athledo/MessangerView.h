@@ -25,6 +25,7 @@
     IBOutlet UITableView *table;
     NSArray *messageArrDic;
     IBOutlet UITabBar *tabBar;
+    UILabel *lblShowEmptyMessage;
 }
 
 

@@ -44,8 +44,9 @@
     
     NSDate *SelectedMonthStart;
     NSDate *SelectedMonthEnd;
+    UIDeviceOrientation currentOrientation;
 }
-
+@property(nonatomic,retain)TKCalendarMonthView *monthview;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic,strong) NSMutableDictionary *dataDictionary;
 @property(weak,nonatomic)id objNotificationData;

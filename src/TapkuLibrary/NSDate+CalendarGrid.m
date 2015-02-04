@@ -48,6 +48,22 @@
 	
 	return [NSDate dateWithDateComponents:info];
 }
+
+- (NSDate*) currentMonthWithTimeZone:(NSTimeZone*)timeZone{
+    
+    
+    NSDateComponents *info = [self dateComponentsWithTimeZone:timeZone];
+   
+//    if(info.month>12){
+//        info.month = 1;
+//        info.year++;
+//    }
+//    info.minute = info.second = info.hour = 0;
+    
+    return [NSDate dateWithDateComponents:info];
+    
+}
+
 - (NSDate*) nextMonthWithTimeZone:(NSTimeZone*)timeZone{
 	
 	

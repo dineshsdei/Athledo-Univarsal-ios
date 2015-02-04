@@ -715,8 +715,6 @@ static int LiftExerciseCount=0;
         [workOutDic setObject:@"" forKey:[arrFieldsPlaceholder objectAtIndex:i]];
         
     }
-    
-    
     @try {
         
        if (objEditModeData) {
@@ -783,16 +781,9 @@ static int LiftExerciseCount=0;
                 [self getWorkOutUnit:code :@""];
                 
                 [self ShowFieldsRegardingWorkOutType:strtemp];
-                
-                
-                
             }
-        
-            
         }else{
-            
             // Whole team and email Yes is by default selected
-            
             [workOutDic setObject:@"1" forKey:@"Whole Team"];
             [workOutDic setObject:@"" forKey:@"Athletes"];
             [workOutDic setObject:@"" forKey:@"Groups"];
@@ -801,9 +792,7 @@ static int LiftExerciseCount=0;
             [workOutDic setObject:[Data copy] forKey:@"Custom Tags"];
             [workOutDic setObject:@"" forKey:@"Total Time"];
             Data=nil;
-            
         }
-        
     }
     @catch (NSException *exception) {
    
@@ -811,8 +800,6 @@ static int LiftExerciseCount=0;
     @finally {
         
     }
-    
-   
     arrWorkOutList=[[NSMutableArray alloc] init] ;
     
     arrCellHeight=[[NSMutableArray alloc] initWithObjects:@"70",@"70",@"70",@"70",@"70",@"100",@"70" ,nil];
@@ -1010,12 +997,9 @@ static int LiftExerciseCount=0;
         [self getWorkOutUnit:code :ExerciseCode];
        
     }
-    
-        
     if(([currentText.placeholder isEqualToString:@"Workout Type"]  ) )
     {
           if (currentText.text.length > 0) {
-            
             if (isChangeWorkoutType==TRUE)
             {
                 NSString *code= [self KeyForValue:@"Workout Type" :currentText.text];
@@ -1028,9 +1012,7 @@ static int LiftExerciseCount=0;
     }else if([strPlaceHolder isEqualToString:@"Athletes"] || [strPlaceHolder isEqualToString:@"Groups"] )
     {
         // If nothing is selected from picker
-        
         if ([[workOutDic objectForKey:@"Athletes"] isEqual:@""] && [strPlaceHolder isEqualToString:@"Athletes"] ) {
-            
             [workOutDic setObject:@"1" forKey:@"Whole Team"];
         }
         
@@ -1041,10 +1023,7 @@ static int LiftExerciseCount=0;
     }
     
     if ((currentText) && !([currentText.placeholder isEqualToString:@"Name"]||[currentText.placeholder isEqualToString:@"Sets"] || [currentText.placeholder isEqualToString:@"Reps"]||[currentText.placeholder isEqualToString:@"Weight"])) {
-        
         [self setContentOffsetDown:currentText table:tableview];
-     
-        
     }else
     {
         
@@ -1065,7 +1044,6 @@ static int LiftExerciseCount=0;
     
     if ( isChangeWorkoutType==TRUE) {
         [self ShowFieldsRegardingWorkOutType:currentText.text];
-        
         isChangeWorkoutType=FALSE;
     }
     
@@ -1103,8 +1081,8 @@ static int LiftExerciseCount=0;
     }else if ([workOutType isEqualToString:@"Interval"] ) {
     
     [arrFieldsPlaceholder removeObject:@"Exercise Type"];
-     [arrFieldsPlaceholder removeObject:@"# of Intervals"];
-     [arrFieldsPlaceholder removeObject:@"Unit"];
+    [arrFieldsPlaceholder removeObject:@"# of Intervals"];
+    [arrFieldsPlaceholder removeObject:@"Unit"];
     [workOutDic setObject:@"" forKey:@"Unit"];
     [workOutDic setObject:@"" forKey:@"# of Intervals"];
    
@@ -1179,24 +1157,16 @@ static int LiftExerciseCount=0;
                     dic=nil;
                     [arrFieldsPlaceholder insertObject:@"Total Time" atIndex:arrFieldsPlaceholder.count];
                 }
-                
-                
-                
                 for (int i=0; i< arrLiftPlaceholder.count; i++) {
                     
                     [arrFieldsPlaceholder insertObject:@"Exercise" atIndex:arrFieldsPlaceholder.count];
                 }
                 isEditData=FALSE;
-                
-                
             }
             
         }
   
         [tableview reloadData];
-        
-        
-
     }
     @catch (NSException *exception) {
         
@@ -1213,9 +1183,7 @@ static int LiftExerciseCount=0;
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
-    
     [self.view viewWithTag:toolBarTag].center = point;
-    
     [UIView commitAnimations];
 }
 /*
@@ -1597,15 +1565,11 @@ static int LiftExerciseCount=0;
                     values =[values stringByAppendingString:[NSString stringWithFormat:@"%@,", arrKeys[i] ] ];
                 else
                     values =[values stringByAppendingString:[NSString stringWithFormat:@"%@", arrKeys[i] ] ];
-                
-                
             }
             
         }
         
         [workOutDic setObject:[pickerData copy] forKey:strPlaceHolder];
-        // pickerData=nil;
-        
         return values;
 
     }
@@ -2641,18 +2605,13 @@ static int LiftExerciseCount=0;
                                 
                                 strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\",\"user_type\":\"%d\",\"Workout Id\":\"%@\",\"Workout Name\":\"%@\",\"CoolDown Time\":\"%@\",\"WarmUp Time\":\"%@\",\"Custom Tags\":\"%@\",\"Description\":\"%@\",\"Email Notification\":\"%@\",\"Date\":\"%@\",\"Exercise Type\":\"%@\",\"Unit\":\"%@\",\"Workout Type\":\"%@\",\"assigned\":\"%d\",\"Athletes\":\"%@\",\"Groups\":\"%@\",\"Interval\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,[UserInformation shareInstance].userId,[UserInformation shareInstance].userType,strWorkOutId,strWorkOutName,strCoolDownTime,strWormUpTime,strCustomTagsIds,strWorkOutDes,strWorkOutEmail,strWorkOutDate,strExerciseIds,strUnitsIds,strWorkOutTypeIds,assigned,strAthletesIds,strGroupsIds,strInterval];
                                 
-                                
                                 [webservice WebserviceCall:webUrlAddWorkOut :strURL :AddWorkoutTag];
                                 
                             }else{
                                 
                                 NSArray *tempLiftdata=[self LiftDataWithUnitCode:[workOutDic valueForKeyPath:@"Lift"]];
-                                
-                                
-                                
+                            
                                 NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
-                    
-                                
                                 [dic setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedTeamid] forKey:@"team_id"];
                                 [dic setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedSportid] forKey:@"sport_id"];
                                 [dic setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userId] forKey:@"user_id"];
@@ -2679,9 +2638,6 @@ static int LiftExerciseCount=0;
                                     
                                     [dic setObject:@"" forKey:@"Lift"];
                                 }
-                                
-                                
-                                
                                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:0 error:NULL];
                                 
                                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webUrlAddWorkOut]];
@@ -2692,18 +2648,10 @@ static int LiftExerciseCount=0;
                                 
                                 [data appendData:jsonData];
                                 [request setHTTPBody:data];
-                                
-                                
                                 [NSURLConnection sendAsynchronousRequest:request
                                                                    queue:[NSOperationQueue mainQueue]
                                                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                                           // ...
-                                                           
-                                                           //NSLog(@"reponse %@",response);
-                                                           
-                                                           
-                                                           
-                                                           if (data!=nil)
+                                                            if (data!=nil)
                                                            {
                                                                [self httpResponseReceived : data : AddWorkOutLiftTag];
                                                            }else{
@@ -2816,13 +2764,7 @@ static int LiftExerciseCount=0;
             [webservice WebserviceCall:webUrlAddCustomTag :strURL :AddCustomTag];
             
         }else{
-            
-           
-            
         }
-        
-        
-        
         
     }else if (alertView.tag ==DeletecustomAlertTag && buttonIndex==1)
     {
@@ -2940,15 +2882,9 @@ static int LiftExerciseCount=0;
     UIImage *image;
     
     image=[UIImage imageNamed:@"arrow.png"];
-    
-    
-    UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
-    
+     UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
     imageview.frame=CGRectMake(textField.frame.size.width-imageview.frame.size.width, textField.frame.origin.x,imageview.frame.size.width, imageview.frame.size.height);
-    
     [textField addSubview:imageview];
-    
-    
     // textField.keyboardType = UIKeyboardTypeNumberPad;
     
     [alertView show];
@@ -2960,17 +2896,12 @@ static int LiftExerciseCount=0;
 {
     
     UIButton *btn=sender;
-    
-    //NSLog(@"check box tag %d",btn.tag);
-    
     if (btn.tag==1000) {
         [workOutDic setObject:@"Yes" forKey:@"Email Notification"];
     }else{
         
           [workOutDic setObject:@"No" forKey:@"Email Notification"];
     }
-    
-    
     UITableViewCell *tableview1=(UITableViewCell *)[sender superview];
     
     NSArray *subview=[tableview1 subviews];
@@ -2989,12 +2920,7 @@ static int LiftExerciseCount=0;
             
             [bb setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
         }
-        
-        
     }
-    
-    
-    
     if (btn.selected)
     {
         btn.selected=NO;
