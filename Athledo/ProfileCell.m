@@ -8,10 +8,11 @@
 
 #import "ProfileCell.h"
 #import "AppDelegate.h"
+#import "LoginVeiw.h"
 
 
 #define textAlignment NSTextAlignmentCenter
-#define iconleftPosition isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :300) : 80
+
 
 #define SchoolInfoDashX isIPAD ? 110 : 150
 #define SchoolInfoDateW isIPAD ? 110 : 80
@@ -43,6 +44,7 @@ int LINE_SEP_X;
 int AwardInfoCupX;
 int AwardInfoX;
 int AthleteSportX;
+int iconleftPosition;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,17 +56,20 @@ int AthleteSportX;
 }
 -(void)refreshValues
 {
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
-    if ((orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationPortrait)) {
+    SingletonClass *Obj=[SingletonClass ShareInstance];
+    UIDeviceOrientation orientation=Obj.GloableOreintation;
+    if ((orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationPortrait || orientation==UIDeviceOrientationFaceUp)) {
+        
+    iconleftPosition=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :300) : 80 ;
     
-    GenralInfoX = isIPAD ?  (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 505  :365) : 150;
-    TeamInfoX =isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 410  :270) : 60;
-     SchoolInfoX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 360  :240) : 60;
-    SchoolInfoDateX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 400  :270) : 70;
-    LINE_SEP_X=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 310  :170) : 50;
-    AwardInfoCupX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight)? 500  :360)  : 140;
-    AwardInfoX =isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight)  ? 430  :290)   : 60;
-    AthleteSportX=isIPAD ?(([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 440  :320) : 90;
+    GenralInfoX = isIPAD ?  (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp) ? 505  :365) : 150;
+    TeamInfoX =isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight ) || (orientation==UIDeviceOrientationFaceUp) ? 410  :270) : 60;
+     SchoolInfoX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 360  :240) : 60;
+    SchoolInfoDateX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 400  :270) : 70;
+    LINE_SEP_X=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 310  :170) : 50;
+    AwardInfoCupX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp)? 500  :360)  : 140;
+    AwardInfoX =isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 430  :290)   : 60;
+    AthleteSportX=isIPAD ?(([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 440  :320) : 90;
     }
 
 

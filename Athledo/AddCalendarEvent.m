@@ -32,6 +32,7 @@
     UIToolbar *toolBar;
     
     BOOL SaveWithoutChange;
+    UIDeviceOrientation CurrentOrientation;
 }
 
 @end
@@ -807,7 +808,14 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
     
     if(_eventDetailsDic)
     {
@@ -919,12 +927,21 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
 }
 
 - (void)orientationChanged
 {
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
+    
     if (isIPAD) {
         
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
@@ -934,11 +951,7 @@
 
 - (void)viewDidLoad
 {
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+    
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
 

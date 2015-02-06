@@ -28,12 +28,15 @@
 @property(nonatomic,strong)NSString *strCalendarEventType;
 @property(nonatomic,strong)NSString *strCalendarRepeatSting;
 @property(nonatomic,strong)NSString *strEventEndDate;
+@property(nonatomic)UIDeviceOrientation GloableOreintation;
 
 +(void)setListPickerDatePickerMultipickerVisible :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar;
 +(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar;
 -(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id;
 -(NSDictionary *)GetUSerSaveData;
 +(UIDeviceOrientation )getOrientation;
+-(UIDeviceOrientation )CurrentOrientation :(id)controller;
+
 +(UILabel *)ShowEmptyMessage :(NSString *)text;
 +(void)deleteUnUsedLableFromTable :(UITableView *)table;
 

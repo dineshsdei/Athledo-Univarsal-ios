@@ -150,7 +150,7 @@ static SingletonClass *objSingaltonClass=nil;
          lblShowEmptyMessage.text=text;
     lblShowEmptyMessage.tag=emptyLableMessagesTag;
     lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
-    lblShowEmptyMessage.font=[UIFont systemFontOfSize:30];
+    lblShowEmptyMessage.font=(isIPAD )?[UIFont systemFontOfSize:30] : [UIFont systemFontOfSize:24] ;
     lblShowEmptyMessage.textColor=[UIColor grayColor];
 
     return lblShowEmptyMessage;
@@ -184,11 +184,11 @@ static SingletonClass *objSingaltonClass=nil;
     float SCREENWIDTH;
     float SCREENHEIGHT;
     
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIDeviceOrientation orientation=[SingletonClass ShareInstance].GloableOreintation;
     
     if (iosVersion < 8)
     {
-        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)) && (isIPAD))
+        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp)) && (isIPAD))
         {
             SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
             SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
@@ -261,13 +261,13 @@ static SingletonClass *objSingaltonClass=nil;
 
 +(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar
 {
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIDeviceOrientation orientation=[SingletonClass ShareInstance].GloableOreintation;
     float SCREENWIDTH;
     float SCREENHEIGHT;
     
     if (iosVersion < 8)
     {
-        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)) && (isIPAD))
+        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp)) && (isIPAD))
         {
             SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
             SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
@@ -319,8 +319,35 @@ static SingletonClass *objSingaltonClass=nil;
 {
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
     return deviceOrientation;
+    
+    
 }
-
+-(UIDeviceOrientation )CurrentOrientation :(id)controller
+{
+    UIViewController *viewcontroller=(UIViewController *)controller;
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+   // NSString *device = [[UIDevice currentDevice]localizedModel];
+    UIInterfaceOrientation cachedOrientation = [viewcontroller preferredInterfaceOrientationForPresentation];
+    
+        if (orientation == UIDeviceOrientationUnknown ||
+            orientation == UIDeviceOrientationFaceUp ||
+            orientation == UIDeviceOrientationFaceDown) {
+            
+            orientation = (UIDeviceOrientation)cachedOrientation;
+        }
+        
+        if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
+            
+           orientation=UIDeviceOrientationLandscapeLeft;
+        }
+        
+        if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown) {
+            
+            orientation=UIDeviceOrientationPortrait;
+        }
+    _GloableOreintation=orientation;
+    return orientation;
+}
 
 
 @end

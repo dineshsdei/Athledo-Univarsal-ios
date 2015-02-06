@@ -134,7 +134,7 @@ UIBarButtonItem *revealButtonItem;;
         view.frame=CGRectMake(view.frame.origin.x,view.frame.origin.y, self.view.frame.size.width, view.frame.size.height);
         lblTopContaint.frame=CGRectMake(lblTopContaint.frame.origin.x,lblTopContaint.frame.origin.y, self.view.frame.size.width, lblTopContaint.frame.size.height);
         
-        UIDeviceOrientation orientation=[SingletonClass getOrientation];
+        UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
         if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
             
             tabBar.frame =CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 56 : 49), self.view.frame.size.width, 50);
@@ -148,11 +148,14 @@ UIBarButtonItem *revealButtonItem;;
  // Uncomment if you want to show date on top of calendar view the uncomment code on TKCalendar view screen
 
 - (void) viewDidLoad{
+    if (isIPAD)
+    {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+    }
 
 	[super viewDidLoad];
     self.data=[[NSMutableArray alloc] init];
@@ -169,19 +172,14 @@ UIBarButtonItem *revealButtonItem;;
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
+ 
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
-    UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
+    UIButton  *btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
-    
-    
-    [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
+    btnAddNew.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );    [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
@@ -199,7 +197,7 @@ UIBarButtonItem *revealButtonItem;;
  
     // Last value for event tag for show in details
     
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
         
         self.dayView.frame=CGRectMake(self.dayView.frame.origin.x, self.dayView.frame.origin.y, self.dayView.frame.size.width, self.dayView.frame.size.height-47);
@@ -355,9 +353,7 @@ UIBarButtonItem *revealButtonItem;;
     return minutes;
 }
 - (void) viewWillAppear:(BOOL)animated{
-    
-   
-    
+
     [self.navigationItem setHidesBackButton:YES animated:NO];
 
     [super viewWillAppear:animated];
@@ -379,6 +375,7 @@ UIBarButtonItem *revealButtonItem;;
 
     [self getEvents:enddate:[enddate stringByReplacingOccurrencesOfString:@"00:00:00" withString:@"24:00:00"]];
     }
+     if (isIPAD)
     [self orientationChanged];
 }
 - (NSDate *)addDays:(NSInteger)days toDate:(NSDate *)originalDate {
@@ -478,7 +475,8 @@ UIBarButtonItem *revealButtonItem;;
 - (void) viewWillDisappear:(BOOL)animated{
 	[super viewWillDisappear:animated];
 	self.navigationController.navigationBar.hairlineDividerView.hidden = NO;
-
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 #pragma mark TKCalendarDayViewDelegate

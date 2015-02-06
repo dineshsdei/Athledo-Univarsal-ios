@@ -35,6 +35,7 @@
     NSDictionary *userToData;
     NSMutableArray *ToDataArray;
     NSMutableDictionary *ToSelectedData;
+    UIDeviceOrientation CurrentOrientation;
     
     int noOfLine;
 }
@@ -234,8 +235,12 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
+    
+    if (isIPAD)
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 -(void)viewWillLayoutSubviews
 {
@@ -248,13 +253,17 @@
 // this method call, when user rotate your device
 - (void)orientationChanged
 {
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
     if (isIPAD) {
         
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
         [pickerView removeFromSuperview];
         pickerView=nil;
-        UIDeviceOrientation orientation=[SingletonClass getOrientation];
+        UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
         if(orientation == UIDeviceOrientationLandscapeRight ||orientation == UIDeviceOrientationLandscapeLeft)
         {
             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 1024,216)];
@@ -271,11 +280,14 @@
 }
 - (void)viewDidLoad
 {
+    if (isIPAD)
+    {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+    }
 
     
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -386,7 +398,7 @@
     listPicker.dataSource=self;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
     
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     if (isIPAD) {
         if(orientation == UIDeviceOrientationLandscapeRight ||orientation == UIDeviceOrientationLandscapeLeft)
         {

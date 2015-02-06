@@ -149,9 +149,6 @@ UIBarButtonItem *revealButtonItem;;
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
@@ -160,9 +157,9 @@ UIBarButtonItem *revealButtonItem;;
     
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
-    UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
+    UIButton  *btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
-    
+    btnAddNew.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setBackgroundImage:imageEdit forState:UIControlStateNormal];
     

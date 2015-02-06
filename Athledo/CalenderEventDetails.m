@@ -62,6 +62,9 @@
     
     _lblEndDate.font=Textfont;
     _lblEventDescription.font=Textfont;
+    _lblEventDescription.layer.borderWidth=.50;
+    _lblEventDescription.layer.cornerRadius=10;
+    _lblEventDescription.layer.borderColor=[[UIColor lightGrayColor] CGColor];
     _lblEventTitle.font=Textfont;
     _lblEventLocation.font=Textfont;
     _lblStartDate.font=Textfont;

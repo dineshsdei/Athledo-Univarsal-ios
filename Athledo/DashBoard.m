@@ -10,9 +10,12 @@
 #import "SWRevealViewController.h"
 #import "UIImageView+WebCache.h"
 
+#define CellHeight isIPAD ? 120 : 80
+
 @interface DashBoard ()
 {
     NSMutableArray *arrUserTeam;
+    
     
 }
 
@@ -62,10 +65,24 @@
     
     CGPoint tapLocation = [recognizer locationInView:self.dashboardTableView];
     NSIndexPath *indexPath = [self.dashboardTableView indexPathForRowAtPoint:tapLocation];
+    NSLog(@"%d",CellHeight);
+     NSLog(@"%f",tapLocation.y );
+    NSLog(@"%d",((tapLocation.y) / CellHeight) );
+     NSLog(@"%d",indexPath.row);
+    int touchlocation=tapLocation.y;
+    int cellheight=CellHeight;
+    int cellNO=(touchlocation /cellheight ) ;
+    if ( cellNO > indexPath.row ) {
+        
+        return;
+    }
+    
     if (isPush==FALSE) {
     isPush=TRUE;
     @try {
-
+        NSLog(@"%d",indexPath.row);
+         NSLog(@"%@",[UserInformation shareInstance].arrUserTeam);
+      
     NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:indexPath.row] ;
     [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
     [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
@@ -151,16 +168,11 @@
     cell.teamDes.text=[[[UserInformation shareInstance].arrUserTeam objectAtIndex:indexPath.row] objectForKey:@"team_desc"];
     cell.backgroundColor=[UIColor clearColor];
     return cell;
-    }
-    - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-    {
-    if (isIPAD) {
-    return 120;
-    }else{
-    return 80;
-    }
+}
 
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CellHeight;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

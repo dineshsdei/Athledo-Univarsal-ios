@@ -29,6 +29,7 @@
     NSString *seasonId;
     NSString *AlbumId;
     int titleIndex;
+    UIDeviceOrientation CurrentOrientation;
     
 }
 @end
@@ -81,19 +82,35 @@
 
 - (void)orientationChanged
 {
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500):toolBar];
     }
+    [_tableView reloadData];
+  
 }
-
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:NO];
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+    if (isIPAD) {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
+   
     // Do any additional setup after loading the view from its nib.
     
     SWRevealViewController *revealController = [self revealViewController];

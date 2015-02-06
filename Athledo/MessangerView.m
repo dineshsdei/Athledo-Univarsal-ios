@@ -114,7 +114,7 @@
                 //[SingaltonClass RemoveActivityIndicator:self.view];
                 messageArrDic =[MyResults objectForKey:@"data"];
                 [SingletonClass deleteUnUsedLableFromTable:table];
-                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
                 [table reloadData];
             }
             
@@ -159,6 +159,14 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:0];
     
     [tabBar setSelectedItem:tabBarItem];
@@ -179,11 +187,12 @@
         
     }
     
-    
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:NO];
+    if (isIPAD)
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
        self.title = NSLocalizedString(@"Back", @"");
 }
 
@@ -194,20 +203,16 @@
 -(void)orientationChanged
 {
     [SingletonClass deleteUnUsedLableFromTable:table];
-    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
 }
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+  
     [super viewDidLoad];
     
     lblShowEmptyMessage=[[UILabel alloc] initWithFrame:CGRectMake(30, self.view.frame.size.height/3, self.view.frame.size.width-60, 100)];
-    lblShowEmptyMessage.text=@"No Messages";
+    lblShowEmptyMessage.text=@"No Message";
     lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
     lblShowEmptyMessage.font=[UIFont systemFontOfSize:60];
     lblShowEmptyMessage.textColor=[UIColor grayColor];

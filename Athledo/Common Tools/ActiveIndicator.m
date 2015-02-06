@@ -16,8 +16,8 @@
     int X_Prosition;
     int Y_Position;
     
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight)))
+    UIDeviceOrientation deviceOrientation = [SingletonClass ShareInstance].GloableOreintation;
+    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight || deviceOrientation==UIDeviceOrientationFaceUp)))
     {
         if (iosVersion < 8) {
             X_Prosition=[[UIScreen mainScreen] bounds].size.height/2-50;

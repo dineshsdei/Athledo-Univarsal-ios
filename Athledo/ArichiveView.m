@@ -31,6 +31,15 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
+
     [super viewWillAppear:animated];
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
@@ -48,7 +57,7 @@
         [SingletonClass ShareInstance].isMessangerArchive =FALSE;
         
     }
-    
+     [self orientationChanged];
 }
 
 #pragma mark Webservice call event
@@ -144,7 +153,7 @@
                 [SingletonClass ShareInstance].isMessangerArchive =FALSE;
                 messageArrDic =[MyResults objectForKey:@"data"];
                 [SingletonClass deleteUnUsedLableFromTable:table];
-                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
                 [table reloadData];
             }
             
@@ -191,17 +200,18 @@
 -(void)orientationChanged
 {
     [SingletonClass deleteUnUsedLableFromTable:table];
-    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
+}
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+   // if (isIPAD)
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
@@ -384,7 +394,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if(isIPAD)
     {
         return 111;
@@ -499,10 +508,7 @@
                 
                 [self.navigationController pushViewController:sentItems animated:NO];
             }
-            
 
-            
-            
             break;
         } case 1:
         {
@@ -534,12 +540,7 @@
     
 }
 
-//-(void)viewDidDisappear:(BOOL)animated
-//{
-//    [self viewDidDisappear:animated];
-//    
-//    [[NSUserDefaults standardUserDefaults] setObject:messageArrDic forKey:@"archive"];
-//}
+
 
 - (void)didReceiveMemoryWarning
 {

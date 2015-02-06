@@ -160,7 +160,7 @@
         
         //[SingaltonClass addActivityIndicator:self.view];
         
-        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotification];
+        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationTag];
         
     }else{
         
@@ -170,10 +170,11 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    
+   
+
     switch (Tag)
     {
-        case getNotification:
+        case getNotificationTag:
         {
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
@@ -197,14 +198,16 @@
             if ([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 [arrAnnouncements removeAllObjects];
-                
-                //arrAnnouncements=[data objectForKey:@"Announcement"]
+                 [SingletonClass RemoveActivityIndicator:self.view];
+                self.navigationItem.rightBarButtonItem.enabled=YES;
+                self.navigationItem.leftBarButtonItem.enabled=YES;
+
                 for (int i=0; i< data.count; i++)
                 {
                         [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
                    
                 }
-                [SingletonClass RemoveActivityIndicator:self.view];
+               
                 switch (userInfo.userType) {
                         
                     case 1:
@@ -286,16 +289,20 @@
         }
             
     }
+    
+   
 }
 - (void)getList
 {
   
     if ([SingletonClass  CheckConnectivity])
     {
+        self.navigationItem.rightBarButtonItem.enabled=NO;
+        self.navigationItem.leftBarButtonItem.enabled=NO;
+        
         userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid];
         
         [SingletonClass addActivityIndicator:self.view];
@@ -356,10 +363,20 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:arrAnnouncements forKey:@"announcementdata"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    if (isIPAD)
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged:)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
     userInfo=[UserInformation shareInstance];
     [self getNotificationData];
     [self CerateLayOut];
@@ -377,6 +394,8 @@
     
     if ([SingletonClass ShareInstance].isAnnouncementUpdate == TRUE) {
         self.navigationItem.rightBarButtonItem.enabled=NO;
+        self.navigationItem.leftBarButtonItem.enabled=NO;
+        
         [self getList];
         
         [SingletonClass ShareInstance].isAnnouncementUpdate=FALSE;
@@ -479,23 +498,18 @@
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
-    
-    btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 5, 44, 44)];
+     btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
+     btnAddNew.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnAddNew addTarget:self action:@selector(AddNewAnnouncement) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     self.navigationItem.rightBarButtonItem = ButtonItem;
     [self CerateLayOut];
-    
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-    
+  [[SingletonClass ShareInstance] CurrentOrientation:self];
     [self getList];
+    [SingletonClass ShareInstance].isAnnouncementUpdate=FALSE;
 }
 
 - (BOOL)revealController:(SWRevealViewController *)revealController

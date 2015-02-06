@@ -47,6 +47,9 @@
     _lblName.text=strName;
     _lblDate.text=strDate;
     _tvDes.text=strDes;
+    _tvDes.layer.borderWidth=.50;
+    _tvDes.layer.cornerRadius=10;
+    _tvDes.layer.borderColor=[[UIColor lightGrayColor] CGColor];
     _lblSenderName.text=[_obj valueForKey:@"sender"];
     _lblName.font=Textfont;
     _lblDate.font=SmallTextfont;
@@ -76,25 +79,26 @@
 
     UIView * newView = [[UIView alloc] initWithFrame:applicationFrame] ;
     newView.backgroundColor=[UIColor clearColor];
-
-    UIButton *btnDelete = [[UIButton alloc] initWithFrame:CGRectMake(80, 5, 44, 44)];
+    
+    UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageDelete=[UIImage imageNamed:@"deleteBtn.png"];
+    btnDelete.bounds = CGRectMake( 80, 0, imageDelete.size.width, imageDelete.size.height );
     [btnDelete addTarget:self action:@selector(DeleteAnnouncement:) forControlEvents:UIControlEventTouchUpInside];
     [btnDelete setImage:imageDelete forState:UIControlStateNormal];
-
+    
     UIBarButtonItem *BarItemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnDelete];
-
-
-    UIButton *btnEdit = [[UIButton alloc] initWithFrame:CGRectMake(200, 5, 44, 44)];
+    
+    
+    UIButton *btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"edit.png"];
+    btnEdit.bounds = CGRectMake( 200, 0, imageDelete.size.width, imageDelete.size.height );
     [btnEdit addTarget:self action:@selector(EditAnnouncement:) forControlEvents:UIControlEventTouchUpInside];
     [btnEdit setImage:imageEdit forState:UIControlStateNormal];
-
+    
     UIBarButtonItem *BarItemEdit = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
-    //[newView addSubview:btnDelete];
-    //[newView addSubview:btnEdit];
+    [newView addSubview:btnDelete];
+    [newView addSubview:btnEdit];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemEdit,BarItemDelete, nil];
-
     }else{
     _lblMEorAll.text=@"To Me";
     }

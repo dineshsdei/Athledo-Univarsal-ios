@@ -50,6 +50,7 @@
     
     int ViewY;
     int isKeyboard;
+    UIDeviceOrientation CurrentOrientation;
 }
 
 @end
@@ -238,6 +239,10 @@
 }
 - (void)orientationChanged
 {
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
@@ -247,11 +252,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (isIPAD)
+    {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+     }
     // Do any additional setup after loading the view from its nib.
     btnSave.titleLabel.textColor=[UIColor whiteColor];
     isSelectAthlete=FALSE;
@@ -266,7 +274,11 @@
     _lblWorkoutDate.font=Textfont;
     _lblWorkOutName.font=Textfont;
     _lblWorkoutType.font=Textfont;
-    _txtViewDescription.font=Textfont;
+   
+    _txtViewDescription.layer.borderWidth=.50;
+    _txtViewDescription.layer.cornerRadius=10;
+    _txtViewDescription.layer.borderColor=[[UIColor lightGrayColor] CGColor];
+     _txtViewDescription.font=Textfont;
     ViewY=self.view.frame.origin.y;
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
@@ -300,25 +312,27 @@
     //CGRect applicationFrame =isIPAD ? CGRectMake(200, 0, 260, 50) : CGRectMake(50, 0, 260, 50);
     // UIView * newView = [[UIView alloc] initWithFrame:applicationFrame] ;
     
-    _txtViewDescription.layer.borderWidth=.001;
-    
-    UIButton *btnDelete = [[UIButton alloc] initWithFrame: CGRectMake(50, 5, 44, 44)];
+    UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageDelete=[UIImage imageNamed:@"deleteBtn.png"];
+     btnDelete.bounds = CGRectMake( 0, 0, imageDelete.size.width, imageDelete.size.height );
     [btnDelete addTarget:self action:@selector(DeleteWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnDelete setImage:imageDelete forState:UIControlStateNormal];
     
     UIBarButtonItem *BarItemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnDelete];
     
     
-    UIButton *btnEdit = [[UIButton alloc] initWithFrame:CGRectMake(200, 5, 44, 44)];
+    UIButton *btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"edit.png"];
+      btnEdit.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnEdit addTarget:self action:@selector(EditWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnEdit setImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *BarItemEdit = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
     
-    UIButton *btnReassign = [[UIButton alloc] initWithFrame:CGRectMake(130, 5, 44, 44)];
+    UIButton *btnReassign =[UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageReassign=[UIImage imageNamed:@"reassign.png"];
+    btnReassign.bounds = CGRectMake( 0, 0, imageReassign.size.width, imageReassign.size.height );
+
     [btnReassign addTarget:self action:@selector(ReassignWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnReassign setImage:imageReassign forState:UIControlStateNormal];
     
@@ -968,6 +982,10 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+     if (isIPAD)
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+   
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
     

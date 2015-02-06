@@ -20,13 +20,11 @@
 #define SearchWorkOutTag 200
 #define DeleteWorkOutTag 400
 
-
-
-
 @interface WorkOutView ()
 {
     NSMutableArray *arrWorkOutData;
     UIButton *btnAddNew;
+    UIButton *btnHistory;
 }
 
 @end
@@ -63,14 +61,15 @@
     // Do any additional setup after loading the view from its nib.
    
     arrWorkOutData=[[NSMutableArray alloc] init];
-    UIButton *btnAddWorkout = [[UIButton alloc] initWithFrame:CGRectMake(220, 5, 44, 44)];
+    UIButton *btnAddWorkout = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageAdd=[UIImage imageNamed:@"add.png"];
+    btnAddWorkout.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
     [btnAddWorkout addTarget:self action:@selector(AddNewWorkOut) forControlEvents:UIControlEventTouchUpInside];
     [btnAddWorkout setImage:imageAdd forState:UIControlStateNormal];
     
      UIBarButtonItem *BarItemAdd = [[UIBarButtonItem alloc] initWithCustomView:btnAddWorkout];
     
-    UIButton *btnHistory = [[UIButton alloc] initWithFrame:CGRectMake(150, 5, 44, 44)];
+    btnHistory = [[UIButton alloc] initWithFrame:CGRectMake(150, 5, 44, 44)];
     UIImage *imageHistory=[UIImage imageNamed:@"save_icon.png"];
     [btnHistory addTarget:self action:@selector(WorkoutHistory:) forControlEvents:UIControlEventTouchUpInside];
     [btnHistory setImage:imageHistory forState:UIControlStateNormal];
@@ -78,10 +77,8 @@
     UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnHistory];
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemAdd,BarItemHistory, nil];
-    
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.rightBarButtonItem.tintColor=[UIColor lightGrayColor];
+   
     
     
 }
@@ -108,6 +105,8 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:NO];
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -126,7 +125,7 @@
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
     [super viewWillAppear:NO];
     
     if ([SingletonClass ShareInstance].isWorkOutSectionUpdate == TRUE) {
@@ -171,6 +170,8 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
     self.navigationItem.rightBarButtonItem.enabled=NO;
     self.navigationItem.leftBarButtonItem.enabled=NO;
+        btnHistory.userInteractionEnabled=NO;
+        
 
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
     indicator.tag = ACTIVITYTAG;
@@ -206,9 +207,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
-    
 }
-
 
 - (void)WebServiceDeleteWorkOut : (int )Index
 {
@@ -263,6 +262,8 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
    
     self.navigationItem.rightBarButtonItem.enabled=YES;
     self.navigationItem.leftBarButtonItem.enabled=YES;
+      btnHistory.userInteractionEnabled=YES;
+    NSArray *arrbtn=[[self.navigationController navigationBar] subviews];
     // Now remove the Active indicator
     ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:ACTIVITYTAG];
     if(acti)
@@ -303,16 +304,17 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     {
 
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-
     NSArray *data=[myResults objectForKey:@"data"] ;
+        
     if ([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {
+        
     [arrWorkOutData removeAllObjects];
 
     for (int i=0; i< data.count; i++)
     {
+        
     if ([[data objectAtIndex:i]objectForKey:@"Workout"]) {
-
     [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:@"Workout"]];
     }
 

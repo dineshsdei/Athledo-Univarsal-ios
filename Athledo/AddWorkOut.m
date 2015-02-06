@@ -84,6 +84,7 @@ static int LiftExerciseCount=0;
     WebServiceClass *webservice;
     UIToolbar *toolBar;
     UIDeviceOrientation orientation;
+    UIDeviceOrientation CurrentOrientation;
     
     
     
@@ -591,6 +592,10 @@ static int LiftExerciseCount=0;
 }
 - (void)orientationChanged
 {
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
     if (isIPAD) {
         [pickerView removeFromSuperview];
         pickerView=nil;
@@ -609,19 +614,14 @@ static int LiftExerciseCount=0;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500):toolBar];
-        [tableview reloadData];
+        
     }
+    [tableview reloadData];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-
+   
     // Do any additional setup after loading the view from its nib.
     isChangeWorkoutType=FALSE;
     
@@ -668,23 +668,15 @@ static int LiftExerciseCount=0;
             
         }];
 
-        
     }];
-
-    
     scrollHeight=0;
-    
     self.title = NSLocalizedString(@"Workout", nil);
-    
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-
-    
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
-       arrLiftPlaceholder=[[NSMutableArray alloc] init];
+    arrLiftPlaceholder=[[NSMutableArray alloc] init];
     
     if ([UserInformation shareInstance].userType == 1) {
          arrFieldsPlaceholder=[[NSMutableArray alloc] initWithObjects:@"Workout Name",@"Workout Date",@"Workout Type",@"Custom Tags",@"Athletes",@"Email Notification",@"Description",@"WarmUp Time",@"CoolDown Time", nil];
@@ -840,42 +832,30 @@ static int LiftExerciseCount=0;
    
     toolBarOne.items = [NSArray arrayWithObjects:flex,flex,btnDone1,nil];
     [self.view addSubview:toolBarOne];
-    
      UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(SaveWorkOutData:) forControlEvents:UIControlEventTouchUpInside];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
-    
     self.navigationItem.rightBarButtonItem = ButtonItem;
-
-    orientation=[SingletonClass getOrientation];
-    if ((orientation==UIDeviceOrientationLandscapeRight || (orientation==UIDeviceOrientationLandscapeLeft))) {
-        
+    if (isIPAD) {
         [self orientationChanged];
     }
-    
 }
 -(void)Done
 {
-   
     [self Done:CGPointMake(self.view.frame.size.width, self.view.frame.size.height+50)];
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     [self setContentOffsetDown:currentText table:tableview];
-  
 }
 -(void)Done :(CGPoint)point
 {
-    
     [UIView beginAnimations:@"tblViewMove" context:nil];
-   [UIView setAnimationDelegate:self];
+    [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
-    
     [self.view viewWithTag:toolBar1Tag].center = point;
-        
     [UIView commitAnimations];
-   }
+}
 
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -885,16 +865,21 @@ static int LiftExerciseCount=0;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
-
-  
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
      [self getWorkOutList];
-    
     [super viewWillAppear:NO];
-    
-   
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
 }
 
 -(void)saveDicData
@@ -905,8 +890,6 @@ static int LiftExerciseCount=0;
         
     }else if([currentText.placeholder isEqualToString:@"Name"] || [currentText.placeholder isEqualToString:@"Sets"] || [currentText.placeholder isEqualToString:@"Reps"]||[currentText.placeholder isEqualToString:@"Unit."]||[currentText.placeholder isEqualToString:@"Weight"]) {
         
-        //NSLog(@"tag %d",currentText.tag);
-        
         if ([currentText.placeholder isEqualToString:@"Unit."]) {
             
             [[arrLiftPlaceholder objectAtIndex:currentText.tag] setValue:currentText.text forKey:@"Unit"];
@@ -914,9 +897,6 @@ static int LiftExerciseCount=0;
             
             [[arrLiftPlaceholder objectAtIndex:currentText.tag] setValue:currentText.text forKey:currentText.placeholder];
         }
-        
-        
-        
         [workOutDic setObject:arrLiftPlaceholder forKey:@"Lift"];
     }
     
@@ -1975,9 +1955,15 @@ static int LiftExerciseCount=0;
    
     if (!isWholeTeam)
     {
-
-     [pickerView reloadAllComponents];
-    [self setMultipleSlectionPicker:YES];
+        if ((UnitsArray.count > 0)) {
+            [pickerView reloadAllComponents];
+            [self setMultipleSlectionPicker:YES];
+        }else
+        {
+            btn.selected=NO;
+            [btn setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+            [SingletonClass initWithTitle:@"" message:[NSString stringWithFormat:@"NO %@",strPlaceHolder] delegate:nil btn1:@"OK"];
+        }
     }
     
 }
@@ -2200,7 +2186,9 @@ static int LiftExerciseCount=0;
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 -(void)addCustomTag:(id)sender

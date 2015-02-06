@@ -200,11 +200,8 @@
 
     }else  if([[myResults objectForKey:@"status"] isEqualToString:@"failed"])
     {
-    // Now remove the Active indicator
-    ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-    if(acti)
-    [acti removeFromSuperview];
 
+    [SingletonClass RemoveActivityIndicator:self.view];
     txtFieldPassword.text=@"";
     //txtFieldUserId.text=@"";
 
@@ -226,20 +223,27 @@
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    //if (isIPAD)
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+   
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
 }
-- (void)orientationChanged:(NSNotification *)notification
+- (void)orientationChanged
 {
     [SingletonClass RemoveActivityIndicator:self.view];
 }
 - (void)viewDidLoad
 {
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+    //if (isIPAD) {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+   // }
+   
     if (isIPAD) {
         [AppDelegate restrictRotation:NO];
     }else{
@@ -262,7 +266,7 @@
         UITableViewCell *theTextFieldCell = (UITableViewCell *)[currentText superview];
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:self.view];
-        if ((point.y - kbSize.height) < (dif=([SingletonClass getOrientation]==UIDeviceOrientationPortrait) ? 140: 180) ) {
+        if ((point.y - kbSize.height) < (dif=([[SingletonClass ShareInstance] CurrentOrientation:self]==UIDeviceOrientationPortrait) ? 140: 180) ) {
           self.view.frame=CGRectMake(0, 0, self.view.frame.size.width,  self.view.frame.size.height);
             CGRect frame = self.view.frame;
             frame.origin.y = self.view.frame.origin.y - 2*(currentText.frame.size.height);

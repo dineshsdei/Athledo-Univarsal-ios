@@ -51,15 +51,19 @@ static UIImage *tileImage;
 #define TOP_BAR_HEIGHT 45.0f
 #define DOT_FONT_SIZE 18.0f
 #define DATE_FONT_SIZE 24.0f
-#define VIEW_WIDTH isIPad ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 1024 :768.0f) :320.0f
-#define VIEW_HEIGHT [UIDevice currentDevice].userInterfaceIdiom==UIUserInterfaceIdiomPad ? 1500 :320.0f
-#define  Box_W isIPad ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) ? 146 : 110.0f ): 46
-#define  Box_H isIPad ? 44 : 44
 
+//#define VIEW_WIDTH isIPad ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight ||([UIDevice currentDevice].orientation==UIDeviceOrientationFaceUp)) ? 1024 :768.0f) :320.0f
+//#define  Box_W isIPad ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight ||([UIDevice currentDevice].orientation==UIDeviceOrientationFaceUp)) ? 146 : 110.0f ): 46
+
+#define VIEW_HEIGHT [UIDevice currentDevice].userInterfaceIdiom==UIUserInterfaceIdiomPad ? 1500 :320.0f
+
+int VIEW_WIDTH;
+int Box_W;
+
+
+#define  Box_H isIPad ? 44 : 44
 #define  SelectedImage_H isIPad ? 45 : 45
 #define  SelectedImage_W isIPad ? Box_W : 47
-
-
 
 #pragma mark - TKCalendarMonthTiles
 @interface TKCalendarMonthTiles : UIView {
@@ -67,6 +71,7 @@ static UIImage *tileImage;
 	NSInteger selectedDay,selectedPortion;
 	NSInteger firstWeekday, daysInMonth;
 	BOOL markWasOnToday,startOnSunday;
+    
 }
 
 @property (nonatomic,assign) id target;
@@ -95,6 +100,7 @@ static UIImage *tileImage;
         
     }
 }
+
 
 #pragma mark Accessibility Container methods
 - (BOOL) isAccessibilityElement{
@@ -655,9 +661,17 @@ static UIImage *tileImage;
 		numberFormatter = [[NSNumberFormatter alloc] init];
     }
 }
+
+-(void)AssignViewWidthBoxWidth:(UIDeviceOrientation)orientation
+{
+    
+    VIEW_WIDTH =isIPad ? ((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight) ? 1024 :768.0f) :320.0f;
+    Box_W= isIPad ?((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)? 146 : 110.0f ): 46;
+    
+}
 -(void)RefreshView
 {
-   
+  
     if (isIPad) {
         _rightArrow.frame = CGRectMake((VIEW_WIDTH)-52, 0, 52, 36);
     }else{
@@ -691,22 +705,7 @@ static UIImage *tileImage;
     newTile.frame = CGRectMakeWithSize(0, y, newTile.frame.size);
     newTile.alpha = 0;
     [self.tileBox addSubview:newTile];
-    
-    
-//    [UIView beginAnimations:nil context:nil];
-//    [UIView setAnimationDuration:0.1];
     newTile.alpha = 1;
-    
-   // [UIView commitAnimations];
-    //self.userInteractionEnabled = NO;
-    
-//    [UIView beginAnimations:nil context:nil];
-//    [UIView setAnimationDelegate:self];
-//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-//    [UIView setAnimationDidStopSelector:@selector(animationEnded)];
-//    [UIView setAnimationDelay:0.1];
-//    [UIView setAnimationDuration:0.4];
-    
     if(isNext){
         self.currentTile.frame = CGRectMakeWithSize(0, -1 * CGRectGetHeight(self.currentTile.frame) + overlap + 2,  self.currentTile.frame.size);
         newTile.frame = CGRectMakeWithSize(0, 1, newTile.frame.size);
@@ -767,38 +766,6 @@ static UIImage *tileImage;
            // label = [[UILabel alloc] initWithFrame:CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15)];
         }
         label.frame = CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15);
-        //label.textAlignment=NSTextAlignmentRight;
- 
-//        }else
-//        {
-//            label = [[UILabel alloc] initWithFrame:CGRectMake(46*i + (i==0?0:-1), 30, 45, 15)];
-//        }
-//        [self addSubview:label];
-//        
-//        // Added Accessibility Labels
-//        if ([s isEqualToString:@"Sun"]) {
-//            label.accessibilityLabel = @"Sunday";
-//        } else if ([s isEqualToString:@"Mon"]) {
-//            label.accessibilityLabel = @"Monday";
-//        } else if ([s isEqualToString:@"Tue"]) {
-//            label.accessibilityLabel = @"Tuesday";
-//        } else if ([s isEqualToString:@"Wed"]) {
-//            label.accessibilityLabel = @"Wednesday";
-//        } else if ([s isEqualToString:@"Thu"]) {
-//            label.accessibilityLabel = @"Thursday";
-//        } else if ([s isEqualToString:@"Fri"]) {
-//            label.accessibilityLabel = @"Friday";
-//        } else if ([s isEqualToString:@"Sat"]) {
-//            label.accessibilityLabel = @"Saturday";
-//        }
-//        label.text=@"";
-//        label.text = s;
-//        label.textAlignment = NSTextAlignmentCenter;
-//        label.shadowColor = [UIColor whiteColor];
-//        label.shadowOffset = CGSizeMake(0, 1);
-//        label.font = [UIFont boldSystemFontOfSize:10];
-//        label.backgroundColor = [UIColor clearColor];
-//        label.textColor = TEXT_COLOR;
         i++;
     }
 
@@ -806,6 +773,7 @@ static UIImage *tileImage;
 }
 
 - (instancetype) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{
+    
 	if (!(self = [super initWithFrame:CGRectMake(0, 0, VIEW_WIDTH, VIEW_WIDTH)])) return nil;
 	self.backgroundColor = [UIColor colorWithHex:0xaaaeb6];
 	self.timeZone = timeZone;
@@ -898,14 +866,17 @@ static UIImage *tileImage;
 	return self;
 }
 - (instancetype) initWithTimeZone:(NSTimeZone*)timeZone{
+    
 	self = [self initWithSundayAsFirst:YES timeZone:timeZone];
 	return self;
 }
 - (instancetype) initWithSundayAsFirst:(BOOL)sunday{
+   
 	self = [self initWithSundayAsFirst:sunday timeZone:[NSTimeZone defaultTimeZone]];
 	return self;
 }
 - (instancetype) init{
+   
 	self = [self initWithSundayAsFirst:YES];
 	return self;
 }

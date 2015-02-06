@@ -27,6 +27,7 @@
     NSString *seasonId;
     NSMutableArray *arrVisitedIndex;
     UIToolbar *toolBar;
+    UIDeviceOrientation CurrentOrientation;
     
 }
 
@@ -36,6 +37,11 @@
 
 - (void)orientationChanged
 {
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
+    
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500):toolBar];
@@ -44,16 +50,26 @@
     
     
 }
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:NO];
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-    // Do any additional setup after loading the view from its nib.
-    
-    
+    if (isIPAD) {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+
+    }
+    // Do any additional setup after loading the view from its nib
     //[self playVideo:@"http://www.youtube.com/watch?v=WL2l_Q1AR_Q" frame:CGRectMake(20, 70, 280, 250)];
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
@@ -376,7 +392,7 @@
         
         cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];
         cell.First_textViewDes.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"description"];
-        [arrVisitedIndex addObject:[NSString stringWithFormat:@"%d",indexPath.row]];
+        [arrVisitedIndex addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     }
     cell.delegate=self;
     return cell;

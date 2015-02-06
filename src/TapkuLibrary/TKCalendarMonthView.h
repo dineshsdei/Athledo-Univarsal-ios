@@ -79,6 +79,7 @@
  @return An `NSDate` object set to the month and year of the current month grid.
  */
 @property (nonatomic, readonly, copy) NSDate *monthDate;
+@property(nonatomic,retain)id controller;
 
 /** Selects a specific date in the month grid. 
  @param date The date that will be highlighed.
@@ -96,6 +97,8 @@
 - (void) drawRect:(CGRect)rect;
 - (void) changeMonthAnimation:(UIView*)sender;
 -(void)RefreshView;
+-(void)AssignViewWidthBoxWidth:(UIDeviceOrientation)orientation;
+
 @end
 
 #pragma mark - TKCalendarMonthViewDelegate

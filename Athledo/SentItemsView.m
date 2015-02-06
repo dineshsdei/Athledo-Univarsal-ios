@@ -111,7 +111,7 @@
                 [SingletonClass ShareInstance].isMessangerSent =TRUE;
                 messageArrDic =[MyResults objectForKey:@"data"];
                 [SingletonClass deleteUnUsedLableFromTable:table];
-               messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+               messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
                 [table reloadData];
             }
             
@@ -155,6 +155,14 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
     [super viewWillAppear:animated];
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
@@ -169,7 +177,7 @@
         webservice.delegate=self;
         [self getMessages];
     }
-    
+     [self orientationChanged];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -179,17 +187,20 @@
 -(void)orientationChanged
 {
    [SingletonClass deleteUnUsedLableFromTable:table];
-    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGES"]]):@"";
+    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
+}
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+   
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+    
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     messageArrDic=[[NSArray alloc] init];

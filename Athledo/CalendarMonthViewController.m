@@ -27,9 +27,24 @@ UIBarButtonItem *revealButtonItem;;
 #pragma mark - CalendarMonthViewController
 @implementation CalendarMonthViewController
 
+- (BOOL)shouldRotateToOrientation:(UIDeviceOrientation)orientation
+{
+    if (orientation == UIDeviceOrientationLandscapeLeft) {
+        return YES;
+    }
+    else if (orientation == UIDeviceOrientationLandscapeRight) {
+        return YES;
+    }
+    else if (orientation == UIDeviceOrientationPortrait) {
+        return YES;
+    }
+    else  {
+        return NO;
+    }
+}
 - (NSUInteger) supportedInterfaceOrientations
 {
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     if (isIPAD)
     {
         if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
@@ -37,7 +52,7 @@ UIBarButtonItem *revealButtonItem;;
         }else if (orientation == UIDeviceOrientationPortrait) {
             return UIInterfaceOrientationMaskLandscape;
         }else{
-             return UIInterfaceOrientationMaskLandscape;
+             return UIInterfaceOrientationMaskPortrait;
         }
     }
     else
@@ -62,52 +77,39 @@ UIBarButtonItem *revealButtonItem;;
 {
     [super viewDidDisappear:animated];
     self.title=NSLocalizedString(@"Back", @"");
+     if (isIPAD)
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     
 }
 #pragma change control frame when device rotate
 - (void)orientationChanged
 {
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
-    if(currentOrientation ==orientation)
-    {
-        return ;
-    }
+    
+    [self.monthView AssignViewWidthBoxWidth:[[SingletonClass ShareInstance] CurrentOrientation:self]];
+    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     currentOrientation=orientation;
     if ((isIPAD ) && (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationPortrait)) {
-        
-        if (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft)
-        {
-           tabBar.frame =CGRectMake(0, 651, self.view.frame.size.width, 53);
-            NSLog( @"tabbar fram landscape %@",NSStringFromCGRect(tabBar.frame));
-        }else if(orientation==UIDeviceOrientationPortrait || orientation==UIDeviceOrientationPortraitUpsideDown)
-        {
-            tabBar.frame =CGRectMake(0, 906, self.view.frame.size.width, 53);
-            NSLog( @"tabbar fram protrait %@",NSStringFromCGRect(tabBar.frame));
-        }else
-        {
-             tabBar.frame =CGRectMake(0, [UIScreen mainScreen].bounds.size.height-50, [UIScreen mainScreen].bounds.size.width, 53);
-             NSLog( @"tabbar fram non %@",NSStringFromCGRect(tabBar.frame));
+     
+        if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
             
+             tabBar.frame =CGRectMake(0, (iosVersion < 8 ? 647 : 655), 1024, (iosVersion < 8 ? 57 : 49));
+        }else{
+            
+            tabBar.frame =CGRectMake(0, (iosVersion < 8 ? 903 : 911), 768, (iosVersion < 8 ? 57 : 49));
         }
         self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
-        [self.monthView RefreshView];
-        [self.tableView reloadData];
+        
     }
     
-  
+    [self.monthView RefreshView];
+    [self.tableView reloadData];
 }
 
 
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
     [super viewDidLoad];
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-    
-    
+   
     strCurrentMonth=@"";
     
     self.title=NSLocalizedString(@"Month Events", @"");
@@ -132,10 +134,11 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
     [self.monthView selectDate:[NSDate date]];
+   
     
-    UIButton  *btnAddNew = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
+    UIButton  *btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
-    
+    btnAddNew.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
@@ -143,7 +146,8 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
     // 113 height is (49+64) tabbar height and navigationBar height
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+   // UIDeviceOrientation orientation=[SingletonClass getOrientation];
+     UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
    
     if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
         
@@ -180,17 +184,19 @@ UIBarButtonItem *revealButtonItem;;
     tabBar.delegate=self;
     
     [self.view addSubview:tabBar];
-    
-    if (strCurrentMonth.length > 0) {
-        
-       // [self getEvents:SelectedMonthStart:SelectedMonthEnd];
-    }
-    
-    
+     [self orientationChanged];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    //[self orientationChanged];
+    if (isIPAD) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        
+    }
+   
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     self.title=NSLocalizedString(@"Month Events", @"");
@@ -198,17 +204,10 @@ UIBarButtonItem *revealButtonItem;;
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:0];
     tabBar.delegate=self;
     [tabBar setSelectedItem:tabBarItem];
+    [self.tableView reloadData];
     
-    // use this after
-    
-    // [self.monthView RefreshView];
-    //[self.tableView reloadData];
-    
-    if (strCurrentMonth.length > 0 )
-    {
-       // [self getEvents:SelectedMonthStart:SelectedMonthEnd];
-    }
 }
+
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     NSArray *arrController=[self.navigationController viewControllers];
@@ -304,21 +303,7 @@ UIBarButtonItem *revealButtonItem;;
     
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
-//    for (id object in arrController)
-//    {
-    
-//        if ([object isKindOfClass:[AddCalendarEvent class]])
-//        {
-//            Status=TRUE;
-//            AddCalendarEvent *temp=(AddCalendarEvent *)object;
-//            temp.screentitle=@"Add Event";
-//            temp.eventDetailsDic=nil;
-//            temp.strMoveControllerName=@"CalendarMonthViewController";
-//            
-//            [self.navigationController popToViewController:temp animated:NO];
-//        }
-        
-        for (int i=0; i< arrController.count; i++) {
+    for (int i=0; i< arrController.count; i++) {
             
             if ([[arrController objectAtIndex:i] isKindOfClass:[AddCalendarEvent class]])
             {

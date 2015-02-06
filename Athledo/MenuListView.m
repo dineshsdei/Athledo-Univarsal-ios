@@ -30,7 +30,7 @@
 
 @class CalenderScheduleView;
 
-#define getNotification 11110
+//#define getNotificationTag 11110
 #define NUM_TOP_ITEMS 3
 #define NUM_SUBITEMS 4
 
@@ -316,6 +316,7 @@
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
         {
             CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
+            
              vc.objNotificationData=notificationData ;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
             
@@ -376,7 +377,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    //[[UIApplication sharedApplication] setStatusBarHidden:NO];
+   [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [self EnableDisableTouch:YES];
 }
 
@@ -389,7 +390,7 @@
         
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotification];
+        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationTag];
         
     }else{
         
@@ -405,7 +406,7 @@
     
     switch (Tag)
     {
-        case getNotification:
+        case getNotificationTag:
         {
             notificationData=nil;
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
@@ -472,8 +473,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
-
+    
+    if (isIPAD)
     [self ChangeOrientation];
+    
     [self EnableDisableTouch:NO];
     userInfo=[UserInformation shareInstance];
 
@@ -589,25 +592,22 @@
     else
     {
     }
-    
+    if (isIPAD)
+    {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ChangeOrientation)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
+      }
     
 }
 
 -(void)ChangeOrientation
 {
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight)))
+    UIDeviceOrientation deviceOrientation = [[SingletonClass ShareInstance] CurrentOrientation:self];
+    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight || deviceOrientation==UIDeviceOrientationFaceUp)))
     {
-       // UIButton *btn=(UIButton *)[self.view viewWithTag:-200];
-   // btn.frame=CGRectMake(30, 560, btn.frame.size.width, btn.frame.size.height);
-        
-        //[self.view bringSubviewToFront:btn];
-        
         _btnLanscapLogout.hidden=NO;
 
     }else{

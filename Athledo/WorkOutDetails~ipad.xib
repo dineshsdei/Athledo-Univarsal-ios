@@ -18,7 +18,7 @@
                 <outlet property="scrollView" destination="la0-ao-n3t" id="FSE-K6-ZGt"/>
                 <outlet property="table" destination="OJY-0G-5MV" id="aCa-Fm-rja"/>
                 <outlet property="tfSelectUserType" destination="Z3W-wu-26d" id="iSs-oL-Ptb"/>
-                <outlet property="txtViewDescription" destination="ajC-ZQ-DLV" id="8BH-sc-XRX"/>
+                <outlet property="txtViewDescription" destination="ajC-ZQ-DLV" id="0Rb-xO-RFN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

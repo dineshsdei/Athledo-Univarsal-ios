@@ -66,6 +66,7 @@
 
 /** Returns the month view managed by the controller object. */
 @property (nonatomic,strong) TKCalendarMonthView *monthView;
+@property (nonatomic,strong) id controller;
 
 
 @end

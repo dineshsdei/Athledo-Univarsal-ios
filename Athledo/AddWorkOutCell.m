@@ -9,7 +9,7 @@
 #import "AddWorkOutCell.h"
 #define CellX isIPAD ? 30 : 10
 #define Add_Delete_Size isIPAD ? 25 : 20
-#define CellWeight isIPAD ? ( ([SingletonClass getOrientation]== UIDeviceOrientationLandscapeLeft ) || ([SingletonClass getOrientation]== UIDeviceOrientationLandscapeRight) ? 960 : 708 ) : 300
+#define CellWeight isIPAD ? ( ([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeLeft ) || ([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeRight) ? 960 : 708 ) : 300
 #define TextFeildHeight isIPAD ? 40 : 30
 #define CheckBoxEmailTag 1000;
 #define CheckBoxAthleteTag 2000;
@@ -390,7 +390,7 @@
             txtField=nil;
             lbl=nil;
             
-            int gap=(isIPAD ? 30 : 10),lblWight=(isIPAD ?  ((([SingletonClass getOrientation]== UIDeviceOrientationLandscapeLeft ) || ([SingletonClass getOrientation]== UIDeviceOrientationLandscapeRight)) ? 233 : 172) : 70);
+            int gap=(isIPAD ? 30 : 10),lblWight=(isIPAD ?  ((([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeLeft ) || ([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeRight)) ? 233 : 172) : 70);
             
             NSArray *arrPlaceholdertext=[[NSArray alloc] initWithObjects:@"Sets",@"Reps",@"Weight",@"Unit." ,nil];
         

@@ -32,7 +32,8 @@
 #import "TKCalendarMonthView.h"
 
 
-@interface TKCalendarMonthViewController () 
+@interface TKCalendarMonthViewController ()
+
 @property (nonatomic,strong) NSTimeZone *timeZone;
 @property (nonatomic,assign) BOOL sundayFirst;
 @end
@@ -79,6 +80,7 @@
 	self.monthView = [[TKCalendarMonthView alloc] initWithSundayAsFirst:self.sundayFirst timeZone:self.timeZone];
 	self.monthView.dataSource = self;
 	self.monthView.delegate = self;
+    self.monthView.controller=self;
 	[self.view addSubview:self.monthView];
 }
 

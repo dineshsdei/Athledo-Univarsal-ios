@@ -20,6 +20,7 @@ NSArray *arrMonths;
 NSArray *arrDays;
 UITextField *currentText;
 BOOL isMonth,isDay;
+UIDeviceOrientation CurrentOrientation;
 @implementation RepeatCalendarEvent
 
 
@@ -33,6 +34,10 @@ BOOL isMonth,isDay;
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    if (isIPAD)
+     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
 }
@@ -172,6 +177,10 @@ BOOL isMonth,isDay;
 
 - (void)orientationChanged
 {
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
@@ -180,13 +189,21 @@ BOOL isMonth,isDay;
         
     }
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
+}
 - (void)viewDidLoad
 {
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+   
     self.title=NSLocalizedString(@"Repeat Event", @"");
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
@@ -965,7 +982,7 @@ BOOL isMonth,isDay;
     cell.backgroundColor=[UIColor clearColor];
     
     cell.tag=indexPath.section;
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     UIImageView *img1;
     if (isIPAD) {
         

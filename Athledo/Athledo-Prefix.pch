@@ -28,7 +28,7 @@
 
 #define getAnnouncementTag 7000
 #define searchAnnouncementTag 7001
-#define getNotification 7002
+#define getNotificationTag 7002
 #define getMessagesTag 7003
 #define deleteMessagesTag 7004
 #define archiveMessagesTag 7005
@@ -49,7 +49,7 @@
 
 # define tblViewY (([UIScreen mainScreen].bounds.size.height >= 568)?266:180)
 
-#define ACTIVITYTAG 50
+#define ACTIVITYTAG 234242350
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 

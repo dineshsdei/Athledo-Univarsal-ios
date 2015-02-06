@@ -50,6 +50,7 @@
     
     BOOL isEntervale;
     UITextField *currentText;
+    UIDeviceOrientation currentOrientation;
     
 }
 
@@ -67,7 +68,7 @@
 }
 - (NSUInteger) supportedInterfaceOrientations
 {
-    UIDeviceOrientation orientation=[SingletonClass getOrientation];
+    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     
     if (isIPAD)
     {
@@ -95,18 +96,28 @@
 }
 - (void)orientationChanged
 {
-    //UIDeviceOrientation oreintation=[SingletonClass getOrientation];
-    if ((isIPAD)) {
+    UIDeviceOrientation oreintation=[[SingletonClass ShareInstance] CurrentOrientation:self];
+    
+    if(currentOrientation ==oreintation)
+    {
+        return ;
+    }
+    currentOrientation=oreintation;
+    
+    if (isIPAD ) {
         [tblProfile reloadData];
     }
 }
 - (void)viewDidLoad
 {
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+   
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    
+   
     [self setNeedsStatusBarAppearanceUpdate];
     
     self.title = @"Profile";
@@ -543,7 +554,6 @@
         
     }
     
-    
 }
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -579,8 +589,6 @@
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     
     cell.frame=CGRectMake(0, 0, self.view.frame.size.width, cell.frame.size.height);
-    
-    NSLog(@"cell frame %@",NSStringFromCGRect(cell.frame));
     
     return cell;
 }
