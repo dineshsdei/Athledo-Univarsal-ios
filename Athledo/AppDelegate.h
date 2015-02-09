@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+
 
 @class SWRevealViewController;
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *NavViewController;
@@ -18,6 +20,7 @@
 @property(nonatomic)BOOL isProfileUpdate;
 @property(nonatomic)BOOL isProfilePicUpload;
 @property (strong, nonatomic) NSMutableArray *arrCellFieldTag;
+@property (strong, nonatomic) CLLocationManager *locManager;
 @property (nonatomic) BOOL restrictRotation;
 +(void) restrictRotation:(BOOL) restriction;
 @end

@@ -383,7 +383,7 @@
     AddCoachingHistory *AddCoachingInfo=[[AddCoachingHistory alloc] init];
     AddCoachingInfo.SectionTag=(int)tag;
     AddCoachingInfo.objData=nil;
-    AddCoachingInfo.strTitle=@"Award Information";
+    AddCoachingInfo.strTitle=@"Award Info";
     [self.navigationController pushViewController:AddCoachingInfo animated:YES];
 }
 
@@ -392,7 +392,7 @@
     AddCoachingHistory *AddCoachingInfo=[[AddCoachingHistory alloc] init];
     AddCoachingInfo.SectionTag=(int)tag;
     AddCoachingInfo.objData=nil;
-    AddCoachingInfo.strTitle=@"Coaching Information";
+    AddCoachingInfo.strTitle=@"Coaching Info";
     [self.navigationController pushViewController:AddCoachingInfo animated:YES];
     
 }

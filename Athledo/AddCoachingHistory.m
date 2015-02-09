@@ -261,7 +261,7 @@ UIDeviceOrientation CurrentOrientation;
 -(void)doneClicked
 {
     
-    [currentText resignFirstResponder];
+    currentText=nil;
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
     [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
@@ -370,9 +370,6 @@ UIDeviceOrientation CurrentOrientation;
                     [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
-                
-                
-                
             }
             for (int i=0; i < 5; i++)
             {
@@ -387,50 +384,31 @@ UIDeviceOrientation CurrentOrientation;
             // ObjData in case edit
             if (_objData) {
                 
-                
-                
                 NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:1],@"school_name",[arrdata objectAtIndex:2],@"sport_name",[arrdata objectAtIndex:3],@"description",[arrdata objectAtIndex:4],@"to",[arrdata objectAtIndex:5],@"from", nil];
                 
                 NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
-                
-                
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-                
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-                
-                
                 [dict setObject:@"" forKey:@"UserProfile"];
                 [dict setObject:arrtemp forKey:@"cochng_hstry"];
                 [dict setObject:@"" forKey:@"awards"];
-                
-                
                 [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
-                
-                
             }else{
                 
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"school\":\"%@\", \"sport\":\"%@\",\"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", [[arrdata objectAtIndex:0] intValue] ,[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3],[arrdata objectAtIndex:4],[arrdata objectAtIndex:5]];
-                
-                
                 [webservice WebserviceCall:webServiceAddCoachingInfo:strURL :Successtag];
-                
-                
             }
             
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
-            
             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
             
         }
-        
-        
     }
     else
     {
-        
-        NSMutableArray *arrdata=[[NSMutableArray alloc] init];
+         NSMutableArray *arrdata=[[NSMutableArray alloc] init];
         
         //    self.navigationItem.leftBarButtonItem.enabled=NO;
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -469,9 +447,7 @@ UIDeviceOrientation CurrentOrientation;
                     [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
-                
-                
-                
+        
             }
             
             UITextField *textfield1=(UITextField *)[tableView viewWithTag:1000];
@@ -647,18 +623,22 @@ UIDeviceOrientation CurrentOrientation;
                     
                 {
                     strError = @"Start and end date can not same";
+                    currentText.text=@"";
+                    [SingletonClass initWithTitle:nil message:strError delegate:nil btn1:@"Ok"];
                     // The dates are the same
                     break;
                 }
                 case NSOrderedDescending:
                 {
                     strError = @"End date can not earlier to Start date";
+                    currentText.text=@"";
+                    [SingletonClass initWithTitle:nil message:strError delegate:nil btn1:@"Ok"];
                     // dateOne is later in time than dateTwo
                     break;
                 }
                     
             }
-            
+           
             // To check end is greater or not uncomment
         }
         
@@ -807,14 +787,16 @@ UIDeviceOrientation CurrentOrientation;
         currentText=textField;
         if ([textField.placeholder isEqualToString:@"From Date"] || [textField.placeholder isEqualToString:@"To Date"]) {
             
+            NSDateFormatter *df = [[NSDateFormatter alloc] init];
             if (currentText.text.length > 0) {
-                NSDateFormatter *df = [[NSDateFormatter alloc] init];
+                
                 df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
                 NSDate *date=[df dateFromString:currentText.text];
                 [datePicker setDate:date];
                 
                 df=nil;
             }
+            
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
             //[self setDatePickerVisibleAt:YES];
         }else{
@@ -891,7 +873,8 @@ UIDeviceOrientation CurrentOrientation;
 }
 
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
-    
+   
+    /*
     if (iosVersion < 8) {
         
         int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
@@ -915,7 +898,7 @@ UIDeviceOrientation CurrentOrientation;
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
         
-        if (point.y > 216 && point.y < 320) {
+       // if (point.y > 216 && point.y < 320) {
             
             int toolbarHeight_KeyAcc=44+37;
             
@@ -931,10 +914,30 @@ UIDeviceOrientation CurrentOrientation;
             m_TableView.contentInset = contentInsets;
             m_TableView.scrollIndicatorInsets = contentInsets;
             [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        }
+       // }
         
     }
     
+    */
+    
+    UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+    
+    NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
+    if (scrollHeight==0) {
+        scrollHeight=216;
+    }
+    
+    CGSize keyboardSize = CGSizeMake(310,scrollHeight+70);
+    UIEdgeInsets contentInsets;
+    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+    } else {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+    }
+    
+    m_TableView.contentInset = contentInsets;
+    m_TableView.scrollIndicatorInsets = contentInsets;
+    [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
 }
 

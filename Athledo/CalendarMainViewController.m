@@ -162,7 +162,6 @@ NSArray *eventArrDic;
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     
     [cell addSubview:img1];
-
 	
     return cell;
 }

@@ -28,6 +28,7 @@
     
     [application setStatusBarHidden:NO];
     [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self initializationEntities];
     
     // First time call webservice or buffer data
     
@@ -123,6 +124,54 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+#pragma mark - Initialize Contents
+-(void)initializationEntities{
+    
+    _locManager = [[CLLocationManager alloc] init];
+    _locManager.delegate = self;
+    _locManager.desiredAccuracy = kCLLocationAccuracyBest;
+    _locManager.distanceFilter = kCLDistanceFilterNone;
+    
+    // Check for iOS 8. Without this guard the code will crash with "unknown selector" on iOS 7.
+    if ([_locManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [_locManager requestAlwaysAuthorization];
+    }else{
+        [_locManager startUpdatingLocation];
+    }
+}
+
+#pragma mark- Update location delegates and Methods
+#pragma mark-
+-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    if (status==kCLAuthorizationStatusAuthorized) {
+        [_locManager startUpdatingLocation];
+    }else if (status==kCLAuthorizationStatusAuthorizedAlways){
+        [_locManager startUpdatingLocation];
+    }
+}
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations
+{
+    [_locManager stopUpdatingLocation];
+    _locManager.delegate = nil;
+    _locManager = nil;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    [_locManager stopUpdatingLocation];
+    _locManager.delegate = nil;
+    _locManager = nil;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+   
 }
 
 -(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window

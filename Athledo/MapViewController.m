@@ -96,7 +96,6 @@ UIBarButtonItem *revealButtonItem;;
         
         [self getEvents];
     }
-    [locationManager stopUpdatingHeading];
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
@@ -230,11 +229,11 @@ UIBarButtonItem *revealButtonItem;;
     mapTableView.backgroundColor=[UIColor clearColor];
     mapView.showsUserLocation=YES;
     
-    locationManager=[[CLLocationManager alloc]init];
-    [locationManager setDelegate:self];
-    [locationManager setDistanceFilter:kCLDistanceFilterNone];
-    [locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
-    [locationManager startUpdatingLocation];
+//    locationManager=[[CLLocationManager alloc]init];
+//    [locationManager setDelegate:self];
+//    [locationManager setDistanceFilter:kCLDistanceFilterNone];
+//    [locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+//    [locationManager startUpdatingLocation];
     
      [self addAnnotationsOnMap:_eventDic];
     

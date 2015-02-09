@@ -14,7 +14,7 @@
 @interface MapViewController : UIViewController<MKMapViewDelegate,CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,UITabBarDelegate,WebServiceDelegate>
 {
     IBOutlet MKMapView *mapView;
-    CLLocationManager *locationManager;
+   // CLLocationManager *locationManager;
     IBOutlet UITableView *mapTableView;
     
      IBOutlet UITabBar *tabBar;
