@@ -23,7 +23,7 @@
     BOOL isKeyBoard;
     int toolBarPosition;
     UITextField *currentText;
-   
+    
     NSString *strDate;
     
     NSArray *arrAthleteHistory;
@@ -60,7 +60,7 @@
     if(date==nil)
     {
         return @"";
-    
+        
     }else{
         
         return [NSString stringWithFormat:@"%@", [df stringFromDate:date]];
@@ -77,15 +77,13 @@
     {
         case EditData:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 // Now we Need to decrypt data
-            
                 [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
                 
             }else{
-                 self.navigationItem.rightBarButtonItem.enabled=YES;
+                self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
             
@@ -93,23 +91,13 @@
         }
         case Successtag:
         {
-            
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
-                
                 [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
-                
-                
-                
-                
             }else{
                 
                 [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
-            
-            
             break;
         }
     }
@@ -120,7 +108,7 @@
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
-     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewDidLoad
@@ -145,12 +133,12 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
-     
+        
     }];
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     
-     arrHistoryInfo=[[NSArray alloc] initWithObjects:@"Enter Team Name",@"Enter Description",@"From Date",@"To Date", nil];
+    arrHistoryInfo=[[NSArray alloc] initWithObjects:@"Enter Team Name",@"Enter Description",@"From Date",@"To Date", nil];
     
     if (_objData) {
         
@@ -166,7 +154,7 @@
         toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?266:180)-40;
     }
     //Set the Date picker view
-     
+    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, (SCREEN_HEIGHT)+50,SCREEN_WIDTH , 216)];
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.date = [NSDate date];
@@ -179,10 +167,10 @@
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-  
+    
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, (SCREEN_HEIGHT)+50, SCREEN_WIDTH, 44)];
     toolBar.tag = 40;
-  
+    
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
     
@@ -193,7 +181,6 @@
     [btnSave addTarget:self action:@selector(sendAthleteHistory:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
-    
     self.navigationItem.rightBarButtonItem = ButtonItem;
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
@@ -203,7 +190,7 @@
 -(void)dateChange
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-     df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
+    df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
     currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
     
     UITableView *table=(UITableView *)[self.view viewWithTag:100];
@@ -214,50 +201,40 @@
     NSDate *dateTwo=[df dateFromString:textfieldEnd.text];
     
     if (textfieldStart.text.length !=0 && textfieldEnd.text.length !=0) {
-    NSString *strError=@"";
-    switch ([dateOne compare:dateTwo]) {
-        case NSOrderedAscending:
-        {
-             strError = @"";
-       
-            // dateOne is earlier in time than dateTwo
-            break;
-        }
-        case NSOrderedSame:
-           
-        {
-            strError = @"Start and end date can not same";
-        // The dates are the same
-            break;
-        }
-        case NSOrderedDescending:
+        NSString *strError=@"";
+        switch ([dateOne compare:dateTwo]) {
+            case NSOrderedAscending:
             {
-            strError = @"End date can not earlier to Start date";
-            // dateOne is later in time than dateTwo
-            break;
+                strError = @"";
+                // dateOne is earlier in time than dateTwo
+                break;
+            }
+            case NSOrderedSame:
+            {
+                strError = @"Start and end date can not same";
+                // The dates are the same
+                break;
+            }
+            case NSOrderedDescending:
+            {
+                strError = @"End date can not earlier to Start date";
+                // dateOne is later in time than dateTwo
+                break;
+            }
         }
-            
+        if(strError.length > 1)
+        {
+            // Uncomment to show last date should be greater
+            // currentText.text=@"";
+            //[SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            // return;
+        }
     }
-    if(strError.length > 1)
-    {
-        
-        // Uncomment to show last date should be greater
-        
-       // currentText.text=@"";
-        
-        //[SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
-       // return;
-    }
-    
-    }
-
-    
 }
 #pragma mark- UITableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return arrHistoryInfo.count;
-    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -268,17 +245,16 @@
     AddAthleteHistoryCell *cell = nil;
     if(cell == nil)
     {
-    cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:@""];
+        cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:@""];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-
+    
     return cell;
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return CellHeight;
-    
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
@@ -306,15 +282,12 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     currentText=textField;
-
     [self setContentOffset:textField table:tableView];
-    
     if (textField.tag==1003 || textField.tag==1002)
     {
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [self setDatePickerVisibleAt:YES];
         return NO;
-        
     }
     return YES;
 }
@@ -326,30 +299,26 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-    NSArray *arrController=[self.navigationController viewControllers];
-    BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-
-    if ([object isKindOfClass:[ProfileView class]])
-    {
-        Status=TRUE;
-        [self.navigationController popToViewController:object animated:NO];
-    }
-    }
-
-    if (Status==FALSE)
-    {
-    ProfileView *annView=[[ProfileView alloc] init];
-
-    [self.navigationController pushViewController:annView animated:NO];
-
-    }
-
+        NSArray *arrController=[self.navigationController viewControllers];
+        BOOL Status=FALSE;
+        for (id object in arrController)
+        {
+            if ([object isKindOfClass:[ProfileView class]])
+            {
+                Status=TRUE;
+                [self.navigationController popToViewController:object animated:NO];
+            }
+        }
+        
+        if (Status==FALSE)
+        {
+            ProfileView *annView=[[ProfileView alloc] init];
+            [self.navigationController pushViewController:annView animated:NO];
+        }
+        
     }else{
-
+        
     }
-    
 }
 
 
@@ -358,86 +327,78 @@
     [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     self.navigationController.navigationItem.leftBarButtonItem.enabled=NO;
     self.navigationItem.rightBarButtonItem.enabled=NO;
-
+    
     NSMutableArray *arrdata=[[NSMutableArray alloc] init];
     UserInformation *userInfo=[UserInformation shareInstance];
-
+    
     if ([SingletonClass  CheckConnectivity])
     {
-    for (int i=0; i < arrHistoryInfo.count; i++) {
-
-    //Check for empty Text box
-
-    int tag=i+1000;
-
-    UITableView *table=(UITableView *)[self.view viewWithTag:100];
-
-    UITextField *textfield=(UITextField *)[table viewWithTag:tag];
-    NSString *strError = @"";
-    if(textfield.text.length < 1 && tag==1000)
-    {
-    strError = @"Please enter team name";
-    }
-    else if(textfield.text.length < 1 && tag==1001)
-    {
-     strError = @"";
-    } else if(textfield.text.length < 1 && tag==1002)
-    {
-     strError = @"Please enter start date";
-
-    }else if(textfield.text.length < 1 && tag==1003)
-    {
-     strError = @"Please enter end date";
-
-    }
-
-    if(strError.length > 1)
-    {
-     self.navigationItem.rightBarButtonItem.enabled=YES;
-    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
-    return;
-    }
-    }
-
-    for (int i=0; i < arrHistoryInfo.count; i++) {
-
-    int tag=i+1000;
-    UITableView *table=(UITableView *)[self.view viewWithTag:100];
-
-    UITextField *textfield=(UITextField *)[table viewWithTag:tag];
-
-    [arrdata addObject:textfield.text];
-
-    }
-
-    // ObjData in case edit
-    if (_objData) {
-
-    NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:0],@"team",[arrdata objectAtIndex:1],@"description",[arrdata objectAtIndex:2],@"to",[arrdata objectAtIndex:3],@"from", nil];
-
-    NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
-
-
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-
-    [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
-    [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-
-
-    [dict setObject:@"" forKey:@"UserProfile"];
-    [dict setObject:arrtemp forKey:@"athletic_hstry"];
-    [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
+        for (int i=0; i < arrHistoryInfo.count; i++) {
+            
+            //Check for empty Text box
+            
+            int tag=i+1000;
+            
+            UITableView *table=(UITableView *)[self.view viewWithTag:100];
+            
+            UITextField *textfield=(UITextField *)[table viewWithTag:tag];
+            NSString *strError = @"";
+            if(textfield.text.length < 1 && tag==1000)
+            {
+                strError = @"Please enter team name";
+            }
+            else if(textfield.text.length < 1 && tag==1001)
+            {
+                strError = @"";
+            } else if(textfield.text.length < 1 && tag==1002)
+            {
+                strError = @"Please enter start date";
+                
+            }else if(textfield.text.length < 1 && tag==1003)
+            {
+                strError = @"Please enter end date";
+                
+            }
+             if(strError.length > 1)
+            {
+                self.navigationItem.rightBarButtonItem.enabled=YES;
+                [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                return;
+            }
+        }
+        
+        for (int i=0; i < arrHistoryInfo.count; i++) {
+            
+            int tag=i+1000;
+            UITableView *table=(UITableView *)[self.view viewWithTag:100];
+            
+            UITextField *textfield=(UITextField *)[table viewWithTag:tag];
+            
+            [arrdata addObject:textfield.text];
+            
+        }
+        // ObjData in case edit
+        if (_objData) {
+            
+            NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:0],@"team",[arrdata objectAtIndex:1],@"description",[arrdata objectAtIndex:2],@"to",[arrdata objectAtIndex:3],@"from", nil];
+            NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
+            NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
+            [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
+            [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
+            
+            
+            [dict setObject:@"" forKey:@"UserProfile"];
+            [dict setObject:arrtemp forKey:@"athletic_hstry"];
+            [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
+        }else{
+            
+            NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"team\":\"%@\", \"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", userInfo.userId ,[arrdata objectAtIndex:0],[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
+            [webservice WebserviceCall:webServiceAddAthleteHistoryInfo:strURL :Successtag];
+        }
+        
     }else{
-
-    NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"team\":\"%@\", \"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", userInfo.userId ,[arrdata objectAtIndex:0],[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
-    [webservice WebserviceCall:webServiceAddAthleteHistoryInfo:strURL :Successtag];
-    }
-
-    }else{
-    self.navigationItem.rightBarButtonItem.enabled=YES;
-
-    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        self.navigationItem.rightBarButtonItem.enabled=YES;
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -445,10 +406,8 @@
 -(void)doneClicked
 {
     [currentText resignFirstResponder];
-    
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     [self setDatePickerVisibleAt:NO];
-    
     [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
     [self setContentOffsetDown:currentText table:tableView];
 }
@@ -458,9 +417,7 @@
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.33f];
-    
     [self.view viewWithTag:40].center = point;
-    
     [UIView commitAnimations];
 }
 
@@ -470,10 +427,8 @@
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
-    
     CGPoint point;
     point.x=self.view.frame.size.width/2;
-    
     if (ShowHide) {
         point.y=self.view.frame.size.height-(datePicker.frame.size.height/2);
         [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(datePicker.frame.size.height/2)-22)];
@@ -512,7 +467,6 @@
         tblView.frame = CGRectMake(tblView.frame.origin.x, tblView.frame.origin.y+57, tblView.frame.size.width, tblView.frame.size.height);
         [UIView commitAnimations];
     }
-    
     return YES;
 }
 
@@ -525,37 +479,34 @@
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
     
     if (iosVersion < 8) {
-
-    int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
-    UIView* txt = textField;
-    UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-    // Get the text fields location
-    CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-    // Scroll to cell
-    [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
+        
+        int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
+        UIView* txt = textField;
+        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+        // Get the text fields location
+        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
+        // Scroll to cell
+        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
     }else{
-    UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-    NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
-    // Get the text fields location
-    CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-
-    if (point.y > 216 && point.y < 320) {
-
-    int toolbarHeight_KeyAcc=44+37+60;
-
-    CGSize keyboardSize = CGSizeMake(320,point.y+(toolbarHeight_KeyAcc));
-
-    UIEdgeInsets contentInsets;
-    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
-    } else {
-    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
-    }
-    m_TableView.contentInset = contentInsets;
-    m_TableView.scrollIndicatorInsets = contentInsets;
-    [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
-
+        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+        NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
+        // Get the text fields location
+        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
+        
+        if (point.y > 216 && point.y < 320) {
+            int toolbarHeight_KeyAcc=44+37+60;
+            CGSize keyboardSize = CGSizeMake(320,point.y+(toolbarHeight_KeyAcc));
+            UIEdgeInsets contentInsets;
+            if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+            } else {
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+            }
+            m_TableView.contentInset = contentInsets;
+            m_TableView.scrollIndicatorInsets = contentInsets;
+            [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        }
+        
     }
 }
 

@@ -17,11 +17,11 @@
 #define getEventTag 119990
 @interface CalendarMainViewController ()
 {
-WebServiceClass *webservice;
-NSArray *startDateArr;
-NSArray *endDateArr;
-NSArray *eventArrDic;
-
+    WebServiceClass *webservice;
+    NSArray *startDateArr;
+    NSArray *endDateArr;
+    NSArray *eventArrDic;
+    
 }
 
 @end
@@ -37,10 +37,10 @@ NSArray *eventArrDic;
     return self;
 }
 - (instancetype) initWithStyle:(UITableViewStyle)s{
-	if(!(self = [super initWithStyle:s])) return nil;
-	self.title = @"Select Type";
-	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-	return self;
+    if(!(self = [super initWithStyle:s])) return nil;
+    self.title = @"Select Type";
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    return self;
 }
 
 #define MONTH_GRID NSLocalizedString(@"Month View ", @"")
@@ -54,22 +54,15 @@ NSArray *eventArrDic;
     
     if ([SingletonClass  CheckConnectivity])
     {
-        
-    UserInformation *userInfo=[UserInformation shareInstance];
-
-    NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
-
-    [SingletonClass addActivityIndicator:self.view];
-
-    [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
-
-
+        UserInformation *userInfo=[UserInformation shareInstance];
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
+        [SingletonClass addActivityIndicator:self.view];
+        [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
     }else{
-
-    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
+        
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
-
+    
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -78,20 +71,18 @@ NSArray *eventArrDic;
     
     switch (Tag)
     {
-    case getEventTag:
-    {
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-    {// Now we Need to decrypt data
-
-    eventArrDic =[MyResults objectForKey:@"data"];
-    startDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"start_date"];
-    endDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"end_date"];
-    }
-    }
+        case getEventTag:
+        {
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {// Now we Need to decrypt data
+                
+                eventArrDic =[MyResults objectForKey:@"data"];
+                startDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"start_date"];
+                endDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"end_date"];
+            }
+        }
     }
 }
-
-
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
@@ -111,7 +102,7 @@ NSArray *eventArrDic;
         self.title = NSLocalizedString(@"Calendar", nil);
     }else{
         self.title = NSLocalizedString(@"My Schedule", nil);
-        
+
     }
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor whiteColor],NSForegroundColorAttributeName,[UIFont systemFontOfSize:20],NSFontAttributeName,nil];
@@ -121,7 +112,7 @@ NSArray *eventArrDic;
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
-     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
@@ -132,28 +123,28 @@ NSArray *eventArrDic;
                   @{@"rows" : @[MONTH_GRID,DAY_VIEW,WEEK_VIEW,MAP_VIEW], @"title" : @""},];
     self.tableView.backgroundColor=[UIColor clearColor];
     self.view.backgroundColor=[UIColor whiteColor];
-   // self.tableView.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_bg.png"]];
-
+    // self.tableView.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_bg.png"]];
+    
 }
 #pragma mark UITableView Delegate & DataSource
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
     return [self.data count];
 }
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [self.data[section][@"rows"] count];
+    return [self.data[section][@"rows"] count];
 }
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
+    
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-	cell.textLabel.text = self.data[indexPath.section][@"rows"][indexPath.row];
+    cell.textLabel.text = self.data[indexPath.section][@"rows"][indexPath.row];
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
     cell.textLabel.textColor = [UIColor lightGrayColor];
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.backgroundColor=[UIColor clearColor];
     
     tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -162,21 +153,21 @@ NSArray *eventArrDic;
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     
     [cell addSubview:img1];
-	
+    
     return cell;
 }
 - (void) tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tv deselectRowAtIndexPath:indexPath animated:YES];
-	
-	UITableViewCell *cell = [tv cellForRowAtIndexPath:indexPath];
-	UIViewController *vc;
-	NSString *str = cell.textLabel.text;
-
+    [tv deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell *cell = [tv cellForRowAtIndexPath:indexPath];
+    UIViewController *vc;
+    NSString *str = cell.textLabel.text;
+    
     if([str isEqualToString:MONTH_GRID])
-		vc = [[CalendarMonthViewController alloc] initWithSunday:YES];
-	
-	else if([str isEqualToString:DAY_VIEW])
-		vc = CalendarDayViewController.new;
+        vc = [[CalendarMonthViewController alloc] initWithSunday:YES];
+    
+    else if([str isEqualToString:DAY_VIEW])
+        vc = CalendarDayViewController.new;
     else if ([str isEqualToString:WEEK_VIEW]){
         WeekViewController *weekView = [[WeekViewController alloc]initWithNibName:@"WeekViewController" bundle:[NSBundle mainBundle]];
         weekView.eventDic=(NSMutableArray *)eventArrDic;
@@ -186,25 +177,25 @@ NSArray *eventArrDic;
         MapViewController *mapView = [[MapViewController alloc]initWithNibName:@"MapViewController" bundle:[NSBundle mainBundle]];
         [self.navigationController pushViewController:mapView animated:YES];
     }
-	if(self.calendarViewController && ([str isEqualToString:MONTH_GRID] || [str isEqualToString:DAY_VIEW]))
-		[self.calendarViewController setupWithMainController:vc];
-	else
-		[self.navigationController pushViewController:vc animated:YES];
-	
+    if(self.calendarViewController && ([str isEqualToString:MONTH_GRID] || [str isEqualToString:DAY_VIEW]))
+        [self.calendarViewController setupWithMainController:vc];
+    else
+        [self.navigationController pushViewController:vc animated:YES];
+    
 }
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	return self.data[section][@"title"];
+    return self.data[section][@"title"];
 }
 - (NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-	return self.data[section][@"footer"];
+    return self.data[section][@"footer"];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // Dispose of any resources that can be recreateds.
 }
 
 @end

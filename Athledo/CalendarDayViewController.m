@@ -54,8 +54,6 @@ UIBarButtonItem *revealButtonItem;;
         
     }
 }
-
-
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
@@ -90,7 +88,7 @@ UIBarButtonItem *revealButtonItem;;
             }
         }
     }
-    
+
     for (int i=0; i< _eventDic.count; i++) {
         
         if ([self TodayDate:[[_eventDic objectAtIndex:i]valueForKey:@"start_date"]]) {
@@ -147,9 +145,7 @@ UIBarButtonItem *revealButtonItem;;
     self.data=[[NSMutableArray alloc] init];
     self.title = NSLocalizedString(@"Day Events", @"");
     self.view.backgroundColor=[UIColor whiteColor];
-    
     revealController = [self revealViewController];
-    
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
@@ -177,7 +173,7 @@ UIBarButtonItem *revealButtonItem;;
     //  @[@"Meeting with five random dudes", @"", @5, @0, @5, @30],
     //  @[@"Unlimited bread rolls got me sprung", @"Olive Garden", @7, @0, @12, @0],
     //  @[@"Fishy Fishy Fishfelayyyyyyyy", @"McDonalds", @6, @30, @6, @35],
-    //  @[@"Turkey Time...... oh wait", @"Chick-fela", @14, @0, @19, @0],
+    //  @[@"Turkey Time...... oh wait", @"Chick-fela", @14, s@0, @19, @0],
     //  @[@"Greet the king at the castle", @"Burger King", @19, @30, @30, @0]];
     
     // Last value for event tag for show in details
@@ -196,26 +192,18 @@ UIBarButtonItem *revealButtonItem;;
     // UIDeviceOrientation orientation=[SingletonClass getOrientation];
     if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight )
     {
-        
         tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width-(iosVersion < 8 ? 120 : 113), self.view.frame.size.height, 50)];
-        
     }else{
-        
         if (isIPAD) {
             tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 120 : 113), self.view.frame.size.width, 50)];
-            
         }else{
-            
             tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(113), self.view.frame.size.width, 50)];
         }
-        
-        
     }
     
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
-    
     UITabBarItem *tabBarItem1 = [[UITabBarItem alloc] initWithTitle:@"Month" image:[UIImage imageNamed:@"mnth_icon2.png"] tag:0];
-    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Week" image:[UIImage imageNamed:@"week_icon.png"] tag:1];
+    UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Week" image:[UIImage imageNamed:@"week_icon1.png"] tag:1];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Today" image:[UIImage imageNamed:@"today_icon.png"] tag:2];;
     UITabBarItem *tabBarItem4 = [[UITabBarItem alloc] initWithTitle:@"Map" image:[UIImage imageNamed:@"tabmap_icon.png"] tag:3];
     

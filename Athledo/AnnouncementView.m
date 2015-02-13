@@ -37,13 +37,9 @@
     int deleteIndex;
     UIButton *btnAddNew;
     NSString *nameStr, *descStr, *dateStr, *timeStr, *emailNotification,*privacySettings, *groupId;
-    
     NSArray* buttonData;
-    
-    
     int toolBarPosition;
     int textFieldTag;
-    
     UITextField *currentText;
     UITextView *txtViewCurrent;
     NSArray *notificationData;
@@ -67,13 +63,10 @@
 }
 - (void)awakeFromNib
 {
-    
-    
 }
 
 - (void)orientationChanged:(NSNotification *)notification
 {
-   
 }
 
 -(void)AddNewAnnouncement
@@ -128,18 +121,13 @@
                     
                     [arrAnnouncements removeAllObjects];
                     [self SearchAnnouncement : theSearchBar.text];
-                    
-                   
-                }
+                 }
                 
             }else{
                 
                 [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-                
             }
-            
         }
-        
     }
     @catch (NSException *exception) {
         
@@ -170,23 +158,18 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-   
-
     switch (Tag)
     {
         case getNotificationTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 notificationData=[MyResults objectForKey:@"data"];
                 if (userInfo.userType==1) {
                     [tblAnnouncementRecods reloadData];
                 }else{
-                    
                     [tblUpdatesRecods reloadData];
                 }
-                
             }
             
             break;
@@ -204,7 +187,7 @@
 
                 for (int i=0; i< data.count; i++)
                 {
-                        [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
+                    [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
                    
                 }
                
@@ -229,17 +212,14 @@
                         break;
                     }
                 }
-               
-
             }else
             {
+                self.navigationItem.rightBarButtonItem.enabled=YES;
+                self.navigationItem.leftBarButtonItem.enabled=YES;
                 [SingletonClass RemoveActivityIndicator:self.view];
-
                 [arrAnnouncements removeObject:[[data objectAtIndex:0]objectForKey:@"Announcement"]];
                 [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
             }
-            
-         
             
             break;
         }
@@ -289,12 +269,9 @@
         }
             
     }
-    
-   
 }
 - (void)getList
 {
-  
     if ([SingletonClass  CheckConnectivity])
     {
         self.navigationItem.rightBarButtonItem.enabled=NO;
@@ -304,21 +281,15 @@
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceSearchAnnouncement :strURL :getAnnouncementTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 
 - (void)SearchAnnouncement :(NSString *)searchText
 {
-    
     if ([SingletonClass  CheckConnectivity])
     {
         userInfo=[UserInformation shareInstance];
@@ -360,7 +331,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     [[NSUserDefaults standardUserDefaults] setObject:arrAnnouncements forKey:@"announcementdata"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     if (isIPAD)
@@ -393,9 +363,6 @@
     [super viewWillAppear:NO];
     
     if ([SingletonClass ShareInstance].isAnnouncementUpdate == TRUE) {
-        self.navigationItem.rightBarButtonItem.enabled=NO;
-        self.navigationItem.leftBarButtonItem.enabled=NO;
-        
         [self getList];
         
         [SingletonClass ShareInstance].isAnnouncementUpdate=FALSE;
@@ -406,7 +373,6 @@
             {
                 tblAnnouncementRecods.delegate=self;
                 tblAnnouncementRecods.dataSource=self;
-                
                 [tblAnnouncementRecods reloadData];
                 
                 break;
@@ -428,23 +394,19 @@
 
 -(void)CerateLayOut
 {
-    
     switch (userInfo.userType)
     {
         case 1:
         {
-            
             tblUpdatesRecods.hidden=YES;
             tblAnnouncementRecods.hidden=NO;
             btnAddNew.hidden=NO;
             SearchBar.hidden=NO;
-            
+             break;
         }
-            
-            break;
+       
         case 2:
         {
-            
             tblAnnouncementRecods.hidden=YES;
             btnAddNew.hidden=YES;
             btnSearch.hidden=YES;
@@ -477,37 +439,27 @@
     // Do any additional setup after loading the view from its nib.
     tblAnnouncementRecods.backgroundColor=[UIColor clearColor];
     tblUpdatesRecods.backgroundColor=[UIColor clearColor];
-    
-    
     arrAnnouncements=[[NSMutableArray alloc] init];
-    
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
-    
     SWRevealViewController *revealController = [self revealViewController];
     // revealController.delegate=self;
-    
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
-    
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
-    
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    
      btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
      btnAddNew.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnAddNew addTarget:self action:@selector(AddNewAnnouncement) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setImage:imageEdit forState:UIControlStateNormal];
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     self.navigationItem.rightBarButtonItem = ButtonItem;
     [self CerateLayOut];
-  [[SingletonClass ShareInstance] CurrentOrientation:self];
+    [[SingletonClass ShareInstance] CurrentOrientation:self];
     [self getList];
     [SingletonClass ShareInstance].isAnnouncementUpdate=FALSE;
 }
@@ -515,9 +467,7 @@
 - (BOOL)revealController:(SWRevealViewController *)revealController
 panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    
     return YES;
-    
 }
 -(void)doneClicked
 {

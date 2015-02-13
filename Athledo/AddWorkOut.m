@@ -38,14 +38,14 @@ static int LiftExerciseCount=0;
 @interface AddWorkOut ()
 {
     NSMutableArray *arrFieldsPlaceholder;
-     NSMutableArray *arrLiftPlaceholder;
+    NSMutableArray *arrLiftPlaceholder;
     
     NSMutableArray *arrCustomTagsPlaceholder;
- 
+    
     NSMutableArray *arrExerciseType;
     NSArray *arrLiftUnit;
     NSMutableArray *arrCellHeight;
-   
+    
     NSMutableArray *arrWorkOutList;
     NSMutableArray *arrCustomList;
     NSMutableArray *UnitsArray;
@@ -56,15 +56,15 @@ static int LiftExerciseCount=0;
     NSMutableDictionary *WebWorkOutData;
     
     NSArray *arrTime;
-
-  
+    
+    
     int toolBarPosition;
     BOOL isKeyBoard;
     UITextField *currentText;
     UITextView *txtViewCurrent;
     
-     BOOL isWorkOut;
-     BOOL isExercise;
+    BOOL isWorkOut;
+    BOOL isExercise;
     
     
     BOOL isWholeTeam;
@@ -77,7 +77,7 @@ static int LiftExerciseCount=0;
     
     BOOL isEditData;
     
-     BOOL isTime;
+    BOOL isTime;
     
     NSString *strPlaceHolder;
     
@@ -102,7 +102,7 @@ static int LiftExerciseCount=0;
         // Custom initialization
     }
     return self;
-
+    
 }
 
 
@@ -142,7 +142,7 @@ static int LiftExerciseCount=0;
                     // add custom tag and its id  in dic for next use
                     NSArray *customTagValues1;
                     NSArray *customTagKeys1;
-                
+                    
                     [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]]  ? customTagValues1=[[WebWorkOutData objectForKey:@"Custom Tags"]  allValues] : @"";
                     
                     [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customTagKeys1=[[WebWorkOutData objectForKey:@"Custom Tags"] allKeys] : @"";
@@ -243,7 +243,7 @@ static int LiftExerciseCount=0;
             default:
                 break;
         }
-
+        
     }
     @catch (NSException *exception) {
         
@@ -271,7 +271,7 @@ static int LiftExerciseCount=0;
     {
         if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
         {
-           NSDictionary *tepm=[myResults  objectForKey:@"data"];
+            NSDictionary *tepm=[myResults  objectForKey:@"data"];
             
             if (![tepm isEqual:@""])
             {
@@ -285,7 +285,7 @@ static int LiftExerciseCount=0;
                 
             }
             
-           
+            
         }
         
     }else if (Tag ==GetWorkOutListTag)
@@ -300,7 +300,7 @@ static int LiftExerciseCount=0;
             NSArray *tempWorkout;
             [[WebWorkOutData objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ?  tempWorkout=[[WebWorkOutData objectForKey:@"Workout Type"] allValues] : @"";
             
-
+            
             
             
             for (int i=0 ; i< tempWorkout.count;i++) {
@@ -468,7 +468,7 @@ static int LiftExerciseCount=0;
                 [self ShowFieldsRegardingWorkOutType:@"Lift"];
             }
         }
-     
+        
     }else if (Tag ==AddWorkOutLiftTag)
     {
         if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
@@ -478,10 +478,10 @@ static int LiftExerciseCount=0;
         }else{
             [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
         }
-       }
+    }
 }
 -(void)getWorkOutList{
-   
+    
     @try {
         
         if ([SingletonClass  CheckConnectivity]) {
@@ -526,7 +526,7 @@ static int LiftExerciseCount=0;
             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
             
         }
-
+        
     }
     @catch (NSException *exception) {
         
@@ -541,7 +541,7 @@ static int LiftExerciseCount=0;
 -(void)getWorkOutUnit : (NSString *)WorkOutType : (NSString *)Exercise{
     
     if ([SingletonClass  CheckConnectivity]) {
-
+        
         NSString *strURL = [NSString stringWithFormat:@"{\"workout_type\":\"%@\",\"excercise_type\":\"%@\"}",WorkOutType,Exercise];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetWorkOutUnitList]];
@@ -564,7 +564,7 @@ static int LiftExerciseCount=0;
                                        [self httpResponseReceived : data :GetWorkOutUnitTag];
                                    }else{
                                        
-                                
+                                       
                                        ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:ActivityIndicatorTag];
                                        if(acti)
                                            [acti removeFromSuperview];
@@ -588,7 +588,7 @@ static int LiftExerciseCount=0;
 }
 -(void)viewDidLayoutSubviews
 {
-
+    
 }
 - (void)orientationChanged
 {
@@ -599,14 +599,14 @@ static int LiftExerciseCount=0;
     if (isIPAD) {
         [pickerView removeFromSuperview];
         pickerView=nil;
-         if ((orientation==UIDeviceOrientationLandscapeRight || (orientation==UIDeviceOrientationLandscapeLeft))) {
-             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(512,1050, 1024, 216)];
-         }else
-         {
-               pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+350, self.view.frame.size.width, 216)];
-         }
+        if ((orientation==UIDeviceOrientationLandscapeRight || (orientation==UIDeviceOrientationLandscapeLeft))) {
+            pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(512,1050, 1024, 216)];
+        }else
+        {
+            pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+350, self.view.frame.size.width, 216)];
+        }
         pickerView.backgroundColor=[UIColor whiteColor];
-       // pickerView.tag=-(MultipleSelectionPickerTag);
+        // pickerView.tag=-(MultipleSelectionPickerTag);
         pickerView.delegate=self;
         [self.view addSubview:pickerView];
         
@@ -621,11 +621,11 @@ static int LiftExerciseCount=0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
+    
     // Do any additional setup after loading the view from its nib.
     isChangeWorkoutType=FALSE;
     
-      
+    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -633,7 +633,7 @@ static int LiftExerciseCount=0;
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         
         //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-       // scrollHeight=kbSize.height;
+        // scrollHeight=kbSize.height;
         
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
             
@@ -667,7 +667,7 @@ static int LiftExerciseCount=0;
         }completion:^(BOOL finished){
             
         }];
-
+        
     }];
     scrollHeight=0;
     self.title = NSLocalizedString(@"Workout", nil);
@@ -679,7 +679,7 @@ static int LiftExerciseCount=0;
     arrLiftPlaceholder=[[NSMutableArray alloc] init];
     
     if ([UserInformation shareInstance].userType == 1) {
-         arrFieldsPlaceholder=[[NSMutableArray alloc] initWithObjects:@"Workout Name",@"Workout Date",@"Workout Type",@"Custom Tags",@"Athletes",@"Email Notification",@"Description",@"WarmUp Time",@"CoolDown Time", nil];
+        arrFieldsPlaceholder=[[NSMutableArray alloc] initWithObjects:@"Workout Name",@"Workout Date",@"Workout Type",@"Custom Tags",@"Athletes",@"Email Notification",@"Description",@"WarmUp Time",@"CoolDown Time", nil];
         //BTNSave
     }else{
         
@@ -699,7 +699,7 @@ static int LiftExerciseCount=0;
     selectedUnits = [[NSMutableDictionary alloc] init];
     UnitsArray=[[NSMutableArray alloc]init];
     
-     NSMutableDictionary  *Data=[[NSMutableDictionary alloc] init];
+    NSMutableDictionary  *Data=[[NSMutableDictionary alloc] init];
     
     
     for (int i=0; i<arrFieldsPlaceholder.count; i++) {
@@ -709,7 +709,7 @@ static int LiftExerciseCount=0;
     }
     @try {
         
-       if (objEditModeData) {
+        if (objEditModeData) {
             
             isEditData=YES;
             // Open in edit mode
@@ -740,30 +740,30 @@ static int LiftExerciseCount=0;
                 default:
                     break;
             }
-           
-           
-             [workOutDic setObject:[objEditModeData valueForKey:@"assigned"] forKey:@"assigned"];
+            
+            
+            [workOutDic setObject:[objEditModeData valueForKey:@"assigned"] forKey:@"assigned"];
             
             [workOutDic setObject:[[objEditModeData valueForKey:@"Email Notification"] intValue]== 1 ? @"Yes":@"No" forKey:@"Email Notification"];
-           
-           [workOutDic setObject:[[objEditModeData valueForKey:@"WarmUp Time"] intValue]==0 ? @"":[[objEditModeData valueForKey:@"WarmUp Time"] stringByAppendingString:@" Minutes"] forKey:@"WarmUp Time"];
-           
-           [workOutDic setObject:[[objEditModeData valueForKey:@"CoolDown Time"] intValue]==0 ? @"" :[[objEditModeData valueForKey:@"CoolDown Time"] stringByAppendingString:@" Minutes"]forKey:@"CoolDown Time"];
-           [workOutDic setObject:[objEditModeData valueForKey:@"Workout Name"] forKey:@"Workout Name"];
+            
+            [workOutDic setObject:[[objEditModeData valueForKey:@"WarmUp Time"] intValue]==0 ? @"":[[objEditModeData valueForKey:@"WarmUp Time"] stringByAppendingString:@" Minutes"] forKey:@"WarmUp Time"];
+            
+            [workOutDic setObject:[[objEditModeData valueForKey:@"CoolDown Time"] intValue]==0 ? @"" :[[objEditModeData valueForKey:@"CoolDown Time"] stringByAppendingString:@" Minutes"]forKey:@"CoolDown Time"];
+            [workOutDic setObject:[objEditModeData valueForKey:@"Workout Name"] forKey:@"Workout Name"];
             [workOutDic setObject:[objEditModeData valueForKey:@"Date"] forKey:@"Workout Date"];
             [workOutDic setObject:[objEditModeData valueForKey:@"Description"] forKey:@"Description"];
             [workOutDic setObject:[objEditModeData valueForKey:@"Workout Type"] forKey:@"Workout Type"];
-             [workOutDic setObject:@"" forKey:@"Unit"];
-           
-           if ([[objEditModeData valueForKey:@"Workout Type"] isEqual:@"Interval"]) {
-               
-               [workOutDic setObject:[objEditModeData valueForKey:@"Interval"] forKey:@"# of Intervals"];
-
-           }else if ([[objEditModeData valueForKey:@"Workout Type"] isEqual:@"Lift"])
-           {
+            [workOutDic setObject:@"" forKey:@"Unit"];
+            
+            if ([[objEditModeData valueForKey:@"Workout Type"] isEqual:@"Interval"]) {
+                
+                [workOutDic setObject:[objEditModeData valueForKey:@"Interval"] forKey:@"# of Intervals"];
+                
+            }else if ([[objEditModeData valueForKey:@"Workout Type"] isEqual:@"Lift"])
+            {
                 [workOutDic setObject:[objEditModeData valueForKey:@"Lift Total Time"] forKey:@"Total Time"];
-           }
-           
+            }
+            
             NSString *strtemp=[objEditModeData valueForKey:@"Workout Type"];
             
             if (strtemp.length > 0 && ![[objEditModeData valueForKey:@"Workout Type"] isEqual:@"Lift"] ) {
@@ -787,7 +787,7 @@ static int LiftExerciseCount=0;
         }
     }
     @catch (NSException *exception) {
-   
+        
     }
     @finally {
         
@@ -795,13 +795,13 @@ static int LiftExerciseCount=0;
     arrWorkOutList=[[NSMutableArray alloc] init] ;
     
     arrCellHeight=[[NSMutableArray alloc] initWithObjects:@"70",@"70",@"70",@"70",@"70",@"100",@"70" ,nil];
-
+    
     toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?300:210);
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, listPicker.frame.size.height);
     listPicker.tag=listPickerTag;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, datePicker.frame.size.height)];
-
+    
     datePicker.date = [NSDate date];
     datePicker.tag=datePickerTag;
     //[datePicker setHidden:YES];
@@ -812,7 +812,7 @@ static int LiftExerciseCount=0;
     [self.view addSubview:datePicker];
     pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216)];
     pickerView.backgroundColor=[UIColor whiteColor];
-   // pickerView.tag=MultipleSelectionPickerTag;
+    // pickerView.tag=MultipleSelectionPickerTag;
     pickerView.delegate=self;
     //pickerView.dataSource=self;
     [self.view addSubview:pickerView];
@@ -829,10 +829,10 @@ static int LiftExerciseCount=0;
     
     UIToolbar *toolBarOne = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBarOne.tag = toolBar1Tag;
-   
+    
     toolBarOne.items = [NSArray arrayWithObjects:flex,flex,btnDone1,nil];
     [self.view addSubview:toolBarOne];
-     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
+    UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(SaveWorkOutData:) forControlEvents:UIControlEventTouchUpInside];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -870,7 +870,7 @@ static int LiftExerciseCount=0;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-     [self getWorkOutList];
+    [self getWorkOutList];
     [super viewWillAppear:NO];
     if (isIPAD)
     {
@@ -940,7 +940,7 @@ static int LiftExerciseCount=0;
         
     }
     currentText=nil;
-
+    
 }
 
 -(void)doneClicked
@@ -975,11 +975,11 @@ static int LiftExerciseCount=0;
         NSString *ExerciseCode= [self KeyForValue:@"Exercise" :currentText.text];
         
         [self getWorkOutUnit:code :ExerciseCode];
-       
+        
     }
     if(([currentText.placeholder isEqualToString:@"Workout Type"]  ) )
     {
-          if (currentText.text.length > 0) {
+        if (currentText.text.length > 0) {
             if (isChangeWorkoutType==TRUE)
             {
                 NSString *code= [self KeyForValue:@"Workout Type" :currentText.text];
@@ -1013,14 +1013,14 @@ static int LiftExerciseCount=0;
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.29f];
     
-   [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-   
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    
     [self setDatePickerVisibleAt:NO];
     [self setPickerVisibleAt:NO:arrTime];
     [self setMultipleSlectionPicker:NO];
     [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50)];
     
-     [UIView commitAnimations];
+    [UIView commitAnimations];
     
     if ( isChangeWorkoutType==TRUE) {
         [self ShowFieldsRegardingWorkOutType:currentText.text];
@@ -1045,9 +1045,9 @@ static int LiftExerciseCount=0;
     {
         [arrFieldsPlaceholder removeObject:@"Unit"];
         [workOutDic setObject:@"" forKey:@"Unit"];
-   
+        
     }else if ([workOutType isEqualToString:@"Other"]) {
-       
+        
         [arrFieldsPlaceholder removeObject:@"Exercise Type"];
         [arrFieldsPlaceholder removeObject:@"Unit"];
         [workOutDic setObject:@"" forKey:@"Unit"];
@@ -1059,13 +1059,13 @@ static int LiftExerciseCount=0;
         [workOutDic setObject:@"" forKey:@"Unit"];
         
     }else if ([workOutType isEqualToString:@"Interval"] ) {
-    
-    [arrFieldsPlaceholder removeObject:@"Exercise Type"];
-    [arrFieldsPlaceholder removeObject:@"# of Intervals"];
-    [arrFieldsPlaceholder removeObject:@"Unit"];
-    [workOutDic setObject:@"" forKey:@"Unit"];
-    [workOutDic setObject:@"" forKey:@"# of Intervals"];
-   
+        
+        [arrFieldsPlaceholder removeObject:@"Exercise Type"];
+        [arrFieldsPlaceholder removeObject:@"# of Intervals"];
+        [arrFieldsPlaceholder removeObject:@"Unit"];
+        [workOutDic setObject:@"" forKey:@"Unit"];
+        [workOutDic setObject:@"" forKey:@"# of Intervals"];
+        
     }else if ([workOutType isEqualToString:@"Lift"]) {
         LiftExerciseCount=0;
         [arrFieldsPlaceholder removeObject:@"Exercise"];
@@ -1145,7 +1145,7 @@ static int LiftExerciseCount=0;
             }
             
         }
-  
+        
         [tableview reloadData];
     }
     @catch (NSException *exception) {
@@ -1167,19 +1167,19 @@ static int LiftExerciseCount=0;
     [UIView commitAnimations];
 }
 /*
--(void)setMultipleSlectionPicker:(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    [self.view viewWithTag:MultipleSelectionPickerTag].center = point;
-    
-    [UIView commitAnimations];
-    
-    
-}
-*/
+ -(void)setMultipleSlectionPicker:(CGPoint)point
+ {
+ [UIView beginAnimations:@"tblViewMove" context:nil];
+ [UIView setAnimationDelegate:self];
+ [UIView setAnimationDuration:0.27f];
+ 
+ [self.view viewWithTag:MultipleSelectionPickerTag].center = point;
+ 
+ [UIView commitAnimations];
+ 
+ 
+ }
+ */
 -(void)setMultipleSlectionPicker :(BOOL)ShowHide
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -1198,15 +1198,15 @@ static int LiftExerciseCount=0;
         point.y=self.view.frame.size.height+(pickerView.frame.size.height/2);
     }
     
-//    int tag=0;
-//    
-//    if ((orientation==UIDeviceOrientationLandscapeRight || (orientation==UIDeviceOrientationLandscapeLeft)))
-//    {
-//        tag=-(MultipleSelectionPickerTag);
-//    }else{
-//        
-//        MultipleSelectionPickerTag
-//    }
+    //    int tag=0;
+    //
+    //    if ((orientation==UIDeviceOrientationLandscapeRight || (orientation==UIDeviceOrientationLandscapeLeft)))
+    //    {
+    //        tag=-(MultipleSelectionPickerTag);
+    //    }else{
+    //
+    //        MultipleSelectionPickerTag
+    //    }
     
     pickerView.center = point;
     
@@ -1275,23 +1275,23 @@ static int LiftExerciseCount=0;
 {
     
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-   
+    
     
     if([currentText.placeholder isEqualToString:@"Workout Date"]  )
     {
         df.dateFormat = @"MMM-dd-YYYY";
-      currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-      
+        currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
+        
     }else if ([currentText.placeholder isEqualToString:@"Total Time"] )
     {
         if ( [currentText.placeholder isEqualToString:@"Total Time"]) {
             
-             df.dateFormat = @"HH:mm";
-         currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-        [currentText.text isEqualToString:@"00:00"] ? currentText.text=@"00:01":@"";
-        
+            df.dateFormat = @"HH:mm";
+            currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
+            [currentText.text isEqualToString:@"00:00"] ? currentText.text=@"00:01":@"";
+            
         }
-       
+        
     }else if ([currentText.placeholder isEqualToString:@"Enter Tag Name"])
     {
         
@@ -1309,12 +1309,12 @@ static int LiftExerciseCount=0;
 {
     if (isWorkOut) {
         
-       
+        
         return [arrWorkOutList count];
-    
+        
     }else  if (isLiftUnit)
     {
-       return [arrLiftUnit count];
+        return [arrLiftUnit count];
     }else  if (isCustomTag)
     {
         return [arrCustomList count];
@@ -1378,9 +1378,9 @@ static int LiftExerciseCount=0;
     NSArray *cellfields;
     
     if (iosVersion < 8) {
-       
+        
         cellfields=[cell subviews] ;
-         cellfields=[[cellfields objectAtIndex:0] subviews];
+        cellfields=[[cellfields objectAtIndex:0] subviews];
     }else{
         cellfields=[cell subviews];
     }
@@ -1397,7 +1397,7 @@ static int LiftExerciseCount=0;
         }
     }
     
-     return textfield;
+    return textfield;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
@@ -1411,12 +1411,12 @@ static int LiftExerciseCount=0;
         }
         isChangeWorkoutType=TRUE;
         currentText=[self TextfieldInCellAtSection:3];
-         currentText.text=[arrWorkOutList objectAtIndex:row];
+        currentText.text=[arrWorkOutList objectAtIndex:row];
         
     }else  if (isLiftUnit)
     {
         currentText.text=[arrLiftUnit objectAtIndex:row];
-
+        
     }else  if (isCustomTag)
     {
         currentText.text=[arrCustomList objectAtIndex:row];
@@ -1427,7 +1427,7 @@ static int LiftExerciseCount=0;
     }else
     {
         currentText.text=[arrExerciseType objectAtIndex:row];
-    
+        
     }
 }
 
@@ -1439,11 +1439,11 @@ static int LiftExerciseCount=0;
 #pragma mark ALPickerView delegate methods
 
 - (NSInteger)numberOfRowsForPickerView:(ALPickerView *)pickerView {
-	return [UnitsArray count];
+    return [UnitsArray count];
 }
 
 - (NSString *)pickerView:(ALPickerView *)pickerView textForRow:(NSInteger)row {
-	return [UnitsArray objectAtIndex:row];
+    return [UnitsArray objectAtIndex:row];
 }
 
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionGroupForRow:(NSInteger)row {
@@ -1455,38 +1455,38 @@ static int LiftExerciseCount=0;
     
     //NSLog(@"");
     
-	return [[selectedUnits objectForKey:[UnitsArray objectAtIndex:row]] boolValue];
+    return [[selectedUnits objectForKey:[UnitsArray objectAtIndex:row]] boolValue];
 }
 
 - (void)pickerView:(ALPickerView *)pickerView didCheckRow:(NSInteger)row {
-	// Check whether all rows are checked or only one
-	if (row == -1)
-		for (id key in [selectedUnits allKeys])
-			[selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:key];
-	else
-		[selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:[UnitsArray objectAtIndex:row]];
+    // Check whether all rows are checked or only one
+    if (row == -1)
+        for (id key in [selectedUnits allKeys])
+            [selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:key];
+    else
+        [selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:[UnitsArray objectAtIndex:row]];
     
     
     [self saveMultiPickerValues];
-   
+    
     
 }
 
 
 - (void)pickerView:(ALPickerView *)pickerView didUncheckRow:(NSInteger)row {
-	// Check whether all rows are unchecked or only one
-	if (row == -1)
-		for (id key in [selectedUnits allKeys])
-			[selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:key];
-	else
-		[selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:[UnitsArray objectAtIndex:row]];
+    // Check whether all rows are unchecked or only one
+    if (row == -1)
+        for (id key in [selectedUnits allKeys])
+            [selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:key];
+    else
+        [selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:[UnitsArray objectAtIndex:row]];
     
     
     [self saveMultiPickerValues];
     
     
     
-   }
+}
 
 
 -(void)saveMultiPickerValues
@@ -1497,17 +1497,17 @@ static int LiftExerciseCount=0;
     }else if ([strPlaceHolder isEqualToString:@"Whole Team"] && isWholeTeam==YES)
     {
         currentText.text = [self PickerSlectedValues:selectedUnits];
-          [workOutDic setObject:@"1" forKey:@"assigned"];
+        [workOutDic setObject:@"1" forKey:@"assigned"];
         
     }else if ([strPlaceHolder isEqualToString:@"Athletes"] && isAthletes==YES)
     {
         currentText.text = [self PickerSlectedValues:selectedUnits];
-           [workOutDic setObject:@"2" forKey:@"assigned"];
+        [workOutDic setObject:@"2" forKey:@"assigned"];
         
     }else if ([strPlaceHolder isEqualToString:@"Groups"] && isGroups==YES)
     {
         currentText.text = [self PickerSlectedValues:selectedUnits];
-           [workOutDic setObject:@"3" forKey:@"assigned"];
+        [workOutDic setObject:@"3" forKey:@"assigned"];
         
     }else if ([strPlaceHolder isEqualToString:@"Unit"] && isUnits==YES)
     {
@@ -1551,7 +1551,7 @@ static int LiftExerciseCount=0;
         
         [workOutDic setObject:[pickerData copy] forKey:strPlaceHolder];
         return values;
-
+        
     }
     @catch (NSException *exception) {
         
@@ -1560,20 +1560,20 @@ static int LiftExerciseCount=0;
         
     }
     
-   }
+}
 
 
 
 #pragma mark setcontent offset
 - (void)setContentOffsetDown:(id)textField table:(UITableView*)m_TableView {
     
- [m_TableView setContentOffset:CGPointMake(0, 0) animated:YES];
+    [m_TableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 
 #pragma mark setcontent offset
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
-
+    
     
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
     
@@ -1588,17 +1588,17 @@ static int LiftExerciseCount=0;
             scrollHeight=216;
         }
     }
-        CGSize keyboardSize = CGSizeMake(320,scrollHeight+44);
-        UIEdgeInsets contentInsets;
-        if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-            contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
-        } else {
-            contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
-        }
-        
-        m_TableView.contentInset = contentInsets;
-        m_TableView.scrollIndicatorInsets = contentInsets;
-        [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    CGSize keyboardSize = CGSizeMake(320,scrollHeight+44);
+    UIEdgeInsets contentInsets;
+    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+    } else {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+    }
+    
+    m_TableView.contentInset = contentInsets;
+    m_TableView.scrollIndicatorInsets = contentInsets;
+    [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 
@@ -1626,152 +1626,152 @@ static int LiftExerciseCount=0;
         isTime=([textField.placeholder isEqualToString:@"WarmUp Time"] || [textField.placeholder isEqualToString:@"CoolDown Time"]) ? YES : NO ;
         
         
-            
-            if([textField.placeholder isEqualToString:@"Enter Tag Name"] || [textField.placeholder isEqualToString:@"Exercise Type"]  )
-            {
-                [textField resignFirstResponder];
-                [listPicker reloadComponent:0];
-                [self setPickerVisibleAt:YES:arrExerciseType];
-                
-                return NO;
-                
-            }
         
-            if([textField.placeholder isEqualToString:@"Description"]||[textField.placeholder isEqualToString:@"Unit"] || [textField.placeholder isEqualToString:@"# of Intervals"])
+        if([textField.placeholder isEqualToString:@"Enter Tag Name"] || [textField.placeholder isEqualToString:@"Exercise Type"]  )
+        {
+            [textField resignFirstResponder];
+            [listPicker reloadComponent:0];
+            [self setPickerVisibleAt:YES:arrExerciseType];
+            
+            return NO;
+            
+        }
+        
+        if([textField.placeholder isEqualToString:@"Description"]||[textField.placeholder isEqualToString:@"Unit"] || [textField.placeholder isEqualToString:@"# of Intervals"])
+        {
+            
+            if([textField.placeholder isEqualToString:@"Description"]   )
             {
-              
-                if([textField.placeholder isEqualToString:@"Description"]   )
-                {
-                  
-                    
-                }else  if([textField.placeholder isEqualToString:@"# of Intervals"]  )
-                {
-                    textField.keyboardType=UIKeyboardTypeNumberPad;
-                  
-                }
+                
+                
+            }else  if([textField.placeholder isEqualToString:@"# of Intervals"]  )
+            {
+                textField.keyboardType=UIKeyboardTypeNumberPad;
                 
             }
             
-            if([textField.placeholder isEqualToString:@"Workout Date"]  )
-            {
-                [textField resignFirstResponder];
-                datePicker.datePickerMode = UIDatePickerModeDate;
+        }
+        
+        if([textField.placeholder isEqualToString:@"Workout Date"]  )
+        {
+            [textField resignFirstResponder];
+            datePicker.datePickerMode = UIDatePickerModeDate;
+            [self setDatePickerVisibleAt:YES];
+            if(currentText.text.length==0)
+                [self dateChange];
+            
+            return NO;
+            
+        }else if ([textField.placeholder isEqualToString:@"WarmUp Time"]|| [textField.placeholder isEqualToString:@"CoolDown Time"] || [textField.placeholder isEqualToString:@"Total Time"] )
+        {
+            [textField resignFirstResponder];
+            
+            
+            if ([textField.placeholder isEqualToString:@"Total Time"]) {
+                datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
                 [self setDatePickerVisibleAt:YES];
                 if(currentText.text.length==0)
                     [self dateChange];
+            }else{
                 
-                return NO;
-                
-            }else if ([textField.placeholder isEqualToString:@"WarmUp Time"]|| [textField.placeholder isEqualToString:@"CoolDown Time"] || [textField.placeholder isEqualToString:@"Total Time"] )
-            {
-                [textField resignFirstResponder];
-                
-                
-                if ([textField.placeholder isEqualToString:@"Total Time"]) {
-                    datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
-                    [self setDatePickerVisibleAt:YES];
-                    if(currentText.text.length==0)
-                        [self dateChange];
-                }else{
+                if (arrTime.count==0) {
                     
-                    if (arrTime.count==0) {
-                        
-                    }else
-                    {
-                        [listPicker reloadAllComponents];
-                        [listPicker selectRow:0 inComponent:0 animated:YES];
-                        [self setPickerVisibleAt:YES:arrTime];
-                    }
-                    
-                  
-                    
-                }
-                
-                return NO;
-            }
-            if([textField.placeholder isEqualToString:@"Workout Type"] ||  [textField.placeholder isEqualToString:@"Unit."])
-            {
-                [textField resignFirstResponder];
-                
-                if([textField.placeholder isEqualToString:@"Workout Type"])
-                {
-                   // [listPicker reloadComponent:0];
-                    if (arrWorkOutList.count==0) {
-                        
-                    }else
-                    {
-                        [listPicker reloadAllComponents];
-                        [listPicker selectRow:0 inComponent:0 animated:YES];
-                        [self setPickerVisibleAt:YES:arrWorkOutList];
-                    }
-
-                   
-                    
-                }else if ([textField.placeholder isEqualToString:@"Unit."])
-                {
-                    
-                    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-                   // [listPicker reloadComponent:0];
-                    
-                    if (arrLiftUnit.count==0) {
-                        
-                    }else
-                    {
-                        [listPicker reloadAllComponents];
-                        [listPicker selectRow:0 inComponent:0 animated:YES];
-                        [self setPickerVisibleAt:YES:arrLiftUnit];
-
-                    }
-                    
-                    
-                    
-                }
-                
-                
-                
-                return NO;
-            }
-            
-            // if condition for -> workout Type is Lift , then its components like textfield event
-            // else conditon for textField placeholder is unit for other workout type
-            
-            if (([textField.placeholder isEqualToString:@"Name"] ||[textField.placeholder isEqualToString:@"Sets"]||[textField.placeholder isEqualToString:@"Reps"]||[textField.placeholder isEqualToString:@"Weight"]) && arrLiftPlaceholder.count > 0) {
-                
-                isKeyBoard=TRUE;
-                if ([textField.placeholder isEqualToString:@"Name"]) {
-                    
-                    textField.keyboardType=UIKeyboardTypeDefault;
-                    
-                }else{
-                    
-                    textField.keyboardType=UIKeyboardTypeNumberPad;
-                }
-              
-                
-                
-            }else if([textField.placeholder isEqualToString:@"Unit"]   )
-            {
-                [textField resignFirstResponder];
-                
-                [self selectUnits];
-                
-                return NO;
-                
-            }else if([textField.placeholder isEqualToString:@"Custom Tags"]   )
-            {
-                [textField resignFirstResponder];
-                
-                if (arrCustomList.count == 0) {
-                    
-                     [SingletonClass initWithTitle:@"" message:@"Please add custom tag first" delegate:nil btn1:@"Ok"];
                 }else
                 {
-                    [self selectCustomTags];
+                    [listPicker reloadAllComponents];
+                    [listPicker selectRow:0 inComponent:0 animated:YES];
+                    [self setPickerVisibleAt:YES:arrTime];
                 }
-                return NO;
+                
+                
+                
             }
+            
+            return NO;
+        }
+        if([textField.placeholder isEqualToString:@"Workout Type"] ||  [textField.placeholder isEqualToString:@"Unit."])
+        {
+            [textField resignFirstResponder];
+            
+            if([textField.placeholder isEqualToString:@"Workout Type"])
+            {
+                // [listPicker reloadComponent:0];
+                if (arrWorkOutList.count==0) {
+                    
+                }else
+                {
+                    [listPicker reloadAllComponents];
+                    [listPicker selectRow:0 inComponent:0 animated:YES];
+                    [self setPickerVisibleAt:YES:arrWorkOutList];
+                }
+                
+                
+                
+            }else if ([textField.placeholder isEqualToString:@"Unit."])
+            {
+                
+                [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+                // [listPicker reloadComponent:0];
+                
+                if (arrLiftUnit.count==0) {
+                    
+                }else
+                {
+                    [listPicker reloadAllComponents];
+                    [listPicker selectRow:0 inComponent:0 animated:YES];
+                    [self setPickerVisibleAt:YES:arrLiftUnit];
+                    
+                }
+                
+                
+                
+            }
+            
+            
+            
+            return NO;
+        }
         
-            return YES;
+        // if condition for -> workout Type is Lift , then its components like textfield event
+        // else conditon for textField placeholder is unit for other workout type
+        
+        if (([textField.placeholder isEqualToString:@"Name"] ||[textField.placeholder isEqualToString:@"Sets"]||[textField.placeholder isEqualToString:@"Reps"]||[textField.placeholder isEqualToString:@"Weight"]) && arrLiftPlaceholder.count > 0) {
+            
+            isKeyBoard=TRUE;
+            if ([textField.placeholder isEqualToString:@"Name"]) {
+                
+                textField.keyboardType=UIKeyboardTypeDefault;
+                
+            }else{
+                
+                textField.keyboardType=UIKeyboardTypeNumberPad;
+            }
+            
+            
+            
+        }else if([textField.placeholder isEqualToString:@"Unit"]   )
+        {
+            [textField resignFirstResponder];
+            
+            [self selectUnits];
+            
+            return NO;
+            
+        }else if([textField.placeholder isEqualToString:@"Custom Tags"]   )
+        {
+            [textField resignFirstResponder];
+            
+            if (arrCustomList.count == 0) {
+                
+                [SingletonClass initWithTitle:@"" message:@"Please add custom tag first" delegate:nil btn1:@"Ok"];
+            }else
+            {
+                [self selectCustomTags];
+            }
+            return NO;
+        }
+        
+        return YES;
     }
     @catch (NSException *exception) {
         
@@ -1785,7 +1785,7 @@ static int LiftExerciseCount=0;
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     
-   
+    
 }
 
 
@@ -1798,7 +1798,7 @@ static int LiftExerciseCount=0;
 {
     [textField resignFirstResponder];
     
-      
+    
     return YES;
 }
 
@@ -1835,7 +1835,7 @@ static int LiftExerciseCount=0;
         cell.delegate=self;
         
     }
-      cell.backgroundColor=[UIColor clearColor];
+    cell.backgroundColor=[UIColor clearColor];
     
     return cell;
 }
@@ -1845,17 +1845,17 @@ static int LiftExerciseCount=0;
     if ([[arrFieldsPlaceholder objectAtIndex:indexPath.section] isEqualToString:@"Email Notification"]|| [[arrFieldsPlaceholder objectAtIndex:indexPath.section] isEqualToString:@"Athletes"] || [[arrFieldsPlaceholder objectAtIndex:indexPath.section] isEqualToString:@"Exercise"]) {
         
         
-         if ([[arrFieldsPlaceholder objectAtIndex:indexPath.section] isEqualToString:@"Exercise"])
-         {
-             return isIPAD ? 160 : 120;
-             
-         }else{
+        if ([[arrFieldsPlaceholder objectAtIndex:indexPath.section] isEqualToString:@"Exercise"])
+        {
+            return isIPAD ? 160 : 120;
             
-                return isIPAD ? 100 : 70.0;
-             
-         }
-    
-   
+        }else{
+            
+            return isIPAD ? 100 : 70.0;
+            
+        }
+        
+        
     }else{
         
         if ([[arrFieldsPlaceholder objectAtIndex:indexPath.section] isEqualToString:@"Description"])
@@ -1865,13 +1865,13 @@ static int LiftExerciseCount=0;
             
         }else
         {
-             return isIPAD ? 80 : 50.0;
+            return isIPAD ? 80 : 50.0;
         }
         
         
     }
-   
-
+    
+    
     
 }
 
@@ -1883,7 +1883,7 @@ static int LiftExerciseCount=0;
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-   
+    
 }
 -(void)AthletesCheckBoxEvent:(id)sender
 {
@@ -1903,12 +1903,12 @@ static int LiftExerciseCount=0;
         {
             UIButton *bb=temp;
             
-             //NSLog(@"check box tag %d",bb.tag);
-             bb.selected=NO;
+            //NSLog(@"check box tag %d",bb.tag);
+            bb.selected=NO;
             
             [bb setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
         }
-       
+        
         
     }
     
@@ -1924,7 +1924,7 @@ static int LiftExerciseCount=0;
         btn.selected=YES;
         [btn setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
     }
-
+    
     switch (btn.tag) {
         case 2000:
         {
@@ -1933,13 +1933,13 @@ static int LiftExerciseCount=0;
         }
         case 2001:
         {
-             strPlaceHolder=@"Athletes";
-                       break;
+            strPlaceHolder=@"Athletes";
+            break;
         }
         case 2002:
         {
-             strPlaceHolder=@"Groups";
-                     break;
+            strPlaceHolder=@"Groups";
+            break;
         }
         default:
             break;
@@ -1949,10 +1949,10 @@ static int LiftExerciseCount=0;
     isAthletes=[strPlaceHolder isEqualToString:@"Athletes"] ? YES : NO ;
     isGroups=[strPlaceHolder isEqualToString:@"Groups"] ? YES : NO ;
     isUnits=[strPlaceHolder isEqualToString:@"Unit"] ? YES : NO ;
-     isCustomTag=[strPlaceHolder isEqualToString:@"Custom Tags"] ? YES : NO ;
+    isCustomTag=[strPlaceHolder isEqualToString:@"Custom Tags"] ? YES : NO ;
     
     [self SetValuesforShowInMultiPicker];
-   
+    
     if (!isWholeTeam)
     {
         if ((UnitsArray.count > 0)) {
@@ -1970,7 +1970,7 @@ static int LiftExerciseCount=0;
 -(void)selectUnits
 {
     strPlaceHolder=@"Unit";
-   
+    
     isWholeTeam=[strPlaceHolder isEqualToString:@"Whole Team"] ? YES : NO ;
     isAthletes=[strPlaceHolder isEqualToString:@"Athletes"] ? YES : NO ;
     isGroups=[strPlaceHolder isEqualToString:@"Groups"] ? YES : NO ;
@@ -2002,25 +2002,25 @@ static int LiftExerciseCount=0;
 }
 -(void)SetValuesforShowInMultiPicker
 {
-        [UnitsArray removeAllObjects];
-        [selectedUnits removeAllObjects];
-   
+    [UnitsArray removeAllObjects];
+    [selectedUnits removeAllObjects];
+    
     NSMutableDictionary *tempDic=[[NSMutableDictionary alloc] init];
     
     if (isWholeTeam) {
         
-         [workOutDic setObject:@"1" forKey:@"assigned"];
+        [workOutDic setObject:@"1" forKey:@"assigned"];
         [workOutDic setObject:@"1" forKey:@"Whole Team"];
         [workOutDic setObject:@"" forKey:@"Athletes"];
         [workOutDic setObject:@"" forKey:@"Groups"];
-
+        
         
     }else if (isAthletes)
     {
         [workOutDic setObject:@"2" forKey:@"assigned"];
         
         [workOutDic setObject:@"" forKey:@"Whole Team"];
-         [workOutDic setObject:@"" forKey:@"Groups"];
+        [workOutDic setObject:@"" forKey:@"Groups"];
         
         if (![[workOutDic objectForKey:strPlaceHolder] isEqual:@""]) {
             
@@ -2030,7 +2030,7 @@ static int LiftExerciseCount=0;
         
         if (tempDic.count > 0) {
             
-              [selectedUnits addEntriesFromDictionary:[workOutDic objectForKey:strPlaceHolder]];
+            [selectedUnits addEntriesFromDictionary:[workOutDic objectForKey:strPlaceHolder]];
             [UnitsArray addObjectsFromArray:[selectedUnits allKeys]];
             
         }else{
@@ -2055,8 +2055,8 @@ static int LiftExerciseCount=0;
             [UnitsArray addObjectsFromArray:[selectedUnits allKeys]];
             
         }else{
-           
-             [self getUnitArryValues :@"Groups"];
+            
+            [self getUnitArryValues :@"Groups"];
         }
         
     }else if (isUnits)
@@ -2070,13 +2070,13 @@ static int LiftExerciseCount=0;
             
             [selectedUnits addEntriesFromDictionary:[workOutDic objectForKey:strPlaceHolder]];
             [UnitsArray addObjectsFromArray:[selectedUnits allKeys]];
-        
+            
         }else{
             
-             [self getUnitArryValues :@"Unit"];
+            [self getUnitArryValues :@"Unit"];
             
         }
-
+        
     }else if (isCustomTag)
     {
         
@@ -2095,7 +2095,7 @@ static int LiftExerciseCount=0;
             [self getUnitArryValues :@"Custom Tags"];
             
         }
-
+        
         
     }
     
@@ -2124,55 +2124,55 @@ static int LiftExerciseCount=0;
         
         for (int i=0;i< UnitsArray.count;i++){
             
-    // In Edit Mode
-
-    if (isEditData && ![[objEditModeData valueForKey:Key] isEqual:@""]) {
-        
-        NSArray *temp;
-        
-        if (![[objEditModeData valueForKey:Key] isEqual:@""]) {
+            // In Edit Mode
             
-            temp =[objEditModeData objectForKey:Key];
-        }
-        
-
-        if (temp.count > 0) {
-            
-            if ([temp containsObject:[tempKeys objectAtIndex:i]] )
+            if (isEditData && ![[objEditModeData valueForKey:Key] isEqual:@""]) {
+                
+                NSArray *temp;
+                
+                if (![[objEditModeData valueForKey:Key] isEqual:@""]) {
+                    
+                    temp =[objEditModeData objectForKey:Key];
+                }
+                
+                
+                if (temp.count > 0) {
+                    
+                    if ([temp containsObject:[tempKeys objectAtIndex:i]] )
+                    {
+                        [selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:[UnitsArray objectAtIndex:i]];
+                        strPlaceHolder=Key;
+                        NSString *str= [self PickerSlectedValues:selectedUnits];
+                        
+                        NSLog(@"%@",str);
+                        
+                        
+                    }else{
+                        
+                        [selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:[UnitsArray objectAtIndex:i]];
+                        strPlaceHolder=Key;
+                        NSString *str= [self PickerSlectedValues:selectedUnits];
+                        NSLog(@"%@",str);
+                    }
+                    
+                }else{
+                    
+                    strPlaceHolder=Key;
+                    NSString *str= [self PickerSlectedValues:selectedUnits];
+                    NSLog(@"%@",str);
+                    [selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:[UnitsArray objectAtIndex:i]];
+                }
+                
+            }else
             {
-                [selectedUnits setObject:[NSNumber numberWithBool:YES] forKey:[UnitsArray objectAtIndex:i]];
-                strPlaceHolder=Key;
-                NSString *str= [self PickerSlectedValues:selectedUnits];
-                
-                NSLog(@"%@",str);
-                
-                
-            }else{
                 
                 [selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:[UnitsArray objectAtIndex:i]];
-                strPlaceHolder=Key;
-                NSString *str= [self PickerSlectedValues:selectedUnits];
-                NSLog(@"%@",str);
             }
             
-        }else{
-            
-            strPlaceHolder=Key;
-            NSString *str= [self PickerSlectedValues:selectedUnits];
-            NSLog(@"%@",str);
-            [selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:[UnitsArray objectAtIndex:i]];
         }
         
-    }else
-    {
         
-        [selectedUnits setObject:[NSNumber numberWithBool:NO] forKey:[UnitsArray objectAtIndex:i]];
-    }
-
-    }
-
-
-
+        
     }
     @catch (NSException *exception) {
         
@@ -2188,7 +2188,7 @@ static int LiftExerciseCount=0;
 {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 -(void)addCustomTag:(id)sender
@@ -2203,19 +2203,19 @@ static int LiftExerciseCount=0;
                               otherButtonTitles:@"Save", nil];
     [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
     alertView.tag=AddcustomAlertTag;
-   
+    
     UITextField *textField = [alertView textFieldAtIndex:0];
     textField.placeholder=@"Custom Tags";
-   // [textField setInputView:datePicker];
+    // [textField setInputView:datePicker];
     currentText=textField;
     //textField.delegate=self;
     
-   // textField.keyboardType = UIKeyboardTypeNumberPad;
+    // textField.keyboardType = UIKeyboardTypeNumberPad;
     
     [alertView show];
     alertView=nil;
     
-
+    
 }
 
 -(void)addExercise:(id)sender
@@ -2241,7 +2241,7 @@ static int LiftExerciseCount=0;
     alertView=nil;
     
     
-
+    
 }
 
 -(void)deleteExercise:(id)sender
@@ -2271,7 +2271,7 @@ static int LiftExerciseCount=0;
     
     [alertView show];
     alertView=nil;
-
+    
     
     
 }
@@ -2279,12 +2279,12 @@ static int LiftExerciseCount=0;
 {
     UIButton *btn=sender;
     //NSLog(@"btn tag %d",btn.tag);
-   
+    
     [arrFieldsPlaceholder removeObjectAtIndex:arrFieldsPlaceholder.count-1];
     [arrLiftPlaceholder removeObjectAtIndex:btn.tag];
     [workOutDic setObject:arrLiftPlaceholder forKey:@"Lift"];
     [tableview reloadData];
-   
+    
 }
 
 
@@ -2313,8 +2313,8 @@ static int LiftExerciseCount=0;
         //NSLog(@"code %@ ",[pickerData allValues]);
         
         if ([pickerData allValues]) {
-           
-           arrValues=[pickerData allValues];
+            
+            arrValues=[pickerData allValues];
             
             
             for (int i=0; i<arrValues.count; i++) {
@@ -2339,11 +2339,11 @@ static int LiftExerciseCount=0;
                 values=[values stringByReplacingCharactersInRange:NSMakeRange(values.length-1, 1) withString:@""];
             }
             
-
+            
         }
         
         return values;
-
+        
     }
     @catch (NSException *exception) {
         
@@ -2351,7 +2351,7 @@ static int LiftExerciseCount=0;
     @finally {
         
     }
-   }
+}
 -(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey
 
 {
@@ -2385,7 +2385,7 @@ static int LiftExerciseCount=0;
         
         
         return strValue;
-
+        
     }
     @catch (NSException *exception) {
         
@@ -2426,7 +2426,7 @@ static int LiftExerciseCount=0;
             
         }
         return strValue;
-
+        
         
     }
     @catch (NSException *exception) {
@@ -2436,17 +2436,17 @@ static int LiftExerciseCount=0;
         
     }
     
-    }
+}
 
 
 
 -(void)SaveWorkOutData:(id)sender
 {
-     [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
     
     self.navigationItem.leftBarButtonItem.enabled=NO;
     self.navigationItem.rightBarButtonItem.enabled=NO;
-
+    
     
     @try {
         
@@ -2567,7 +2567,7 @@ static int LiftExerciseCount=0;
                     }
                     if(strError.length > 2 )
                     {
-                          self.navigationItem.rightBarButtonItem.enabled=YES;
+                        self.navigationItem.rightBarButtonItem.enabled=YES;
                         [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                         return;
                     }else{
@@ -2598,7 +2598,7 @@ static int LiftExerciseCount=0;
                             }else{
                                 
                                 NSArray *tempLiftdata=[self LiftDataWithUnitCode:[workOutDic valueForKeyPath:@"Lift"]];
-                            
+                                
                                 NSMutableDictionary *dic=[[NSMutableDictionary alloc] init];
                                 [dic setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedTeamid] forKey:@"team_id"];
                                 [dic setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedSportid] forKey:@"sport_id"];
@@ -2639,7 +2639,7 @@ static int LiftExerciseCount=0;
                                 [NSURLConnection sendAsynchronousRequest:request
                                                                    queue:[NSOperationQueue mainQueue]
                                                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                                            if (data!=nil)
+                                                           if (data!=nil)
                                                            {
                                                                [self httpResponseReceived : data : AddWorkOutLiftTag];
                                                            }else{
@@ -2653,12 +2653,12 @@ static int LiftExerciseCount=0;
                                                            
                                                        }];
                                 
-                                                     }
+                            }
                             
                             
-                                    }else{
-                                        
-                                        self.navigationItem.rightBarButtonItem.enabled=YES;
+                        }else{
+                            
+                            self.navigationItem.rightBarButtonItem.enabled=YES;
                             
                             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
                         }
@@ -2676,7 +2676,7 @@ static int LiftExerciseCount=0;
             
             [SingletonClass initWithTitle:@"" message:@"Please select workout type" delegate:nil btn1:@"Ok"];
         }
-
+        
     }
     @catch (NSException *exception) {
         
@@ -2686,7 +2686,7 @@ static int LiftExerciseCount=0;
         
     }
     
-   }
+}
 
 -(NSMutableArray  *)LiftDataWithUnitCode:(NSMutableArray *)data
 {
@@ -2712,7 +2712,7 @@ static int LiftExerciseCount=0;
         
     }
     
-   
+    
     
     return data;
 }
@@ -2738,11 +2738,11 @@ static int LiftExerciseCount=0;
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-   // if(iosVersion <= 8)
-       // [self setToolbarVisibleAt:CGPointMake(160, 600)];
+    // if(iosVersion <= 8)
+    // [self setToolbarVisibleAt:CGPointMake(160, 600)];
     
     if (alertView.tag == AddcustomAlertTag && buttonIndex==1) {
-       
+        
         if (currentText.text.length > 0) {
             
             [SingletonClass addActivityIndicator:self.view];
@@ -2760,29 +2760,29 @@ static int LiftExerciseCount=0;
             
             // [arrCustomList removeObject:currentText.text];
             if (currentText.text.length > 0) {
-             
+                
                 [self getWorkOutList];
-            [SingletonClass addActivityIndicator:self.view];
-            NSString *customId=[self KeyForValue:@"Custom Tags" :currentText.text];
-            
-            NSString *strURL = [NSString stringWithFormat:@"{\"workoutcustom_id\":\"%@\"}",customId];
-            
-            [webservice WebserviceCall:webUrlDeleteCustomTag :strURL :DeleteCustomTag];
+                [SingletonClass addActivityIndicator:self.view];
+                NSString *customId=[self KeyForValue:@"Custom Tags" :currentText.text];
+                
+                NSString *strURL = [NSString stringWithFormat:@"{\"workoutcustom_id\":\"%@\"}",customId];
+                
+                [webservice WebserviceCall:webUrlDeleteCustomTag :strURL :DeleteCustomTag];
             }
             
-       
+            
         }else{
             
-              [SingletonClass initWithTitle:@"" message:@"No Custom Tag Found!" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:@"" message:@"No Custom Tag Found!" delegate:nil btn1:@"Ok"];
         }
         
     }else if (alertView.tag == AddexerciseAlertTag && buttonIndex==1)
     {
         if (currentText.text.length > 0) {
-       
-        [SingletonClass addActivityIndicator:self.view];
             
-        NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"excercise_name\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,currentText.text];
+            [SingletonClass addActivityIndicator:self.view];
+            
+            NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"excercise_name\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,currentText.text];
             
             [webservice WebserviceCall:webUrlAddExerciseType :strURL :AddExerciseTypeTag];
             
@@ -2792,52 +2792,52 @@ static int LiftExerciseCount=0;
     {
         if (currentText.text.length > 0)
         {
-        if ([arrExerciseType containsObject:currentText.text]) {
-            
-          //  [arrExerciseType removeObject:currentText.text];
-             [self getWorkOutList];
-            
-            [SingletonClass addActivityIndicator:self.view];
-            
-            NSString *exerciseId=[self KeyForValue:@"Exercise" :currentText.text];
-            
-            NSString *strURL = [NSString stringWithFormat:@"{\"workoutexcercise_id\":\"%@\"}",exerciseId];
-            
-            [webservice WebserviceCall:webUrlDeleteExerciseType :strURL :DeleteExerciseTypeTag];
-            
-            
-        }else{
-            
-            [SingletonClass initWithTitle:@"" message:@"No Exercise Name Found!" delegate:nil btn1:@"Ok"];
-        }
-        }
-        
-    }else if(alertView.tag == AddWorkoutTag){
-    
-    if (buttonIndex == 0) {
-        NSArray *arrController=[self.navigationController viewControllers];
-        BOOL Status=FALSE;
-        for (id object in arrController)
-        {
-            
-            if ([object isKindOfClass:[WorkOutView class]])
-            {
-                Status=TRUE;
-                [self.navigationController popToViewController:object animated:NO];
+            if ([arrExerciseType containsObject:currentText.text]) {
+                
+                //  [arrExerciseType removeObject:currentText.text];
+                [self getWorkOutList];
+                
+                [SingletonClass addActivityIndicator:self.view];
+                
+                NSString *exerciseId=[self KeyForValue:@"Exercise" :currentText.text];
+                
+                NSString *strURL = [NSString stringWithFormat:@"{\"workoutexcercise_id\":\"%@\"}",exerciseId];
+                
+                [webservice WebserviceCall:webUrlDeleteExerciseType :strURL :DeleteExerciseTypeTag];
+                
+                
+            }else{
+                
+                [SingletonClass initWithTitle:@"" message:@"No Exercise Name Found!" delegate:nil btn1:@"Ok"];
             }
         }
         
-        if (Status==FALSE)
-        {
-            WorkOutView *annView=[[WorkOutView alloc] init];
+    }else if(alertView.tag == AddWorkoutTag){
+        
+        if (buttonIndex == 0) {
+            NSArray *arrController=[self.navigationController viewControllers];
+            BOOL Status=FALSE;
+            for (id object in arrController)
+            {
+                
+                if ([object isKindOfClass:[WorkOutView class]])
+                {
+                    Status=TRUE;
+                    [self.navigationController popToViewController:object animated:NO];
+                }
+            }
             
-            [self.navigationController pushViewController:annView animated:NO];
+            if (Status==FALSE)
+            {
+                WorkOutView *annView=[[WorkOutView alloc] init];
+                
+                [self.navigationController pushViewController:annView animated:NO];
+                
+            }
+            
+        }else{
             
         }
-        
-    }else{
-        
-    }
     }
     
 }
@@ -2859,18 +2859,18 @@ static int LiftExerciseCount=0;
     isCustomTag=YES;
     [listPickerRemoveTag reloadComponent:0];
     [textField setInputView:listPickerRemoveTag];
-   
+    
     if (iosVersion >=8) {
         [listPickerRemoveTag removeFromSuperview];
     }
-   
+    
     //textField.delegate=self;
     currentText=textField;
     // Add arrow image in textfield
     UIImage *image;
     
     image=[UIImage imageNamed:@"arrow.png"];
-     UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
+    UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
     imageview.frame=CGRectMake(textField.frame.size.width-imageview.frame.size.width, textField.frame.origin.x,imageview.frame.size.width, imageview.frame.size.height);
     [textField addSubview:imageview];
     // textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -2888,7 +2888,7 @@ static int LiftExerciseCount=0;
         [workOutDic setObject:@"Yes" forKey:@"Email Notification"];
     }else{
         
-          [workOutDic setObject:@"No" forKey:@"Email Notification"];
+        [workOutDic setObject:@"No" forKey:@"Email Notification"];
     }
     UITableViewCell *tableview1=(UITableViewCell *)[sender superview];
     
@@ -2919,13 +2919,13 @@ static int LiftExerciseCount=0;
         btn.selected=YES;
         [btn setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
     }
-
+    
 }
 //- (void)keyboardWillShow:(NSNotification *)sender
 //{
 //    CGSize kbSize = [[[sender userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
 //    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-//    
+//
 //    [UIView animateWithDuration:duration animations:^{
 //        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, kbSize.height, 0);
 //        [tableview setContentInset:edgeInsets];
@@ -2936,7 +2936,7 @@ static int LiftExerciseCount=0;
 //- (void)keyboardWillHide:(NSNotification *)sender
 //{
 //    NSTimeInterval duration = [[[sender userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-//    
+//
 //    [UIView animateWithDuration:duration animations:^{
 //        UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
 //        [tableview setContentInset:edgeInsets];

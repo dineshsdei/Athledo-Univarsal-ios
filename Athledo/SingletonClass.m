@@ -17,11 +17,9 @@ static SingletonClass *objSingaltonClass=nil;
 +(SingletonClass *)ShareInstance
 {
     if (objSingaltonClass == nil) {
-    
+        
         objSingaltonClass=[[SingletonClass alloc] init];
     }
-    
-    
     return objSingaltonClass;
     
 }
@@ -68,7 +66,7 @@ static SingletonClass *objSingaltonClass=nil;
     if(curReach)
     {
         Status = [self getInternetStatus: curReach];
-    
+        
     }else{
         Status=NO;
     }
@@ -145,14 +143,14 @@ static SingletonClass *objSingaltonClass=nil;
         SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
         
     }
-   
+    
     lblShowEmptyMessage=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/2-150, SCREENHEIGHT/3,300, 100)];
-         lblShowEmptyMessage.text=text;
+    lblShowEmptyMessage.text=text;
     lblShowEmptyMessage.tag=emptyLableMessagesTag;
     lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
     lblShowEmptyMessage.font=(isIPAD )?[UIFont systemFontOfSize:30] : [UIFont systemFontOfSize:24] ;
     lblShowEmptyMessage.textColor=[UIColor grayColor];
-
+    
     return lblShowEmptyMessage;
 }
 
@@ -161,7 +159,7 @@ static SingletonClass *objSingaltonClass=nil;
 +(void)addActivityIndicator :(UIView *)view
 {
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-   // [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    // [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     indicator.tag = ACTIVITYTAG;
     [view addSubview:indicator];
 }
@@ -169,124 +167,136 @@ static SingletonClass *objSingaltonClass=nil;
 {
     // Now remove the Active indicator
     ActiveIndicator *acti = (ActiveIndicator *)[view viewWithTag:ACTIVITYTAG];
-   // [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+    // [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     if(acti)
         [acti removeFromSuperview];
 }
 
-#pragma mark -manage control position 
+#pragma mark -manage control position
 
 +(void)setListPickerDatePickerMultipickerVisible :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar
 {
-   
-    CGPoint point;
-    
-    float SCREENWIDTH;
-    float SCREENHEIGHT;
-    
-    UIDeviceOrientation orientation=[SingletonClass ShareInstance].GloableOreintation;
-    
-    if (iosVersion < 8)
-    {
-        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp)) && (isIPAD))
+    @try {
+        
+        CGPoint point;
+        
+        float SCREENWIDTH;
+        float SCREENHEIGHT;
+        
+        UIDeviceOrientation orientation=[SingletonClass ShareInstance].GloableOreintation;
+        
+        if (iosVersion < 8)
         {
-            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
-            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
-            
+            if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp)) && (isIPAD))
+            {
+                SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
+                SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
+                
+            }else{
+                SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+                SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+            }
         }else{
+            
             SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
             SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
-        }
-    }else{
-        
-        SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
-        SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
-        
-    }
-
-    point.x=(SCREENWIDTH)/2;
-    if ([picker isKindOfClass:[UIDatePicker class]]) {
-        
-        UIDatePicker *pickerView=(UIDatePicker *)picker;
-        pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
-        if (ShowHide) {
             
-            point.y=(SCREENHEIGHT+15)-(PickerHeight);
-            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
+        }
+        
+        point.x=(SCREENWIDTH)/2;
+        if ([picker isKindOfClass:[UIDatePicker class]]) {
             
-        }else{
-            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
-           
-        }
-      
-         pickerView.center= point;
-        
-    }else  if ([picker isKindOfClass:[ALPickerView class]]) {
-        
-        ALPickerView *pickerView=(ALPickerView *)picker;
-        if (iosVersion < 8) {
-        //pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
-        }
-      
-        if (ShowHide) {
-            point.y=(SCREENHEIGHT+15)-((PickerHeight));
-            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolbar];
-            
-        }else{
-            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
-        }
-        
-        pickerView.center = point;
-    }else  if ([picker isKindOfClass:[UIPickerView class]]) {
-        
-        UIPickerView *pickerView=(UIPickerView *)picker;
-        //if (iosVersion < 8) {
+            UIDatePicker *pickerView=(UIDatePicker *)picker;
             pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
-        //}
-        
-        if (ShowHide) {
+            if (ShowHide) {
+                
+                point.y=(SCREENHEIGHT+15)-(PickerHeight);
+                [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
+                
+            }else{
+                point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
+                
+            }
             
-            point.y=(SCREENHEIGHT+15)-(PickerHeight);
-            [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
+            pickerView.center= point;
             
-        }else{
-            point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
+        }else  if ([picker isKindOfClass:[ALPickerView class]]) {
+            
+            ALPickerView *pickerView=(ALPickerView *)picker;
+            if (iosVersion < 8) {
+                //pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
+            }
+            
+            if (ShowHide) {
+                point.y=(SCREENHEIGHT+15)-((PickerHeight));
+                [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(pickerView.frame.size.height/2)-22):toolbar];
+                
+            }else{
+                point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
+            }
+            
+            pickerView.center = point;
+        }else  if ([picker isKindOfClass:[UIPickerView class]]) {
+            
+            UIPickerView *pickerView=(UIPickerView *)picker;
+            //if (iosVersion < 8) {
+            pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
+            //}
+            
+            if (ShowHide) {
+                
+                point.y=(SCREENHEIGHT+15)-(PickerHeight);
+                [self setToolbarVisibleAt:CGPointMake(point.x,point.y-((PickerHeight)/2)-22):toolbar];
+                
+            }else{
+                point.y=(SCREENHEIGHT)+(pickerView.frame.size.height+350);
+            }
+            pickerView.center = point;
         }
-        
-        pickerView.center = point;
     }
-
-  
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 
 +(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar
 {
-    UIDeviceOrientation orientation=[SingletonClass ShareInstance].GloableOreintation;
-    float SCREENWIDTH;
-    float SCREENHEIGHT;
-    
-    if (iosVersion < 8)
-    {
-        if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp)) && (isIPAD))
+    @try {
+        UIDeviceOrientation orientation=[SingletonClass ShareInstance].GloableOreintation;
+        float SCREENWIDTH;
+        float SCREENHEIGHT;
+        
+        if (iosVersion < 8)
         {
-            SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
-            SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
-            
+            if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp)) && (isIPAD))
+            {
+                SCREENWIDTH=[[UIScreen mainScreen] bounds].size.height;
+                SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.width;
+                
+            }else{
+                SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
+                SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+            }
         }else{
+            
             SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
             SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
+            
         }
-    }else{
         
-        SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
-        SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
-
+        UIToolbar *toolBar=(UIToolbar *)toolbar;
+        toolBar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolBar.frame.size.height);
+        toolBar.center = point;
     }
-    
-    UIToolbar *toolBar=(UIToolbar *)toolbar;
-    toolBar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolBar.frame.size.height);
-     toolBar.center = point;
-    
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
 }
 
 -(NSDictionary *)GetUSerSaveData
@@ -304,10 +314,8 @@ static SingletonClass *objSingaltonClass=nil;
         Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,team_id,sport_id] forKeys:@[@"email",@"id",@"type",@"image",@"sender",@"team_id",@"sport_id"]];
     }else{
         
-          Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,] forKeys:@[@"email",@"id",@"type",@"image",@"sender"]];
+        Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,] forKeys:@[@"email",@"id",@"type",@"image",@"sender"]];
     }
-   
-    
     NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:Userdata];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:encodedObject forKey:@"USERINFORMATION"];
@@ -319,35 +327,31 @@ static SingletonClass *objSingaltonClass=nil;
 {
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
     return deviceOrientation;
-    
-    
 }
 -(UIDeviceOrientation )CurrentOrientation :(id)controller
 {
     UIViewController *viewcontroller=(UIViewController *)controller;
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-   // NSString *device = [[UIDevice currentDevice]localizedModel];
+    // NSString *device = [[UIDevice currentDevice]localizedModel];
     UIInterfaceOrientation cachedOrientation = [viewcontroller preferredInterfaceOrientationForPresentation];
     
-        if (orientation == UIDeviceOrientationUnknown ||
-            orientation == UIDeviceOrientationFaceUp ||
-            orientation == UIDeviceOrientationFaceDown) {
-            
-            orientation = (UIDeviceOrientation)cachedOrientation;
-        }
+    if (orientation == UIDeviceOrientationUnknown ||
+        orientation == UIDeviceOrientationFaceUp ||
+        orientation == UIDeviceOrientationFaceDown) {
         
-        if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
-            
-           orientation=UIDeviceOrientationLandscapeLeft;
-        }
+        orientation = (UIDeviceOrientation)cachedOrientation;
+    }
+    
+    if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
         
-        if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown) {
-            
-            orientation=UIDeviceOrientationPortrait;
-        }
+        orientation=UIDeviceOrientationLandscapeLeft;
+    }
+    
+    if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown) {
+        
+        orientation=UIDeviceOrientationPortrait;
+    }
     _GloableOreintation=orientation;
     return orientation;
 }
-
-
 @end

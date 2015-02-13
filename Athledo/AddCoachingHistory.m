@@ -48,16 +48,9 @@ UIDeviceOrientation CurrentOrientation;
     {
         case EditData:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
-                
                 [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
-                
-                
-                
-                
             }else{
                 
                 [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
@@ -67,22 +60,13 @@ UIDeviceOrientation CurrentOrientation;
         }
         case Successtag:
         {
-            
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
-                
                 [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
-                
-                
-                
-                
             }else{
                 
                 [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
-            
             
             break;
         }
@@ -147,9 +131,6 @@ UIDeviceOrientation CurrentOrientation;
         }completion:^(BOOL finished){
             
         }];
-
-        
-        
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -164,11 +145,10 @@ UIDeviceOrientation CurrentOrientation;
         }completion:^(BOOL finished){
             
         }];
-
+        
     }];
     
     scrollHeight=0;
-    
     delegate.isStart=TRUE;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -177,9 +157,7 @@ UIDeviceOrientation CurrentOrientation;
     arrAwardsInfo=[[NSArray alloc] initWithObjects:@"Enter Award Title",@"Enter year when awarded",@"Enter Description", nil];
     
     arrAwardsYear=[[NSMutableArray alloc] init];
-    
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    
     df.dateFormat = @"YYYY";
     NSString *currentYesr= [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
     
@@ -238,7 +216,7 @@ UIDeviceOrientation CurrentOrientation;
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     
-   toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = 40;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
@@ -269,7 +247,7 @@ UIDeviceOrientation CurrentOrientation;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) : toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
-
+        
     }completion:^(BOOL finished){
         
     }];
@@ -384,7 +362,7 @@ UIDeviceOrientation CurrentOrientation;
             // ObjData in case edit
             if (_objData) {
                 
-                NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:1],@"school_name",[arrdata objectAtIndex:2],@"sport_name",[arrdata objectAtIndex:3],@"description",[arrdata objectAtIndex:4],@"to",[arrdata objectAtIndex:5],@"from", nil];
+                NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:1],@"school_name",[arrdata objectAtIndex:2],@"sport_name",[arrdata objectAtIndex:3],@"description",[arrdata objectAtIndex:4],@"from",[arrdata objectAtIndex:5],@"to", nil];
                 
                 NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
@@ -408,7 +386,7 @@ UIDeviceOrientation CurrentOrientation;
     }
     else
     {
-         NSMutableArray *arrdata=[[NSMutableArray alloc] init];
+        NSMutableArray *arrdata=[[NSMutableArray alloc] init];
         
         //    self.navigationItem.leftBarButtonItem.enabled=NO;
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -447,7 +425,7 @@ UIDeviceOrientation CurrentOrientation;
                     [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
-        
+                
             }
             
             UITextField *textfield1=(UITextField *)[tableView viewWithTag:1000];
@@ -465,22 +443,14 @@ UIDeviceOrientation CurrentOrientation;
                 NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:1],@"title",[arrdata objectAtIndex:2],@"year_of_award",[arrdata objectAtIndex:3],@"description", nil];
                 
                 NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
-                
-                
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
                 
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-                
-                
                 [dict setObject:@"" forKey:@"UserProfile"];
                 [dict setObject:@"" forKey:@"cochng_hstry"];
                 [dict setObject:arrtemp forKey:@"awards"];
-                
-                
                 [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
-                
-                
                 
             }else{
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"title\":\"%@\", \"year\":\"%@\",\"desc\":\"%@\"}", [[arrdata objectAtIndex:0] intValue] ,[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
@@ -590,18 +560,9 @@ UIDeviceOrientation CurrentOrientation;
 -(void)dateChange
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    
-    
     if (_SectionTag == 1) {
-        
-        
         df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
         currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-        
-        
-        // UITableView *table=(UITableView *)[self.view viewWithTag:100];
-        
-        
         UITextField *textfieldStart=(UITextField *)[tableView viewWithTag:1003];
         UITextField *textfieldEnd=(UITextField *)[tableView viewWithTag:1004];
         
@@ -638,7 +599,7 @@ UIDeviceOrientation CurrentOrientation;
                 }
                     
             }
-           
+            
             // To check end is greater or not uncomment
         }
         
@@ -651,6 +612,27 @@ UIDeviceOrientation CurrentOrientation;
     }
     
 }
+
+#pragma show selected value in listpicker
+
+-(void)showSeletedPickerValue
+{
+    if (currentText.text.length > 0) {
+        
+        for (int i=0; i< arrAwardsYear.count; i++) {
+            
+            if ([[arrAwardsYear objectAtIndex:i] isEqual:currentText.text]) {
+                
+                [listPicker selectRow:i inComponent:0 animated:YES];
+                
+                break;
+            }
+            
+        }
+        
+    }
+}
+
 -(void)setPickerVisibleAt :(BOOL)ShowHide
 {
     if (currentText.text.length > 0) {
@@ -798,20 +780,15 @@ UIDeviceOrientation CurrentOrientation;
             }
             
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
-            //[self setDatePickerVisibleAt:YES];
+            
         }else{
-            
+            [self showSeletedPickerValue];
             [listPicker reloadComponent:0];
-           // [self setPickerVisibleAt:YES];
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-            
         }
         return NO;
-        
     }
-    
     return YES;
-    
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
@@ -873,52 +850,52 @@ UIDeviceOrientation CurrentOrientation;
 }
 
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
-   
-    /*
-    if (iosVersion < 8) {
-        
-        int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
-        UIView* txt = textField;
-        
-        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-        
-        // Get the text fields location
-        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-         // Scroll to cell
-        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
-        
-        
-        
-    }else{
-        
-        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-        
-        NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
-        
-        // Get the text fields location
-        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-        
-       // if (point.y > 216 && point.y < 320) {
-            
-            int toolbarHeight_KeyAcc=44+37;
-            
-            CGSize keyboardSize = CGSizeMake(320,point.y+(toolbarHeight_KeyAcc));
-            
-            UIEdgeInsets contentInsets;
-            if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
-            } else {
-                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
-            }
-            
-            m_TableView.contentInset = contentInsets;
-            m_TableView.scrollIndicatorInsets = contentInsets;
-            [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-       // }
-        
-    }
     
-    */
+    /*
+     if (iosVersion < 8) {
+     
+     int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
+     UIView* txt = textField;
+     
+     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+     
+     // Get the text fields location
+     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
+     // Scroll to cell
+     [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
+     
+     
+     
+     }else{
+     
+     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+     
+     NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
+     
+     // Get the text fields location
+     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
+     
+     // if (point.y > 216 && point.y < 320) {
+     
+     int toolbarHeight_KeyAcc=44+37;
+     
+     CGSize keyboardSize = CGSizeMake(320,point.y+(toolbarHeight_KeyAcc));
+     
+     UIEdgeInsets contentInsets;
+     if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+     contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+     } else {
+     contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+     }
+     
+     m_TableView.contentInset = contentInsets;
+     m_TableView.scrollIndicatorInsets = contentInsets;
+     [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+     // }
+     
+     }
+     
+     */
     
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
     

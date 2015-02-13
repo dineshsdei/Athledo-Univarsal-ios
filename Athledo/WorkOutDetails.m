@@ -51,6 +51,8 @@
     int ViewY;
     int isKeyboard;
     UIDeviceOrientation CurrentOrientation;
+    
+    NSMutableArray *arrAvgTotalStatus;
 }
 
 @end
@@ -254,12 +256,12 @@
     [super viewDidLoad];
     if (isIPAD)
     {
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-     }
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
     // Do any additional setup after loading the view from its nib.
     btnSave.titleLabel.textColor=[UIColor whiteColor];
     isSelectAthlete=FALSE;
@@ -274,16 +276,16 @@
     _lblWorkoutDate.font=Textfont;
     _lblWorkOutName.font=Textfont;
     _lblWorkoutType.font=Textfont;
-   
+    
     _txtViewDescription.layer.borderWidth=.50;
     _txtViewDescription.layer.cornerRadius=10;
     _txtViewDescription.layer.borderColor=[[UIColor lightGrayColor] CGColor];
-     _txtViewDescription.font=Textfont;
+    _txtViewDescription.font=Textfont;
     ViewY=self.view.frame.origin.y;
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     
-   toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
+    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = toolBarTag;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
@@ -314,7 +316,7 @@
     
     UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageDelete=[UIImage imageNamed:@"deleteBtn.png"];
-     btnDelete.bounds = CGRectMake( 0, 0, imageDelete.size.width, imageDelete.size.height );
+    btnDelete.bounds = CGRectMake( 0, 0, imageDelete.size.width, imageDelete.size.height );
     [btnDelete addTarget:self action:@selector(DeleteWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnDelete setImage:imageDelete forState:UIControlStateNormal];
     
@@ -323,7 +325,7 @@
     
     UIButton *btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"edit.png"];
-      btnEdit.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
+    btnEdit.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnEdit addTarget:self action:@selector(EditWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnEdit setImage:imageEdit forState:UIControlStateNormal];
     
@@ -332,7 +334,7 @@
     UIButton *btnReassign =[UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageReassign=[UIImage imageNamed:@"reassign.png"];
     btnReassign.bounds = CGRectMake( 0, 0, imageReassign.size.width, imageReassign.size.height );
-
+    
     [btnReassign addTarget:self action:@selector(ReassignWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnReassign setImage:imageReassign forState:UIControlStateNormal];
     
@@ -342,7 +344,7 @@
     //   [newView addSubview:btnDelete];
     //  [newView addSubview:btnEdit];
     
-    
+    arrAvgTotalStatus=[[NSMutableArray alloc] init];
     if ([UserInformation shareInstance].userId == [[_obj  objectForKey:@"user_id"] intValue]) {
         
         //self.navigationItem.titleView=newView;
@@ -421,8 +423,8 @@
         
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
             isKeyboard=FALSE;
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
-        [self setContentOffsetOfTableDown];
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            [self setContentOffsetOfTableDown];
             [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
             
         }completion:^(BOOL finished){
@@ -673,7 +675,46 @@
         isSplit=FALSE;
         
         NSArray *units=[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"];
-        return units.count+4;
+        [self CheckTimeDestanceRateExist:section];
+        
+        int increaseCount=0;
+        
+        if (isDistance) {
+            
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:isDistance],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[@"Distance",@"Time",@"Split",@"Rate"]];
+            
+            [arrAvgTotalStatus addObject:temp];
+            [arrAvgTotalStatus addObject:temp];
+            temp=nil;
+            increaseCount = increaseCount+2;
+        }
+        if (isTime) {
+            
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isTime],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[@"Distance",@"Time",@"Split",@"Rate"]];
+            
+            [arrAvgTotalStatus addObject:temp];
+            [arrAvgTotalStatus addObject:temp];
+            temp=nil;
+            increaseCount = increaseCount+2;
+        }
+        if (isSplit) {
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isSplit],[NSNumber numberWithBool:NO]] forKeys:@[@"Distance",@"Time",@"Split",@"Rate"]];
+            
+            [arrAvgTotalStatus addObject:temp];
+            [arrAvgTotalStatus addObject:temp];
+            temp=nil;
+            increaseCount = increaseCount+2;
+        }
+        if (isRate) {
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isRate]] forKeys:@[@"Distance",@"Time",@"Split",@"Rate"]];
+            
+            [arrAvgTotalStatus addObject:temp];
+            [arrAvgTotalStatus addObject:temp];
+            temp=nil;
+            increaseCount = increaseCount+2;
+        }
+        
+        return units.count+increaseCount;
         
     }else
     {
@@ -777,7 +818,6 @@
     }
     else  if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Interval"])
     {
-        
         CustomTextField *txtFieldLeftHeader=(CustomTextField *)[cell viewWithTag:1001];
         CustomTextField *txtField=(CustomTextField *)[cell viewWithTag:1002];
         txtField.borderStyle=UITextBorderStyleRoundedRect;
@@ -817,50 +857,383 @@
             
             NSArray *units=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"Units"];
             
+            // NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:indexPath.section];
+            
             if (indexPath.row==units.count+0) {
                 
-                txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:0];
                 
-                txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
-                txtField.borderStyle=UITextBorderStyleNone;
-                txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
-                txtField.textAlignment=NSTextAlignmentCenter;
-                txtField.userInteractionEnabled=NO;
-                // isDistance=FALSE;
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Split(mm:ss.S))";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
                 
                 
             }else   if ((indexPath.row==units.count+1) ) {
                 
-                txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS))";
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:1];
                 
-                txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
-                txtField.borderStyle=UITextBorderStyleNone;
-                txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
-                txtField.textAlignment=NSTextAlignmentCenter;
-                txtField.userInteractionEnabled=NO;
-                //isTime=FALSE;
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
                 
-            }else if ( indexPath.row==units.count+2 ) {
                 
-                txtFieldLeftHeader.text=@"Average Rate";
+            }else   if ((indexPath.row==units.count+2) ) {
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:2];
                 
-                txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
-                txtField.borderStyle=UITextBorderStyleNone;
-                txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
-                txtField.textAlignment=NSTextAlignmentCenter;
-                txtField.userInteractionEnabled=NO;
-                //isRate=FALSE;
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Split(mm:ss.S))";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+            }else if ( indexPath.row==units.count+3) {
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:3];
                 
-            }else if ( indexPath.row==units.count+3 ) {
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
                 
-                txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
                 
-                txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
-                txtField.borderStyle=UITextBorderStyleNone;
-                txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                txtField.textAlignment=NSTextAlignmentCenter;
-                txtField.userInteractionEnabled=NO;
+            }else if ( indexPath.row==units.count+4 ) {
+                
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:4];
+                
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Split(mm:ss.S))";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                
+            }else if ( indexPath.row==units.count+5 ) {
+                
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:5];
+                
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                
+                
+            }else if ( indexPath.row==units.count+6 ) {
+                
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:6];
+                
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Split(mm:ss.S))";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    txtFieldLeftHeader.text=@"Total Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                }
+                
+            }else if ( indexPath.row==units.count+7) {
+                
+                NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:7];
+                
+                if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
+                    
+                    txtFieldLeftHeader.text=@"Average Rate";
+                    
+                    txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
+                    txtField.borderStyle=UITextBorderStyleNone;
+                    txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                    txtField.textAlignment=NSTextAlignmentCenter;
+                    txtField.userInteractionEnabled=NO;
+                    
+                }
+                
             }
+            
         }
     }else
     {
@@ -983,9 +1356,9 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-     if (isIPAD)
-     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-   
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
     
@@ -1001,7 +1374,13 @@
     
     [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) :toolBar];
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-
+    
+    for (int i=0; i< arrWorkOuts.count; i++) {
+        [self CalculateAVG :i];
+    }
+    
+    [table reloadData];
+    
 }
 
 #pragma mark- UITextfield Delegate
@@ -1045,7 +1424,7 @@
         
     }else{
         
-         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     }
     return YES;
 }
@@ -1235,7 +1614,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-
+    
     return YES;
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -1359,7 +1738,7 @@
     {
         if (currentText.text.length==0 && ([currentText.placeholder isEqualToString:@"WarmUp Time"] || [currentText.placeholder isEqualToString:@"CoolDown Time"] )) {
             currentText.text=[arrTime objectAtIndex:0];
-             [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
+            [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
             
         }
         return [arrTime count];
@@ -1443,17 +1822,18 @@
         
         NSString *unitKey=@"";
         
-        NSString *strTemp=[arrUnitKeys objectAtIndex:0];
-        
-        if ([strTemp isEqualToString:@"id"]) {
-            
-            unitKey=[arrUnitKeys objectAtIndex:1];
-            
-        }else
-        {
-            unitKey=[arrUnitKeys objectAtIndex:0];
-            
-        }
+        //        NSString *strTemp=[arrUnitKeys objectAtIndex:0];
+        //
+        //        if ([strTemp isEqualToString:@"id"]) {
+        //
+        //            unitKey=[arrUnitKeys objectAtIndex:1];
+        //
+        //        }else
+        //        {
+        //            unitKey=[arrUnitKeys objectAtIndex:0];
+        //
+        //        }
+        unitKey=[arrUnitKeys objectAtIndex:2];
         NSString *value;
         NSString *myString = unitKey;
         NSRange startRange = [myString rangeOfString:@"("];
@@ -1485,7 +1865,7 @@
 -(int)CheckTimeDestanceRateExist:(long)section
 {
     int count=0;
-
+    
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"];
     count=(int)arrTemp.count;
     for (int i=0; i < arrTemp.count ; i++) {
@@ -1494,21 +1874,23 @@
         
         NSString *unitKey=@"";
         
-        NSString *strTemp=[arrUnitKeys objectAtIndex:0];
+        // NSString *strTemp=[arrUnitKeys objectAtIndex:2];
         
-        if ([strTemp isEqualToString:@"id"]) {
-            
-            unitKey=[arrUnitKeys objectAtIndex:1];
-            
-        }else
-        {
-            unitKey=[arrUnitKeys objectAtIndex:0];
-            
-        }
+        //        if ([strTemp isEqualToString:@"id"]) {
+        //
+        //            unitKey=[arrUnitKeys objectAtIndex:1];
+        //
+        //        }else
+        //        {
+        //            unitKey=[arrUnitKeys objectAtIndex:0];
+        //
+        //        }
         
         
         // NSString *values=[[[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"] objectAtIndex:i] valueForKey:unitKey];
         
+        
+        unitKey=[arrUnitKeys objectAtIndex:2];
         
         NSString *value;
         NSString *myString = unitKey;
@@ -1687,45 +2069,31 @@
                 sss=sss-1;
                 ss=ss+1;
             }
-            
             ss=[[arrTotalTimeComponenet objectAtIndex:2] intValue]/TimeCount;
-            
             if (ss > 60) {
-                
                 ss=ss-1;
                 mm=mm+1;
             }
-            
             mm=[[arrTotalTimeComponenet objectAtIndex:1] intValue]/TimeCount;
-            
             if (mm > 60) {
                 
                 mm=mm-1;
                 hh=hh+1;
             }
-            
-            
             // NSString *sss=[NSString stringWithFormat:@"%@",]
-            
             TimeAVG=[NSString stringWithFormat:@"%d:%d:%d:%d", hh,mm,ss,sss ];
         }
         
         if (splitTimeCount > 0) {
             
             int ss=0,mm=0,S=0;
-            
             S=[[arrTotalSplitTimeComponenet objectAtIndex:2] intValue];
-            
             if (S > 1000) {
-                
                 int  STemp=S%1000;
                 [arrTotalSplitTimeComponenet replaceObjectAtIndex:2 withObject:[NSString stringWithFormat:@"%d",STemp]];
-                
                 ss=ss+S/1000;
-                
                 [arrTotalSplitTimeComponenet replaceObjectAtIndex:1 withObject:[NSString stringWithFormat:@"%d",ss+([[arrTotalSplitTimeComponenet objectAtIndex:1] intValue])]];
             }
-            
             ss=[[arrTotalSplitTimeComponenet objectAtIndex:1] intValue];
             
             if (ss > 60) {
@@ -1750,7 +2118,8 @@
             SplitTimeAVG=[NSString stringWithFormat:@"%d:%d.%@", avgMM,avSS,[[NSString stringWithFormat:@"%d" ,avS ] substringWithRange:NSMakeRange(0,1)] ];
         }
     }
-    NSDictionary *dicTemp=[[NSDictionary alloc] initWithObjectsAndKeys:TimeAVG,@"AVG_TIME",[NSString stringWithFormat:@"%f", DistanceAVG ],@"AVG_DISTANCE",[NSString stringWithFormat:@"%f", RateAVG ],@"AVG_RATE",[NSString stringWithFormat:@"%@", SplitTimeAVG ],@"AVG_SPLIT", nil];
+    
+    NSDictionary *dicTemp=[[NSDictionary alloc] initWithObjectsAndKeys:TimeAVG,@"AVG_TIME",[NSString stringWithFormat:@"%@:%@:%@.%@", [arrTotalTimeComponenet objectAtIndex:0],[arrTotalTimeComponenet objectAtIndex:1],[arrTotalTimeComponenet objectAtIndex:2],[arrTotalTimeComponenet objectAtIndex:3] ],@"TOTAL_TIME",[NSString stringWithFormat:@"%f", DistanceAVG ],@"AVG_DISTANCE",[NSString stringWithFormat:@"%f", TotalDistance ],@"TOTAL_DISTANCE",[NSString stringWithFormat:@"%f", RateAVG ],@"AVG_RATE",[NSString stringWithFormat:@"%f", TotalRate ],@"TOTAL_RATE",[NSString stringWithFormat:@"%@", SplitTimeAVG ],@"AVG_SPLIT",[NSString stringWithFormat:@"%@:%@.%@", [arrTotalSplitTimeComponenet objectAtIndex:0],[arrTotalSplitTimeComponenet objectAtIndex:1],[arrTotalSplitTimeComponenet objectAtIndex:2] ],@"TOTAL_SPLIT", nil];
     
     if (arrAvarageTimeDistance.count > section) {
         

@@ -53,8 +53,8 @@
     NSDateFormatter* df = [[NSDateFormatter alloc] init];
     [df setDateFormat:dateFormatYearMonthDateHiphenWithTime];
     NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"start_date"]];
-     NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
-   
+    NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
+    
     [df setDateFormat:DATE_FORMAT_M_D_Y_H_M];
     
     NSString *strStartDate=[df stringFromDate:startdate];
@@ -69,20 +69,17 @@
     _lblEventLocation.font=Textfont;
     _lblStartDate.font=Textfont;
     _lblRepeat.font=Textfont;
-    
+
     if (_eventDetailsDic) {
-       
         _lblEventTitle.text=[_eventDetailsDic valueForKey:@"text"];
         _lblEventDescription.text=[_eventDetailsDic valueForKey:@"name"];
-       // [_lblEventDescription setNumberOfLines:0];
-       // [_lblEventDescription sizeToFit];
+        // [_lblEventDescription setNumberOfLines:0];
+        // [_lblEventDescription sizeToFit];
         _lblEventLocation.text=[_eventDetailsDic valueForKey:@"location"];
         _lblStartDate.text=strStartDate;
-        
-       // if reccurrence type
-        
-        NSString *str=!([[_eventDetailsDic valueForKey:@"rec_type"] isEqual:[NSNull null]]) ?[_eventDetailsDic valueForKey:@"rec_type"] : @"";
-         _lblRepeat.text=@"Never";
+        // if reccurrence type
+         NSString *str=!([[_eventDetailsDic valueForKey:@"rec_type"] isEqual:[NSNull null]]) ?[_eventDetailsDic valueForKey:@"rec_type"] : @"";
+        _lblRepeat.text=@"Never";
         if (str.length > 0) {
             
             int event_length=[[_eventDetailsDic valueForKey:@"event_length"] intValue];
@@ -103,10 +100,9 @@
             }
         }else{
             
-             _lblEndDate.text=strEndDate;
+            _lblEndDate.text=strEndDate;
         }
     }
-    
     if (_objNotificationData) {
         
         if (_objNotificationData)
@@ -114,18 +110,14 @@
             NSArray *arrTemp=[_objNotificationData valueForKey:@"events"];
             if ([arrTemp containsObject:[_eventDetailsDic valueForKey:@"event_id"]])
             {
-               
-               [self DeleteNotificationFromWeb];
+                
+                [self DeleteNotificationFromWeb];
             }
         }
-
-        
-       
     }
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-   
     if ([CalendarEvent ShareInstance].strRepeatSting.length > 0) {
         
         NSString *str=[CalendarEvent ShareInstance].strRepeatSting;
@@ -176,14 +168,12 @@
 -(void)editEventDetails
 {
     [CalendarEvent ShareInstance].strEventAddOrEdit=@"Edit";
-    
     if ([_lblRepeat.text isEqualToString:@"Never"]) {
         
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
         for (id object in arrController)
         {
-            
             if ([object isKindOfClass:[CalendarEvent class]])
             {
                 Status=TRUE;
@@ -195,7 +185,6 @@
                 [self.navigationController popToViewController:addEvent animated:NO];
             }
         }
-        
         if (Status==FALSE)
         {
             [CalendarEvent ShareInstance].CalendarRepeatStatus=FALSE;
@@ -206,9 +195,9 @@
             [self.navigationController pushViewController:addEvent animated:NO];
         }
     }else{
-         [SingletonClass initWithTitle:@"" message:@"Do you want to edit the whole set of repeated events?" delegate:self btn1:@"Cancel" btn2:@"Edit Occurrence" btn3:@"Edit Series" tagNumber:101];
+        [SingletonClass initWithTitle:@"" message:@"Do you want to edit the whole set of repeated events?" delegate:self btn1:@"Cancel" btn2:@"Edit Occurrence" btn3:@"Edit Series" tagNumber:101];
     }
-   
+    
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -220,7 +209,6 @@
         BOOL Status=FALSE;
         for (id object in arrController)
         {
-            
             if ([object isKindOfClass:[CalendarEvent class]])
             {
                 Status=TRUE;
@@ -238,23 +226,19 @@
         if (Status==FALSE)
         {
             [CalendarEvent ShareInstance].CalendarRepeatStatus=TRUE;
-             AddCalendarEvent *addEvent=[[AddCalendarEvent alloc] initWithNibName:@"AddCalendarEvent" bundle:nil];
+            AddCalendarEvent *addEvent=[[AddCalendarEvent alloc] initWithNibName:@"AddCalendarEvent" bundle:nil];
             addEvent.eventDetailsDic=_eventDetailsDic;
             addEvent.screentitle=@"Edit Event";
             addEvent.strMoveControllerName=_strMoveControllerName;
             [CalendarEvent ShareInstance].strEventEditBy=@"Edit Occurrence";
-            
             [self.navigationController pushViewController:addEvent animated:NO];
         }
-        
-        
     }else if (buttonIndex==2)
     {
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
         for (id object in arrController)
         {
-            
             if ([object isKindOfClass:[CalendarEvent class]])
             {
                 Status=TRUE;
@@ -267,7 +251,6 @@
                 [self.navigationController popToViewController:object animated:NO];
             }
         }
-        
         if (Status==FALSE)
         {
             [CalendarEvent ShareInstance].CalendarRepeatStatus=TRUE;

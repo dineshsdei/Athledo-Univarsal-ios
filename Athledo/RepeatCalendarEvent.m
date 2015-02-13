@@ -1380,11 +1380,8 @@ UIDeviceOrientation CurrentOrientation;
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     
     [CalendarEvent ShareInstance].strStartDate=[formatter stringFromDate:EventStartDate];
-    
     formatter=nil;
 }
-
-
 -(void)CalculateStartDate_On_Given_WeekDay :(NSString *)DayName :(NSString*)Startdate
 {
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
@@ -1494,7 +1491,6 @@ UIDeviceOrientation CurrentOrientation;
     }else if ([strRepeatEvent isEqualToString:@"Yearly"])
     {
         // When repeat type yearly
-        
         // end date for case repeat nth day of every nth month
         if ([[arrEventSting objectAtIndex:3] isEqualToString:@"_"]) {
             
@@ -1609,17 +1605,13 @@ UIDeviceOrientation CurrentOrientation;
     [self setContentOffset:textField table:self.tableview];
     isMonth = [textField.placeholder isEqualToString:@"select month"] ? YES : NO;
     isDay = [textField.placeholder isEqualToString:@"select day"] ? YES : NO;
-    
-    
     if (isMonth) {
-        
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [listPicker reloadComponent:0];
         [self ShowPickerSelection:arrMonths];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
         return NO;
-        
     }else  if (isDay)
     {
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -1627,7 +1619,6 @@ UIDeviceOrientation CurrentOrientation;
         [self ShowPickerSelection:arrDays];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-        
         return NO;
     }else if ([textField.placeholder isEqualToString:@"Date"]) {
         

@@ -97,7 +97,7 @@
         return;
     }
     CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
-      if (isIPAD) {
+    if (isIPAD) {
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
         [table reloadData];
     }
@@ -148,7 +148,7 @@
     scrollHeight=0;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-
+    
     arrCountryList=[[NSMutableArray alloc] init];
     arrCountryCode=[[NSMutableArray alloc] init];;
     
@@ -162,7 +162,7 @@
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
     arrPlaceHolder=[[NSArray alloc] initWithObjects:@"First Name",@"Last Name",@"Address",@"Country ",@"State",@"City",@"Unit No.",@"Zip",@"Phone No", nil];
-
+    
     if (_objData) {
         arrTextFieldText =[[NSMutableArray alloc] initWithObjects:[_objData valueForKey:@"firstname"],[_objData valueForKey:@"lastname"],[_objData valueForKey:@"address"],[_objData valueForKey:@"country_name"],[_objData valueForKey:@"state_name"],[_objData valueForKey:@"city"],[_objData valueForKey:@"apt_no"],[_objData valueForKey:@"zip"],[_objData valueForKey:@"cellphone"], nil];
     }else{
@@ -311,8 +311,6 @@
             
             UITextField *textfield=(UITextField *)[table viewWithTag:tag];
             
-            
-            
             NSString *strError = @"";
             if(textfield.text.length < 1 && tag==1000)
             {
@@ -352,15 +350,11 @@
                 strError = @"Please enter Phone No";
                 
             }
-            
             if(strError.length > 1)
             {
                 [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
                 return;
             }
-            
-            
-            
         }
         
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -418,23 +412,31 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
-    
-    
 }
 
 -(void)doneClicked
 {
-    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    
-    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+350) : toolBar];
-        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-
+    @try {
+        [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         
-    }completion:^(BOOL finished){
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+350) : toolBar];
+            //[SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+            listPicker.center=CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+500);
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
+        [self setContentOffsetDown:currentText table:table];
         
-    }];
-    [self setContentOffsetDown:currentText table:table];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
     
 }
 
@@ -466,7 +468,7 @@
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
         // Scroll to cell
-        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];       
+        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
     }else{
         
         UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
@@ -533,7 +535,7 @@
             }
             
             isState=TRUE;
-           [listPicker reloadComponent:0];
+            [listPicker reloadComponent:0];
             [self ShowPickerValueSelected:arrStateList];
             arrStateList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"";
             return NO;
@@ -544,7 +546,6 @@
     }
     return YES;
 }
-
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -624,7 +625,7 @@
     AddAthleteHistoryCell *cell = nil;
     if(cell == nil)
     {
-        
+     
         cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrPlaceHolder:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]:@""];
         
     }
@@ -649,24 +650,24 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (isState) {
-    if (arrStateList.count > 0 && currentText.text.length == 0) {
-        //currentText.text=@"";
-        currentText.text=[arrStateList objectAtIndex:0];
-    }
-
-    return [arrStateList count];
+        if (arrStateList.count > 0 && currentText.text.length == 0) {
+            //currentText.text=@"";
+            currentText.text=[arrStateList objectAtIndex:0];
+        }
+        
+        return [arrStateList count];
     }else
     {
-    if (arrCountryList.count > 0 && currentText.text.length == 0) {
-        //currentText.text=@"";
-        currentText.text=[arrCountryList objectAtIndex:0];
-    }
-
-    if (arrStateList.count ==0 && arrCountryCode.count > 0 ) {
-        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
-    }
-
-    return [arrCountryList count];
+        if (arrCountryList.count > 0 && currentText.text.length == 0) {
+            //currentText.text=@"";
+            currentText.text=[arrCountryList objectAtIndex:0];
+        }
+        
+        if (arrStateList.count ==0 && arrCountryCode.count > 0 ) {
+            [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+        }
+        
+        return [arrCountryList count];
     }
     
 }
@@ -675,24 +676,24 @@
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     @try {
-
-    NSString *str=@"";
-    if (isState) {
-        str= row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];
-    }else
-    {
-        str= row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
-    }
-
-    NSArray *arr =[str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
-
-    return [arr objectAtIndex:0];
+        
+        NSString *str=@"";
+        if (isState) {
+            str= row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];
+        }else
+        {
+            str= row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
+        }
+        
+        NSArray *arr =[str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
+        
+        return [arr objectAtIndex:0];
     }
     @catch (NSException *exception) {
-
+        
     }
     @finally {
-
+        
     }
     
 }
@@ -714,24 +715,24 @@
 -(void)ShowPickerValueSelected : (NSArray *)data
 {
     if (data.count > 0) {
-
-    if (currentText.text.length > 0) {
-    for (int i=0; i< data.count; i++) {
-
-    if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-
-    if (currentText.tag==1003 && arrStateList.count==0) {
-        CountryCodeIndex=i;
-        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
-        [listPicker reloadAllComponents];
-    }
-
-    [listPicker selectRow:i inComponent:0 animated:YES];
-
-    break;
-    }
-    }
-    }
+        
+        if (currentText.text.length > 0) {
+            for (int i=0; i< data.count; i++) {
+                
+                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                    
+                    if (currentText.tag==1003 && arrStateList.count==0) {
+                        CountryCodeIndex=i;
+                        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+                        [listPicker reloadAllComponents];
+                    }
+                    
+                    [listPicker selectRow:i inComponent:0 animated:YES];
+                    
+                    break;
+                }
+            }
+        }
     }
     
 }
@@ -742,30 +743,30 @@
     [UIView setAnimationDuration:0.27f];
     CGPoint point;
     point.x=self.view.frame.size.width/2;
-   
+    
     if (ShowHide) {
-    if (currentText.text.length > 0) {
-    for (int i=0; i< data.count; i++) {
-
-    if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-        
-        if (currentText.tag==1003 && arrStateList.count==0) {
-            CountryCodeIndex=i;
-            [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
-             [listPicker reloadAllComponents];
+        if (currentText.text.length > 0) {
+            for (int i=0; i< data.count; i++) {
+                
+                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
+                    
+                    if (currentText.tag==1003 && arrStateList.count==0) {
+                        CountryCodeIndex=i;
+                        [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
+                        [listPicker reloadAllComponents];
+                    }
+                    [listPicker selectRow:i inComponent:0 animated:YES];
+                    break;
+                }
+            }
         }
-        [listPicker selectRow:i inComponent:0 animated:YES];
-        break;
-    }
-    }
-    }
-    point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-    [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-
+        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
+        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
+        
     }else{
-    point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
+        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
     }
-   listPicker.center = point;
+    listPicker.center = point;
     [UIView commitAnimations];
 }
 - (void)didReceiveMemoryWarning

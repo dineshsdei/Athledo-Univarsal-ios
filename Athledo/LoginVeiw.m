@@ -16,7 +16,7 @@
 
 @interface LoginVeiw ()
 {
- 
+    
     UITextField *txtFieldUserId;
     UITextField *txtFieldPassword;
     UITextField *currentText;
@@ -34,187 +34,149 @@
     }
     return self;
 }
-
 - (IBAction)MoveToDashBoard:(id)sender {
     
     [[NSUserDefaults standardUserDefaults] setObject:txtFieldUserId.text forKey:@"USERNAME"];
     [[NSUserDefaults standardUserDefaults] setObject:txtFieldPassword.text forKey:@"PASSWORD"];
-
-
-    if ([SingletonClass  CheckConnectivity]) {
-
-    //Check for empty Text box
-    NSString *strError = @"";
-    if(txtFieldUserId.text.length < 1 )
-    {
-        strError = @"Please enter User Id";
-    }
-    else if(txtFieldPassword.text.length < 1 )
-    {
-        strError = @"Please enter password";
-    }
-    if(strError.length>2)
-    {
-        [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
-        return;
-    }else{
-        
-        
-    BOOL emailValid=[SingletonClass emailValidate:txtFieldUserId.text];
-
-    if (emailValid) {
-
-        [SingletonClass addActivityIndicator:self.view];
-    NSString *strURL = [NSString stringWithFormat:@"{\"email\":\"%@\", \"password\":\"%@\", \"device_id\":\"%@\"}", [txtFieldUserId.text lowercaseString],[txtFieldPassword.text lowercaseString],@"321434"];
-
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceLogin]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
-    NSMutableData *data = [NSMutableData data];
-    //[data appendData:[[NSString stringWithFormat: @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"] dataUsingEncoding: NSUTF8StringEncoding]];
-    [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
-    [request setHTTPBody:data];
-
-
-    [NSURLConnection sendAsynchronousRequest:request
-                                   queue:[NSOperationQueue mainQueue]
-                       completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    if (data!=nil)
-    {
-    [self httpResponseReceived : data];
-    }else
-    {
-        [SingletonClass RemoveActivityIndicator:self.view];
-    }
-
-                           
-                       }];
-
-
-    }else
-    {
-    [SingletonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
-
-    }
-        
-    }
-
-
-    }else{
-
-    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
-    }
     
-
-
+    if ([SingletonClass  CheckConnectivity]) {
+        
+        //Check for empty Text box
+        NSString *strError = @"";
+        if(txtFieldUserId.text.length < 1 )
+        {
+            strError = @"Please enter User Id";
+        }
+        else if(txtFieldPassword.text.length < 1 )
+        {
+            strError = @"Please enter password";
+        }
+        if(strError.length>2)
+        {
+            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            return;
+        }else{
+            
+            BOOL emailValid=[SingletonClass emailValidate:txtFieldUserId.text];
+            
+            if (emailValid) {
+                
+                [SingletonClass addActivityIndicator:self.view];
+                NSString *strURL = [NSString stringWithFormat:@"{\"email\":\"%@\", \"password\":\"%@\", \"device_id\":\"%@\"}", [txtFieldUserId.text lowercaseString],[txtFieldPassword.text lowercaseString],@"321434"];
+                
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceLogin]];
+                [request setHTTPMethod:@"POST"];
+                [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+                
+                NSMutableData *data = [NSMutableData data];
+                //[data appendData:[[NSString stringWithFormat: @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"] dataUsingEncoding: NSUTF8StringEncoding]];
+                [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
+                [request setHTTPBody:data];
+                
+                
+                [NSURLConnection sendAsynchronousRequest:request
+                                                   queue:[NSOperationQueue mainQueue]
+                                       completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                           if (data!=nil)
+                                           {
+                                               [self httpResponseReceived : data];
+                                           }else
+                                           {
+                                               [SingletonClass RemoveActivityIndicator:self.view];
+                                           }
+                                           
+                                       }];
+                
+            }else
+            {
+                [SingletonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
+                
+            }
+        }
+    }else{
+        
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    }
 }
 
 #pragma mark-  Http call back
 -(void)httpResponseReceived:(NSData *)webResponse
 {
     // Now we Need to decrypt data
-
+    
     NSError *error=nil;
-
+    
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-
-
+    
     // ***Tag 100 for Log in web service
-
-
     if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {
-   
-    [SingletonClass RemoveActivityIndicator:self.view];
-    NSMutableDictionary *user=[[myResults objectForKey:@"data"] objectForKey:@"User"];
-
-
-    UserInformation *userdata=[UserInformation shareInstance];
-
-    userdata.arrUserTeam=[[myResults objectForKey:@"data"] objectForKey:@"UserTeam"];
-
-
-
-    userdata.userEmail=[user objectForKey:@"email"];
-    userdata.userId=[[user objectForKey:@"id"] intValue];
-    userdata.userType=[[user objectForKey:@"type"] intValue];
-    userdata.userPicUrl=[user valueForKey:@"image"];
-    userdata.userFullName=[user valueForKey:@"sender"];
+        [SingletonClass RemoveActivityIndicator:self.view];
+        NSMutableDictionary *user=[[myResults objectForKey:@"data"] objectForKey:@"User"];
+        UserInformation *userdata=[UserInformation shareInstance];
+        userdata.arrUserTeam=[[myResults objectForKey:@"data"] objectForKey:@"UserTeam"];
+        userdata.userEmail=[user objectForKey:@"email"];
+        userdata.userId=[[user objectForKey:@"id"] intValue];
+        userdata.userType=[[user objectForKey:@"type"] intValue];
+        userdata.userPicUrl=[user valueForKey:@"image"];
+        userdata.userFullName=[user valueForKey:@"sender"];
         
-    SingletonClass *obj=[SingletonClass ShareInstance];
-    [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :@"" :@""];
-        
-
-    NSArray *arrController=[self.navigationController viewControllers];
-    if (userdata.arrUserTeam.count==1)
-    {
-
-
-    @try {
-
-    NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:0] ;
-    [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
-    [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
-
-
-    for (id object in arrController)
-    {
-        if ([object isKindOfClass:[SWRevealViewController class]])
+        SingletonClass *obj=[SingletonClass ShareInstance];
+        [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :@"" :@""];
+        NSArray *arrController=[self.navigationController viewControllers];
+        if (userdata.arrUserTeam.count==1)
+        {
+            @try {
+                
+                NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:0] ;
+                [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
+                [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
+                SingletonClass *obj=[SingletonClass ShareInstance];
+                NSDictionary *user=[obj GetUSerSaveData];
+                [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :[team objectForKey:@"team_id"] :[team objectForKey:@"sport_id"]];
+                for (id object in arrController)
+                {
+                    if ([object isKindOfClass:[SWRevealViewController class]])
+                        
+                        [self.navigationController popToViewController:object animated:NO];
+                }
+            }
+            @catch (NSException *exception) {
+                
+            }
+            @finally
+            {
+                
+            }
             
-            [self.navigationController popToViewController:object animated:NO];
-    }
-
-
-    }
-    @catch (NSException *exception) {
-
-    }
-    @finally
-    {
-
-    }
-
-    }else{
-
-    BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-
-    if ([object isKindOfClass:[DashBoard class]])
-    {
-        Status=TRUE;
-        [self.navigationController popToViewController:object animated:NO];
-    }
-    }
-
-    if (Status==FALSE)
-    {
-    DashBoard *Dashboard=[[DashBoard alloc] init];
-
-    [self.navigationController pushViewController:Dashboard animated:NO];
-
-    }
-    }
-
+        }else{
+            
+            BOOL Status=FALSE;
+            for (id object in arrController)
+            {
+                if ([object isKindOfClass:[DashBoard class]])
+                {
+                    Status=TRUE;
+                    [self.navigationController popToViewController:object animated:NO];
+                }
+            }
+            
+            if (Status==FALSE)
+            {
+                DashBoard *Dashboard=[[DashBoard alloc] init];
+                [self.navigationController pushViewController:Dashboard animated:NO];
+            }
+        }
+        
     }else  if([[myResults objectForKey:@"status"] isEqualToString:@"failed"])
     {
-
-    [SingletonClass RemoveActivityIndicator:self.view];
-    txtFieldPassword.text=@"";
-    //txtFieldUserId.text=@"";
-
-    [SingletonClass initWithTitle:@"" message:@"Invalid User" delegate:nil btn1:@"Ok"];
-
-
+        [SingletonClass RemoveActivityIndicator:self.view];
+        txtFieldPassword.text=@"";
+        [SingletonClass initWithTitle:@"" message:@"Invalid User" delegate:nil btn1:@"Ok"];
     }
-
-    
-    }
-
-
--(UIStatusBarStyle)preferredStatusBarStyle{
+}
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
     return UIStatusBarStyleLightContent;
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -226,7 +188,7 @@
     [super viewDidDisappear:animated];
     //if (isIPAD)
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-   
+    
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
 }
@@ -237,25 +199,25 @@
 - (void)viewDidLoad
 {
     //if (isIPAD) {
-        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(orientationChanged)
-                                                     name:UIDeviceOrientationDidChangeNotification
-                                                   object:nil];
-   // }
-   
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+    // }
+    
     if (isIPAD) {
         [AppDelegate restrictRotation:NO];
     }else{
         
-         [AppDelegate restrictRotation:YES];
+        [AppDelegate restrictRotation:YES];
     }
     
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-      
+        
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
         [UIView setAnimationCurve:[note.userInfo[UIKeyboardAnimationCurveUserInfoKey]integerValue]];
@@ -267,12 +229,12 @@
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:self.view];
         if ((point.y - kbSize.height) < (dif=([[SingletonClass ShareInstance] CurrentOrientation:self]==UIDeviceOrientationPortrait) ? 140: 180) ) {
-          self.view.frame=CGRectMake(0, 0, self.view.frame.size.width,  self.view.frame.size.height);
+            self.view.frame=CGRectMake(0, 0, self.view.frame.size.width,  self.view.frame.size.height);
             CGRect frame = self.view.frame;
             frame.origin.y = self.view.frame.origin.y - 2*(currentText.frame.size.height);
             self.view.frame = frame;
         }
-    
+        
         [UIView commitAnimations];
         
     }];
@@ -299,10 +261,6 @@
     self.loginTableView.backgroundColor=[UIColor clearColor];
     AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     delegate.isStart=TRUE;
-    
-    
-   
-
 }
 #pragma mark- TableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
@@ -310,98 +268,92 @@
     return 2;
 }
 
-
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
 }
 
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-
+    
     if(cell== nil)
     {
-    cell =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     int FieldHeight=0,FieldWeight=0,FieldPaiding=0;
     if (isIPAD) {
-    FieldHeight=60;
-    FieldWeight=400;
-    FieldPaiding=20;
+        FieldHeight=60;
+        FieldWeight=400;
+        FieldPaiding=20;
     }else{
-
-    FieldHeight=40;
-    FieldWeight=280;
-    FieldPaiding=10;
+        
+        FieldHeight=40;
+        FieldWeight=280;
+        FieldPaiding=10;
     }
-
+    
     if (indexPath.section==0) {
-
-
-
-    txtFieldUserId = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
-
-    txtFieldUserId.borderStyle = UITextBorderStyleNone;
-
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FieldPaiding, 20)];
-    txtFieldUserId.leftView = paddingView;
-    txtFieldUserId.leftViewMode = UITextFieldViewModeAlways;
-    txtFieldUserId.layer.borderColor = (__bridge CGColorRef)([UIColor whiteColor]);;
-    txtFieldUserId.delegate = self;
-
-    UIColor *color = [UIColor lightGrayColor];
-    txtFieldUserId.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName: color}];
-
-    cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
-
-    /// set the Email text if any available
-
-    txtFieldUserId.backgroundColor = [UIColor clearColor];
-    //        txtFieldUserId.textColor=[UIColor whiteColor];
-    txtFieldUserId.clearButtonMode = UITextFieldViewModeWhileEditing;
-    txtFieldUserId.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    txtFieldUserId.font=Textfont;
-    [cell addSubview:txtFieldUserId];
-
+        
+        txtFieldUserId = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
+        txtFieldUserId.borderStyle = UITextBorderStyleNone;
+        UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FieldPaiding, 20)];
+        txtFieldUserId.leftView = paddingView;
+        txtFieldUserId.leftViewMode = UITextFieldViewModeAlways;
+        txtFieldUserId.layer.borderColor = (__bridge CGColorRef)([UIColor whiteColor]);;
+        txtFieldUserId.delegate = self;
+        
+        UIColor *color = [UIColor lightGrayColor];
+        txtFieldUserId.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName: color}];
+        
+        cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
+        
+        /// set the Email text if any available
+        
+        txtFieldUserId.backgroundColor = [UIColor clearColor];
+        //        txtFieldUserId.textColor=[UIColor whiteColor];
+        txtFieldUserId.clearButtonMode = UITextFieldViewModeWhileEditing;
+        txtFieldUserId.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        txtFieldUserId.font=Textfont;
+        [cell addSubview:txtFieldUserId];
+        
     }
     else
     {
-    txtFieldPassword = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
-    txtFieldPassword.backgroundColor = [UIColor clearColor];
-    txtFieldPassword.borderStyle = UITextBorderStyleNone;
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FieldPaiding, 20)];
-    txtFieldPassword.leftView = paddingView;
-    txtFieldPassword.leftViewMode = UITextFieldViewModeAlways;
-    txtFieldPassword.layer.borderColor = (__bridge CGColorRef)([UIColor whiteColor]);;
-    txtFieldPassword.delegate = self;
-    txtFieldPassword.placeholder = @"Password";
-
-    UIColor *color = [UIColor lightGrayColor];
-    txtFieldPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
-    txtFieldPassword.backgroundColor=[UIColor clearColor];
-    txtFieldPassword.secureTextEntry = YES;
-    txtFieldPassword.clearButtonMode = UITextFieldViewModeWhileEditing;
-    txtFieldPassword.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    txtFieldPassword.font=Textfont;
-    //        txtFieldPassword.textColor=[UIColor whiteColor];
-
-    [cell addSubview:txtFieldPassword];
-    cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
-
+        txtFieldPassword = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
+        txtFieldPassword.backgroundColor = [UIColor clearColor];
+        txtFieldPassword.borderStyle = UITextBorderStyleNone;
+        UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FieldPaiding, 20)];
+        txtFieldPassword.leftView = paddingView;
+        txtFieldPassword.leftViewMode = UITextFieldViewModeAlways;
+        txtFieldPassword.layer.borderColor = (__bridge CGColorRef)([UIColor whiteColor]);;
+        txtFieldPassword.delegate = self;
+        txtFieldPassword.placeholder = @"Password";
+        
+        UIColor *color = [UIColor lightGrayColor];
+        txtFieldPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
+        txtFieldPassword.backgroundColor=[UIColor clearColor];
+        txtFieldPassword.secureTextEntry = YES;
+        txtFieldPassword.clearButtonMode = UITextFieldViewModeWhileEditing;
+        txtFieldPassword.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        txtFieldPassword.font=Textfont;
+        //        txtFieldPassword.textColor=[UIColor whiteColor];
+        
+        [cell addSubview:txtFieldPassword];
+        cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
+        
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-
-
+    
+    
     txtFieldUserId.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] :@"";
-
+    
     txtFieldPassword.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] :@"";
-
-
+    
+    
     return cell;
 }
 
@@ -420,21 +372,19 @@
 {
     currentText=textField;
     [textField returnKeyType];
-  
+    
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     
 }
-
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-
+    
     return YES;
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -442,26 +392,26 @@
 }
 
 - (IBAction)ForgotPasswordClick:(id)sender {
-
+    
     NSArray *arrController=[self.navigationController viewControllers];
-   
+    
     BOOL Status=FALSE;
-
+    
     for (id object in arrController) {
-
-    if ([object isKindOfClass:[ForgotPassword class]])
-    {
-        Status=TRUE;
-        [self.navigationController popToViewController:object animated:NO];
-        break;
-    }
+        
+        if ([object isKindOfClass:[ForgotPassword class]])
+        {
+            Status=TRUE;
+            [self.navigationController popToViewController:object animated:NO];
+            break;
+        }
     }
     if (Status==FALSE)
     {
-    ForgotPassword *forgotPw=[[ForgotPassword alloc] init];
-
-     [self.navigationController pushViewController:forgotPw animated:NO];
+        ForgotPassword *forgotPw=[[ForgotPassword alloc] init];
+        
+        [self.navigationController pushViewController:forgotPw animated:NO];
     }
-
+    
 }
 @end
