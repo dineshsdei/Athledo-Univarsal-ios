@@ -369,6 +369,7 @@ UIBarButtonItem *revealButtonItem;;
 #endif
 
 - (MAEvent *)event : (int)index : (NSDate *)date {
+ 
     static int counter;
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     
@@ -385,14 +386,11 @@ UIBarButtonItem *revealButtonItem;;
     event.EventTag=index;
     
     //event.title=[[_eventDic objectAtIndex:index] valueForKey:@"name"];
-    
     ////  Event Title
-    
     // Uncoment if you want date on title of event
-    
     /*
      NSString *strStartdate=[[_eventDic objectAtIndex:index] valueForKey:@"start_date"];
-     
+
      NSDate *displaydate=[dateFormatter dateFromString:strStartdate];
      
      NSString *strEnddate=[[_eventDic objectAtIndex:index] valueForKey:@"end_date"];
@@ -433,9 +431,7 @@ UIBarButtonItem *revealButtonItem;;
     }
     return _eventKitDataSource;
 }
-
 /* Implementation for the MAWeekViewDelegate protocol */
-
 - (void)weekView:(MAWeekView *)weekView eventTapped:(MAEvent *)event {
     
     NSArray *arrController=[self.navigationController viewControllers];

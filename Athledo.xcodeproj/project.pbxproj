@@ -259,6 +259,15 @@
 		71A53DB61A3585E400463864 /* AddCoachingHistory~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A53DB51A3585E400463864 /* AddCoachingHistory~ipad.xib */; };
 		71A53DB81A35D2FB00463864 /* AddAthleteHistory~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */; };
 		71A5A32B1A49456900A00298 /* RepeatEventCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A5A32A1A49456900A00298 /* RepeatEventCell~ipad.xib */; };
+		71A6066B1A9AF9D7001BD86B /* Notes.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A606691A9AF9D7001BD86B /* Notes.m */; };
+		71A6066C1A9AF9D7001BD86B /* Notes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A6066A1A9AF9D7001BD86B /* Notes.xib */; };
+		71A606731A9B0979001BD86B /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A606711A9B0979001BD86B /* NoteCell.m */; };
+		71A606741A9B0979001BD86B /* NoteCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A606721A9B0979001BD86B /* NoteCell~iphone.xib */; };
+		71A606791A9B3388001BD86B /* download.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A606781A9B3388001BD86B /* download.png */; };
+		71A6067D1A9B4E98001BD86B /* AddNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A6067B1A9B4E98001BD86B /* AddNotes.m */; };
+		71A6067E1A9B4E98001BD86B /* AddNotes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A6067C1A9B4E98001BD86B /* AddNotes.xib */; };
+		71A606821A9B57D5001BD86B /* AddNoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A606801A9B57D5001BD86B /* AddNoteCell.m */; };
+		71A606831A9B57D5001BD86B /* AddNoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A606811A9B57D5001BD86B /* AddNoteCell.xib */; };
 		71A63E131A259DFB00D0DA99 /* WorkOutView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */; };
 		71A63E151A25A06D00D0DA99 /* AddWorkOut~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */; };
 		71A63E171A25A29F00D0DA99 /* WorkOutListCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */; };
@@ -753,6 +762,19 @@
 		71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddAthleteHistory~ipad.xib"; sourceTree = "<group>"; };
 		71A5799219C31500001CD0FC /* Athledo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Athledo.entitlements; sourceTree = "<group>"; };
 		71A5A32A1A49456900A00298 /* RepeatEventCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "RepeatEventCell~ipad.xib"; sourceTree = "<group>"; };
+		71A606681A9AF9D7001BD86B /* Notes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notes.h; sourceTree = "<group>"; };
+		71A606691A9AF9D7001BD86B /* Notes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notes.m; sourceTree = "<group>"; };
+		71A6066A1A9AF9D7001BD86B /* Notes.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Notes.xib; path = Notes/Notes.xib; sourceTree = "<group>"; };
+		71A606701A9B0979001BD86B /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
+		71A606711A9B0979001BD86B /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
+		71A606721A9B0979001BD86B /* NoteCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "NoteCell~iphone.xib"; sourceTree = "<group>"; };
+		71A606781A9B3388001BD86B /* download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download.png; sourceTree = "<group>"; };
+		71A6067A1A9B4E98001BD86B /* AddNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNotes.h; sourceTree = "<group>"; };
+		71A6067B1A9B4E98001BD86B /* AddNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNotes.m; sourceTree = "<group>"; };
+		71A6067C1A9B4E98001BD86B /* AddNotes.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNotes.xib; sourceTree = "<group>"; };
+		71A6067F1A9B57D5001BD86B /* AddNoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNoteCell.h; sourceTree = "<group>"; };
+		71A606801A9B57D5001BD86B /* AddNoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNoteCell.m; sourceTree = "<group>"; };
+		71A606811A9B57D5001BD86B /* AddNoteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNoteCell.xib; sourceTree = "<group>"; };
 		71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutView~ipad.xib"; sourceTree = "<group>"; };
 		71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddWorkOut~iphone.xib"; sourceTree = "<group>"; };
 		71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutListCell~ipad.xib"; sourceTree = "<group>"; };
@@ -1020,6 +1042,7 @@
 		3D9E050A197BCF7D005CCB10 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				71A606671A9AF9AD001BD86B /* Notes */,
 				7197E854197E76750086DA2E /* Profile */,
 				71999555197D30D400C0F77F /* Dashboard */,
 				71B15AA21A47CD2B008C0C71 /* Multimedia */,
@@ -1039,6 +1062,7 @@
 		3D9E0516197BD048005CCB10 /* ThirdParyLib */ = {
 			isa = PBXGroup;
 			children = (
+				710C634219B9E87C00F11983 /* Extensions */,
 				71A6E75E19EFD2C1002416B4 /* MJGeocoder */,
 				7197A47F19CC2995004CC2E4 /* json */,
 				71B142AA19C974C1008EBC90 /* SWTableViewCell */,
@@ -1345,7 +1369,6 @@
 			isa = PBXGroup;
 			children = (
 				71A461BB19F4C8EB00CD2C13 /* CustomCell */,
-				710C634219B9E87C00F11983 /* Extensions */,
 				710C632A19B9E41C00F11983 /* CalendarDayViewController.h */,
 				710C632B19B9E41C00F11983 /* CalendarDayViewController.m */,
 				710C632C19B9E41C00F11983 /* CalendarMainViewController.h */,
@@ -1691,6 +1714,7 @@
 		71A417341A84C7B500A41981 /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				71A606781A9B3388001BD86B /* download.png */,
 				71D66E371A7BA9C100B75F86 /* reveal-icon.png */,
 				71A369111A6E1C3A00DDF05C /* add.png */,
 				71A369121A6E1C3A00DDF05C /* compose_icon.png */,
@@ -1736,6 +1760,32 @@
 			name = CustomCell;
 			sourceTree = "<group>";
 		};
+		71A606671A9AF9AD001BD86B /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				71A6066F1A9B0916001BD86B /* CustomCell */,
+				71A606681A9AF9D7001BD86B /* Notes.h */,
+				71A606691A9AF9D7001BD86B /* Notes.m */,
+				71A6067A1A9B4E98001BD86B /* AddNotes.h */,
+				71A6067B1A9B4E98001BD86B /* AddNotes.m */,
+				71A6067C1A9B4E98001BD86B /* AddNotes.xib */,
+			);
+			path = Notes;
+			sourceTree = "<group>";
+		};
+		71A6066F1A9B0916001BD86B /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				71A606701A9B0979001BD86B /* NoteCell.h */,
+				71A606711A9B0979001BD86B /* NoteCell.m */,
+				71A606721A9B0979001BD86B /* NoteCell~iphone.xib */,
+				71A6067F1A9B57D5001BD86B /* AddNoteCell.h */,
+				71A606801A9B57D5001BD86B /* AddNoteCell.m */,
+				71A606811A9B57D5001BD86B /* AddNoteCell.xib */,
+			);
+			path = CustomCell;
+			sourceTree = "<group>";
+		};
 		71A6E75E19EFD2C1002416B4 /* MJGeocoder */ = {
 			isa = PBXGroup;
 			children = (
@@ -1772,6 +1822,7 @@
 		71A908EC1A5E895500AFB6AC /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				71A6066A1A9AF9D7001BD86B /* Notes.xib */,
 				71A908ED1A5E8A0400AFB6AC /* Profile */,
 				71A908EE1A5E8A3400AFB6AC /* DashBoard */,
 				71A908F11A5E8AE100AFB6AC /* Multimedia */,
@@ -2292,6 +2343,7 @@
 				71A369841A6E1DA400DDF05C /* next.png in Resources */,
 				71A63E1B1A25C81600D0DA99 /* WorkoutHistoryDetails~ipad.xib in Resources */,
 				71A63E271A2605D400D0DA99 /* ArichiveView~ipad.xib in Resources */,
+				71A6066C1A9AF9D7001BD86B /* Notes.xib in Resources */,
 				71A63E211A25E32800D0DA99 /* MessangerView~ipad.xib in Resources */,
 				71A369311A6E1CAD00DDF05C /* message_icon.png in Resources */,
 				71A368FB1A6E1B8E00DDF05C /* photo_icon@2x.png in Resources */,
@@ -2314,6 +2366,7 @@
 				71A368E81A6E1AAD00DDF05C /* Default@2x.png in Resources */,
 				71950FB119C1AFE900B4BF1A /* SentItemsView~iphone.xib in Resources */,
 				71A4173E1A84D4A000A41981 /* deleteBtn~ipad.png in Resources */,
+				71A6067E1A9B4E98001BD86B /* AddNotes.xib in Resources */,
 				71ADF1C51A70F1B200457FB9 /* bubble-square-outgoing@2x.png in Resources */,
 				71B15ABA1A47CDB1008C0C71 /* DisplayFolderContant.xib in Resources */,
 				71A4173C1A84CC9C00A41981 /* reveal-icon~ipad@2x.png in Resources */,
@@ -2338,6 +2391,7 @@
 				71B15AD31A482603008C0C71 /* AddCalendarEvent~ipad.xib in Resources */,
 				71A369811A6E1DA300DDF05C /* menu_sep.png in Resources */,
 				71A369661A6E1DA300DDF05C /* add1.png in Resources */,
+				71A606791A9B3388001BD86B /* download.png in Resources */,
 				71A369091A6E1BC400DDF05C /* sent_icon.png in Resources */,
 				71A368B01A6E191200DDF05C /* user-icon.png in Resources */,
 				71A369791A6E1DA300DDF05C /* listing_side.png in Resources */,
@@ -2433,7 +2487,9 @@
 				71A368E61A6E1AAD00DDF05C /* Default-568h@2x.png in Resources */,
 				71ADF1B51A70F1B200457FB9 /* bubble-default-incoming-selected@2x.png in Resources */,
 				71A368FF1A6E1B8E00DDF05C /* update_icon@2x.png in Resources */,
+				71A606831A9B57D5001BD86B /* AddNoteCell.xib in Resources */,
 				71A417381A84C98A00A41981 /* add~ipad@2x.png in Resources */,
+				71A606741A9B0979001BD86B /* NoteCell~iphone.xib in Resources */,
 				71ADF1CF1A70F1B200457FB9 /* send@2x.png in Resources */,
 				71A369721A6E1DA300DDF05C /* deleteBtn1.png in Resources */,
 				7194AE4219C04B8E00DC0A23 /* messageReceived.aiff in Resources */,
@@ -2496,6 +2552,7 @@
 				71B15ABE1A47CDB1008C0C71 /* Multimedia.m in Sources */,
 				7157961C19C07AF00086E193 /* MessageDetails.m in Sources */,
 				710C635319B9E8FA00F11983 /* MAGridView.m in Sources */,
+				71A606821A9B57D5001BD86B /* AddNoteCell.m in Sources */,
 				3D9E0532197BD5E0005CCB10 /* CalenderScheduleView.m in Sources */,
 				7194ADFF19C04B5100DC0A23 /* UIImage+JSMessagesView.m in Sources */,
 				71999574197D3DB300C0F77F /* UIImageView+WebCache.m in Sources */,
@@ -2503,6 +2560,7 @@
 				7194ADF719C04B5100DC0A23 /* JSBubbleView.m in Sources */,
 				719A193519B5784E00F1155A /* TPKeyboardAvoidingScrollView.m in Sources */,
 				7194ADFE19C04B5100DC0A23 /* UIColor+JSMessagesView.m in Sources */,
+				71A6066B1A9AF9D7001BD86B /* Notes.m in Sources */,
 				71B15ACD1A47DA7F008C0C71 /* CalendarEvent.m in Sources */,
 				71A513E919A6FCEE00DE911F /* WebServiceClass.m in Sources */,
 				71A8CA3919937AA500B30DF7 /* ALPickerView.m in Sources */,
@@ -2536,6 +2594,7 @@
 				71B15AB91A47CDB1008C0C71 /* DisplayFolderContant.m in Sources */,
 				7199953A197CEBF000C0F77F /* DropDownField.m in Sources */,
 				71999573197D3DB300C0F77F /* UIButton+WebCache.m in Sources */,
+				71A6067D1A9B4E98001BD86B /* AddNotes.m in Sources */,
 				71999545197CFB4000C0F77F /* ForgotPassword.m in Sources */,
 				71950FA919C1A5BE00B4BF1A /* TSPopoverController.m in Sources */,
 				71B142BA19C974FE008EBC90 /* SWUtilityButtonView.m in Sources */,
@@ -2570,6 +2629,7 @@
 				71950FAB19C1A5BE00B4BF1A /* TSPopoverTouchView.m in Sources */,
 				7197E853197E76620086DA2E /* AddAthleteHistory.m in Sources */,
 				71B15AC41A47CDB1008C0C71 /* MultimediaVideo.m in Sources */,
+				71A606731A9B0979001BD86B /* NoteCell.m in Sources */,
 				3D9E04E8197BCF3C005CCB10 /* main.m in Sources */,
 				7197A48E19CC29D0004CC2E4 /* NSString+SBJSON.m in Sources */,
 				7195489719D1473900C58994 /* EditGenralInfo.m in Sources */,

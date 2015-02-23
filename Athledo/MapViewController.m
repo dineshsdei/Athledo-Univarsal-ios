@@ -40,19 +40,14 @@ UIBarButtonItem *revealButtonItem;;
 -(void)getEvents{
     
     if ([SingletonClass  CheckConnectivity]) {
+        
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
-        
-        
+    
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
     
 }
@@ -81,7 +76,6 @@ UIBarButtonItem *revealButtonItem;;
     tabBar.delegate=self;
     [tabBar setSelectedItem:tabBarItem];
     [super viewWillAppear:animated];
-    
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     if ([SingletonClass ShareInstance].isCalendarUpdate==TRUE) {
@@ -121,7 +115,6 @@ UIBarButtonItem *revealButtonItem;;
             BOOL Status=FALSE;
             for (id object in arrController)
             {
-                
                 if ([object isKindOfClass:[WeekViewController class]])
                 {
                     Status=TRUE;
@@ -146,7 +139,6 @@ UIBarButtonItem *revealButtonItem;;
             BOOL Status=FALSE;
             for (id object in arrController)
             {
-                
                 if ([object isKindOfClass:[CalendarMonthViewController class]])
                 {
                     Status=TRUE;
@@ -206,10 +198,8 @@ UIBarButtonItem *revealButtonItem;;
     [tabBarItems addObject:tabBarItem4];
     
     tabBar.items = tabBarItems;
-    
     mapTableView.backgroundColor=[UIColor clearColor];
     mapView.showsUserLocation=YES;
-    
     //    locationManager=[[CLLocationManager alloc]init];
     //    [locationManager setDelegate:self];
     //    [locationManager setDistanceFilter:kCLDistanceFilterNone];
@@ -229,7 +219,6 @@ UIBarButtonItem *revealButtonItem;;
     // if it's the user location, just return nil.
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
-    
     // try to dequeue an existing pin view first..
     static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
     MKAnnotationView* pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationIdentifier];

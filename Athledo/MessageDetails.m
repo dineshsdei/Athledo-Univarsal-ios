@@ -251,12 +251,9 @@
     if (arrMessageConversation.count > index)
     {
         if ([UserInformation shareInstance].userId == [[[arrMessageConversation objectAtIndex:index] valueForKey:@"sender_id"] intValue]) {
-            
             UserdataIndex=index;
         }
-        
         return [[arrMessageConversation objectAtIndex:index] valueForKey:@"image"];
-  
     }else
     {
         if (UserdataIndex > 0 ) {
@@ -264,22 +261,18 @@
         }else
              return @"";
     }
-
-    
 }
 // Use this method when satatic images shows
 // Uncommnet method from tableview cell
 
 - (UIImage *)avatarImageForIncomingMessage
 {
-    
     return [UIImage imageNamed:@"demo-avatar-woz"];
 }
 // Use this method when satatic images shows
 // Uncommnet method from tableview cell
 - (UIImage *)avatarImageForOutgoingMessage
 {
-   
     return [UIImage imageNamed:@"demo-avatar-jobs"];
 }
 

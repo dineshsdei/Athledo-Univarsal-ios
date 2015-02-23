@@ -411,8 +411,7 @@
             return;
             
         }else{
-            
-            
+ 
         }
         
         if ([SingletonClass  CheckConnectivity])
@@ -435,7 +434,6 @@
                     strNaveegatorStatus=@"updated";
                     
                 }
-                
                 
                 [dicttemp setObject:[NSString stringWithFormat:@"%@",[_eventDetailsDic valueForKey:@"event_id"]] forKey:@"id"];
                 
@@ -521,23 +519,16 @@
                 // Event Add or edit repeat case
                 
                 [dicttemp setObject:[self CalculateEventEndDate] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"end_date"]];
-                
-                
-                
                 // In case Occurrence Add or edit rec_pattern and rec_type set black
                 
                 if (![[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"]){
                     
                     NSArray *arrComponents=[[CalendarEvent ShareInstance].strRepeatSting componentsSeparatedByString:@"#"];
-                    
                     // if user not change reccurrence then [CalendarEvent ShareInstance].strRepeatSting is nil then get value from _eventDetailDic
-                    
                     if (!arrComponents) {
-                        
                         arrComponents=[[_eventDetailsDic valueForKey:@"rec_type"] componentsSeparatedByString:@"#"];
                         [CalendarEvent ShareInstance].strRepeatSting=[_eventDetailsDic valueForKey:@"rec_type"];
                     }
-                    
                     if (arrComponents.count > 0) {
                         [dicttemp setObject:[arrComponents objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_pattern"]];
                     }else{
@@ -557,21 +548,13 @@
                 [dicttemp setObject:@"" forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"rec_type"]];
                 [dicttemp setObject:[NSString stringWithFormat:@"%@",@""] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
             }
-            
             isDate=FALSE;
-            
-            
             [SingletonClass addActivityIndicator:self.view];
-            
             [webservice WebserviceCallwithDic:dicttemp :webServiceAddEvents :AddEventTag];
-            
-            
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-            
         }
-        
     }
     
 }
@@ -677,10 +660,8 @@
                 
             }else if ([CalendarEvent ShareInstance].NoOfDay != 0 && [CalendarEvent ShareInstance].NoOfOccurrence != 0)
             {
-                
                 NSString *strDate=[[[CalendarEvent ShareInstance].strEndDate componentsSeparatedByString:@" "] objectAtIndex:0];
                 NSString *strTime=[[[CalendarEvent ShareInstance].strStartDate componentsSeparatedByString:@" "] objectAtIndex:1];
-                
                 enddate=[strDate stringByAppendingFormat:@" %@",strTime];
                 
             }else{
@@ -688,8 +669,6 @@
                 // enddate=[CalendarEvent ShareInstance].strEndDate;
                 enddate=[[[[CalendarEvent ShareInstance].strEndDate componentsSeparatedByString:@" "] objectAtIndex:0] stringByAppendingFormat:@" 00:00:00"];
             }
-            
-            
         }
         else if ([[CalendarEvent ShareInstance].strEventType isEqualToString:@"Yearly"])
         {
@@ -698,7 +677,6 @@
             if ([[CalendarEvent ShareInstance].strEndDate isEqualToString:@"9999-02-01 00:00:00"]) {
                 
                 // Infinite case
-                
                 [CalendarEvent ShareInstance].strEndDate=@"9999-02-01 00:00:00";
                 enddate=@"9999-02-01 00:00:00";
                 
@@ -724,26 +702,18 @@
 
 -(NSString *)CalculateEndDateIn_Daily_WorkingDay_Case
 {
-    
     //IN case end date will be after working NoOfOccurrence days (Mon, Tue , Wed , Thu , Fri , ) from startdate
-    
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
-    
     NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strStartDate];
-    
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:(NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekdayOrdinalCalendarUnit | NSDayCalendarUnit) fromDate:date];
     
     if ([[CalendarEvent ShareInstance].strDailyEventSubType isEqualToString:@"nonworkingday" ]) {
-        
         components.day=components.day+([CalendarEvent ShareInstance].NoOfOccurrence * [CalendarEvent ShareInstance].NoOfDay);
         NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
-        
         NSString *enddate=[formatter stringFromDate:dayOneInCurrentMonth];
         return enddate;
-        
-        
     }else{
         
         int loopEnd=[CalendarEvent ShareInstance].NoOfOccurrence ;
@@ -761,9 +731,7 @@
             }
         }
         NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
-        
         NSString *enddate=[formatter stringFromDate:dayOneInCurrentMonth];
-        
         return enddate;
     }
 }
@@ -844,9 +812,7 @@
         // [btnSave setBackgroundImage:imageEdit forState:UIControlStateNormal];
         [btnSave setTitle:@"Save" forState:UIControlStateNormal];
         [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
         UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
-        
         self.navigationItem.rightBarButtonItem = ButtonItem;
     }
     
@@ -861,8 +827,7 @@
         }else{
             [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnDissable.png"]];
         }
-        
-        
+
     }else
     {
         _tfRepeat.text=@"Never";
@@ -887,13 +852,9 @@
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
             }
-            
-            
         }completion:^(BOOL finished){
             
         }];
-        
-        
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -908,19 +869,12 @@
         }completion:^(BOOL finished){
             
         }];
-        
-        
     }];
     
     UIImageView *imageview1=[[UIImageView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-3, self.view.frame.size.width, 3)];
     
     imageview1.image=[UIImage imageNamed:@"bottomBorder.png"];
-    
-    //[self.view addSubview:imageview1];
-    
     scrollHeight=0;
-    
-    
     [super viewWillAppear:animated];
 }
 
@@ -929,7 +883,7 @@
 {
     [super viewDidDisappear:animated];
     if (isIPAD)
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
@@ -954,11 +908,9 @@
     
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
     _texviewDescription.textColor=[UIColor colorWithRed:170/255.0 green:170/255.0 blue:170/255.0 alpha:1];
     self.title=NSLocalizedString(_screentitle, @"");
     [self.navigationController.navigationItem setHidesBackButton:YES];
-    
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 55)];
     _tfTitle.leftView = paddingView;
     _tfTitle.leftViewMode = UITextFieldViewModeAlways;
@@ -969,12 +921,9 @@
     
     // To move left decrease y and move up decrease x
     _texviewDescription.textContainerInset = UIEdgeInsetsMake(15, 5, 0, 20);
-    
-    
     UIView *paddingViewFour = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 55)];
     _tfStartTime.rightView = paddingViewFour;
     _tfStartTime.rightViewMode = UITextFieldViewModeAlways;
-    
     UIView *paddingViewFive = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 22, 55)];
     _tfEndTime.rightView = paddingViewFive;
     _tfEndTime.rightViewMode = UITextFieldViewModeAlways;
@@ -983,8 +932,6 @@
     _tfRepeat.font=Textfont;
     _tfTitle.font=Textfont;
     _tfStartTime.font=Textfont;
-    
-    
     tempView.layer.borderWidth=1.0;
     tempView.layer.borderColor=[UIColor lightGrayColor].CGColor;
     _tfTitle.layer.borderWidth=1.0;
@@ -1026,7 +973,6 @@
             
             switch (RepeatIndex)
             {
-                    
                 case 1:
                 {         //Daily  event
                     if ([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Series"])
@@ -1035,16 +981,11 @@
                         // NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
                         [df setDateFormat:DATE_FORMAT_AddEvent];
                         _tfStartTime.text=[df stringFromDate:startdate ];
-                        
                         int event_length=[[_eventDetailsDic valueForKey:@"event_length"] intValue];
-                        
                         NSDate *enddate=[startdate dateByAddingTimeInterval:event_length];
-                        
                         _tfEndTime.text=[df stringFromDate:enddate];
                         [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
-                        
                         [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
-                        
                         NSString *timestampOne = [NSString stringWithFormat:@"%f", [startdate timeIntervalSince1970]];
                         startTime = [timestampOne doubleValue];
                         NSString *timestampTwo = [NSString stringWithFormat:@"%f", [enddate timeIntervalSince1970]];
@@ -1053,17 +994,14 @@
                         [df setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
                         if ([df stringFromDate:startdate] !=nil && [df stringFromDate:enddate] != nil)
                         {
-                            
                             [CalendarEvent ShareInstance].strActualStartDate=@"";
                             [CalendarEvent ShareInstance].strStartDate=[df stringFromDate:startdate];
                             [CalendarEvent ShareInstance].strActualStartDate=[_eventDetailsDic valueForKey:@"actual_start_date"];
                             [CalendarEvent ShareInstance].strEndDate=[df stringFromDate:enddate];
-                            
-                        }
+                       }
                         
                     }else
                     {
-                        
                         NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"start_date"]];
                         NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"end_date"]];
                         [df setDateFormat:DATE_FORMAT_AddEvent];
@@ -1078,13 +1016,10 @@
                         [df setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
                         if ([df stringFromDate:startdate] !=nil && [df stringFromDate:enddate] != nil)
                         {
-                            
                             [CalendarEvent ShareInstance].strActualStartDate=@"";
                             [CalendarEvent ShareInstance].strStartDate=[df stringFromDate:startdate];
                             [CalendarEvent ShareInstance].strActualStartDate=[_eventDetailsDic valueForKey:@"actual_start_date"];
                             [CalendarEvent ShareInstance].strEndDate=[df stringFromDate:enddate];
-                            
-                            
                         }
                     }
                     
@@ -1099,11 +1034,8 @@
                         
                         [df setDateFormat:DATE_FORMAT_AddEvent];
                         _tfStartTime.text=[df stringFromDate:startdate ];
-                        
                         int event_length=[[_eventDetailsDic valueForKey:@"event_length"] intValue];
-                        
                         NSDate *enddate=[startdate dateByAddingTimeInterval:event_length];
-                        
                         _tfEndTime.text=[df stringFromDate:enddate];
                         [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
                         NSString *timestampOne = [NSString stringWithFormat:@"%f", [startdate timeIntervalSince1970]];
@@ -1140,8 +1072,7 @@
                             [CalendarEvent ShareInstance].strActualStartDate=[_eventDetailsDic valueForKey:@"actual_start_date"];
                             [CalendarEvent ShareInstance].strEndDate=[df stringFromDate:enddate];
                         }
-                        
-                        
+
                     }
                     
                     break;
@@ -1154,16 +1085,11 @@
                         NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_start_date"]];
                         [df setDateFormat:DATE_FORMAT_AddEvent];
                         _tfStartTime.text=[df stringFromDate:startdate ];
-                        
                         int event_length=[[_eventDetailsDic valueForKey:@"event_length"] intValue];
-                        
                         NSDate *enddate=[startdate dateByAddingTimeInterval:event_length];
-                        
                         _tfEndTime.text=[df stringFromDate:enddate];
                         [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
-                        
                         [CalendarEvent ShareInstance].strEndDate=_tfEndTime.text;
-                        
                         NSString *timestampOne = [NSString stringWithFormat:@"%f", [startdate timeIntervalSince1970]];
                         startTime = [timestampOne doubleValue];
                         NSString *timestampTwo = [NSString stringWithFormat:@"%f", [enddate timeIntervalSince1970]];
@@ -1265,15 +1191,12 @@
                     break;
             }
         }else{
-            
             ////Simple event
-            
             NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_start_date"]];
             NSDate *enddate=[df dateFromString:[_eventDetailsDic valueForKey:@"actual_end_date"]];
             df.dateFormat =DATE_FORMAT_AddEvent;
             _tfStartTime.text=[df stringFromDate:startdate ];
             _tfEndTime.text=[df stringFromDate:enddate];
-            
             NSString *timestampOne = [NSString stringWithFormat:@"%f", [startdate timeIntervalSince1970]];
             startTime = [timestampOne doubleValue];
             
@@ -1296,10 +1219,6 @@
         [CalendarEvent ShareInstance].strEndDate=@"";
         [CalendarEvent ShareInstance].strRepeatSting=@"";
     }
-    
-    
-    // self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:btnDelete,ButtonItem, nil];
-    
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
@@ -1350,17 +1269,13 @@
     currentText.text = dateIs;
     
     if (currentText.tag==1003) {
-        
         NSString *timestamp = [NSString stringWithFormat:@"%f", [[_datePicker date] timeIntervalSince1970]];
         startTime = [timestamp doubleValue];
         dformate.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-        
         [CalendarEvent ShareInstance].strStartDate= [dformate stringFromDate:_datePicker.date];
         [CalendarEvent ShareInstance].strActualStartDate=[dformate stringFromDate:_datePicker.date];
         
     }else  if (currentText.tag==1004) {
-        
-        
         NSString *timestamp = [NSString stringWithFormat:@"%f", [[_datePicker date] timeIntervalSince1970]];
         endTime = [timestamp doubleValue];
         dformate.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
@@ -1414,19 +1329,13 @@
 
 #pragma mark setcontent offset
 -(void)setContentOffset:(id)textField table:(UIScrollView*)m_ScrollView {
-    
     UIView* txt = textField;
-    
     // Scroll to cell
     // int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
     
     scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
     [_scrollview setContentOffset:CGPointMake(0,2*(txt.frame.size.height+30)) animated: YES];
-    
-    
 }
-
-
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
@@ -1460,16 +1369,11 @@
         }else{
             
             // Default case when no date is selected
-            
-            
             NSDateFormatter *df = [[NSDateFormatter alloc] init];
             df.dateFormat =DATE_FORMAT_AddEvent;
-            
-            
             if (currentText.tag==1003) {
                 
                 // Automatic set current date and time in text field
-                
                 dateIs = [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
                 currentText.text = dateIs;
                 [_datePicker setDate:[NSDate date]];
@@ -1483,7 +1387,6 @@
             }else  if (currentText.tag==1004) {
                 
                 // Automatic set date and time After one hour of start time in text field
-                
                 NSDate *enddate=[[_datePicker date] dateByAddingTimeInterval:(60*60)];
                 [_datePicker setDate:enddate];
                 
@@ -1492,10 +1395,7 @@
                 NSString *timestamp = [NSString stringWithFormat:@"%f", [[_datePicker date] timeIntervalSince1970]];
                 endTime = [timestamp doubleValue];
                 df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-                
                 [CalendarEvent ShareInstance].strEndDate= [df stringFromDate:_datePicker.date];
-                
-                
             }
             df=nil;
         }
@@ -1507,8 +1407,6 @@
     }
     return YES;
 }
-
-
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     
@@ -1516,12 +1414,9 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     if (textField.tag==1001 && textField.text.length > 2) {
-        
         [self getLatLong:textField.text];
     }
-    
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -1558,8 +1453,7 @@
     // to manage placeholder text
     if ([textView.text isEqualToString:@"Description"])
     {
-        
-        //textView.text=@"";
+          //textView.text=@"";
     }
     
     return YES;
@@ -1568,8 +1462,6 @@
 {
     return YES;
 }
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -1581,9 +1473,7 @@
     [self doneClicked];
     
     if ([CalendarEvent ShareInstance].strStartDate.length==0 || [CalendarEvent ShareInstance].strEndDate.length==0 ) {
-        
         [SingletonClass initWithTitle:@"" message:@"Please select event start & end date " delegate:nil btn1:@"Ok"];
-        
     }else{
         if([CalendarEvent ShareInstance].strRepeatSting.length > 0)
         {
@@ -1597,7 +1487,6 @@
             BOOL Status=FALSE;
             for (id object in arrController)
             {
-                
                 if ([object isKindOfClass:[RepeatCalendarEvent class]])
                 {
                     Status=TRUE;
@@ -1606,7 +1495,6 @@
                     [self.navigationController popToViewController:repeatEvent animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 RepeatCalendarEvent *repeatEvent=[[RepeatCalendarEvent alloc] initWithNibName:@"RepeatCalendarEvent" bundle:nil];

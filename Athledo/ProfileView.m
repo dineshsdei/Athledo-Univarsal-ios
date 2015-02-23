@@ -38,16 +38,9 @@
     NSMutableArray *arrAwards;
     NSMutableDictionary *arrGenralinfo;
     NSMutableDictionary *arrSportInfo;
-    
-    
-    
     SWRevealViewController *revealController;
     UIBarButtonItem *revealButtonItem;
-    
-    
-    
     BOOL isEditProfilePic;
-    
     BOOL isEntervale;
     UITextField *currentText;
     UIDeviceOrientation currentOrientation;
@@ -127,19 +120,16 @@
     arrCoachSection=[[NSArray alloc] initWithObjects:@"Genral Information",@"Coaching",@"Awards", nil];
     arrCellHeight=[[NSArray alloc] initWithObjects:@"220.0",@"150",@"150",@"165",@"165", nil];
     arrAthleteCellHeight=[[NSArray alloc] initWithObjects:@"220.0",@"114",@"114",@"114",@"114", nil];
-    revealController = [self revealViewController];
     
+    revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
-    
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    
     btncamera.layer.masksToBounds = YES;
     // btncamera.layer.cornerRadius=50;
     btncamera.layer.cornerRadius= btncamera.frame.size.width/2;

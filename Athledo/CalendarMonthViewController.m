@@ -115,8 +115,6 @@ UIBarButtonItem *revealButtonItem;;
     revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
-    
-    
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
@@ -145,21 +143,16 @@ UIBarButtonItem *revealButtonItem;;
         
         tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, (iosVersion < 8 ? 648 : 655), 1024, 50)];
         self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, (768-(tabBar.frame.size.height + self.monthView.frame.size.height )));
-        
-        
     }else{
-        
         if(isIPAD)
         {
             tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(iosVersion < 8 ? 120 : 113), self.view.frame.size.width, 50)];
         }else{
-            
             tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-(113), self.view.frame.size.width, 50)];
         }
         self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
     }
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
     
     UITabBarItem *tabBarItem1 = [[UITabBarItem alloc] initWithTitle:@"Month" image:[UIImage imageNamed:@"mnth_icon2.png"] tag:0];
@@ -171,10 +164,8 @@ UIBarButtonItem *revealButtonItem;;
     [tabBarItems addObject:tabBarItem2];
     [tabBarItems addObject:tabBarItem3];
     [tabBarItems addObject:tabBarItem4];
-    
     tabBar.items = tabBarItems;
     tabBar.delegate=self;
-    
     [self.view addSubview:tabBar];
     [self orientationChanged];
 }
@@ -186,7 +177,6 @@ UIBarButtonItem *revealButtonItem;;
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        
     }
     
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
@@ -210,7 +200,6 @@ UIBarButtonItem *revealButtonItem;;
             BOOL Status=FALSE;
             for (id object in arrController)
             {
-                
                 if ([object isKindOfClass:[CalendarDayViewController class]])
                 {
                     Status=TRUE;
@@ -332,13 +321,10 @@ UIBarButtonItem *revealButtonItem;;
     if (!_monthview) {
         _monthview=monthView;
     }
-    
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     formatter.dateFormat=DATE_FORMAT_dd_MMM_yyyy;
-    
     NSDate *newDate1 = [lastDate dateByAddingTimeInterval:60*60*24*12];
     NSString *strLastdate=[formatter stringFromDate:newDate1];
-    
     NSArray *arrComponents=[strLastdate componentsSeparatedByString:@" "];
     
     if (![[arrComponents objectAtIndex:1] isEqualToString:strCurrentMonth]) {
@@ -355,7 +341,6 @@ UIBarButtonItem *revealButtonItem;;
 -(void)siftValues
 {
     for (int i=0; i< self.dataArray.count-1 ; i++) {
-        
         [self.dataArray replaceObjectAtIndex:i withObject:[self.dataArray objectAtIndex:(i+1)]];
     }
 }
@@ -392,7 +377,6 @@ UIBarButtonItem *revealButtonItem;;
         }
         if (Status==FALSE)
         {
-            
             CalendarDayViewController *dayView=[[CalendarDayViewController alloc] init];
             dayView.eventDic=nil;
             dayView.strComeFrom=@"MonthView";
@@ -402,9 +386,7 @@ UIBarButtonItem *revealButtonItem;;
             }
             [self.navigationController pushViewController:dayView animated:NO];
         }
-        
     }
-    
 }
 - (void) calendarMonthView:(TKCalendarMonthView*)mv monthDidChange:(NSDate*)d animated:(BOOL)animated{
     [super calendarMonthView:mv monthDidChange:d animated:animated];
@@ -420,7 +402,6 @@ UIBarButtonItem *revealButtonItem;;
 }
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     //NSArray *ar = self.dataDictionary[[self.monthView dateSelected]];
     NSArray *ar = [self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", [self.monthView dateSelected] ] ];
     if(ar == nil) return 0;
@@ -459,13 +440,10 @@ UIBarButtonItem *revealButtonItem;;
 {
     // NSArray *ar = self.dataDictionary[[self.monthView dateSelected]];
     NSArray *ar = [self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", [self.monthView dateSelected] ] ];
-    
-    
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController)
     {
-
         if ([object isKindOfClass:[CalenderEventDetails class]])
         {
             Status=TRUE;
@@ -500,7 +478,6 @@ UIBarButtonItem *revealButtonItem;;
     [f setDateFormat:DATE_FORMAT_M_D_Y];
     NSDate *startDate = [f dateFromString:strStartDate];
     NSDate *endDate = [f dateFromString:strEndDate];
-    
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorianCalendar components:NSDayCalendarUnit
                                                         fromDate:startDate
@@ -513,8 +490,6 @@ UIBarButtonItem *revealButtonItem;;
 {
     NSMutableArray *arrdates=[[NSMutableArray alloc] init];
     NSArray *arr=[startdate componentsSeparatedByString:@"-"];
-    
-    
     for (int i=0; i< [self NoOFDaysBetween: startdate:enddate]; i++) {
         
         [arrdates addObject:[NSString stringWithFormat:@"%@-%d-%@",[arr objectAtIndex:0],[[arr objectAtIndex:1] intValue]+i,[arr objectAtIndex:2]]];
@@ -541,9 +516,7 @@ UIBarButtonItem *revealButtonItem;;
         
         self.dataArray = [NSMutableArray array];
         self.dataDictionary = [NSMutableDictionary dictionary];
-        
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-        
         NSDate *d = start;
         while(YES){
             
@@ -630,18 +603,15 @@ UIBarButtonItem *revealButtonItem;;
     formatter=nil;
     
     if ([SingletonClass  CheckConnectivity]) {
-        UserInformation *userInfo=[UserInformation shareInstance];
         
+        UserInformation *userInfo=[UserInformation shareInstance];
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,startdate,enddate];
         
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
-    
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -669,7 +639,6 @@ UIBarButtonItem *revealButtonItem;;
     
                     for (int j=0; j< arrValues.count; j++)
                     {
-                        
                         [eventArrDic addObject:[arrValues objectAtIndex:j]];
                         [startDateArr addObject:[[arrValues objectAtIndex:j] valueForKey:@"start_date"]];
                         [endDateArr addObject:[[arrValues objectAtIndex:j] valueForKey:@"end_date"]];
@@ -687,8 +656,4 @@ UIBarButtonItem *revealButtonItem;;
     [self.monthView reloadData];
     [self.tableView reloadData];
 }
-
-
-
-
 @end

@@ -181,7 +181,7 @@
             if ([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 [arrAnnouncements removeAllObjects];
-                 [SingletonClass RemoveActivityIndicator:self.view];
+                [SingletonClass RemoveActivityIndicator:self.view];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 self.navigationItem.leftBarButtonItem.enabled=YES;
 
@@ -241,15 +241,12 @@
                     
                 }
                 switch (userInfo.userType) {
-                        
-                    case 1:
+                  case 1:
                     {
                         [tblAnnouncementRecods reloadData];
-                        
                         break;
                     }
-                        
-                    case 2:
+                 case 2:
                     {
                         [tblUpdatesRecods reloadData];
                         break;
@@ -259,15 +256,12 @@
             }else
             {
                 [SingletonClass RemoveActivityIndicator:self.view];
-
                 [SingletonClass initWithTitle:@"" message:@"No Data Found !" delegate:nil btn1:@"Ok"];
-                
                 [self getList];
                 
             }
             break;
         }
-            
     }
 }
 - (void)getList
@@ -283,7 +277,9 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceSearchAnnouncement :strURL :getAnnouncementTag];
+   
     }else{
+        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
@@ -297,15 +293,12 @@
         webservice.delegate=self;
         
        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{\"name\":\"%@\",\"date\":\"%@\"}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,[searchText lowercaseString],@""];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceSearchAnnouncement :strURL :searchAnnouncementTag];
         
     }else{
         
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 
@@ -355,7 +348,6 @@
         self.title = @"Announcements";
         tblAnnouncementRecods.hidden=NO;
     }else{
-        
         self.title = @"Announcements";
         tblUpdatesRecods.hidden=NO;
     }
@@ -374,15 +366,12 @@
                 tblAnnouncementRecods.delegate=self;
                 tblAnnouncementRecods.dataSource=self;
                 [tblAnnouncementRecods reloadData];
-                
                 break;
             }
-                
             case 2:
             {
                 tblUpdatesRecods.delegate=self;
                 tblUpdatesRecods.dataSource=self;
-                
                 [tblUpdatesRecods reloadData];
                 break;
             }
@@ -390,8 +379,6 @@
     }
     
 }
-
-
 -(void)CerateLayOut
 {
     switch (userInfo.userType)
@@ -404,7 +391,6 @@
             SearchBar.hidden=NO;
              break;
         }
-       
         case 2:
         {
             tblAnnouncementRecods.hidden=YES;
@@ -471,10 +457,8 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 }
 -(void)doneClicked
 {
-    
     [currentText resignFirstResponder];
     [self setToolbarVisibleAt:CGPointMake(160, self.view.bounds.size.height+50)];
-    
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 }
 -(void)setToolbarVisibleAt:(CGPoint)point
@@ -482,9 +466,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
-    
     [self.view viewWithTag:40].center = point;
-    
     [UIView commitAnimations];
 }
 
@@ -507,8 +489,8 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     static NSString *CellNib = @"AnnouncementCell";
     
     AnnouncementCell *cell = (AnnouncementCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     if (cell == nil) {
+        
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (AnnouncementCell *)[nib objectAtIndex:0];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -521,7 +503,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     // Show desending order data of array
    
     int DesendingIndex=(int)(indexPath.section);
-    
     cell.lblSenderName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"sender"];
     cell.lblSenderName.font=SmallTextfont;
     
@@ -535,7 +516,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     
     cell.lblAnnoDate.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"schedule_date"] ?[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_date"] :@"" ;
     cell.lblAnnoDate.font=SmallTextfont;
-    
     cell.lblAnnoDate.tag=12;
     
     NSArray *arrtemp=[notificationData valueForKey:@"announcements"];
@@ -544,7 +524,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         if ([arrtemp containsObject:[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"id"]]) {
             cell.lblSenderName.font=[UIFont boldSystemFontOfSize:cell.lblSenderName.font.pointSize];
             cell.lblAnnoName.font=[UIFont boldSystemFontOfSize:cell.lblAnnoName.font.pointSize];
-            // cell.backgroundColor=[UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1];
         }else{
             cell.backgroundColor=[UIColor whiteColor];
         }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Notes">
+            <connections>
+                <outlet property="searchBar" destination="Xav-1h-Thf" id="Tv8-ML-Cx2"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <searchBar contentMode="redraw" placeholder="Search notes by,name,date,month,anything" translatesAutoresizingMaskIntoConstraints="NO" id="Xav-1h-Thf">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="R1F-90-zbz"/>
+                    </connections>
+                </searchBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dik-hX-QSh">
+                    <rect key="frame" x="0.0" y="44" width="320" height="433"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="FzP-gH-O48"/>
+                        <outlet property="delegate" destination="-1" id="VYu-hy-a2C"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ahi-I1-8N0">
+                    <rect key="frame" x="0.0" y="477" width="320" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="FBg-L6-ufj"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Xav-1h-Thf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="N2q-lO-CTh"/>
+                <constraint firstItem="Ahi-I1-8N0" firstAttribute="top" secondItem="dik-hX-QSh" secondAttribute="bottom" id="N5o-Tp-mGI"/>
+                <constraint firstItem="Xav-1h-Thf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="QaT-SD-bCE"/>
+                <constraint firstAttribute="trailing" secondItem="dik-hX-QSh" secondAttribute="trailing" id="XNy-8F-Yxk"/>
+                <constraint firstItem="dik-hX-QSh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="bHQ-Yn-Nbb"/>
+                <constraint firstItem="dik-hX-QSh" firstAttribute="top" secondItem="Xav-1h-Thf" secondAttribute="bottom" id="gZI-6i-D0Z"/>
+                <constraint firstAttribute="bottom" secondItem="Ahi-I1-8N0" secondAttribute="bottom" id="jdS-IY-kJD"/>
+                <constraint firstAttribute="trailing" secondItem="Xav-1h-Thf" secondAttribute="trailing" id="mvG-U3-FRs"/>
+                <constraint firstItem="Ahi-I1-8N0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sid-sC-kNF"/>
+                <constraint firstAttribute="trailing" secondItem="Ahi-I1-8N0" secondAttribute="trailing" id="vw5-1Y-DJL"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-2" y="-51"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

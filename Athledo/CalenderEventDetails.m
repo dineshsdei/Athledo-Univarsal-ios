@@ -44,9 +44,7 @@
     [btnEdit addTarget:self action:@selector(editEventDetails) forControlEvents:UIControlEventTouchUpInside];
     [btnEdit setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
-    
     self.navigationItem.rightBarButtonItem = ButtonItem;
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     
@@ -83,11 +81,8 @@
         if (str.length > 0) {
             
             int event_length=[[_eventDetailsDic valueForKey:@"event_length"] intValue];
-            
             NSDate *enddate=[startdate dateByAddingTimeInterval:event_length];
-            
             _lblEndDate.text=[df stringFromDate:enddate];
-            
             const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
             if (c[0]=='d') {
                 _lblRepeat.text=@"Daily";
@@ -110,7 +105,6 @@
             NSArray *arrTemp=[_objNotificationData valueForKey:@"events"];
             if ([arrTemp containsObject:[_eventDetailsDic valueForKey:@"event_id"]])
             {
-                
                 [self DeleteNotificationFromWeb];
             }
         }
@@ -121,7 +115,6 @@
     if ([CalendarEvent ShareInstance].strRepeatSting.length > 0) {
         
         NSString *str=[CalendarEvent ShareInstance].strRepeatSting;
-        
         const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
         if (c[0]=='d') {
             _lblRepeat.text=@"Daily";
@@ -149,9 +142,7 @@
         if (_objNotificationData) {
             
             UserInformation *userInfo= [UserInformation shareInstance];
-            
             NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",2,[[_eventDetailsDic valueForKey:@"event_id"] intValue],userInfo.userSelectedTeamid,userInfo.userId];
-            
             [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
         }
         

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddNotes">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="VrV-Ry-lDW">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="478"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Reu-0x-9bd"/>
+                        <outlet property="delegate" destination="-1" id="j1t-rU-8yF"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="73X-wD-iW5">
+                    <rect key="frame" x="0.0" y="477" width="320" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="Fz8-AP-9Pp"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="VrV-Ry-lDW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0zF-hp-ubG"/>
+                <constraint firstAttribute="bottom" secondItem="73X-wD-iW5" secondAttribute="bottom" id="DaJ-h9-maR"/>
+                <constraint firstAttribute="trailing" secondItem="VrV-Ry-lDW" secondAttribute="trailing" id="S1m-he-pg2"/>
+                <constraint firstAttribute="bottom" secondItem="VrV-Ry-lDW" secondAttribute="bottom" constant="2" id="YCi-pG-orO"/>
+                <constraint firstItem="VrV-Ry-lDW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ael-bh-NSm"/>
+                <constraint firstAttribute="trailing" secondItem="73X-wD-iW5" secondAttribute="trailing" id="bj7-ck-Ri3"/>
+                <constraint firstItem="73X-wD-iW5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="m4Z-eg-Tgx"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="130" y="104"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

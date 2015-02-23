@@ -65,10 +65,10 @@
     
     CGPoint tapLocation = [recognizer locationInView:self.dashboardTableView];
     NSIndexPath *indexPath = [self.dashboardTableView indexPathForRowAtPoint:tapLocation];
-    NSLog(@"%d",CellHeight);
-     NSLog(@"%f",tapLocation.y );
-    NSLog(@"%d",((tapLocation.y) / CellHeight) );
-     NSLog(@"%d",indexPath.row);
+   // NSLog(@"%d",CellHeight);
+    // NSLog(@"%f",tapLocation.y );
+   // NSLog(@"%d",((tapLocation.y) / CellHeight) );
+     //NSLog(@"%d",indexPath.row);
     int touchlocation=tapLocation.y;
     int cellheight=CellHeight;
     int cellNO=(touchlocation /cellheight ) ;
@@ -80,7 +80,7 @@
     if (isPush==FALSE) {
     isPush=TRUE;
     @try {
-        NSLog(@"%d",indexPath.row);
+        //NSLog(@"%d",indexPath.row);
          NSLog(@"%@",[UserInformation shareInstance].arrUserTeam);
       
     NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:indexPath.row] ;
@@ -148,8 +148,6 @@
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     //[cell.contentView setUserInteractionEnabled:NO];
     }
-
-
     cell.teamName.textColor=[UIColor lightGrayColor];
     // [cell.teamName setFont:[UIFont boldSystemFontOfSize:15]];
     [cell.teamLogo setImageWithURL:[NSURL URLWithString:[[[UserInformation shareInstance].arrUserTeam objectAtIndex:indexPath.row] objectForKey:@"team_logo"] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];

@@ -5,7 +5,7 @@
 //  Created by Dinesh on 20/07/14.
 //  Copyright (c) 2014 Dinesh. All rights reserved.
 //
-
+#import "Notes.h"
 #import "MenuListView.h"
 #import "ProfileView.h"
 #import "DashBoard.h"
@@ -97,21 +97,17 @@
         //  cell.backgroundView =  [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"viewBg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
         cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"Cell_Bg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
         
-        
         UILabel *profileLbl=[[UILabel alloc] initWithFrame:CGRectMake(60,(cell.frame.size.height/2)-(isIPAD ? 5: 15),200,30)];
         profileLbl.textAlignment=NSTextAlignmentLeft;
         profileLbl.tag=100;
-        
         profileLbl.font=[UIFont boldSystemFontOfSize:18];
         profileLbl.textColor=[UIColor lightGrayColor];
         profileLbl.backgroundColor=[UIColor clearColor];
-        
         [cell addSubview:profileLbl];
         
         UILabel *lblShowUpdate=[[UILabel alloc] initWithFrame:CGRectMake(200,(cell.frame.size.height/2)-(isIPAD ? 0: 10),40,20)];
         lblShowUpdate.textAlignment=NSTextAlignmentCenter;
         lblShowUpdate.tag=110;
-        
         lblShowUpdate.font=[UIFont boldSystemFontOfSize:13];
         lblShowUpdate.textColor=[UIColor lightGrayColor];
         lblShowUpdate.backgroundColor=[UIColor colorWithRed:148/255.0 green:18/255.0 blue:27/255.0 alpha:1];
@@ -131,7 +127,6 @@
     switch (indexPath.row) {
         case 0:
         {
-            
             lblShowUpdate.hidden=NO;
             NSArray *arrTemp=[notificationData valueForKey:@"announcements"];
             if (arrTemp.count > 0)
@@ -144,7 +139,6 @@
         case 1:
         {
             lblShowUpdate.hidden=NO;
-            
             NSArray *arrTemp=[notificationData valueForKey:@"workouts"];
             if (arrTemp.count > 0)
                 lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
@@ -166,7 +160,6 @@
         case 3:
         {
             lblShowUpdate.hidden=NO;
-            
             NSArray *arrTemp=[notificationData valueForKey:@"events"];
             if (arrTemp.count > 0)
                 lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
@@ -216,15 +209,14 @@
     NSInteger row = indexPath.row;
     
     // Here you'd implement some of your own logic... I simply take for granted that the first row (=0) corresponds to the "FrontViewController".
-    if (row == 10)
+    if (row == 5)
     {
         // Now let's see if we're not attempting to swap the current frontViewController for a new instance of ITSELF, which'd be highly redundant.
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] )
         {
-            ProfileView *frontViewController = [[ProfileView alloc] init];
+            //ProfileView *frontViewController = [[ProfileView alloc] init];
+            Notes *frontViewController = [[Notes alloc] init];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
-            
-            // [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             
@@ -236,10 +228,7 @@
         {
             [revealController revealToggleAnimated:YES];
         }
-    }
-    
-    
-    else if (row == 0)
+    }else if (row == 0)
     {
         // Now let's see if we're not attempting to swap the current frontViewController for a new instance of ITSELF, which'd be highly redundant.
         if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] )
@@ -250,8 +239,6 @@
             //[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
-            
-            
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         
@@ -274,8 +261,6 @@
     
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
-            
-            
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         // Seems the user attempts to 'switch' to exactly the same controller he came from!
@@ -283,13 +268,9 @@
         {
             [revealController revealToggleAnimated:YES];
         }
-        
-        
-        //[revealController setFrontViewPosition:FrontViewPositionRightMost animated:YES];
     }
     else if (row == 2)
     {
-        
         if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
         {
             MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
@@ -298,8 +279,6 @@
             // [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
-            
-            
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         
@@ -361,8 +340,6 @@
             // [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
-            
-            
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         // Seems the user attempts to 'switch' to exactly the same controller he came from!
@@ -481,8 +458,6 @@
     userInfo=[UserInformation shareInstance];
 
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
-
-
     switch (userInfo.userType) {
     case 1:
     arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
@@ -516,9 +491,6 @@
 }
 
 #pragma mark - Data generators
-
-
-
 - (void)viewDidLoad
 {
     if (isIPAD) {
@@ -577,13 +549,8 @@
         UIViewController *controller = grandParentRevealController;
         while( nil != (controller = [controller revealViewController]) )
             level++;
-        
         NSString *title = [NSString stringWithFormat:@"Detail Level %ld", (long)level];
-        
         [self.navigationController.navigationBar addGestureRecognizer:grandParentRevealController.panGestureRecognizer];
-        
-        
-        
         self.navigationItem.leftBarButtonItem = revealButtonItem;
         self.navigationItem.title = title;
     }
@@ -598,9 +565,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(ChangeOrientation)
                                                  name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
+                                            object:nil];
       }
-    
 }
 
 -(void)ChangeOrientation

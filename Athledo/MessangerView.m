@@ -221,21 +221,15 @@
     
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
     messageArrDic=[[NSArray alloc] init];
-
     table.allowsMultipleSelectionDuringEditing = YES;
     
-  UIButton  *btnCompose = [[UIButton alloc] initWithFrame:CGRectMake(160, 5, 25, 25)];
+    UIButton  *btnCompose = [[UIButton alloc] initWithFrame:CGRectMake(160, 5, 25, 25)];
     UIImage *imageEdit=[UIImage imageNamed:@"compose_icon.png"];
-
     [btnCompose addTarget:self action:@selector(ComposeMessage:) forControlEvents:UIControlEventTouchUpInside];
     [btnCompose setBackgroundImage:imageEdit forState:UIControlStateNormal];
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnCompose];
-    
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    
     
     SWRevealViewController *revealController = [self revealViewController];
     
@@ -316,11 +310,6 @@
         
     }
    
-    
-//    cell.lblReceivingDate.textColor=[UIColor lightGrayColor];
-//    cell.lblSenderName.textColor=[UIColor lightGrayColor];
-//    cell.lblDescription.textColor=[UIColor lightGrayColor];
-    
     if ([[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"is_read"] intValue] == 1)
     {
         //cell.imgStatus.image=[UIImage imageNamed:@"check.png"];
@@ -330,24 +319,18 @@
     {    cell.lblSenderName.font = [UIFont boldSystemFontOfSize:15];
     }
    
-    UIImageView *img1;
-    if (isIPAD) {
-        img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-3, cell.frame.size.width, 1)];
-
-    }else{
-       img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-3, cell.frame.size.width, 1)];
-    }
-      img1.image=[UIImage imageNamed:@"menu_sep.png"];
-    
-    
+//    UIImageView *img1;
+//    if (isIPAD) {
+//        img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-3, cell.frame.size.width, 1)];
+//
+//    }else{
+//       img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-3, cell.frame.size.width, 1)];
+//    }
+//      img1.image=[UIImage imageNamed:@"menu_sep.png"];
+//    //[cell addSubview:img1];
 
     cell.rightUtilityButtons = [self rightButtons : indexPath.section];
      cell.delegate=self;
-
-    
-    //[cell addSubview:img1];
-    
-    
     
     cell.backgroundColor=[UIColor clearColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -404,7 +387,6 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     
    NSArray *arrButtons=cell.rightUtilityButtons;
-    
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:0];
 
     switch (index) {
@@ -511,7 +493,6 @@
             if (Status==FALSE)
             {
                 SentItemsView *compose=[[SentItemsView alloc] initWithNibName:@"SentItemsView" bundle:nil];
-                
                 [self.navigationController pushViewController:compose animated:NO];
             }
 

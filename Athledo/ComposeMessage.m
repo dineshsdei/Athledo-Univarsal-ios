@@ -63,11 +63,9 @@
 {
     NSArray *arrKeys=[pickerData allKeys];
     NSArray *arrValues=[pickerData allValues];
-    
     NSString *values=@"";
     
     for (int i=0; i<arrValues.count; i++) {
-        
         if ([[arrValues objectAtIndex:i] intValue]==1)
         {
             if (i < arrValues.count)
@@ -76,54 +74,35 @@
             }
             values=[values stringByAppendingString:@","];
         }
-        
     }
-    
     if (values.length > 0) {
         
         values=[values stringByReplacingCharactersInRange:NSMakeRange(values.length-1, 1) withString:@""];
     }
-    
-    
     return values;
 }
 
 -(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey
-
 {
     NSArray *arrValues=[[userToData objectForKey:superKey] allValues];
-    
     NSArray *arrkeys=[[userToData objectForKey:superKey] allKeys];
-    
     NSString *strValue=@"";
-    
     for (int i=0; i<arrValues.count; i++) {
-        
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
             strValue=[arrkeys objectAtIndex:i];
-            
             break;
-            
         }
-        
     }
     return strValue;
-    
 }
-
-
 -(void)WebServiceComposeMessage
 {
-    
     if (receiver_ids.length > 0) {
-        
         receiver_ids=[receiver_ids stringByReplacingCharactersInRange:NSMakeRange(receiver_ids.length-1, 1) withString:@""];
     }
-    
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         //Check for empty Text box
         NSString *strError = @"";
         if(_txtType.text.length < 1 )
@@ -142,39 +121,25 @@
             [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
             return;
         }
-        
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"option_id\":\"%d\",\"user_id\":\"%d\",\"team_id\":\"%d\",\"receiver_id\":\"%@\",\"description\":\"%@\"}",option_id,userInfo.userId,userInfo.userSelectedTeamid,receiver_ids,[self.textviewDesc.text stringByReplacingOccurrencesOfString:@"\n" withString:@"" ]];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceComposeMessage :strURL :sendMessageTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 
 
 -(void)getUser:(int)optionId{
-    
     if ([SingletonClass  CheckConnectivity])
     {
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"option_id\":\"%d\",\"user_id\":\"%d\",\"team_id\":\"%d\"}",optionId,userInfo.userId,userInfo.userSelectedTeamid];
-        
         //[SingaltonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceGetUserType :strURL :getUserTypeTag];
-        
     }else
     {
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 
@@ -194,27 +159,18 @@
                 userToData=[MyResults objectForKey:@"data"];
                 [ToDataArray removeAllObjects];
                 [ToSelectedData removeAllObjects];
-                
-                
                 if (userToData.count > 0) {
-                    
                     [ToDataArray addObjectsFromArray:[userToData allValues] ];
-                    
                     for (int i=0; i< ToDataArray.count; i++) {
-                        
                         [ToSelectedData setObject:[NSNumber numberWithBool:NO] forKey:[ToDataArray objectAtIndex:i]];
                     }
                 }else{
-                    
                     //  [SingaltonClass initWithTitle:@"" message:@"Data Not Found!" delegate:nil btn1:@"Ok"];
                 }
             }
-            
             break;
-            
-        } case sendMessageTag:
+        }case sendMessageTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                 _txtType.text=@"";
@@ -245,7 +201,6 @@
 -(void)viewWillLayoutSubviews
 {
     if (isUserType) {
-        
     [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
     }
 }
@@ -256,9 +211,9 @@
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
+    
     CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
     if (isIPAD) {
-        
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
         [pickerView removeFromSuperview];
@@ -270,7 +225,6 @@
         }else{
             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 768,216)];
         }
-        
         pickerView.backgroundColor=[UIColor whiteColor];
         pickerView.tag=60;
         pickerView.delegate=self;
@@ -288,8 +242,6 @@
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
     }
-
-    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
@@ -298,23 +250,15 @@
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
       
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            
             if (iosVersion < 8) {
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
             }else{
-                
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
             }
-            
-            
         }completion:^(BOOL finished){
-            
         }];
-
-        
-        
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -331,12 +275,7 @@
         }completion:^(BOOL finished){
             
         }];
-
-        
     }];
-    
-    
-    
     strUser=@"";
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
@@ -358,17 +297,16 @@
     _textviewDesc.text=@"Enter Text";
     _textviewDesc.textColor=[UIColor lightGrayColor];
     _textviewDesc.layer.cornerRadius = 5;
-    _textviewDesc.layer.borderWidth=.50;
-    _textviewDesc.layer.borderColor=[UIColor lightGrayColor].CGColor;
+    _textviewDesc.layer.borderWidth = .50;
+    _textviewDesc.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _textviewDesc.clipsToBounds = YES;
-    
     _textviewDesc.textContainerInset = UIEdgeInsetsMake(15, 15, 0, 20);
     
     ToSelectedData = [[NSMutableDictionary alloc] init];
-    ToDataArray=[[NSMutableArray alloc]init];
+    ToDataArray = [[NSMutableArray alloc]init];
     
-    arrUserType=[[NSArray alloc] initWithObjects:@"Coach",@"Manager",@"Athlete",@"Alumni",@"Team",@"Groups", nil];
-    arrUserTypeCode=[[NSArray alloc] initWithObjects:@"1",@"6",@"2",@"3",@"4",@"5", nil];
+    arrUserType = [[NSArray alloc] initWithObjects:@"Coach",@"Manager",@"Athlete",@"Alumni",@"Team",@"Groups", nil];
+    arrUserTypeCode = [[NSArray alloc] initWithObjects:@"1",@"6",@"2",@"3",@"4",@"5", nil];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = NSLocalizedString(@"New Message", @"");
@@ -390,8 +328,6 @@
     _textviewDesc.layer.borderColor=(__bridge CGColorRef)([UIColor lightTextColor]);
     _textviewDesc.layer.borderWidth=2;
     
-    
-    
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+350, self.view.frame.size.width,216);
     listPicker.tag=listPickerTag;
     listPicker.delegate=self;
@@ -400,25 +336,23 @@
     
     UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     if (isIPAD) {
+        
         if(orientation == UIDeviceOrientationLandscapeRight ||orientation == UIDeviceOrientationLandscapeLeft)
         {
             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 1024,216)];
         }else{
             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, 768,216)];
         }
+   
     }else{
          pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height+350, self.view.frame.size.width,216)];
     }
-    
     pickerView.backgroundColor=[UIColor whiteColor];
     pickerView.tag=MultipleSelectionPickerTag;
     pickerView.delegate=self;
     //pickerView.dataSource=self;
     [self.view addSubview:pickerView];
-    
-    
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
-    
     toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width,44)];
     toolBar.tag = toolBarTag;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
@@ -427,16 +361,12 @@
     
     // Static data 1 passed, because
     [self getUser:[@"1" intValue]];
-    
 }
-
-
 #pragma mark setcontent offset
  // Scroll to cell
 - (void)setContentOffset:(id)textField :(UIScrollView*)ScrollView {
     
     UIView* txt = textField;
-   
     int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
     scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
     
@@ -476,9 +406,6 @@
     
     isUserType=[textField.placeholder isEqualToString:@"Select User Type"] ? YES : NO ;
     isTo=[textField.placeholder isEqualToString:@"To"] ? YES : NO ;
-    
-    
-    
     if ([textField.placeholder isEqualToString:@"To"]) {
          [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
@@ -518,21 +445,16 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
-    
     return YES;
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     
     if ([textView.text isEqualToString:@"Enter Text" ]) {
-        
         [textView setText:@""];
         textView.textColor=[UIColor blackColor];
     }
     if (isIPAD) {
-        
-        
     }else
     {
         [self setContentOffset:textView :m_ScrollView];
@@ -551,7 +473,6 @@
     if([text isEqualToString:@"\n"]) {
         noOfLine++;
     }
-    
     if (noOfLine==15) {
         
     }
@@ -575,7 +496,6 @@
         // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
         point.y=self.view.frame.size.height+(pickerView.frame.size.height/2);
     }
-    
     [self.view viewWithTag:MultipleSelectionPickerTag].center = point;
     [UIView commitAnimations];
 }
@@ -606,9 +526,7 @@
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
-    
     [self.view viewWithTag:toolBarTag].center = point;
-    
     [UIView commitAnimations];
 }
 
@@ -724,21 +642,16 @@
 {
     NSArray *arrKeys=[userData allKeys];
     NSArray *arrValues=[pickerData allValues];
-    
     NSString *values=@"";
-    
     for (int i=0; i<arrKeys.count; i++)
     {
-        
         if ([[arrValues objectAtIndex:i] intValue]==1)
         {
             if (i < arrValues.count )
                 values =[values stringByAppendingString:[NSString stringWithFormat:@"%@,", arrKeys[i] ] ];
             else
                 values =[values stringByAppendingString:[NSString stringWithFormat:@"%@", arrKeys[i] ] ];
-            
         }
-        
     }
     return values;
 }
@@ -768,9 +681,7 @@
 }
 
 - (IBAction)SendMessage:(id)sender {
-    
     [SingletonClass ShareInstance].isMessangerSent =TRUE;
-    
     [self WebServiceComposeMessage];
     
 }

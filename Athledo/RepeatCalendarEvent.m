@@ -51,13 +51,10 @@ UIDeviceOrientation CurrentOrientation;
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
     
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-    
     NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
-    
     if (scrollHeight==0) {
         scrollHeight=216;
     }
-    
     CGSize keyboardSize = CGSizeMake(320,scrollHeight+70);
     UIEdgeInsets contentInsets;
     if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
@@ -65,7 +62,6 @@ UIDeviceOrientation CurrentOrientation;
     } else {
         contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
     }
-    
     m_TableView.contentInset = contentInsets;
     m_TableView.scrollIndicatorInsets = contentInsets;
     [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -75,13 +71,10 @@ UIDeviceOrientation CurrentOrientation;
 -(void)SpliteEventString:(NSString *)strEventString
 {
     NSArray *arrStrTemp=[strEventString componentsSeparatedByString:@"#"];
-    
     //NSString *strBeforeHash=[arrStrTemp objectAtIndex:0];
     NSString *strAfterHash=[arrStrTemp objectAtIndex:1];;
-    
     NSCharacterSet *delimiters = [NSCharacterSet characterSetWithCharactersInString:@"_#"];
     NSArray *components = [strEventString componentsSeparatedByCharactersInSet:delimiters];
-    
     
     if ([[components objectAtIndex:0] isEqualToString:@"day"]) {
         strRepeatEvent=@"Daily";
@@ -197,8 +190,7 @@ UIDeviceOrientation CurrentOrientation;
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
-                                                     name:UIDeviceOrientationDidChangeNotification
-                                                   object:nil];
+                                                     name:UIDeviceOrientationDidChangeNotification object:nil];
     }
 }
 - (void)viewDidLoad
@@ -246,8 +238,6 @@ UIDeviceOrientation CurrentOrientation;
         }];
         
     }];
-    
-    
     scrollHeight=0;
     segment.selected=NO;
     
@@ -270,9 +260,7 @@ UIDeviceOrientation CurrentOrientation;
         }
         
         arrEventSting=[[NSMutableArray alloc] init];
-        
         [self SpliteEventString:str];
-        
         const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
         if (c[0]=='d') {
             strRepeatEvent=@"Daily";
@@ -328,10 +316,7 @@ UIDeviceOrientation CurrentOrientation;
     
     arrDays=[[NSArray alloc] initWithObjects:@"Sunday",@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday", nil];
     arrMonths=[[NSArray alloc] initWithObjects:@"January",@"February",@"March",@"April",@"May",@"June",@"July",@"August",@"September",@"October",@"November",@"December", nil];
-    
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
-    
-    
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
    toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 44)];
@@ -456,7 +441,6 @@ UIDeviceOrientation CurrentOrientation;
             [self.navigationController popToViewController:temp animated:NO];
         }
     }
-    
     if (Status==FALSE)
     {
         AddCalendarEvent *annView=[[AddCalendarEvent alloc] init];
@@ -464,8 +448,6 @@ UIDeviceOrientation CurrentOrientation;
         [self.navigationController pushViewController:annView animated:NO];
         
     }
-    
-    
 }
 
 -(void)didTapOnTableView:(UIGestureRecognizer*) recognizer {
@@ -1101,7 +1083,6 @@ UIDeviceOrientation CurrentOrientation;
         tempcell=(RepeatEventCell *)[self.tableview cellForRowAtIndexPath:indexpath];
         
     }else{
-        
         tempcell=(RepeatEventCell *)[[textfield superview] superview]  ;
     }
     
@@ -1111,16 +1092,14 @@ UIDeviceOrientation CurrentOrientation;
         
         if ([eventType isEqualToString:@"Daily"])
         {
-            
             UIButton *btnOne=(UIButton *)[tempcell viewWithTag:1000];
             UITextField *textfield=(UITextField *)[tempcell viewWithTag:1001];
             UIButton *btnTwo=(UIButton *)[tempcell viewWithTag:1002];
             
             if (btnOne.selected==YES && textfield.text.length > 0)
             {
-                
                 [arrEventSting replaceObjectAtIndex:0 withObject:@"day_"];
-                 [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
+                [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
                 [arrEventSting replaceObjectAtIndex:1 withObject:textfield.text];
                 
                 if (arrEventSting.count > 5 && [[arrEventSting objectAtIndex:5] isEqualToString:@"1,2,3,4,5"])
@@ -1180,7 +1159,6 @@ UIDeviceOrientation CurrentOrientation;
                 
             }else
             {
-                
                 long location=strTemp.length;
                 strTemp=[strTemp substringWithRange: NSMakeRange(0, location-1) ];
                 [arrEventSting replaceObjectAtIndex:5 withObject:strTemp];
@@ -1224,8 +1202,6 @@ UIDeviceOrientation CurrentOrientation;
                 
                 [self CalculateStartDate_On_Given_WeekDay:textfieldFour.text :[CalendarEvent ShareInstance].strActualStartDate];
             }
-            
-            
         }else if ([eventType isEqualToString:@"Yearly"])
         {
             [arrEventSting removeAllObjects];
@@ -1237,8 +1213,6 @@ UIDeviceOrientation CurrentOrientation;
             UITextField *textfieldFour=(UITextField *)[tempcell viewWithTag:5005];
             UITextField *textfieldFive=(UITextField *)[tempcell viewWithTag:5006];
             // UITextField *textfieldSix=(UITextField *)[tempcell viewWithTag:4007];
-            
-            
             if (btnCheckBoxOne.selected==YES) {
                 
                 NSString *str=@"";
@@ -1251,7 +1225,6 @@ UIDeviceOrientation CurrentOrientation;
                 
                 [self SpliteEventString:str];
                 [arrEventSting replaceObjectAtIndex:0 withObject:@"year_"];
-                
                 [self CalculateStartDate_On_Given_MonthDay_YearlyCase:[textfieldOne.text intValue]:[self IndexOfMonth:textfieldTwo.text ]];
                 
             }else{
@@ -1283,7 +1256,6 @@ UIDeviceOrientation CurrentOrientation;
         UITextField *textfieldOne=(UITextField *)[tempcell viewWithTag:2002];
         UITextField *textfieldTwo=(UITextField *)[tempcell viewWithTag:2004];
         if (btnOne.selected==YES) {
-            
             [arrEventSting replaceObjectAtIndex:arrEventSting.count-1 withObject:@"no"];
         }else if (btnTwo.selected==YES && textfieldOne.text.length > 0)
         {
@@ -1293,9 +1265,7 @@ UIDeviceOrientation CurrentOrientation;
             [arrEventSting replaceObjectAtIndex:arrEventSting.count-1 withObject:@""];
             strSelectedEndDate=textfieldTwo.text;
         }
-        
     }
-    
 }
 
 -(NSString *)CalculateDateFronStartDate_YearlyCase :(int)nth_Day
@@ -1458,12 +1428,9 @@ UIDeviceOrientation CurrentOrientation;
         }
         else
         {
-            
             NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
             [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
-            
             NSString *dayName=[arrEventSting objectAtIndex:3];
-            
             NSString *DayNumber=dayName ;
             NSString *nth_Week=[arrEventSting objectAtIndex:5];
             
@@ -1503,7 +1470,6 @@ UIDeviceOrientation CurrentOrientation;
         }
         else
         {
-            
             NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
             [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
             
@@ -1518,8 +1484,6 @@ UIDeviceOrientation CurrentOrientation;
             NSDate *date=[formatter dateFromString:dateAfterInterval];
             [formatter setDateFormat:DATE_FORMAT_Y_M_D];
             NSArray *dateComponents=[[formatter stringFromDate:date] componentsSeparatedByString:@"-"];
-            
-            
             NSDateComponents *components = [[NSDateComponents alloc] init];
             components.day=[DayNumber intValue];
             //[components setWeekday:[DayNumber intValue]];                       // on day
@@ -1530,7 +1494,6 @@ UIDeviceOrientation CurrentOrientation;
                                      initWithCalendarIdentifier:NSGregorianCalendar];
             NSDate *EventEndDate = [gregorian dateFromComponents:components];
             [CalendarEvent ShareInstance].strEndDate=[formatter stringFromDate:EventEndDate];
-            
             formatter=nil;
         }
     }
@@ -1568,11 +1531,9 @@ UIDeviceOrientation CurrentOrientation;
             UIButton *btntemp=obj;
             
             if (btntemp.selected==YES) {
-                
                 [btntemp setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
                 btntemp.selected=NO;
             }
-            
         }
     }
     
@@ -1592,7 +1553,6 @@ UIDeviceOrientation CurrentOrientation;
         [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
         btn.selected=YES;
     }
-    
     [self CreateRepeatString:strRepeatEvent :btn.tag :sender];
 }
 
@@ -1633,12 +1593,8 @@ UIDeviceOrientation CurrentOrientation;
     }else{
        
     }
-    
-    
     return YES;
 }
-
-
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     
@@ -1658,9 +1614,6 @@ UIDeviceOrientation CurrentOrientation;
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     return YES;
 }
-
-
 @end

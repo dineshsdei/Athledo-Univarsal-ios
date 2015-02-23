@@ -1250,7 +1250,6 @@ UIDeviceOrientation CurrentOrientation;
     if ([sender isKindOfClass:[CheckboxButton class]])
     {
         CheckboxButton *button=(CheckboxButton*)sender;
-        
         if (button.tag == 1004 && button.selected==YES)
         {
             [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];

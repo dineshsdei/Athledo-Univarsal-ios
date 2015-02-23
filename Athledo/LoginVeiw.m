@@ -72,8 +72,7 @@
                 //[data appendData:[[NSString stringWithFormat: @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"] dataUsingEncoding: NSUTF8StringEncoding]];
                 [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
                 [request setHTTPBody:data];
-                
-                
+
                 [NSURLConnection sendAsynchronousRequest:request
                                                    queue:[NSOperationQueue mainQueue]
                                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -86,12 +85,10 @@
                                            }
                                            
                                        }];
-                
             }else
             {
                 [SingletonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
-                
-            }
+             }
         }
     }else{
         
@@ -133,6 +130,7 @@
                 [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
                 SingletonClass *obj=[SingletonClass ShareInstance];
                 NSDictionary *user=[obj GetUSerSaveData];
+                
                 [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :[team objectForKey:@"team_id"] :[team objectForKey:@"sport_id"]];
                 for (id object in arrController)
                 {
@@ -209,7 +207,6 @@
     if (isIPAD) {
         [AppDelegate restrictRotation:NO];
     }else{
-        
         [AppDelegate restrictRotation:YES];
     }
     
@@ -234,23 +231,19 @@
             frame.origin.y = self.view.frame.origin.y - 2*(currentText.frame.size.height);
             self.view.frame = frame;
         }
-        
         [UIView commitAnimations];
         
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
         [UIView setAnimationCurve:[note.userInfo[UIKeyboardAnimationCurveUserInfoKey]integerValue]];
         [UIView setAnimationBeginsFromCurrentState:YES];
-        
         // Frame Update
         CGRect frame = self.view.frame;
         frame.origin.y = 0;
         self.view.frame = frame;
-        
         [UIView commitAnimations];
         
     }];
@@ -276,9 +269,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    
     if(cell== nil)
     {
         cell =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -307,13 +298,10 @@
         
         UIColor *color = [UIColor lightGrayColor];
         txtFieldUserId.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName: color}];
-        
         cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
-        
         /// set the Email text if any available
-        
         txtFieldUserId.backgroundColor = [UIColor clearColor];
-        //        txtFieldUserId.textColor=[UIColor whiteColor];
+        // txtFieldUserId.textColor=[UIColor whiteColor];
         txtFieldUserId.clearButtonMode = UITextFieldViewModeWhileEditing;
         txtFieldUserId.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         txtFieldUserId.font=Textfont;
@@ -339,20 +327,15 @@
         txtFieldPassword.clearButtonMode = UITextFieldViewModeWhileEditing;
         txtFieldPassword.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         txtFieldPassword.font=Textfont;
-        //        txtFieldPassword.textColor=[UIColor whiteColor];
-        
-        [cell addSubview:txtFieldPassword];
+       [cell addSubview:txtFieldPassword];
         cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
         
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-    
-    
-    txtFieldUserId.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] :@"";
+     txtFieldUserId.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] :@"";
     
     txtFieldPassword.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] :@"";
-    
     
     return cell;
 }
@@ -394,11 +377,8 @@
 - (IBAction)ForgotPasswordClick:(id)sender {
     
     NSArray *arrController=[self.navigationController viewControllers];
-    
     BOOL Status=FALSE;
-    
     for (id object in arrController) {
-        
         if ([object isKindOfClass:[ForgotPassword class]])
         {
             Status=TRUE;
@@ -409,7 +389,6 @@
     if (Status==FALSE)
     {
         ForgotPassword *forgotPw=[[ForgotPassword alloc] init];
-        
         [self.navigationController pushViewController:forgotPw animated:NO];
     }
     
