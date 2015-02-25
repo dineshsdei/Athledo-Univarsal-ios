@@ -260,14 +260,14 @@
 		71A53DB81A35D2FB00463864 /* AddAthleteHistory~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */; };
 		71A5A32B1A49456900A00298 /* RepeatEventCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A5A32A1A49456900A00298 /* RepeatEventCell~ipad.xib */; };
 		71A6066B1A9AF9D7001BD86B /* Notes.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A606691A9AF9D7001BD86B /* Notes.m */; };
-		71A6066C1A9AF9D7001BD86B /* Notes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A6066A1A9AF9D7001BD86B /* Notes.xib */; };
+		71A6066C1A9AF9D7001BD86B /* Notes~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A6066A1A9AF9D7001BD86B /* Notes~iphone.xib */; };
 		71A606731A9B0979001BD86B /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A606711A9B0979001BD86B /* NoteCell.m */; };
 		71A606741A9B0979001BD86B /* NoteCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A606721A9B0979001BD86B /* NoteCell~iphone.xib */; };
 		71A606791A9B3388001BD86B /* download.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A606781A9B3388001BD86B /* download.png */; };
 		71A6067D1A9B4E98001BD86B /* AddNotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A6067B1A9B4E98001BD86B /* AddNotes.m */; };
-		71A6067E1A9B4E98001BD86B /* AddNotes.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A6067C1A9B4E98001BD86B /* AddNotes.xib */; };
+		71A6067E1A9B4E98001BD86B /* AddNotes~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A6067C1A9B4E98001BD86B /* AddNotes~iphone.xib */; };
 		71A606821A9B57D5001BD86B /* AddNoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A606801A9B57D5001BD86B /* AddNoteCell.m */; };
-		71A606831A9B57D5001BD86B /* AddNoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A606811A9B57D5001BD86B /* AddNoteCell.xib */; };
+		71A606831A9B57D5001BD86B /* AddNoteCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A606811A9B57D5001BD86B /* AddNoteCell~iphone.xib */; };
 		71A63E131A259DFB00D0DA99 /* WorkOutView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */; };
 		71A63E151A25A06D00D0DA99 /* AddWorkOut~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */; };
 		71A63E171A25A29F00D0DA99 /* WorkOutListCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */; };
@@ -290,6 +290,10 @@
 		71A7B5AE197F762100038A15 /* Awards.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A7B5AD197F762100038A15 /* Awards.m */; };
 		71A7B5B1197F770400038A15 /* Sports.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A7B5B0197F770400038A15 /* Sports.m */; };
 		71A7B5B4197F772000038A15 /* AthleteHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A7B5B3197F772000038A15 /* AthleteHistory.m */; };
+		71A7BA841A9C6FF500C75ABA /* Notes~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A7BA831A9C6FF500C75ABA /* Notes~ipad.xib */; };
+		71A7BA861A9C719A00C75ABA /* AddNotes~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A7BA851A9C719A00C75ABA /* AddNotes~ipad.xib */; };
+		71A7BA891A9C732F00C75ABA /* AddNoteCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A7BA871A9C732F00C75ABA /* AddNoteCell~ipad.xib */; };
+		71A7BA8A1A9C732F00C75ABA /* NoteCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A7BA881A9C732F00C75ABA /* NoteCell~ipad.xib */; };
 		71A7BD261A8B77E0001E0263 /* edit~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A7BD241A8B77E0001E0263 /* edit~ipad.png */; };
 		71A7BD271A8B77E0001E0263 /* reassign~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A7BD251A8B77E0001E0263 /* reassign~ipad.png */; };
 		71A7CE371A790FA700A67905 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A7CE341A790FA700A67905 /* back.png */; };
@@ -764,17 +768,17 @@
 		71A5A32A1A49456900A00298 /* RepeatEventCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "RepeatEventCell~ipad.xib"; sourceTree = "<group>"; };
 		71A606681A9AF9D7001BD86B /* Notes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notes.h; sourceTree = "<group>"; };
 		71A606691A9AF9D7001BD86B /* Notes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notes.m; sourceTree = "<group>"; };
-		71A6066A1A9AF9D7001BD86B /* Notes.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Notes.xib; path = Notes/Notes.xib; sourceTree = "<group>"; };
+		71A6066A1A9AF9D7001BD86B /* Notes~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Notes~iphone.xib"; path = "Notes/Notes~iphone.xib"; sourceTree = "<group>"; };
 		71A606701A9B0979001BD86B /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
 		71A606711A9B0979001BD86B /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
 		71A606721A9B0979001BD86B /* NoteCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "NoteCell~iphone.xib"; sourceTree = "<group>"; };
 		71A606781A9B3388001BD86B /* download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download.png; sourceTree = "<group>"; };
 		71A6067A1A9B4E98001BD86B /* AddNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNotes.h; sourceTree = "<group>"; };
 		71A6067B1A9B4E98001BD86B /* AddNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNotes.m; sourceTree = "<group>"; };
-		71A6067C1A9B4E98001BD86B /* AddNotes.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNotes.xib; sourceTree = "<group>"; };
+		71A6067C1A9B4E98001BD86B /* AddNotes~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNotes~iphone.xib"; sourceTree = "<group>"; };
 		71A6067F1A9B57D5001BD86B /* AddNoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNoteCell.h; sourceTree = "<group>"; };
 		71A606801A9B57D5001BD86B /* AddNoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNoteCell.m; sourceTree = "<group>"; };
-		71A606811A9B57D5001BD86B /* AddNoteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNoteCell.xib; sourceTree = "<group>"; };
+		71A606811A9B57D5001BD86B /* AddNoteCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNoteCell~iphone.xib"; sourceTree = "<group>"; };
 		71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutView~ipad.xib"; sourceTree = "<group>"; };
 		71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddWorkOut~iphone.xib"; sourceTree = "<group>"; };
 		71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutListCell~ipad.xib"; sourceTree = "<group>"; };
@@ -806,6 +810,10 @@
 		71A7B5B0197F770400038A15 /* Sports.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sports.m; sourceTree = "<group>"; };
 		71A7B5B2197F772000038A15 /* AthleteHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AthleteHistory.h; sourceTree = "<group>"; };
 		71A7B5B3197F772000038A15 /* AthleteHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AthleteHistory.m; sourceTree = "<group>"; };
+		71A7BA831A9C6FF500C75ABA /* Notes~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Notes~ipad.xib"; sourceTree = "<group>"; };
+		71A7BA851A9C719A00C75ABA /* AddNotes~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNotes~ipad.xib"; sourceTree = "<group>"; };
+		71A7BA871A9C732F00C75ABA /* AddNoteCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNoteCell~ipad.xib"; sourceTree = "<group>"; };
+		71A7BA881A9C732F00C75ABA /* NoteCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "NoteCell~ipad.xib"; sourceTree = "<group>"; };
 		71A7BD241A8B77E0001E0263 /* edit~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit~ipad.png"; sourceTree = "<group>"; };
 		71A7BD251A8B77E0001E0263 /* reassign~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reassign~ipad.png"; sourceTree = "<group>"; };
 		71A7CE341A790FA700A67905 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back.png; path = ../TabImages/1x/back.png; sourceTree = "<group>"; };
@@ -1768,7 +1776,7 @@
 				71A606691A9AF9D7001BD86B /* Notes.m */,
 				71A6067A1A9B4E98001BD86B /* AddNotes.h */,
 				71A6067B1A9B4E98001BD86B /* AddNotes.m */,
-				71A6067C1A9B4E98001BD86B /* AddNotes.xib */,
+				71A6067C1A9B4E98001BD86B /* AddNotes~iphone.xib */,
 			);
 			path = Notes;
 			sourceTree = "<group>";
@@ -1779,9 +1787,11 @@
 				71A606701A9B0979001BD86B /* NoteCell.h */,
 				71A606711A9B0979001BD86B /* NoteCell.m */,
 				71A606721A9B0979001BD86B /* NoteCell~iphone.xib */,
+				71A7BA881A9C732F00C75ABA /* NoteCell~ipad.xib */,
 				71A6067F1A9B57D5001BD86B /* AddNoteCell.h */,
 				71A606801A9B57D5001BD86B /* AddNoteCell.m */,
-				71A606811A9B57D5001BD86B /* AddNoteCell.xib */,
+				71A606811A9B57D5001BD86B /* AddNoteCell~iphone.xib */,
+				71A7BA871A9C732F00C75ABA /* AddNoteCell~ipad.xib */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -1796,6 +1806,15 @@
 				71A6E76319EFD2C1002416B4 /* MJGeocodingServices.h */,
 			);
 			path = MJGeocoder;
+			sourceTree = "<group>";
+		};
+		71A7BA821A9C6FBF00C75ABA /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				71A7BA831A9C6FF500C75ABA /* Notes~ipad.xib */,
+				71A7BA851A9C719A00C75ABA /* AddNotes~ipad.xib */,
+			);
+			name = Notes;
 			sourceTree = "<group>";
 		};
 		71A8CA3419937A8800B30DF7 /* CustomPicker */ = {
@@ -1822,7 +1841,7 @@
 		71A908EC1A5E895500AFB6AC /* iphone */ = {
 			isa = PBXGroup;
 			children = (
-				71A6066A1A9AF9D7001BD86B /* Notes.xib */,
+				71A6066A1A9AF9D7001BD86B /* Notes~iphone.xib */,
 				71A908ED1A5E8A0400AFB6AC /* Profile */,
 				71A908EE1A5E8A3400AFB6AC /* DashBoard */,
 				71A908F11A5E8AE100AFB6AC /* Multimedia */,
@@ -1858,6 +1877,7 @@
 		71A908EF1A5E8A5400AFB6AC /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				71A7BA821A9C6FBF00C75ABA /* Notes */,
 				71A908FD1A5E8D7500AFB6AC /* Profile */,
 				71A908F01A5E8A6300AFB6AC /* DashBoard */,
 				71A908F21A5E8B0C00AFB6AC /* Multimedia */,
@@ -2323,6 +2343,7 @@
 				71D66E3C1A7BA9C100B75F86 /* login_bg copy.png in Resources */,
 				3D9E04E6197BCF3C005CCB10 /* InfoPlist.strings in Resources */,
 				71E7A9AA1A7A122F00CED0D1 /* map_icon.png in Resources */,
+				71A7BA891A9C732F00C75ABA /* AddNoteCell~ipad.xib in Resources */,
 				71A368FA1A6E1B8E00DDF05C /* mnth_icon2@2x.png in Resources */,
 				71A3696C1A6E1DA300DDF05C /* btnEnable.png in Resources */,
 				71A369011A6E1B8E00DDF05C /* week_icon@2x.png in Resources */,
@@ -2339,11 +2360,12 @@
 				71ADF1C31A70F1B200457FB9 /* bubble-square-outgoing-selected@2x.png in Resources */,
 				71ADF1C81A70F1B200457FB9 /* input-bar.png in Resources */,
 				3D9E04EE197BCF3C005CCB10 /* Images.xcassets in Resources */,
+				71A7BA861A9C719A00C75ABA /* AddNotes~ipad.xib in Resources */,
 				71A461B919F4BF8200CD2C13 /* RepeatCalendarEvent~iphone.xib in Resources */,
 				71A369841A6E1DA400DDF05C /* next.png in Resources */,
 				71A63E1B1A25C81600D0DA99 /* WorkoutHistoryDetails~ipad.xib in Resources */,
 				71A63E271A2605D400D0DA99 /* ArichiveView~ipad.xib in Resources */,
-				71A6066C1A9AF9D7001BD86B /* Notes.xib in Resources */,
+				71A6066C1A9AF9D7001BD86B /* Notes~iphone.xib in Resources */,
 				71A63E211A25E32800D0DA99 /* MessangerView~ipad.xib in Resources */,
 				71A369311A6E1CAD00DDF05C /* message_icon.png in Resources */,
 				71A368FB1A6E1B8E00DDF05C /* photo_icon@2x.png in Resources */,
@@ -2366,7 +2388,7 @@
 				71A368E81A6E1AAD00DDF05C /* Default@2x.png in Resources */,
 				71950FB119C1AFE900B4BF1A /* SentItemsView~iphone.xib in Resources */,
 				71A4173E1A84D4A000A41981 /* deleteBtn~ipad.png in Resources */,
-				71A6067E1A9B4E98001BD86B /* AddNotes.xib in Resources */,
+				71A6067E1A9B4E98001BD86B /* AddNotes~iphone.xib in Resources */,
 				71ADF1C51A70F1B200457FB9 /* bubble-square-outgoing@2x.png in Resources */,
 				71B15ABA1A47CDB1008C0C71 /* DisplayFolderContant.xib in Resources */,
 				71A4173C1A84CC9C00A41981 /* reveal-icon~ipad@2x.png in Resources */,
@@ -2426,9 +2448,11 @@
 				71A369881A6E1DA400DDF05C /* profileBg1.png in Resources */,
 				71A369691A6E1DA300DDF05C /* Athlete.png in Resources */,
 				7195489819D1473900C58994 /* EditGenralInfo~iphone.xib in Resources */,
+				71A7BA8A1A9C732F00C75ABA /* NoteCell~ipad.xib in Resources */,
 				71ADF1C91A70F1B200457FB9 /* input-bar@2x.png in Resources */,
 				3D9E050F197BCF9E005CCB10 /* LoginVeiw~iphone.xib in Resources */,
 				71A369771A6E1DA300DDF05C /* img_brdlist.png in Resources */,
+				71A7BA841A9C6FF500C75ABA /* Notes~ipad.xib in Resources */,
 				71A509F91A8DD42C0060E9B1 /* week_icon1.png in Resources */,
 				71A3691A1A6E1C3A00DDF05C /* edit.png in Resources */,
 				71A63E151A25A06D00D0DA99 /* AddWorkOut~iphone.xib in Resources */,
@@ -2487,7 +2511,7 @@
 				71A368E61A6E1AAD00DDF05C /* Default-568h@2x.png in Resources */,
 				71ADF1B51A70F1B200457FB9 /* bubble-default-incoming-selected@2x.png in Resources */,
 				71A368FF1A6E1B8E00DDF05C /* update_icon@2x.png in Resources */,
-				71A606831A9B57D5001BD86B /* AddNoteCell.xib in Resources */,
+				71A606831A9B57D5001BD86B /* AddNoteCell~iphone.xib in Resources */,
 				71A417381A84C98A00A41981 /* add~ipad@2x.png in Resources */,
 				71A606741A9B0979001BD86B /* NoteCell~iphone.xib in Resources */,
 				71ADF1CF1A70F1B200457FB9 /* send@2x.png in Resources */,

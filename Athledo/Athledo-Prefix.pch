@@ -23,6 +23,7 @@
 #import "AthleteHistory.h"
 #import "CoachingHistory.h"
 #import "CalendarEvent.h"
+#import "WebServiceClass.h"
 
 // for webservice response tag
 
@@ -33,7 +34,9 @@
 #define deleteMessagesTag 7004
 #define archiveMessagesTag 7005
 #define emptyLableMessagesTag 345667
-
+#define getNotesTag 8000
+#define AddNotesTag 8001
+#define EditNotesTag 8002
 
 #define listPickerHeight 168
 #define datePickerHeight 168
@@ -151,7 +154,8 @@
 
 #define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
 
-
+#define webserviceNotesList @"http://172.24.2.222:8024/webservices/getAthleteNotes"
+#define webserviceAddNotes @"http://172.24.2.222:8024/webservices/addNotes"
 
 
 //Calender

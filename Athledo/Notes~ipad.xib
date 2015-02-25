@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Notes">
+            <connections>
+                <outlet property="searchBar" destination="3Mg-xL-8KI" id="Rau-pa-fhx"/>
+                <outlet property="tableview" destination="2uI-gQ-tC2" id="bdJ-Vv-IdS"/>
+                <outlet property="view" destination="iN0-l3-epB" id="L0A-Nj-Zfr"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <searchBar contentMode="redraw" placeholder="Search notes by,name,date,month,anything" translatesAutoresizingMaskIntoConstraints="NO" id="3Mg-xL-8KI">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="fsa-vA-8VM"/>
+                    </constraints>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="co9-Zo-KM6"/>
+                    </connections>
+                </searchBar>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qq8-he-XPk">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="TB3-Zl-bPb"/>
+                    </constraints>
+                </imageView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2uI-gQ-tC2">
+                    <rect key="frame" x="0.0" y="44" width="768" height="977"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="eLk-QJ-M2q"/>
+                        <outlet property="delegate" destination="-1" id="a32-Fw-7Xa"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Qq8-he-XPk" secondAttribute="trailing" id="247-jY-dxV"/>
+                <constraint firstItem="2uI-gQ-tC2" firstAttribute="top" secondItem="3Mg-xL-8KI" secondAttribute="bottom" id="2vy-xw-gfl"/>
+                <constraint firstItem="3Mg-xL-8KI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TRl-aG-yLl"/>
+                <constraint firstAttribute="trailing" secondItem="2uI-gQ-tC2" secondAttribute="trailing" id="ZkX-Xy-T4R"/>
+                <constraint firstItem="3Mg-xL-8KI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Zzb-2q-tIE"/>
+                <constraint firstItem="Qq8-he-XPk" firstAttribute="top" secondItem="2uI-gQ-tC2" secondAttribute="bottom" id="fME-3A-ugM"/>
+                <constraint firstAttribute="bottom" secondItem="Qq8-he-XPk" secondAttribute="bottom" id="gml-pm-83s"/>
+                <constraint firstAttribute="trailing" secondItem="3Mg-xL-8KI" secondAttribute="trailing" id="j0R-7y-cFW"/>
+                <constraint firstItem="2uI-gQ-tC2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pRm-7u-FGE"/>
+                <constraint firstItem="Qq8-he-XPk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qUo-qB-Osn"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

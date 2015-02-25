@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol SingletonClassDelegate <NSObject>
+-(void)DoneClicked;
+@end
+
 @interface SingletonClass : NSObject
-+(SingletonClass *)ShareInstance;
-+(BOOL)CheckConnectivity;
-+(BOOL)emailValidate:(NSString *)email;
-+(void)initWithTitle:(NSString *)title message:(NSString *)msg delegate:(id)del btn1:(NSString *)btn1 btn2:(NSString *)btn2 btn3:(NSString *)btn3 tagNumber:(int)tagNum;
-+(void)initWithTitle:(NSString *)title message:(NSString *)msg delegate:(id)del btn1:(NSString *)btn1 btn2:(NSString *)btn2 tagNumber:(int)tagNum;
-+(void)initWithTitle:(NSString *)title message:(NSString *)msg delegate:(id)del btn1:(NSString *)btn1;
-+(void)RemoveActivityIndicator:(UIView *)view;
-+(void)addActivityIndicator :(UIView *)view;
+{
+    
+}
+@property(nonatomic,retain) id <SingletonClassDelegate> delegate;
 @property(nonatomic)BOOL isWorkOutSectionUpdate;
 @property(nonatomic)BOOL isAnnouncementUpdate;
 @property(nonatomic)BOOL isProfileSectionUpdate;
@@ -30,6 +30,14 @@
 @property(nonatomic,strong)NSString *strEventEndDate;
 @property(nonatomic)UIDeviceOrientation GloableOreintation;
 
++(SingletonClass *)ShareInstance;
++(BOOL)CheckConnectivity;
++(BOOL)emailValidate:(NSString *)email;
++(void)initWithTitle:(NSString *)title message:(NSString *)msg delegate:(id)del btn1:(NSString *)btn1 btn2:(NSString *)btn2 btn3:(NSString *)btn3 tagNumber:(int)tagNum;
++(void)initWithTitle:(NSString *)title message:(NSString *)msg delegate:(id)del btn1:(NSString *)btn1 btn2:(NSString *)btn2 tagNumber:(int)tagNum;
++(void)initWithTitle:(NSString *)title message:(NSString *)msg delegate:(id)del btn1:(NSString *)btn1;
++(void)RemoveActivityIndicator:(UIView *)view;
++(void)addActivityIndicator :(UIView *)view;
 +(void)setListPickerDatePickerMultipickerVisible :(BOOL)ShowHide :(id)picker :(UIToolbar *)toolbar;
 +(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar;
 -(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id;
@@ -39,5 +47,8 @@
 
 +(UILabel *)ShowEmptyMessage :(NSString *)text;
 +(void)deleteUnUsedLableFromTable :(UITableView *)table;
+
+-(UIToolbar *)AddDoneButtonToolBar:(UIView *)view;
+-(void)doneClicked;
 
 @end

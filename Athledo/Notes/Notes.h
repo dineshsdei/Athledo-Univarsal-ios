@@ -10,7 +10,10 @@
 #import "SWTableViewCell.h"
 #import "AddNotes.h"
 
-@interface Notes : UIViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate>
+@interface Notes : UIViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,WebServiceDelegate>
+{
+    IBOutlet UITableView *tableview;
+}
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end

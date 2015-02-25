@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AddNoteCell.h"
+#import "SWTableViewCell.h"
 
-@interface AddNotes : UIViewController
-
+@interface AddNotes : UIViewController<UITextViewDelegate,SingletonClassDelegate,SWTableViewCellDelegate,WebServiceDelegate>
+{
+    IBOutlet UITableView *objTableView;
+}
+@property(nonatomic,strong)id objNotes;
+@property (strong, nonatomic) id keyboardAppear;
 @end

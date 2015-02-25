@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
-@interface AddNoteCell : UITableViewCell
+@interface AddNoteCell : SWTableViewCell
+{
 
+}
+@property (strong, nonatomic) IBOutlet UILabel *lblDate;
+@property(nonatomic,retain)IBOutlet UITextView *cellTextView;
 @end

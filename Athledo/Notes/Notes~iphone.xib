@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Notes">
             <connections>
                 <outlet property="searchBar" destination="Xav-1h-Thf" id="Tv8-ML-Cx2"/>
+                <outlet property="tableview" destination="dik-hX-QSh" id="ZES-r4-AdR"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

@@ -42,7 +42,6 @@
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
 
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
         //[SingletonClass addActivityIndicator:self.view];
@@ -52,11 +51,7 @@
     }else{
         
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
-    
-    
-    
 }
 -(void)deleteMessageEvent :(int)Webmail_id :(int)webmail_receiver_id{
     
