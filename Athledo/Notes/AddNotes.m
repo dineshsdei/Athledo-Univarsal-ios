@@ -11,7 +11,7 @@
 {
     UITextView *txtViewCurrent;
     NSMutableArray *arrNotesData;
-    int EditIndex;
+    NSInteger EditIndex;
     BOOL isEdit;
     int KeyboardHeight;
     NSDateFormatter *formatter;
@@ -22,10 +22,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //NSDictionary *dic1 = [[NSDictionary alloc] initWithObjectsAndKeys:@". Must train more legs. \n . Really great 2k score. need to upload vedio.",@"text", nil];
-    //arrNotesData = [[NSMutableArray alloc] initWithObjects:dic1,dic1, nil];
-    
-    arrNotesData = [_objNotes valueForKey:@"AthleteNote"];
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_TIME_FORMAT_MESSAGE];
     
@@ -41,27 +37,22 @@
     UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnShare];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemHistory, nil];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor lightGrayColor];
+    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
-        
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            
             if (iosVersion < 8) {
-                
                 KeyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
             }else{
-                
-                
                 KeyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
             }
         }completion:^(BOOL finished){
             
         }];
     }];
-    
+    [self RefreshNotes];
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -71,6 +62,20 @@
 }
 -(void)EditNote:(NSInteger)index
 {
+    if(txtViewCurrent)
+    {
+        [UIView animateWithDuration:0.20f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            txtViewCurrent.frame = CGRectMake(150, 100, 0, 0);
+            [txtViewCurrent resignFirstResponder];
+        } completion:^(BOOL finished){
+            
+            if(txtViewCurrent)
+            {
+                [txtViewCurrent removeFromSuperview];
+                txtViewCurrent=nil;
+            }
+        } ];
+    }
     UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(150, 100, 0, 0)];
     txtView.inputAccessoryView = [[SingletonClass ShareInstance] AddDoneButtonToolBar:self.view];
     [SingletonClass ShareInstance].delegate = self;
@@ -93,6 +98,20 @@
 //show Animated textview
 -(void)AddNote
 {
+    if(txtViewCurrent)
+    {
+        [UIView animateWithDuration:0.20f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            txtViewCurrent.frame = CGRectMake(150, 100, 0, 0);
+            [txtViewCurrent resignFirstResponder];
+        } completion:^(BOOL finished){
+            
+            if(txtViewCurrent)
+            {
+                [txtViewCurrent removeFromSuperview];
+                txtViewCurrent=nil;
+            }
+        } ];
+    }
     UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(150, 100, 0, 0)];
     txtView.inputAccessoryView = [[SingletonClass ShareInstance] AddDoneButtonToolBar:self.view];
     [SingletonClass ShareInstance].delegate = self;
@@ -203,7 +222,7 @@
     if (isIPAD)
         return 121;
     else
-        return 79;
+        return 76;
 }
 
 #pragma SWTableviewCell delegate
@@ -215,11 +234,9 @@
     
     return rightUtilityButtons;
 }
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     
 }
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     NSArray *arrButtons=cell.rightUtilityButtons;
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:0];
@@ -235,9 +252,8 @@
         NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",@""] forKey:@"id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-        [dicttemp setObject:[NSString stringWithFormat:@"%d",[[[_objNotes valueForKey:@"UserProfile"] valueForKey:@"user_id"] intValue]] forKey:@"athlete_id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",[[_objNotes valueForKey:@"user_id"] intValue]] forKey:@"athlete_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",txtViewCurrent.text] forKey:@"notes"];
-        
         [SingletonClass addActivityIndicator:self.view];
         [webservice  WebserviceCallwithDic:dicttemp :webserviceAddNotes :AddNotesTag];
         
@@ -246,7 +262,7 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
--(void)EditNotesWebservice:(int)index
+-(void)EditNotesWebservice:(NSInteger)index
 {
     if ([SingletonClass  CheckConnectivity]) {
         WebServiceClass *webservice =[WebServiceClass shareInstance];
@@ -264,6 +280,20 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
+-(void)RefreshNotes
+{
+    if ([SingletonClass  CheckConnectivity]) {
+        UserInformation *userInfo=[UserInformation shareInstance];
+        WebServiceClass *webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
+        
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,[_objNotes valueForKey:@"user_id"],@"",@""];
+        [SingletonClass addActivityIndicator:self.view];
+        [webservice WebserviceCall:webserviceNotesList :strURL :RefreshNotesTag];
+    }else{
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    }
+}
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
@@ -274,8 +304,7 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-               // arrNotesData =[MyResults objectForKey:@"data"];
-               // [objTableView reloadData];
+                [self RefreshNotes];
             }
             break;
         }
@@ -283,8 +312,15 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-               // arrNotesData =[MyResults objectForKey:@"data"];
-                //[objTableView reloadData];
+                 [self RefreshNotes];
+            }
+            break;
+        }case RefreshNotesTag:
+        {
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {
+                 arrNotesData =[[MyResults objectForKey:@"data"] valueForKey:@"AthleteNote"];
+                 [objTableView reloadData];
             }
             break;
         }

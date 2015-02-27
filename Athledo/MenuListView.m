@@ -88,7 +88,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
         cell.backgroundColor=[UIColor clearColor];
         
-        UIImageView *cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
+        UIImageView *cellImageView;
+        if(indexPath.row==2)
+        {
+            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(27,(cell.frame.size.height/2)-(isIPAD ? 0: 10),17,20)];
+        }else
+        {
+            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
+        }
         cellImageView.tag=101;
         
         //  cellImageView.backgroundColor=[UIColor redColor];
@@ -209,14 +216,13 @@
     NSInteger row = indexPath.row;
     
     // Here you'd implement some of your own logic... I simply take for granted that the first row (=0) corresponds to the "FrontViewController".
-    if (row == 5)
+    if (row == 2)
     {
         // Now let's see if we're not attempting to swap the current frontViewController for a new instance of ITSELF, which'd be highly redundant.
-        if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] )
+        if ( ![frontNavigationController.topViewController isKindOfClass:[Notes class]] )
         {
-            //ProfileView *frontViewController = [[ProfileView alloc] init];
-            Notes *frontViewController = [[Notes alloc] init];
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
+           
+            Notes *notesViewController = [[Notes alloc] initWithNibName:@"Notes" bundle:nil];            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             
@@ -235,8 +241,6 @@
         {
             AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
-            
-            //[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
@@ -269,7 +273,7 @@
             [revealController revealToggleAnimated:YES];
         }
     }
-    else if (row == 2)
+    else if (row == 3)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
         {
@@ -290,7 +294,7 @@
         
     }
     
-    else if (row == 3)
+    else if (row == 4)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
         {
@@ -314,7 +318,7 @@
         }
         
         
-    }else if (row == 4)
+    }else if (row == 5)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
         {
@@ -330,7 +334,7 @@
         {
             [revealController revealToggleAnimated:YES];
         }
-    }else if (row == 5)
+    }else if (row == 6)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] )
         {
@@ -460,7 +464,7 @@
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
     switch (userInfo.userType) {
     case 1:
-    arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+    arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
 
     break;
     case 2:
@@ -473,7 +477,7 @@
     }
 
     if ([UserInformation shareInstance].userType==1) {
-    arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
+    arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
     }else{
 
     arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];

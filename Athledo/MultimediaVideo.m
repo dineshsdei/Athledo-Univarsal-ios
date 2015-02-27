@@ -124,13 +124,9 @@
         {
             [multimediaData removeAllObjects];
             for (int i=0; i< AllMultimediaData.count; i++) {
-                
                 NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
-                
                 [multimediaData addObject:temp];
-                
             }
-            
             [_tableView reloadData];
             break;
         }case 1:
@@ -142,7 +138,6 @@
                 if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==2) {
                     
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
-                    
                     [multimediaData addObject:temp];
                 }
             }
@@ -210,13 +205,11 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\",\"tag_video\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId,@""];
         
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceGetMultimediaVideos :strURL :getPicDataTag];
         
     }else{
         
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -268,10 +261,8 @@
             }else{
                 //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
             }
-            
             break;
         }
-            
     }
 }
 // this is not used but you can used to play video in webview
@@ -378,8 +369,6 @@
         cell.btnPlay.tag=indexPath.row;
         //cell.imageView.layer.borderWidth=.50;
         //cell.imageView.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        
-        
         NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"]]]];
         if (videos !=nil) {
             cell.btnPlay.hidden=NO;
@@ -389,7 +378,6 @@
             [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"error_icon.png"]];
             
         }
-        
         cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];
         cell.First_textViewDes.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"description"];
         [arrVisitedIndex addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
@@ -429,36 +417,26 @@
     
     str = [arrSeasons objectAtIndex:row];
     NSArray *arr = [str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
-    
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    currentText.text=arrSeasons.count > row ? [arrSeasons objectAtIndex:row] : [arrSeasons objectAtIndex:row-1] ;
+    currentText.text=arrSeasons.count > row ? [arrSeasons objectAtIndex:row] : [arrSeasons objectAtIndex:row-1];
     seasonId=[self KeyForValue:@"Season":currentText.text];
-    
 }
 -(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey
 {
     NSArray *arrValues=[[DicData objectForKey:superKey] allValues];
-    
     NSArray *arrkeys=[[DicData objectForKey:superKey] allKeys];
-    
     NSString *strValue=@"";
-    
     for (int i=0; i<arrValues.count; i++) {
-        
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
             strValue=[arrkeys objectAtIndex:i];
-            
             break;
-            
         }
-        
     }
     return strValue;
-    
 }
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField

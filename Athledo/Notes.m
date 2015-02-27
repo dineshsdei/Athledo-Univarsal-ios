@@ -38,8 +38,6 @@
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-   // NSDictionary *dic1 = [[NSDictionary alloc] initWithObjectsAndKeys:@"Dinesh",@"name",@"8 Stroke",@"workoutName",@"rewewe",@"image", nil];
-    //arrNotesData=[[NSArray alloc] initWithObjects:dic1, nil];
     UIButton *btnDownload = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageAdd=[UIImage imageNamed:@"download.png"];
     btnDownload.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
@@ -60,15 +58,63 @@
 }
 -(void)DownloadPDF
 {
+    if (arrNotesData.count ==0) {
+         [SingletonClass initWithTitle:@"" message:@"PDF is not exist." delegate:nil btn1:@"Ok"];
+    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.msy.com.au/Parts/PARTS.pdf"]];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"filename123.pdf"];
+    operation.outputStream = [NSOutputStream outputStreamToFileAtPath:path append:NO];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Successfully downloaded file to %@", path);
+        [self openDocumentIn:path];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    [operation start];
 }
 -(void)SharePDF
 {
-    
+    if (arrNotesData.count ==0) {
+        [SingletonClass initWithTitle:@"" message:@"PDF is not exist." delegate:nil btn1:@"Ok"];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma Open documents
+
+-(void)openDocumentIn:(NSString *)filepath {
+//    NSString * filePath =
+//    [[NSBundle mainBundle]
+//     pathForResource:@"Courses for Q2 2011" ofType:@"pdf"];
+    documentController =
+    [UIDocumentInteractionController
+     interactionControllerWithURL:[NSURL fileURLWithPath:filepath]];
+    documentController.delegate = self;
+    documentController.UTI = @"com.adobe.pdf";
+    [documentController presentOpenInMenuFromRect:CGRectZero
+                                           inView:self.view
+                                         animated:YES];
+}
+-(void)documentInteractionController:(UIDocumentInteractionController *)controller
+       willBeginSendingToApplication:(NSString *)application {
+    
+}
+
+-(void)documentInteractionController:(UIDocumentInteractionController *)controller
+          didEndSendingToApplication:(NSString *)application {
+    
+}
+
+-(void)documentInteractionControllerDidDismissOpenInMenu:
+(UIDocumentInteractionController *)controller {
+    
 }
 #pragma webservice calling/Response
 
@@ -86,19 +132,14 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webserviceNotesList :strURL :getNotesTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
-    
-    //{"team_id":"13","user_id":"1","athlete_id":""}
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
-    
     switch (Tag)
     {
         case getNotesTag:
@@ -133,14 +174,13 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (NoteCell *)[nib objectAtIndex:0];
     }
-    
     @try {
         cell.lblName.text=[[[[arrNotesData objectAtIndex:indexPath.row] valueForKey:@"UserProfile"] valueForKey:@"firstname"] stringByAppendingString:[NSString stringWithFormat:@" %@",[[[arrNotesData objectAtIndex:indexPath.row] valueForKey:@"UserProfile"] valueForKey:@"lastname"]]];
         
         cell.lblWorkoutName.text=[[[arrNotesData objectAtIndex:indexPath.row] valueForKey:@"UserProfile"] valueForKey:@"address"];
         cell.lblName.font=Textfont;
         cell.lblWorkoutName.font=SmallTextfont;
-        [cell.teamMemberPic setImageWithURL:[NSURL URLWithString:[[[arrNotesData objectAtIndex:indexPath.row] valueForKey:@"UserProfile"] valueForKey:@"profile_pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
+        [cell.teamMemberPic setImageWithURL:[NSURL URLWithString:[[[arrNotesData objectAtIndex:indexPath.row] valueForKey:@"UserProfile"] valueForKey:@"pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
         cell.teamMemberPic.layer.masksToBounds = YES;
         cell.teamMemberPic.layer.cornerRadius=(cell.teamMemberPic.frame.size.width)/2;
         cell.teamMemberPic.layer.borderWidth=2.0f;
@@ -234,6 +274,10 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
 {
     @try {
+        
+        if (arrNotesData.count == 0) {
+            [SingletonClass initWithTitle:@"" message:@"No Notes" delegate:nil btn1:@"Ok"];
+        }
         
         if(theSearchBar.text.length>0)
         {

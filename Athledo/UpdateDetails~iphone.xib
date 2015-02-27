@@ -71,7 +71,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEX-qR-lq2">
-                    <rect key="frame" x="30" y="146" width="274" height="416"/>
+                    <rect key="frame" x="13" y="144" width="294" height="416"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -80,11 +80,11 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="oh9-Mx-ig8" firstAttribute="top" secondItem="lEX-qR-lq2" secondAttribute="bottom" constant="3" id="0Ns-TC-gro"/>
+                <constraint firstItem="oh9-Mx-ig8" firstAttribute="top" secondItem="lEX-qR-lq2" secondAttribute="bottom" constant="5" id="0Ns-TC-gro"/>
                 <constraint firstAttribute="trailing" secondItem="oJG-TT-AEp" secondAttribute="trailing" constant="13" id="8wm-8o-S2j"/>
                 <constraint firstItem="oJG-TT-AEp" firstAttribute="leading" secondItem="eSY-cq-KDt" secondAttribute="leading" id="Bja-KB-dYu"/>
                 <constraint firstItem="R2Y-Mr-hSl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="13" id="CVu-uE-F3w"/>
-                <constraint firstAttribute="trailing" secondItem="lEX-qR-lq2" secondAttribute="trailing" constant="16" id="Cf1-gl-X2I"/>
+                <constraint firstAttribute="trailing" secondItem="lEX-qR-lq2" secondAttribute="trailing" constant="13" id="Cf1-gl-X2I"/>
                 <constraint firstItem="eSY-cq-KDt" firstAttribute="top" secondItem="oJG-TT-AEp" secondAttribute="bottom" constant="3" id="CjW-iG-JZP"/>
                 <constraint firstItem="bfx-9W-Vz7" firstAttribute="top" secondItem="eSY-cq-KDt" secondAttribute="bottom" constant="9" id="DvS-Kv-mSg"/>
                 <constraint firstAttribute="trailing" secondItem="eSY-cq-KDt" secondAttribute="trailing" constant="99" id="EL4-5p-TwD"/>
@@ -97,9 +97,9 @@
                 <constraint firstItem="R2Y-Mr-hSl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="eeN-Hv-if5"/>
                 <constraint firstItem="oh9-Mx-ig8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="2" id="g7y-xl-bbc"/>
                 <constraint firstItem="bfx-9W-Vz7" firstAttribute="trailing" secondItem="oJG-TT-AEp" secondAttribute="trailing" id="i2Y-tc-vrX"/>
-                <constraint firstItem="lEX-qR-lq2" firstAttribute="top" secondItem="R2Y-Mr-hSl" secondAttribute="bottom" constant="59" id="mXv-1E-d7J"/>
+                <constraint firstItem="lEX-qR-lq2" firstAttribute="top" secondItem="R2Y-Mr-hSl" secondAttribute="bottom" constant="57" id="mXv-1E-d7J"/>
                 <constraint firstItem="TBd-E3-7fK" firstAttribute="top" secondItem="bfx-9W-Vz7" secondAttribute="bottom" constant="9" id="tDR-24-dNZ"/>
-                <constraint firstItem="lEX-qR-lq2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="xHM-7a-yaV"/>
+                <constraint firstItem="lEX-qR-lq2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="13" id="xHM-7a-yaV"/>
                 <constraint firstItem="bfx-9W-Vz7" firstAttribute="leading" secondItem="TBd-E3-7fK" secondAttribute="leading" id="zly-9A-0wR"/>
             </constraints>
             <point key="canvasLocation" x="235" y="234"/>

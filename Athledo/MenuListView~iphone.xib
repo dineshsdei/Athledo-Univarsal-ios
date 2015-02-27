@@ -34,7 +34,7 @@
                     </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nlL-z3-NPw">
-                    <rect key="frame" x="90" y="498" width="95" height="30"/>
+                    <rect key="frame" x="90" y="528" width="95" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="hRi-ck-Dxj"/>
                         <constraint firstAttribute="width" constant="95" id="uxk-Eq-CdB"/>
@@ -61,11 +61,11 @@
                 <constraint firstItem="kpp-mz-pdG" firstAttribute="top" secondItem="1" secondAttribute="top" id="E0M-hW-KNP"/>
                 <constraint firstAttribute="bottom" secondItem="XPQ-RR-Pqp" secondAttribute="bottom" constant="-12" id="LoG-fN-NuK"/>
                 <constraint firstAttribute="trailing" secondItem="kpp-mz-pdG" secondAttribute="trailing" id="N9h-wu-Lg3"/>
-                <constraint firstItem="nlL-z3-NPw" firstAttribute="top" secondItem="DRq-ek-atR" secondAttribute="bottom" constant="7" id="NpZ-pQ-S8Z"/>
+                <constraint firstItem="nlL-z3-NPw" firstAttribute="top" secondItem="DRq-ek-atR" secondAttribute="bottom" constant="37" id="NpZ-pQ-S8Z"/>
                 <constraint firstItem="kpp-mz-pdG" firstAttribute="leading" secondItem="DRq-ek-atR" secondAttribute="leading" id="QO3-ul-XRS"/>
                 <constraint firstAttribute="trailing" secondItem="DRq-ek-atR" secondAttribute="trailing" constant="-6" id="TCf-zC-Dpq"/>
                 <constraint firstItem="XPQ-RR-Pqp" firstAttribute="top" secondItem="kpp-mz-pdG" secondAttribute="top" id="dNo-wG-8p6"/>
-                <constraint firstAttribute="bottom" secondItem="nlL-z3-NPw" secondAttribute="bottom" constant="40" id="hPV-4r-wGb"/>
+                <constraint firstAttribute="bottom" secondItem="nlL-z3-NPw" secondAttribute="bottom" constant="10" id="hPV-4r-wGb"/>
                 <constraint firstItem="nlL-z3-NPw" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="90" id="iwm-Qd-ceO"/>
                 <constraint firstItem="kpp-mz-pdG" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="z98-ag-tV1"/>
                 <constraint firstItem="kpp-mz-pdG" firstAttribute="leading" secondItem="XPQ-RR-Pqp" secondAttribute="leading" id="zmA-N8-bPT"/>

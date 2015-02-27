@@ -37,6 +37,7 @@
 #define getNotesTag 8000
 #define AddNotesTag 8001
 #define EditNotesTag 8002
+#define RefreshNotesTag 8003
 
 #define listPickerHeight 168
 #define datePickerHeight 168
@@ -154,8 +155,8 @@
 
 #define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
 
-#define webserviceNotesList @"http://172.24.2.222:8024/webservices/getAthleteNotes"
-#define webserviceAddNotes @"http://172.24.2.222:8024/webservices/addNotes"
+#define webserviceNotesList @"http://192.155.246.146:8020/webservices/getAthleteNotes"
+#define webserviceAddNotes @"http://192.155.246.146:8020/webservices/addNotes"
 
 
 //Calender
