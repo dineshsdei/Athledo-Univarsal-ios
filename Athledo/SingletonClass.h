@@ -50,5 +50,6 @@
 
 -(UIToolbar *)AddDoneButtonToolBar:(UIView *)view;
 -(void)doneClicked;
++(NSString *)DocumentDirectoryPath;
 
 @end

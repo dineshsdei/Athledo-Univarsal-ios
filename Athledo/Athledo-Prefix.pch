@@ -26,6 +26,7 @@
 #import "WebServiceClass.h"
 
 // for webservice response tag
+#define AllPDF 9718937613
 
 #define getAnnouncementTag 7000
 #define searchAnnouncementTag 7001
@@ -38,6 +39,7 @@
 #define AddNotesTag 8001
 #define EditNotesTag 8002
 #define RefreshNotesTag 8003
+#define getPDFLinkTag 8004
 
 #define listPickerHeight 168
 #define datePickerHeight 168
@@ -155,9 +157,12 @@
 
 #define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
 
+#define webservicePDFLink @"http://192.155.246.146:8020/webservices/downloadNotes"
 #define webserviceNotesList @"http://192.155.246.146:8020/webservices/getAthleteNotes"
 #define webserviceAddNotes @"http://192.155.246.146:8020/webservices/addNotes"
 
+//#define DownloadAllPDF @"http://192.155.246.146:8020/athlete_notes/send_pdf"
+#define DownloadAllPDF @"http://www.msy.com.au/Parts/PARTS.pdf"
 
 //Calender
 

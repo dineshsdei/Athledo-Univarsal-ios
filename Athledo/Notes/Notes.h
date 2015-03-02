@@ -10,8 +10,9 @@
 #import "SWTableViewCell.h"
 #import "AddNotes.h"
 #import "AFHTTPRequestOperation.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface Notes : UIViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,WebServiceDelegate,UIDocumentInteractionControllerDelegate>
+@interface Notes : UIViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,WebServiceDelegate,UIDocumentInteractionControllerDelegate,MFMailComposeViewControllerDelegate>
 {
     IBOutlet UITableView *tableview;
     UIDocumentInteractionController *documentController;

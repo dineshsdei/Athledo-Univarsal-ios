@@ -206,7 +206,7 @@
         cell.delegate=self;
     }
     @catch (NSException *exception) {
-        
+    
     }
     @finally {
         
@@ -256,9 +256,7 @@
         [dicttemp setObject:[NSString stringWithFormat:@"%@",txtViewCurrent.text] forKey:@"notes"];
         [SingletonClass addActivityIndicator:self.view];
         [webservice  WebserviceCallwithDic:dicttemp :webserviceAddNotes :AddNotesTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
@@ -274,9 +272,7 @@
         [dicttemp setObject:[NSString stringWithFormat:@"%@",txtViewCurrent.text] forKey:@"notes"];
         [SingletonClass addActivityIndicator:self.view];
         [webservice  WebserviceCallwithDic:dicttemp :webserviceAddNotes :EditNotesTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
@@ -286,7 +282,6 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,[_objNotes valueForKey:@"user_id"],@"",@""];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webserviceNotesList :strURL :RefreshNotesTag];

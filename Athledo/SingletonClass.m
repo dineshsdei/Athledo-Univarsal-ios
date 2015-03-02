@@ -159,8 +159,8 @@ static SingletonClass *objSingaltonClass=nil;
 #pragma Add Keyoard Done button in Toolbar
 -(UIToolbar *)AddDoneButtonToolBar:(UIView *)view
 {
-   UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
-   UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, view.frame.size.height, view.frame.size.width,44)];
+    UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
+    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, view.frame.size.height, view.frame.size.width,44)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     return toolBar;
@@ -370,5 +370,16 @@ static SingletonClass *objSingaltonClass=nil;
     }
     _GloableOreintation=orientation;
     return orientation;
+}
++(NSString *)DocumentDirectoryPath
+{
+    NSArray *arrayPaths =
+    NSSearchPathForDirectoriesInDomains(
+                                        NSDocumentDirectory,
+                                        NSUserDomainMask,
+                                        YES);
+    NSString *path = [arrayPaths objectAtIndex:0];
+    
+    return path;
 }
 @end
