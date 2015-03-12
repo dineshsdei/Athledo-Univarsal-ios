@@ -411,7 +411,7 @@
             return;
             
         }else{
- 
+            
         }
         
         if ([SingletonClass  CheckConnectivity])
@@ -827,7 +827,7 @@
         }else{
             [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnDissable.png"]];
         }
-
+        
     }else
     {
         _tfRepeat.text=@"Never";
@@ -883,7 +883,7 @@
 {
     [super viewDidDisappear:animated];
     if (isIPAD)
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
@@ -950,7 +950,6 @@
         _texviewDescription.textColor=[UIColor grayColor];
         
         NSString *str=[_eventDetailsDic valueForKey:@"rec_type"] ?[_eventDetailsDic valueForKey:@"rec_type"] : @"";
-        
         int RepeatIndex=0;
         if (str.length > 0) {
             // If event repeat type
@@ -998,7 +997,7 @@
                             [CalendarEvent ShareInstance].strStartDate=[df stringFromDate:startdate];
                             [CalendarEvent ShareInstance].strActualStartDate=[_eventDetailsDic valueForKey:@"actual_start_date"];
                             [CalendarEvent ShareInstance].strEndDate=[df stringFromDate:enddate];
-                       }
+                        }
                         
                     }else
                     {
@@ -1072,7 +1071,7 @@
                             [CalendarEvent ShareInstance].strActualStartDate=[_eventDetailsDic valueForKey:@"actual_start_date"];
                             [CalendarEvent ShareInstance].strEndDate=[df stringFromDate:enddate];
                         }
-
+                        
                     }
                     
                     break;
@@ -1441,7 +1440,7 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    // to manage placeholder text 
+    // to manage placeholder text
     if (textView.text.length==0)
     {
         // textView.text=@"Description";
@@ -1453,7 +1452,7 @@
     // to manage placeholder text
     if ([textView.text isEqualToString:@"Description"])
     {
-          //textView.text=@"";
+        //textView.text=@"";
     }
     
     return YES;

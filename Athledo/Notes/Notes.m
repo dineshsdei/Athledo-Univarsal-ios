@@ -18,7 +18,8 @@
     SWRevealViewController *revealController;
     UIBarButtonItem *revealButtonItem;
     WebServiceClass *webservice;
-    int pdfName;
+    int pdfNameIndex;
+    int pdfShareIndex;
 }
 @end
 @implementation Notes
@@ -40,7 +41,6 @@
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
-    
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
@@ -53,7 +53,7 @@
     UIBarButtonItem *BarItemAdd = [[UIBarButtonItem alloc] initWithCustomView:btnDownload];
     UIButton *btnShare = [[UIButton alloc] initWithFrame:CGRectMake(150, 5, 44, 44)];
     UIImage *imageHistory=[UIImage imageNamed:@"pdf_share.png"];
-    [btnShare addTarget:self action:@selector(SharePDF) forControlEvents:UIControlEventTouchUpInside];
+    [btnShare addTarget:self action:@selector(ShareAllNotes) forControlEvents:UIControlEventTouchUpInside];
     [btnShare setImage:imageHistory forState:UIControlStateNormal];
     
     UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnShare];
@@ -72,13 +72,12 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"athlete_id\":\"%@\"}",userInfo.userSelectedTeamid,AthleteId];
+        NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"user_id\":\"%d\",\"athlete_id\":\"%@\"}",userInfo.userSelectedTeamid,userInfo.userId,AthleteId];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webservicePDFLink :strURL :getPDFLinkTag];
     }else{
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
-
 }
 -(void)deletePDF
 {
@@ -91,14 +90,13 @@
             NSString *fullPath = [path stringByAppendingPathComponent:path1];
             BOOL removeSuccess = [fileManager removeItemAtPath:fullPath error:&error];
             if (!removeSuccess) {
-              
             }
         }
     }
 }
 -(void)DownloadPDF
 {
-    pdfName = (int)AllPDF;
+    pdfNameIndex = (int)AllPDF;
     [self getPdfLink:@""];
 }
 -(void)downLoadpdfFromLink:(NSString *)link
@@ -108,7 +106,7 @@
     // http://www.msy.com.au/Parts/PARTS.pdf
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:link]];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    NSString *path = [[SingletonClass DocumentDirectoryPath] stringByAppendingPathComponent: arrFilterdData.count > pdfName ? [NSString stringWithFormat:@"%@_Notes.pdf", [[arrFilterdData objectAtIndex:pdfName ] valueForKey:@"firstname"]] : @"AllAthlete_Notes.pdf" ];
+    NSString *path = [[SingletonClass DocumentDirectoryPath] stringByAppendingPathComponent: arrFilterdData.count > pdfNameIndex ? [NSString stringWithFormat:@"%@_Notes.pdf", [[arrFilterdData objectAtIndex:pdfNameIndex ] valueForKey:@"firstname"]] : @"AllAthlete_Notes.pdf" ];
     operation.outputStream = [NSOutputStream outputStreamToFileAtPath:path append:NO];
     
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -121,12 +119,29 @@
     }];
     [operation start];
 }
--(void)SharePDF
+-(void)ShareAllNotes
+{
+    pdfShareIndex = (int)AllPDF;
+    [self ShareNotes:@""];
+}
+-(void)ShareNotes:(NSString *)AthleteId
 {
     if (arrNotesData.count ==0) {
-    [SingletonClass initWithTitle:@"" message:@"PDF is not exist." delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:@"" message:@"Notes is not exist." delegate:nil btn1:@"Ok"];
         return;
     }
+    if ([SingletonClass  CheckConnectivity]) {
+        UserInformation *userInfo=[UserInformation shareInstance];
+        webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
+        NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"user_id\":\"%d\",\"athlete_id\":\"%@\",\"coach_name\":\"%@\"}",userInfo.userSelectedTeamid,userInfo.userId,AthleteId,(arrFilterdData.count > pdfShareIndex) ? [[arrFilterdData objectAtIndex:pdfShareIndex] valueForKey:@"firstname"] : @"" ];
+        [SingletonClass addActivityIndicator:self.view];
+        [webservice WebserviceCall:webserviceShareNotes :strURL:ShareNotesTag];
+    }else{
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    }
+    
+    /*
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.mailComposeDelegate = self;
     [picker setSubject:@"Performance status"];
@@ -154,6 +169,7 @@
     NSString *emailBody = @"My cool status is attached";
     [picker setMessageBody:emailBody isHTML:NO];
     [self presentViewController:picker animated:YES completion:nil];
+    */
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -174,7 +190,6 @@
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -219,7 +234,6 @@
 -(void)SearchNotes:(NSString *)searchKeyboard
 {
     if ([SingletonClass  CheckConnectivity]) {
-        
         UserInformation *userInfo=[UserInformation shareInstance];
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
@@ -241,7 +255,6 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 arrNotesData =[MyResults objectForKey:@"data"];
-                //arrFilterdData =[arrNotesData valueForKey:@"UserProfile"];
                 [arrFilterdData addObjectsFromArray:[arrNotesData valueForKey:@"UserProfile"]];
                 [tableview reloadData];
             }
@@ -253,6 +266,13 @@
             {
                 NSString *strUrl = [MyResults valueForKey:@"message"];
                 [self downLoadpdfFromLink:strUrl];
+            }
+            break;
+        }case ShareNotesTag:
+        {
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {
+                 [SingletonClass initWithTitle:@"" message:@"Notes have been suceessfully shared." delegate:nil btn1:@"Ok"];
             }
             break;
         }
@@ -280,6 +300,7 @@
         cell = (NoteCell *)[nib objectAtIndex:0];
     }
     @try {
+        
         cell.lblName.text=[[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"firstname"] stringByAppendingString:[NSString stringWithFormat:@" %@",[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"lastname"]]];
         cell.lblWorkoutName.text=[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"address"];
         cell.lblName.font=Textfont;
@@ -289,8 +310,8 @@
         cell.teamMemberPic.layer.cornerRadius=(cell.teamMemberPic.frame.size.width)/2;
         cell.teamMemberPic.layer.borderWidth=2.0f;
         cell.teamMemberPic.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        cell.backgroundColor=[UIColor clearColor];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.rightUtilityButtons = [self rightButtons : indexPath.row];
         cell.delegate=self;
     }
@@ -316,9 +337,7 @@
     else
         return 81;
 }
-
 #pragma SWTableviewCell delegate
-
 - (NSArray *)rightButtons :(NSInteger)btnTag
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
@@ -328,27 +347,22 @@
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-    
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     
     NSArray *arrButtons=cell.rightUtilityButtons;
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:index];
-    
     switch (index) {
         case 0:
         {
-            
-             [self ShareSelectedUserPDF:btn.tag];
-           
+            [self ShareSelectedUserNotes:btn.tag];
             break;
         }
         case 1:
         {
-            pdfName = (int)btn.tag;
-             [self DownloadSelectedUserPDF:btn.tag];
-           
+            pdfNameIndex = (int)btn.tag;
+            [self DownloadSelectedUserPDF:btn.tag];
             break;
         }
         default:
@@ -360,10 +374,10 @@
     [self getPdfLink:[NSString stringWithFormat:@"%i",userTag]];
 }
 
--(void)ShareSelectedUserPDF :(NSInteger)userTag
+-(void)ShareSelectedUserNotes :(NSInteger)userTag
 {
+    [self ShareNotes:[[arrFilterdData objectAtIndex:userTag] valueForKey:@"user_id"]];
 }
-
 #pragma SearchBar Delegate
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
@@ -387,22 +401,18 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
 {
     @try {
-        
         if (arrNotesData.count == 0) {
             [SingletonClass initWithTitle:@"" message:@"No Notes" delegate:nil btn1:@"Ok"];
         }
-        
         if(theSearchBar.text.length>0)
         {
             if ([SingletonClass  CheckConnectivity]) {
-                
                 //Check for empty Text box
                 NSString *strError = @"";
                 if(theSearchBar.text.length < 1 )
                 {
                     strError = @"Please enter searching text";
                 }
-                
                 if(strError.length > 1)
                 {
                     [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
@@ -413,7 +423,7 @@
                                              [@"SELF['firstname'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBar.text lowercaseString]]];
                     NSPredicate *orginaltext = [NSPredicate predicateWithFormat:
                                                 [@"SELF['firstname'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBar.text substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBar.text substringFromIndex:1] ]]];
-                    NSArray *res=[arrNotesData  valueForKey:@"UserProfile"];
+                    NSArray *res = [arrNotesData  valueForKey:@"UserProfile"];
                     [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:lowerCase]] ;
                     [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:orginaltext]] ;
                     [tableview reloadData];
@@ -425,10 +435,8 @@
         }
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
 }
 @end

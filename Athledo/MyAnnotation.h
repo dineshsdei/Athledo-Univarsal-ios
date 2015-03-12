@@ -7,9 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
-
-#import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
 @interface MyAnnotation : NSObject<MKAnnotation> {
@@ -26,11 +23,7 @@
 @property (nonatomic, copy)		NSString*				title;
 @property (nonatomic, copy)		NSString*				subtitle;
 @property (nonatomic, copy)		NSString*				date;
-
 @property(nonatomic, copy) NSString *statusAction;
 @property(nonatomic, assign)int tagNumber;
-
-
-
 
 @end

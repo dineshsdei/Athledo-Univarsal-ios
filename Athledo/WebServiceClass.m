@@ -26,12 +26,11 @@ static WebServiceClass *objWebService=nil;
 {
     if ([SingletonClass  CheckConnectivity]) {
     @try {
+        
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:StrUrl]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
     NSMutableData *data = [NSMutableData data];
-
     [data appendData:[[NSString stringWithString:strParameters] dataUsingEncoding: NSUTF8StringEncoding]];
     [request setHTTPBody:data];
     [NSURLConnection sendAsynchronousRequest:request
@@ -42,23 +41,16 @@ static WebServiceClass *objWebService=nil;
     {
     [self httpResponseReceived : data :Tag];
     }else{
-
-
     }
-    }];
+    }  ];
     }
     @catch (NSException *exception) {
 
     }
     @finally {
-
     }
-
-
     }else{
-
     [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-
     }
 }
 
@@ -87,7 +79,7 @@ static WebServiceClass *objWebService=nil;
     [self httpResponseReceived : data :Tag];
     }else{
     }
-    }];
+    }  ];
         
     }
     @catch (NSException *exception) {
@@ -102,8 +94,6 @@ static WebServiceClass *objWebService=nil;
 
     }
 }
-
-
 -(void)httpResponseReceived :(NSData *)webResponse :(int)Tag
 {
    NSError *error=nil;

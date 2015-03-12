@@ -67,7 +67,7 @@
     _lblEventLocation.font=Textfont;
     _lblStartDate.font=Textfont;
     _lblRepeat.font=Textfont;
-
+    
     if (_eventDetailsDic) {
         _lblEventTitle.text=[_eventDetailsDic valueForKey:@"text"];
         _lblEventDescription.text=[_eventDetailsDic valueForKey:@"name"];
@@ -76,10 +76,9 @@
         _lblEventLocation.text=[_eventDetailsDic valueForKey:@"location"];
         _lblStartDate.text=strStartDate;
         // if reccurrence type
-         NSString *str=!([[_eventDetailsDic valueForKey:@"rec_type"] isEqual:[NSNull null]]) ?[_eventDetailsDic valueForKey:@"rec_type"] : @"";
+        NSString *str=!([[_eventDetailsDic valueForKey:@"rec_type"] isEqual:[NSNull null]]) ?[_eventDetailsDic valueForKey:@"rec_type"] : @"";
         _lblRepeat.text=@"Never";
         if (str.length > 0) {
-            
             int event_length=[[_eventDetailsDic valueForKey:@"event_length"] intValue];
             NSDate *enddate=[startdate dateByAddingTimeInterval:event_length];
             _lblEndDate.text=[df stringFromDate:enddate];
@@ -94,12 +93,10 @@
                 _lblRepeat.text=@"Yearly";
             }
         }else{
-            
             _lblEndDate.text=strEndDate;
         }
     }
     if (_objNotificationData) {
-        
         if (_objNotificationData)
         {
             NSArray *arrTemp=[_objNotificationData valueForKey:@"events"];
@@ -113,7 +110,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     if ([CalendarEvent ShareInstance].strRepeatSting.length > 0) {
-        
         NSString *str=[CalendarEvent ShareInstance].strRepeatSting;
         const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
         if (c[0]=='d') {
@@ -133,19 +129,14 @@
 -(void)DeleteNotificationFromWeb
 {
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
-    
     webservice=[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
     if ([SingletonClass  CheckConnectivity]) {
-        
         if (_objNotificationData) {
-            
             UserInformation *userInfo= [UserInformation shareInstance];
             NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",2,[[_eventDetailsDic valueForKey:@"event_id"] intValue],userInfo.userSelectedTeamid,userInfo.userId];
             [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
         }
-        
     }else{
     }
 }
@@ -160,7 +151,6 @@
 {
     [CalendarEvent ShareInstance].strEventAddOrEdit=@"Edit";
     if ([_lblRepeat.text isEqualToString:@"Never"]) {
-        
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
         for (id object in arrController)

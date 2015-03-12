@@ -31,25 +31,19 @@ UIBarButtonItem *revealButtonItem;;
     }
     return self;
 }
-
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
 #pragma mark Webservice call event
 -(void)getEvents{
-    
     if ([SingletonClass  CheckConnectivity]) {
-        
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
-    
     }else{
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
-    
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -64,7 +58,6 @@ UIBarButtonItem *revealButtonItem;;
                 // Now we Need to decrypt data
                 [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
                 _eventDic =[MyResults objectForKey:@"data"];
-                
             }
         }
     }
@@ -85,7 +78,6 @@ UIBarButtonItem *revealButtonItem;;
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     NSArray *arrController=[self.navigationController viewControllers];
-    
     switch (item.tag) {
         case 2:
         {
@@ -107,7 +99,6 @@ UIBarButtonItem *revealButtonItem;;
                 }
                 [self.navigationController pushViewController:dayView animated:NO];
             }
-            
             break;
         }
         case 1:
@@ -121,7 +112,6 @@ UIBarButtonItem *revealButtonItem;;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 WeekViewController *weekView = [[WeekViewController alloc]initWithNibName:@"WeekViewController" bundle:[NSBundle mainBundle]];
@@ -130,9 +120,7 @@ UIBarButtonItem *revealButtonItem;;
                     weekView.objNotificationData=_objNotificationData;
                 }
                 [self.navigationController pushViewController:weekView animated:NO];
-                
             }
-            
             break;
         }case 0:
         {
@@ -145,7 +133,6 @@ UIBarButtonItem *revealButtonItem;;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 CalendarMonthViewController *monthview = [[CalendarMonthViewController alloc]init];
@@ -175,7 +162,6 @@ UIBarButtonItem *revealButtonItem;;
     
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
-    
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
@@ -184,9 +170,7 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
     NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
-    
     UITabBarItem *tabBarItem1 = [[UITabBarItem alloc] initWithTitle:@"Month" image:[UIImage imageNamed:@"mnth_icon2.png"] tag:0];
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Week" image:[UIImage imageNamed:@"week_icon1.png"] tag:1];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Today" image:[UIImage imageNamed:@"today_icon.png"] tag:2];;
@@ -200,19 +184,18 @@ UIBarButtonItem *revealButtonItem;;
     tabBar.items = tabBarItems;
     mapTableView.backgroundColor=[UIColor clearColor];
     mapView.showsUserLocation=YES;
-    //    locationManager=[[CLLocationManager alloc]init];
-    //    [locationManager setDelegate:self];
-    //    [locationManager setDistanceFilter:kCLDistanceFilterNone];
-    //    [locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
-    //    [locationManager startUpdatingLocation];
     
     [self addAnnotationsOnMap:_eventDic];
-    
+    if (_eventDic.count > 0) {
+        MKCoordinateRegion region = { {0.0, 0.0 }, { 0.0, 0.0 } };
+        region.center.latitude = [[[_eventDic objectAtIndex:0] valueForKey:@"lat"] doubleValue];
+        region.center.longitude = [[[_eventDic objectAtIndex:0] valueForKey:@"lng"] doubleValue];
+        [mapView setRegion:region animated:YES];
+    }
 }
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     
 }
-
 #pragma mark - Map
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
@@ -252,25 +235,20 @@ UIBarButtonItem *revealButtonItem;;
     [df setDateFormat:TIME_FORMAT_h_m_A];
      for (int i = 0; i<count; i++)
     {
-        //NSArray *arrLatLong = [strLatLong componentsSeparatedByString:@","];
         NSDictionary *data=[arrOfAllIns objectAtIndex:i];
         CLLocationCoordinate2D theCoordinate;
         theCoordinate.latitude = [[data valueForKey:@"lat"] doubleValue];
         theCoordinate.longitude = [[data valueForKey:@"lng"] doubleValue];
         [df setDateFormat:dateFormatYearMonthDateHiphenWithTime];
         NSDate *startdate=[df dateFromString:[data valueForKey:@"start_date"]];
-        // NSDate *enddate=[df dateFromString:[data valueForKey:@"end_date"]];
         [df setDateFormat:DATE_FORMAT_M_D_Y_H_M];
         MyAnnotation *annotation = [[MyAnnotation alloc] init];
-        // annotation.subtitle=[[data valueForKey:@"text"] stringByAppendingFormat:@"(%@-%@)",[df stringFromDate:startdate],[df stringFromDate: enddate ]] ;
         annotation.subtitle=[[data valueForKey:@"text"] stringByAppendingFormat:@" (%@)",[df stringFromDate:startdate]] ;
         annotation.title = [data valueForKey:@"name"];
         annotation.tagNumber= i;
         annotation.coordinate=theCoordinate;
-        
         //  Add annotations in map
         [mapView addAnnotation:annotation];
-        
     }
 }
 - (void)mapViewZoom:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views {

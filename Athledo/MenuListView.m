@@ -37,16 +37,11 @@
 @interface MenuListView ()
 {
     NSArray *arrMenuList;
-    
     NSArray *arrCoachMenu;
     NSArray *arrAthleteMenu;
-    
     UserInformation *userInfo;
-    
     NSArray *arrImagesName;
-    
     UIImageView *ProfilePic;
-    
     UILabel *lblLoginName;
     NSDictionary *notificationData;
     
@@ -89,19 +84,19 @@
         cell.backgroundColor=[UIColor clearColor];
         
         UIImageView *cellImageView;
-        if(indexPath.row==2)
-        {
-            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(27,(cell.frame.size.height/2)-(isIPAD ? 0: 10),17,20)];
-        }else
-        {
-            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
-        }
+//        if(indexPath.row==21 && [[arrMenuList objectAtIndex:2] isEqualToString:@"Notes11"])
+//        {
+//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(27,(cell.frame.size.height/2)-(isIPAD ? 0: 10),17,20)];
+//        }else
+//        {
+//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
+//        }
+        cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
         cellImageView.tag=101;
         
         //  cellImageView.backgroundColor=[UIColor redColor];
         [cell addSubview:cellImageView];
         
-        //  cell.backgroundView =  [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"viewBg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
         cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"Cell_Bg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
         
         UILabel *profileLbl=[[UILabel alloc] initWithFrame:CGRectMake(60,(cell.frame.size.height/2)-(isIPAD ? 5: 15),200,30)];
@@ -126,7 +121,7 @@
     
     UILabel *lbl=(UILabel *)[cell viewWithTag:100];
     UILabel *lblShowUpdate=(UILabel *)[cell viewWithTag:110];
-    
+   
     [lbl setTextAlignment:NSTextAlignmentLeft];
     lbl.text=[arrMenuList objectAtIndex:indexPath.row];
     lbl.font=MenuTextfont;

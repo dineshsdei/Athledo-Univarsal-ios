@@ -598,25 +598,19 @@
 }
 -(void)ReassignWorkout:(id)sender
 {
-    
     if ([SingletonClass  CheckConnectivity]) {
         
         if (_obj) {
             
             UserInformation *userInfo= [UserInformation shareInstance];
-            
             NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"workout_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\"}",userInfo.userSelectedTeamid,[[_obj objectForKey:@"Workout Id"] intValue],userInfo.userSelectedSportid,[[_obj objectForKey:@"user_id"] intValue]];
-            
-            
             [SingletonClass addActivityIndicator:self.view];
-            
             [webservice WebserviceCall:webServiceReAssignWorkOut :strURL :ReassignWorkoutTag];
         }
         
     }else{
         
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
     
 }
@@ -626,36 +620,24 @@
 {
     int noOfSection=0;
     if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
-        
         // NSMutableArray *arrTemp=[[NSMutableArray alloc] init];
-        
         for (int i=0; i< arrWorkOuts.count; i++) {
-            
             NSArray *AthleteExercise=  [[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteExercise"] ;
-            
             for (int j=0; j < AthleteExercise.count; j++) {
                 
                 NSArray *AthleteExerciseDetails=  [[AthleteExercise objectAtIndex:j]  valueForKey:@"exerciseDetail"];
                 [arrNoOfRowInSection addObject:[NSString stringWithFormat:@"%lu",(unsigned long)AthleteExerciseDetails.count]];
             }
-            
-            
             noOfSection=(int)(noOfSection+AthleteExercise.count);
-            
         }
-        
         return noOfSection;
         
     }else if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Interval"]) {
-        
         return arrWorkOuts.count;
-        
     }else
     {
         return arrWorkOuts.count;
-        
     }
-    
 }
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -804,17 +786,13 @@
         txtFieldWeight.textAlignment=NSTextAlignmentCenter;
         txtFieldRepitition.text=  [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"rep_value"] ? [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"rep_value"] : @"";
         
-        
         if (indexPath.row==0) {
-            
             lblExerciseName.text=@"Sets";
-            
         }else{
             
             lblExerciseName.text=@"";
         }
         lblSets.text=[NSString stringWithFormat:@"%d",(int)indexPath.row+1];
-        
     }
     else  if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Interval"])
     {
@@ -845,28 +823,19 @@
                 txtFieldLeftHeader.text=str;
                 txtFieldLeftHeader.textColor=[UIColor darkGrayColor];
                 txtField.attributedPlaceholder= [[NSAttributedString alloc] initWithString:unitKey attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor],NSFontAttributeName : (isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:10] }];
-                
                 txtField.text=[[[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"Units"] objectAtIndex:indexPath.row] valueForKey:unitKey];
-                
-                
                 txtField=nil;
                 txtFieldLeftHeader=nil;
             }
             
         }else{
-            
             NSArray *units=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"Units"];
-            
             // NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:indexPath.section];
-            
             if (indexPath.row==units.count+0) {
-                
                 NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:0];
-                
                 if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                     
                     txtFieldLeftHeader.text=@"Total Distance(Meters)";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
@@ -902,16 +871,11 @@
                     txtField.textAlignment=NSTextAlignmentCenter;
                     txtField.userInteractionEnabled=NO;
                 }
-                
-                
             }else   if ((indexPath.row==units.count+1) ) {
                 
                 NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:1];
-                
                 if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
-                    
                     txtFieldLeftHeader.text=@"Average Distance(Meters)";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
@@ -1008,7 +972,6 @@
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
                     txtField.textAlignment=NSTextAlignmentCenter;
                     txtField.userInteractionEnabled=NO;
-                    
                 }
                 if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
                     
@@ -1102,12 +1065,10 @@
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
                     txtField.textAlignment=NSTextAlignmentCenter;
                     txtField.userInteractionEnabled=NO;
-                    
                 }
                 if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
                     
                     txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
@@ -1118,7 +1079,6 @@
                 if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
                     
                     txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
@@ -1137,8 +1097,6 @@
                     txtField.userInteractionEnabled=NO;
                     
                 }
-                
-                
             }else if ( indexPath.row==units.count+6 ) {
                 
                 NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:6];
@@ -1152,12 +1110,10 @@
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
                     txtField.textAlignment=NSTextAlignmentCenter;
                     txtField.userInteractionEnabled=NO;
-                    
                 }
                 if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
                     
                     txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
@@ -1196,12 +1152,10 @@
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
                     txtField.textAlignment=NSTextAlignmentCenter;
                     txtField.userInteractionEnabled=NO;
-                    
                 }
                 if ([[tempdic valueForKey:@"Time"] intValue] == 1) {
                     
                     txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
@@ -1212,7 +1166,6 @@
                 if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
                     
                     txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
@@ -1223,15 +1176,12 @@
                 if ([[tempdic valueForKey:@"Rate"] intValue] == 1) {
                     
                     txtFieldLeftHeader.text=@"Average Rate";
-                    
                     txtFieldLeftHeader.font =(isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12];
                     txtField.borderStyle=UITextBorderStyleNone;
                     txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
                     txtField.textAlignment=NSTextAlignmentCenter;
                     txtField.userInteractionEnabled=NO;
-                    
                 }
-                
             }
             
         }
@@ -1241,18 +1191,12 @@
         CustomTextField *txtField=(CustomTextField *)[cell viewWithTag:1002];
         txtFieldLeftHeader.textColor=[UIColor darkGrayColor];
         txtField.textAlignment=NSTextAlignmentCenter;
-        
         txtField.SectionIndex=(int)indexPath.section;
         txtField.RowIndex=(int)indexPath.row;
-        
         if (indexPath.row == 0) {
-            
-            
             txtField.text=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"WarmUp Time"];
             txtFieldLeftHeader.text=@"WarmUp Time";
             txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"WarmUp Time" attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor] ,NSFontAttributeName : (isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12]}];
-            
-            
             
         }else if (indexPath.row==1)
         {
@@ -1263,28 +1207,17 @@
         }else{
             NSArray *arrTemp=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"Units"];
             NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:indexPath.row-2] allKeys];
-            
             NSString *unitKey=@"";
-            
             NSString *strTemp=[arrUnitKeys objectAtIndex:0];
-            
             if ([strTemp isEqualToString:@"id"]) {
-                
                 unitKey=[arrUnitKeys objectAtIndex:1];
-                
             }else
             {
                 unitKey=[arrUnitKeys objectAtIndex:0];
-                
             }
-            
-            
             txtFieldLeftHeader.text=unitKey;
             txtField.attributedPlaceholder= [[NSAttributedString alloc] initWithString:unitKey attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor],NSFontAttributeName : (isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12]}];
-            
             txtField.text=[[[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"Units"] objectAtIndex:indexPath.row-2] valueForKey:unitKey];
-            
-            
         }
         txtField=nil;
         txtFieldLeftHeader=nil;
@@ -1365,38 +1298,25 @@
 }
 -(void)doneClicked
 {
-    
     [self setContentOffsetOfTableDown];
-    
     [[[UIApplication sharedApplication] keyWindow ] endEditing:YES];
-    
     [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
-    
     [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) :toolBar];
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     
     for (int i=0; i< arrWorkOuts.count; i++) {
         [self CalculateAVG :i];
     }
-    
     [table reloadData];
-    
 }
-
 #pragma mark- UITextfield Delegate
-
-
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    
     isSelectAthlete=[textField.placeholder isEqualToString:@"Select athlete"] ? YES:NO ;
-    
     currentText=(CustomTextField *)textField;
-    
     textField.keyboardType=UIKeyboardTypePhonePad;
     [WorkOutDetails setContentOffsetOfScrollView:textField table:scrollView];
     [self setContentOffsetOfTableDown:textField table:table];
-    
     if([textField.placeholder isEqualToString:@"WarmUp Time"] || [textField.placeholder isEqualToString:@"CoolDown Time"] || [textField.placeholder isEqualToString:@"Select athlete"] )
     {
         
@@ -1416,7 +1336,6 @@
                 [listPicker selectRow:0 inComponent:0 animated:YES];
                 [self showPickerSeleted:arrTime];
                 [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-                
             }
         }
         
@@ -1435,86 +1354,241 @@
 }
 -(NSString *)EntervalueInCorrectFormate:(NSString *)Key :(NSString *)value : (int)rowindex : (int)sectionindex
 {
-    NSString *correctValue=@"";
-    
-    NSString *PlaceholderValue=@"";
-    
-    NSString *myString = Key;
-    NSRange startRange = [myString rangeOfString:@"("];
-    NSRange endRange = [myString rangeOfString:@")"];
-    if (startRange.location != NSNotFound && endRange.location != NSNotFound && endRange.location > startRange.location) {
-        PlaceholderValue = [myString substringWithRange:NSMakeRange(startRange.location+1,(endRange.location - startRange.location)-1)];
-    }
-    
-    if (startRange.location != NSNotFound && endRange.location != NSNotFound && endRange.location > startRange.location) {
-        NSString *CheeckType = [myString substringWithRange:NSMakeRange(0,(startRange.location)-1)];
-        
-        if ([CheeckType isEqualToString:@"Distance"] || [myString isEqualToString:@"Rate"] || [myString isEqualToString:@"Repetitions"]) {
-            
-            return value;
+    @try {
+        NSString *correctValue=@"";
+        NSString *PlaceholderValue=@"";
+        NSString *myString = Key;
+        NSRange startRange = [myString rangeOfString:@"("];
+        NSRange endRange = [myString rangeOfString:@")"];
+        if (startRange.location != NSNotFound && endRange.location != NSNotFound && endRange.location > startRange.location) {
+            PlaceholderValue = [myString substringWithRange:NSMakeRange(startRange.location+1,(endRange.location - startRange.location)-1)];
         }
-    }else{
-        
-        
-        if ([myString isEqualToString:@"Rate"] || [myString isEqualToString:@"Repetitions"] || [myString isEqualToString:@"Weight"] ) {
-            
-            return value;
-        }
-    }
-    
-    value=[value stringByReplacingOccurrencesOfString:@":" withString:@""];
-    value=[value stringByReplacingOccurrencesOfString:@"." withString:@""];
-    
-    const char *c = [PlaceholderValue UTF8String];
-    const char *arrValue = [value UTF8String];
-    
-    
-    for (int i=0; i< PlaceholderValue.length; i++) {
-        
-        if (c[i]==':') {
-            
-            correctValue=[correctValue stringByAppendingString:@":"];
-            //correctValue=[correctValue stringByAppendingString:@"0"];
-            
-        }else if (c[i]=='.')
-        {
-            correctValue=[correctValue stringByAppendingString:@"."];
+        if (startRange.location != NSNotFound && endRange.location != NSNotFound && endRange.location > startRange.location) {
+            NSString *CheeckType = [myString substringWithRange:NSMakeRange(0,(startRange.location)-1)];
+            if ([CheeckType isEqualToString:@"Distance"] || [myString isEqualToString:@"Rate"] || [myString isEqualToString:@"Repetitions"]) {
+                return value;
+            }
         }else{
             
-            correctValue=[correctValue stringByAppendingString:@"0"];
+            if ([myString isEqualToString:@"Rate"] || [myString isEqualToString:@"Repetitions"] || [myString isEqualToString:@"Weight"] ) {
+                
+                return value;
+            }
+        }
+        value=[value stringByReplacingOccurrencesOfString:@":" withString:@""];
+        value=[value stringByReplacingOccurrencesOfString:@"." withString:@""];
+        const char *c = [PlaceholderValue UTF8String];
+        const char *arrValue = [value UTF8String];
+        
+        for (int i=0; i< PlaceholderValue.length; i++) {
+            
+            if (c[i]==':') {
+                
+                correctValue=[correctValue stringByAppendingString:@":"];
+                
+            }else if (c[i]=='.')
+            {
+                correctValue=[correctValue stringByAppendingString:@"."];
+            }else{
+                
+                correctValue=[correctValue stringByAppendingString:@"0"];
+            }
         }
         
+        NSString *strTemp=correctValue;
+        if ([ PlaceholderValue isEqualToString:@"hh:mm:ss.SSS"]) {
+            
+            switch (value.length) {
+                case 0:
+                {
+                    return @"00:00:00.000";
+                    break;
+                }
+                case 1:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"0%c:00:00.000",arrValue[0]]];
+                    return strTemp;
+                    break;
+                }
+                case 2:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:00:00.000",arrValue[0],arrValue[1]]];
+                    return strTemp;
+                }
+                case 3:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:0%c:00.000",arrValue[0],arrValue[1],arrValue[2]]];
+                    return strTemp;
+                }
+                case 4:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:%c%c:00.000",arrValue[0],arrValue[1],arrValue[2],arrValue[3]]];
+                    return strTemp;
+                }
+                case 5:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:%c%c:0%c.000",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4]]];
+                    return strTemp;
+                }
+                case 6:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:%c%c:%c%c.000",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4],arrValue[5]]];
+                    return strTemp;
+                }
+                case 7:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:%c%c:%c%c.00%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4],arrValue[5],arrValue[6]]];
+                    return strTemp;
+                }
+                case 8:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:%c%c:%c%c.0%c%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4],arrValue[5],arrValue[6],arrValue[7]]];
+                    return strTemp;
+                }
+                case 9:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,12) withString:[NSString stringWithFormat:@"%c%c:%c%c:%c%c.%c%c%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4],arrValue[5],arrValue[6],arrValue[7],arrValue[8]]];
+                    return strTemp;
+                }
+                default:
+                    break;
+            }
+            
+        }else  if ([ PlaceholderValue isEqualToString:@"mm:ss.SSS"])
+        {
+            switch (value.length) {
+                case 0:
+                {
+                    return @"00:00.000";
+                    break;
+                }
+                case 1:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,9) withString:[NSString stringWithFormat:@"0%c:00.000",arrValue[0]]];
+                    return strTemp;
+                    break;
+                }
+                case 2:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,9) withString:[NSString stringWithFormat:@"%c%c:00.000",arrValue[0],arrValue[1]]];
+                    return strTemp;
+                }
+                case 3:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,9) withString:[NSString stringWithFormat:@"%c%c:0%c.000",arrValue[0],arrValue[1],arrValue[2]]];
+                    return strTemp;
+                }
+                case 4:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,9) withString:[NSString stringWithFormat:@"%c%c:%c%c.000",arrValue[0],arrValue[1],arrValue[2],arrValue[3]]];
+                    return strTemp;
+                }
+                case 5:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,9) withString:[NSString stringWithFormat:@"%c%c:%c%c.00%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4]]];
+                    return strTemp;
+                }
+                case 6:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,9) withString:[NSString stringWithFormat:@"%c%c:%c%c:0%c%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4],arrValue[5]]];
+                    return strTemp;
+                }
+                case 7:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,9) withString:[NSString stringWithFormat:@"%c%c:%c%c.%c%c%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4],arrValue[5],arrValue[6]]];
+                    return strTemp;
+                }
+                default:
+                    break;
+            }
+            
+        }else  if ([ PlaceholderValue isEqualToString:@"mm:ss.S"])
+        {
+            switch (value.length) {
+                case 0:
+                {
+                    return @"00:00.0";
+                    break;
+                }
+                case 1:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,7) withString:[NSString stringWithFormat:@"0%c:00.0",arrValue[0]]];
+                    return strTemp;
+                    break;
+                }
+                case 2:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,7) withString:[NSString stringWithFormat:@"%c%c:00.0",arrValue[0],arrValue[1]]];
+                    return strTemp;
+                }
+                case 3:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,7) withString:[NSString stringWithFormat:@"%c%c:0%c.0",arrValue[0],arrValue[1],arrValue[2]]];
+                    return strTemp;
+                }
+                case 4:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,7) withString:[NSString stringWithFormat:@"%c%c:%c%c.0",arrValue[0],arrValue[1],arrValue[2],arrValue[3]]];
+                    return strTemp;
+                }
+                case 5:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,7) withString:[NSString stringWithFormat:@"%c%c:%c%c.%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4]]];
+                    return strTemp;
+                }
+                    
+                default:
+                    break;
+            }
+            
+        }else  if ([ PlaceholderValue isEqualToString:@"ss.SSS"])
+        {
+            switch (value.length) {
+                case 0:
+                {
+                    return @"00.000";
+                    break;
+                }
+                case 1:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,6) withString:[NSString stringWithFormat:@"0%c.000",arrValue[0]]];
+                    return strTemp;
+                    break;
+                }
+                case 2:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,6) withString:[NSString stringWithFormat:@"%c%c.000",arrValue[0],arrValue[1]]];
+                    return strTemp;
+                }
+                case 3:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,6) withString:[NSString stringWithFormat:@"%c%c.00%c",arrValue[0],arrValue[1],arrValue[2]]];
+                    return strTemp;
+                }
+                case 4:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,6) withString:[NSString stringWithFormat:@"%c%c.0%c%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3]]];
+                    return strTemp;
+                }
+                    
+                case 5:
+                {
+                    strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(0,6) withString:[NSString stringWithFormat:@"%c%c.%c%c%c",arrValue[0],arrValue[1],arrValue[2],arrValue[3],arrValue[4]]];
+                    return strTemp;
+                }
+                    
+                default:
+                    break;
+            }
+        }
+        return strTemp;
+    }
+    @catch (NSException *exception) {
+        return @"";
+    }
+    @finally {
         
     }
-    
-    int actualStingLenght=(int)value.length-1;
-    NSString *strTemp=correctValue;
-    const char *b= [correctValue UTF8String];
-    
-    for (int j=(int)(correctValue.length-1); j >= 0  ; j--) {
-        
-        if (b[j]==':') {
-            
-            j--;
-            
-            
-        }else if (b[j]=='.')
-        {
-            j--;
-            
-        }
-        
-        if (actualStingLenght >= 0) {
-            
-            strTemp= [strTemp stringByReplacingCharactersInRange:NSMakeRange(j,1) withString:[NSString stringWithFormat:@"%c",arrValue[actualStingLenght]]];
-            
-            actualStingLenght=actualStingLenght-1;
-        }else
-        {
-            return strTemp;
-        }
-    }
-    return strTemp;
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField

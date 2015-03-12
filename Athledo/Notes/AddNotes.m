@@ -16,7 +16,6 @@
     int KeyboardHeight;
     NSDateFormatter *formatter;
 }
-
 @end
 @implementation AddNotes
 
@@ -24,7 +23,6 @@
     [super viewDidLoad];
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_TIME_FORMAT_MESSAGE];
-    
     // Do any additional setup after loading the view from its nib.
     self.title = @"Add Notes";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
@@ -68,7 +66,6 @@
             txtViewCurrent.frame = CGRectMake(150, 100, 0, 0);
             [txtViewCurrent resignFirstResponder];
         } completion:^(BOOL finished){
-            
             if(txtViewCurrent)
             {
                 [txtViewCurrent removeFromSuperview];
@@ -153,7 +150,6 @@
     } ];
 }
 #pragma Textview delegate
-
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
@@ -162,7 +158,6 @@
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
 }
-
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     return YES;
@@ -206,10 +201,8 @@
         cell.delegate=self;
     }
     @catch (NSException *exception) {
-    
     }
     @finally {
-        
     }
     return cell;
 }
@@ -231,7 +224,6 @@
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:149/255.0 green:29/255.0 blue:27/255.0 alpha:1.0f] icon:[UIImage imageNamed:@"edit.png"] :(int)btnTag];
-    
     return rightUtilityButtons;
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
@@ -313,8 +305,7 @@
         }case RefreshNotesTag:
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {
-                 arrNotesData =[[MyResults objectForKey:@"data"] valueForKey:@"AthleteNote"];
+            {   arrNotesData =[[MyResults objectForKey:@"data"] valueForKey:@"AthleteNote"];
                  [objTableView reloadData];
             }
             break;

@@ -40,6 +40,7 @@
 #define EditNotesTag 8002
 #define RefreshNotesTag 8003
 #define getPDFLinkTag 8004
+#define ShareNotesTag 8005
 
 #define listPickerHeight 168
 #define datePickerHeight 168
@@ -157,12 +158,10 @@
 
 #define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
 
-#define webservicePDFLink @"http://192.155.246.146:8020/webservices/downloadNotes"
-#define webserviceNotesList @"http://192.155.246.146:8020/webservices/getAthleteNotes"
-#define webserviceAddNotes @"http://192.155.246.146:8020/webservices/addNotes"
-
-//#define DownloadAllPDF @"http://192.155.246.146:8020/athlete_notes/send_pdf"
-#define DownloadAllPDF @"http://www.msy.com.au/Parts/PARTS.pdf"
+#define webserviceShareNotes [BaseUrl stringByAppendingString:@"sendNotesMail"] //@"http://192.155.246.146:8020/webservices/sendNotesMail"
+#define webservicePDFLink [BaseUrl stringByAppendingString:@"downloadNotes"]     //@"http://192.155.246.146:8020/webservices/downloadNotes"
+#define webserviceNotesList [BaseUrl stringByAppendingString:@"getAthleteNotes"]  //@"http://192.155.246.146:8020/webservices/getAthleteNotes"
+#define webserviceAddNotes [BaseUrl stringByAppendingString:@"addNotes"]   //@"http://192.155.246.146:8020/webservices/addNotes"
 
 //Calender
 
