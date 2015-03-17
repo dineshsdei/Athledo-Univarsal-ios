@@ -763,13 +763,12 @@ int Box_W;
     for(NSString *s in ar){
         UILabel *label =(UILabel *)[self.arrLable objectAtIndex:i];
         if (isIPad) {
-           // label = [[UILabel alloc] initWithFrame:CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15)];
+           // label = [[UILabel alloc] initWithFrame:CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15)] s;
         }
+    
         label.frame = CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15);
         i++;
     }
-
-    
 }
 
 - (instancetype) initWithSundayAsFirst:(BOOL)s timeZone:(NSTimeZone*)timeZone{

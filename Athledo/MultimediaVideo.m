@@ -102,9 +102,43 @@
     AllMultimediaData=[[NSArray alloc] init];
     arrVisitedIndex=[[NSMutableArray alloc] init];
     
+    UIButton *btnAddWorkout = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *imageAdd=[UIImage imageNamed:@"add.png"];
+    btnAddWorkout.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
+    [btnAddWorkout addTarget:self action:@selector(SelectVideoFiles) forControlEvents:UIControlEventTouchUpInside];
+    [btnAddWorkout setImage:imageAdd forState:UIControlStateNormal];
+    
+    UIBarButtonItem *BarItemAdd = [[UIBarButtonItem alloc] initWithCustomView:btnAddWorkout];
+   self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemAdd, nil];
     
     [self getMultimediaVideos];
     [self getSeasonData];
+}
+
+-(void)SelectVideoFiles
+{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    imagePicker.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
+    NSArray *sourceTypes = [UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
+    if (![sourceTypes containsObject:(NSString *)kUTTypeMovie ])
+    {
+        NSLog(@"no video");
+    }
+    
+    else
+    {
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([type isEqualToString:(NSString *)kUTTypeVideo] || [type isEqualToString:(NSString *)kUTTypeMovie])
+    {
+        NSURL *urlvideo = [info objectForKey:UIImagePickerControllerMediaURL];
+    }
 }
 -(void)doneClicked
 {

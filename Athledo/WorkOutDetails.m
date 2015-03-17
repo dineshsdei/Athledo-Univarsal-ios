@@ -1194,6 +1194,7 @@
         txtField.SectionIndex=(int)indexPath.section;
         txtField.RowIndex=(int)indexPath.row;
         if (indexPath.row == 0) {
+            
             txtField.text=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"WarmUp Time"];
             txtFieldLeftHeader.text=@"WarmUp Time";
             txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"WarmUp Time" attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor] ,NSFontAttributeName : (isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12]}];
@@ -1205,6 +1206,7 @@
             txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"CoolDown Time" attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor],NSFontAttributeName : (isIPAD) ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:12] }];
             
         }else{
+            
             NSArray *arrTemp=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:@"Units"];
             NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:indexPath.row-2] allKeys];
             NSString *unitKey=@"";

@@ -30,6 +30,7 @@
     [super viewDidDisappear:animated];
 }
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     arrFilterdData=[[NSMutableArray alloc] init];
@@ -371,7 +372,7 @@
 }
 -(void)DownloadSelectedUserPDF :(NSInteger)userTag
 {
-    [self getPdfLink:[NSString stringWithFormat:@"%i",userTag]];
+    [self getPdfLink:[NSString stringWithFormat:@"%li",(long)userTag]];
 }
 
 -(void)ShareSelectedUserNotes :(NSInteger)userTag
@@ -438,5 +439,39 @@
     }
     @finally {
     }
+}
+- (IBAction)sendButtonPressed {
+    NSLog(@"Sending request.");
+    
+    // Common constants
+   // NSString *kTwilioSID = @"AC0f6fae9e2a5b0ff47d1b1dcbd20a0e83";
+   // NSString *kTwilioSecret = @"dde62baf5beb5775896434797e915c8c";
+    NSString *kFromNumber = @"+19894744473";
+    NSString *kToNumber = @"+918427176032";
+    NSString *kMessage = @"Hi%20there.";
+    
+    // Build requesthttps://api.twilio.com/2010-04-01/Accounts/AC0f6fae9e2a5b0ff47d1b1dcbd20a0e83
+    //NSString *urlString = [NSString stringWithFormat:@"https://%@:%@@api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages", kTwilioSID, kTwilioSecret, kTwilioSID];
+    NSString *urlString = @"https://api.twilio.com/2010-04-01/Accounts/AC0f6fae9e2a5b0ff47d1b1dcbd20a0e83/Messages.json";
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:url];
+    [request setHTTPMethod:@"POST"];
+    
+    // Set up the body
+    NSString *bodyString = [NSString stringWithFormat:@"From=%@&To=%@&Body=%@", kFromNumber, kToNumber, kMessage];
+    NSData *data = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:data];
+    NSError *error;
+    NSURLResponse *response;
+    NSData *receivedData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    // Handle the received data
+    if (error) {
+        NSLog(@"Error: %@", error);
+    } else {
+        NSString *receivedString = [[NSString alloc]initWithData:receivedData encoding:NSUTF8StringEncoding];
+        NSLog(@"Request sent. %@", receivedString);
+    }     
 }
 @end

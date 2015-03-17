@@ -315,6 +315,8 @@
 		71A7CE371A790FA700A67905 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A7CE341A790FA700A67905 /* back.png */; };
 		71A7CE381A790FA700A67905 /* btnCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A7CE351A790FA700A67905 /* btnCamera.png */; };
 		71A7CE391A790FA700A67905 /* btnCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A7CE361A790FA700A67905 /* btnCamera@2x.png */; };
+		71A85D2C1AB6AD8400B1623C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A85D2B1AB6AD8400B1623C /* MobileCoreServices.framework */; };
+		71A85D2F1AB6C89B00B1623C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A85D2E1AB6C89B00B1623C /* CFNetwork.framework */; };
 		71A89A201A24505A00CA9756 /* AnnouncementView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A89A1F1A24505900CA9756 /* AnnouncementView~ipad.xib */; };
 		71A89A221A247AED00CA9756 /* AddNewAnnouncement~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A89A211A247AEC00CA9756 /* AddNewAnnouncement~ipad.xib */; };
 		71A89A251A24A80B00CA9756 /* AnnouncementCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A89A241A24A80B00CA9756 /* AnnouncementCell~ipad.xib */; };
@@ -876,6 +878,8 @@
 		71A7CE341A790FA700A67905 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back.png; path = ../TabImages/1x/back.png; sourceTree = "<group>"; };
 		71A7CE351A790FA700A67905 /* btnCamera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnCamera.png; path = ../TabImages/1x/btnCamera.png; sourceTree = "<group>"; };
 		71A7CE361A790FA700A67905 /* btnCamera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btnCamera@2x.png"; path = "../TabImages/1x/btnCamera@2x.png"; sourceTree = "<group>"; };
+		71A85D2B1AB6AD8400B1623C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		71A85D2E1AB6C89B00B1623C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		71A89A1F1A24505900CA9756 /* AnnouncementView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AnnouncementView~ipad.xib"; sourceTree = "<group>"; };
 		71A89A211A247AEC00CA9756 /* AddNewAnnouncement~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNewAnnouncement~ipad.xib"; sourceTree = "<group>"; };
 		71A89A241A24A80B00CA9756 /* AnnouncementCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AnnouncementCell~ipad.xib"; sourceTree = "<group>"; };
@@ -998,6 +1002,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71A85D2F1AB6C89B00B1623C /* CFNetwork.framework in Frameworks */,
+				71A85D2C1AB6AD8400B1623C /* MobileCoreServices.framework in Frameworks */,
 				71BB05B61AA43C3900974781 /* MessageUI.framework in Frameworks */,
 				71B142C319C9C320008EBC90 /* AssetsLibrary.framework in Frameworks */,
 				710C632719B9E1EA00F11983 /* MapKit.framework in Frameworks */,
@@ -1049,6 +1055,8 @@
 		3D9E04DA197BCF3C005CCB10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71A85D2E1AB6C89B00B1623C /* CFNetwork.framework */,
+				71A85D2B1AB6AD8400B1623C /* MobileCoreServices.framework */,
 				71BB05B51AA43C3900974781 /* MessageUI.framework */,
 				71B142C219C9C320008EBC90 /* AssetsLibrary.framework */,
 				710C632619B9E1EA00F11983 /* MapKit.framework */,

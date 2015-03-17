@@ -84,19 +84,16 @@
         cell.backgroundColor=[UIColor clearColor];
         
         UIImageView *cellImageView;
-//        if(indexPath.row==21 && [[arrMenuList objectAtIndex:2] isEqualToString:@"Notes11"])
-//        {
-//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(27,(cell.frame.size.height/2)-(isIPAD ? 0: 10),17,20)];
-//        }else
-//        {
-//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
-//        }
-        cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
+        if(indexPath.row==2 && [[arrMenuList objectAtIndex:2] isEqualToString:@"Notes"])
+        {
+            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(17,(cell.frame.size.height/2)-(isIPAD ? 5: 15),35,30)];
+        }else
+        {
+            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
+        }
+        //cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
         cellImageView.tag=101;
-        
-        //  cellImageView.backgroundColor=[UIColor redColor];
         [cell addSubview:cellImageView];
-        
         cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"Cell_Bg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
         
         UILabel *profileLbl=[[UILabel alloc] initWithFrame:CGRectMake(60,(cell.frame.size.height/2)-(isIPAD ? 5: 15),200,30)];
@@ -176,7 +173,7 @@
         }
     }
     UIImageView *cellimage=(UIImageView *)[cell viewWithTag:101];
-    [cellimage setImage:[self SetImage:indexPath.row]];
+   [cellimage setImage:[self SetImage:indexPath.row]];
     
     return cell;
 }
