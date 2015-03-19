@@ -156,11 +156,12 @@ static SingletonClass *objSingaltonClass=nil;
     return lblShowEmptyMessage;
 }
 
-#pragma Add Keyoard Done button in Toolbar
--(UIToolbar *)AddDoneButtonToolBar:(UIView *)view
+#pragma mark-Create Control
+-(UIToolbar *)toolBarWithDoneButton:(UIView *)view
 {
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, view.frame.size.height, view.frame.size.width,44)];
+    
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     return toolBar;
@@ -168,10 +169,10 @@ static SingletonClass *objSingaltonClass=nil;
 
 -(void)doneClicked
 {
-    [_delegate DoneClicked];
+    [_delegate Done];
 }
 
-#pragma Add/Remove ActivityIndicator
+#pragma mark -Add/Remove ActivityIndicator
 
 +(void)addActivityIndicator :(UIView *)view
 {
@@ -382,4 +383,5 @@ static SingletonClass *objSingaltonClass=nil;
     
     return path;
 }
+
 @end

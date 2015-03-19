@@ -98,8 +98,6 @@
     [super viewWillDisappear:NO];
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -112,7 +110,6 @@
     }
    
     // Do any additional setup after loading the view from its nib.
-    
     SWRevealViewController *revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
@@ -142,7 +139,6 @@
     AllMultimediaData=[[NSArray alloc] init];
     [self getMultimediaPic];
     [self getSeasonData];
-    
 }
 
 -(void)sortedData :(int)index

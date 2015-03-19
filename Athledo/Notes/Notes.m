@@ -109,7 +109,6 @@
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     NSString *path = [[SingletonClass DocumentDirectoryPath] stringByAppendingPathComponent: arrFilterdData.count > pdfNameIndex ? [NSString stringWithFormat:@"%@_Notes.pdf", [[arrFilterdData objectAtIndex:pdfNameIndex ] valueForKey:@"firstname"]] : @"AllAthlete_Notes.pdf" ];
     operation.outputStream = [NSOutputStream outputStreamToFileAtPath:path append:NO];
-    
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.navigationController.navigationItem.rightBarButtonItem.enabled=NO;
@@ -199,6 +198,7 @@
 #pragma Open documents
 
 -(void)openDocumentIn:(NSString *)filepath {
+    
     documentController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:filepath]];
     documentController.delegate = self;
     documentController.UTI = @"com.adobe.pdf";
@@ -273,7 +273,7 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                 [SingletonClass initWithTitle:@"" message:@"Notes have been suceessfully shared." delegate:nil btn1:@"Ok"];
+                 [SingletonClass initWithTitle:@"" message:@"Notes have been shared suceessfully." delegate:nil btn1:@"Ok"];
             }
             break;
         }
@@ -442,7 +442,6 @@
 }
 - (IBAction)sendButtonPressed {
     NSLog(@"Sending request.");
-    
     // Common constants
    // NSString *kTwilioSID = @"AC0f6fae9e2a5b0ff47d1b1dcbd20a0e83";
    // NSString *kTwilioSecret = @"dde62baf5beb5775896434797e915c8c";

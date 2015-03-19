@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol SingletonClassDelegate <NSObject>
--(void)DoneClicked;
+-(void)Done;
 @end
 
 @interface SingletonClass : NSObject
@@ -48,7 +48,7 @@
 +(UILabel *)ShowEmptyMessage :(NSString *)text;
 +(void)deleteUnUsedLableFromTable :(UITableView *)table;
 
--(UIToolbar *)AddDoneButtonToolBar:(UIView *)view;
+-(UIToolbar *)toolBarWithDoneButton:(UIView *)view;
 -(void)doneClicked;
 +(NSString *)DocumentDirectoryPath;
 

@@ -74,7 +74,7 @@
         } ];
     }
     UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(150, 100, 0, 0)];
-    txtView.inputAccessoryView = [[SingletonClass ShareInstance] AddDoneButtonToolBar:self.view];
+    txtView.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
     [SingletonClass ShareInstance].delegate = self;
     txtView.delegate = self;
     txtView.layer.borderWidth = 1.0f;
@@ -110,7 +110,7 @@
         } ];
     }
     UITextView *txtView = [[UITextView alloc] initWithFrame:CGRectMake(150, 100, 0, 0)];
-    txtView.inputAccessoryView = [[SingletonClass ShareInstance] AddDoneButtonToolBar:self.view];
+    txtView.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
     [SingletonClass ShareInstance].delegate = self;
     txtView.delegate =self;
     txtView.layer.borderWidth = 1.0f;
@@ -125,7 +125,7 @@
     [UIView animateWithDuration:0.48f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{txtView.frame = CGRectMake(5, 3, self.view.frame.size.width-10 ,self.view.frame.size.height - (KeyboardHeight+10));} completion:^(BOOL finished){}];
 }
 // edit / Add text in arry and remove textview
--(void)DoneClicked
+-(void)Done
 {
     if (( isEdit == TRUE && EditIndex != -1 ) && txtViewCurrent.text.length > 0) {
         [self EditNotesWebservice:EditIndex];

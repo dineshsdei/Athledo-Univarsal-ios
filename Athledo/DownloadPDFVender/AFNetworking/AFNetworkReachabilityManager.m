@@ -156,6 +156,7 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
 }
 
 - (void)dealloc {
+    [super dealloc];
     [self stopMonitoring];
 
     if (_networkReachability) {

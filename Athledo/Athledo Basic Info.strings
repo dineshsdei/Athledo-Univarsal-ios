@@ -12,9 +12,27 @@ User Type 2 for Coach
 
 Coach login credentials
 
-  Amitk@smartdatainc.net/12345678
+  coach@athledo.com/12345678
 
 Athlete login credentials
 
 Nishantk@smartdatainc.net/12345678
+
+
+<---- Utility Folder ------->
+
+Utility folder contents ASIHTTPRequest API classes for used upload videoes and send request for sending sms
+
+<---- Model Folder ------->
+
+Model folder contents web service classes , SingletonClass for data sharing , CalendarEvent class for calendar section data sharing
+
+<---- Views Folder ------->
+
+Views folder contents all xib(UI) for iphone / ipad
+
+<---- Controllers Folder ------->
+
+Controllers folder contents all logic define classes
+
 */

@@ -87,8 +87,6 @@
    // [self.NavViewController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navBg.png"] forBarMetrics:UIBarMetricsDefault];
     
     [self.NavViewController setNavigationBarHidden:YES];    // Override point for customization after application launch.
-   
-  
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:@"USERINFORMATION"];
     NSDictionary *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
@@ -104,8 +102,6 @@
         userdata.userFullName=[user valueForKey:@"sender"];
         userdata.userSelectedTeamid =[[user objectForKey:@"team_id"] intValue];
         userdata.userSelectedSportid =[[user objectForKey:@"sport_id"] intValue];
-
-        
         NSArray *arrController=[self.NavViewController viewControllers];
         
         for (id object in arrController)
