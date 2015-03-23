@@ -158,7 +158,6 @@ int iconleftPosition;
             
             Fsection=Fsection+1;
             
-            
             UITextField *txtfieldCountry = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 54, GenralInfoWeight, 20)];
             txtfieldCountry.tag = (indexPath.section+1)*1000+Fsection;
             txtfieldCountry.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
@@ -176,9 +175,7 @@ int iconleftPosition;
             
             txtfieldCountry.alpha = 1.0;
             txtfieldCountry.userInteractionEnabled = isEdit;
-            
             [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtfieldCountry.tag]];
-            
             [self addSubview:txtfieldCountry];
             Fsection=Fsection+1;
             
@@ -346,7 +343,7 @@ int iconleftPosition;
             }
             
         }
-        else if(indexPath.section < (1+ ([UserInformation shareInstance].userType==1 ? coachingInfo.count : coachingInfo.count)) )
+        else if(indexPath.section < (1+ ([UserInformation shareInstance].userType == isCoach ? coachingInfo.count : coachingInfo.count)) )
         {
             int Ssection=1;
             NSMutableArray *arrIndex=[[NSMutableArray alloc] init];
@@ -488,12 +485,32 @@ int iconleftPosition;
                 }
             }else
             {
-                ///   Athlete Sport info section
-                long int index=indexPath.section-1;
-                UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,0, LINE_SEP_W, 2)];
-                img1.image=[UIImage imageNamed:@"red_line.png"];
-                [self addSubview:img1];
+                 long int index=indexPath.section-1;
                 
+                if ([UserInformation shareInstance].userType == isManeger && indexPath.section == 1) {
+                   
+                    UIButton *btnEdit =[[UIButton alloc] initWithFrame:CGRectMake((LINE_SEP_X)+(LINE_SEP_W)+10, -10, 20, 20)];
+                    btnEdit.tag=1;
+                    UIImage *imageEdit=[UIImage imageNamed:@"plus_icon.png"];
+                    [btnEdit setBackgroundImage:imageEdit forState:UIControlStateNormal];
+                    [btnEdit addTarget:self action:@selector(AddManagerSportInfo : ) forControlEvents:UIControlEventTouchUpInside];
+                    [self addSubview:btnEdit];
+                    
+                    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,0, LINE_SEP_W, 2)];
+                    img1.image=[UIImage imageNamed:@"red_line.png"];
+                    [self addSubview:img1];
+                }else {
+                    if (index == 0) {
+                        UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,0, LINE_SEP_W, 2)];
+                        img1.image=[UIImage imageNamed:@"red_line.png"];
+                        [self addSubview:img1];
+                    }else{
+                        UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,0, LINE_SEP_W, 1)];
+                        img1.image=[UIImage imageNamed:@"menu_sep.png"];
+                        [self addSubview:img1];
+                    }
+                }
+                ///   Athlete Sport info section
                 UILabel *lblAge= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 15, 90, 25)];
                 lblAge.text = @"Age :";
                 lblAge.font = sportinfoFont;
@@ -613,14 +630,12 @@ int iconleftPosition;
             }
             
         }
-        else if(indexPath.section < (1+([UserInformation shareInstance].userType==1 ? coachingInfo.count : coachingInfo.count)+awardInfo.count))
+        else if(indexPath.section < (1+([UserInformation shareInstance].userType == isCoach ? coachingInfo.count : coachingInfo.count)+awardInfo.count))
         {
             
-            long int index=indexPath.section-(1+([UserInformation shareInstance].userType==1 ? coachingInfo.count : coachingInfo.count));
+            long int index=indexPath.section-(1+([UserInformation shareInstance].userType == isCoach ? coachingInfo.count : coachingInfo.count));
             int Thsection=1;
-            
             NSMutableArray *arrIndex=[[NSMutableArray alloc] init];
-            
             if ([UserInformation shareInstance].userType == 1)
             {
                 ///   Coach Awards info section
@@ -793,6 +808,13 @@ int iconleftPosition;
         }
     }
     return self;
+}
+#pragma mark UITableviewCell Delegate 
+-(void)AddManagerSportInfo :(id)sender
+{
+    UIButton *btn=sender;
+    long int tag=btn.tag;
+    [self.addProfileDelegate AddManagerSportInfo:tag];
 }
 
 -(void)addProfileCoachingInfo :(id)sender

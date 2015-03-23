@@ -165,7 +165,7 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 notificationData=[MyResults objectForKey:@"data"];
-                if (userInfo.userType==1) {
+                if (userInfo.userType==1 || userInfo.userType==4) {
                     [tblAnnouncementRecods reloadData];
                 }else{
                     [tblUpdatesRecods reloadData];
@@ -211,6 +211,15 @@
                         [tblUpdatesRecods reloadData];
                         break;
                     }
+                    case 4:
+                    {
+                        tblAnnouncementRecods.delegate=self;
+                        tblAnnouncementRecods.dataSource=self;
+                        
+                        [tblAnnouncementRecods reloadData];
+                        
+                        break;
+                    }
                 }
             }else
             {
@@ -249,6 +258,11 @@
                  case 2:
                     {
                         [tblUpdatesRecods reloadData];
+                        break;
+                    }
+                    case 4:
+                    {
+                        [tblAnnouncementRecods reloadData];
                         break;
                     }
                 }
@@ -332,6 +346,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    self.title = @"Announcements";
     if (isIPAD)
     {
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -343,15 +358,6 @@
     userInfo=[UserInformation shareInstance];
     [self getNotificationData];
     [self CerateLayOut];
-    
-    if ([UserInformation shareInstance].userType==1) {
-        self.title = @"Announcements";
-        tblAnnouncementRecods.hidden=NO;
-    }else{
-        self.title = @"Announcements";
-        tblUpdatesRecods.hidden=NO;
-    }
-    
     [super viewWillAppear:NO];
     
     if ([SingletonClass ShareInstance].isAnnouncementUpdate == TRUE) {
@@ -361,18 +367,25 @@
     }else{
         switch (userInfo.userType) {
                 
-            case 1:
+            case isCoach:
             {
                 tblAnnouncementRecods.delegate=self;
                 tblAnnouncementRecods.dataSource=self;
                 [tblAnnouncementRecods reloadData];
                 break;
             }
-            case 2:
+            case isAthlete:
             {
                 tblUpdatesRecods.delegate=self;
                 tblUpdatesRecods.dataSource=self;
                 [tblUpdatesRecods reloadData];
+                break;
+            }
+            case isManeger:
+            {
+                tblAnnouncementRecods.delegate=self;
+                tblAnnouncementRecods.dataSource=self;
+                [tblAnnouncementRecods reloadData];
                 break;
             }
         }
@@ -383,7 +396,7 @@
 {
     switch (userInfo.userType)
     {
-        case 1:
+        case isCoach:
         {
             tblUpdatesRecods.hidden=YES;
             tblAnnouncementRecods.hidden=NO;
@@ -391,7 +404,7 @@
             SearchBar.hidden=NO;
              break;
         }
-        case 2:
+        case isAthlete:
         {
             tblAnnouncementRecods.hidden=YES;
             btnAddNew.hidden=YES;
@@ -399,6 +412,14 @@
             tfSearch.hidden=YES;
             SearchBar.hidden=YES;
             
+            break;
+        }
+        case isManeger:
+        {
+            tblUpdatesRecods.hidden=YES;
+            tblAnnouncementRecods.hidden=NO;
+            btnAddNew.hidden=NO;
+            SearchBar.hidden=NO;
             break;
         }
             

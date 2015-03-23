@@ -35,6 +35,12 @@
 @end
 
 @implementation Multimedia
+
+#pragma mark UIViewController method
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     self.title=@"Multimedia Photos";
@@ -49,50 +55,8 @@
     UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:1];
     [_tabBar setSelectedItem:tabBarItem];
     [super viewWillAppear:animated];
-    
 }
 
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
-    NSArray *arrController=[self.navigationController viewControllers];
-    switch (item.tag) {
-        case 0:
-        {
-            BOOL Status=FALSE;
-            for (id object in arrController)
-            {
-                if ([object isKindOfClass:[MultimediaVideo class]])
-                {
-                    Status=TRUE;
-                    [self.navigationController popToViewController:object animated:NO];
-                }
-            }
-            if (Status==FALSE)
-            {
-                MultimediaVideo *arichive=[[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
-                [self.navigationController pushViewController:arichive animated:NO];
-            }
-            break;
-        }
-            
-        default:
-            break;
-    }
-}
-
-- (void)orientationChanged
-{
-    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
-        return;
-    }
-    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
-    if (isIPAD) {
-        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500):toolBar];
-    }
-    [_tableView reloadData];
-  
-}
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:NO];
@@ -117,7 +81,6 @@
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    
     listPicker=[[UIPickerView alloc] init];
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag=listPickerTag;
@@ -125,7 +88,6 @@
     listPicker.dataSource=self;
     listPicker.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:listPicker];
-    
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height+50, [UIScreen mainScreen].bounds.size.width, 44)];
@@ -140,7 +102,46 @@
     [self getMultimediaPic];
     [self getSeasonData];
 }
+#pragma mark Multimedia Other Utility Method
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    NSArray *arrController=[self.navigationController viewControllers];
+    switch (item.tag) {
+        case 0:
+        {
+            BOOL Status=FALSE;
+            for (id object in arrController)
+            {
+                if ([object isKindOfClass:[MultimediaVideo class]])
+                {
+                    Status=TRUE;
+                    [self.navigationController popToViewController:object animated:NO];
+                }
+            }
+            if (Status==FALSE)
+            {
+                MultimediaVideo *arichive=[[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
+                [self.navigationController pushViewController:arichive animated:NO];
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
 
+- (void)orientationChanged
+{
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
+    if (isIPAD) {
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500):toolBar];
+    }
+    [_tableView reloadData];
+}
 -(void)sortedData :(int)index
 {
     switch (index) {
@@ -148,53 +149,37 @@
         {
             [multimediaData removeAllObjects];
             for (int i=0; i< AllMultimediaData.count; i++) {
-                
                 NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
-                
                 [multimediaData addObject:temp];
-                
             }
-            
             [_tableView reloadData];
             break;
         }case 1:
         {
             [multimediaData removeAllObjects];
-            
             for (int i=0; i< AllMultimediaData.count; i++) {
-                
                 if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==1) {
-                    
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
-                    
                     [multimediaData addObject:temp];
                 }
             }
-            
             [_tableView reloadData];
-            
             break;
         }
         case 2:
         {
             [multimediaData removeAllObjects];
-            
             for (int i=0; i< AllMultimediaData.count; i++) {
-                
                 if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==2) {
-                    
                     [multimediaData addObject:[AllMultimediaData objectAtIndex:i]];
                 }
             }
-            
             [_tableView reloadData];
-            
             break;
         }
         case 3:
         {
             [self getMultimediaAlbum];
-            
             break;
         }
         default:
@@ -205,7 +190,6 @@
 -(IBAction)SegmentSelected:(id)sender
 {
     UISegmentedControl *segment=sender;
-    
     [self sortedData:(int)(segment.selectedSegmentIndex)];
 }
 -(void)doneClicked
@@ -216,52 +200,9 @@
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
     [UIView commitAnimations];
-    
     [self getMultimediaPic];
 }
-#pragma mark- UIPickerView
--(void)setToolbarVisibleAt :(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    [self.view viewWithTag:40].center = point;
-    [UIView commitAnimations];
-}
--(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        
-        if (currentText.text.length > 0) {
-            for (int i=0; i< data.count; i++) {
-                
-                if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-                    
-                    [listPicker selectRow:i inComponent:0 animated:YES];
-                    
-                    break;
-                }
-            }
-        }
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-        
-    }else{
-        [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
-    }
-    
-    
-    [self.view viewWithTag:listPickerTag].center = point;
-    
-    [UIView commitAnimations];
-}
+#pragma mark- UIPickerView Delegate method 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
@@ -273,19 +214,15 @@
         arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :@"";
         seasonId=[self KeyForValue:@"Season":currentText.text];
     }
-    
     return [arrSeasons count];
-    
 }
 
 #pragma mark- Picker delegate method
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     NSString *str;
-    
     str = [arrSeasons objectAtIndex:row];
     NSArray *arr = [str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
-    
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
@@ -295,81 +232,56 @@
     
 }
 -(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey
-
 {
     NSArray *arrValues=[[DicData objectForKey:superKey] allValues];
     NSArray *arrkeys=[[DicData objectForKey:superKey] allKeys];
     NSString *strValue=@"";
-    
     for (int i=0; i<arrValues.count; i++) {
-        
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
             strValue=[arrkeys objectAtIndex:i];
             break;
         }
-        
     }
     return strValue;
-    
 }
 #pragma mark Webservice call event
 -(void)getSeasonData{
     
     if ([SingletonClass  CheckConnectivity]) {
-        
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
-        
         [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getSeasonTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)getMultimediaAlbum{
     
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"album_id\":\"%@\"}",userInfo.userId,AlbumId];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceGetMultimediaAlbum :strURL :getAlbumDataTag];
         
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)getMultimediaPic{
     
     if ([SingletonClass  CheckConnectivity]) {
-        
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceGetMultimediaPic :strURL :getPicDataTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -385,13 +297,11 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 AllMultimediaData=[[MyResults valueForKey:@"data"] copy];
-                
                 for (int i=0; i< AllMultimediaData.count; i++) {
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
                     [multimediaData addObject:temp];
                 }
                 _segmentControl.selectedSegmentIndex=0;
-                
                 [_tableView reloadData];
             }else{
                 [multimediaData removeAllObjects];
@@ -402,7 +312,6 @@
             break;
         } case getSeasonTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 DicData=[MyResults  objectForKey:@"data"];
@@ -410,7 +319,6 @@
                 NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues];
                 //To remove off season
                 for (int i=0;i<arrtemp.count; i++) {
-                    
                     if (![[arrtemp objectAtIndex:i] isEqualToString:@"Off Season"]) {
                         [arrSeasons addObject:[arrtemp objectAtIndex:i]];
                     }
@@ -418,7 +326,6 @@
             }else{
                 //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
             }
-            
             break;
         }
         case getAlbumDataTag :
@@ -429,9 +336,7 @@
                 if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
                 {
                     [multimediaData removeAllObjects];
-                    
                     NSArray *temp=[[MyResults valueForKey:@"data"] copy];
-                    
                     for (int i=0; i< temp.count; i++) {
                         NSDictionary *tempDic=[[temp objectAtIndex:i] valueForKey:@"MultimediaAlbum"];
                         [multimediaData addObject:tempDic];
@@ -441,10 +346,7 @@
                 {
                     [SingletonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
                     AlbumId=@"";
-                    
                 }
-                
-                
             }else{
                 
                 if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
@@ -472,11 +374,7 @@
         }
     }
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
+#pragma mark -Tableview Delegate method
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return 1;

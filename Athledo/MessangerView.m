@@ -111,6 +111,9 @@
                 [SingletonClass deleteUnUsedLableFromTable:table];
                 messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
                 [table reloadData];
+            }else
+            {
+                [table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]];
             }
             
             break;
@@ -134,16 +137,13 @@
         }
         case archiveMessagesTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
                   [SingletonClass RemoveActivityIndicator:self.view];
                  [SingletonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                  [self getMessages];
             }else{
-                
                  [SingletonClass RemoveActivityIndicator:self.view];
-                
                  [SingletonClass initWithTitle:@"" message:@"Message archived fail try again" delegate:nil btn1:@"Ok"];
             }
             
@@ -176,7 +176,6 @@
         
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        
          [self getMessages];
         [SingletonClass ShareInstance].isMessangerInbox =FALSE;
         
@@ -205,15 +204,6 @@
 {
   
     [super viewDidLoad];
-    
-    lblShowEmptyMessage=[[UILabel alloc] initWithFrame:CGRectMake(30, self.view.frame.size.height/3, self.view.frame.size.width-60, 100)];
-    lblShowEmptyMessage.text=@"No Message";
-    lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
-    lblShowEmptyMessage.font=[UIFont systemFontOfSize:60];
-    lblShowEmptyMessage.textColor=[UIColor grayColor];
-    lblShowEmptyMessage.hidden=YES;
-    [table addSubview:lblShowEmptyMessage];
-    
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     messageArrDic=[[NSArray alloc] init];

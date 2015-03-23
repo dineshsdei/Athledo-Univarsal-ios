@@ -118,7 +118,7 @@
                     
                     NSArray *tempExercise=[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteExercise"];
                     
-                    if ([UserInformation shareInstance].userType==1 && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
+                    if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
                         
                         
                         [arrAllAthlete addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"]];
@@ -137,7 +137,7 @@
                 
                 
                 
-                if ([UserInformation shareInstance].userType==1 && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
+                if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
                     
                     
                     //Reload table after select athlete name
@@ -345,11 +345,14 @@
     //  [newView addSubview:btnEdit];
     
     arrAvgTotalStatus=[[NSMutableArray alloc] init];
-    if ([UserInformation shareInstance].userId == [[_obj  objectForKey:@"user_id"] intValue]) {
-        
-        //self.navigationItem.titleView=newView;
+    
+    if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemEdit,BarItemReassign,BarItemDelete,nil];
+    }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_obj  objectForKey:@"user_id"] intValue])
+    {
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemEdit,BarItemReassign,BarItemDelete,nil];
     }
+   
     if (_obj) {
         
         // _imgCreatedBy
@@ -364,7 +367,7 @@
         _lblWorkoutDate.text=[_obj valueForKey:@"Date"];
         _txtViewDescription.text=[_obj valueForKey:@"Description"];
         
-        if ([UserInformation shareInstance].userType==1) {
+        if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger)) {
             
             _lblMeOrALl.text=@"to all";
         }else{
@@ -374,7 +377,7 @@
         
     }
     
-    if ([UserInformation shareInstance].userType==1 && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
+    if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
         
         _tfSelectUserType.hidden=NO;
         _dropdownImageview.hidden=NO;
@@ -1712,31 +1715,22 @@
     }else if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"])
     {
         int textfieldcount=(int)textField.text.length;
-        
         if (textfieldcount==3 && [textField.placeholder isEqualToString:@"Weight"]) {
             return NO;
         }else    if (textfieldcount==2 && [textField.placeholder isEqualToString:@"Repetitions"]){
-            
             return NO;
         }
     }else{
-        
         // This code not work for lift and interval ( in both case method work updateLiftValue)
-        
         NSString *value=@"";
-        
         NSString *myString = textField.placeholder;
         NSRange startRange = [myString rangeOfString:@"("];
         NSRange endRange = [myString rangeOfString:@")"];
         if (startRange.location != NSNotFound && endRange.location != NSNotFound && endRange.location > startRange.location) {
             value = [myString substringWithRange:NSMakeRange(startRange.location+1,(endRange.location - startRange.location)-1)];
         }
-        
-        
         const char *c = [value UTF8String];
-        
         int strTraverselength=(int)textField.text.length;
-        
         if ([value isEqualToString:@"Miles"]) {
             
             strTraverselength=2;
@@ -1752,7 +1746,6 @@
         {
             strTraverselength=2;
             
-            
         }else if ([value isEqualToString:@""]){
             
             strTraverselength=2;
@@ -1765,17 +1758,12 @@
         if (strTraverselength==textField.text.length) {
             return NO;
         }
-        
         if (c[textfieldcount]==':') {
-            // strTraverselength= strTraverselength-1;
             textField.text= [textField.text stringByAppendingString:@":"];
         }else if (c[textfieldcount]=='.')
         {
-            //strTraverselength= strTraverselength-1;
             textField.text= [textField.text stringByAppendingString:@"."];
-            
         }
-        //}
         [self updateValue:LocalTxtFeild.placeholder :LocalTxtFeild.text :LocalTxtFeild.RowIndex :LocalTxtFeild.SectionIndex];
     }
     return YES;
@@ -1922,20 +1910,13 @@
         if ([StrValues isEqualToString:@"Rate"] &&[myString isEqualToString:StrValues ] )
         {
             status=TRUE;
-            
             return TRUE;
-            
         }else if ([value isEqualToString:StrValues] ) {
-            
             status=TRUE;
-            
             return TRUE;
         }
     }
-    
-    
     return status;
-    
 }
 
 -(int)CheckTimeDestanceRateExist:(long)section
@@ -1945,29 +1926,9 @@
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"];
     count=(int)arrTemp.count;
     for (int i=0; i < arrTemp.count ; i++) {
-        
         NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:i] allKeys];
-        
         NSString *unitKey=@"";
-        
-        // NSString *strTemp=[arrUnitKeys objectAtIndex:2];
-        
-        //        if ([strTemp isEqualToString:@"id"]) {
-        //
-        //            unitKey=[arrUnitKeys objectAtIndex:1];
-        //
-        //        }else
-        //        {
-        //            unitKey=[arrUnitKeys objectAtIndex:0];
-        //
-        //        }
-        
-        
-        // NSString *values=[[[[arrWorkOuts objectAtIndex:section] valueForKey:@"Units"] objectAtIndex:i] valueForKey:unitKey];
-        
-        
         unitKey=[arrUnitKeys objectAtIndex:2];
-        
         NSString *value;
         NSString *myString = unitKey;
         NSRange startRange = [myString rangeOfString:@"("];
@@ -1976,27 +1937,20 @@
             value = [myString substringWithRange:NSMakeRange(0,startRange.location)];
             value=[value stringByReplacingOccurrencesOfString:@" " withString:@""];
         }
-        
         if (([value isEqualToString:@"Time"] ) && isTime==FALSE) {
             count=count+1;
             isTime=TRUE;
         }else  if ([value isEqualToString:@"Distance"] && isDistance==FALSE) {
-            
             count=count+1;
-            
             isDistance=TRUE;
         }else  if ([myString isEqualToString:@"Rate"] && isRate==FALSE) {
-            
             count=count+1;
             isRate=TRUE;
         }else  if ([value isEqualToString:@"Split"] && isSplit==FALSE) {
-            
             count=count+1;
             isSplit=TRUE;
         }
-        
     }
-    
     return count;
 }
 

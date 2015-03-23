@@ -106,17 +106,8 @@
                                         <outlet property="delegate" destination="-1" id="S7V-jj-7PX"/>
                                     </connections>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dUw-rl-nw0">
-                                    <rect key="frame" x="8" y="142" width="730" height="30"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="hcj-AP-Fdl"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ODN-at-HNG">
-                                    <rect key="frame" x="8" y="162" width="730" height="128"/>
+                                    <rect key="frame" x="8" y="142" width="730" height="148"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -129,6 +120,15 @@
                                         <outlet property="delegate" destination="-1" id="sSm-P9-Dj5"/>
                                     </connections>
                                 </textView>
+                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Description" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dUw-rl-nw0">
+                                    <rect key="frame" x="8" y="142" width="730" height="30"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="hcj-AP-Fdl"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nvb-vN-YY2">
                                     <rect key="frame" x="10" y="327" width="220" height="40"/>
                                     <color key="backgroundColor" red="0.67350022809999999" green="0.0" blue="0.080776687959999996" alpha="1" colorSpace="deviceRGB"/>
@@ -136,7 +136,7 @@
                                         <constraint firstAttribute="height" constant="40" id="AdB-vY-jNW"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="Choose Video">
+                                    <state key="normal" title="Browse Video">
                                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -153,7 +153,7 @@
                                     <rect key="frame" x="10" y="512" width="220" height="40"/>
                                     <color key="backgroundColor" red="0.67350022809999999" green="0.0" blue="0.080776687959999996" alpha="1" colorSpace="deviceRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="sbz-SH-op3"/>
+                                        <constraint firstAttribute="height" constant="40" id="0ma-3r-tgw"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <state key="normal" title="Upload Video">
@@ -170,10 +170,10 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2R-rf-LJv">
-                                    <rect key="frame" x="436" y="512" width="220" height="40"/>
+                                    <rect key="frame" x="520" y="512" width="220" height="40"/>
                                     <color key="backgroundColor" red="0.67350022809999999" green="0.0" blue="0.080776687959999996" alpha="1" colorSpace="deviceRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="tR7-hV-xw6"/>
+                                        <constraint firstAttribute="height" constant="40" id="fFb-Ra-C3u"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <state key="normal" title="Cancel">
@@ -192,33 +192,33 @@
                             </subviews>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <constraints>
-                                <constraint firstItem="ODN-at-HNG" firstAttribute="top" secondItem="Ebl-vV-NKV" secondAttribute="bottom" constant="48" id="3Wd-RN-1m7"/>
+                                <constraint firstItem="ODN-at-HNG" firstAttribute="top" secondItem="Ebl-vV-NKV" secondAttribute="bottom" constant="28" id="3Wd-RN-1m7"/>
                                 <constraint firstItem="nvb-vN-YY2" firstAttribute="leading" secondItem="YYO-v7-oOS" secondAttribute="leading" constant="10" id="5pZ-yI-Rdp"/>
                                 <constraint firstAttribute="trailing" secondItem="nvb-vN-YY2" secondAttribute="trailing" constant="518" id="64X-Tj-EMN"/>
                                 <constraint firstItem="we0-Ft-cTe" firstAttribute="leading" secondItem="YYO-v7-oOS" secondAttribute="leading" constant="8" id="9zZ-BU-aw5"/>
                                 <constraint firstAttribute="trailing" secondItem="ODN-at-HNG" secondAttribute="trailing" constant="10" id="KCH-Q8-W2S"/>
+                                <constraint firstAttribute="trailing" secondItem="I2R-rf-LJv" secondAttribute="trailing" constant="8" id="LQN-an-JI1"/>
                                 <constraint firstAttribute="trailing" secondItem="we0-Ft-cTe" secondAttribute="trailing" constant="12" id="M2B-TQ-XIw"/>
                                 <constraint firstItem="zu3-GE-ujY" firstAttribute="top" secondItem="YYO-v7-oOS" secondAttribute="top" constant="32" id="O0Q-7t-Rul"/>
-                                <constraint firstItem="MPI-d3-aXq" firstAttribute="top" secondItem="nvb-vN-YY2" secondAttribute="bottom" constant="145" id="P3W-3M-50X"/>
                                 <constraint firstItem="Ebl-vV-NKV" firstAttribute="leading" secondItem="YYO-v7-oOS" secondAttribute="leading" constant="9" id="Puw-Vm-WJd"/>
-                                <constraint firstItem="I2R-rf-LJv" firstAttribute="leading" secondItem="MPI-d3-aXq" secondAttribute="trailing" constant="206" id="QLe-yN-P8D"/>
+                                <constraint firstItem="I2R-rf-LJv" firstAttribute="leading" secondItem="MPI-d3-aXq" secondAttribute="trailing" constant="290" id="TuC-ZJ-osg"/>
+                                <constraint firstItem="I2R-rf-LJv" firstAttribute="top" secondItem="ODN-at-HNG" secondAttribute="bottom" constant="222" id="VQ0-Qw-nwP"/>
+                                <constraint firstItem="MPI-d3-aXq" firstAttribute="leading" secondItem="YYO-v7-oOS" secondAttribute="leading" constant="10" id="VzS-qU-uRV"/>
                                 <constraint firstItem="nvb-vN-YY2" firstAttribute="top" secondItem="ODN-at-HNG" secondAttribute="bottom" constant="37" id="X3X-wU-Xn0"/>
-                                <constraint firstItem="I2R-rf-LJv" firstAttribute="leading" secondItem="MPI-d3-aXq" secondAttribute="trailing" constant="206" id="dLb-NA-Y3P"/>
                                 <constraint firstItem="dUw-rl-nw0" firstAttribute="leading" secondItem="YYO-v7-oOS" secondAttribute="leading" constant="8" id="fqW-wp-yYO"/>
-                                <constraint firstItem="I2R-rf-LJv" firstAttribute="top" secondItem="ODN-at-HNG" secondAttribute="bottom" constant="222" id="gT1-RW-lgf"/>
+                                <constraint firstItem="MPI-d3-aXq" firstAttribute="top" secondItem="nvb-vN-YY2" secondAttribute="bottom" constant="145" id="hKb-zb-uEO"/>
                                 <constraint firstItem="ODN-at-HNG" firstAttribute="leading" secondItem="YYO-v7-oOS" secondAttribute="leading" constant="8" id="j2x-wQ-nAz"/>
+                                <constraint firstItem="I2R-rf-LJv" firstAttribute="leading" secondItem="MPI-d3-aXq" secondAttribute="trailing" constant="290" id="jNi-HX-OqM"/>
                                 <constraint firstItem="Ebl-vV-NKV" firstAttribute="top" secondItem="we0-Ft-cTe" secondAttribute="bottom" constant="29" id="kAl-kx-9pR"/>
                                 <constraint firstAttribute="trailing" secondItem="zu3-GE-ujY" secondAttribute="trailing" constant="19" id="kYr-TU-Pyz"/>
                                 <constraint firstItem="nvb-vN-YY2" firstAttribute="top" secondItem="ODN-at-HNG" secondAttribute="bottom" constant="37" id="kbs-yK-hfU"/>
                                 <constraint firstItem="Ebl-vV-NKV" firstAttribute="top" secondItem="zu3-GE-ujY" secondAttribute="bottom" constant="36" id="mK5-MB-DIw"/>
                                 <constraint firstItem="nvb-vN-YY2" firstAttribute="top" secondItem="YYO-v7-oOS" secondAttribute="top" constant="327" id="nCU-qu-IaX"/>
-                                <constraint firstItem="MPI-d3-aXq" firstAttribute="leading" secondItem="YYO-v7-oOS" secondAttribute="leading" constant="10" id="oXg-aA-7wn"/>
                                 <constraint firstItem="dUw-rl-nw0" firstAttribute="top" secondItem="Ebl-vV-NKV" secondAttribute="bottom" constant="28" id="pbi-Rs-NDv"/>
                                 <constraint firstAttribute="trailing" secondItem="dUw-rl-nw0" secondAttribute="trailing" constant="10" id="tPH-YG-KI5"/>
+                                <constraint firstItem="MPI-d3-aXq" firstAttribute="width" secondItem="I2R-rf-LJv" secondAttribute="width" id="vJd-vD-U09"/>
                                 <constraint firstAttribute="trailing" secondItem="Ebl-vV-NKV" secondAttribute="trailing" constant="11" id="vPo-GY-K9J"/>
                                 <constraint firstItem="we0-Ft-cTe" firstAttribute="top" secondItem="YYO-v7-oOS" secondAttribute="top" constant="25" id="wRP-9F-zBl"/>
-                                <constraint firstItem="nvb-vN-YY2" firstAttribute="trailing" secondItem="MPI-d3-aXq" secondAttribute="trailing" id="yIA-Ks-aWH"/>
-                                <constraint firstAttribute="trailing" secondItem="I2R-rf-LJv" secondAttribute="trailing" constant="92" id="zV3-0i-vEg"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">

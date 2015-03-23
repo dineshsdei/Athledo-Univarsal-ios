@@ -103,8 +103,6 @@ UIDeviceOrientation CurrentOrientation;
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-    AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
@@ -149,7 +147,6 @@ UIDeviceOrientation CurrentOrientation;
     }];
     
     scrollHeight=0;
-    delegate.isStart=TRUE;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -160,16 +157,10 @@ UIDeviceOrientation CurrentOrientation;
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = @"YYYY";
     NSString *currentYesr= [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
-    
     int currentyear=[currentYesr intValue];
-    
     for (int i=0; i< 120; i++) {
-        
-        
         [arrAwardsYear addObject:[NSString stringWithFormat:@"%d",currentyear-i]];
     }
-    
-    
     //Set the Date picker view
     
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, datePicker.frame.size.height)];
@@ -178,9 +169,7 @@ UIDeviceOrientation CurrentOrientation;
     datePicker.tag=60;
     //[datePicker setHidden:YES];
     datePicker.backgroundColor=[UIColor whiteColor];
-    
     [datePicker addTarget:self action:@selector(dateChange) forControlEvents:UIControlEventValueChanged];
-    
     [self.view addSubview:datePicker];
     
     listPicker=[[UIPickerView alloc] init];
@@ -199,8 +188,6 @@ UIDeviceOrientation CurrentOrientation;
             
             arrTextFieldText =[[NSArray alloc]init];
         }
-        
-        
     }else{
         
         if (_objData) {
@@ -210,7 +197,6 @@ UIDeviceOrientation CurrentOrientation;
             
             arrTextFieldText =[[NSArray alloc]init];
         }
-        
     }
     
     
@@ -573,13 +559,7 @@ UIDeviceOrientation CurrentOrientation;
             
             NSString *strError=@"";
             switch ([dateOne compare:dateTwo]) {
-                case NSOrderedAscending:
-                {
-                    strError = @"";
-                    
-                    // dateOne is earlier in time than dateTwo
-                    break;
-                }
+               
                 case NSOrderedSame:
                     
                 {

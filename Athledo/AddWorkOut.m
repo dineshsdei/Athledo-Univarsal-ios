@@ -678,7 +678,7 @@ static int LiftExerciseCount=0;
     webservice.delegate=self;
     arrLiftPlaceholder=[[NSMutableArray alloc] init];
     
-    if ([UserInformation shareInstance].userType == 1) {
+    if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger)) {
         arrFieldsPlaceholder=[[NSMutableArray alloc] initWithObjects:@"Workout Name",@"Workout Date",@"Workout Type",@"Custom Tags",@"Athletes",@"Email Notification",@"Description",@"WarmUp Time",@"CoolDown Time", nil];
         //BTNSave
     }else{

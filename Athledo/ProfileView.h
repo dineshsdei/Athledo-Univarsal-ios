@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "WebServiceClass.h"
 #import "EditGenralInfo.h"
+#import "AddManagerSportInfo.h"
+
 
 
 

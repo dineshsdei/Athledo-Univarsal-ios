@@ -13,6 +13,7 @@
 -(void)AddCoachingInfo :(long int)index;
 -(void)AddAwardsInfo :(long int)index;
 -(void)AddHistoryInfo :(long int)index;
+-(void)AddManagerSportInfo :(long int)index;
 
 @end
 

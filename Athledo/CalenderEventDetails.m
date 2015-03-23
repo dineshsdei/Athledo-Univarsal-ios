@@ -45,8 +45,6 @@
     [btnEdit setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
-    self.navigationItem.rightBarButtonItem = ButtonItem;
-    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     
     NSDateFormatter* df = [[NSDateFormatter alloc] init];
     [df setDateFormat:dateFormatYearMonthDateHiphenWithTime];
@@ -69,6 +67,16 @@
     _lblRepeat.font=Textfont;
     
     if (_eventDetailsDic) {
+        
+        if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
+            self.navigationItem.rightBarButtonItem = ButtonItem;
+            self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+        }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_eventDetailsDic  objectForKey:@"user_id"] intValue])
+        {
+            self.navigationItem.rightBarButtonItem = ButtonItem;
+            self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+        }
+        
         _lblEventTitle.text=[_eventDetailsDic valueForKey:@"text"];
         _lblEventDescription.text=[_eventDetailsDic valueForKey:@"name"];
         // [_lblEventDescription setNumberOfLines:0];

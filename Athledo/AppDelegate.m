@@ -94,7 +94,6 @@
     if (user.count > 0) {
         
         UserInformation *userdata=[UserInformation shareInstance];
-        
         userdata.userEmail=[user objectForKey:@"email"];
         userdata.userId=[[user objectForKey:@"id"] intValue];
         userdata.userType=[[user objectForKey:@"type"] intValue];

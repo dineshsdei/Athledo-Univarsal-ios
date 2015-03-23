@@ -52,25 +52,23 @@
 @implementation MenuListView
 @synthesize rearTableView = _rearTableView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+
+#pragma mark Tableview Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return arrMenuList.count;
 }
-// This method, Add tableview cell images
--(UIImage *)SetImage:(NSInteger)index
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIImage *image;
-    NSString *imageName=[arrImagesName objectAtIndex:index];
-    image=[UIImage imageNamed:imageName];
-    return image;
+    if(isIPAD)
+    {
+        return 70;
+        
+    }else{
+        return 50;
+    }
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -180,9 +178,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ////// delegate.isStart useed for refresh profile data on view
     lblLoginName.text=[UserInformation shareInstance].userFullName;
-    
     [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     //[SingaltonClass ShareInstance].isAnnouncementUpdate=TRUE;
     [SingletonClass ShareInstance].isMessangerInbox=TRUE;
@@ -191,44 +187,25 @@
     [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
     [SingletonClass ShareInstance].isMessangerArchive=TRUE;
     
-    AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if (delegate.isStart == FALSE)
-    {
-        delegate.isStart=TRUE;
+    if ([UserInformation shareInstance].userType == isManeger || [UserInformation shareInstance].userType == isCoach) {
+        [self isCoahOrManagerMoveToController:indexPath.row];
+    }else{
+        [self isAthleteOrOtherUserMoveToController:indexPath.row];
     }
     
+}
+#pragma mark - Calling method when cell seleted
+
+-(void)isAthleteOrOtherUserMoveToController:(NSInteger)row
+{
     SWRevealViewController *revealController = [self revealViewController];
     UIViewController *frontViewController = revealController.frontViewController;
     UINavigationController *frontNavigationController =nil;
     
     if ( [frontViewController isKindOfClass:[UINavigationController class]] )
         frontNavigationController = (id)frontViewController;
-    
-    NSInteger row = indexPath.row;
-    
-    // Here you'd implement some of your own logic... I simply take for granted that the first row (=0) corresponds to the "FrontViewController".
-    if (row == 2)
+    if (row == 0)
     {
-        // Now let's see if we're not attempting to swap the current frontViewController for a new instance of ITSELF, which'd be highly redundant.
-        if ( ![frontNavigationController.topViewController isKindOfClass:[Notes class]] )
-        {
-           
-            Notes *notesViewController = [[Notes alloc] initWithNibName:@"Notes" bundle:nil];            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
-            [navigationController.navigationBar setTranslucent:NO];
-            
-            
-            [revealController pushFrontViewController:navigationController animated:YES];
-        }
-        // Seems the user attempts to 'switch' to exactly the same controller he came from!
-        else
-        {
-            [revealController revealToggleAnimated:YES];
-        }
-    }else if (row == 0)
-    {
-        // Now let's see if we're not attempting to swap the current frontViewController for a new instance of ITSELF, which'd be highly redundant.
         if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] )
         {
             AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
@@ -237,8 +214,6 @@
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
-        
-        // Seems the user attempts to 'switch' to exactly the same controller he came from!
         else
         {
             [revealController revealToggleAnimated:YES];
@@ -246,20 +221,143 @@
     }
     else if (row == 1)
     {
-        
-        // Now let's see if we're not attempting to swap the current frontViewController for a new instance of ITSELF, which'd be highly redundant.
-        
         if ( ![frontNavigationController.topViewController isKindOfClass:[WorkOutView class]] )
         {
             WorkOutView *workoutViewController = [[WorkOutView alloc] initWithNibName:@"WorkOutView" bundle:nil];
             workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:workoutViewController];
+            
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+    }
+    else if (row == 2)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
+        {
+            MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+        
+    }
     
+    else if (row == 3)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
+        {
+            CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
+            
+            vc.objNotificationData=notificationData ;
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+            
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            
+            
+            [revealController pushFrontViewController:navigationController animated:YES];
+            
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+        
+        
+    }else if (row == 4)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
+        {
+            MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
+            
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+    }else if (row == 5)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] )
+        {
+            ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         // Seems the user attempts to 'switch' to exactly the same controller he came from!
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+    }
+    
+}
+
+-(void)isCoahOrManagerMoveToController:(NSInteger)row
+{
+    SWRevealViewController *revealController = [self revealViewController];
+    UIViewController *frontViewController = revealController.frontViewController;
+    UINavigationController *frontNavigationController =nil;
+    
+    if ( [frontViewController isKindOfClass:[UINavigationController class]] )
+        frontNavigationController = (id)frontViewController;
+    if (row == 2)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[Notes class]] )
+        {
+            
+            Notes *notesViewController = [[Notes alloc] initWithNibName:@"Notes" bundle:nil];            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+    }else if (row == 0)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] )
+        {
+            AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+    }
+    else if (row == 1)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[WorkOutView class]] )
+        {
+            WorkOutView *workoutViewController = [[WorkOutView alloc] initWithNibName:@"WorkOutView" bundle:nil];
+            workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:workoutViewController];
+            
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
         else
         {
             [revealController revealToggleAnimated:YES];
@@ -271,14 +369,10 @@
         {
             MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
-            
-            // [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
-        
-        // Seems the user attempts to 'switch' to exactly the same controller he came from!
         else
         {
             [revealController revealToggleAnimated:YES];
@@ -292,7 +386,7 @@
         {
             CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
             
-             vc.objNotificationData=notificationData ;
+            vc.objNotificationData=notificationData ;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
             
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
@@ -302,8 +396,6 @@
             [revealController pushFrontViewController:navigationController animated:YES];
             
         }
-        
-        // Seems the user attempts to 'switch' to exactly the same controller he came from!
         else
         {
             [revealController revealToggleAnimated:YES];
@@ -321,7 +413,6 @@
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
-        // Seems the user attempts to 'switch' to exactly the same controller he came from!
         else
         {
             [revealController revealToggleAnimated:YES];
@@ -332,8 +423,6 @@
         {
             ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
-            
-            // [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
@@ -344,33 +433,9 @@
             [revealController revealToggleAnimated:YES];
         }
     }
+
 }
-
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-   [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    [self EnableDisableTouch:YES];
-}
-
-//this method, call to get notification number to show on
-
--(void)getNotificationData{
-    
-    if ([SingletonClass  CheckConnectivity]) {
-        userInfo=[UserInformation shareInstance];
-        
-        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
-        
-        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationTag];
-        
-    }else{
-        
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
-    }
-}
+#pragma mark Webservice response
 //this method, get webservice response from web
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -393,100 +458,71 @@
     }
 }
 
-//this method, enable or disable touch on frontview in swip inout viewcontroller
 
--(void)EnableDisableTouch :(BOOL)status
+#pragma mark - View life cycle
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    NSArray *navArray=[[[self.revealViewController childViewControllers] objectAtIndex:1] viewControllers];
-
-    for (UIViewController * viewCotroller in navArray) {
-    
-    WorkOutView *WorkviewCntrler  = (WorkOutView *)viewCotroller;
-    NSArray *arrSubViews = (NSArray *) [WorkviewCntrler.view subviews];
-
-    for (id object in arrSubViews) {
-
-    if ([object isKindOfClass:[UITableView class]]) {
-    UITableView *table= (UITableView *)object;
-    table.userInteractionEnabled=status;
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
     }
-
-    if ([object isKindOfClass:[UISearchBar class]]) {
-    UISearchBar *searchBar= (UISearchBar *)object;
-    searchBar.userInteractionEnabled=status;
-    }
-    if ([object isKindOfClass:[UITextField class]]) {
-    UITextField *textField= (UITextField *)object;
-    textField.userInteractionEnabled=status;
-    }
-    if ([object isKindOfClass:[UISegmentedControl class]]) {
-    UISegmentedControl *segmentControll= (UISegmentedControl *)object;
-    segmentControll.userInteractionEnabled=status;
-    }
-    if ([object isKindOfClass:[TKCalendarMonthView class]]) {
-    TKCalendarMonthView *Controll= (TKCalendarMonthView *)object;
-    Controll.userInteractionEnabled=status;
-    }
-    if ([object isKindOfClass:[TKCalendarDayView class]]) {
-    TKCalendarDayView *Controll= (TKCalendarDayView *)object;
-    Controll.userInteractionEnabled=status;
-    }
-    if ([object isKindOfClass:[MAWeekView class]]) {
-    MAWeekView *Controll= (MAWeekView *)object;
-    Controll.userInteractionEnabled=status;
-    }
-
-    if ([object isKindOfClass:[MKMapView class]]) {
-    MKMapView *Controll= (MKMapView *)object;
-    Controll.userInteractionEnabled=status;
-    }
-    }
-    }
+    return self;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    [self EnableDisableTouch:YES];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:NO];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     if (isIPAD)
-    [self ChangeOrientation];
+        [self ChangeOrientation];
     
     [self EnableDisableTouch:NO];
     userInfo=[UserInformation shareInstance];
-
+    
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
     switch (userInfo.userType) {
-    case 1:
-    arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
-
-    break;
-    case 2:
-    arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
-
-    break;
-
-    default:
-    break;
+        case isCoach:
+        {
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+            break;
+        }
+        case isAthlete:
+        {
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
+            break;
+        }
+        case isManeger:
+        {
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+            break;
+        }
+            
+        default:
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
+            break;
     }
-
-    if ([UserInformation shareInstance].userType==1) {
-    arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
+    
+    if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
+        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
     }else{
-
-    arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
-
+        
+        arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
+        
     }
-
+    
     [_rearTableView reloadData];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     [self getNotificationData];
     
 }
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
 
-#pragma mark - Data generators
 - (void)viewDidLoad
 {
     if (isIPAD) {
@@ -564,7 +600,23 @@
                                             object:nil];
       }
 }
-
+# pragma mark Notification method
+//this method, call to get notification number to show on
+-(void)getNotificationData{
+    
+    if ([SingletonClass  CheckConnectivity]) {
+        userInfo=[UserInformation shareInstance];
+        
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
+        
+        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationTag];
+        
+    }else{
+        
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        
+    }
+}
 -(void)ChangeOrientation
 {
     UIDeviceOrientation deviceOrientation = [[SingletonClass ShareInstance] CurrentOrientation:self];
@@ -578,25 +630,70 @@
     }
     
 }
+#pragma mark Utility method
+//this method, enable or disable touch on frontview in swip inout viewcontroller
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)EnableDisableTouch :(BOOL)status
 {
-    if(isIPAD)
-    {
-        return 70;
-        
-    }else{
-        return 50;
-    }
+    NSArray *navArray=[[[self.revealViewController childViewControllers] objectAtIndex:1] viewControllers];
     
+    for (UIViewController * viewCotroller in navArray) {
+        
+        WorkOutView *WorkviewCntrler  = (WorkOutView *)viewCotroller;
+        NSArray *arrSubViews = (NSArray *) [WorkviewCntrler.view subviews];
+        
+        for (id object in arrSubViews) {
+            
+            if ([object isKindOfClass:[UITableView class]]) {
+                UITableView *table= (UITableView *)object;
+                table.userInteractionEnabled=status;
+            }
+            
+            if ([object isKindOfClass:[UISearchBar class]]) {
+                UISearchBar *searchBar= (UISearchBar *)object;
+                searchBar.userInteractionEnabled=status;
+                
+            }
+            if ([object isKindOfClass:[UITextField class]]) {
+                UITextField *textField= (UITextField *)object;
+                textField.userInteractionEnabled=status;
+            }
+            if ([object isKindOfClass:[UISegmentedControl class]]) {
+                UISegmentedControl *segmentControll= (UISegmentedControl *)object;
+                segmentControll.userInteractionEnabled=status;
+            }
+            if ([object isKindOfClass:[TKCalendarMonthView class]]) {
+                TKCalendarMonthView *Controll= (TKCalendarMonthView *)object;
+                Controll.userInteractionEnabled=status;
+            }
+            if ([object isKindOfClass:[TKCalendarDayView class]]) {
+                TKCalendarDayView *Controll= (TKCalendarDayView *)object;
+                Controll.userInteractionEnabled=status;
+            }
+            if ([object isKindOfClass:[MAWeekView class]]) {
+                MAWeekView *Controll= (MAWeekView *)object;
+                Controll.userInteractionEnabled=status;
+            }
+            
+            if ([object isKindOfClass:[MKMapView class]]) {
+                MKMapView *Controll= (MKMapView *)object;
+                Controll.userInteractionEnabled=status;
+            }
+        }
+    }
+}
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
-- (void)didReceiveMemoryWarning
+// This method, Add tableview cell images
+-(UIImage *)SetImage:(NSInteger)index
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UIImage *image;
+    NSString *imageName=[arrImagesName objectAtIndex:index];
+    image=[UIImage imageNamed:imageName];
+    return image;
 }
-
 - (IBAction)logout:(id)sender {
     [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
@@ -624,5 +721,10 @@
         LoginVeiw *login=[[LoginVeiw alloc] init];
         [delegate.NavViewController pushViewController:login animated:NO];
     }
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 @end

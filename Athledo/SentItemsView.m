@@ -85,6 +85,9 @@
                 [SingletonClass deleteUnUsedLableFromTable:table];
                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
                 [table reloadData];
+            }else
+            {
+                [table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]];
             }
             
             break;
@@ -144,7 +147,7 @@
         webservice.delegate=self;
         [self getMessages];
     }
-     [self orientationChanged];
+    // [self orientationChanged];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{

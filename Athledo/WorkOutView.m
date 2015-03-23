@@ -263,7 +263,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     self.navigationItem.rightBarButtonItem.enabled=YES;
     self.navigationItem.leftBarButtonItem.enabled=YES;
     btnHistory.userInteractionEnabled=YES;
-    NSArray *arrbtn=[[self.navigationController navigationBar] subviews];
     // Now remove the Active indicator
     ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:ACTIVITYTAG];
     if(acti)
@@ -471,8 +470,16 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     cell.lblWorkoutCratedBy.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"createdby"] ;
     cell.lblWorkoutCratedBy.font=Textfont;
     
-    cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
-    cell.delegate=self;
+    if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
+        cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
+        cell.delegate=self;
+
+    }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"user_id"] intValue])
+    {
+        cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
+        cell.delegate=self;
+
+    }
     
     if (_notificationData) {
         

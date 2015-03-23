@@ -40,6 +40,7 @@
 
 @implementation EditGenralInfo
 
+#pragma mark UIViewController method
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -48,61 +49,11 @@
     }
     return self;
 }
--(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
+-(void)viewWillAppear:(BOOL)animated
 {
-    [SingletonClass RemoveActivityIndicator:self.view];
-    
-    switch (Tag)
-    {
-        case EditData:
-        {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {// Now we Need to decrypt data
-                [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
-                
-                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
-                
-            }else{
-                
-                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
-            }
-            
-            break;
-            
-        } case CONTRYLISTNUMBER:
-        {
-            arrCountryList=[MyResults allValues];
-            arrCountryCode=[MyResults allKeys];
-            break;
-        }
-        case STATELISTNUMBER:
-        {
-            arrStateList=[MyResults allValues];
-            arrStateCode=[MyResults allKeys];
-            break;
-        }
-    }
+    [super viewWillAppear:animated];
+    [self getCountryList];
 }
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
-    [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
-}
-
-- (void)orientationChanged
-{
-    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
-        return;
-    }
-    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
-    if (isIPAD) {
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
-        [table reloadData];
-    }
-}
-
 - (void)viewDidLoad
 {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -204,6 +155,90 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
+}
+#pragma mark Webservice Delegate method
+-(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
+{
+    [SingletonClass RemoveActivityIndicator:self.view];
+    
+    switch (Tag)
+    {
+        case EditData:
+        {
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {// Now we Need to decrypt data
+                [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
+                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                
+            }else{
+                
+                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+            }
+            
+            break;
+            
+        } case CONTRYLISTNUMBER:
+        {
+            arrCountryList=[MyResults allValues];
+            arrCountryCode=[MyResults allKeys];
+            break;
+        }
+        case STATELISTNUMBER:
+        {
+            arrStateList=[MyResults allValues];
+            arrStateCode=[MyResults allKeys];
+            break;
+        }
+    }
+}
+-(void)httpResponseReceived:(NSData *)webResponse :(int)tagNumber
+{
+    // tagNumber -> 300 country list Profile
+    
+    NSError *error=nil;
+    NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
+    // Now we Need to decrypt data
+    switch (tagNumber) {
+            
+        case CONTRYLISTNUMBER:
+        {
+            arrCountryList=[myResults allValues];
+            arrCountryCode=[myResults allKeys];
+            
+            
+            
+            break;
+        }
+        case STATELISTNUMBER:
+        {
+            arrStateList=[myResults allValues];
+            arrStateCode=[myResults allKeys];
+            break;
+        }
+        default:
+            break;
+    }
+    
+}
+#pragma mark EditGenralInfo Utility method
+- (void)orientationChanged
+{
+    if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
+        return;
+    }
+    CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
+    if (isIPAD) {
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+350):toolBar];
+        [table reloadData];
+    }
+}
+
 - (void)getCountryList{
     if ([SingletonClass  CheckConnectivity]) {
         
@@ -261,44 +296,6 @@
         
     }
 }
-
-
--(void)httpResponseReceived:(NSData *)webResponse :(int)tagNumber
-{
-    // tagNumber -> 300 country list Profile
-    
-    NSError *error=nil;
-    NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-    // Now we Need to decrypt data
-    switch (tagNumber) {
-            
-        case CONTRYLISTNUMBER:
-        {
-            arrCountryList=[myResults allValues];
-            arrCountryCode=[myResults allKeys];
-            
-            
-            
-            break;
-        }
-        case STATELISTNUMBER:
-        {
-            arrStateList=[myResults allValues];
-            arrStateCode=[myResults allKeys];
-            break;
-        }
-        default:
-            break;
-    }
-    
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self getCountryList];
-}
-
 -(void)SendGenralInfo:(id)sender
 {
     if ([SingletonClass  CheckConnectivity]) {

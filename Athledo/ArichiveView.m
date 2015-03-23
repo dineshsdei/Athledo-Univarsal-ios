@@ -57,7 +57,7 @@
         [SingletonClass ShareInstance].isMessangerArchive =FALSE;
         
     }
-     [self orientationChanged];
+     //[self orientationChanged];
 }
 
 #pragma mark Webservice call event
@@ -155,6 +155,9 @@
                 [SingletonClass deleteUnUsedLableFromTable:table];
                 messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
                 [table reloadData];
+            }else
+            {
+                [table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]];
             }
             
             break;

@@ -30,6 +30,7 @@
     UIDeviceOrientation CurrentOrientation;
     NSURL *urlvideo;
     BOOL isCancelNotification;
+    int keyboardHeight;
 }
 
 @end
@@ -57,11 +58,12 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:NO];
-    if (isIPAD)
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+   
     if (!isCancelNotification) {
         [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
         [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
+        if (isIPAD)
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     }
 }
 - (void)viewDidLoad {
@@ -69,13 +71,22 @@
     self.scrollview.layer.borderWidth = 1;
     self.scrollview.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.scrollview.hidden = YES ;
+    UIEdgeInsets ContentInset = _tfDescription.contentInset;
+    ContentInset.top = 20;
+    _tfDescription.contentInset = ContentInset;
+    _tfDescription.layer.borderWidth = .50;
+    _tfDescription.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
     [super viewDidLoad];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        if ( !(isIPAD)) {
-            // message received
             NSDictionary* info = [note userInfo];
             CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+            keyboardHeight = kbSize.height;
+        if (iosVersion < 8) {
+            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+        }else{
+            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+        }
             [UIView animateWithDuration:0.27f
                              animations:^{
                                  int dif=0;
@@ -93,20 +104,19 @@
                              }
                              completion:^(BOOL finished){
                              }];
-        }
+       
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        if (!(isIPAD)) {
             [UIView animateWithDuration:0.27f
                              animations:^{
                                  CGRect frame = self.uploadView.frame;
                                  frame.origin.y = 0;
                                  self.uploadView.frame = frame;
+                                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
                              }
                              completion:^(BOOL finished){
                              }];
-        }
     }];
     
     if (isIPAD) {
@@ -128,7 +138,6 @@
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    
     listPicker=[[UIPickerView alloc] init];
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag=listPickerTag;
@@ -136,7 +145,6 @@
     listPicker.dataSource=self;
     listPicker.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:listPicker];
-    
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
@@ -154,10 +162,8 @@
     btnAddWorkout.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
     [btnAddWorkout addTarget:self action:@selector(SelectVideoFiles) forControlEvents:UIControlEventTouchUpInside];
     [btnAddWorkout setImage:imageAdd forState:UIControlStateNormal];
-    
     UIBarButtonItem *BarItemAdd = [[UIBarButtonItem alloc] initWithCustomView:btnAddWorkout];
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemAdd, nil];
-    
     [self getMultimediaVideos];
     [self getSeasonData];
 }
@@ -173,8 +179,8 @@
         return;
     }
     CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
-    
     if (isIPAD) {
+        [self.view endEditing:YES];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+500):toolBar];
     }
@@ -190,13 +196,13 @@
                          }
                          completion:^(BOOL finished){
                          }];
-        
         [self getMultimediaVideos];
     }else{
         [UIView animateWithDuration:0.27f
                          animations:^{
                              [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
                              [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+                             [self.view endEditing:YES];
                          }
                          completion:^(BOOL finished){
                          }];
@@ -205,7 +211,6 @@
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     NSArray *arrController=[self.navigationController viewControllers];
-    
     switch (item.tag) {
         case 1:
         {
@@ -218,12 +223,10 @@
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 Multimedia *arichive=[[Multimedia alloc] initWithNibName:@"Multimedia" bundle:nil];
                 [self.navigationController pushViewController:arichive animated:NO];
-                
             }
             break;
         }
@@ -231,7 +234,6 @@
             break;
     }
 }
-
 -(void)sortedData :(int)index
 {
     switch (index) {
@@ -247,18 +249,13 @@
         }case 1:
         {
             [multimediaData removeAllObjects];
-            
             for (int i=0; i< AllMultimediaData.count; i++) {
-                
                 if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==2) {
-                    
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
                     [multimediaData addObject:temp];
                 }
             }
-            
             [_tableView reloadData];
-            
             break;
         }
         case 2:
@@ -267,18 +264,15 @@
             for (int i=0; i< AllMultimediaData.count; i++) {
                 
                 if ( [[[AllMultimediaData objectAtIndex:i] valueForKey:@"type"] intValue]==1) {
-                    
                     [multimediaData addObject:[AllMultimediaData objectAtIndex:i]];
                 }
             }
             [_tableView reloadData];
-            
             break;
         }
         default:
             break;
     }
-    
 }
 -(IBAction)SegmentSelected:(id)sender
 {
@@ -320,7 +314,7 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *urlString=[urlvideo path];
         NSString *videoName = urlString.lastPathComponent;
-        NSString *urlpath = [NSString stringWithFormat:@"http://172.24.2.222:8024/webservices/uploadMultimediaVideo"];
+        NSString *urlpath = webServiceUploadVideo;
         NSURL *url = [NSURL URLWithString:[urlpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         request = [ASIFormDataRequest requestWithURL:url];
         [request addPostValue:[NSString stringWithFormat:@"%d", userInfo.userId ] forKey:@"user_id"];
@@ -345,7 +339,6 @@
 }
 
 #pragma mark- ImagePicker Delegate method
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
@@ -372,6 +365,8 @@
         _tfTitle.text = @"";
         _tfDescription.text = @"";
         _tfSeason.text =@"";
+        NSLog(@"json string %@",[theRequest responseString]);
+          NSLog(@"json string %@",[theRequest responseStatusMessage]);
         NSData *data = [[theRequest responseString] dataUsingEncoding:NSUTF8StringEncoding];
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         [SingletonClass initWithTitle:[json valueForKey:@"status"] message:[json valueForKey:@"message"] delegate:nil btn1:@"Ok"];
@@ -381,13 +376,10 @@
             urlvideo=nil;
             [self getMultimediaVideos];
         }
-        
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
 }
 - (void)requestFailed:(ASIHTTPRequest *)theRequest {
@@ -396,16 +388,13 @@
 
 #pragma mark Webservice call event
 -(void)getSeasonData{
-    
     if ([SingletonClass  CheckConnectivity]) {
-        
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         UserInformation *userInfo=[UserInformation shareInstance];
         [SingletonClass addActivityIndicator:self.view];
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
         [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getSeasonTag];
-        
     }else{
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
@@ -428,7 +417,6 @@
 {
     [SingletonClass RemoveActivityIndicator:self.view];
     self.navigationController.navigationItem.rightBarButtonItem.enabled = YES ;
-
     switch (Tag)
     {
         case getPicDataTag :
@@ -451,7 +439,6 @@
             break;
         } case getSeasonTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 DicData=[MyResults  objectForKey:@"data"];
@@ -463,7 +450,6 @@
                         [arrSeasons addObject:[arrtemp objectAtIndex:i]];
                     }
                 }
-                
             }else{
                 //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
             }
@@ -471,7 +457,6 @@
         }
     }
 }
-
 #pragma mark - Play video files
 // this is not used but you can used to play video in webview
 - (void)playVideo:(NSString *)urlString frame:(CGRect)frame
@@ -493,17 +478,17 @@
     [videoView loadHTMLString:html baseURL:nil];
     [self.view addSubview:videoView];
 }
-
 -(void)PlayVideo:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
     NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]]]];
-    MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:[videos objectForKey:@"medium"]]];
+    //MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:[videos objectForKey:@"medium"]]];
+     MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:@"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4"]];
+    //http://172.24.2.222:8024/files/videos/1426849025_conv_33_1425595102_bigbuckbunny.flv
+   
     [self presentMoviePlayerViewControllerAnimated:mp];
 }
-
 #pragma mark - Tableview Delegate
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return 1;
@@ -518,7 +503,6 @@
 {
     static NSString *CellIdentifier =@"MultimediaCell";
     static NSString *CellNib = @"MultimediaCell";
-    
     MultimediaCell *cell = (MultimediaCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
@@ -526,7 +510,8 @@
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         //cell.btnPlay.hidden=YES;
         cell.btnPlay.tag=indexPath.row;
-        NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"]]]];
+        //NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"]]]];
+        NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:@"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4"]];
         if (videos !=nil) {
             cell.btnPlay.hidden=NO;
             [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
@@ -544,6 +529,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //[self playVideo:@"http://172.24.2.222:8024/files/videos/1426849025_conv_33_1425595102_bigbuckbunny.flv" frame:self.view.frame];
+    [self PlayVideo:tableView];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -591,18 +578,28 @@
     }
     return strValue;
 }
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [[touches anyObject] locationInView:listPicker];
+}
 #pragma mark - Singleton class Delegate
 -(void)Done
 {
+    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     [self.view endEditing:YES];
 }
 #pragma mark - TextView Delegate
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    textView.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
+    currentText=nil;
+    [UIView animateWithDuration:0.45f
+                     animations:^{
+                            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)) :toolBar];
+                     }
+                     completion:^(BOOL finished){
+                     }];
     currentText = (UITextField *)textView;
     [SingletonClass ShareInstance].delegate = self;
-   
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
@@ -625,6 +622,7 @@
     }else{
         [SingletonClass ShareInstance].delegate = self;
         textField.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
+       
         return YES;
     }
 }

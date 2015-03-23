@@ -19,6 +19,7 @@
 
 @implementation DisplayFolderContant
 
+#pragma mark UIViewController method
 - (void)viewDidLoad {
     
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
@@ -38,6 +39,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark UITableview Delegate method
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return 1;

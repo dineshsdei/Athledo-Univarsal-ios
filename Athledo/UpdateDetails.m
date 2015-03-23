@@ -62,7 +62,7 @@
     
     // Only Coach can edit and delete announcement
     
-    if ([UserInformation shareInstance].userType == 1) {
+    if ([UserInformation shareInstance].userType == 1 || [UserInformation shareInstance].userType == 4) {
         
         _lblMEorAll.text=@"To All";
         
@@ -101,8 +101,8 @@
     
     [objPic setImageWithURL:[NSURL URLWithString:[_obj valueForKey:@"user_image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
     
-    objPic.contentMode=UIViewContentModeScaleAspectFit;
-    objPic.layer.borderWidth=2;
+   // objPic.contentMode=UIViewContentModeScaleAspectFit;
+    objPic.layer.borderWidth=.50;
     objPic.layer.borderColor=[UIColor lightGrayColor].CGColor;
     
     if (_NotificationStataus) {

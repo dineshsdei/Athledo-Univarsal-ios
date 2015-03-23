@@ -103,29 +103,29 @@
                                         <outlet property="delegate" destination="-1" id="NgO-sc-mp7"/>
                                     </connections>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E9C-y5-877">
-                                    <rect key="frame" x="10" y="142" width="280" height="30"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="x3n-yg-Vn1"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tmm-xS-VxB">
-                                    <rect key="frame" x="11" y="165" width="278" height="128"/>
+                                    <rect key="frame" x="11" y="142" width="278" height="151"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                            <integer key="value" value="4"/>
+                                            <integer key="value" value="6"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
                                         <outlet property="delegate" destination="-1" id="tyg-yf-Cqb"/>
                                     </connections>
                                 </textView>
+                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Description" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E9C-y5-877">
+                                    <rect key="frame" x="14" y="142" width="273" height="30"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="x3n-yg-Vn1"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5wk-Js-ZYr">
                                     <rect key="frame" x="10" y="308" width="115" height="30"/>
                                     <color key="backgroundColor" red="0.67350022810218979" green="0.0" blue="0.080776687959999996" alpha="1" colorSpace="deviceRGB"/>
@@ -189,13 +189,13 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="Gri-mb-BjN" secondAttribute="trailing" constant="10" id="2wv-EG-asg"/>
                                 <constraint firstItem="KcQ-OA-B1x" firstAttribute="leading" secondItem="GpB-vc-EQ4" secondAttribute="leading" constant="10" id="3EW-pO-Oj1"/>
-                                <constraint firstItem="tmm-xS-VxB" firstAttribute="top" secondItem="KcQ-OA-B1x" secondAttribute="bottom" constant="51" id="4ca-H1-ndh"/>
+                                <constraint firstItem="tmm-xS-VxB" firstAttribute="top" secondItem="KcQ-OA-B1x" secondAttribute="bottom" constant="28" id="4ca-H1-ndh"/>
                                 <constraint firstItem="Whz-8u-nBi" firstAttribute="top" secondItem="5wk-Js-ZYr" secondAttribute="bottom" constant="23" id="7a4-TP-tXG"/>
                                 <constraint firstAttribute="bottom" secondItem="SwR-sF-WLC" secondAttribute="bottom" constant="19" id="8Db-3U-I1t"/>
                                 <constraint firstAttribute="bottom" secondItem="Whz-8u-nBi" secondAttribute="bottom" constant="19" id="BF0-eC-lRL"/>
                                 <constraint firstItem="Whz-8u-nBi" firstAttribute="leading" secondItem="GpB-vc-EQ4" secondAttribute="leading" constant="10" id="DwU-gd-H1v"/>
                                 <constraint firstItem="Gri-mb-BjN" firstAttribute="leading" secondItem="GpB-vc-EQ4" secondAttribute="leading" constant="10" id="HWI-os-wKu"/>
-                                <constraint firstAttribute="trailing" secondItem="E9C-y5-877" secondAttribute="trailing" constant="10" id="Kqo-uR-Fpx"/>
+                                <constraint firstAttribute="trailing" secondItem="E9C-y5-877" secondAttribute="trailing" constant="13" id="Kqo-uR-Fpx"/>
                                 <constraint firstItem="5wk-Js-ZYr" firstAttribute="top" secondItem="tmm-xS-VxB" secondAttribute="bottom" constant="15" id="LQQ-gG-sXv"/>
                                 <constraint firstItem="5wk-Js-ZYr" firstAttribute="leading" secondItem="GpB-vc-EQ4" secondAttribute="leading" constant="10" id="MRv-BQ-yYh"/>
                                 <constraint firstItem="uBv-Vh-nlj" firstAttribute="top" secondItem="GpB-vc-EQ4" secondAttribute="top" constant="32" id="ORv-Uh-Fau"/>
@@ -211,7 +211,7 @@
                                 <constraint firstItem="tmm-xS-VxB" firstAttribute="leading" secondItem="GpB-vc-EQ4" secondAttribute="leading" constant="11" id="iUe-pv-0iH"/>
                                 <constraint firstItem="5wk-Js-ZYr" firstAttribute="top" secondItem="tmm-xS-VxB" secondAttribute="bottom" constant="15" id="iyq-dC-xsA"/>
                                 <constraint firstItem="E9C-y5-877" firstAttribute="top" secondItem="KcQ-OA-B1x" secondAttribute="bottom" constant="28" id="kFN-cU-gX3"/>
-                                <constraint firstItem="E9C-y5-877" firstAttribute="leading" secondItem="GpB-vc-EQ4" secondAttribute="leading" constant="10" id="ltK-HG-lBc"/>
+                                <constraint firstItem="E9C-y5-877" firstAttribute="leading" secondItem="GpB-vc-EQ4" secondAttribute="leading" constant="14" id="ltK-HG-lBc"/>
                                 <constraint firstAttribute="trailing" secondItem="KcQ-OA-B1x" secondAttribute="trailing" constant="10" id="mCG-BW-jrD"/>
                                 <constraint firstItem="KcQ-OA-B1x" firstAttribute="top" secondItem="Gri-mb-BjN" secondAttribute="bottom" constant="29" id="u9p-Yt-2n9"/>
                             </constraints>

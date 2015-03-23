@@ -13,11 +13,6 @@
 #import "CheckboxButton.h"
 #import <QuartzCore/QuartzCore.h>
 #import "JSON.h"
-
-#define CornerRadius 5
-#define PadingW 12
-#define PadingH 20
-
 @interface AddNewAnnouncement ()
 
 @end
@@ -398,12 +393,12 @@ UIDeviceOrientation CurrentOrientation;
             
             // Result is nill but announcement is adding on web , I don't know why it happen
             
-            if([[myResults objectForKey:@"status"] isEqualToString:@"success"] || ( myResults==nil))
+            if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 [SingletonClass initWithTitle:@"" message:@"Announcement saved successfully" delegate:self btn1:@"Ok"];
             }else{
                 self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingletonClass initWithTitle:@"" message:[myResults valueForKey:@"message"] delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"Server Fail" message:@"Please try again" delegate:nil btn1:@"Ok"];
             }
         }
     }

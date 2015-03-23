@@ -325,6 +325,8 @@
 		71A8A8661A274DA5004D1A27 /* ProfileView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A8A8651A274DA5004D1A27 /* ProfileView~ipad.xib */; };
 		71A8CA3919937AA500B30DF7 /* ALPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A8CA3619937AA500B30DF7 /* ALPickerView.m */; };
 		71A8CA3A19937AA500B30DF7 /* ALPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A8CA3819937AA500B30DF7 /* ALPickerViewCell.m */; };
+		71A9759D1AC037F900463455 /* AddManagerSportInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A9759B1AC037F900463455 /* AddManagerSportInfo.m */; };
+		71A9759E1AC037F900463455 /* AddManagerSportInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A9759C1AC037F900463455 /* AddManagerSportInfo.xib */; };
 		71A99E141A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */; };
 		71ACB4FD198A13E3007C5AFA /* AddCoachingHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */; };
 		71ACB4FF198A140B007C5AFA /* AddCoachingHistory~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */; };
@@ -899,6 +901,9 @@
 		71A8CA3619937AA500B30DF7 /* ALPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPickerView.m; sourceTree = "<group>"; };
 		71A8CA3719937AA500B30DF7 /* ALPickerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALPickerViewCell.h; sourceTree = "<group>"; };
 		71A8CA3819937AA500B30DF7 /* ALPickerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPickerViewCell.m; sourceTree = "<group>"; };
+		71A9759A1AC037F900463455 /* AddManagerSportInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddManagerSportInfo.h; sourceTree = "<group>"; };
+		71A9759B1AC037F900463455 /* AddManagerSportInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddManagerSportInfo.m; sourceTree = "<group>"; };
+		71A9759C1AC037F900463455 /* AddManagerSportInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddManagerSportInfo.xib; sourceTree = "<group>"; };
 		71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ComposeMessage~ipad.xib"; sourceTree = "<group>"; };
 		71ACB4FB198A13E3007C5AFA /* AddCoachingHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCoachingHistory.h; sourceTree = "<group>"; };
 		71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCoachingHistory.m; sourceTree = "<group>"; };
@@ -1475,6 +1480,9 @@
 				71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */,
 				7195489419D1473900C58994 /* EditGenralInfo.h */,
 				7195489519D1473900C58994 /* EditGenralInfo.m */,
+				71A9759A1AC037F900463455 /* AddManagerSportInfo.h */,
+				71A9759B1AC037F900463455 /* AddManagerSportInfo.m */,
+				71A9759C1AC037F900463455 /* AddManagerSportInfo.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -2658,6 +2666,7 @@
 				71ADF1C91A70F1B200457FB9 /* input-bar@2x.png in Resources */,
 				3D9E050F197BCF9E005CCB10 /* LoginVeiw~iphone.xib in Resources */,
 				71A369771A6E1DA300DDF05C /* img_brdlist.png in Resources */,
+				71A9759E1AC037F900463455 /* AddManagerSportInfo.xib in Resources */,
 				71A7BA841A9C6FF500C75ABA /* Notes~ipad.xib in Resources */,
 				71A509F91A8DD42C0060E9B1 /* week_icon1.png in Resources */,
 				71A3691A1A6E1C3A00DDF05C /* edit.png in Resources */,
@@ -2856,6 +2865,7 @@
 				719384D61981352000A790FF /* AddNewAnnouncement.m in Sources */,
 				71B4CC061A13825E00042568 /* WorkoutHistoryDetails.m in Sources */,
 				71B142B919C974FE008EBC90 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				71A9759D1AC037F900463455 /* AddManagerSportInfo.m in Sources */,
 				71B789021AB8214100ED6421 /* ASIDownloadCache.m in Sources */,
 				7194ADDC19C011B500DC0A23 /* CalenderEventDetails.m in Sources */,
 				7111F6041A9F26C4004F58E8 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -2951,8 +2961,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Devon Veillette (6547QHLJRG)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Devon Veillette (6547QHLJRG)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2970,7 +2980,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "5984f481-409f-41f2-b726-806be4d3fd7a";
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2992,7 +3002,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gilbert Quinones (7BK7SK3FYE)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Devon Veillette (6547QHLJRG)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3003,7 +3013,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PROVISIONING_PROFILE = "5984f481-409f-41f2-b726-806be4d3fd7a";
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3014,8 +3024,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Devon Veillette (6547QHLJRG)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Devon Veillette (6547QHLJRG)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Athledo/Athledo-Prefix.pch";
 				HEADER_SEARCH_PATHS = $SRCROOT/src;
@@ -3034,7 +3044,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5984f481-409f-41f2-b726-806be4d3fd7a";
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3046,8 +3056,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Devon Veillette (6547QHLJRG)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Devon Veillette (6547QHLJRG)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Athledo Inc. (V3TMTKXZ6L)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Athledo/Athledo-Prefix.pch";
 				HEADER_SEARCH_PATHS = $SRCROOT/src;
@@ -3058,7 +3068,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5984f481-409f-41f2-b726-806be4d3fd7a";
+				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

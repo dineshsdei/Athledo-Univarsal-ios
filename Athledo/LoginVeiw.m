@@ -252,8 +252,6 @@
     // Do any additional setup after loading the view from its nib.
     //[self setNeedsStatusBarAppearanceUpdate];
     self.loginTableView.backgroundColor=[UIColor clearColor];
-    AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    delegate.isStart=TRUE;
 }
 #pragma mark- TableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
