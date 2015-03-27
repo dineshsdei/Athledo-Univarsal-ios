@@ -254,8 +254,6 @@
 		71A3698E1A6E1DA400DDF05C /* ViewBacground.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369611A6E1DA300DDF05C /* ViewBacground.png */; };
 		71A3698F1A6E1DA400DDF05C /* wheel_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369621A6E1DA300DDF05C /* wheel_bg@2x.png */; };
 		71A369901A6E1DA400DDF05C /* wheel_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369631A6E1DA300DDF05C /* wheel_shadow@2x.png */; };
-		71A369911A6E1DA400DDF05C /* workouthistory.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369641A6E1DA300DDF05C /* workouthistory.png */; };
-		71A369921A6E1DA400DDF05C /* workoutlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369651A6E1DA300DDF05C /* workoutlist.png */; };
 		71A369961A6E268100DDF05C /* viewBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369951A6E268100DDF05C /* viewBg.png */; };
 		71A369981A6E276800DDF05C /* Cell_Bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369971A6E276800DDF05C /* Cell_Bg.png */; };
 		71A417311A84C73800A41981 /* add~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A417301A84C73800A41981 /* add~ipad.png */; };
@@ -292,7 +290,10 @@
 		71A63E231A25E51000D0DA99 /* MessageInboxCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E221A25E51000D0DA99 /* MessageInboxCell~ipad.xib */; };
 		71A63E251A26048A00D0DA99 /* SentItemsView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E241A26048A00D0DA99 /* SentItemsView~ipad.xib */; };
 		71A63E271A2605D400D0DA99 /* ArichiveView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E261A2605D400D0DA99 /* ArichiveView~ipad.xib */; };
+		71A66CCE1AC2ADB00062B617 /* AddManagerSportInfo~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A66CCD1AC2ADB00062B617 /* AddManagerSportInfo~ipad.xib */; };
 		71A68EF719DBB4220066F3B3 /* WorkOutDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A68EF619DBB4220066F3B3 /* WorkOutDetailCell.m */; };
+		71A691BF1AC4329B00800FF5 /* SMSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A691BD1AC4329B00800FF5 /* SMSView.m */; };
+		71A691C01AC4329B00800FF5 /* SMSView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A691BE1AC4329B00800FF5 /* SMSView.xib */; };
 		71A6E75B19EF78DF002416B4 /* AddCalendarEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A6E75919EF78DF002416B4 /* AddCalendarEvent.m */; };
 		71A6E75C19EF78DF002416B4 /* AddCalendarEvent~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A6E75A19EF78DF002416B4 /* AddCalendarEvent~iphone.xib */; };
 		71A6E76419EFD2C1002416B4 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A6E76019EFD2C1002416B4 /* Address.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -326,7 +327,7 @@
 		71A8CA3919937AA500B30DF7 /* ALPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A8CA3619937AA500B30DF7 /* ALPickerView.m */; };
 		71A8CA3A19937AA500B30DF7 /* ALPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A8CA3819937AA500B30DF7 /* ALPickerViewCell.m */; };
 		71A9759D1AC037F900463455 /* AddManagerSportInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A9759B1AC037F900463455 /* AddManagerSportInfo.m */; };
-		71A9759E1AC037F900463455 /* AddManagerSportInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A9759C1AC037F900463455 /* AddManagerSportInfo.xib */; };
+		71A9759E1AC037F900463455 /* AddManagerSportInfo~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A9759C1AC037F900463455 /* AddManagerSportInfo~iphone.xib */; };
 		71A99E141A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */; };
 		71ACB4FD198A13E3007C5AFA /* AddCoachingHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */; };
 		71ACB4FF198A140B007C5AFA /* AddCoachingHistory~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */; };
@@ -389,6 +390,8 @@
 		71B210A51AB7FAED002C1FA8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A41AB7FAED002C1FA8 /* CoreFoundation.framework */; };
 		71B210A71AB7FE1D002C1FA8 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A61AB7FE1D002C1FA8 /* libz.1.1.3.dylib */; };
 		71B210A91AB7FE32002C1FA8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A81AB7FE32002C1FA8 /* libz.dylib */; };
+		71B320601AC5293D00412C40 /* SMSCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B3205E1AC5293D00412C40 /* SMSCustomCell.m */; };
+		71B320611AC5293D00412C40 /* SMSCustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B3205F1AC5293D00412C40 /* SMSCustomCell.xib */; };
 		71B4CC061A13825E00042568 /* WorkoutHistoryDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B4CC041A13825E00042568 /* WorkoutHistoryDetails.m */; };
 		71B4CC071A13825E00042568 /* WorkoutHistoryDetails~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B4CC051A13825E00042568 /* WorkoutHistoryDetails~iphone.xib */; };
 		71B726871AA0A2B000901F8C /* notes.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B726851AA0A2B000901F8C /* notes.png */; };
@@ -811,8 +814,6 @@
 		71A369611A6E1DA300DDF05C /* ViewBacground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ViewBacground.png; sourceTree = "<group>"; };
 		71A369621A6E1DA300DDF05C /* wheel_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_bg@2x.png"; sourceTree = "<group>"; };
 		71A369631A6E1DA300DDF05C /* wheel_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_shadow@2x.png"; sourceTree = "<group>"; };
-		71A369641A6E1DA300DDF05C /* workouthistory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workouthistory.png; sourceTree = "<group>"; };
-		71A369651A6E1DA300DDF05C /* workoutlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = workoutlist.png; sourceTree = "<group>"; };
 		71A369951A6E268100DDF05C /* viewBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewBg.png; sourceTree = "<group>"; };
 		71A369971A6E276800DDF05C /* Cell_Bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cell_Bg.png; sourceTree = "<group>"; };
 		71A417301A84C73800A41981 /* add~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "add~ipad.png"; path = "../add~ipad.png"; sourceTree = "<group>"; };
@@ -844,7 +845,7 @@
 		71A606721A9B0979001BD86B /* NoteCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "NoteCell~iphone.xib"; sourceTree = "<group>"; };
 		71A6067A1A9B4E98001BD86B /* AddNotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNotes.h; sourceTree = "<group>"; };
 		71A6067B1A9B4E98001BD86B /* AddNotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNotes.m; sourceTree = "<group>"; };
-		71A6067C1A9B4E98001BD86B /* AddNotes~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNotes~iphone.xib"; sourceTree = "<group>"; };
+		71A6067C1A9B4E98001BD86B /* AddNotes~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AddNotes~iphone.xib"; path = "Notes/AddNotes~iphone.xib"; sourceTree = "<group>"; };
 		71A6067F1A9B57D5001BD86B /* AddNoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNoteCell.h; sourceTree = "<group>"; };
 		71A606801A9B57D5001BD86B /* AddNoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNoteCell.m; sourceTree = "<group>"; };
 		71A606811A9B57D5001BD86B /* AddNoteCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNoteCell~iphone.xib"; sourceTree = "<group>"; };
@@ -857,8 +858,12 @@
 		71A63E221A25E51000D0DA99 /* MessageInboxCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MessageInboxCell~ipad.xib"; sourceTree = "<group>"; };
 		71A63E241A26048A00D0DA99 /* SentItemsView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SentItemsView~ipad.xib"; sourceTree = "<group>"; };
 		71A63E261A2605D400D0DA99 /* ArichiveView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ArichiveView~ipad.xib"; sourceTree = "<group>"; };
+		71A66CCD1AC2ADB00062B617 /* AddManagerSportInfo~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddManagerSportInfo~ipad.xib"; sourceTree = "<group>"; };
 		71A68EF519DBB4220066F3B3 /* WorkOutDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkOutDetailCell.h; sourceTree = "<group>"; };
 		71A68EF619DBB4220066F3B3 /* WorkOutDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkOutDetailCell.m; sourceTree = "<group>"; };
+		71A691BC1AC4329B00800FF5 /* SMSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMSView.h; path = Athledo/SMSView.h; sourceTree = SOURCE_ROOT; };
+		71A691BD1AC4329B00800FF5 /* SMSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMSView.m; path = Athledo/SMSView.m; sourceTree = SOURCE_ROOT; };
+		71A691BE1AC4329B00800FF5 /* SMSView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SMSView.xib; path = Athledo/SMSView.xib; sourceTree = SOURCE_ROOT; };
 		71A6E75819EF78DF002416B4 /* AddCalendarEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCalendarEvent.h; sourceTree = "<group>"; };
 		71A6E75919EF78DF002416B4 /* AddCalendarEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCalendarEvent.m; sourceTree = "<group>"; };
 		71A6E75A19EF78DF002416B4 /* AddCalendarEvent~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddCalendarEvent~iphone.xib"; sourceTree = "<group>"; };
@@ -903,7 +908,7 @@
 		71A8CA3819937AA500B30DF7 /* ALPickerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALPickerViewCell.m; sourceTree = "<group>"; };
 		71A9759A1AC037F900463455 /* AddManagerSportInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddManagerSportInfo.h; sourceTree = "<group>"; };
 		71A9759B1AC037F900463455 /* AddManagerSportInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddManagerSportInfo.m; sourceTree = "<group>"; };
-		71A9759C1AC037F900463455 /* AddManagerSportInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddManagerSportInfo.xib; sourceTree = "<group>"; };
+		71A9759C1AC037F900463455 /* AddManagerSportInfo~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddManagerSportInfo~iphone.xib"; sourceTree = "<group>"; };
 		71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ComposeMessage~ipad.xib"; sourceTree = "<group>"; };
 		71ACB4FB198A13E3007C5AFA /* AddCoachingHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCoachingHistory.h; sourceTree = "<group>"; };
 		71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCoachingHistory.m; sourceTree = "<group>"; };
@@ -980,6 +985,9 @@
 		71B210A41AB7FAED002C1FA8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		71B210A61AB7FE1D002C1FA8 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		71B210A81AB7FE32002C1FA8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		71B3205D1AC5293D00412C40 /* SMSCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSCustomCell.h; sourceTree = SOURCE_ROOT; };
+		71B3205E1AC5293D00412C40 /* SMSCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSCustomCell.m; sourceTree = SOURCE_ROOT; };
+		71B3205F1AC5293D00412C40 /* SMSCustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMSCustomCell.xib; sourceTree = SOURCE_ROOT; };
 		71B4CC031A13825E00042568 /* WorkoutHistoryDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkoutHistoryDetails.h; sourceTree = "<group>"; };
 		71B4CC041A13825E00042568 /* WorkoutHistoryDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkoutHistoryDetails.m; sourceTree = "<group>"; };
 		71B4CC051A13825E00042568 /* WorkoutHistoryDetails~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkoutHistoryDetails~iphone.xib"; sourceTree = "<group>"; };
@@ -1162,6 +1170,7 @@
 		3D9E050A197BCF7D005CCB10 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				71A68FDE1AC3CD2300800FF5 /* Sms */,
 				71A606671A9AF9AD001BD86B /* Notes */,
 				7197E854197E76750086DA2E /* Profile */,
 				71999555197D30D400C0F77F /* Dashboard */,
@@ -1482,7 +1491,6 @@
 				7195489519D1473900C58994 /* EditGenralInfo.m */,
 				71A9759A1AC037F900463455 /* AddManagerSportInfo.h */,
 				71A9759B1AC037F900463455 /* AddManagerSportInfo.m */,
-				71A9759C1AC037F900463455 /* AddManagerSportInfo.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -1878,8 +1886,6 @@
 				71A369611A6E1DA300DDF05C /* ViewBacground.png */,
 				71A369621A6E1DA300DDF05C /* wheel_bg@2x.png */,
 				71A369631A6E1DA300DDF05C /* wheel_shadow@2x.png */,
-				71A369641A6E1DA300DDF05C /* workouthistory.png */,
-				71A369651A6E1DA300DDF05C /* workoutlist.png */,
 			);
 			path = OtherImages;
 			sourceTree = "<group>";
@@ -1956,7 +1962,6 @@
 				71A606691A9AF9D7001BD86B /* Notes.m */,
 				71A6067A1A9B4E98001BD86B /* AddNotes.h */,
 				71A6067B1A9B4E98001BD86B /* AddNotes.m */,
-				71A6067C1A9B4E98001BD86B /* AddNotes~iphone.xib */,
 			);
 			path = Notes;
 			sourceTree = "<group>";
@@ -1974,6 +1979,17 @@
 				71A7BA871A9C732F00C75ABA /* AddNoteCell~ipad.xib */,
 			);
 			path = CustomCell;
+			sourceTree = "<group>";
+		};
+		71A68FDE1AC3CD2300800FF5 /* Sms */ = {
+			isa = PBXGroup;
+			children = (
+				71B3205A1AC5283A00412C40 /* CustomCell */,
+				71A691BC1AC4329B00800FF5 /* SMSView.h */,
+				71A691BD1AC4329B00800FF5 /* SMSView.m */,
+				71A691BE1AC4329B00800FF5 /* SMSView.xib */,
+			);
+			path = Sms;
 			sourceTree = "<group>";
 		};
 		71A6E75E19EFD2C1002416B4 /* MJGeocoder */ = {
@@ -2021,7 +2037,7 @@
 		71A908EC1A5E895500AFB6AC /* iphone */ = {
 			isa = PBXGroup;
 			children = (
-				71A6066A1A9AF9D7001BD86B /* Notes~iphone.xib */,
+				71B3205C1AC5286E00412C40 /* Notes */,
 				71A908ED1A5E8A0400AFB6AC /* Profile */,
 				71A908EE1A5E8A3400AFB6AC /* DashBoard */,
 				71A908F11A5E8AE100AFB6AC /* Multimedia */,
@@ -2042,6 +2058,7 @@
 				7197E85E197E78BB0086DA2E /* AddAthleteHistory~iphone.xib */,
 				71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */,
 				7195489619D1473900C58994 /* EditGenralInfo~iphone.xib */,
+				71A9759C1AC037F900463455 /* AddManagerSportInfo~iphone.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -2216,6 +2233,7 @@
 				71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */,
 				71A53DB51A3585E400463864 /* AddCoachingHistory~ipad.xib */,
 				71A53DB21A356A4300463864 /* EditGenralInfo~ipad.xib */,
+				71A66CCD1AC2ADB00062B617 /* AddManagerSportInfo~ipad.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -2307,6 +2325,25 @@
 				71B15AB31A47CDB1008C0C71 /* MultimediaCell~ipad.xib */,
 			);
 			name = CustomCell;
+			sourceTree = "<group>";
+		};
+		71B3205A1AC5283A00412C40 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				71B3205D1AC5293D00412C40 /* SMSCustomCell.h */,
+				71B3205E1AC5293D00412C40 /* SMSCustomCell.m */,
+				71B3205F1AC5293D00412C40 /* SMSCustomCell.xib */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
+		71B3205C1AC5286E00412C40 /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				71A6067C1A9B4E98001BD86B /* AddNotes~iphone.xib */,
+				71A6066A1A9AF9D7001BD86B /* Notes~iphone.xib */,
+			);
+			name = Notes;
 			sourceTree = "<group>";
 		};
 		71B788E71AB8212200ED6421 /* Utility */ = {
@@ -2508,6 +2545,7 @@
 				71A89A221A247AED00CA9756 /* AddNewAnnouncement~ipad.xib in Resources */,
 				71D66E391A7BA9C100B75F86 /* back.png in Resources */,
 				7197E865197E8B160086DA2E /* Athledo Basic Info.strings in Resources */,
+				71A66CCE1AC2ADB00062B617 /* AddManagerSportInfo~ipad.xib in Resources */,
 				71A63E131A259DFB00D0DA99 /* WorkOutView~ipad.xib in Resources */,
 				71A89A281A24B14700CA9756 /* UpdateDetails~ipad.xib in Resources */,
 				71A369801A6E1DA300DDF05C /* menu_logo.png in Resources */,
@@ -2549,7 +2587,6 @@
 				71A73C4E1A1DB1BD008C089A /* LoginVeiw~ipad.xib in Resources */,
 				71A368FE1A6E1B8E00DDF05C /* today_icon@2x.png in Resources */,
 				71A3697D1A6E1DA300DDF05C /* login_txtfld.png in Resources */,
-				71A369911A6E1DA400DDF05C /* workouthistory.png in Resources */,
 				7194AE4319C04B8E00DC0A23 /* messageSent.aiff in Resources */,
 				71A369741A6E1DA300DDF05C /* frame_left@2x.png in Resources */,
 				71D66E3C1A7BA9C100B75F86 /* login_bg copy.png in Resources */,
@@ -2571,6 +2608,7 @@
 				71B726901AA0A3B200901F8C /* pdf_download.png in Resources */,
 				71950FB619C1B01900B4BF1A /* ArichiveView~iphone.xib in Resources */,
 				71ADF1C31A70F1B200457FB9 /* bubble-square-outgoing-selected@2x.png in Resources */,
+				71B320611AC5293D00412C40 /* SMSCustomCell.xib in Resources */,
 				71ADF1C81A70F1B200457FB9 /* input-bar.png in Resources */,
 				3D9E04EE197BCF3C005CCB10 /* Images.xcassets in Resources */,
 				71A7BA861A9C719A00C75ABA /* AddNotes~ipad.xib in Resources */,
@@ -2602,6 +2640,7 @@
 				71A368E81A6E1AAD00DDF05C /* Default@2x.png in Resources */,
 				71950FB119C1AFE900B4BF1A /* SentItemsView~iphone.xib in Resources */,
 				71A4173E1A84D4A000A41981 /* deleteBtn~ipad.png in Resources */,
+				71A691C01AC4329B00800FF5 /* SMSView.xib in Resources */,
 				71A6067E1A9B4E98001BD86B /* AddNotes~iphone.xib in Resources */,
 				71ADF1C51A70F1B200457FB9 /* bubble-square-outgoing@2x.png in Resources */,
 				71B15ABA1A47CDB1008C0C71 /* DisplayFolderContant.xib in Resources */,
@@ -2666,7 +2705,7 @@
 				71ADF1C91A70F1B200457FB9 /* input-bar@2x.png in Resources */,
 				3D9E050F197BCF9E005CCB10 /* LoginVeiw~iphone.xib in Resources */,
 				71A369771A6E1DA300DDF05C /* img_brdlist.png in Resources */,
-				71A9759E1AC037F900463455 /* AddManagerSportInfo.xib in Resources */,
+				71A9759E1AC037F900463455 /* AddManagerSportInfo~iphone.xib in Resources */,
 				71A7BA841A9C6FF500C75ABA /* Notes~ipad.xib in Resources */,
 				71A509F91A8DD42C0060E9B1 /* week_icon1.png in Resources */,
 				71A3691A1A6E1C3A00DDF05C /* edit.png in Resources */,
@@ -2714,7 +2753,6 @@
 				71A89A201A24505A00CA9756 /* AnnouncementView~ipad.xib in Resources */,
 				71A3696E1A6E1DA300DDF05C /* check_selected@2x.png in Resources */,
 				71999546197CFB4000C0F77F /* ForgotPassword~iphone.xib in Resources */,
-				71A369921A6E1DA400DDF05C /* workoutlist.png in Resources */,
 				71A0708319AB291C00CA98D3 /* WorkOutHistory~iphone.xib in Resources */,
 				71B4CC071A13825E00042568 /* WorkoutHistoryDetails~iphone.xib in Resources */,
 				71A368EB1A6E1AAD00DDF05C /* iTunesArtwork.png in Resources */,
@@ -2760,6 +2798,7 @@
 				710C635519B9E8FA00F11983 /* TapDetectingView.m in Sources */,
 				7194AE4519C04BCE00DC0A23 /* JSBubbleMessageCell.m in Sources */,
 				71950FAA19C1A5BE00B4BF1A /* TSPopoverPopoverView.m in Sources */,
+				71B320601AC5293D00412C40 /* SMSCustomCell.m in Sources */,
 				71967ADB19A33F490081379B /* UpdateDetails.m in Sources */,
 				71950FA819C1A5BE00B4BF1A /* TSActionSheet.m in Sources */,
 				7111F6081A9F26C4004F58E8 /* UIProgressView+AFNetworking.m in Sources */,
@@ -2868,6 +2907,7 @@
 				71A9759D1AC037F900463455 /* AddManagerSportInfo.m in Sources */,
 				71B789021AB8214100ED6421 /* ASIDownloadCache.m in Sources */,
 				7194ADDC19C011B500DC0A23 /* CalenderEventDetails.m in Sources */,
+				71A691BF1AC4329B00800FF5 /* SMSView.m in Sources */,
 				7111F6041A9F26C4004F58E8 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				71977E241990DEBE00477EAF /* AddAthleteHistoryCell.m in Sources */,
 				710C634519B9E8A400F11983 /* MAEventKitDataSource.m in Sources */,

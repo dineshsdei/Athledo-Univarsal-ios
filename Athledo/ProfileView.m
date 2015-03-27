@@ -490,7 +490,7 @@
     }
     cell.backgroundColor=[UIColor clearColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    if(([UserInformation shareInstance].userType==isAthlete || [UserInformation shareInstance].userType==isManeger) && indexPath.section==1)
+    if([UserInformation shareInstance].userType==isAthlete && indexPath.section==1)
     {
         cell.accessoryType=UITableViewCellAccessoryNone;
     }else
@@ -720,6 +720,26 @@
                 }
             }else  if (indexPath.section <  1+(arrCoaching.count))
             {
+                long int index=indexPath.section - 1;
+                NSArray *arrController=[self.navigationController viewControllers];
+                BOOL Status=FALSE;
+                for (id object in arrController)
+                {
+                    if ([object isKindOfClass:[AddManagerSportInfo class]])
+                    {
+                        Status=TRUE;
+                        AddManagerSportInfo *objManagerSportInfo=(AddManagerSportInfo *)object;
+                        objManagerSportInfo.objData = [arrCoaching objectAtIndex:index];
+                        [self.navigationController popToViewController:objManagerSportInfo animated:NO];
+                    }
+                }
+                if (Status==FALSE)
+                {
+                    AddManagerSportInfo *objManagerSportInfo=[[AddManagerSportInfo alloc] initWithNibName:@"AddManagerSportInfo" bundle:nil];
+                    objManagerSportInfo.objData=[arrCoaching objectAtIndex:index];
+                    [self.navigationController pushViewController:objManagerSportInfo animated:YES];
+                }
+
                 
             }else  if (indexPath.section <  1+(arrCoaching.count)+arrAwards.count)
             {

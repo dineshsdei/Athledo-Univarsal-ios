@@ -67,7 +67,7 @@ int iconleftPosition;
         LINE_SEP_X=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 310  :170) : 50;
         AwardInfoCupX=isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp)? 500  :360)  : 140;
         AwardInfoX =isIPAD ? (([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 430  :290)   : 60;
-        AthleteSportX=isIPAD ?(([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 440  :320) : 90;
+        AthleteSportX=isIPAD ?(([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeLeft) || ([UIDevice currentDevice].orientation==UIDeviceOrientationLandscapeRight) || (orientation==UIDeviceOrientationFaceUp) ? 450  :330) : 90;
     }
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath delegate:(id)del GenralInfo:(NSDictionary *)GenralInfo coachingInfo:(NSArray *)coachingInfo awardInfo:(NSArray *)awardInfo :(BOOL)isEdit
@@ -288,17 +288,11 @@ int iconleftPosition;
             [txtViewPhone setTextAlignment:GenralInfoAlignment];
             
             txtViewPhone.borderStyle =isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
-            // txtViewPhone.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-            //txtViewPhone.placeholder = @"cellphone";
-            
             txtViewPhone.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"cellphone" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-            
             txtViewPhone.keyboardType=UIKeyboardTypeNumberPad;
-            
             txtViewPhone.text = [GenralInfo objectForKey:@"cellphone"];
             txtViewPhone.alpha = 1.0;
             txtViewPhone.userInteractionEnabled = isEdit;
-            
             [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtViewPhone.tag]];
             
             [self addSubview:txtViewPhone];
@@ -311,7 +305,6 @@ int iconleftPosition;
             
             UIImageView *imageEmailIndicator=[[UIImageView alloc] initWithFrame:CGRectMake(iconleftPosition, 185, 15, 10)];
             imageEmailIndicator.image=[UIImage imageNamed:@"email_icon.png"];
-            
             [self addSubview:imageEmailIndicator];
             
             UITextField *txtViewEmail = [[UITextField alloc] initWithFrame:CGRectMake((GenralInfoX)-40, 180, (GenralInfoWeight)+20, 20)];
@@ -327,16 +320,11 @@ int iconleftPosition;
             txtViewEmail.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Email id" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
             
             txtViewEmail.text =[UserInformation shareInstance].userEmail;
-            
             txtViewEmail.alpha = 1.0;
             txtViewEmail.userInteractionEnabled = NO;
             
-            //[arrIndex addObject:[NSString stringWithFormat:@"%d",txtViewEmail.tag]];
-            
             [self addSubview:txtViewEmail];
-            
             if (delegate.arrCellFieldTag.count > (indexPath.section + Fsection)) {
-                
                 [delegate.arrCellFieldTag replaceObjectAtIndex:indexPath.section withObject:arrIndex];
             }else{
                 [delegate.arrCellFieldTag addObject:arrIndex];
@@ -489,14 +477,14 @@ int iconleftPosition;
                 
                 if ([UserInformation shareInstance].userType == isManeger && indexPath.section == 1) {
                    
-                    UIButton *btnEdit =[[UIButton alloc] initWithFrame:CGRectMake((LINE_SEP_X)+(LINE_SEP_W)+10, -10, 20, 20)];
+                    UIButton *btnEdit =[[UIButton alloc] initWithFrame:CGRectMake((LINE_SEP_X)+(LINE_SEP_W)+10, 0, 20, 20)];
                     btnEdit.tag=1;
                     UIImage *imageEdit=[UIImage imageNamed:@"plus_icon.png"];
                     [btnEdit setBackgroundImage:imageEdit forState:UIControlStateNormal];
                     [btnEdit addTarget:self action:@selector(AddManagerSportInfo : ) forControlEvents:UIControlEventTouchUpInside];
                     [self addSubview:btnEdit];
                     
-                    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,0, LINE_SEP_W, 2)];
+                    UIImageView *img1=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X,5, LINE_SEP_W, 2)];
                     img1.image=[UIImage imageNamed:@"red_line.png"];
                     [self addSubview:img1];
                 }else {
@@ -511,8 +499,13 @@ int iconleftPosition;
                     }
                 }
                 ///   Athlete Sport info section
-                UILabel *lblAge= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 15, 90, 25)];
-                lblAge.text = @"Age :";
+                UILabel *lblAge= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 15, 95, 25)];
+                if ([UserInformation shareInstance].userType == isManeger) {
+                     lblAge.text = @"Sport name :";
+                }else
+                {
+                     lblAge.text = @"Age :";
+                }
                 lblAge.font = sportinfoFont;
                 lblAge.textColor=isEdit ? ColorLightgray : ColorGray;;
                 lblAge.alpha = 1.0;
@@ -520,7 +513,7 @@ int iconleftPosition;
                 
                 [self addSubview:lblAge];
                 
-                UITextField *txtAge = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblAge.frame.size.width), 15, 98, 20)];
+                UITextField *txtAge = [[UITextField alloc] initWithFrame:CGRectMake(((AthleteSportX)+lblAge.frame.size.width-5), 15, 98, 20)];
                 txtAge.tag = (indexPath.section+1)*1000+Ssection;
                 txtAge.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
                 txtAge.delegate = del;
@@ -530,10 +523,19 @@ int iconleftPosition;
                 txtAge.clearButtonMode = UITextFieldViewModeWhileEditing;
                 txtAge.borderStyle = isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
                 [txtAge setTextAlignment:SportInfoAlignment];
-                txtAge.text =[[coachingInfo objectAtIndex:index] objectForKey:@"age"];
-                txtAge.alpha = 1.0;
-                txtAge.userInteractionEnabled = isEdit;
-                txtAge.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"age" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
+                if ([UserInformation shareInstance].userType == isManeger) {
+                    txtAge.text =[[coachingInfo objectAtIndex:index] objectForKey:@"sport_name"];
+                    txtAge.alpha = 1.0;
+                    txtAge.userInteractionEnabled = isEdit;
+                    txtAge.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"sport_name" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
+                }else
+                {
+                    txtAge.text =[[coachingInfo objectAtIndex:index] objectForKey:@"age"];
+                    txtAge.alpha = 1.0;
+                    txtAge.userInteractionEnabled = isEdit;
+                    txtAge.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"age" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
+                }
+              
                 [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtAge.tag]];
                 [self addSubview:txtAge];
                 Ssection=Ssection+1;
@@ -557,7 +559,7 @@ int iconleftPosition;
                 txtHeight.clearButtonMode = UITextFieldViewModeWhileEditing;
                 txtHeight.borderStyle = isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
                 [txtHeight setTextAlignment:SportInfoAlignment];
-                txtHeight.text =[[coachingInfo objectAtIndex:index] objectForKey:@"height"];
+                txtHeight.text =[[[coachingInfo objectAtIndex:index] objectForKey:@"height"] stringByAppendingFormat:@" %@",@"ft"];
                 txtHeight.alpha = 1.0;
                 txtHeight.userInteractionEnabled = isEdit;
                 txtHeight.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"height" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
@@ -585,7 +587,7 @@ int iconleftPosition;
                 txtWeight.clearButtonMode = UITextFieldViewModeWhileEditing;
                 txtWeight.borderStyle = isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
                 [txtWeight setTextAlignment:SportInfoAlignment];
-                txtWeight.text =[[coachingInfo objectAtIndex:index] objectForKey:@"weight"];
+                txtWeight.text =[[[coachingInfo objectAtIndex:index] objectForKey:@"weight"] stringByAppendingFormat:@" %@",@"lbs"];
                 //txtWeight.placeholder=@"weight";
                 txtWeight.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"weight" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
                 

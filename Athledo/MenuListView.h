@@ -9,6 +9,7 @@
 #import <TapkuLibrary/TapkuLibrary.h>
 #import "Multimedia.h"
 #import "WebServiceClass.h"
+#import "SMSView.h"
 
 @class CalenderScheduleView;
 @interface MenuListView : UIViewController<UITableViewDelegate, UITableViewDataSource,WebServiceDelegate>

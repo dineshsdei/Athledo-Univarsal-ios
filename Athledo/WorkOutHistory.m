@@ -62,7 +62,7 @@
     }
     return self;
 }
-#pragma mark- UIPickerView
+#pragma mark- UIPickerView Delegate method
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
@@ -97,7 +97,6 @@
         return 0;
 }
 
-#pragma mark- Picker delegate method
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     NSString *str;

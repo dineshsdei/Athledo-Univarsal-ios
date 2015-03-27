@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SMSView">
+            <connections>
+                <outlet property="tableview" destination="iy2-Fv-9Aj" id="sVV-Zv-AWT"/>
+                <outlet property="textview" destination="MDm-f1-ODr" id="PfA-1q-ufu"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Compose New Sms" translatesAutoresizingMaskIntoConstraints="NO" id="MDm-f1-ODr">
+                    <rect key="frame" x="9" y="5" width="303" height="73"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="73" id="tXh-nP-MMC"/>
+                    </constraints>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="5Wa-sw-i7v"/>
+                    </connections>
+                </textView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="iy2-Fv-9Aj">
+                    <rect key="frame" x="0.0" y="130" width="320" height="347"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="HL8-A2-jGw"/>
+                        <outlet property="delegate" destination="-1" id="FGI-fp-D44"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="gIH-ud-KiX">
+                    <rect key="frame" x="0.0" y="477" width="320" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="n6N-cU-cYK"/>
+                    </constraints>
+                </imageView>
+                <searchBar contentMode="redraw" placeholder="Search Contacts " translatesAutoresizingMaskIntoConstraints="NO" id="KCE-26-6C0">
+                    <rect key="frame" x="0.0" y="85" width="320" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="gbt-JP-9Vd"/>
+                    </constraints>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Qq7-nN-ShS"/>
+                    </connections>
+                </searchBar>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="MDm-f1-ODr" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="5" id="09W-D0-9oi"/>
+                <constraint firstItem="KCE-26-6C0" firstAttribute="top" secondItem="MDm-f1-ODr" secondAttribute="bottom" constant="7" id="1aS-TO-YVm"/>
+                <constraint firstAttribute="trailing" secondItem="MDm-f1-ODr" secondAttribute="trailing" constant="8" id="5QA-jb-Np5"/>
+                <constraint firstAttribute="trailing" secondItem="gIH-ud-KiX" secondAttribute="trailing" id="J8p-hD-wL1"/>
+                <constraint firstAttribute="trailing" secondItem="iy2-Fv-9Aj" secondAttribute="trailing" id="JlJ-na-Fay"/>
+                <constraint firstItem="gIH-ud-KiX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="OVa-tZ-Atq"/>
+                <constraint firstItem="gIH-ud-KiX" firstAttribute="top" secondItem="iy2-Fv-9Aj" secondAttribute="bottom" id="P0G-Cq-Qrq"/>
+                <constraint firstAttribute="trailing" secondItem="KCE-26-6C0" secondAttribute="trailing" id="Rnj-YF-AWe"/>
+                <constraint firstAttribute="bottom" secondItem="gIH-ud-KiX" secondAttribute="bottom" id="XuE-pw-JrK"/>
+                <constraint firstItem="iy2-Fv-9Aj" firstAttribute="top" secondItem="KCE-26-6C0" secondAttribute="bottom" constant="1" id="iZl-Mv-RpA"/>
+                <constraint firstItem="MDm-f1-ODr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="9" id="l8P-as-SSK"/>
+                <constraint firstItem="iy2-Fv-9Aj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="nbu-Y3-vvA"/>
+                <constraint firstItem="KCE-26-6C0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="q1Q-Fz-uBr"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="295" y="199"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

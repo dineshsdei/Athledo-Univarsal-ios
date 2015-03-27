@@ -20,6 +20,7 @@
                 <outlet property="settingAluminiBtn" destination="V7i-eX-GuE" id="phD-mM-B2q"/>
                 <outlet property="settingAthleteBtn" destination="xcw-Pl-3CJ" id="33d-Cz-Pgz"/>
                 <outlet property="settingCoachBtn" destination="ccZ-9M-oL1" id="cRd-fi-Uxp"/>
+                <outlet property="settingManagerBtn" destination="6ON-cq-PBc" id="zzo-Mt-Air"/>
                 <outlet property="timeTxt" destination="tJA-Qo-GQG" id="swk-GG-OSH"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -157,6 +158,23 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6ON-cq-PBc" customClass="CheckboxButton">
+                                    <rect key="frame" x="126" y="308" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                    <state key="normal" backgroundImage="uncheck.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="ManagerButtonEvent:" destination="-1" eventType="touchUpInside" id="Lvd-MT-r4Q"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manager" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lni-Tq-P4g">
+                                    <rect key="frame" x="164" y="308" width="70" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="V7i-eX-GuE" customClass="CheckboxButton">
                                     <rect key="frame" x="20" y="308" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
@@ -214,7 +232,7 @@
                                         <action selector="selectDate:" destination="-1" eventType="touchUpInside" id="g5a-E9-C6h"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SnE-5a-LZK" customClass="CheckboxButton">
+                                <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SnE-5a-LZK" customClass="CheckboxButton">
                                     <rect key="frame" x="20" y="343" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <state key="normal" backgroundImage="uncheck.png">

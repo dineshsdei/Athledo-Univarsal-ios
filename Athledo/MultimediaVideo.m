@@ -68,15 +68,26 @@
 }
 - (void)viewDidLoad {
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(PlayerDoneClick:)
+                                                 name:MPMoviePlayerWillExitFullscreenNotification
+                                               object:nil];
+    
     self.scrollview.layer.borderWidth = 1;
     self.scrollview.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.scrollview.hidden = YES ;
     UIEdgeInsets ContentInset = _tfDescription.contentInset;
     ContentInset.top = 20;
     _tfDescription.contentInset = ContentInset;
-    _tfDescription.layer.borderWidth = .50;
+    _tfDescription.layer.borderWidth = 1;
+    _tfSeason.layer.borderWidth = 1;
+    _tfTitle.layer.borderWidth = 1;
+    _tfSeason.layer.cornerRadius = 5;
+    _tfTitle.layer.cornerRadius = 5;
     _tfDescription.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    
+    _tfTitle.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _tfSeason.layer.borderColor = [UIColor lightGrayColor].CGColor;
+       
     [super viewDidLoad];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
             NSDictionary* info = [note userInfo];
@@ -104,7 +115,6 @@
                              }
                              completion:^(BOOL finished){
                              }];
-       
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -173,6 +183,25 @@
 }
 
 #pragma mark- Class Utility method
+- (void)movieFinishedCallback:(NSNotification*)aNotification
+{
+    // Obtain the reason why the movie playback finished
+    NSNumber *finishReason = [[aNotification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
+    
+    // Dismiss the view controller ONLY when the reason is not "playback ended"
+    if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded)
+    {
+        MPMoviePlayerController *moviePlayer = [aNotification object];
+        
+        // Remove this class from the observers
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:MPMoviePlayerPlaybackDidFinishNotification
+                                                      object:moviePlayer];
+        
+        // Dismiss the view controller
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
 - (void)orientationChanged
 {
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
@@ -356,11 +385,9 @@
 #pragma mark- ASIHTTPRequest class delegate
 
 - (void)requestStarted:(ASIHTTPRequest *)theRequest {
-    
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)theRequest {
-    
     @try {
         _tfTitle.text = @"";
         _tfDescription.text = @"";
@@ -385,7 +412,6 @@
 - (void)requestFailed:(ASIHTTPRequest *)theRequest {
     [SingletonClass initWithTitle:@"" message:@"Video Upload to server failed, please try again" delegate:nil btn1:@"Ok"];
 }
-
 #pragma mark Webservice call event
 -(void)getSeasonData{
     if ([SingletonClass  CheckConnectivity]) {
@@ -481,24 +507,48 @@
 -(void)PlayVideo:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
-    NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]]]];
+    //NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]]]];
     //MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:[videos objectForKey:@"medium"]]];
-     MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:@"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4"]];
-    //http://172.24.2.222:8024/files/videos/1426849025_conv_33_1425595102_bigbuckbunny.flv
-   
-    [self presentMoviePlayerViewControllerAnimated:mp];
+   // MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]]];
+    
+    //[self presentMoviePlayerViewControllerAnimated:mp];
+    
+    // Pass your file path
+    NSURL *vedioURL =[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]];
+    MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:vedioURL];
+    
+    // Remove the movie player view controller from the "playback did finish" notification observers
+    [[NSNotificationCenter defaultCenter] removeObserver:playerVC
+                                                    name:MPMoviePlayerPlaybackDidFinishNotification
+                                                  object:playerVC.moviePlayer];
+    
+    // Register this class as an observer instead
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(movieFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:playerVC.moviePlayer];
+    
+    // Set the modal transition style of your choice
+    playerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    // Present the movie player view controller
+    [self presentViewController:playerVC animated:YES completion:nil];
+    
+    // Start playback
+    [playerVC.moviePlayer prepareToPlay];
+    [playerVC.moviePlayer play];
+    
+    
 }
 #pragma mark - Tableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return 1;
 }
-
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return multimediaData.count;
 }
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier =@"MultimediaCell";
@@ -510,15 +560,15 @@
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         //cell.btnPlay.hidden=YES;
         cell.btnPlay.tag=indexPath.row;
-        //NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"]]]];
-        NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:@"http://archive.org/download/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto/WaltDisneyCartoons-MickeyMouseMinnieMouseDonaldDuckGoofyAndPluto-HawaiianHoliday1937-Video.mp4"]];
-        if (videos !=nil) {
-            cell.btnPlay.hidden=NO;
-            [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
-        }else{
-            cell.btnPlay.hidden=YES;
-            [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"error_icon.png"]];
-        }
+         [cell.imageView setImageWithURL:[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"thumbnail"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
+        
+//        if (videos !=nil) {
+//           // cell.btnPlay.hidden=NO;
+//            [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
+//        }else{
+//            //cell.btnPlay.hidden=YES;
+//            [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"error_icon.png"]];
+//        }
         cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];
         cell.First_textViewDes.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"description"];
         [arrVisitedIndex addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
@@ -526,7 +576,6 @@
     cell.delegate=self;
     return cell;
 }
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[self playVideo:@"http://172.24.2.222:8024/files/videos/1426849025_conv_33_1425595102_bigbuckbunny.flv" frame:self.view.frame];
@@ -541,7 +590,6 @@
 {
     return 1;
 }
-
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (currentText.text.length==0) {
@@ -550,7 +598,6 @@
     }
     return [arrSeasons count];
 }
-
 #pragma mark- Picker delegate method
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {

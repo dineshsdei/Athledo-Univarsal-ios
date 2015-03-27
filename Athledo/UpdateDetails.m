@@ -165,7 +165,6 @@
         BOOL Status=FALSE;
         for (id object in arrController)
         {
-            
             if ([object isKindOfClass:[AnnouncementView class]])
             {
                 Status=TRUE;
@@ -199,18 +198,14 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
-    
     switch (Tag)
     {
         case deleteAnnouncement:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 //[SingaltonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok"];
-                
                 [SingletonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
-                
             }
         }
         case deleteNotificationTag:

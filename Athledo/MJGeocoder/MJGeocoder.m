@@ -89,8 +89,7 @@
 		results = [NSMutableArray arrayWithCapacity:[foundLocations count]];
 		
 		for (NSDictionary *location in foundLocations) {
-			NSArray *firstResultAddress = [location objectForKey:@"address_components"];
-           
+		
             double lat = [[[[location objectForKey:@"geometry"] objectForKey:@"location"] valueForKey:@"lat"] doubleValue];
             double lng = [[[[location objectForKey:@"geometry"] objectForKey:@"location"] valueForKey:@"lng"] doubleValue];
             

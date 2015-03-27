@@ -18,6 +18,7 @@
                 <outlet property="settingAluminiBtn" destination="GMb-js-ZRo" id="bF3-bf-QYw"/>
                 <outlet property="settingAthleteBtn" destination="IU2-vE-ceZ" id="Z4N-rC-5Or"/>
                 <outlet property="settingCoachBtn" destination="Jdv-hz-vQe" id="WTZ-ro-ZJz"/>
+                <outlet property="settingManagerBtn" destination="Bqi-HR-d5G" id="skO-GY-Ge9"/>
                 <outlet property="timeTxt" destination="UO7-EY-Xyx" id="cmn-eU-LtT"/>
                 <outlet property="view" destination="iN0-l3-epB" id="plr-Wa-OWa"/>
             </connections>
@@ -138,6 +139,23 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Bqi-HR-d5G" customClass="CheckboxButton">
+                                    <rect key="frame" x="197" y="488" width="27" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" backgroundImage="uncheck.png">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="ManagerButtonEvent:" destination="-1" eventType="touchUpInside" id="gSq-YA-H9c"/>
+                                    </connections>
+                                </button>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manager" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="khP-vK-3At">
+                                    <rect key="frame" x="235" y="488" width="70" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IU2-vE-ceZ" customClass="CheckboxButton">
                                     <rect key="frame" x="364" y="443" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -199,7 +217,7 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
-                                <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3cV-9d-hGL" customClass="CheckboxButton">
+                                <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3cV-9d-hGL" customClass="CheckboxButton">
                                     <rect key="frame" x="30" y="533" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="uncheck.png">
@@ -238,7 +256,7 @@
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="260" y="289"/>
         </view>
     </objects>

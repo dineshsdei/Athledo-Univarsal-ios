@@ -160,11 +160,18 @@ static SingletonClass *objSingaltonClass=nil;
 -(UIToolbar *)toolBarWithDoneButton:(UIView *)view
 {
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
-    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, view.frame.size.height, view.frame.size.width,44)];
+    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, view.frame.size.height+200, view.frame.size.width,44)];
     
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     return toolBar;
+}
+-(UIPickerView *)AddPickerView:(UIView *)view
+{
+   UIPickerView *listPicker=[[UIPickerView alloc] init];
+    listPicker.frame =CGRectMake(0,view.frame.size.height+50,view.frame.size.width, PickerHeight);
+    listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
+    return listPicker;
 }
 
 -(void)doneClicked

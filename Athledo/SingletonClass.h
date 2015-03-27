@@ -49,6 +49,7 @@
 +(void)deleteUnUsedLableFromTable :(UITableView *)table;
 
 -(UIToolbar *)toolBarWithDoneButton:(UIView *)view;
+-(UIPickerView *)AddPickerView:(UIView *)view;
 -(void)doneClicked;
 +(NSString *)DocumentDirectoryPath;
 

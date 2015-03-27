@@ -24,6 +24,7 @@
     IBOutlet UIButton *settingCoachBtn;
     IBOutlet UIButton *settingAthleteBtn;
     IBOutlet UIButton *settingAluminiBtn;
+    IBOutlet UIButton *settingManagerBtn;
     IBOutlet UIButton *selectGroupBtn;
 
     IBOutlet UIButton *selectDateBtn;
@@ -38,6 +39,7 @@
 - (IBAction)AllButtonEvent:(id)sender;
 - (IBAction)CoachButtonEvent:(id)sender;
 - (IBAction)AthleteButtonEvent:(id)sender;
+- (IBAction)ManagerButtonEvent:(id)sender;
 - (IBAction)AluminiButtonEvent:(id)sender;
 - (IBAction)GroupsButtonEvent:(id)sender;
 @property (strong, nonatomic) id keyboardAppear;

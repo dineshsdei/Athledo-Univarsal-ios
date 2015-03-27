@@ -20,14 +20,9 @@
 #define USE_GESTURE_RECOGNIZERS YES
 #define BOUNCE_PIXELS 5.0
 #define BUTTON_LEFT_MARGIN 10.0
-
-
-
-
 @interface AnnouncementView ()
 {
     UserInformation *userInfo;
-    
     NSMutableArray *arrAnnouncements;
     NSInteger deleteBtnTag;
     
@@ -43,11 +38,9 @@
     UITextField *currentText;
     UITextView *txtViewCurrent;
     NSArray *notificationData;
-    
     UIDeviceOrientation oraintation;
     
 }
-
 
 @end
 
@@ -188,9 +181,7 @@
                 for (int i=0; i< data.count; i++)
                 {
                     [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
-                   
                 }
-               
                 switch (userInfo.userType) {
                         
                     case 1:
@@ -223,6 +214,7 @@
                 }
             }else
             {
+                [tblAnnouncementRecods reloadData];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 self.navigationItem.leftBarButtonItem.enabled=YES;
                 [SingletonClass RemoveActivityIndicator:self.view];
@@ -496,7 +488,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return arrAnnouncements.count;
-    
 }
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

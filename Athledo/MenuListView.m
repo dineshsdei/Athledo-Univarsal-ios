@@ -116,7 +116,7 @@
     
     UILabel *lbl=(UILabel *)[cell viewWithTag:100];
     UILabel *lblShowUpdate=(UILabel *)[cell viewWithTag:110];
-   
+    
     [lbl setTextAlignment:NSTextAlignmentLeft];
     lbl.text=[arrMenuList objectAtIndex:indexPath.row];
     lbl.font=MenuTextfont;
@@ -145,24 +145,52 @@
         }
         case 2:
         {
-            if ([[NSString stringWithFormat:@"%@",[notificationData valueForKey:@"message"]] intValue] > 0)
+            if([UserInformation shareInstance].userType == isAthlete)
             {
-                lblShowUpdate.hidden=NO;
-                lblShowUpdate.text= [NSString stringWithFormat:@"%d",[[notificationData valueForKey:@"message"] intValue]];
-            }
-            else
+                if ([[NSString stringWithFormat:@"%@",[notificationData valueForKey:@"message"]] intValue] > 0)
+                {
+                    lblShowUpdate.hidden=NO;
+                    lblShowUpdate.text= [NSString stringWithFormat:@"%d",[[notificationData valueForKey:@"message"] intValue]];
+                }
+                
+            } else
                 lblShowUpdate.hidden=YES;
             break;
         }
         case 3:
         {
-            lblShowUpdate.hidden=NO;
-            NSArray *arrTemp=[notificationData valueForKey:@"events"];
-            if (arrTemp.count > 0)
-                lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
-            else
-                lblShowUpdate.hidden=YES;
+            if([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger )
+            {
+                if ([[NSString stringWithFormat:@"%@",[notificationData valueForKey:@"message"]] intValue] > 0)
+                {
+                    lblShowUpdate.hidden=NO;
+                    lblShowUpdate.text= [NSString stringWithFormat:@"%d",[[notificationData valueForKey:@"message"] intValue]];
+                }
+                else
+                    lblShowUpdate.hidden=YES;
+            }else if([UserInformation shareInstance].userType == isAthlete){
+                
+                lblShowUpdate.hidden=NO;
+                NSArray *arrTemp=[notificationData valueForKey:@"events"];
+                if (arrTemp.count > 0)
+                    lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
+                else
+                    lblShowUpdate.hidden=YES;
+            }
             break;
+        }
+        case 4:
+        {
+            if([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger )
+            {
+                lblShowUpdate.hidden=NO;
+                NSArray *arrTemp=[notificationData valueForKey:@"events"];
+                if (arrTemp.count > 0)
+                    lblShowUpdate.text= [NSString stringWithFormat:@"%d",(int)arrTemp.count];
+                else
+                    lblShowUpdate.hidden=YES;
+                break;
+            }
         }
         default:
         {
@@ -171,7 +199,7 @@
         }
     }
     UIImageView *cellimage=(UIImageView *)[cell viewWithTag:101];
-   [cellimage setImage:[self SetImage:indexPath.row]];
+    [cellimage setImage:[self SetImage:indexPath.row]];
     
     return cell;
 }
@@ -372,6 +400,13 @@
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
+            
+            //            SMSView *ViewController = [[SMSView alloc] initWithNibName:@"SMSView" bundle:nil];
+            //            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+            //            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            //            [navigationController.navigationBar setTranslucent:NO];
+            //            [revealController pushFrontViewController:navigationController animated:YES];
+            
         }
         else
         {
@@ -433,7 +468,7 @@
             [revealController revealToggleAnimated:YES];
         }
     }
-
+    
 }
 #pragma mark Webservice response
 //this method, get webservice response from web
@@ -451,10 +486,9 @@
             {
                 notificationData=[MyResults objectForKey:@"data"];
             }
-             [_rearTableView reloadData];
+            [_rearTableView reloadData];
             break;
         }
-            
     }
 }
 
@@ -528,9 +562,9 @@
     if (isIPAD) {
         
     }else{
-         [AppDelegate restrictRotation:YES];
+        [AppDelegate restrictRotation:YES];
     }
-   
+    
     self.view.backgroundColor=[UIColor colorWithRed:41.0/255.0 green:58.0/255 blue:71.0/255 alpha:1];
     [super viewDidLoad];
     _btnLanscapLogout.hidden=YES;
@@ -593,12 +627,12 @@
     }
     if (isIPAD)
     {
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(ChangeOrientation)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                            object:nil];
-      }
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(ChangeOrientation)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
 }
 # pragma mark Notification method
 //this method, call to get notification number to show on
@@ -623,10 +657,10 @@
     if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight || deviceOrientation==UIDeviceOrientationFaceUp)))
     {
         _btnLanscapLogout.hidden=NO;
-
+        
     }else{
         
-         _btnLanscapLogout.hidden=YES;
+        _btnLanscapLogout.hidden=YES;
     }
     
 }
@@ -700,7 +734,7 @@
     [SingletonClass ShareInstance].isMessangerInbox=TRUE;
     [SingletonClass ShareInstance].isMessangerSent=TRUE;
     [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
-     notificationData=nil;
+    notificationData=nil;
     [UserInformation resetSharedInstance];
     
     BOOL isLoginView=FALSE;

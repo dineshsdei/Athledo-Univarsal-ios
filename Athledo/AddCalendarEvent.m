@@ -621,19 +621,14 @@
                     NSDateFormatter *locFormater=[[NSDateFormatter alloc] init];
                     locFormater.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
                     NSArray *arrSelectedDays=[[CalendarEvent ShareInstance].strNoOfDaysWeekCase componentsSeparatedByString:@","];
-                    
                     if((arrSelectedDays.count) < ([CalendarEvent ShareInstance].NoOfOccurrence))
                     {
                         endDateAfter=[CalendarEvent ShareInstance].NoOfOccurrence;
                         
                     }else if((arrSelectedDays.count) > ([CalendarEvent ShareInstance].NoOfOccurrence)){
-                        
                         endDateAfter=[[arrSelectedDays objectAtIndex:arrSelectedDays.count-1] intValue];
-                        
                     }else{
-                        
                         endDateAfter=([CalendarEvent ShareInstance].NoOfDay) * (7);
-                        
                     }
                     
                     NSDate *date=[locFormater dateFromString:strStartdate];

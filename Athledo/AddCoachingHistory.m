@@ -710,6 +710,7 @@ UIDeviceOrientation CurrentOrientation;
     }
 }
 
+#pragma mark TextView Delegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
@@ -731,8 +732,6 @@ UIDeviceOrientation CurrentOrientation;
 {
     return YES;
 }
-
-
 
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
