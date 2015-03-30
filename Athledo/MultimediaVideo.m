@@ -32,9 +32,7 @@
     BOOL isCancelNotification;
     int keyboardHeight;
 }
-
 @end
-
 @implementation MultimediaVideo
 
 #pragma mark - ViewController life cycle method
@@ -58,7 +56,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:NO];
-   
     if (!isCancelNotification) {
         [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
         [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
@@ -67,11 +64,6 @@
     }
 }
 - (void)viewDidLoad {
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(PlayerDoneClick:)
-                                                 name:MPMoviePlayerWillExitFullscreenNotification
-                                               object:nil];
     
     self.scrollview.layer.borderWidth = 1;
     self.scrollview.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -90,14 +82,19 @@
        
     [super viewDidLoad];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
             NSDictionary* info = [note userInfo];
             CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
             keyboardHeight = kbSize.height;
         if (iosVersion < 8) {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
             keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
         }else{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
             keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
         }
+        
             [UIView animateWithDuration:0.27f
                              animations:^{
                                  int dif=0;
@@ -136,8 +133,7 @@
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
     }
-    // Do any additional setup after loading the view from its nib
-    //[self playVideo:@"http://www.youtube.com/watch?v=WL2l_Q1AR_Q" frame:CGRectMake(20, 70, 280, 250)];
+   
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
@@ -197,8 +193,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:MPMoviePlayerPlaybackDidFinishNotification
                                                       object:moviePlayer];
-        
-        // Dismiss the view controller
+
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -476,6 +471,7 @@
                         [arrSeasons addObject:[arrtemp objectAtIndex:i]];
                     }
                 }
+                [listPicker reloadAllComponents];
             }else{
                 //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
             }
@@ -507,12 +503,7 @@
 -(void)PlayVideo:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
-    //NSDictionary *videos = [HCYoutubeParser h264videosWithYoutubeURL:[NSURL URLWithString:[NSString stringWithFormat:@"http:%@",[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]]]];
-    //MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:[videos objectForKey:@"medium"]]];
-   // MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]]];
-    
-    //[self presentMoviePlayerViewControllerAnimated:mp];
-    
+  
     // Pass your file path
     NSURL *vedioURL =[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]];
     MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:vedioURL];
@@ -561,14 +552,6 @@
         //cell.btnPlay.hidden=YES;
         cell.btnPlay.tag=indexPath.row;
          [cell.imageView setImageWithURL:[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"thumbnail"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
-        
-//        if (videos !=nil) {
-//           // cell.btnPlay.hidden=NO;
-//            [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
-//        }else{
-//            //cell.btnPlay.hidden=YES;
-//            [cell.imageView setImageWithURL:[[videos valueForKey:@"moreInfo"] valueForKey:@"iurl"] placeholderImage:[UIImage imageNamed:@"error_icon.png"]];
-//        }
         cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];
         cell.First_textViewDes.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"description"];
         [arrVisitedIndex addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
@@ -578,7 +561,6 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[self playVideo:@"http://172.24.2.222:8024/files/videos/1426849025_conv_33_1425595102_bigbuckbunny.flv" frame:self.view.frame];
     [self PlayVideo:tableView];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -639,17 +621,12 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     currentText=nil;
-    [UIView animateWithDuration:0.45f
-                     animations:^{
-                            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)) :toolBar];
-                     }
-                     completion:^(BOOL finished){
-                     }];
     currentText = (UITextField *)textView;
     [SingletonClass ShareInstance].delegate = self;
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
+
 }
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -659,17 +636,12 @@
         if (arrSeasons.count > 0) {
             webservice =[WebServiceClass shareInstance];
             webservice.delegate=self;
-            [listPicker reloadComponent:0];
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-            //[self setPickerVisibleAt:YES:arrSeasons];
         }else{
             [SingletonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
         }
         return NO;
     }else{
-        [SingletonClass ShareInstance].delegate = self;
-        textField.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
-       
         return YES;
     }
 }
@@ -678,7 +650,6 @@
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    //[textField resignFirstResponder];
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {

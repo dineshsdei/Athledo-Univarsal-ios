@@ -25,6 +25,10 @@
 #import "CalendarEvent.h"
 #import "WebServiceClass.h"
 
+#define accountSID @"ACdf9e62bbfd4132901754d34b445fb110"
+#define authToken @"e2a6374d96e4df75e245f2854850f3dd"
+#define FromPhoneNumber @"+14844364239"
+
 #define isCoach 1
 #define isAthlete 2
 #define isAlumni 3

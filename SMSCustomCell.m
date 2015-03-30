@@ -21,7 +21,6 @@
 }
 -(IBAction)checkBoxEvent:(id)sender
 {
-    UIButton *btn = sender;
     [_cellDelegate CheckBoxEvent:sender];
 }
 

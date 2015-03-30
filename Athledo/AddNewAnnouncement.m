@@ -397,7 +397,7 @@ UIDeviceOrientation CurrentOrientation;
             
             if([[myResults objectForKey:@"status"] isEqualToString:@"success"] || (myResults == nil))
             {
-                [SingletonClass initWithTitle:@"" message:@"Announcement saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:@"" message:@"Announcement has been saved successfully" delegate:self btn1:@"Ok"];
             }else{
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass initWithTitle:@"Server Fail" message:@"Please try again" delegate:nil btn1:@"Ok"];
@@ -803,7 +803,6 @@ UIDeviceOrientation CurrentOrientation;
     
     [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
     self.navigationItem.rightBarButtonItem.enabled=NO;
-    //Check for empty Text box
     NSString *strError = @"";
     if(nameTxt.text.length < 1 )
     {

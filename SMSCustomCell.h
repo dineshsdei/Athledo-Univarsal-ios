@@ -5,6 +5,8 @@
 //  Created by Dinesh Kumar on 3/27/15.
 //  Copyright (c) 2015 Dinesh. All rights reserved.
 //
+
+
 @protocol CellDelegate <NSObject>
 -(void)CheckBoxEvent:(id)sender;
 @end

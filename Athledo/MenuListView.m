@@ -395,17 +395,17 @@
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
         {
-            MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
+//            MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
+//            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+//            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+//            [navigationController.navigationBar setTranslucent:NO];
+//            [revealController pushFrontViewController:navigationController animated:YES];
+            
+            SMSView *ViewController = [[SMSView alloc] initWithNibName:@"SMSView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
-            
-            //            SMSView *ViewController = [[SMSView alloc] initWithNibName:@"SMSView" bundle:nil];
-            //            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
-            //            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
-            //            [navigationController.navigationBar setTranslucent:NO];
-            //            [revealController pushFrontViewController:navigationController animated:YES];
             
         }
         else
