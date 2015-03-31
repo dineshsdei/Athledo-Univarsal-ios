@@ -7,6 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SMSView">
             <connections>
+                <outlet property="ObjSegment" destination="EUP-AJ-YYK" id="fA5-O9-Wzj"/>
+                <outlet property="btnSelectAll" destination="hA8-49-xTV" id="f4s-HB-x5w"/>
+                <outlet property="lblSelectAll" destination="BjJ-hI-m2V" id="Mth-38-tau"/>
                 <outlet property="tableview" destination="GyY-0m-Byl" id="jPX-Ii-sgf"/>
                 <outlet property="textview" destination="cLu-IK-Jrl" id="gPT-ZC-tfn"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Xhe-kV-hHg"/>
@@ -31,7 +34,7 @@
                     </connections>
                 </textView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="GyY-0m-Byl">
-                    <rect key="frame" x="0.0" y="244" width="768" height="775"/>
+                    <rect key="frame" x="0.0" y="316" width="768" height="700"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="nTN-JI-x4v"/>
@@ -55,24 +58,75 @@
                         <constraint firstAttribute="height" constant="3" id="dR4-33-6Ga"/>
                     </constraints>
                 </imageView>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EUP-AJ-YYK">
+                    <rect key="frame" x="20" y="250" width="728" height="29"/>
+                    <segments>
+                        <segment title="Individual"/>
+                        <segment title="Groups"/>
+                        <segment title="SMS History"/>
+                    </segments>
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="ValueChange:" destination="-1" eventType="valueChanged" id="pcs-e5-mlo"/>
+                    </connections>
+                </segmentedControl>
+                <button opaque="NO" tag="555" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hA8-49-xTV" customClass="CheckboxButton">
+                    <rect key="frame" x="723" y="287" width="25" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="5WN-Lu-DuE"/>
+                        <constraint firstAttribute="height" constant="25" id="xe2-dE-Qmj"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="uncheck.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="selectAllCheckBox:" destination="-1" eventType="touchUpInside" id="HZv-bz-cZb"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select All" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjJ-hI-m2V">
+                    <rect key="frame" x="635" y="291" width="80" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="2TV-WA-LSI"/>
+                        <constraint firstAttribute="height" constant="21" id="bwG-l9-xqA"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_sep.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Bw-3m-Auz">
+                    <rect key="frame" x="0.0" y="314" width="768" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="Exd-Jc-itI"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="6Bw-3m-Auz" secondAttribute="trailing" id="1E2-9z-xgY"/>
+                <constraint firstAttribute="trailing" secondItem="hA8-49-xTV" secondAttribute="trailing" constant="20" id="1Kj-6U-1tI"/>
+                <constraint firstAttribute="trailing" secondItem="EUP-AJ-YYK" secondAttribute="trailing" constant="20" id="3HK-na-P6J"/>
                 <constraint firstItem="jlP-ms-NjK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6br-6j-b91"/>
                 <constraint firstAttribute="bottom" secondItem="VFz-4q-hDO" secondAttribute="bottom" id="7ej-1I-6tM"/>
                 <constraint firstItem="cLu-IK-Jrl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="7on-Gm-ZHB"/>
-                <constraint firstItem="GyY-0m-Byl" firstAttribute="top" secondItem="jlP-ms-NjK" secondAttribute="bottom" id="AMP-H3-Qfx"/>
+                <constraint firstItem="GyY-0m-Byl" firstAttribute="top" secondItem="jlP-ms-NjK" secondAttribute="bottom" constant="72" id="AMP-H3-Qfx"/>
+                <constraint firstItem="EUP-AJ-YYK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="FsX-Oi-1iQ"/>
+                <constraint firstItem="BjJ-hI-m2V" firstAttribute="top" secondItem="EUP-AJ-YYK" secondAttribute="bottom" constant="13" id="LXh-hm-xyS"/>
                 <constraint firstItem="jlP-ms-NjK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="MyZ-R7-MSs"/>
                 <constraint firstAttribute="trailing" secondItem="cLu-IK-Jrl" secondAttribute="trailing" constant="20" id="Qqn-EQ-rUH"/>
-                <constraint firstItem="VFz-4q-hDO" firstAttribute="top" secondItem="GyY-0m-Byl" secondAttribute="bottom" constant="2" id="Tb8-KS-I3w"/>
+                <constraint firstItem="EUP-AJ-YYK" firstAttribute="top" secondItem="jlP-ms-NjK" secondAttribute="bottom" constant="6" id="Rg2-vf-kAU"/>
+                <constraint firstItem="VFz-4q-hDO" firstAttribute="top" secondItem="GyY-0m-Byl" secondAttribute="bottom" constant="5" id="Tb8-KS-I3w"/>
                 <constraint firstItem="cLu-IK-Jrl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Y32-Gr-NfG"/>
                 <constraint firstItem="VFz-4q-hDO" firstAttribute="leading" secondItem="GyY-0m-Byl" secondAttribute="leading" id="YFN-2E-hT3"/>
                 <constraint firstAttribute="trailing" secondItem="GyY-0m-Byl" secondAttribute="trailing" id="iCI-gx-PGV"/>
+                <constraint firstItem="hA8-49-xTV" firstAttribute="leading" secondItem="BjJ-hI-m2V" secondAttribute="trailing" constant="8" id="iZL-kD-VNM"/>
                 <constraint firstAttribute="trailing" secondItem="jlP-ms-NjK" secondAttribute="trailing" id="j2c-Nk-08p"/>
                 <constraint firstItem="GyY-0m-Byl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kTF-Kg-gYE"/>
                 <constraint firstItem="jlP-ms-NjK" firstAttribute="top" secondItem="cLu-IK-Jrl" secondAttribute="bottom" constant="5" id="o59-X8-1oT"/>
+                <constraint firstItem="6Bw-3m-Auz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qDO-Qd-MlR"/>
                 <constraint firstAttribute="trailing" secondItem="jlP-ms-NjK" secondAttribute="trailing" id="rse-ma-KpS"/>
+                <constraint firstItem="GyY-0m-Byl" firstAttribute="top" secondItem="6Bw-3m-Auz" secondAttribute="bottom" constant="1" id="smh-kc-a6W"/>
                 <constraint firstItem="VFz-4q-hDO" firstAttribute="trailing" secondItem="GyY-0m-Byl" secondAttribute="trailing" id="w5Z-Ea-jED"/>
+                <constraint firstItem="hA8-49-xTV" firstAttribute="top" secondItem="EUP-AJ-YYK" secondAttribute="bottom" constant="9" id="xHa-Xi-spc"/>
             </constraints>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -80,5 +134,7 @@
     </objects>
     <resources>
         <image name="bottomBorder.png" width="640" height="7"/>
+        <image name="menu_sep.png" width="400" height="2"/>
+        <image name="uncheck.png" width="41" height="41"/>
     </resources>
 </document>

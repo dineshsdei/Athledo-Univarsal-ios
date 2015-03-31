@@ -206,18 +206,14 @@ UIBarButtonItem *revealButtonItem;;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 CalendarDayViewController *dayView = [[CalendarDayViewController alloc]init];
                 if (_objNotificationData) {
                     dayView.objNotificationData=_objNotificationData;
                 }
-                
                 [self.navigationController pushViewController:dayView animated:NO];
-                
             }
-            
             break;
         }
         case 1:
@@ -231,7 +227,6 @@ UIBarButtonItem *revealButtonItem;;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 WeekViewController *weekView = [[WeekViewController alloc]initWithNibName:@"WeekViewController" bundle:[NSBundle mainBundle]];
@@ -239,23 +234,19 @@ UIBarButtonItem *revealButtonItem;;
                     weekView.objNotificationData=_objNotificationData;
                 }
                 [self.navigationController pushViewController:weekView animated:NO];
-                
             }
-        
             break;
         }case 3:
         {
             BOOL Status=FALSE;
             for (id object in arrController)
             {
-                
                 if ([object isKindOfClass:[MapViewController class]])
                 {
                     Status=TRUE;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 MapViewController *mapView = [[MapViewController alloc]init];
@@ -264,11 +255,9 @@ UIBarButtonItem *revealButtonItem;;
                     mapView.objNotificationData=_objNotificationData;
                 }
                 [self.navigationController pushViewController:mapView animated:NO];
-                
             }
             break;
         }
-            
         default:
             break;
     }
@@ -281,11 +270,9 @@ UIBarButtonItem *revealButtonItem;;
     [CalendarEvent ShareInstance].strEventEditBy=@"";
     [CalendarEvent ShareInstance].CalendarRepeatStatus=FALSE;
     [CalendarEvent ShareInstance].strEventAddOrEdit=@"Add";
-    
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (int i=0; i< arrController.count; i++) {
-        
         if ([[arrController objectAtIndex:i] isKindOfClass:[AddCalendarEvent class]])
         {
             AddCalendarEvent *addEvent=[[AddCalendarEvent alloc] initWithNibName:@"AddCalendarEvent" bundle:nil];
@@ -303,7 +290,6 @@ UIBarButtonItem *revealButtonItem;;
             break;
         }
     }
-    
     if (Status==FALSE)
     {
         AddCalendarEvent *addEvent=[[AddCalendarEvent alloc] initWithNibName:@"AddCalendarEvent" bundle:nil];

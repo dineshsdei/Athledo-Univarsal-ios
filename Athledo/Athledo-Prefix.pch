@@ -29,6 +29,9 @@
 #define authToken @"e2a6374d96e4df75e245f2854850f3dd"
 #define FromPhoneNumber @"+14844364239"
 
+#define UncheckImage [UIImage imageNamed:@"uncheck.png"]
+#define CheckImage [UIImage imageNamed:@"selectedCheck.png"]
+#define AllSelectedTag 555
 #define isCoach 1
 #define isAthlete 2
 #define isAlumni 3
@@ -58,6 +61,7 @@
 #define ShareNotesTag 8005
 #define GetLeaguelavelTag 8006
 #define AddManagerSportTag 8007
+#define GetSmsData 9001
 
 
 
@@ -225,19 +229,15 @@
 #define webServiceDeleteNotification [BaseUrl stringByAppendingString:@"deleteNotification"]
 
 
-
-//Local server Multimedia
-//#define webServiceGetMultimediaPic @"http://172.24.2.222:8024/webservices/getMultimediaPhoto"
-//#define webServiceGetMultimediaVideos @"http://172.24.2.222:8024/webservices/getMultimediaVideo"
-//#define webServiceGetMultimediaAlbum @"http://172.24.2.222:8024/webservices/getMultimediaAlbumPhoto"
-
 //Live server Multimedia
 #define webServiceGetMultimediaPic [BaseUrl stringByAppendingString:@"getMultimediaPhoto"]
 #define webServiceGetMultimediaVideos [BaseUrl stringByAppendingString:@"getMultimediaVideo"]
-//#define webServiceGetMultimediaVideos [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"getMultimediaVideo"]
 #define webServiceGetMultimediaAlbum [BaseUrl stringByAppendingString:@"getMultimediaAlbumPhoto"]
 #define webServiceUploadVideo [BaseUrl stringByAppendingString:@"uploadMultimediaVideo"]
-//@"http://172.24.2.222:8024/webservices/uploadMultimediaVideo"
+
+// SMS Section
+#define webServiceSendSms [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"sendSms"]
+
 
 
 

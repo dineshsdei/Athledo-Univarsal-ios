@@ -393,14 +393,8 @@
     }
     else if (row == 3)
     {
-        if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
+        if ( ![frontNavigationController.topViewController isKindOfClass:[SMSView class]] )
         {
-//            MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
-//            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
-//            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
-//            [navigationController.navigationBar setTranslucent:NO];
-//            [revealController pushFrontViewController:navigationController animated:YES];
-            
             SMSView *ViewController = [[SMSView alloc] initWithNibName:@"SMSView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
@@ -416,6 +410,22 @@
     }
     
     else if (row == 4)
+    {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
+        {
+            MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+            
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+        
+    }else if (row == 5)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
         {
@@ -435,9 +445,9 @@
         {
             [revealController revealToggleAnimated:YES];
         }
+
         
-        
-    }else if (row == 5)
+    }else if (row == 6)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
         {
@@ -452,7 +462,8 @@
         {
             [revealController revealToggleAnimated:YES];
         }
-    }else if (row == 6)
+      
+    }else if (row == 7)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] )
         {
@@ -523,7 +534,7 @@
     switch (userInfo.userType) {
         case isCoach:
         {
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         case isAthlete:
@@ -533,7 +544,7 @@
         }
         case isManeger:
         {
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
             
@@ -543,7 +554,7 @@
     }
     
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
-        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
+        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"notes.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
     }else{
         
         arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
