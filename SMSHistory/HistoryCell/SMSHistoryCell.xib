@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="KGk-i7-Jjw" customClass="SMSHistoryCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Received" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xco-P0-wIX">
+                        <rect key="frame" x="118" y="5" width="60" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="blw-l7-xa2"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dinesh" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtn-VS-c1s">
+                        <rect key="frame" x="10" y="4" width="80" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="Ta1-bE-MFa"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2:11PM, 1 Apr, 2015" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4P-Ea-mFU">
+                        <rect key="frame" x="184" y="5" width="130" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7w-Ai-9Le">
+                        <rect key="frame" x="10" y="26" width="304" height="44"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_sep.png" translatesAutoresizingMaskIntoConstraints="NO" id="VFq-jM-Grw">
+                        <rect key="frame" x="0.0" y="68" width="320" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="2B8-jF-8GL"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dtn-VS-c1s" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-4" id="2y3-0n-TZJ"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="L4P-Ea-mFU" secondAttribute="trailing" constant="-2" id="FiW-V3-avr"/>
+                    <constraint firstItem="H7w-Ai-9Le" firstAttribute="top" secondItem="L4P-Ea-mFU" secondAttribute="bottom" id="G7k-Cd-9Mq"/>
+                    <constraint firstItem="L4P-Ea-mFU" firstAttribute="firstBaseline" secondItem="xco-P0-wIX" secondAttribute="firstBaseline" id="H91-zC-pfh"/>
+                    <constraint firstItem="VFq-jM-Grw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="R1b-wd-bsi"/>
+                    <constraint firstItem="xco-P0-wIX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-3" id="Rg4-XH-WMU"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="H7w-Ai-9Le" secondAttribute="bottom" constant="-9" id="Rtg-TU-Nqa"/>
+                    <constraint firstItem="H7w-Ai-9Le" firstAttribute="top" secondItem="dtn-VS-c1s" secondAttribute="bottom" constant="1" id="d8D-PK-PxZ"/>
+                    <constraint firstItem="dtn-VS-c1s" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="fFE-Td-tUP"/>
+                    <constraint firstItem="VFq-jM-Grw" firstAttribute="top" secondItem="L4P-Ea-mFU" secondAttribute="bottom" constant="42" id="hAO-Br-sDc"/>
+                    <constraint firstItem="xco-P0-wIX" firstAttribute="leading" secondItem="dtn-VS-c1s" secondAttribute="trailing" constant="28" id="iC5-2J-G74"/>
+                    <constraint firstItem="L4P-Ea-mFU" firstAttribute="leading" secondItem="xco-P0-wIX" secondAttribute="trailing" constant="6" id="nnD-yU-z1n"/>
+                    <constraint firstAttribute="bottom" secondItem="VFq-jM-Grw" secondAttribute="bottom" id="qLA-zG-V7l"/>
+                    <constraint firstItem="L4P-Ea-mFU" firstAttribute="baseline" secondItem="xco-P0-wIX" secondAttribute="baseline" id="qrb-RS-mnL"/>
+                    <constraint firstItem="H7w-Ai-9Le" firstAttribute="trailing" secondItem="L4P-Ea-mFU" secondAttribute="trailing" id="rzQ-ns-9Ed"/>
+                    <constraint firstItem="H7w-Ai-9Le" firstAttribute="leading" secondItem="dtn-VS-c1s" secondAttribute="leading" id="sOr-3M-gTc"/>
+                    <constraint firstAttribute="trailing" secondItem="VFq-jM-Grw" secondAttribute="trailing" id="u7T-yL-jde"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="202" y="250"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="menu_sep.png" width="400" height="2"/>
+    </resources>
+</document>

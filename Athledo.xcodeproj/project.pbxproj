@@ -330,6 +330,15 @@
 		71A8CA3A19937AA500B30DF7 /* ALPickerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A8CA3819937AA500B30DF7 /* ALPickerViewCell.m */; };
 		71A9759D1AC037F900463455 /* AddManagerSportInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A9759B1AC037F900463455 /* AddManagerSportInfo.m */; };
 		71A9759E1AC037F900463455 /* AddManagerSportInfo~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A9759C1AC037F900463455 /* AddManagerSportInfo~iphone.xib */; };
+		71A996211ACBB5D000252A0C /* AthleteDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A9961F1ACBB5D000252A0C /* AthleteDetail.m */; };
+		71A996221ACBB5D000252A0C /* AthleteDetail~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A996201ACBB5D000252A0C /* AthleteDetail~iphone.xib */; };
+		71A996271ACBFCF700252A0C /* AthleteDetail~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A996261ACBFCF700252A0C /* AthleteDetail~ipad.xib */; };
+		71A9962D1ACC047F00252A0C /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A9962B1ACC047F00252A0C /* History.m */; };
+		71A9962E1ACC047F00252A0C /* History~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A9962C1ACC047F00252A0C /* History~iphone.xib */; };
+		71A996331ACC118300252A0C /* History~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A996321ACC118300252A0C /* History~ipad.xib */; };
+		71A996381ACC1BAF00252A0C /* SMSHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A996361ACC1BAF00252A0C /* SMSHistoryCell.m */; };
+		71A996391ACC1BAF00252A0C /* SMSHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A996371ACC1BAF00252A0C /* SMSHistoryCell.xib */; };
+		71A9963A1ACC217900252A0C /* SMSHistoryCell.h in Sources */ = {isa = PBXBuildFile; fileRef = 71A996351ACC1BAF00252A0C /* SMSHistoryCell.h */; };
 		71A99E141A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */; };
 		71ACB4FD198A13E3007C5AFA /* AddCoachingHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */; };
 		71ACB4FF198A140B007C5AFA /* AddCoachingHistory~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */; };
@@ -913,6 +922,17 @@
 		71A9759A1AC037F900463455 /* AddManagerSportInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddManagerSportInfo.h; sourceTree = "<group>"; };
 		71A9759B1AC037F900463455 /* AddManagerSportInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddManagerSportInfo.m; sourceTree = "<group>"; };
 		71A9759C1AC037F900463455 /* AddManagerSportInfo~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddManagerSportInfo~iphone.xib"; sourceTree = "<group>"; };
+		71A9961E1ACBB5D000252A0C /* AthleteDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AthleteDetail.h; sourceTree = SOURCE_ROOT; };
+		71A9961F1ACBB5D000252A0C /* AthleteDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AthleteDetail.m; sourceTree = SOURCE_ROOT; };
+		71A996201ACBB5D000252A0C /* AthleteDetail~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AthleteDetail~iphone.xib"; sourceTree = SOURCE_ROOT; };
+		71A996261ACBFCF700252A0C /* AthleteDetail~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AthleteDetail~ipad.xib"; sourceTree = SOURCE_ROOT; };
+		71A9962A1ACC047F00252A0C /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
+		71A9962B1ACC047F00252A0C /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
+		71A9962C1ACC047F00252A0C /* History~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "History~iphone.xib"; sourceTree = "<group>"; };
+		71A996321ACC118300252A0C /* History~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "History~ipad.xib"; sourceTree = "<group>"; };
+		71A996351ACC1BAF00252A0C /* SMSHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSHistoryCell.h; sourceTree = "<group>"; };
+		71A996361ACC1BAF00252A0C /* SMSHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSHistoryCell.m; sourceTree = "<group>"; };
+		71A996371ACC1BAF00252A0C /* SMSHistoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMSHistoryCell.xib; sourceTree = "<group>"; };
 		71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ComposeMessage~ipad.xib"; sourceTree = "<group>"; };
 		71ACB4FB198A13E3007C5AFA /* AddCoachingHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCoachingHistory.h; sourceTree = "<group>"; };
 		71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCoachingHistory.m; sourceTree = "<group>"; };
@@ -1174,7 +1194,7 @@
 		3D9E050A197BCF7D005CCB10 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				71A68FDE1AC3CD2300800FF5 /* Sms */,
+				71A9962F1ACC04BD00252A0C /* Sms */,
 				71A606671A9AF9AD001BD86B /* Notes */,
 				7197E854197E76750086DA2E /* Profile */,
 				71999555197D30D400C0F77F /* Dashboard */,
@@ -1992,18 +2012,6 @@
 			path = CustomCell;
 			sourceTree = "<group>";
 		};
-		71A68FDE1AC3CD2300800FF5 /* Sms */ = {
-			isa = PBXGroup;
-			children = (
-				71B3205A1AC5283A00412C40 /* CustomCell */,
-				71A691BC1AC4329B00800FF5 /* SMSView.h */,
-				71A691BD1AC4329B00800FF5 /* SMSView.m */,
-				71A691BE1AC4329B00800FF5 /* SMSView~iphone.xib */,
-				71A582EA1AC9552900F8E614 /* SMSView~ipad.xib */,
-			);
-			path = Sms;
-			sourceTree = "<group>";
-		};
 		71A6E75E19EFD2C1002416B4 /* MJGeocoder */ = {
 			isa = PBXGroup;
 			children = (
@@ -2049,6 +2057,7 @@
 		71A908EC1A5E895500AFB6AC /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				71A996301ACC056D00252A0C /* sms */,
 				71B3205C1AC5286E00412C40 /* Notes */,
 				71A908ED1A5E8A0400AFB6AC /* Profile */,
 				71A908EE1A5E8A3400AFB6AC /* DashBoard */,
@@ -2086,6 +2095,7 @@
 		71A908EF1A5E8A5400AFB6AC /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				71A996311ACC058900252A0C /* sms */,
 				71A7BA821A9C6FBF00C75ABA /* Notes */,
 				71A908FD1A5E8D7500AFB6AC /* Profile */,
 				71A908F01A5E8A6300AFB6AC /* DashBoard */,
@@ -2278,6 +2288,59 @@
 			);
 			name = Model;
 			path = Athledo;
+			sourceTree = "<group>";
+		};
+		71A996291ACC046000252A0C /* SMSHistory */ = {
+			isa = PBXGroup;
+			children = (
+				71A996341ACC1B8700252A0C /* HistoryCell */,
+				71A9962A1ACC047F00252A0C /* History.h */,
+				71A9962B1ACC047F00252A0C /* History.m */,
+				71A996321ACC118300252A0C /* History~ipad.xib */,
+				71A9962C1ACC047F00252A0C /* History~iphone.xib */,
+			);
+			path = SMSHistory;
+			sourceTree = SOURCE_ROOT;
+		};
+		71A9962F1ACC04BD00252A0C /* Sms */ = {
+			isa = PBXGroup;
+			children = (
+				71A996291ACC046000252A0C /* SMSHistory */,
+				71B3205A1AC5283A00412C40 /* CustomCell */,
+				71A691BC1AC4329B00800FF5 /* SMSView.h */,
+				71A691BD1AC4329B00800FF5 /* SMSView.m */,
+				71A9961E1ACBB5D000252A0C /* AthleteDetail.h */,
+				71A9961F1ACBB5D000252A0C /* AthleteDetail.m */,
+			);
+			path = Sms;
+			sourceTree = "<group>";
+		};
+		71A996301ACC056D00252A0C /* sms */ = {
+			isa = PBXGroup;
+			children = (
+				71A691BE1AC4329B00800FF5 /* SMSView~iphone.xib */,
+				71A996201ACBB5D000252A0C /* AthleteDetail~iphone.xib */,
+			);
+			name = sms;
+			sourceTree = "<group>";
+		};
+		71A996311ACC058900252A0C /* sms */ = {
+			isa = PBXGroup;
+			children = (
+				71A582EA1AC9552900F8E614 /* SMSView~ipad.xib */,
+				71A996261ACBFCF700252A0C /* AthleteDetail~ipad.xib */,
+			);
+			name = sms;
+			sourceTree = "<group>";
+		};
+		71A996341ACC1B8700252A0C /* HistoryCell */ = {
+			isa = PBXGroup;
+			children = (
+				71A996351ACC1BAF00252A0C /* SMSHistoryCell.h */,
+				71A996361ACC1BAF00252A0C /* SMSHistoryCell.m */,
+				71A996371ACC1BAF00252A0C /* SMSHistoryCell.xib */,
+			);
+			path = HistoryCell;
 			sourceTree = "<group>";
 		};
 		71ACB500198A1834007C5AFA /* CustomCell */ = {
@@ -2541,6 +2604,7 @@
 				71A3696D1A6E1DA300DDF05C /* calendar.png in Resources */,
 				71BC76EA1A5A466F0085DE64 /* AddWorkOut~ipad.xib in Resources */,
 				71ADF1B81A70F1B200457FB9 /* bubble-default-outgoing-green.png in Resources */,
+				71A996331ACC118300252A0C /* History~ipad.xib in Resources */,
 				71B7268D1AA0A3A700901F8C /* pdf_share@2x.png in Resources */,
 				71A8A85F1A26EDF3004D1A27 /* CalendarMonthView~ipad.xib in Resources */,
 				71A8A8661A274DA5004D1A27 /* ProfileView~ipad.xib in Resources */,
@@ -2631,6 +2695,7 @@
 				71A63E1B1A25C81600D0DA99 /* WorkoutHistoryDetails~ipad.xib in Resources */,
 				71A63E271A2605D400D0DA99 /* ArichiveView~ipad.xib in Resources */,
 				71A6066C1A9AF9D7001BD86B /* Notes~iphone.xib in Resources */,
+				71A996221ACBB5D000252A0C /* AthleteDetail~iphone.xib in Resources */,
 				71A63E211A25E32800D0DA99 /* MessangerView~ipad.xib in Resources */,
 				71A369311A6E1CAD00DDF05C /* message_icon.png in Resources */,
 				71A368FB1A6E1B8E00DDF05C /* photo_icon@2x.png in Resources */,
@@ -2646,6 +2711,7 @@
 				71A369361A6E1CAD00DDF05C /* update_menu_icon.png in Resources */,
 				71950F9B19C18FD800B4BF1A /* ComposeMessage~iphone.xib in Resources */,
 				71A368B91A6E19F000DDF05C /* folder_image.png in Resources */,
+				71A9962E1ACC047F00252A0C /* History~iphone.xib in Resources */,
 				71A369751A6E1DA300DDF05C /* frame_middle@2x.png in Resources */,
 				71A368E71A6E1AAD00DDF05C /* Default.png in Resources */,
 				71A369671A6E1DA300DDF05C /* add12.png in Resources */,
@@ -2736,10 +2802,12 @@
 				71A7CE391A790FA700A67905 /* btnCamera@2x.png in Resources */,
 				71D66E3D1A7BA9C100B75F86 /* mnth_icon.png in Resources */,
 				71950F8E19C152F600B4BF1A /* MessageInboxCell~iphone.xib in Resources */,
+				71A996391ACC1BAF00252A0C /* SMSHistoryCell.xib in Resources */,
 				71A369221A6E1C5F00DDF05C /* add@2x.png in Resources */,
 				71A369261A6E1C5F00DDF05C /* reassign@2x.png in Resources */,
 				71A369371A6E1CAD00DDF05C /* workout_icon.png in Resources */,
 				71A369831A6E1DA300DDF05C /* NavBg_ipad.png in Resources */,
+				71A996271ACBFCF700252A0C /* AthleteDetail~ipad.xib in Resources */,
 				71BC76F01A5AB3670085DE64 /* WorkOutDetails~ipad.xib in Resources */,
 				71B15AC01A47CDB1008C0C71 /* Multimedia~ipad.xib in Resources */,
 				71B15AC21A47CDB1008C0C71 /* MultimediaCell~iphone.xib in Resources */,
@@ -2808,6 +2876,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71A9963A1ACC217900252A0C /* SMSHistoryCell.h in Sources */,
 				7197A47D19CC293E004CC2E4 /* JSDismissiveTextView.h in Sources */,
 				7197A47E19CC293E004CC2E4 /* JSDismissiveTextView.m in Sources */,
 				710C633F19B9E61500F11983 /* TapkuLibrary.bundle in Sources */,
@@ -2820,6 +2889,7 @@
 				7111F6081A9F26C4004F58E8 /* UIProgressView+AFNetworking.m in Sources */,
 				71BC592219DA7488002B56DB /* CustomTextField.m in Sources */,
 				71A6E76419EFD2C1002416B4 /* Address.m in Sources */,
+				71A996381ACC1BAF00252A0C /* SMSHistoryCell.m in Sources */,
 				710C633A19B9E41C00F11983 /* CalendarMonthViewController.m in Sources */,
 				71ACB503198A187E007C5AFA /* AddCoachongHistoryCell.m in Sources */,
 				7111F5FD1A9F26C4004F58E8 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2932,6 +3002,7 @@
 				710C635219B9E8FA00F11983 /* MAEvent.m in Sources */,
 				71B15ABD1A47CDB1008C0C71 /* HCYoutubeParser.m in Sources */,
 				71B789031AB8214100ED6421 /* ASIFormDataRequest.m in Sources */,
+				71A996211ACBB5D000252A0C /* AthleteDetail.m in Sources */,
 				71A7B5B4197F772000038A15 /* AthleteHistory.m in Sources */,
 				71F925FF199895F9001931D8 /* WorkOutListCell.m in Sources */,
 				7199956F197D3DB300C0F77F /* SDWebImageDecoder.m in Sources */,
@@ -2943,6 +3014,7 @@
 				7111F6021A9F26C4004F58E8 /* AFURLSessionManager.m in Sources */,
 				71B142BD19C977D0008EBC90 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				71B15AC11A47CDB1008C0C71 /* MultimediaCell.m in Sources */,
+				71A9962D1ACC047F00252A0C /* History.m in Sources */,
 				71999503197CC86000C0F77F /* Reachability.m in Sources */,
 				71ACB4FD198A13E3007C5AFA /* AddCoachingHistory.m in Sources */,
 				71950FAB19C1A5BE00B4BF1A /* TSPopoverTouchView.m in Sources */,

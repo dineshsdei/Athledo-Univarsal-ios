@@ -127,6 +127,7 @@
     }];
     
     if (isIPAD) {
+        
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
@@ -188,7 +189,6 @@
     if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded)
     {
         MPMoviePlayerController *moviePlayer = [aNotification object];
-        
         // Remove this class from the observers
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:MPMoviePlayerPlaybackDidFinishNotification
@@ -528,8 +528,6 @@
     // Start playback
     [playerVC.moviePlayer prepareToPlay];
     [playerVC.moviePlayer play];
-    
-    
 }
 #pragma mark - Tableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
@@ -549,7 +547,6 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (MultimediaCell *)[nib objectAtIndex:1];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        //cell.btnPlay.hidden=YES;
         cell.btnPlay.tag=indexPath.row;
          [cell.imageView setImageWithURL:[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"thumbnail"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
         cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];

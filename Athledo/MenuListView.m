@@ -720,6 +720,11 @@
                 Controll.userInteractionEnabled=status;
             }
             
+            if ([object isKindOfClass:[UITextView class]]) {
+                UITextView *table= (UITextView *)object;
+                table.userInteractionEnabled=status;
+            }
+            
             if ([object isKindOfClass:[MKMapView class]]) {
                 MKMapView *Controll= (MKMapView *)object;
                 Controll.userInteractionEnabled=status;
