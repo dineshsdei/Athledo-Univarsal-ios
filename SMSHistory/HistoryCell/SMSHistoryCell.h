@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface SMSHistoryCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UILabel *lblSenderName;
+@property (strong, nonatomic) IBOutlet UILabel *lblDate;
+@property (strong, nonatomic) IBOutlet UITextView *txtViewMessage;
 
 @end

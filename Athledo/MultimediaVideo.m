@@ -31,6 +31,7 @@
     NSURL *urlvideo;
     BOOL isCancelNotification;
     int keyboardHeight;
+    MPMoviePlayerViewController *playerVC;
 }
 @end
 @implementation MultimediaVideo
@@ -180,6 +181,14 @@
 }
 
 #pragma mark- Class Utility method
+- (void)MPMoviePlayerDidExitFullscreen:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:MPMoviePlayerDidExitFullscreenNotification
+                                                  object:nil];
+    
+    [playerVC.view removeFromSuperview];
+}
 - (void)movieFinishedCallback:(NSNotification*)aNotification
 {
     // Obtain the reason why the movie playback finished
@@ -506,8 +515,12 @@
   
     // Pass your file path
     NSURL *vedioURL =[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]];
-    MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:vedioURL];
     
+    if ([@"" isEqualToString:[NSString stringWithFormat:@"%@",vedioURL]]) {
+        [SingletonClass initWithTitle:@"" message:@"Video file format doesn't support" delegate:nil btn1:@"Ok"];
+        return;
+    }
+   playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:vedioURL];
     // Remove the movie player view controller from the "playback did finish" notification observers
     [[NSNotificationCenter defaultCenter] removeObserver:playerVC
                                                     name:MPMoviePlayerPlaybackDidFinishNotification
@@ -518,6 +531,8 @@
                                              selector:@selector(movieFinishedCallback:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:playerVC.moviePlayer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerDidExitFullscreen:) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
     
     // Set the modal transition style of your choice
     playerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

@@ -556,6 +556,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     UpdateDetails *updateDetails=[[UpdateDetails alloc] init];
     updateDetails.obj=[arrAnnouncements objectAtIndex:indexPath.section];
     updateDetails.strName=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"name"];

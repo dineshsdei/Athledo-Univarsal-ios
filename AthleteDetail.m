@@ -42,11 +42,8 @@
             _lblClassYear.font = Textfont;
             _lblAge.font = Textfont;
             _lblemail.font = Textfont;
-            
             _ProfilePic.layer.borderWidth = .05;
             _ProfilePic.layer.borderColor = [UIColor lightGrayColor].CGColor;
-            
-            
             [_ProfilePic setImageWithURL:[NSURL URLWithString:[_objAthleteDetails valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
             _lblName.text = [[_objAthleteDetails valueForKey:@"firstname"] stringByAppendingFormat:@" %@",[_objAthleteDetails valueForKey:@"lastname"]] != nil ?[[_objAthleteDetails valueForKey:@"firstname"] stringByAppendingFormat:@" %@",[_objAthleteDetails valueForKey:@"lastname"]] : @"";
             _lblPhone.text = [_objAthleteDetails valueForKey:@"cellphone"] != nil ? [_objAthleteDetails valueForKey:@"cellphone"] : @"";
@@ -58,9 +55,7 @@
             _lblAge.text = [_objAthleteDetails valueForKey:@"age"] != nil ? [_objAthleteDetails valueForKey:@"age"] : @"";
             _lblClassYear.text = [_objAthleteDetails valueForKey:@"class_year"] != nil ?[_objAthleteDetails valueForKey:@"class_year"] :@"";
             _lblemail.text = [_objAthleteDetails valueForKey:@"email"] != nil ? [_objAthleteDetails valueForKey:@"email"] : @"";
-            
         }
-        
     }
     @catch (NSException *exception) {
         

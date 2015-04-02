@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SMSHistoryCell.h"
 
-@interface History : UIViewController
+@interface History : UIViewController<WebServiceDelegate,UISearchBarDelegate>
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end

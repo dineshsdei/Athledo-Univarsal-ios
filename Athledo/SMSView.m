@@ -22,6 +22,9 @@
     int keyboardHeight;
     
     UIButton *btnAllcheck;
+    BOOL ShowOnceSuccessAlert;
+    
+    id currentTextview;
     
 }
 
@@ -39,15 +42,14 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-   
+    _ObjSegment.selectedSegmentIndex = 0;
+    
     if (arrFilterdData.count > 0) {
-         _ObjSegment.selectedSegmentIndex = 0;
         [btnAllcheck setSelected:NO];
         [arrFilterdData removeAllObjects];
         [self FilterData:arrMemberListData];
         [_tableview reloadData];
     }
-    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,20 +63,25 @@
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         keyboardHeight = kbSize.height;
-        if (iosVersion < 8) {
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
-            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-        }else{
+        if ([currentTextview  isKindOfClass:[UITextView class]]) {
             
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
-            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            if (iosVersion < 8) {
+                // [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                //[SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
         }
         
     }];
     
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
-        
+        if ([currentTextview  isKindOfClass:[UITextView class]]) {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
+        }
     }];
     _textview.font = Textfont;
     DicCellCheckBoxState = [[NSMutableDictionary alloc] init];
@@ -176,7 +183,6 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (SMSCustomCell *)[nib objectAtIndex:0];
-       // [cell.contentView setUserInteractionEnabled:NO];
     }
     @try {
         
@@ -207,7 +213,7 @@
             
         }else if (_ObjSegment.selectedSegmentIndex ==1)
         {
-            cell.lblName.text=[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"group"];
+            cell.lblName.text=[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"name"];
             cell.lblName.textColor = [UIColor darkGrayColor];
             cell.lblName.font = Textfont;
             cell.lblName.hidden = NO;
@@ -227,30 +233,7 @@
             }
         }else if (_ObjSegment.selectedSegmentIndex ==2)
         {
-//            cell.lblName.text=[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"name"];
-//            cell.lblName.textColor = [UIColor darkGrayColor];
-//            cell.lblName.font = Textfont;
-//            cell.lblPhoneNumber.text = [[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"cellphone"];
-//            cell.lblPhoneNumber.textColor = [UIColor lightGrayColor];
-//            cell.lblPhoneNumber.font = Textfont;
-//            cell.btnSelectContact.tag = indexPath.row;
-//            cell.cellDelegate=self;
-//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            CheckboxButton *cellCheckBox = (CheckboxButton *)cell.btnSelectContact;
-//            BOOL checkBoxState = [[DicCellCheckBoxState valueForKey:[NSString stringWithFormat:@"%i",indexPath.row]] boolValue];
-//            if (checkBoxState == YES) {
-//                [cellCheckBox setBackgroundImage:CheckImage forState:UIControlStateNormal];
-//                cellCheckBox.selected = YES;
-//            }else
-//            {
-//                [cellCheckBox setBackgroundImage:UncheckImage forState:UIControlStateNormal];
-//                cellCheckBox.selected = NO;
-//            }
-//            cell.lblName.hidden = NO;
-//            cell.lblPhoneNumber.hidden = NO;
-//            cell.btnSelectContact.hidden = YES;
-//            _lblSelectAll.hidden = YES;
-//            btnAllcheck.hidden = YES;
+            
         }
     }
     @catch (NSException *exception) {
@@ -274,15 +257,18 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AthleteDetail *athleteDetails = [[AthleteDetail alloc] initWithNibName:@"AthleteDetail" bundle:nil];
-    athleteDetails.objAthleteDetails = [arrFilterdData objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:athleteDetails animated:YES];
+    if (_ObjSegment.selectedSegmentIndex == 0) {
+        AthleteDetail *athleteDetails = [[AthleteDetail alloc] initWithNibName:@"AthleteDetail" bundle:nil];
+        athleteDetails.objAthleteDetails = [arrFilterdData objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:athleteDetails animated:YES];
+    }
 }
 
 #pragma mark SearchBar Delegate
 
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
+    currentTextview = searchBar;
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
 }
@@ -295,6 +281,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [arrFilterdData removeAllObjects];
+    [self ValueChange:_ObjSegment];
     [_tableview reloadData];
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
@@ -320,13 +307,7 @@
                     return;
                 }else{
                     [arrFilterdData removeAllObjects];
-                    NSPredicate *lowerCase= [NSPredicate predicateWithFormat:
-                                             [@"SELF['name'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBar.text lowercaseString]]];
-                    NSPredicate *orginaltext = [NSPredicate predicateWithFormat:
-                                                [@"SELF['phone'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBar.text substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBar.text substringFromIndex:1] ]]];
-                    NSArray *res = [arrMemberListData  valueForKey:@"UserProfile"];
-                    [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:lowerCase]] ;
-                    [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:orginaltext]] ;
+                    [self PrepareSearchPredicate:theSearchBar.text];
                     [_tableview reloadData];
                     [theSearchBar endEditing:YES];
                 }
@@ -352,9 +333,11 @@
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+    currentTextview = textView;
     if ([_textview.text isEqualToString:@"Compose New Sms"]) {
         _textview.text = @"";
     }
+    
     return YES;
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
@@ -393,7 +376,6 @@
         History *history = [[History alloc] initWithNibName:@"History" bundle:nil];
         [self.navigationController pushViewController:history animated:YES];
     }
-   
 }
 #pragma mark UIToolBar Delegate
 -(void)Done
@@ -439,6 +421,46 @@
 }
 
 #pragma mark Class Utility
+-(void)PrepareSearchPredicate:(NSString *)theSearchBarText
+{
+    if (_ObjSegment.selectedSegmentIndex == 0) {
+        NSPredicate *lowerCase= [NSPredicate predicateWithFormat:
+                                 [@"SELF['firstname'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
+        NSPredicate *orginaltext = [NSPredicate predicateWithFormat:
+                                    [@"SELF['firstname'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBarText substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBarText substringFromIndex:1] ]]];
+        NSPredicate *lastNameLowerCase= [NSPredicate predicateWithFormat:
+                                         [@"SELF['lastname'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
+        NSPredicate *lastNameOrginaltext = [NSPredicate predicateWithFormat:
+                                            [@"SELF['lastname'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBarText substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBarText substringFromIndex:1] ]]];
+        NSPredicate *phone= [NSPredicate predicateWithFormat:
+                             [@"SELF['cellphone'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
+        //NSArray *res = [arrMemberListData  valueForKey:@"UserProfile"];
+        [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:lowerCase]] ;
+        [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:orginaltext]] ;
+        [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:lastNameLowerCase]] ;
+        [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:lastNameOrginaltext]] ;
+        [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:phone]] ;
+        
+        for (int i=0; i< arrFilterdData.count; i++) {
+            
+            [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
+        }
+        
+    }else if (_ObjSegment.selectedSegmentIndex == 1) {
+        NSPredicate *lowerCase= [NSPredicate predicateWithFormat:
+                                 [@"SELF['name'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
+        NSPredicate *orginaltext = [NSPredicate predicateWithFormat:
+                                    [@"SELF['name'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBarText substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBarText substringFromIndex:1] ]]];
+        
+        //NSArray *res = [arrMemberListData  valueForKey:@"UserProfile"];
+        [arrFilterdData addObjectsFromArray:[arrGroupsListData filteredArrayUsingPredicate:lowerCase]] ;
+        [arrFilterdData addObjectsFromArray:[arrGroupsListData filteredArrayUsingPredicate:orginaltext]] ;
+        for (int i=0; i< arrFilterdData.count; i++) {
+            
+            [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
+        }
+    }
+}
 -(void)FilterData:(id)data
 {
     @try {
@@ -450,14 +472,18 @@
                 dicTemp = nil;
             }
         }else if (_ObjSegment.selectedSegmentIndex == 1) {
-            arr = [data allValues];
-            for (int i=0; i< arr.count; i++) {
-                NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[arr objectAtIndex:i] ,[NSNumber numberWithBool:NO]] forKeys:@[@"group",@"isCheck"]];
-                [arrFilterdData addObject:dicTemp];
-                dicTemp = nil;
+            
+            [arrFilterdData addObjectsFromArray:arr];
+            for (int i=0; i< arrFilterdData.count; i++) {
+                
+                [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
             }
+            //            for (int i=0; i< arr.count; i++) {
+            //                NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[arr objectAtIndex:i] ,[NSNumber numberWithBool:NO]] forKeys:@[@"group",@"isCheck"]];
+            //                [arrFilterdData addObject:dicTemp];
+            //                dicTemp = nil;
+            //            }
         }
-        
     }
     @catch (NSException *exception) {
         
@@ -467,7 +493,6 @@
     }
 }
 - (IBAction)selectAllCheckBox:(id)sender {
-    
     CheckboxButton *button=(CheckboxButton*)sender;
     if (button.isSelected) {
         [button setSelected:NO];
@@ -485,16 +510,25 @@
 }
 -(void)SendSMS:(id)sender
 {
-    // NSMutableArray *arrMobileNumbers = [[NSMutableArray alloc] init];
-    // NSArray *arrNumbersIndex = [DicCellCheckBoxState allKeys];
-    NSArray *arrSelectedNumber = [DicCellCheckBoxState allValues];
+    ShowOnceSuccessAlert = TRUE;
+    BOOL selectedNumber = NO;
     NSString *strError = @"";
     if(_textview.text.length < 1 || [_textview.text isEqualToString:@"Compose New Sms"] )
     {
         strError = @"Please enter sms text";
-    }else if(arrSelectedNumber.count == 0 )
+    }else if(selectedNumber == NO )
     {
-        strError = @"Please select receiver";
+        for (int i=0; i<arrFilterdData.count ; i++) {
+            
+            if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
+                selectedNumber = YES;
+                break;
+            }
+        }
+        if (selectedNumber == NO) {
+            strError = @"Please select receiver";
+        }
+        
     }
     if(strError.length>2)
     {
@@ -502,49 +536,75 @@
         return;
     }
     
-    //Uncomment when webservice create
-    
-    //    for (int i=0; i < arrSelectedNumber.count; i++) {
-    //
-    //        if ([[arrSelectedNumber objectAtIndex:i] intValue] == 1) {
-    //            [arrMobileNumbers addObject:[arrFilterdData objectAtIndex:[[arrSelectedNumber objectAtIndex:i] intValue]]];
-    //        }
-    //
-    //    }
-    
-    // From test Account
-    
-    //Twilinator *twilio = [[Twilinator alloc] initWithSID:@"AC0f6fae9e2a5b0ff47d1b1dcbd20a0e83" authToken:@"dde62baf5beb5775896434797e915c8c" fromNumber:@"+19894744473"];
-    
-    //From Paid Account
-    
-    
-    //  Twilinator *twilio = [[Twilinator alloc] initWithSID:@"ACdf9e62bbfd4132901754d34b445fb110" authToken:@"e2a6374d96e4df75e245f2854850f3dd" fromNumber:@"+14844364239"];
-    //
-    
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
-    [request setUsername:accountSID];
-    [request setPassword:authToken];
-    [request addPostValue:FromPhoneNumber forKey:@"From"];
-    [request addPostValue:@"+918427176032" forKey:@"To"];
-    [request addPostValue:_textview.text forKey:@"Body"];
-    [request setDelegate:self];
-    [request setDidStartSelector:@selector(requestStarted:)];
-    [request setDidFinishSelector:@selector(requestFinished:)];
-    [request setDidFailSelector:@selector(requestFailed:)];
-    [request setUploadProgressDelegate:self];
-    [request setTimeOutSeconds:50000];
-    [request startAsynchronous];
+    for (int i=0; i<arrFilterdData.count ; i++ ) {
+        
+        if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
+            
+            if (_ObjSegment.selectedSegmentIndex == 0) {
+                NSString *phoneNumber = [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] ? [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] :@"" ;
+                if([phoneNumber isEqualToString:@""])
+                    continue;
+                ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
+                [request setUsername:accountSID];
+                [request setPassword:authToken];
+                [request addPostValue:FromPhoneNumber forKey:@"From"];
+                [request addPostValue:phoneNumber forKey:@"To"];
+                [request addPostValue:_textview.text forKey:@"Body"];
+                [request setDelegate:self];
+                [request setDidStartSelector:@selector(requestStarted:)];
+                [request setDidFinishSelector:@selector(requestFinished:)];
+                [request setDidFailSelector:@selector(requestFailed:)];
+                [request setUploadProgressDelegate:self];
+                [request setTimeOutSeconds:50000];
+                [request startAsynchronous];
+                
+            }else  if (_ObjSegment.selectedSegmentIndex == 1) {
+                
+                NSDictionary *phoneDic = [[arrFilterdData objectAtIndex:i]valueForKey:@"memberPhone"];
+                NSArray *arrTemp = [phoneDic allValues];
+                
+                for (int i=0 ; i < arrTemp.count; i++) {
+                    
+                    NSString *phoneNumber = [arrTemp objectAtIndex:i] ? [arrTemp objectAtIndex:i] :@"" ;
+                    if([phoneNumber isEqualToString:@""])
+                        continue;
+                    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
+                    [request setUsername:accountSID];
+                    [request setPassword:authToken];
+                    [request addPostValue:FromPhoneNumber forKey:@"From"];
+                    [request addPostValue:phoneNumber forKey:@"To"];
+                    [request addPostValue:_textview.text forKey:@"Body"];
+                    [request setDelegate:self];
+                    [request setDidStartSelector:@selector(requestStarted:)];
+                    [request setDidFinishSelector:@selector(requestFinished:)];
+                    [request setDidFailSelector:@selector(requestFailed:)];
+                    [request setUploadProgressDelegate:self];
+                    [request setTimeOutSeconds:50000];
+                    [request startAsynchronous];
+                }
+            }
+        }
+    }
 }
 #pragma mark- ASIHTTPRequest class delegate
 - (void)requestStarted:(ASIHTTPRequest *)theRequest {
 }
 - (void)requestFinished:(ASIHTTPRequest *)theRequest {
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    NSDictionary *responseDict = [parser objectWithString:[theRequest responseString ]];
-    if ([[responseDict valueForKey:@"status"] isEqualToString:@"queued"]) {
-        [SingletonClass initWithTitle:@"" message:@"SMS has been send successfully" delegate:nil btn1:@"Ok"];
+    @try {
+        SBJsonParser *parser = [[SBJsonParser alloc] init];
+        NSDictionary *responseDict = [parser objectWithString:[theRequest responseString ]];
+        if ([[responseDict valueForKey:@"status"] isEqualToString:@"queued"] && ShowOnceSuccessAlert==TRUE ) {
+            ShowOnceSuccessAlert=FALSE;
+            [SingletonClass initWithTitle:@"" message:@"SMS has been send successfully" delegate:nil btn1:@"Ok"];
+        }
     }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+    
 }
 - (void)requestFailed:(ASIHTTPRequest *)theRequest {
     
