@@ -11,10 +11,6 @@
 #import "UIImageView+WebCache.h"
 #import "DisplayFolderContant.h"
 
-#define getPicDataTag 100
-#define getAlbumDataTag 120
-#define getSeasonTag 110
-#define listPickerTag 70
 #define pickerhight [UIScreen mainScreen].bounds.size.height >= 1024 ? 600 : 216
 
 @interface Multimedia ()

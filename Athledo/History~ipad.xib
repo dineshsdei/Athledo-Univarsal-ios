@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="History">
             <connections>
+                <outlet property="tableView" destination="QMv-Rd-lub" id="0eI-9c-fgT"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,16 +16,23 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="jc3-X0-MlJ">
+                <searchBar contentMode="redraw" placeholder="Search History" translatesAutoresizingMaskIntoConstraints="NO" id="jc3-X0-MlJ">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="pQy-0g-cIh"/>
                     </constraints>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="lAd-qO-Ixs"/>
+                    </connections>
                 </searchBar>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QMv-Rd-lub">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QMv-Rd-lub">
                     <rect key="frame" x="0.0" y="44" width="768" height="980"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="927-57-X3u"/>
+                        <outlet property="delegate" destination="-1" id="PWx-NG-cgi"/>
+                    </connections>
                 </tableView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="m2h-KA-yzG">
                     <rect key="frame" x="0.0" y="1021" width="768" height="3"/>

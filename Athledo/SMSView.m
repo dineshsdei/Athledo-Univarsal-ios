@@ -20,12 +20,10 @@
     UIToolbar *toolBar;
     NSMutableDictionary *DicCellCheckBoxState;
     int keyboardHeight;
-    
     UIButton *btnAllcheck;
     BOOL ShowOnceSuccessAlert;
-    
     id currentTextview;
-    
+    NSInteger PreviousIndex;
 }
 
 @end
@@ -66,11 +64,9 @@
         if ([currentTextview  isKindOfClass:[UITextView class]]) {
             
             if (iosVersion < 8) {
-                // [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
                 keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
             }else{
                 
-                //[SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
                 keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
             }
             
@@ -81,6 +77,7 @@
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         if ([currentTextview  isKindOfClass:[UITextView class]]) {
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
+            [self.view endEditing:YES];
         }
     }];
     _textview.font = Textfont;
@@ -210,7 +207,6 @@
                 [cellCheckBox setBackgroundImage:UncheckImage forState:UIControlStateNormal];
                 cellCheckBox.selected = NO;
             }
-            
         }else if (_ObjSegment.selectedSegmentIndex ==1)
         {
             cell.lblName.text=[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"name"];
@@ -233,13 +229,11 @@
             }
         }else if (_ObjSegment.selectedSegmentIndex ==2)
         {
-            
         }
     }
     @catch (NSException *exception) {
     }
     @finally {
-        
     }
     cell.cellDelegate=self;
     cell.btnSelectContact.tag = indexPath.row;
@@ -248,11 +242,13 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isIPAD) {
-        return 70;
-    }else
+    if(isIPAD)
     {
-        return 50;
+        return 100;
+        
+    }else{
+        
+        return 80;
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -324,12 +320,8 @@
 #pragma mark UITextview Delegate
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [UIView animateWithDuration:0.39f
-                     animations:^{
-                         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)) :toolBar];
-                     }
-                     completion:^(BOOL finished){
-                     }];
+    textView.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
+    [SingletonClass ShareInstance].delegate = self;
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
@@ -337,7 +329,6 @@
     if ([_textview.text isEqualToString:@"Compose New Sms"]) {
         _textview.text = @"";
     }
-    
     return YES;
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
@@ -354,25 +345,27 @@
     }else{
         return YES;
     }
-    
 }
 #pragma mark UISegmentControl Delegate
 - (IBAction)ValueChange:(id)sender {
     
     UISegmentedControl *objSegment=(UISegmentedControl *)sender;
     if (objSegment.selectedSegmentIndex==0) {
+        PreviousIndex = objSegment.selectedSegmentIndex;
         [arrFilterdData removeAllObjects];
         [self FilterData:arrMemberListData];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         [btnAllcheck setSelected:NO];
         [_tableview reloadData];
     }else if (objSegment.selectedSegmentIndex==1) {
+        PreviousIndex = objSegment.selectedSegmentIndex;
         [arrFilterdData removeAllObjects];
         [self FilterData:arrGroupsListData];
         self.navigationItem.rightBarButtonItem.enabled = YES;
         [btnAllcheck setSelected:NO];
         [_tableview reloadData];
     }else if (objSegment.selectedSegmentIndex==2) {
+        objSegment.selectedSegmentIndex = PreviousIndex ;
         History *history = [[History alloc] initWithNibName:@"History" bundle:nil];
         [self.navigationController pushViewController:history animated:YES];
     }
@@ -380,10 +373,61 @@
 #pragma mark UIToolBar Delegate
 -(void)Done
 {
-    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
     [self.view endEditing:YES];
 }
 #pragma mark WebService Comunication Method
+-(void)getSaveSMSDataOnWeb{
+    
+    @try {if ([SingletonClass  CheckConnectivity]) {
+        
+        WebServiceClass *webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
+        UserInformation *userInfo=[UserInformation shareInstance];
+        NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:@"team_id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedSportid] forKey:@"sport_id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"sender_id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%@",_textview.text] forKey:@"message"];
+        
+        NSMutableArray *arrReceiverData = [[NSMutableArray alloc] init];
+        for (int i=0; i<arrFilterdData.count ; i++ ) {
+            if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
+                if (_ObjSegment.selectedSegmentIndex == 0) {
+                    
+                    NSDictionary *tosDic = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"id"]],[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"cellphone"]],@""] forKeys:@[@"user_id",@"phone",@"group_id",]];
+                    [arrReceiverData addObject:tosDic];
+                    
+                }else if (_ObjSegment.selectedSegmentIndex == 1) {
+                    
+                    NSDictionary *phoneDic = [[arrFilterdData objectAtIndex:i]valueForKey:@"memberPhone"];
+                    if (phoneDic.count > 0) {
+                        NSArray *arrKeyTemp = [phoneDic allKeys];
+                        NSArray *arrPhoneTemp = [phoneDic allValues];
+                        
+                        for (int i=0; i < phoneDic.count; i++) {
+                            NSDictionary *tosDic = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%@",[arrKeyTemp objectAtIndex:i]],[NSString stringWithFormat:@"%@",[arrPhoneTemp objectAtIndex:i]],[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"id"]]] forKeys:@[@"user_id",@"phone",@"group_id",]];
+                            [arrReceiverData addObject:tosDic];
+                            
+                        }
+                    }
+                }
+                
+            }
+        }
+        [dicttemp setObject:arrReceiverData forKey:@"Reciever"];
+        [webservice WebserviceCallwithDic:dicttemp :webServiceAddSmsOnWeb :GetSaveSmsData];
+    }else{
+        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    }
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
 -(void)getSMSListData{
     
     if ([SingletonClass  CheckConnectivity]) {
@@ -416,6 +460,16 @@
                 [SingletonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
             }
             break;
+        }case GetSaveSmsData :
+        {
+            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            {
+                
+                
+            }else{
+                
+            }
+            break;
         }
     }
 }
@@ -442,10 +496,8 @@
         [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:phone]] ;
         
         for (int i=0; i< arrFilterdData.count; i++) {
-            
             [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }
-        
     }else if (_ObjSegment.selectedSegmentIndex == 1) {
         NSPredicate *lowerCase= [NSPredicate predicateWithFormat:
                                  [@"SELF['name'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
@@ -456,7 +508,6 @@
         [arrFilterdData addObjectsFromArray:[arrGroupsListData filteredArrayUsingPredicate:lowerCase]] ;
         [arrFilterdData addObjectsFromArray:[arrGroupsListData filteredArrayUsingPredicate:orginaltext]] ;
         for (int i=0; i< arrFilterdData.count; i++) {
-            
             [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }
     }
@@ -467,7 +518,7 @@
         NSArray *arr = (NSArray *)data;
         if (_ObjSegment.selectedSegmentIndex == 0) {
             for (int i=0; i< arr.count; i++) {
-                NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[[arr objectAtIndex:i] valueForKey:@"firstname"],[[arr objectAtIndex:i] valueForKey:@"lastname"],[[arr objectAtIndex:i] valueForKey:@"cellphone"],[[arr objectAtIndex:i] valueForKey:@"age"],[[arr objectAtIndex:i] valueForKey:@"city"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"email"],[[arr objectAtIndex:i] valueForKey:@"school"],[[arr objectAtIndex:i] valueForKey:@"zip"],[[arr objectAtIndex:i] valueForKey:@"country"],[[arr objectAtIndex:i] valueForKey:@"address"],[[arr objectAtIndex:i] valueForKey:@"image"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"state"],[NSNumber numberWithBool:NO]] forKeys:@[@"firstname",@"lastname",@"cellphone",@"age",@"city",@"class_year",@"email",@"school",@"zip",@"country",@"address",@"image",@"class_year",@"state",@"isCheck"]];
+                NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[[arr objectAtIndex:i] valueForKey:@"id"],[[arr objectAtIndex:i] valueForKey:@"firstname"],[[arr objectAtIndex:i] valueForKey:@"lastname"],[[arr objectAtIndex:i] valueForKey:@"cellphone"],[[arr objectAtIndex:i] valueForKey:@"age"],[[arr objectAtIndex:i] valueForKey:@"city"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"email"],[[arr objectAtIndex:i] valueForKey:@"school"],[[arr objectAtIndex:i] valueForKey:@"zip"],[[arr objectAtIndex:i] valueForKey:@"country"],[[arr objectAtIndex:i] valueForKey:@"address"],[[arr objectAtIndex:i] valueForKey:@"image"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"state"],[NSNumber numberWithBool:NO]] forKeys:@[@"id",@"firstname",@"lastname",@"cellphone",@"age",@"city",@"class_year",@"email",@"school",@"zip",@"country",@"address",@"image",@"class_year",@"state",@"isCheck"]];
                 [arrFilterdData addObject:dicTemp];
                 dicTemp = nil;
             }
@@ -510,62 +561,40 @@
 }
 -(void)SendSMS:(id)sender
 {
-    ShowOnceSuccessAlert = TRUE;
-    BOOL selectedNumber = NO;
-    NSString *strError = @"";
-    if(_textview.text.length < 1 || [_textview.text isEqualToString:@"Compose New Sms"] )
-    {
-        strError = @"Please enter sms text";
-    }else if(selectedNumber == NO )
-    {
-        for (int i=0; i<arrFilterdData.count ; i++) {
+    @try {
+        
+        ShowOnceSuccessAlert = TRUE;
+        BOOL selectedNumber = NO;
+        NSString *strError = @"";
+        if(_textview.text.length < 1 || [_textview.text isEqualToString:@"Compose New Sms"] )
+        {
+            strError = @"Please enter sms text";
+        }else if(selectedNumber == NO )
+        {
+            for (int i=0; i<arrFilterdData.count ; i++) {
+                
+                if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
+                    selectedNumber = YES;
+                    break;
+                }
+            }
+            if (selectedNumber == NO) {
+                strError = @"Please select receiver";
+            }
+            
+        }
+        if(strError.length>2)
+        {
+            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            return;
+        }
+        
+        for (int i=0; i<arrFilterdData.count ; i++ ) {
             
             if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
-                selectedNumber = YES;
-                break;
-            }
-        }
-        if (selectedNumber == NO) {
-            strError = @"Please select receiver";
-        }
-        
-    }
-    if(strError.length>2)
-    {
-        [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
-        return;
-    }
-    
-    for (int i=0; i<arrFilterdData.count ; i++ ) {
-        
-        if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
-            
-            if (_ObjSegment.selectedSegmentIndex == 0) {
-                NSString *phoneNumber = [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] ? [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] :@"" ;
-                if([phoneNumber isEqualToString:@""])
-                    continue;
-                ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
-                [request setUsername:accountSID];
-                [request setPassword:authToken];
-                [request addPostValue:FromPhoneNumber forKey:@"From"];
-                [request addPostValue:phoneNumber forKey:@"To"];
-                [request addPostValue:_textview.text forKey:@"Body"];
-                [request setDelegate:self];
-                [request setDidStartSelector:@selector(requestStarted:)];
-                [request setDidFinishSelector:@selector(requestFinished:)];
-                [request setDidFailSelector:@selector(requestFailed:)];
-                [request setUploadProgressDelegate:self];
-                [request setTimeOutSeconds:50000];
-                [request startAsynchronous];
                 
-            }else  if (_ObjSegment.selectedSegmentIndex == 1) {
-                
-                NSDictionary *phoneDic = [[arrFilterdData objectAtIndex:i]valueForKey:@"memberPhone"];
-                NSArray *arrTemp = [phoneDic allValues];
-                
-                for (int i=0 ; i < arrTemp.count; i++) {
-                    
-                    NSString *phoneNumber = [arrTemp objectAtIndex:i] ? [arrTemp objectAtIndex:i] :@"" ;
+                if (_ObjSegment.selectedSegmentIndex == 0) {
+                    NSString *phoneNumber = [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] ? [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] :@"" ;
                     if([phoneNumber isEqualToString:@""])
                         continue;
                     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
@@ -581,9 +610,44 @@
                     [request setUploadProgressDelegate:self];
                     [request setTimeOutSeconds:50000];
                     [request startAsynchronous];
+                    
+                }else  if (_ObjSegment.selectedSegmentIndex == 1) {
+                    
+                    NSDictionary *phoneDic = [[arrFilterdData objectAtIndex:i]valueForKey:@"memberPhone"];
+                    if (phoneDic.count > 0) {
+                        NSArray *arrTemp = [phoneDic allValues];
+                        
+                        for (int i=0 ; i < arrTemp.count; i++) {
+                            
+                            NSString *phoneNumber = [arrTemp objectAtIndex:i] ? [arrTemp objectAtIndex:i] :@"" ;
+                            if([phoneNumber isEqualToString:@""])
+                                continue;
+                            ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
+                            [request setUsername:accountSID];
+                            [request setPassword:authToken];
+                            [request addPostValue:FromPhoneNumber forKey:@"From"];
+                            [request addPostValue:phoneNumber forKey:@"To"];
+                            [request addPostValue:_textview.text forKey:@"Body"];
+                            [request setDelegate:self];
+                            [request setDidStartSelector:@selector(requestStarted:)];
+                            [request setDidFinishSelector:@selector(requestFinished:)];
+                            [request setDidFailSelector:@selector(requestFailed:)];
+                            [request setUploadProgressDelegate:self];
+                            [request setTimeOutSeconds:50000];
+                            [request startAsynchronous];
+                        }
+                    }
+                    
                 }
             }
         }
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
     }
 }
 #pragma mark- ASIHTTPRequest class delegate
@@ -593,9 +657,17 @@
     @try {
         SBJsonParser *parser = [[SBJsonParser alloc] init];
         NSDictionary *responseDict = [parser objectWithString:[theRequest responseString ]];
-        if ([[responseDict valueForKey:@"status"] isEqualToString:@"queued"] && ShowOnceSuccessAlert==TRUE ) {
+        
+        if ( ShowOnceSuccessAlert==TRUE ) {
             ShowOnceSuccessAlert=FALSE;
-            [SingletonClass initWithTitle:@"" message:@"SMS has been send successfully" delegate:nil btn1:@"Ok"];
+            [responseDict valueForKey:@"message"] ? [SingletonClass initWithTitle:@"" message:[responseDict valueForKey:@"message"]  delegate:nil btn1:@"Ok"] :@"";
+            
+            if([[responseDict valueForKey:@"status"] isEqualToString:@"queued"])
+            {
+                [[responseDict valueForKey:@"status"] isEqualToString:@"queued"] ? [SingletonClass initWithTitle:@"" message:@"SMS has been send successfully"  delegate:nil btn1:@"Ok"] :@"";
+                [self getSaveSMSDataOnWeb];
+            }
+            
         }
     }
     @catch (NSException *exception) {

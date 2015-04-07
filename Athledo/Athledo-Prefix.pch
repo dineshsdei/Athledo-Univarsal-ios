@@ -40,9 +40,39 @@
 #define CornerRadius 5
 #define PadingW 12
 #define PadingH 20
+#define AddEventTag 510
+#define DeleteEventTag 520
+//#define CellHeight  isIPAD ? 60 : 60
+//#define listPickerTag 110
+#define EditData 120
+#define Successtag 130
+
+#define datePickerTag 70
+#define toolBarTag 40
+#define toolBar1Tag 41
+#define listPickerTag 60
+#define ActivityIndicatorTag 50
+#define AddcustomAlertTag 80
+#define DeletecustomAlertTag 90
+#define AddexerciseAlertTag 100
+#define DeleteexerciseAlertTag 110
+#define MultipleSelectionPickerTag 120
+#define GetWorkOutListTag 130
+#define GetWorkOutUnitTag 140
+#define AddCustomTag 150
+#define DeleteCustomTag 160
+#define AddExerciseTypeTag 170
+#define DeleteExerciseTypeTag 180
+
+#define AddWorkoutTag 190
+#define AddWorkOutLiftTag 200
 
 // for webservice response tag
 #define AllPDF 9718937613
+
+#define EditData 120
+#define Successtag 130
+//#define CellHeight  isIPAD ? 60 : 60
 
 #define getAnnouncementTag 7000
 #define searchAnnouncementTag 7001
@@ -63,7 +93,29 @@
 #define AddManagerSportTag 8007
 #define GetSmsData 9001
 #define GetSmsHistoryData 9002
+#define GetSaveSmsData 9003
 
+#define getDetailDataTag 5010
+#define deleteWorkoutTag 5020
+#define deleteNotificationTag 5080
+#define ReassignWorkoutTag 5030
+#define EditableDataTag 5040
+#define SaveDataTag 5070
+
+#define getConversationTag 3110
+#define sendConversationTag 3120
+#define getEventTag 44110
+//#define CellHeight 4490
+#define getUserTypeTag 55120
+#define sendMessageTag 55140
+#define SearchWorkOutTag 6200
+#define DeleteWorkOutTag 6400
+
+#define getDataTag 66100
+#define getSearchDataTag 66110
+#define getPicDataTag 77100
+#define getSeasonTag 77110
+#define getAlbumDataTag 777120
 
 
 #define listPickerHeight 168
@@ -76,6 +128,8 @@
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH    [[UIScreen mainScreen] bounds].size.width
 #define PickerHeight isIPAD ? 162 : 162
+#define IpadCellHeight 100
+#define IphoneCellHeight 80
 
 
 # define tblViewY (([UIScreen mainScreen].bounds.size.height >= 568)?266:180)
@@ -83,17 +137,16 @@
 #define ACTIVITYTAG 234242350
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-
 #define iosVersion [[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue]
-
 #define isIOS8 [[UIDevice currentDevice].systemVersion isEqualToString:@"8.0"]
 #define isIPAD [UIDevice currentDevice].userInterfaceIdiom==UIUserInterfaceIdiomPad
-
 #define fontName @"HelveticaNeue"
 #define SmallfontSize isIPAD ? 16 : 13
 #define BigfontSize isIPAD ? 18 : 14
 #define HeadingColor [UIColor whiteColor]
 #define TextColor [UIColor lightTextColor]
+#define LightGrayColor [UIColor lightGrayColor]
+#define GrayColor [UIColor grayColor]
 #define NavFontSize isIPAD ? 25 : 18
 
 #define Textfont [UIFont fontWithName:fontName size:BigfontSize] ;
@@ -136,13 +189,8 @@
 #define DATE_FORMAT_DOB                 @"yyyy-MM-dd"
 #define DATE_FORMAT_CLIENT              @"dd MMM, yyyy"
 #define DATE_FORMAT_ThroughOutNEW_Chat  @"EEE MMM dd HH:mm:ss Z yyyy"
-
-
-
 // Staging server
-
 //#define BaseUrl @"172.24.2.222:8024/webservices/"
-
 // Live server
 
 #define BaseUrl @"http://athledo.com/webservices/"
@@ -168,10 +216,10 @@
 #define webServiceGetLeagueLevel [BaseUrl stringByAppendingString:@"getLeagueLevel"]
 #define webServiceAddManagerSport [BaseUrl stringByAppendingString:@"addManagerSport"]
 //Add WorkOut
-#define webServiceWorkoutInfo [BaseUrl stringByAppendingString:@"coachWorkoutList"]
+#define webServiceWorkoutInfo [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"coachWorkoutList"]
 #define webServiceDeleteWorkOut [BaseUrl stringByAppendingString:@"deleteWorkout"]
 #define webServiceReAssignWorkOut [BaseUrl stringByAppendingString:@"coach_reassign"]
-#define webServiceGetWorkOutdropdownList [BaseUrl stringByAppendingString:@"workout_dropdown_data"]
+#define webServiceGetWorkOutdropdownList [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"workout_dropdown_data"]
 #define webServiceGetWorkOutUnitList [BaseUrl stringByAppendingString:@"workout_unit"]
 
 #define webUrlAddCustomTag [BaseUrl stringByAppendingString:@"workout_customtag_add"]
@@ -179,9 +227,9 @@
 #define webUrlAddExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_add"]
 #define webUrlDeleteExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_delete"]
 
-#define webUrlAddWorkOut [BaseUrl stringByAppendingString:@"workout_add"]
+#define webUrlAddWorkOut [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"workout_add"]
 #define webUrlSearchHistory [BaseUrl stringByAppendingString:@"workout_history"]
-#define WebServiceWorkoutDetails [BaseUrl stringByAppendingString:@"workout_view"]
+#define WebServiceWorkoutDetails [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"workout_view"]
 
 #define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
 
@@ -209,12 +257,7 @@
 #define webServiceGetEvents [BaseUrl stringByAppendingString:@"getEvents"]
 #define webServiceAddEvents [BaseUrl stringByAppendingString:@"scheduler_data?editing=true"]
 #define webServiceDeleteEvents [BaseUrl stringByAppendingString:@"scheduler_data?editing=true"]
-
-
-
-
 // Messages
-
 #define webServiceGetMessages [BaseUrl stringByAppendingString:@"inbox"]
 #define webServiceDeleteMessage [BaseUrl stringByAppendingString:@"message_delete"]
 #define webServiceMessageStatus [BaseUrl stringByAppendingString:@"message_status"]
@@ -232,13 +275,14 @@
 
 //Live server Multimedia
 #define webServiceGetMultimediaPic [BaseUrl stringByAppendingString:@"getMultimediaPhoto"]
-#define webServiceGetMultimediaVideos [BaseUrl stringByAppendingString:@"getMultimediaVideo"]
+#define webServiceGetMultimediaVideos [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"getMultimediaVideo"]
 #define webServiceGetMultimediaAlbum [BaseUrl stringByAppendingString:@"getMultimediaAlbumPhoto"]
-#define webServiceUploadVideo [BaseUrl stringByAppendingString:@"uploadMultimediaVideo"]
+#define webServiceUploadVideo [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"uploadMultimediaVideo"]
 
 // SMS Section
-#define webServiceSendSms [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"sendSms"]
-#define webServiceGetSmsHistory [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"smsHistory"]
+#define webServiceSendSms [BaseUrl stringByAppendingString:@"sendSms"]
+#define webServiceGetSmsHistory [BaseUrl stringByAppendingString:@"smsHistory"]
+#define webServiceAddSmsOnWeb [BaseUrl stringByAppendingString:@"smsSave"]
 
 
 

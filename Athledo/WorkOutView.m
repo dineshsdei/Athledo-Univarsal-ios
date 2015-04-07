@@ -16,10 +16,6 @@
 // tagNumber->100 for get list data
 // tagNumber->200 for get search result
 
-#define GetWorkOutListTag 100
-#define SearchWorkOutTag 200
-#define DeleteWorkOutTag 400
-
 @interface WorkOutView ()
 {
     NSMutableArray *arrWorkOutData;
@@ -159,10 +155,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     }
     
 }
-
-
 - (void)getList
-
 {
     if ([SingletonClass  CheckConnectivity]) {
         
@@ -279,46 +272,32 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         {
             
             [arrWorkOutData removeAllObjects];
-            
             NSArray *data=[myResults objectForKey:@"data"] ;
-            
             for (int i=0; i< data.count; i++)
             {
-                
                 if ([[data objectAtIndex:i]objectForKey:@"Workout"]) {
-                    
                     [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:@"Workout"]];
                 }
-                
             }
-            
             [tblList reloadData];
-            
         }else
         {
             [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
         }
-        
     }else if (tagNumber == SearchWorkOutTag)
     {
-        
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
         NSArray *data=[myResults objectForKey:@"data"] ;
         
         if ([[myResults objectForKey:@"status"] isEqualToString:@"success"])
         {
-            
             [arrWorkOutData removeAllObjects];
-            
             for (int i=0; i< data.count; i++)
             {
-                
                 if ([[data objectAtIndex:i]objectForKey:@"Workout"]) {
                     [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:@"Workout"]];
                 }
-                
             }
-            
             [tblList reloadData];
             
         }else
@@ -338,8 +317,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             [self getList];
         }else
         {
-            // [self getList];
-            
             [SingletonClass initWithTitle:@"" message:@"Try Again!" delegate:nil btn1:@"Ok"];
         }
         
@@ -385,13 +362,10 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             }else{
                 
                 [arrWorkOutData removeAllObjects];
-                
                 ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
                 indicator.tag = ACTIVITYTAG;
                 [self.view addSubview:indicator];
-                
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{\"name\":\"%@\"}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,[theSearchBar.text lowercaseString]];
-                
                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceWorkoutInfo]];
                 [request setHTTPMethod:@"POST"];
                 [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -400,7 +374,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                 //[data appendData:[[NSString stringWithFormat: @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"] dataUsingEncoding: NSUTF8StringEncoding]];
                 [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
                 [request setHTTPBody:data];
-                
                 [NSURLConnection sendAsynchronousRequest:request
                                                    queue:[NSOperationQueue mainQueue]
                                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -419,18 +392,12 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             }
             
         }else{
-            
             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-            
         }
-        
     }
     [theSearchBar resignFirstResponder];
 }
-
-
 #pragma mark- TableviewDelegate
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return arrWorkOutData.count;
@@ -440,7 +407,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 {
     return 1;
 }
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"WorkOutCell";
@@ -478,9 +444,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     {
         cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
         cell.delegate=self;
-
     }
-    
     if (_notificationData) {
         
         NSArray *arrTemp=(NSArray *)_notificationData ;
@@ -488,9 +452,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             
             cell.lblWorkoutCratedBy.font=[UIFont boldSystemFontOfSize: cell.lblWorkoutCratedBy.font.pointSize];
             cell.lblWorkoutName.font=[UIFont boldSystemFontOfSize: cell.lblWorkoutName.font.pointSize];
-            
         }
-        
     }
     return cell;
 }

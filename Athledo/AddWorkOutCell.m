@@ -22,14 +22,14 @@
 
 - (void)awakeFromNib
 {
-  
+    
     // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -60,10 +60,8 @@
                         
                     }else
                     {
-                         txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX,0, CellWeight, ((TextFeildHeight)+30))];
-                        
+                        txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX,0, CellWeight, ((TextFeildHeight)+30))];
                     }
-                    
                     
                 }else{
                     
@@ -77,8 +75,6 @@
                     }
                 }
                 
-                
-               
                 txtField.borderStyle = UITextBorderStyleRoundedRect;
                 txtField.tag = indexPath.section;
                 txtField.delegate = del;
@@ -141,9 +137,7 @@
                         btnAdd=nil;
                         btnDelete=nil;
                     }
-                    
                 }
-                
                 [self addSubview:txtField];
                 
                 txtField=nil;
@@ -199,7 +193,7 @@
                             
                         }
                         
-                         // if Email Section section
+                        // if Email Section section
                         
                         if (arrlblText.count== 2 && [[WorkOutDic objectForKey:@"Email Notification"] isEqual:@"Yes"]) {
                             btnWholeTeam.selected=YES;
@@ -238,8 +232,6 @@
                                     }
                                 }
                                 
-                                
-                                
                                 break;
                             }
                             case 2:
@@ -250,7 +242,6 @@
                                     [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
                                     
                                 }else{
-                                    
                                     
                                     btnWholeTeam.selected=NO;
                                     [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
@@ -325,9 +316,9 @@
                 
             }
             
-
             
-        
+            
+            
         }else if(arrfixCellFields.count > indexPath.section)
         {
             
@@ -336,13 +327,13 @@
             lbl.textColor=TextFieldColor;
             lbl.font = [UIFont fontWithName:fontName size:BigfontSize];
             
-             lbl.text= @"Exercise";
+            lbl.text= @"Exercise";
             
             [self addSubview:lbl];
             
             UITextField *txtField;
             
-             int count=[self CountOfExerciseObject:arrfixCellFields];
+            int count=[self CountOfExerciseObject:arrfixCellFields];
             int valueIndex=(int)(indexPath.section-(arrfixCellFields.count-(count)));
             
             txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX, lbl.frame.size.height-10, ((CellWeight)-((isIPAD) ? 50 :40)), TextFeildHeight)];
@@ -352,27 +343,19 @@
             txtField.delegate = del;
             txtField.font = [UIFont fontWithName:fontName size:BigfontSize];
             // Add Dic data in textfield and placeholder text
-             //txtField.placeholder =@"Name";
+            //txtField.placeholder =@"Name";
             txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Name" attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
             txtField.textColor=TextFieldColor;
-
-            
             if (valueIndex >= 0) {
-                  
-                  txtField.text=[self LiftValuesForKey:(int)(indexPath.section-(arrfixCellFields.count-(count))) :
-                                liftPlaceholder :txtField.placeholder];
-              }
+                txtField.text=[self LiftValuesForKey:(int)(indexPath.section-(arrfixCellFields.count-(count))) :
+                                    liftPlaceholder :txtField.placeholder];
+            }
             txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-            
-            
-            
             UIButton *btnWholeTeam;
             
             btnWholeTeam=[UIButton buttonWithType:UIButtonTypeCustom];
             btnWholeTeam.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 50:20), txtField.frame.origin.y+6, Add_Delete_Size, Add_Delete_Size);
             
-           
-          
             if (arrfixCellFields.count-(count)==indexPath.section)
             {
                 [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
@@ -384,6 +367,16 @@
                 [btnWholeTeam addTarget:self action:@selector(deleteExerciseSection:) forControlEvents:UIControlEventTouchUpInside];
             }
             btnWholeTeam.tag=indexPath.section-(arrfixCellFields.count-(count));
+            
+            ////////////////
+            UIImage *image;
+                image=[UIImage imageNamed:@"arrow.png"];
+            UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
+            imageview.userInteractionEnabled = NO;
+            imageview.frame=CGRectMake(txtField.frame.size.width-imageview.frame.size.width+10, txtField.frame.size.height/2-7,15, 15);
+            [txtField addSubview:imageview];
+            ///////////////
+            
             [self addSubview:btnWholeTeam];
             [self addSubview:txtField];
             btnWholeTeam=nil;
@@ -393,11 +386,11 @@
             int gap=(isIPAD ? 30 : 10),lblWight=(isIPAD ?  ((([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeLeft ) || ([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeRight)) ? 233 : 172) : 70);
             
             NSArray *arrPlaceholdertext=[[NSArray alloc] initWithObjects:@"Sets",@"Reps",@"Weight",@"Unit." ,nil];
-        
-            for (int i=0; i< arrPlaceholdertext.count; i++) {
             
+            for (int i=0; i< arrPlaceholdertext.count; i++) {
+                
                 UITextField *txtField=[[UITextField alloc] init];
-        
+                
                 txtField.backgroundColor = [UIColor whiteColor];
                 txtField.borderStyle = UITextBorderStyleRoundedRect;
                 txtField.tag = indexPath.section-(arrfixCellFields.count-(count));;
@@ -408,28 +401,28 @@
                 txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:[arrPlaceholdertext objectAtIndex:i] attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                 txtField.textColor=TextFieldColor;
                 txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-               if (valueIndex >= 0){
+                if (valueIndex >= 0){
                     
                     txtField.text=[self LiftValuesForKey:(int)(indexPath.section-(arrfixCellFields.count-(count))) :liftPlaceholder :txtField.placeholder];
                 }
-              
+                
                 
                 txtField.frame=CGRectMake(gap, ((TextFeildHeight)+((isIPAD) ? 40 :40)),lblWight,TextFeildHeight);
                 
                 
                 if (i==3) {
                     
-                 UIImage *image=[UIImage imageNamed:@"arrow.png"];
-            UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
-                
-                imageview.frame=CGRectMake(txtField.frame.size.width-imageview.frame.size.width+15, (txtField.frame.size.height/2-7),15, 15);
-                
-                [txtField addSubview:imageview];
-                
+                    UIImage *image=[UIImage imageNamed:@"arrow.png"];
+                    UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
+                    
+                    imageview.frame=CGRectMake(txtField.frame.size.width-imageview.frame.size.width+15, (txtField.frame.size.height/2-7),15, 15);
+                    
+                    [txtField addSubview:imageview];
+                    
                 }
                 
                 
-
+                
                 [self addSubview:txtField];
                 //txtField=nil;
                 
@@ -437,12 +430,12 @@
             }
             
             
-        
+            
         }
         
         
     }
-  
+    
     return self;
 }
 
@@ -474,16 +467,16 @@
         if ([key isEqualToString:@"Unit."]) {
             key =@"Unit";
         }
-
-       strVales=[temp valueForKey:key];
-    
+        
+        strVales=[temp valueForKey:key];
+        
     }else
     {
         
     }
     
     return strVales;
-
+    
 }
 
 -(NSString *)ValuesForKey : (int)index :(NSMutableDictionary *)data :(NSMutableArray *)keys
@@ -508,7 +501,7 @@
             
             if ([[arrValues objectAtIndex:i] intValue]==1)
             {
-               [arrTemp addObject:[arrkeys objectAtIndex:i] ];
+                [arrTemp addObject:[arrkeys objectAtIndex:i] ];
             }
             
         }
@@ -516,7 +509,7 @@
         for (int i=0; i<arrTemp.count; i++) {
             
             if (i < arrTemp.count-1 )
-               strVales= [strVales stringByAppendingString:[NSString stringWithFormat:@"%@,",arrTemp[i]]];
+                strVales= [strVales stringByAppendingString:[NSString stringWithFormat:@"%@,",arrTemp[i]]];
             else
                 strVales=[strVales stringByAppendingString:[NSString stringWithFormat:@"%@",arrTemp[i]]];
             
@@ -536,12 +529,12 @@
 
 -(void)deleteExerciseSection :(id)sender
 {
-      [delegate deleteExerciseSection:sender];
+    [delegate deleteExerciseSection:sender];
 }
 
 -(void)addExerciseSection :(id)sender
 {
-     [delegate addExerciseSection:sender];
+    [delegate addExerciseSection:sender];
 }
 
 -(void)SaveWorkOutData :(id)sender
@@ -572,7 +565,7 @@
 
 -(void)buttonClickAthletes :(id)sender
 {
-  
+    
     [delegate AthletesCheckBoxEvent:sender];
     
     
@@ -582,7 +575,7 @@
 {
     
     [delegate EmailCheckBoxEvent:sender];
-
+    
     
 }
 

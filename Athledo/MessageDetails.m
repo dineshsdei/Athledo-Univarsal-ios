@@ -8,10 +8,6 @@
 
 #import "MessageDetails.h"
 
-#define getConversationTag 110
-#define sendConversationTag 120
-
-
 @interface MessageDetails ()
 
 @end

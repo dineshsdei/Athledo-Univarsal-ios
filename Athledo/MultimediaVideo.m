@@ -10,10 +10,7 @@
 #import "Multimedia.h"
 #import "UIImageView+WebCache.h"
 #import "SWRevealViewController.h"
-
-#define getPicDataTag 100
-#define getSeasonTag 110
-#define listPickerTag 70
+#import <AVFoundation/AVCompositionTrack.h>
 
 @interface MultimediaVideo ()
 {
@@ -316,7 +313,6 @@
 -(void)SelectVideoFiles
 {
     self.scrollview.hidden = NO ;
-    //[self ChooseFromGallery];
 }
 
 // Pick video file from media library
@@ -343,6 +339,7 @@
 - (IBAction)UploadVideo
 {
     if (urlvideo) {
+        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *urlString=[urlvideo path];
@@ -536,13 +533,18 @@
     
     // Set the modal transition style of your choice
     playerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+ 
     
     // Present the movie player view controller
     [self presentViewController:playerVC animated:YES completion:nil];
     
-    // Start playback
+    // Start playbac0k
     [playerVC.moviePlayer prepareToPlay];
     [playerVC.moviePlayer play];
+    
+//    [playerVC.view setFrame:CGRectMake(50, 100, (self.view.frame.size.width) , self.view.frame.size.height-100)];
+//    playerVC.view.backgroundColor = [UIColor grayColor];
+//    [self.view addSubview:playerVC.view];
 }
 #pragma mark - Tableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;

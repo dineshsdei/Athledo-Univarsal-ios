@@ -1,7 +1,4 @@
 
-#define getEventTag 110
-#define CellHeight 90
-
 #import "WebServiceClass.h"
 #import "SWRevealViewController.h"
 #import "CalendarDayViewController.h"
@@ -11,6 +8,7 @@
 #import "AddCalendarEvent.h"
 
 int tagNumber;
+#define CellHeight 90
 WebServiceClass *webservice;
 NSMutableArray *startDateArr;
 NSMutableArray *endDateArr;

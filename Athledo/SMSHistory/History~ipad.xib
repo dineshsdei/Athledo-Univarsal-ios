@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="History">
+            <connections>
+                <outlet property="tableView" destination="QMv-Rd-lub" id="0eI-9c-fgT"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <searchBar contentMode="redraw" placeholder="Search History" translatesAutoresizingMaskIntoConstraints="NO" id="jc3-X0-MlJ">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="pQy-0g-cIh"/>
+                    </constraints>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="lAd-qO-Ixs"/>
+                    </connections>
+                </searchBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QMv-Rd-lub">
+                    <rect key="frame" x="0.0" y="44" width="768" height="980"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="927-57-X3u"/>
+                        <outlet property="delegate" destination="-1" id="PWx-NG-cgi"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="m2h-KA-yzG">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="O3J-2F-bjA"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="m2h-KA-yzG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6sm-yB-JCs"/>
+                <constraint firstItem="jc3-X0-MlJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="BZy-R2-qA7"/>
+                <constraint firstItem="QMv-Rd-lub" firstAttribute="top" secondItem="jc3-X0-MlJ" secondAttribute="bottom" id="BtO-05-So5"/>
+                <constraint firstItem="QMv-Rd-lub" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XuY-RA-Lgs"/>
+                <constraint firstAttribute="bottom" secondItem="m2h-KA-yzG" secondAttribute="bottom" id="Zgz-kl-JUK"/>
+                <constraint firstAttribute="trailing" secondItem="jc3-X0-MlJ" secondAttribute="trailing" id="cYj-q3-hVj"/>
+                <constraint firstAttribute="trailing" secondItem="QMv-Rd-lub" secondAttribute="trailing" id="mKx-nx-uKa"/>
+                <constraint firstAttribute="bottom" secondItem="QMv-Rd-lub" secondAttribute="bottom" id="nv5-2N-HJB"/>
+                <constraint firstItem="jc3-X0-MlJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qwn-75-6Vk"/>
+                <constraint firstAttribute="trailing" secondItem="m2h-KA-yzG" secondAttribute="trailing" id="rHO-Vh-7Wa"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="54" y="88"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

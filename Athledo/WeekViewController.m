@@ -11,7 +11,6 @@
 #import "SWRevealViewController.h"
 #import "AddCalendarEvent.h"
 
-#define getEventTag 510
 WebServiceClass *webservice;
 
 // Uncomment the following line to use the built in calendar as a source for events:

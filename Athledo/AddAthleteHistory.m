@@ -10,11 +10,7 @@
 #import "AddAthleteHistoryCell.h"
 #import "AppDelegate.h"
 #import "ProfileView.h"
-
-#define EditData 120
-#define Successtag 130
-#define CellHeight  isIPAD ? 60 : 60
-
+#define CellLocHeight  isIPAD ? 60 : 60
 
 @interface AddAthleteHistory ()
 {
@@ -254,7 +250,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CellHeight;
+    return CellLocHeight;
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView

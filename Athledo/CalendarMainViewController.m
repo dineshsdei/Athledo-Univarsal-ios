@@ -14,7 +14,6 @@
 #import "WeekViewController.h"
 #import "MapViewController.h"
 
-#define getEventTag 119990
 @interface CalendarMainViewController ()
 {
     WebServiceClass *webservice;

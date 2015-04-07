@@ -12,8 +12,6 @@
 #import "WeekViewController.h"
 #import "SWRevealViewController.h"
 
-#define getEventTag 510
-
 @interface MapViewController ()
 
 @end

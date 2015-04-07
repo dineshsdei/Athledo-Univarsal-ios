@@ -18,9 +18,7 @@
 @end
 
 @implementation History
-
 #pragma mark UIViewController life cycle Method
-
 - (void)viewDidLoad {
     self.title = @"SMS History";
     arrFilterdData = [[NSMutableArray alloc] init];
@@ -50,6 +48,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [arrFilterdData removeAllObjects];
+    [arrFilterdData addObjectsFromArray:historyDic];
     [_tableView reloadData];
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
@@ -89,7 +88,6 @@
     @finally {
     }
 }
-
 #pragma mark- UITableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -97,7 +95,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return historyDic.count;
+    return arrFilterdData.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -107,15 +105,14 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (SMSHistoryCell *)[nib objectAtIndex:0];
-        cell.lblSenderName.text = [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"sender"] ?   [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"sender"] : @"";
+        cell.lblSenderName.text = [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"reciever"] ?   [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"reciever"] : @"";
         cell.lblDate.text = [self dateFormate:[[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"sentTime"]];
         cell.txtViewMessage.text = [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"message"] ?   [[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"message"] : @"";
         
         cell.lblSenderName.font = Textfont;
         cell.txtViewMessage.font = SmallTextfont;
+        cell.txtViewMessage.textColor = LightGrayColor ;
         cell.lblDate.font = SmallTextfont;
-        
-        
     }
     @try {
         
@@ -130,11 +127,11 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isIPAD) {
-        return 70;
-    }else
+    if(isIPAD)
     {
-        return 70;
+        return IpadCellHeight;
+    }else{
+        return IphoneCellHeight;
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,9 +175,9 @@
 -(void)PrepareSearchPredicate:(NSString *)theSearchBarText
 {
     NSPredicate *lowerCase= [NSPredicate predicateWithFormat:
-                             [@"SELF['sender'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
+                             [@"SELF['reciever'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
     NSPredicate *orginaltext = [NSPredicate predicateWithFormat:
-                                [@"SELF['sender'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBarText substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBarText substringFromIndex:1] ]]];
+                                [@"SELF['reciever'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBarText substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBarText substringFromIndex:1] ]]];
     NSPredicate *messageLowerCase= [NSPredicate predicateWithFormat:
                                     [@"SELF['message'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
     NSPredicate *messageOrginaltext = [NSPredicate predicateWithFormat:
@@ -190,9 +187,7 @@
     [arrFilterdData addObjectsFromArray:[historyDic filteredArrayUsingPredicate:orginaltext]] ;
     [arrFilterdData addObjectsFromArray:[historyDic filteredArrayUsingPredicate:messageLowerCase]] ;
     [arrFilterdData addObjectsFromArray:[historyDic filteredArrayUsingPredicate:messageOrginaltext]] ;
-    
 }
-
 -(NSString *)dateFormate : (NSString *)strdate
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];

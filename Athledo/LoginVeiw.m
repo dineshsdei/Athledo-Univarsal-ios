@@ -16,7 +16,6 @@
 
 @interface LoginVeiw ()
 {
-    
     UITextField *txtFieldUserId;
     UITextField *txtFieldPassword;
     UITextField *currentText;
@@ -36,11 +35,13 @@
 }
 - (IBAction)MoveToDashBoard:(id)sender {
     
+   // NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+   // NSString * build = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
+    
     [[NSUserDefaults standardUserDefaults] setObject:txtFieldUserId.text forKey:@"USERNAME"];
     [[NSUserDefaults standardUserDefaults] setObject:txtFieldPassword.text forKey:@"PASSWORD"];
     
     if ([SingletonClass  CheckConnectivity]) {
-        
         //Check for empty Text box
         NSString *strError = @"";
         if(txtFieldUserId.text.length < 1 )
@@ -55,12 +56,10 @@
         {
             [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
             return;
+            
         }else{
-            
             BOOL emailValid=[SingletonClass emailValidate:txtFieldUserId.text];
-            
             if (emailValid) {
-                
                 [SingletonClass addActivityIndicator:self.view];
                 NSString *strURL = [NSString stringWithFormat:@"{\"email\":\"%@\", \"password\":\"%@\", \"device_id\":\"%@\"}", [txtFieldUserId.text lowercaseString],[txtFieldPassword.text lowercaseString],@"321434"];
                 
@@ -146,9 +145,7 @@
             {
                 
             }
-            
         }else{
-            
             BOOL Status=FALSE;
             for (id object in arrController)
             {
@@ -158,7 +155,6 @@
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
             if (Status==FALSE)
             {
                 DashBoard *Dashboard=[[DashBoard alloc] init];
@@ -196,20 +192,16 @@
 }
 - (void)viewDidLoad
 {
-    //if (isIPAD) {
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
-    // }
-    
     if (isIPAD) {
         [AppDelegate restrictRotation:NO];
     }else{
         [AppDelegate restrictRotation:YES];
     }
-    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
@@ -249,8 +241,6 @@
     }];
     
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    //[self setNeedsStatusBarAppearanceUpdate];
     self.loginTableView.backgroundColor=[UIColor clearColor];
 }
 #pragma mark- TableviewDelegate
@@ -353,17 +343,14 @@
 {
     currentText=textField;
     [textField returnKeyType];
-    
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     return YES;
 }
 - (void)didReceiveMemoryWarning
@@ -389,6 +376,5 @@
         ForgotPassword *forgotPw=[[ForgotPassword alloc] init];
         [self.navigationController pushViewController:forgotPw animated:NO];
     }
-    
 }
 @end

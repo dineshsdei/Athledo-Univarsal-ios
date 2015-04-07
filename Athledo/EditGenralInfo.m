@@ -10,9 +10,8 @@
 #import "AddAthleteHistoryCell.h"
 #import "ProfileView.h"
 
-#define CellHeight  isIPAD ? 60 : 60
+#define CellLocHeight  isIPAD ? 60 : 60
 #define toolBarTag 40
-#define EditData 110
 #define CONTRYLISTNUMBER 300
 #define STATELISTNUMBER 400
 
@@ -635,7 +634,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CellHeight;
+    return CellLocHeight;
 }
 
 #pragma mark- UIPickerView

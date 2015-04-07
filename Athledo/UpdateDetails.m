@@ -12,7 +12,7 @@
 
 #define deleteAnnouncement 1122220
 #define editAnnouncement 120
-#define deleteNotificationTag 130
+
 
 
 @interface UpdateDetails ()
@@ -205,7 +205,7 @@
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 //[SingaltonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok"];
-                [SingletonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
+                [SingletonClass initWithTitle:@"" message:@"Announcement has been deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
             }
         }
         case deleteNotificationTag:

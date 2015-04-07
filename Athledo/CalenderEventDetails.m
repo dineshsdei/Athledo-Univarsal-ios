@@ -8,7 +8,6 @@
 
 #import "CalenderEventDetails.h"
 #import "AddCalendarEvent.h"
-#define deleteNotificationTag 111.0
 
 @interface CalenderEventDetails ()
 {

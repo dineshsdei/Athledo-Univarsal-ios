@@ -11,11 +11,6 @@
 #import "MessangerView.h"
 #import "SentItemsView.h"
 #import "ArichiveView.h"
-#define listPickerTag 60
-#define toolBarTag 40
-#define getUserTypeTag 120
-#define MultipleSelectionPickerTag 130
-#define sendMessageTag 140
 
 @interface ComposeMessage ()
 {

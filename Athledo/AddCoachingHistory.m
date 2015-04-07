@@ -11,12 +11,7 @@
 #import "AddCoachongHistoryCell.h"
 #import "AppDelegate.h"
 #import "ProfileView.h"
-
-#define CellHeight  isIPAD ? 60 : 60
-#define listPickerTag 110
-#define EditData 120
-#define Successtag 130
-
+#define CellLocHeight  isIPAD ? 60 : 60
 @interface AddCoachingHistory ()
 
 @end
@@ -687,7 +682,7 @@ UIDeviceOrientation CurrentOrientation;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CellHeight;
+    return CellLocHeight;
 }
 -(NSString *)dateFormate : (NSString *)strdate
 {

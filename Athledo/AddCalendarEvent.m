@@ -12,9 +12,6 @@
 #import "RepeatCalendarEvent.h"
 #import "CalendarDayViewController.h"
 #import "WeekViewController.h"
-#define  AddEventTag 510
-#define  DeleteEventTag 520
-
 
 @interface AddCalendarEvent ()
 {

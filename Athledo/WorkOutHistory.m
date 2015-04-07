@@ -11,12 +11,6 @@
 #import "DashBoardCell.h"
 #import "WorkoutHistoryDetails.h"
 
-#define listPickerTag 60
-#define toolBarTag 40
-#define getDataTag 100
-#define getSearchDataTag 110
-#define PadingW 12
-#define PadingH 20
 @interface WorkOutHistory ()
 {
     BOOL isSeasons;
@@ -200,43 +194,32 @@
 }
 - (void)viewDidLoad
 {
-    
-    
     self.title = NSLocalizedString(@"Workout History", nil);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
     AthleteId=@"";
     workoutId=@"";
     seasonId=@"";
     
     if (isIPAD) {
-        
         _txtFieldWorkoutType.layer.cornerRadius=5;
         _txtFieldWorkoutType.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
         _txtFieldWorkoutType.leftViewMode = UITextFieldViewModeAlways;
         _txtFieldWorkoutType.layer.borderWidth=.5;
         _txtFieldWorkoutType.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        
         _txtFieldSeason.layer.cornerRadius=5;
         _txtFieldSeason.layer.borderWidth=.5;
         _txtFieldSeason.layer.borderColor=[UIColor lightGrayColor].CGColor;
         _txtFieldSeason.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
         _txtFieldSeason.leftViewMode = UITextFieldViewModeAlways;
-        
-        
         _txtFieldAthlete.layer.borderWidth=.5;
         _txtFieldAthlete.layer.cornerRadius=5;
         _txtFieldAthlete.layer.borderColor=[UIColor lightGrayColor].CGColor;
         _txtFieldAthlete.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
         _txtFieldAthlete.leftViewMode = UITextFieldViewModeAlways;
-        
-        
-        
         
     }
     
@@ -269,10 +252,7 @@
     [self.view addSubview:toolBar];
     
     [[UITableView appearanceWhenContainedIn:[UIDatePicker class], nil] setBackgroundColor:nil];
-    
-    
     [self getSeasonOrWorkoutOrAthletesData];
-    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
     [tableview addGestureRecognizer:tap];
 }
@@ -281,58 +261,39 @@
     NSIndexPath *indexPath = [tableview indexPathForRowAtPoint:tapLocation];
     
     WorkoutHistoryDetails *workoutDetails=[[WorkoutHistoryDetails alloc] init];
-    
     if (arrSearchData.count > 0) {
-        
         workoutDetails.obj=[[[arrSearchData objectAtIndex:indexPath.section] valueForKey:@"Workout"]copy];
         [self.navigationController pushViewController:workoutDetails animated:YES];
     }
-    
 }
-
 -(void)getSeasonOrWorkoutOrAthletesData{
     
     if ([SingletonClass  CheckConnectivity]) {
-        
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
-        
         [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getDataTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 
 -(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey
-
 {
     NSArray *arrValues;
     NSArray *arrkeys;
     [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrValues=[[DicData objectForKey:superKey] allValues] : @"";
-    
     [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ?  arrkeys=[[DicData objectForKey:superKey] allKeys] : @"";
     
     NSString *strValue=@"";
-    
     for (int i=0; i<arrValues.count; i++) {
-        
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
             strValue=[arrkeys objectAtIndex:i];
-            
             break;
-            
         }
-        
     }
     return strValue;
-    
 }
 
 
@@ -357,24 +318,19 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
-    
     switch (Tag)
     {
         case getDataTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 DicData=[MyResults  objectForKey:@"data"];
-                
                 // check if nsdictionary object then find allvalues otherwise  this @"" statement execute . it do nothing
-                
                 [[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] allValues] : @"";
                 
                 [[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] allValues]] : @"";
                 
                 [[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues] :@"";
-                
                 [arrAthletes addObject:@"Whole Team"];
                 
             }else{
@@ -402,14 +358,9 @@
             
             break;
         }
-            
-            
-            
         default:
             break;
     }
-    
-    
 }
 -(void)doneClicked
 {
@@ -442,15 +393,12 @@
 #pragma mark- UITextfield Delegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    
     currentText=textField;
-    
     isSeasons=[textField.placeholder isEqualToString:@"Select Season"] ? YES : NO ;
     isWorkOutType=[textField.placeholder isEqualToString:@"Select Workout Type"] ? YES : NO ;
     isAthletes=[textField.placeholder isEqualToString:@"Select Athlete"] ? YES : NO ;
     isPicker=FALSE;
     if (isAthletes) {
-        
         isPicker=TRUE;
         arrAthletes.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Athletes are not exist" delegate:nil btn1:@"Ok"];
         if (arrAthletes.count==0)
@@ -458,13 +406,10 @@
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
             [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         }else{
-            
             [listPicker reloadAllComponents];
             [self showPickerSelectedText:arrAthletes];
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-            
         }
-        
     }else if(isWorkOutType){
         
         isPicker=TRUE;
@@ -478,26 +423,20 @@
             [listPicker reloadAllComponents];
             [self showPickerSelectedText:arrWorkOut];
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-            
         }
         
     }else if(isSeasons){
-        
         isPicker=TRUE;
-        
         arrSeasons.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
         if (arrSeasons.count==0)
         {
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
             [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         }else{
-            
             [listPicker reloadAllComponents];
             [self showPickerSelectedText:arrSeasons];
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-            
         }
-        
     }
     [textField resignFirstResponder];
 }

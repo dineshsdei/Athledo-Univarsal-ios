@@ -14,8 +14,6 @@
 #import "CalenderEventDetails.h"
 #import "AddCalendarEvent.h"
 
-#define getEventTag 510
-
 @implementation CalendarDayViewController
 
 WebServiceClass *webservice;

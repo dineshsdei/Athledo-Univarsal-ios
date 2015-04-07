@@ -10,8 +10,6 @@
 #import "RepeatEventCell.h"
 #import "AddCalendarEvent.h"
 
-
-#define listPickerTag 110
 @interface RepeatCalendarEvent ()
 
 @end
