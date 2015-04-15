@@ -41,9 +41,53 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [super viewWillAppear:animated];
-    // self.navigationItem.leftBarButtonItem=nil;
-    //self.navigationItem.hidesBackButton=YES;
+    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        keyboardHeight = kbSize.height;
+        if (iosVersion < 8) {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+        }else{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+        }
+        
+        [UIView animateWithDuration:0.27f
+                         animations:^{
+                             int dif=0;
+                             CGPoint point = [currentText convertPoint:currentText.frame.origin toView:self.uploadView];
+                             if ((point.y - kbSize.height) < (dif=([[SingletonClass ShareInstance] CurrentOrientation:self]==UIDeviceOrientationPortrait) ? 140: 180) ) {
+                                 self.uploadView.frame=CGRectMake(self.uploadView.frame.origin.x, self.uploadView.frame.origin.y, self.uploadView.frame.size.width,  self.uploadView.frame.size.height);
+                                 CGRect frame = self.uploadView.frame;
+                                 frame.origin.y = self.uploadView.frame.origin.y - (currentText.frame.size.height/2+70);
+                                 NSLog(@"frame %@",NSStringFromCGRect(frame));
+                                 if (frame.origin.y >= -146) {
+                                     self.uploadView.frame = frame;
+                                 }
+                             }
+                             
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }];
+    
+    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [UIView animateWithDuration:0.27f
+                         animations:^{
+                             CGRect frame = self.uploadView.frame;
+                             frame.origin.y = 0;
+                             self.uploadView.frame = frame;
+                             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }];
+
     self.title=@"Multimedia Videos";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
@@ -77,52 +121,8 @@
     _tfDescription.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _tfTitle.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _tfSeason.layer.borderColor = [UIColor lightGrayColor].CGColor;
-       
-    [super viewDidLoad];
-    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        
-            NSDictionary* info = [note userInfo];
-            CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-            keyboardHeight = kbSize.height;
-        if (iosVersion < 8) {
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
-            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-        }else{
-            
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
-            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-        }
-        
-            [UIView animateWithDuration:0.27f
-                             animations:^{
-                                 int dif=0;
-                                 CGPoint point = [currentText convertPoint:currentText.frame.origin toView:self.uploadView];
-                                 if ((point.y - kbSize.height) < (dif=([[SingletonClass ShareInstance] CurrentOrientation:self]==UIDeviceOrientationPortrait) ? 140: 180) ) {
-                                     self.uploadView.frame=CGRectMake(self.uploadView.frame.origin.x, self.uploadView.frame.origin.y, self.uploadView.frame.size.width,  self.uploadView.frame.size.height);
-                                     CGRect frame = self.uploadView.frame;
-                                     frame.origin.y = self.uploadView.frame.origin.y - (currentText.frame.size.height/2+70);
-                                     NSLog(@"frame %@",NSStringFromCGRect(frame));
-                                     if (frame.origin.y >= -146) {
-                                         self.uploadView.frame = frame;
-                                     }
-                                 }
-                                 
-                             }
-                             completion:^(BOOL finished){
-                             }];
-    }];
     
-    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-            [UIView animateWithDuration:0.27f
-                             animations:^{
-                                 CGRect frame = self.uploadView.frame;
-                                 frame.origin.y = 0;
-                                 self.uploadView.frame = frame;
-                                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
-                             }
-                             completion:^(BOOL finished){
-                             }];
-    }];
+    [super viewDidLoad];
     
     if (isIPAD) {
         
@@ -132,7 +132,7 @@
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
     }
-   
+    
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
@@ -199,7 +199,7 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:MPMoviePlayerPlaybackDidFinishNotification
                                                       object:moviePlayer];
-
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -314,10 +314,10 @@
 {
     self.scrollview.hidden = NO ;
 }
-
 // Pick video file from media library
 - (IBAction)ChooseFromGallery
 {
+    [self doneClicked];
     isCancelNotification = TRUE;
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.delegate = self;
@@ -339,7 +339,6 @@
 - (IBAction)UploadVideo
 {
     if (urlvideo) {
-        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *urlString=[urlvideo path];
@@ -355,19 +354,19 @@
         [request addPostValue:[_tfDescription.text stringByReplacingOccurrencesOfString:@"\n" withString:@" "] forKey:@"description"];
         [request setPostValue:videoName forKey:@"Filename"];
         [request setFile:urlString forKey:@"videoFile"];
+        [request incrementUploadSizeBy:5000];
         [request setRequestMethod:@"POST"];
         [request setDelegate:self];
         [request setDidStartSelector:@selector(requestStarted:)];
         [request setDidFinishSelector:@selector(requestFinished:)];
         [request setDidFailSelector:@selector(requestFailed:)];
         [request setUploadProgressDelegate:self];
-        [request setTimeOutSeconds:50000];
+        [request setTimeOutSeconds:5000];
         [request startAsynchronous];
     }else{
         [SingletonClass initWithTitle:@"" message:@"Please select video from device" delegate:nil btn1:@"Ok"];
     }
 }
-
 #pragma mark- ImagePicker Delegate method
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -384,7 +383,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark- ASIHTTPRequest class delegate
-
 - (void)requestStarted:(ASIHTTPRequest *)theRequest {
 }
 
@@ -394,10 +392,10 @@
         _tfDescription.text = @"";
         _tfSeason.text =@"";
         NSLog(@"json string %@",[theRequest responseString]);
-          NSLog(@"json string %@",[theRequest responseStatusMessage]);
+        NSLog(@"json string %@",[theRequest responseStatusMessage]);
         NSData *data = [[theRequest responseString] dataUsingEncoding:NSUTF8StringEncoding];
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        [SingletonClass initWithTitle:[json valueForKey:@"status"] message:[json valueForKey:@"message"] delegate:nil btn1:@"Ok"];
+        [json valueForKey:@"status"] ? [SingletonClass initWithTitle:[json valueForKey:@"status"] message:[json valueForKey:@"message"] delegate:nil btn1:@"Ok"] :[SingletonClass initWithTitle:@"" message:@"Server error" delegate:nil btn1:@"Ok"] ;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.scrollview.hidden=YES;
         if ([[json valueForKey:@"status"] isEqualToString:@"success"]) {
@@ -509,7 +507,6 @@
 -(void)PlayVideo:(id)sender
 {
     UIButton *btn=(UIButton *)sender;
-  
     // Pass your file path
     NSURL *vedioURL =[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]];
     
@@ -517,12 +514,11 @@
         [SingletonClass initWithTitle:@"" message:@"Video file format doesn't support" delegate:nil btn1:@"Ok"];
         return;
     }
-   playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:vedioURL];
+    playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:vedioURL];
     // Remove the movie player view controller from the "playback did finish" notification observers
     [[NSNotificationCenter defaultCenter] removeObserver:playerVC
                                                     name:MPMoviePlayerPlaybackDidFinishNotification
                                                   object:playerVC.moviePlayer];
-    
     // Register this class as an observer instead
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(movieFinishedCallback:)
@@ -533,18 +529,13 @@
     
     // Set the modal transition style of your choice
     playerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
- 
     
     // Present the movie player view controller
     [self presentViewController:playerVC animated:YES completion:nil];
-    
     // Start playbac0k
+    
     [playerVC.moviePlayer prepareToPlay];
     [playerVC.moviePlayer play];
-    
-//    [playerVC.view setFrame:CGRectMake(50, 100, (self.view.frame.size.width) , self.view.frame.size.height-100)];
-//    playerVC.view.backgroundColor = [UIColor grayColor];
-//    [self.view addSubview:playerVC.view];
 }
 #pragma mark - Tableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
@@ -560,17 +551,33 @@
     static NSString *CellIdentifier =@"MultimediaCell";
     static NSString *CellNib = @"MultimediaCell";
     MultimediaCell *cell = (MultimediaCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
-        cell = (MultimediaCell *)[nib objectAtIndex:1];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        cell.btnPlay.tag=indexPath.row;
-         [cell.imageView setImageWithURL:[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"thumbnail"] placeholderImage:[UIImage imageNamed:@"youtubePlaceholder.jpg"]];
-        cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];
-        cell.First_textViewDes.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"description"];
-        [arrVisitedIndex addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+    
+    @try {
+        if (cell == nil) {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
+            cell = (MultimediaCell *)[nib objectAtIndex:1];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            cell.btnPlay.tag=indexPath.row;
+            [cell.imageView setImageWithURL:[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"thumbnail"] placeholderImage:[UIImage imageNamed:@"error_icon.png"]];
+            NSString *str = multimediaData.count > indexPath.row ?  [[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"] : @"";
+            if (str.length == 0) {
+                cell.btnPlay.hidden = YES;
+            }else{
+                
+                cell.btnPlay.hidden = NO;
+            }
+            cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];
+            cell.First_textViewDes.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"description"];
+            [arrVisitedIndex addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+        }
+        cell.delegate=self;
     }
-    cell.delegate=self;
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -588,7 +595,7 @@
 }
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    if (currentText.text.length==0) {
+    if (currentText.text.length==0 && [currentText.placeholder isEqualToString:@"Select Season"]) {
         arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :@"";
         seasonId=[self KeyForValue:@"Season":currentText.text];
     }
@@ -625,26 +632,34 @@
 {
     [[touches anyObject] locationInView:listPicker];
 }
-#pragma mark - Singleton class Delegate
--(void)Done
-{
-    [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-    [self.view endEditing:YES];
-}
+
 #pragma mark - TextView Delegate
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+     textView.autocorrectionType = UITextAutocorrectionTypeNo;
+    return YES;
+}
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    currentText=nil;
-    currentText = (UITextField *)textView;
-    [SingletonClass ShareInstance].delegate = self;
+    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        
+        if (iosVersion < 8) {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+        }else{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+        }
+    }completion:^(BOOL finished){
+        
+    }];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
-
 }
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     currentText=textField;
     if ([textField.placeholder isEqualToString:@"Select Season"]) {
         if (arrSeasons.count > 0) {
@@ -656,6 +671,16 @@
         }
         return NO;
     }else{
+        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+            }else{
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+            }
+        }completion:^(BOOL finished){
+        }];
         return YES;
     }
 }
@@ -667,6 +692,7 @@
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     [textField resignFirstResponder];
     return YES;
 }

@@ -31,6 +31,15 @@
 
 #define UncheckImage [UIImage imageNamed:@"uncheck.png"]
 #define CheckImage [UIImage imageNamed:@"selectedCheck.png"]
+
+#define OtherField_X isIPAD ? 30:20
+#define OtherField_W isIPAD ? 354:140
+#define IntervalFieldS_X isIPAD ? 30:20
+#define IntervalFieldS_W isIPAD ? 354:140
+#define LiftFieldS_X isIPAD ? 150:75
+#define LiftFieldS_W isIPAD ? 300:110
+#define FieldsGap isIPAD ? 5:5
+
 #define AllSelectedTag 555
 #define isCoach 1
 #define isAthlete 2
@@ -216,10 +225,10 @@
 #define webServiceGetLeagueLevel [BaseUrl stringByAppendingString:@"getLeagueLevel"]
 #define webServiceAddManagerSport [BaseUrl stringByAppendingString:@"addManagerSport"]
 //Add WorkOut
-#define webServiceWorkoutInfo [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"coachWorkoutList"]
+#define webServiceWorkoutInfo [BaseUrl stringByAppendingString:@"coachWorkoutList"]
 #define webServiceDeleteWorkOut [BaseUrl stringByAppendingString:@"deleteWorkout"]
 #define webServiceReAssignWorkOut [BaseUrl stringByAppendingString:@"coach_reassign"]
-#define webServiceGetWorkOutdropdownList [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"workout_dropdown_data"]
+#define webServiceGetWorkOutdropdownList [BaseUrl stringByAppendingString:@"workout_dropdown_data"]
 #define webServiceGetWorkOutUnitList [BaseUrl stringByAppendingString:@"workout_unit"]
 
 #define webUrlAddCustomTag [BaseUrl stringByAppendingString:@"workout_customtag_add"]
@@ -227,9 +236,9 @@
 #define webUrlAddExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_add"]
 #define webUrlDeleteExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_delete"]
 
-#define webUrlAddWorkOut [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"workout_add"]
+#define webUrlAddWorkOut [BaseUrl stringByAppendingString:@"workout_add"]
 #define webUrlSearchHistory [BaseUrl stringByAppendingString:@"workout_history"]
-#define WebServiceWorkoutDetails [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"workout_view"]
+#define WebServiceWorkoutDetails [BaseUrl stringByAppendingString:@"workout_view"]
 
 #define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
 
@@ -275,17 +284,14 @@
 
 //Live server Multimedia
 #define webServiceGetMultimediaPic [BaseUrl stringByAppendingString:@"getMultimediaPhoto"]
-#define webServiceGetMultimediaVideos [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"getMultimediaVideo"]
+#define webServiceGetMultimediaVideos [BaseUrl stringByAppendingString:@"getMultimediaVideo"]
 #define webServiceGetMultimediaAlbum [BaseUrl stringByAppendingString:@"getMultimediaAlbumPhoto"]
-#define webServiceUploadVideo [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"uploadMultimediaVideo"]
+#define webServiceUploadVideo [BaseUrl stringByAppendingString:@"uploadMultimediaVideo"]
 
 // SMS Section
 #define webServiceSendSms [BaseUrl stringByAppendingString:@"sendSms"]
 #define webServiceGetSmsHistory [BaseUrl stringByAppendingString:@"smsHistory"]
 #define webServiceAddSmsOnWeb [BaseUrl stringByAppendingString:@"smsSave"]
-
-
-
 
 //Live server of smartData
 /*

@@ -64,6 +64,9 @@
 
 -(void)AddNewAnnouncement
 {
+   // AppDelegate *delegate =(AppDelegate *)[[UIApplication sharedApplication] delegate];
+   // [delegate redirectConsoleLogToDocumentFolder];
+    
     AddNewAnnouncement *addNew=[[AddNewAnnouncement alloc] initWithNibName:@"AddNewAnnouncement" bundle:nil];
     addNew.obj=nil;
     addNew.ScreenTitle=@"Add Announcement";

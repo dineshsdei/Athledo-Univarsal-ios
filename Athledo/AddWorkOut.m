@@ -86,50 +86,6 @@ static int LiftExerciseCount=0;
     // Do any additional setup after loading the view from its nib.
     isChangeWorkoutType=FALSE;
     
-    
-    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        // message received
-        
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
-        //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(kbSize.height+22))];
-        // scrollHeight=kbSize.height;
-        
-        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            
-            if (iosVersion < 8) {
-                [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22))];
-                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-            }else{
-                
-                [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22))];
-                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-            }
-            
-            
-        }completion:^(BOOL finished){
-            
-        }];
-        
-        
-    }];
-    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        // message received
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        [self setMultipleSlectionPicker:NO];
-        [self setDatePickerVisibleAt:NO];
-        [self setPickerVisibleAt:NO:arrTime];
-        //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
-        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22))];
-            
-        }completion:^(BOOL finished){
-            
-        }];
-        
-    }];
     scrollHeight=0;
     self.title = NSLocalizedString(@"Workout", nil);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
@@ -316,8 +272,50 @@ static int LiftExerciseCount=0;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self getWorkOutList];
     [super viewWillAppear:NO];
+    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        // message received
+        
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            if (iosVersion < 8) {
+                [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22))];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22))];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+            
+            
+        }completion:^(BOOL finished){
+            
+        }];
+        
+        
+    }];
+    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        // message received
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        [self setMultipleSlectionPicker:NO];
+        [self setDatePickerVisibleAt:NO];
+        [self setPickerVisibleAt:NO:arrTime];
+        //[self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22))];
+            
+        }completion:^(BOOL finished){
+            
+        }];
+        
+    }];
+
+    [self getWorkOutList];
+    
     if (isIPAD)
     {
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -957,6 +955,7 @@ static int LiftExerciseCount=0;
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     @try {
         isKeyBoard=FALSE;
         

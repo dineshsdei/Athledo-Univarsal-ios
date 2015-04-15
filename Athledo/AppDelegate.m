@@ -222,7 +222,15 @@
 - (void)revealController:(SWRevealViewController *)revealController willShowFrontViewController:(UIViewController *)rearViewController
 {
 }
-
+- (void) redirectConsoleLogToDocumentFolder
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *logPath = [documentsDirectory
+                         stringByAppendingPathComponent:@"console.log"];
+    freopen([logPath cStringUsingEncoding:NSASCIIStringEncoding],"w",stderr);
+}
 - (void)revealController:(SWRevealViewController *)revealController didShowFrontViewController:(UIViewController *)rearViewController
 {
 }

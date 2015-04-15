@@ -768,6 +768,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     if (isIPAD)
     {
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -867,7 +868,7 @@
     
     imageview1.image=[UIImage imageNamed:@"bottomBorder.png"];
     scrollHeight=0;
-    [super viewWillAppear:animated];
+    
 }
 
 
@@ -1330,6 +1331,7 @@
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     if ([textField isEqual:_tfRepeat]) {
         
         return NO;
@@ -1451,6 +1453,7 @@
 }
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
+    textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
 - (void)didReceiveMemoryWarning

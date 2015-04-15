@@ -10,6 +10,7 @@
 #import "AnnouncementCell.h"
 #import "SWTableViewCell.h"
 #import "WebServiceClass.h"
+#import "AppDelegate.h"
 
 
 

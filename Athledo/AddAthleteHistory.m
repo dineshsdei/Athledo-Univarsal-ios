@@ -106,14 +106,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
-
-- (void)viewDidLoad
+-(void)viewWillAppear:(BOOL)animated
 {
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
-    
-    self.title=@"Sport Info";
-    
+    [super viewWillAppear:animated];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -131,6 +126,16 @@
         [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
         
     }];
+    
+}
+- (void)viewDidLoad
+{
+    webservice =[WebServiceClass shareInstance];
+    webservice.delegate=self;
+    
+    self.title=@"Sport Info";
+    
+   
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -252,7 +257,7 @@
 {
     return CellLocHeight;
 }
-
+#pragma mark -TextView Delegate 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
@@ -268,6 +273,7 @@
 }
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
+    textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
 
@@ -277,6 +283,7 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     currentText=textField;
     [self setContentOffset:textField table:tableView];
     if (textField.tag==1003 || textField.tag==1002)

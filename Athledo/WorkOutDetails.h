@@ -10,7 +10,7 @@
 #import "WebServiceClass.h"
 #import "CustomTextField.h"
 
-@interface WorkOutDetails : UIViewController<WebServiceDelegate,UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface WorkOutDetails : UIViewController<WebServiceDelegate,UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UITextViewDelegate>
 {
     WebServiceClass *webservice;
     

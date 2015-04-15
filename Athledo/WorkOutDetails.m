@@ -60,8 +60,6 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
-    
-    
     switch (Tag)
     {
         case deleteWorkoutTag:
@@ -70,15 +68,10 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
-                
                 [SingletonClass initWithTitle:@"" message:@"Workout has been deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
             }else{
-                
                 [SingletonClass initWithTitle:@"" message:@"Workout delete fail try again" delegate:nil btn1:@"Ok"];
             }
-            
-            
             break;
         }
         case ReassignWorkoutTag:
@@ -87,30 +80,23 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
                 [SingletonClass initWithTitle:@"" message:@"Workout has been reassigned successfully." delegate:nil btn1:@"Ok"];
-                
             }else{
-                
                 [SingletonClass initWithTitle:@"" message:@"Workout reassign fail try again" delegate:nil btn1:@"Ok"];
             }
-            
             break;
         }
         case getDetailDataTag:
         {
             if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
-                
+               
                 arrWorkOuts=[[MyResults valueForKey:@"data"] valueForKey:@"WorkoutAthlete"];
-                
                 for (int i=0; i< arrWorkOuts.count; i++) {
                     
                     NSArray *tempExercise=[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteExercise"];
                     if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
                         [arrAllAthlete addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"]];
-                        
                     }
-                    
                     for (int j=0; j < tempExercise.count; j++) {
                         
                         [arrAthleteName addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"]];
@@ -120,48 +106,29 @@
                         }else{
                             [arrAthleteExerciseName addObject:str];
                         }
-                        
                     }
-                    
-            
                 }
-                
                 if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]) {
-                    
-                    
                     //Reload table after select athlete name
-                    
-                    //arrAllAthlete=[[NSMutableArray alloc] init];
                     arrAllAthleteData=[[NSMutableArray alloc] init];
-                    
-                    // arrAllAthlete=[arrAthleteName copy];
                     arrAllAthleteData=[arrWorkOuts copy];
-                    
                 }else{
-                    
                     [table reloadData];
-                    
                 }
-                
             }else if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Interval"] )
             {
                 arrWorkOuts=[[MyResults valueForKey:@"data"] valueForKey:@"WorkoutAthlete"];
-                
                 for (int i=0; i< arrWorkOuts.count; i++) {
                     [self CalculateAVG :i];
                 }
-                
                 [table reloadData];
-                
             }else
             {
-                
                 arrWorkOuts=[[MyResults valueForKey:@"data"] valueForKey:@"WorkoutAthlete"];
-                
+                table.delegate=self;
+                table.dataSource=self;
                 [table reloadData];
-                
             }
-            
             break;
         }
         case SaveDataTag:
@@ -176,24 +143,18 @@
                 
                 [SingletonClass initWithTitle:@"" message:@"Fail try again!" delegate:nil btn1:@"Ok"];
             }
-            
-            
             break;
-            
         }
-            
         case deleteNotificationTag:
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 // nothing doing here when notification response comes
             }
-            
             break;
         }
     }
 }
-
 -(void)GetWorkoutData
 {
     if ([SingletonClass  CheckConnectivity]) {
@@ -206,14 +167,50 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
-
 - (void)viewDidLayoutSubviews {
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    [super viewWillAppear:animated];
+    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        // message received
+        
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            isKeyboard=TRUE;
+            
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+        }completion:^(BOOL finished){
+        }];
+    }];
+    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        // message received
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            isKeyboard=FALSE;
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            [self setContentOffsetOfTableDown];
+            [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
+            
+        }completion:^(BOOL finished){
+        }];
+    }];
+
 }
 - (void)orientationChanged
 {
@@ -223,7 +220,7 @@
     CurrentOrientation =[SingletonClass ShareInstance].GloableOreintation;
     if (isIPAD) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+550) :toolBar];
     }
 }
 
@@ -266,7 +263,6 @@
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
-    
     
     arrTime=[[NSArray alloc] initWithObjects:@"05",@"10",@"15",@"20",@"30",@"25",@"35",@"40",@"45",@"50",@"55", nil];
     
@@ -366,52 +362,6 @@
     }
     
     [self GetWorkoutData];
-    
-    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        // message received
-        
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
-        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            
-            isKeyboard=TRUE;
-            
-            if (iosVersion < 8) {
-                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
-                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-            }else{
-                
-                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
-                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-            }
-            
-            
-        }completion:^(BOOL finished){
-            
-        }];
-        
-    }];
-    
-    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        // message received
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
-        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            isKeyboard=FALSE;
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
-            [self setContentOffsetOfTableDown];
-            [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
-            
-        }completion:^(BOOL finished){
-            
-        }];
-        
-    }];
-    
-    
     scrollHeight=0;
     
     [self setContentOffsetOfTableDown:currentText table:table];
@@ -521,26 +471,19 @@
         BOOL Status=FALSE;
         for (id object in arrController)
         {
-            
             if ([object isKindOfClass:[WorkOutView class]])
             {
                 Status=TRUE;
                 [self.navigationController popToViewController:object animated:NO];
             }
         }
-        
         if (Status==FALSE)
         {
             WorkOutView *annView=[[WorkOutView alloc] init];
-            
             [self.navigationController pushViewController:annView animated:NO];
-            
         }
-        
     }
-    
 }
-
 
 -(void)EditWorkout:(id)sender
 {
@@ -733,12 +676,9 @@
                     
                     if ([[[tempExercise objectAtIndex:j] valueForKey:@"exerciseName"] isEqualToString:athleteExerciseName] && [[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"] isEqualToString:athleteName] )
                     {
-                        
                         AthleteExerciseIndex=j;
-                        
                         break;
                     }
-                    
                 }
             }
             txtFieldWeight.liftAthleteIndex=AthleteIndex;
@@ -1210,7 +1150,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return isIPAD ? 30 : 20.0;
+    return isIPAD ? 60 : 50.0;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -1237,6 +1177,36 @@
     @finally {
     }
 }
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width/2, isIPAD ? 60 : 50.0)];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, ((headerView.frame.size.height/2) - (isIPAD ? 20 : 15) ), tableView.bounds.size.width/2-5, isIPAD ? 40 : 30)];
+   label.text = [tableView.dataSource tableView:tableView titleForHeaderInSection:section];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = Textfont;
+    
+    UITextView *txtviewNotes = [[UITextView alloc] initWithFrame:CGRectMake((OtherField_X)+(OtherField_W), isIPAD ? 5.0 : 5.0, OtherField_W, isIPAD ? 50 : 40)];
+   
+    NSString *strTemp = @"";
+    arrWorkOuts.count > section ? strTemp =[[arrWorkOuts objectAtIndex:section] valueForKey:@"note"] : @"";
+    txtviewNotes.text = (strTemp.length > 0 ?[[arrWorkOuts objectAtIndex:section] valueForKey:@"note"] :@"Add Note");
+    txtviewNotes.textColor = LightGrayColor;
+    txtviewNotes.autocorrectionType = UITextAutocorrectionTypeNo;
+    txtviewNotes.backgroundColor = [UIColor clearColor];
+    txtviewNotes.layer.borderWidth = .50;
+    txtviewNotes.layer.cornerRadius = 5.0;
+    txtviewNotes.layer.borderColor = LightGrayColor.CGColor;
+    txtviewNotes.font = Textfont;
+    txtviewNotes.tag = section;
+    txtviewNotes.delegate = self;
+    
+    headerView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
+    [headerView addSubview:label];
+     [headerView addSubview:txtviewNotes];
+    return headerView;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -1244,6 +1214,7 @@
 }
 
 -(void)setContentOffsetOfTableDown {
+    
     int moveUp= (([[UIScreen mainScreen] bounds].size.height >= 568)?50:130);
     if (moveUp) {
         [table setContentOffset:CGPointMake(0, 0) animated: YES];
@@ -1296,9 +1267,37 @@
     }
     [table reloadData];
 }
+#pragma mark- UITextview Delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [textView.text isEqualToString:@"Add Note"] ? textView.text = @"" : @"";
+    [WorkOutDetails setContentOffsetOfScrollView:textView table:scrollView];
+    [self setContentOffsetOfTableDown:textView table:table];
+    textView.delegate = self;
+}
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+   // textView.text.length == 0  ? textView.text = @"Add Note" : @"";
+    NSInteger index = textView.tag;
+    [[arrWorkOuts objectAtIndex:index] setValue:textView.text forKey:@"note"];
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    return YES;
+}
+- (BOOL) textViewShouldBeginEditing:(UITextView *)textView
+{
+     textView.autocorrectionType = UITextAutocorrectionTypeNo;
+      textView.keyboardType = UIKeyboardTypeDefault;
+    return YES;
+}
+
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     isSelectAthlete=[textField.placeholder isEqualToString:@"Select athlete"] ? YES:NO ;
     currentText=(CustomTextField *)textField;
     textField.keyboardType=UIKeyboardTypePhonePad;
@@ -1306,9 +1305,7 @@
     [self setContentOffsetOfTableDown:textField table:table];
     if([textField.placeholder isEqualToString:@"WarmUp Time"] || [textField.placeholder isEqualToString:@"CoolDown Time"] || [textField.placeholder isEqualToString:@"Select athlete"] )
     {
-        
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-        
         if (arrAllAthlete.count==0 && [textField.placeholder isEqualToString:@"Select athlete"]) {
             [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
             [SingletonClass initWithTitle:@"" message:@"Athlete is not exist" delegate:nil btn1:@"OK"];
@@ -2146,10 +2143,8 @@
 -(void)updateValue :(NSString *)Key :(NSString *)value : (int)rowindex : (int)sectionindex
 {
     if (((Key == nil) || (value ==nil))) {
-        
         return;
     }
-    
     if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"]){
         
         [[[[arrWorkOuts objectAtIndex:sectionindex] valueForKey:@"Units"] objectAtIndex:rowindex] setValue:value forKey:Key];
@@ -2157,22 +2152,15 @@
     }else  if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Interval"])
     {
         [[[[arrWorkOuts objectAtIndex:sectionindex] valueForKey:@"Units"] objectAtIndex:rowindex] setValue:value forKey:Key];
-        
     }else
     {
-        
         if (rowindex == 0 || rowindex==1) {
-            
             [[arrWorkOuts objectAtIndex:sectionindex] setValue:value forKey:Key];
-            
         }else
         {
-            
             [[[[arrWorkOuts objectAtIndex:sectionindex] valueForKey:@"Units"] objectAtIndex:rowindex-2] setValue:value forKey:Key];
-            
         }
     }
-    
 }
 -(void)showPickerSeleted :(NSArray *)data
 {
@@ -2207,34 +2195,22 @@
         
         if (_obj) {
             
-            
             if ([[_obj valueForKey:@"Workout Type"] isEqualToString:@"Lift"])
             {
                 [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-                
                 [dict setObject:arrWorkOuts forKey:@"WorkoutAthleteLift"];
-                
-                
                 [webservice WebserviceCallwithDic:dict :webServiceSaveWorkOutDetails :SaveDataTag];
-                
             }else{
-                
                 [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-                
                 [dict setObject:arrWorkOuts forKey:@"WorkoutAthlete"];
                 [webservice WebserviceCallwithDic:dict :webServiceSaveWorkOutDetails :SaveDataTag];
-                
             }
-            
             //[webservice WebserviceCall:webServiceSaveWorkOutDetails :strURL :SaveDataTag];
         }
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
     
 }

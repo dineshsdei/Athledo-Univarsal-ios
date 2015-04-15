@@ -7,9 +7,7 @@
 //
 
 #import "AthleteDetail.h"
-
 @interface AthleteDetail ()
-
 @end
 
 @implementation AthleteDetail
@@ -64,5 +62,4 @@
         
     }
 }
-
 @end

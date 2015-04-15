@@ -16,7 +16,7 @@
 #import "ASIFormDataRequest.h"
 
 
-@interface MultimediaVideo : UIViewController<UITableViewDataSource,UITableViewDelegate,Playlink,WebServiceDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ASIHTTPRequestDelegate,SingletonClassDelegate>
+@interface MultimediaVideo : UIViewController<UITableViewDataSource,UITableViewDelegate,Playlink,WebServiceDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ASIHTTPRequestDelegate,UITextViewDelegate>
 {
     ASIFormDataRequest *request;
 }

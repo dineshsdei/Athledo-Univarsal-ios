@@ -11,7 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "DisplayFolderContant.h"
 
-#define pickerhight [UIScreen mainScreen].bounds.size.height >= 1024 ? 600 : 216
+//#define pickerhight [UIScreen mainScreen].bounds.size.height >= 1024 ? 600 : 216
 
 @interface Multimedia ()
 {
@@ -26,7 +26,6 @@
     NSString *AlbumId;
     int titleIndex;
     UIDeviceOrientation CurrentOrientation;
-    
 }
 @end
 
@@ -182,7 +181,6 @@
             break;
     }
 }
-
 -(IBAction)SegmentSelected:(id)sender
 {
     UISegmentedControl *segment=sender;
@@ -268,7 +266,6 @@
     }
 }
 -(void)getMultimediaPic{
-    
     if ([SingletonClass  CheckConnectivity]) {
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
@@ -289,7 +286,6 @@
         case getPicDataTag :
         {
             [multimediaData removeAllObjects];
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
                 AllMultimediaData=[[MyResults valueForKey:@"data"] copy];
@@ -326,7 +322,6 @@
         }
         case getAlbumDataTag :
         {
-            
             if([AlbumId isEqualToString:@""])
             {
                 if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
@@ -348,12 +343,6 @@
                 if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
                 {
                     NSArray *temp=[MyResults valueForKey:@"data"] ;
-                    
-                    //            for (int i=0; i< temp.count; i++) {
-                    //                NSDictionary *tempDic=[[temp objectAtIndex:i] valueForKey:@"MultimediaAlbum"];
-                    //                [multimediaData addObject:tempDic];
-                    //            }
-                    
                     DisplayFolderContant *obj=[[DisplayFolderContant alloc] initWithNibName:@"DisplayFolderContant" bundle:nil];
                     obj.picData=temp;
                     obj.screenTitle=[[multimediaData objectAtIndex:titleIndex] valueForKey:@"name"];
@@ -363,10 +352,8 @@
                 {
                     [SingletonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
                     AlbumId=@"";
-                    
                 }
             }
-            
         }
     }
 }
@@ -374,13 +361,11 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return 1;
-    
 }
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     int noOfRow=(int)(multimediaData.count/2);
-    
     if (noOfRow==0) {
         if (multimediaData.count==1) {
             return (multimediaData.count/2+1);
@@ -389,7 +374,6 @@
     }else{
         return (multimediaData.count/2+1);
     }
-    
     return (multimediaData.count/2);
 }
 
@@ -404,13 +388,7 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (MultimediaCell *)[nib objectAtIndex:0];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
-       // cell.First_imageview.layer.borderWidth=.50;
-        //cell.Second_imageview.layer.borderWidth=.50;
-       // cell.First_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        //cell.Second_imageview.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        
     }
-    
     if (_segmentControl.selectedSegmentIndex==3)
     {
         UITapGestureRecognizer *pgr = [[UITapGestureRecognizer alloc]
@@ -432,15 +410,13 @@
             [cell.First_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
             
             [cell.First_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] : @""];
-            [cell.First_textViewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"]  :@""];
-            
+             [cell.First_textViewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"]  :@""];
         }else
         {
             cell.First_imageview.hidden=YES;
             cell.First_lblName.hidden=YES;
             cell.First_textViewDes.hidden=YES;
         }
-        
         if (multimediaData.count > 2*indexPath.row+1) {
             cell.Second_imageview.tag=2*indexPath.row+1;
             [cell.Second_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
@@ -452,10 +428,8 @@
             cell.Second_lblName.hidden=YES;
             cell.SecondTextviewDes.hidden=YES;
         }
-        
     }else
     {
-        
         if (multimediaData.count > 2*indexPath.row ) {
             [cell.First_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
             [cell.First_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:(2*indexPath.row)]];
@@ -492,8 +466,6 @@
     }else{
         return 190;
     }
-    
-    
 }
 -(void)handlePinch :(UITapGestureRecognizer *)pinchGestureRecognizer
 {
@@ -505,11 +477,11 @@
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     if (arrSeasons.count > 0) {
         currentText=textField;
         [listPicker reloadComponent:0];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
-        
     }else{
         [SingletonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
     }
@@ -517,28 +489,14 @@
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
 }
-
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 @end

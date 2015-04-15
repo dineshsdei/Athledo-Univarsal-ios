@@ -9,15 +9,6 @@
 #import "WorkOutDetailCell.h"
 #import "CustomTextField.h"
 
-#define OtherField_X isIPAD ? 30:20
-#define OtherField_W isIPAD ? 354:140
-#define IntervalFieldS_X isIPAD ? 30:20
-#define IntervalFieldS_W isIPAD ? 354:140
-#define LiftFieldS_X isIPAD ? 150:75
-#define LiftFieldS_W isIPAD ? 300:110
-#define FieldsGap isIPAD ? 5:5
-
-
 @implementation WorkOutDetailCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

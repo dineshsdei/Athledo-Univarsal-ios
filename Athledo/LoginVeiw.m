@@ -176,32 +176,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-}
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    //if (isIPAD)
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
-    [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
-}
-- (void)orientationChanged
-{
-    [SingletonClass RemoveActivityIndicator:self.view];
-}
-- (void)viewDidLoad
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-    if (isIPAD) {
-        [AppDelegate restrictRotation:NO];
-    }else{
-        [AppDelegate restrictRotation:YES];
-    }
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
@@ -239,6 +213,33 @@
         [UIView commitAnimations];
         
     }];
+
+}
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    //if (isIPAD)
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
+    [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
+}
+- (void)orientationChanged
+{
+    [SingletonClass RemoveActivityIndicator:self.view];
+}
+- (void)viewDidLoad
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+    if (isIPAD) {
+        [AppDelegate restrictRotation:NO];
+    }else{
+        [AppDelegate restrictRotation:YES];
+    }
     
     [super viewDidLoad];
     self.loginTableView.backgroundColor=[UIColor clearColor];
@@ -339,6 +340,11 @@
 }
 
 #pragma mark- UITextfield Delegate
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    return YES;
+}
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     currentText=textField;

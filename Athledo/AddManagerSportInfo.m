@@ -30,6 +30,41 @@
 @implementation AddManagerSportInfo
 #pragma mark UIViewController Method
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        keyboardHeight = kbSize.height;
+        if (iosVersion < 8) {
+            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+        }else{
+            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+        }
+        [UIView animateWithDuration:0.27f
+                         animations:^{
+                             UIView* txt = currentText;
+                             int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
+                             keyboardHeight= keyboardHeight ==0 ? [@"216" intValue]:keyboardHeight;
+                             int p = keyboardHeight -(self.view.frame.size.height - (txt.frame.origin.y+txt.frame.size.height));
+                             if ((position < keyboardHeight )) {
+                                 [_ScrollView setContentOffset:CGPointMake(0,(p)) animated: YES];
+                             }
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }];
+    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [UIView animateWithDuration:0.27f
+                         animations:^{
+                             [_ScrollView setContentOffset:CGPointMake(0,(0)) animated: YES];
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }];
+
+}
 - (void)viewDidLoad {
     
     [self getSeasonData];
@@ -66,37 +101,6 @@
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    
-    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        keyboardHeight = kbSize.height;
-        if (iosVersion < 8) {
-            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-        }else{
-            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-        }
-        [UIView animateWithDuration:0.27f
-                         animations:^{
-                             UIView* txt = currentText;
-                             int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
-                             keyboardHeight= keyboardHeight ==0 ? [@"216" intValue]:keyboardHeight;
-                             int p = keyboardHeight -(self.view.frame.size.height - (txt.frame.origin.y+txt.frame.size.height));
-                             if ((position < keyboardHeight )) {
-                                 [_ScrollView setContentOffset:CGPointMake(0,(p)) animated: YES];
-                             }
-                         }
-                         completion:^(BOOL finished){
-                         }];
-    }];
-    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        [UIView animateWithDuration:0.27f
-                         animations:^{
-                             [_ScrollView setContentOffset:CGPointMake(0,(0)) animated: YES];
-                         }
-                         completion:^(BOOL finished){
-                         }];
-    }];
     
     [super viewDidLoad];
     [self FieldsSetProperty];
@@ -217,6 +221,7 @@
 }
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     isHeightInFeet = [textField.placeholder isEqualToString:@"Enter height in feets"] ? YES : NO;
     isHeightInInches = [textField.placeholder isEqualToString:@"Enter height in inches"] ? YES : NO;
     isClassYear = [textField.placeholder isEqualToString:@"Enter class year"] ? YES : NO;

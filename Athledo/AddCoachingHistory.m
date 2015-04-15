@@ -90,19 +90,9 @@ UIDeviceOrientation CurrentOrientation;
         [tableView reloadData];
     }
 }
-- (void)viewDidLoad
+-(void)viewWillAppear:(BOOL)animated
 {
-    
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
-    
-    self.title=_strTitle;
-    
+     [super viewWillAppear:animated];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -140,6 +130,20 @@ UIDeviceOrientation CurrentOrientation;
         }];
         
     }];
+
+}
+- (void)viewDidLoad
+{
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+    webservice =[WebServiceClass shareInstance];
+    webservice.delegate=self;
+    
+    self.title=_strTitle;
     
     scrollHeight=0;
     [super viewDidLoad];
@@ -725,12 +729,14 @@ UIDeviceOrientation CurrentOrientation;
 }
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
+     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
 
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     if (textField.tag > 1001 ) {
         [self setContentOffset:textField table:tableView];
     }

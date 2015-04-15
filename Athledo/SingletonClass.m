@@ -184,7 +184,6 @@ static SingletonClass *objSingaltonClass=nil;
 +(void)addActivityIndicator :(UIView *)view
 {
     ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-    // [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     indicator.tag = ACTIVITYTAG;
     [view addSubview:indicator];
 }
@@ -192,7 +191,6 @@ static SingletonClass *objSingaltonClass=nil;
 {
     // Now remove the Active indicator
     ActiveIndicator *acti = (ActiveIndicator *)[view viewWithTag:ACTIVITYTAG];
-    // [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     if(acti)
         [acti removeFromSuperview];
 }
@@ -264,10 +262,7 @@ static SingletonClass *objSingaltonClass=nil;
         }else  if ([picker isKindOfClass:[UIPickerView class]]) {
             
             UIPickerView *pickerView=(UIPickerView *)picker;
-            //if (iosVersion < 8) {
             pickerView.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, PickerHeight);
-            //}
-            
             if (ShowHide) {
                 
                 point.y=(SCREENHEIGHT+15)-(PickerHeight);
@@ -293,7 +288,6 @@ static SingletonClass *objSingaltonClass=nil;
         UIDeviceOrientation orientation=[SingletonClass ShareInstance].GloableOreintation;
         float SCREENWIDTH;
         float SCREENHEIGHT;
-        
         if (iosVersion < 8)
         {
             if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationFaceUp)) && (isIPAD))
@@ -306,20 +300,15 @@ static SingletonClass *objSingaltonClass=nil;
                 SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
             }
         }else{
-            
             SCREENWIDTH=[[UIScreen mainScreen] bounds].size.width;
             SCREENHEIGHT=[[UIScreen mainScreen] bounds].size.height;
-            
         }
-        
         UIToolbar *toolBar=(UIToolbar *)toolbar;
         toolBar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolBar.frame.size.height);
         toolBar.center = point;
-    }
-    @catch (NSException *exception) {
+    }@catch (NSException *exception) {
         
-    }
-    @finally {
+    }@finally {
         
     }
 }

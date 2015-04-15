@@ -40,6 +40,34 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        keyboardHeight = kbSize.height;
+        
+        if (iosVersion < 8) {
+            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+        }else{
+            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+        }
+        
+        if (currentTextview) {
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+            }else{
+                
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+            }
+        }
+        
+        
+        
+    }];
+    
+    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        
+    }];
+
     _ObjSegment.selectedSegmentIndex = 0;
     
     if (arrFilterdData.count > 0) {
@@ -57,47 +85,17 @@
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     
-    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        keyboardHeight = kbSize.height;
-        if ([currentTextview  isKindOfClass:[UITextView class]]) {
-            
-            if (iosVersion < 8) {
-                keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-            }else{
-                
-                keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-            }
-            
-        }
-        
-    }];
-    
-    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        if ([currentTextview  isKindOfClass:[UITextView class]]) {
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
-            [self.view endEditing:YES];
-        }
-    }];
-    _textview.font = Textfont;
+       _textview.font = Textfont;
     DicCellCheckBoxState = [[NSMutableDictionary alloc] init];
     toolBar = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
     self.title = @"Send sms";
-    
-    //NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[@"Dinesh",@"Kumar",@"9718937613",@"26",@"Mohali",@"2006",[[arr objectAtIndex:i] valueForKey:@"email"],[[arr objectAtIndex:i] valueForKey:@"school"],[[arr objectAtIndex:i] valueForKey:@"zip"],[NSNumber numberWithBool:NO]] forKeys:@[@"firstname",@"lastname",@"cellphone",@"age",@"city",@"class_year",@"email",@"school",@"zip",@"isCheck"]];
-    
-    //arrMemberListData = [[NSArray alloc] initWithObjects:[NSMutableDictionary dictionaryWithObjects:@[@"Dinesh",@"9718937613",[NSNumber numberWithBool:NO]] forKeys:@[@"name",@"phone",@"isCheck"]],[NSMutableDictionary dictionaryWithObjects:@[@"Nishant",@"9718937613",[NSNumber numberWithBool:NO]] forKeys:@[@"name",@"phone",@"isCheck"]],[NSMutableDictionary dictionaryWithObjects:@[@"Varsha",@"9718937613",[NSNumber numberWithBool:NO]] forKeys:@[@"name",@"phone",@"isCheck"]], nil];
-    
-    // arrGroupsListData = [[NSArray alloc] initWithObjects:[NSMutableDictionary dictionaryWithObjects:@[@"1st Varsity",[NSNumber numberWithBool:NO]] forKeys:@[@"group",@"isCheck"]],[NSMutableDictionary dictionaryWithObjects:@[@"2st Varsity",[NSNumber numberWithBool:NO]] forKeys:@[@"group",@"isCheck"]],[NSMutableDictionary dictionaryWithObjects:@[@"3st Varsity",[NSNumber numberWithBool:NO]] forKeys:@[@"group",@"isCheck"]], nil];
-    
-    // arrHistoryListData = [[NSArray alloc] initWithObjects:[NSMutableDictionary dictionaryWithObjects:@[@"1st Varsity",[NSNumber numberWithBool:NO]] forKeys:@[@"name",@"isCheck"]],[NSMutableDictionary dictionaryWithObjects:@[@"2st Varsity",[NSNumber numberWithBool:NO]] forKeys:@[@"name",@"isCheck"]],[NSMutableDictionary dictionaryWithObjects:@[@"3st Varsity",[NSNumber numberWithBool:NO]] forKeys:@[@"name",@"isCheck"]], nil];
     
     arrFilterdData = [[NSMutableArray alloc] init];
     // [arrFilterdData addObjectsFromArray:arrMemberListData];
     _textview.layer.borderWidth = .5;
     _textview.layer.cornerRadius = 9;
     _textview.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _textview.textColor = [UIColor blackColor];
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
@@ -244,11 +242,9 @@
 {
     if(isIPAD)
     {
-        return 100;
-        
+        return 70;
     }else{
-        
-        return 80;
+        return 60;
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -271,6 +267,8 @@
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
+    currentTextview= nil;
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
     searchBar.showsCancelButton=YES;
 }
 
@@ -285,6 +283,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
 {
     @try {
+        
         if (arrFilterdData.count == 0) {
             [SingletonClass initWithTitle:@"" message:@"No Notes" delegate:nil btn1:@"Ok"];
         }
@@ -320,11 +319,23 @@
 #pragma mark UITextview Delegate
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    textView.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
-    [SingletonClass ShareInstance].delegate = self;
+    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+        
+        if (iosVersion < 8) {
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+        }else{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+            
+        }
+        
+    }completion:^(BOOL finished){
+        
+    }];
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     currentTextview = textView;
     if ([_textview.text isEqualToString:@"Compose New Sms"]) {
         _textview.text = @"";
@@ -374,6 +385,7 @@
 -(void)Done
 {
     [self.view endEditing:YES];
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
 }
 #pragma mark WebService Comunication Method
 -(void)getSaveSMSDataOnWeb{
@@ -464,7 +476,6 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                
                 
             }else{
                 
@@ -562,7 +573,6 @@
 -(void)SendSMS:(id)sender
 {
     @try {
-        
         ShowOnceSuccessAlert = TRUE;
         BOOL selectedNumber = NO;
         NSString *strError = @"";
@@ -572,7 +582,6 @@
         }else if(selectedNumber == NO )
         {
             for (int i=0; i<arrFilterdData.count ; i++) {
-                
                 if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
                     selectedNumber = YES;
                     break;
@@ -581,7 +590,6 @@
             if (selectedNumber == NO) {
                 strError = @"Please select receiver";
             }
-            
         }
         if(strError.length>2)
         {
@@ -676,7 +684,7 @@
     @finally {
         
     }
-    
+
 }
 - (void)requestFailed:(ASIHTTPRequest *)theRequest {
     

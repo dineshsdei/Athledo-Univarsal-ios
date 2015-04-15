@@ -119,23 +119,6 @@ UIDeviceOrientation CurrentOrientation;
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (isIPAD)
-    {
-        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(orientationChanged)
-                                                     name:UIDeviceOrientationDidChangeNotification
-                                                   object:nil];
-    }
-}
-- (void)viewDidLoad
-{
-    self.title = _ScreenTitle;
-    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    [super viewDidLoad];
-    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -172,6 +155,24 @@ UIDeviceOrientation CurrentOrientation;
             
         }];
     }];
+
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
+}
+- (void)viewDidLoad
+{
+    self.title = _ScreenTitle;
+    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    [super viewDidLoad];
+    UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     scrollHeight=0;
     emailNotification=@"1";
     announcementId=@"";
@@ -528,6 +529,7 @@ UIDeviceOrientation CurrentOrientation;
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     [self setContentOffset:textField table:scrollView];
     
     currentText=textField;
@@ -607,8 +609,9 @@ UIDeviceOrientation CurrentOrientation;
     return YES;
 }
 
-- (BOOL) textViewShouldBeginEditing:(UITextView *)textView
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+    textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
 

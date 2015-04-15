@@ -50,6 +50,41 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        // message received
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            if (iosVersion < 8) {
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+            }else{
+                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+            }
+        }completion:^(BOOL finished){
+        }];
+    }];
+    
+    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        // message received
+        NSDictionary* info = [note userInfo];
+        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+        
+        //  [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
+        
+        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+            
+            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
+            
+        }completion:^(BOOL finished){
+            
+        }];
+    }];
+
     // [self.navigationItem setHidesBackButton:YES animated:NO];
 }
 
@@ -237,41 +272,7 @@
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
     }
-    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        // message received
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
-        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-      
-        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            if (iosVersion < 8) {
-                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
-                scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-            }else{
-                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
-                scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-            }
-        }completion:^(BOOL finished){
-        }];
-    }];
-    
-    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        // message received
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
-      //  [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height+22))];
-        
-        [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            
-           [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(kbSize.height > 310 ? kbSize.width : kbSize.height+22)) :toolBar];
-            
-        }completion:^(BOOL finished){
-            
-        }];
-    }];
-    strUser=@"";
+      strUser=@"";
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
@@ -390,8 +391,9 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     isU_Type=FALSE;
-    
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     if (currentText) {
         
        // [self doneClicked];
@@ -442,7 +444,12 @@
     [textField resignFirstResponder];
     return YES;
 }
-
+#pragma mark UITextview Delegate 
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    textView.autocorrectionType = UITextAutocorrectionTypeNo;
+    return YES;
+}
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     
     if ([textView.text isEqualToString:@"Enter Text" ]) {

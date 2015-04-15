@@ -23,4 +23,5 @@
 @property (strong, nonatomic) CLLocationManager *locManager;
 @property (nonatomic) BOOL restrictRotation;
 +(void) restrictRotation:(BOOL) restriction;
+- (void) redirectConsoleLogToDocumentFolder;
 @end

@@ -183,22 +183,6 @@ UIDeviceOrientation CurrentOrientation;
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (isIPAD)
-    {
-        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(orientationChanged)
-                                                     name:UIDeviceOrientationDidChangeNotification object:nil];
-    }
-}
-- (void)viewDidLoad
-{
-    
-    self.title=NSLocalizedString(@"Repeat Event", @"");
-    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -236,6 +220,23 @@ UIDeviceOrientation CurrentOrientation;
         }];
         
     }];
+
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification object:nil];
+    }
+}
+- (void)viewDidLoad
+{
+    
+    self.title=NSLocalizedString(@"Repeat Event", @"");
+    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    
     scrollHeight=0;
     segment.selected=NO;
     
@@ -1552,6 +1553,7 @@ UIDeviceOrientation CurrentOrientation;
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     currentText=textField;
     textField.keyboardType=UIKeyboardTypeNumberPad;
     //[self setToolbarVisibleAt:CGPointMake(160, toolBarPosition-70)];

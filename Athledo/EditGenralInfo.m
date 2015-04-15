@@ -51,15 +51,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self getCountryList];
-}
-- (void)viewDidLoad
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -94,6 +85,16 @@
             
         }];
     }];
+
+    [self getCountryList];
+}
+- (void)viewDidLoad
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(orientationChanged)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
     
     scrollHeight=0;
     webservice =[WebServiceClass shareInstance];
@@ -494,6 +495,7 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
     currentText=textField;
     if (textField.tag > 1005 ) {
         textField.keyboardType=UIKeyboardTypeNumberPad;

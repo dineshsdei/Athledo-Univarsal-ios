@@ -66,7 +66,7 @@
         return 70;
         
     }else{
-        return 50;
+        return 45;
     }
     
 }
@@ -89,7 +89,6 @@
         {
             cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
         }
-        //cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
         cellImageView.tag=101;
         [cell addSubview:cellImageView];
         cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"Cell_Bg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
@@ -157,7 +156,7 @@
                 lblShowUpdate.hidden=YES;
             break;
         }
-        case 3:
+        case 4:
         {
             if([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger )
             {
@@ -179,7 +178,7 @@
             }
             break;
         }
-        case 4:
+        case 5:
         {
             if([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger )
             {
@@ -220,7 +219,6 @@
     }else{
         [self isAthleteOrOtherUserMoveToController:indexPath.row];
     }
-    
 }
 #pragma mark - Calling method when cell seleted
 
@@ -293,16 +291,12 @@
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
             
-            
             [revealController pushFrontViewController:navigationController animated:YES];
-            
         }
         else
         {
             [revealController revealToggleAnimated:YES];
         }
-        
-        
     }else if (row == 4)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
@@ -430,23 +424,16 @@
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
         {
             CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
-            
             vc.objNotificationData=notificationData ;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-            
             [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
             [navigationController.navigationBar setTranslucent:NO];
-            
-            
             [revealController pushFrontViewController:navigationController animated:YES];
-            
         }
         else
         {
             [revealController revealToggleAnimated:YES];
         }
-
-        
     }else if (row == 6)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
@@ -479,7 +466,6 @@
             [revealController revealToggleAnimated:YES];
         }
     }
-    
 }
 #pragma mark Webservice response
 //this method, get webservice response from web
@@ -502,8 +488,6 @@
         }
     }
 }
-
-
 #pragma mark - View life cycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -523,13 +507,10 @@
 {
     [super viewWillAppear:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
     if (isIPAD)
         [self ChangeOrientation];
-    
     [self EnableDisableTouch:NO];
     userInfo=[UserInformation shareInstance];
-    
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
     switch (userInfo.userType) {
         case isCoach:
@@ -547,25 +528,19 @@
             arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
-            
         default:
             arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
             break;
     }
-    
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
         arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"sms_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
     }else{
-        
         arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
-        
     }
-    
     [_rearTableView reloadData];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     [self getNotificationData];
-    
 }
 
 - (void)viewDidLoad
@@ -590,8 +565,6 @@
     ProfilePic.layer.cornerRadius=15;
     
     UserInformation *userdata=[UserInformation shareInstance];
-    // [iv setImage:[UIImage imageNamed:@"myImage.png"]];
-    
     UIBarButtonItem *BarItemEdit = [[UIBarButtonItem alloc] initWithCustomView:ProfilePic];
     lblLoginName=[[UILabel alloc] initWithFrame:CGRectMake(32,0,200,30)];
     lblLoginName.text=userdata.userFullName;
@@ -606,22 +579,14 @@
     
     self.rearTableView.backgroundColor=[UIColor clearColor];
     self.rearTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    // Do any additional setup after loading the view from its nib.
-    
-    // We determine whether we have a grand parent SWRevealViewController, this means we are at least one level behind the hierarchy
+
     SWRevealViewController *parentRevealController = self.revealViewController;
     SWRevealViewController *grandParentRevealController = parentRevealController.revealViewController;
     
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:grandParentRevealController action:@selector(revealToggle:)];
-    // if we have a reveal controller as a grand parent, this means we are are being added as a
-    // child of a detail (child) reveal controller, so we add a gesture recognizer provided by our grand parent to our
-    // navigation bar as well as a "reveal" button
     if ( grandParentRevealController )
     {
-        // to present a title, we count the number of ancestor reveal controllers we have, this is of course
-        // only a hack for demonstration purposes, on a real project you would have a model telling this.
         NSInteger level=0;
         UIViewController *controller = grandParentRevealController;
         while( nil != (controller = [controller revealViewController]) )
@@ -631,8 +596,6 @@
         self.navigationItem.leftBarButtonItem = revealButtonItem;
         self.navigationItem.title = title;
     }
-    
-    // otherwise, we are in the top reveal controller, so we just add a title
     else
     {
     }
@@ -673,7 +636,7 @@
         
         _btnLanscapLogout.hidden=YES;
     }
-    
+    [self.rearTableView reloadData];
 }
 #pragma mark Utility method
 //this method, enable or disable touch on frontview in swip inout viewcontroller
