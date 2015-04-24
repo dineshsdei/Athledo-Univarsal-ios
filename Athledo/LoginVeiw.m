@@ -94,16 +94,12 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
-
 #pragma mark-  Http call back
 -(void)httpResponseReceived:(NSData *)webResponse
 {
     // Now we Need to decrypt data
-    
     NSError *error=nil;
-    
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-    
     // ***Tag 100 for Log in web service
     if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
     {

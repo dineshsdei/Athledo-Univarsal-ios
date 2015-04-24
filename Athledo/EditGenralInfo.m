@@ -389,28 +389,20 @@
             NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-            
-            
+        
             [dict setObject:temp forKey:@"UserProfile"];
             [dict setObject:@"" forKey:@"cochng_hstry"];
             [dict setObject:@"" forKey:@"awards"];
             [SingletonClass addActivityIndicator:self.view];
             
             [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
-            
-            
         }else{
-            
-            
         }
-        
     }else{
         
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
-
 -(void)doneClicked
 {
     @try {
@@ -420,8 +412,7 @@
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+350) : toolBar];
             //[SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
             listPicker.center=CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+500);
-            
-            
+        
         }completion:^(BOOL finished){
             
         }];
@@ -429,12 +420,9 @@
         
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
-    
 }
 
 -(void)setToolbarVisibleAt:(CGPoint)point
@@ -443,7 +431,6 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
     [self.view viewWithTag:toolBarTag].center = point;
-    
     [UIView commitAnimations];
 }
 
@@ -499,16 +486,13 @@
     currentText=textField;
     if (textField.tag > 1005 ) {
         textField.keyboardType=UIKeyboardTypeNumberPad;
-        
     }
     if (textField.tag > 1003 && IS_IPHONE_5) {
-        
         [self setContentOffset:textField table:table];
     }else if (textField.tag > 1001 )
     {
         [self setContentOffset:textField table:table];
     }
-    
     if (textField.tag==1003 || textField.tag==1004) {
         
         if (textField.tag==1003) {

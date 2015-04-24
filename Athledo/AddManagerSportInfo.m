@@ -262,7 +262,6 @@
         
         NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
         NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
-        
         BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
         return stringIsValid;
     }else
@@ -278,7 +277,6 @@
     if (isHeightInInches == YES || isHeightInFeet == YES || isClassYear == YES || isLeagueLable == YES) {
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :picker :toolbar];
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolbar];
-        
     }
 }
 #pragma mark- UIPickerView Delegate method
@@ -387,23 +385,19 @@
         } else if(_txtweight.text.length < 1 )
         {
             strError = @"Please enter weight";
-            
         } else if(_txtClassYear.text.length < 1 )
         {
             strError = @"Please enter class year";
-            
         } else if(_txtLeague.text.length < 1 )
         {
             strError = @"Please enter league";
         }
-        
         if(strError.length > 1)
         {
             self.navigationItem.rightBarButtonItem.enabled=YES;
             [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
             return;
         }
-        
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -436,10 +430,8 @@
                 arrLeagues=[MyResults allKeys];
             }
             @catch (NSException *exception) {
-                
             }
             @finally {
-                
             }
             break;
         }

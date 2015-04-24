@@ -66,7 +66,7 @@
         return 70;
         
     }else{
-        return 45;
+        return 43;
     }
     
 }
@@ -82,13 +82,14 @@
         cell.backgroundColor=[UIColor clearColor];
         
         UIImageView *cellImageView;
-        if(indexPath.row==2 && [[arrMenuList objectAtIndex:2] isEqualToString:@"Notes"])
-        {
-            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(17,(cell.frame.size.height/2)-(isIPAD ? 5: 15),35,30)];
-        }else
-        {
-            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
-        }
+//        if(indexPath.row==12 && [[arrMenuList objectAtIndex:2] isEqualToString:@"Notes"])
+//        {
+//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(17,(cell.frame.size.height/2)-(isIPAD ? 5: 15),35,30)];
+//        }else
+//        {
+//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
+//        }
+         cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
         cellImageView.tag=101;
         [cell addSubview:cellImageView];
         cell.selectedBackgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"Cell_Bg.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
@@ -178,7 +179,7 @@
             }
             break;
         }
-        case 5:
+        case 6:
         {
             if([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger )
             {
@@ -236,7 +237,7 @@
         {
             AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -253,7 +254,7 @@
             workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:workoutViewController];
             
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -268,7 +269,7 @@
         {
             MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -284,13 +285,10 @@
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
         {
             CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
-            
             vc.objNotificationData=notificationData ;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-            
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
-            
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else
@@ -303,8 +301,7 @@
         {
             MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
-            
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -318,7 +315,7 @@
         {
             ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -328,7 +325,6 @@
             [revealController revealToggleAnimated:YES];
         }
     }
-    
 }
 
 -(void)isCoahOrManagerMoveToController:(NSInteger)row
@@ -343,9 +339,8 @@
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[Notes class]] )
         {
-            
             Notes *notesViewController = [[Notes alloc] initWithNibName:@"Notes" bundle:nil];            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -359,7 +354,7 @@
         {
             AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -376,7 +371,7 @@
             workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:workoutViewController];
             
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -391,28 +386,24 @@
         {
             SMSView *ViewController = [[SMSView alloc] initWithNibName:@"SMSView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
-            
         }
         else
         {
             [revealController revealToggleAnimated:YES];
         }
-        
     }
-    
     else if (row == 4)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
         {
             MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
-            
         }
         else
         {
@@ -421,12 +412,11 @@
         
     }else if (row == 5)
     {
-        if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
+        if ( ![frontNavigationController.topViewController isKindOfClass:[Attendance class]] )
         {
-            CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
-            vc.objNotificationData=notificationData ;
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            Attendance *ViewController = [[Attendance alloc] initWithNibName:@"Attendance" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -436,12 +426,26 @@
         }
     }else if (row == 6)
     {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] )
+        {
+            CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
+            vc.objNotificationData=notificationData ;
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else
+        {
+            [revealController revealToggleAnimated:YES];
+        }
+    }else if (row == 7)
+    {
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
         {
             MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
-            
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -450,13 +454,13 @@
             [revealController revealToggleAnimated:YES];
         }
       
-    }else if (row == 7)
+    }else if (row == 8)
     {
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] )
         {
             ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
-            [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
@@ -515,7 +519,7 @@
     switch (userInfo.userType) {
         case isCoach:
         {
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         case isAthlete:
@@ -525,7 +529,7 @@
         }
         case isManeger:
         {
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         default:
@@ -533,7 +537,7 @@
             break;
     }
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
-        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"sms_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
+        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"sms_icon.png",@"message_icon.png",@"attendance_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
     }else{
         arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
     }
@@ -545,21 +549,14 @@
 
 - (void)viewDidLoad
 {
-    if (isIPAD) {
-        
-    }else{
+    if (!(isIPAD)) {
         [AppDelegate restrictRotation:YES];
     }
-    
     self.view.backgroundColor=[UIColor colorWithRed:41.0/255.0 green:58.0/255 blue:71.0/255 alpha:1];
     [super viewDidLoad];
     _btnLanscapLogout.hidden=YES;
     
     [self setNeedsStatusBarAppearanceUpdate];
-    
-    //self.view.backgroundColor=[UIColor colorWithRed:63/255 green:76/255 blue:89/255 alpha:1];
-    // [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
     ProfilePic= [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
     ProfilePic.layer.masksToBounds = YES;
     ProfilePic.layer.cornerRadius=15;
@@ -613,16 +610,12 @@
 -(void)getNotificationData{
     
     if ([SingletonClass  CheckConnectivity]) {
+        
         userInfo=[UserInformation shareInstance];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
-        
         [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)ChangeOrientation

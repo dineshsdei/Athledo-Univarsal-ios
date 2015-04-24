@@ -26,7 +26,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        if ([Type isEqualToString:@"Lift"]){
+        if ([Type isEqualToString:WORKOUTTYPE_LIFT]){
             
             CustomTextField *txtFieldFirst = [[CustomTextField alloc] initWithFrame:CGRectMake(LiftFieldS_X, 5, LiftFieldS_W, 30)];
             txtFieldFirst.backgroundColor = [UIColor clearColor];
@@ -82,7 +82,7 @@
             [self.contentView addSubview:lblSets];
             
             
-        }else  if ([Type isEqualToString:@"Interval"]) {
+        }else  if ([Type isEqualToString:WORKOUTTYPE_INTERVAL]) {
             
             CustomTextField *txtFieldPlaceHolder = [[CustomTextField alloc] initWithFrame:CGRectMake(IntervalFieldS_X, 5, IntervalFieldS_W, 30)];
             

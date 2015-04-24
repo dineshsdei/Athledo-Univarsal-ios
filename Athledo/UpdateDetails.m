@@ -12,13 +12,8 @@
 
 #define deleteAnnouncement 1122220
 #define editAnnouncement 120
-
-
-
 @interface UpdateDetails ()
-
 @end
-
 @implementation UpdateDetails
 @synthesize strDate,strDes,strName;
 
@@ -34,16 +29,12 @@
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
 - (void)viewDidLoad
 {
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
     self.title=@"Detail";
-    //_lblName.lineBreakMode=NSLineBreakByWordWrapping;
-    //_lblName.numberOfLines=0;
-    // [_lblName sizeToFit];
     _lblName.text=strName;
     _lblDate.text=strDate;
     _tvDes.text=strDes;
@@ -65,18 +56,13 @@
     if ([UserInformation shareInstance].userType == 1 || [UserInformation shareInstance].userType == 4) {
         
         _lblMEorAll.text=@"To All";
-        
         // newView used for set button on middle of view if have need use it
-        
         CGRect applicationFrame;
         if (isIPAD) {
-            
             applicationFrame = CGRectMake(508, 0, 260, 50);
         }else{
-            
             applicationFrame = CGRectMake(50, 0, 260, 50);
         }
-        
         UIView * newView = [[UIView alloc] initWithFrame:applicationFrame] ;
         newView.backgroundColor=[UIColor clearColor];
         UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -104,12 +90,9 @@
    // objPic.contentMode=UIViewContentModeScaleAspectFit;
     objPic.layer.borderWidth=.50;
     objPic.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    
     if (_NotificationStataus) {
-        
         [self DeleteNotificationFromWeb];
     }
-    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
@@ -131,19 +114,12 @@
         if (_obj) {
             
             UserInformation *userInfo= [UserInformation shareInstance];
-            //  {"type":"1","parent_id":"2","team_id":"13","user_id":"27"}
-            
             NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",1,[[_obj objectForKey:@"id"] intValue],userInfo.userSelectedTeamid,userInfo.userId];
-            
             //[SingaltonClass addActivityIndicator:self.view];
-            
             [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
         }
-        
     }else{
-        
         //[SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)DeleteAnnouncement:(id)sender
@@ -154,11 +130,8 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        
         [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
-        
         [self deletCellFromWeb];
-        
     }else  if (buttonIndex == 0 && alertView.tag==10){
         
         NSArray *arrController=[self.navigationController viewControllers];
@@ -184,12 +157,10 @@
     if ([SingletonClass  CheckConnectivity]) {
         
         int Ann_id=[[_obj valueForKey:@"id"] intValue];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"ancmnt_id\":\"%d\"}",Ann_id];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServicedeleteAnnouncement :strURL :deleteAnnouncement];
+        
     }else{
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
@@ -204,7 +175,6 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                //[SingaltonClass initWithTitle:@"" message:@"Announcement deleted successfully" delegate:self btn1:@"Ok"];
                 [SingletonClass initWithTitle:@"" message:@"Announcement has been deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
             }
         }

@@ -10,6 +10,7 @@
 #import "Multimedia.h"
 #import "WebServiceClass.h"
 #import "SMSView.h"
+#import "Attendance.h"
 
 @class CalenderScheduleView;
 @interface MenuListView : UIViewController<UITableViewDelegate, UITableViewDataSource,WebServiceDelegate>

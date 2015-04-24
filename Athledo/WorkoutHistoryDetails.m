@@ -24,7 +24,6 @@
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     [super viewDidLoad];
-    
     formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D];
     

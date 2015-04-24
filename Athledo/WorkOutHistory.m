@@ -348,7 +348,7 @@
                 [arrSearchData addObjectsFromArray:[MyResults  objectForKey:@"data"] ];
                 
                 if (arrSearchData.count==0) {
-                    [SingletonClass initWithTitle:@"" message:@"Data Not Found!" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:@"" message:@"Data not found" delegate:nil btn1:@"Ok"];
                     
                 }
                 [tableview reloadData];

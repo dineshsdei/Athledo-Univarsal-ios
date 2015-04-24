@@ -589,9 +589,13 @@
     else
     {
         NSString *enddate=@"";
-        
+         NSDateFormatter *locFormater=[[NSDateFormatter alloc] init];
+         locFormater.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
         NSString *strStartdate=[CalendarEvent ShareInstance].strStartDate;
         
+        NSDate *dateStartDateDay = [locFormater dateFromString:strStartdate];
+        locFormater.dateFormat =DATE_FORMAT_D;
+        NSString *strday=[locFormater stringFromDate:dateStartDateDay];
         
         if ([[CalendarEvent ShareInstance].strEventType isEqualToString:@"Daily"] || [[CalendarEvent ShareInstance].strEventType isEqualToString:@"Weekly"]) {
             
@@ -615,17 +619,20 @@
                     // Weekly event Calculate end date
                     
                     int endDateAfter;
-                    NSDateFormatter *locFormater=[[NSDateFormatter alloc] init];
+                   
                     locFormater.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
                     NSArray *arrSelectedDays=[[CalendarEvent ShareInstance].strNoOfDaysWeekCase componentsSeparatedByString:@","];
+                    
                     if((arrSelectedDays.count) < ([CalendarEvent ShareInstance].NoOfOccurrence))
                     {
-                        endDateAfter=[CalendarEvent ShareInstance].NoOfOccurrence;
+                        endDateAfter= [strday intValue]+[CalendarEvent ShareInstance].NoOfOccurrence*7;
                         
                     }else if((arrSelectedDays.count) > ([CalendarEvent ShareInstance].NoOfOccurrence)){
+                        
                         endDateAfter=[[arrSelectedDays objectAtIndex:arrSelectedDays.count-1] intValue];
+                        
                     }else{
-                        endDateAfter=([CalendarEvent ShareInstance].NoOfDay) * (7);
+                        endDateAfter=[strday intValue]+(([CalendarEvent ShareInstance].NoOfDay) * (7));
                     }
                     
                     NSDate *date=[locFormater dateFromString:strStartdate];

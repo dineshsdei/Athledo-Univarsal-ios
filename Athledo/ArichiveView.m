@@ -48,16 +48,11 @@
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:2];
     
     [tabBar setSelectedItem:tabBarItem];
-
-    if ([SingletonClass ShareInstance].isMessangerArchive == TRUE) {
-        
-        webservice =[WebServiceClass shareInstance];
-        webservice.delegate=self;
-        [self getMessages];
-        [SingletonClass ShareInstance].isMessangerArchive =FALSE;
-        
-    }
-     //[self orientationChanged];
+     if([SingletonClass ShareInstance].isMessangerArchive==TRUE)
+     {
+         [self getMessages];
+         [SingletonClass ShareInstance].isMessangerArchive=FALSE;
+     }
 }
 
 #pragma mark Webservice call event
@@ -69,8 +64,7 @@
         webservice.delegate=self;
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        //[SingletonClass addActivityIndicator:self.view];
-        
+        [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceArchiveMessage :strURL :getMessagesTag];
         
     }else{
@@ -104,9 +98,6 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
-    
-    
-    
 }
 -(void)archiveMessageMoveToInboxEvent:(int)index{
     
@@ -133,24 +124,17 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         
     }
-    
-    
-    
 }
-
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-   // [SingletonClass RemoveActivityIndicator:self.view];
-    
+    [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag)
     {
         case getMessagesTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {
-                [SingletonClass ShareInstance].isMessangerArchive =FALSE;
                 messageArrDic =[MyResults objectForKey:@"data"];
                 [SingletonClass deleteUnUsedLableFromTable:table];
                 messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
@@ -164,34 +148,28 @@
         }
         case deleteMessagesTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                [SingletonClass ShareInstance].isMessangerInbox = TRUE;
                 [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
                 
                 [SingletonClass initWithTitle:@"" message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
-            
             break;
         }
         case archiveMessagesTag:
         {
-            
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                
                 [SingletonClass ShareInstance].isMessangerInbox = TRUE;
-                
+                 [SingletonClass ShareInstance].isMessangerSent = TRUE;
+                 [SingletonClass ShareInstance].isMessangerArchive = TRUE;
                 [SingletonClass initWithTitle:@"" message:@"Message restored successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
-                
                 [SingletonClass initWithTitle:@"" message:@"Message restored fail try again" delegate:nil btn1:@"Ok"];
             }
-            
             break;
         }
     }
@@ -282,7 +260,6 @@
     if (Status==FALSE)
     {
          ComposeMessage *compose=[[ComposeMessage alloc] initWithNibName:@"ComposeMessage" bundle:nil];
-        
         [self.navigationController pushViewController:compose animated:NO];
     }
     
@@ -299,9 +276,7 @@
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return 1;
-    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -326,8 +301,6 @@
     
     
     cell.backgroundColor=[UIColor clearColor];
-    
-    
     cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"sender"];
     cell.lblReceivingDate.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"date"];
     cell.lblDescription.text=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"desc"];

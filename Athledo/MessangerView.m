@@ -15,7 +15,7 @@
 #import "TSActionSheet.h"
 #import "ArichiveView.h"
 #import "SentItemsView.h"
-#import "UIImageView+WebCache.h"
+
 
 @interface MessangerView ()
 {
@@ -44,8 +44,7 @@
 
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        //[SingletonClass addActivityIndicator:self.view];
-        
+        [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetMessages :strURL :getMessagesTag];
               
     }else{
@@ -106,7 +105,7 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                //[SingaltonClass RemoveActivityIndicator:self.view];
+        
                 messageArrDic =[MyResults objectForKey:@"data"];
                 [SingletonClass deleteUnUsedLableFromTable:table];
                 messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
@@ -139,7 +138,10 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                  [SingletonClass RemoveActivityIndicator:self.view];
+                [SingletonClass ShareInstance].isMessangerInbox = TRUE;
+                [SingletonClass ShareInstance].isMessangerSent = TRUE;
+                [SingletonClass ShareInstance].isMessangerArchive = TRUE;
+                 [SingletonClass RemoveActivityIndicator:self.view];
                  [SingletonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                  [self getMessages];
             }else{
@@ -163,24 +165,18 @@
                                                    object:nil];
     }
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:0];
-    
     [tabBar setSelectedItem:tabBarItem];
-    
     self.title = NSLocalizedString(@"Messenger", @"");
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
     [super viewWillAppear:animated];
-    
-    if ([SingletonClass ShareInstance].isMessangerInbox == TRUE) {
-        
-        webservice =[WebServiceClass shareInstance];
-        webservice.delegate=self;
-         [self getMessages];
-        [SingletonClass ShareInstance].isMessangerInbox =FALSE;
-        
+    if([SingletonClass ShareInstance].isMessangerInbox==TRUE)
+    {
+        [self getMessages];
+        [SingletonClass ShareInstance].isMessangerInbox=FALSE;
     }
-    
+
 }
 -(void)viewDidDisappear:(BOOL)animated
 {

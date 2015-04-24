@@ -92,7 +92,7 @@ UIDeviceOrientation CurrentOrientation;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-     [super viewWillAppear:animated];
+    [super viewWillAppear:animated];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         
@@ -130,7 +130,7 @@ UIDeviceOrientation CurrentOrientation;
         }];
         
     }];
-
+    
 }
 - (void)viewDidLoad
 {
@@ -223,7 +223,6 @@ UIDeviceOrientation CurrentOrientation;
 
 -(void)doneClicked
 {
-    
     currentText=nil;
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     
@@ -240,71 +239,59 @@ UIDeviceOrientation CurrentOrientation;
     
 }
 
--(void)setToolbarVisibleAt:(CGPoint)point
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    [self.view viewWithTag:40].center = point;
-    
-    [UIView commitAnimations];
-}
+//-(void)setToolbarVisibleAt:(CGPoint)point
+//{
+//    [UIView beginAnimations:@"tblViewMove" context:nil];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDuration:0.27f];
+//    
+//    [self.view viewWithTag:40].center = point;
+//    
+//    [UIView commitAnimations];
+//}
 
 
--(void)setDatePickerVisibleAt :(BOOL)ShowHide
-{
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        point.y=self.view.frame.size.height-(datePicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(datePicker.frame.size.height/2)-22)];
-        
-    }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(datePicker.frame.size.height/2);
-    }
-    
-    [self.view viewWithTag:60].center = point;
-    [UIView commitAnimations];
-}
+//-(void)setDatePickerVisibleAt :(BOOL)ShowHide
+//{
+//    [UIView beginAnimations:@"tblViewMove" context:nil];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDuration:0.27f];
+//    
+//    CGPoint point;
+//    point.x=self.view.frame.size.width/2;
+//    if (ShowHide) {
+//        point.y=self.view.frame.size.height-(datePicker.frame.size.height/2);
+//        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(datePicker.frame.size.height/2)-22)];
+//    }else{
+//        point.y=self.view.frame.size.height+(datePicker.frame.size.height/2);
+//    }
+//    
+//    [self.view viewWithTag:60].center = point;
+//    [UIView commitAnimations];
+//}
 
 
 - (IBAction)sendCoachingOrAwardsData : (id)sender {
     
     [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
-    
-    [SingletonClass RemoveActivityIndicator:self.view];
-    
+     [SingletonClass RemoveActivityIndicator:self.view];
     self.navigationController.navigationItem.leftBarButtonItem.enabled=NO;
     self.navigationItem.rightBarButtonItem.enabled=NO;
     
     // _sectionTag -> 1 for coaching data send on server
     // _sectionTag -> 2 for awards data send on server
-    
-    
+
     if ( _SectionTag==1)
     {
-        
-        NSMutableArray *arrdata=[[NSMutableArray alloc] init];
-        
-        //    self.navigationItem.leftBarButtonItem.enabled=NO;
+         NSMutableArray *arrdata=[[NSMutableArray alloc] init];
         UserInformation *userInfo=[UserInformation shareInstance];
         [arrdata addObject:[NSString stringWithFormat:@"%d",userInfo.userId ]];
         
         if ([SingletonClass  CheckConnectivity]) {
             
             for (int i=0; i < 5; i++) {
-                
                 //Check for empty Text box
-                
                 int tag=i+1000;
-                
                 UITextField *textfield=(UITextField *)[tableView viewWithTag:tag];
                 NSString *strError = @"";
                 if(textfield.text.length < 1 && tag==1000)
@@ -337,11 +324,8 @@ UIDeviceOrientation CurrentOrientation;
             for (int i=0; i < 5; i++)
             {
                 int tag=i+1000;
-                
                 UITextField *textfield=(UITextField *)[tableView viewWithTag:tag];
-                
                 [arrdata addObject:textfield.text];
-                
             }
             
             // ObjData in case edit
@@ -358,22 +342,17 @@ UIDeviceOrientation CurrentOrientation;
                 [dict setObject:@"" forKey:@"awards"];
                 [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
             }else{
-                
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"school\":\"%@\", \"sport\":\"%@\",\"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", [[arrdata objectAtIndex:0] intValue] ,[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3],[arrdata objectAtIndex:4],[arrdata objectAtIndex:5]];
                 [webservice WebserviceCall:webServiceAddCoachingInfo:strURL :Successtag];
             }
-            
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-            
-        }
+            }
     }
     else
     {
         NSMutableArray *arrdata=[[NSMutableArray alloc] init];
-        
-        //    self.navigationItem.leftBarButtonItem.enabled=NO;
         UserInformation *userInfo=[UserInformation shareInstance];
         [arrdata addObject:[NSString stringWithFormat:@"%d",userInfo.userId ]];
         
@@ -384,16 +363,11 @@ UIDeviceOrientation CurrentOrientation;
                 //Check for empty Text box
                 
                 int tag=i+1000;
-                
-                UITextField *textfield=(UITextField *)[tableView viewWithTag:tag];
-                
-                
-                
+               UITextField *textfield=(UITextField *)[tableView viewWithTag:tag];
                 NSString *strError = @"";
                 if(textfield.text.length < 1 && tag==1000)
                 {
-                    
-                    strError = @"Please enter award title";
+                  strError = @"Please enter award title";
                 }
                 else if(textfield.text.length < 1 && tag==1004)
                 {
@@ -401,9 +375,7 @@ UIDeviceOrientation CurrentOrientation;
                 } else if(textfield.text.length < 1 && tag==1002)
                 {
                     strError = @"";
-                    
                 }
-                
                 if(strError.length > 1)
                 {
                     self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -439,80 +411,16 @@ UIDeviceOrientation CurrentOrientation;
                 
             }else{
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"title\":\"%@\", \"year\":\"%@\",\"desc\":\"%@\"}", [[arrdata objectAtIndex:0] intValue] ,[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
-                
-                
                 [webservice WebserviceCall:webServiceAddCoachingAwardInfo:strURL :Successtag];
             }
-            
-            
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
-            
             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
-            
         }
-        
-        
     }
     self.navigationItem.rightBarButtonItem.enabled=YES;
-    
 }
 
--(void)httpResponseReceived:(NSData *)webResponse : (int)Tag
-{
-    // UserInformation *userInfo=[UserInformation shareInstance];
-    
-    self.navigationItem.leftBarButtonItem.enabled=YES;
-    // Now remove the Active indicator
-    ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-    if(acti)
-        [acti removeFromSuperview];
-    // Now we Need to decrypt data
-    
-    NSError *error=nil;
-    
-    switch (Tag) {
-        case 100:
-        {
-            
-            NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-            
-            NSString *str=[myResults objectForKey:@"message"];
-            if ([str isEqualToString:@"Data saved successfuly!"]) {
-                [SingletonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
-            }else{
-                self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingletonClass initWithTitle:@"Invalid Data" message:str delegate:nil btn1:@"Ok"];
-                
-            }
-            
-            break;
-        }
-        case 200:
-        {
-            
-            NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-            
-            NSString *str=[myResults objectForKey:@"message"];
-            if ([str isEqualToString:@"Data saved successfuly!"]) {
-                [SingletonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
-            }else{
-                self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingletonClass initWithTitle:@"Invalid Data" message:str delegate:nil btn1:@"Ok"];
-                
-            }
-            
-            
-            break;
-        }
-        default:
-            break;
-    }
-    self.navigationItem.rightBarButtonItem.enabled=YES;
-    
-    [tableView reloadData];
-    
-}
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
@@ -520,18 +428,15 @@ UIDeviceOrientation CurrentOrientation;
         BOOL Status=FALSE;
         for (id object in arrController)
         {
-            
             if ([object isKindOfClass:[ProfileView class]])
             {
                 Status=TRUE;
                 [self.navigationController popToViewController:object animated:NO];
             }
         }
-        
         if (Status==FALSE)
         {
             ProfileView *annView=[[ProfileView alloc] init];
-            
             [self.navigationController pushViewController:annView animated:NO];
             
         }
@@ -558,7 +463,7 @@ UIDeviceOrientation CurrentOrientation;
             
             NSString *strError=@"";
             switch ([dateOne compare:dateTwo]) {
-               
+                    
                 case NSOrderedSame:
                     
                 {
@@ -576,20 +481,13 @@ UIDeviceOrientation CurrentOrientation;
                     // dateOne is later in time than dateTwo
                     break;
                 }
-                    
             }
-            
             // To check end is greater or not uncomment
         }
-        
-        
     }else{
-        
         df.dateFormat = @"YYYY";
         currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-        
     }
-    
 }
 
 #pragma show selected value in listpicker
@@ -612,43 +510,38 @@ UIDeviceOrientation CurrentOrientation;
     }
 }
 
--(void)setPickerVisibleAt :(BOOL)ShowHide
-{
-    if (currentText.text.length > 0) {
-        
-        for (int i=0; i< arrAwardsYear.count; i++) {
-            
-            if ([[arrAwardsYear objectAtIndex:i] isEqual:currentText.text]) {
-                
-                [listPicker selectRow:i inComponent:0 animated:YES];
-                
-                break;
-            }
-            
-        }
-        
-    }
-    
-    [UIView beginAnimations:@"tblViewMove" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:0.27f];
-    
-    CGPoint point;
-    point.x=self.view.frame.size.width/2;
-    
-    if (ShowHide) {
-        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
-        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
-        
-    }else{
-        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
-        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
-    }
-    
-    [self.view viewWithTag:110].center = point;
-    [UIView commitAnimations];
-    
-}
+//-(void)setPickerVisibleAt :(BOOL)ShowHide
+//{
+//    if (currentText.text.length > 0) {
+//        
+//        for (int i=0; i< arrAwardsYear.count; i++) {
+//            
+//            if ([[arrAwardsYear objectAtIndex:i] isEqual:currentText.text]) {
+//                [listPicker selectRow:i inComponent:0 animated:YES];
+//                break;
+//            }
+//        }
+//    }
+//    [UIView beginAnimations:@"tblViewMove" context:nil];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDuration:0.27f];
+//    
+//    CGPoint point;
+//    point.x=self.view.frame.size.width/2;
+//    
+//    if (ShowHide) {
+//        point.y=self.view.frame.size.height-(listPicker.frame.size.height/2);
+//        [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(listPicker.frame.size.height/2)-22)];
+//        
+//    }else{
+//        // [self setToolbarVisibleAt:CGPointMake(point.x,self.view.frame.size.height+50)];
+//        point.y=self.view.frame.size.height+(listPicker.frame.size.height/2);
+//    }
+//    
+//    [self.view viewWithTag:110].center = point;
+//    [UIView commitAnimations];
+//    
+//}
 #pragma mark- UITableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -671,18 +564,13 @@ UIDeviceOrientation CurrentOrientation;
     if(cell == nil)
     {
         if (_SectionTag ==1) {
-            
             cell = [[AddCoachongHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrCoachongInfo:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]: @""];
         }else{
-            
             cell = [[AddCoachongHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrAwardsInfo:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]: @""] ;
         }
-        
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
     return cell;
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -690,46 +578,37 @@ UIDeviceOrientation CurrentOrientation;
 }
 -(NSString *)dateFormate : (NSString *)strdate
 {
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    // df.dateFormat = @"MM-dd-YYYY hh:mm a";
-    
-    [df setDateFormat:DATE_FORMAT_D_M_Y];
-    
-    NSDate *date=[df dateFromString:strdate];
-    
-    // NSDate *dte = [df dateFromString:strdate];
-    
-    [df setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
-    
-    if(date==nil)
-    {
+    if ([strdate isEqualToString:@"Present"]) {
         return @"Present";
-    }else{
-        return [NSString stringWithFormat:@"%@", [df stringFromDate:date]];
+    }else
+    {
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:DATE_FORMAT_D_M_Y];
+        NSDate *date=[df dateFromString:strdate];
+        [df setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
+        if(date==nil)
+        {
+            return @"Present";
+        }else{
+            return [NSString stringWithFormat:@"%@", [df stringFromDate:date]];
+        }
     }
 }
-
 #pragma mark TextView Delegate
-
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    
     [textView becomeFirstResponder];
 }
-
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    
 }
-
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    
     return YES;
 }
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
-     textView.autocorrectionType = UITextAutocorrectionTypeNo;
+    textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
 
@@ -740,27 +619,20 @@ UIDeviceOrientation CurrentOrientation;
     if (textField.tag > 1001 ) {
         [self setContentOffset:textField table:tableView];
     }
-    
     if (textField.tag==1003 || textField.tag==1004) {
         
         [textField resignFirstResponder];
-        
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         currentText=textField;
         if ([textField.placeholder isEqualToString:@"From Date"] || [textField.placeholder isEqualToString:@"To Date"]) {
-            
             NSDateFormatter *df = [[NSDateFormatter alloc] init];
             if (currentText.text.length > 0) {
-                
                 df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
                 NSDate *date=[df dateFromString:currentText.text];
                 [datePicker setDate:date];
-                
                 df=nil;
             }
-            
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
-            
         }else{
             [self showSeletedPickerValue];
             [listPicker reloadComponent:0];
@@ -775,115 +647,52 @@ UIDeviceOrientation CurrentOrientation;
 {
     //
 }
-
-
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [textField resignFirstResponder];
 }
-
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    
     return YES;
 }
-
-
 #pragma mark- UIPickerView
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
 }
-
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (currentText.text.length==0) {
         currentText.text=[arrAwardsYear objectAtIndex:0];
     }
-    
     return [arrAwardsYear count];
-    
 }
 
 #pragma mark- Picker delegate method
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     NSString *str;
-    
     str = [arrAwardsYear objectAtIndex:row];
-    
     NSArray *arr = [str componentsSeparatedByString:@"****"];
-    
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    
     currentText.text=[arrAwardsYear objectAtIndex:row];
-    
 }
 #pragma mark setcontent offset
 - (void)setContentOffsetDown:(id)textField table:(UITableView*)m_TableView {
-    
     [m_TableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
     
-    /*
-     if (iosVersion < 8) {
-     
-     int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
-     UIView* txt = textField;
-     
-     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-     
-     // Get the text fields location
-     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-     // Scroll to cell
-     [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
-     
-     
-     
-     }else{
-     
-     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-     
-     NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
-     
-     // Get the text fields location
-     CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-     
-     // if (point.y > 216 && point.y < 320) {
-     
-     int toolbarHeight_KeyAcc=44+37;
-     
-     CGSize keyboardSize = CGSizeMake(320,point.y+(toolbarHeight_KeyAcc));
-     
-     UIEdgeInsets contentInsets;
-     if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-     contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
-     } else {
-     contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
-     }
-     
-     m_TableView.contentInset = contentInsets;
-     m_TableView.scrollIndicatorInsets = contentInsets;
-     [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-     // }
-     
-     }
-     
-     */
-    
     UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-    
     NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
     if (scrollHeight==0) {
         scrollHeight=216;
     }
-    
     CGSize keyboardSize = CGSizeMake(310,scrollHeight+70);
     UIEdgeInsets contentInsets;
     if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
@@ -891,13 +700,10 @@ UIDeviceOrientation CurrentOrientation;
     } else {
         contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
     }
-    
     m_TableView.contentInset = contentInsets;
     m_TableView.scrollIndicatorInsets = contentInsets;
     [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

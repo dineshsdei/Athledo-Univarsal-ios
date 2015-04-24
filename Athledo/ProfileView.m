@@ -25,6 +25,10 @@
 #define EDITPROFILENUMBER 100
 #define GETPROFILEDATANUMBER 200
 #define UploadImageTag 500
+#define GENRALINFOCELLHEIGHT 250.0
+#define OTHERCELLHEIGHT 115
+#define COACHINGCELLHEIGHT 135
+#define AWARDSCELLHEIGHT 165
 
 
 @interface ProfileView ()
@@ -89,21 +93,17 @@
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    
     btncamera.layer.masksToBounds = YES;
-    // btncamera.layer.cornerRadius=50;
     btncamera.layer.cornerRadius= btncamera.frame.size.width/2;
     imageviewProfile.alpha=1;
     imageviewProfile.layer.masksToBounds = YES;
     imageviewProfile.layer.cornerRadius=imageviewProfile.frame.size.width/2;
     imageviewProfile.layer.borderWidth=3;
     imageviewProfile.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [self setNeedsStatusBarAppearanceUpdate];
-    
     Objwebcervice =[WebServiceClass shareInstance];
     Objwebcervice.delegate=self;
     
@@ -122,7 +122,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:NO];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -133,7 +132,6 @@
 - (NSUInteger) supportedInterfaceOrientations
 {
     UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
-    
     if (isIPAD)
     {
         if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
@@ -151,19 +149,13 @@
 {
     return UIStatusBarStyleLightContent;
 }
-
 #pragma mark Utility method
 - (void)getProfileData{
-    
     self.navigationItem.leftBarButtonItem.enabled=NO;
-    
     [activityIndicator startAnimating];
     [activityIndicator setHidden:NO];
-    
     UserInformation *userInfo=[UserInformation shareInstance];
-    
     if ([SingletonClass  CheckConnectivity]) {
-        
         if (isEditProfilePic==NO) {
             ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
             indicator.tag = 50;
@@ -173,13 +165,10 @@
         if([UserInformation shareInstance].userType == isManeger)
         {
             strURL = [NSString stringWithFormat:@"{\"email\":\"%@\", \"id\":\"%d\", \"type\":\"%d\", \"team_id\":\"%d\", \"sport_id\":\"%d\"}", [userInfo.userEmail lowercaseString],userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
-            
         }else
         {
             strURL = [NSString stringWithFormat:@"{\"email\":\"%@\", \"id\":\"%d\", \"type\":\"%d\"}", [userInfo.userEmail lowercaseString],userInfo.userId,userInfo.userType];
         }
-       
-        
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceProfileInfo]];
             [request setHTTPMethod:@"POST"];
             [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -294,7 +283,6 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"sucess"])
             {
-                // Now we Need to decrypt data
                 [self getProfileData];
             }
         }
@@ -332,7 +320,6 @@
                         // coach  Section
                         // Genral Info
                         arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
-                        //[arrGenralinfo setObject:@"Dinesh" forKey:@"firstname"];
                         arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"cochng_hstry"];
                         if (arrCoaching.count==0) {
                             NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"from",@"",@"description",@"",@"school_name",@"",@"sport_name", @"",@"to",nil];
@@ -402,7 +389,6 @@
             break;
     }
 }
-
 #pragma mark- UIActionSheet And ImagePicker
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -449,8 +435,6 @@
         [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
     }
 }
-
-
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -475,9 +459,7 @@
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
-    
 }
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProfileCell *cell = nil;
@@ -506,35 +488,30 @@
         {
             if (indexPath.section == 0)
             {
-                return 220.0;
+                return GENRALINFOCELLHEIGHT;
             }else  if (indexPath.section <  1+(arrCoaching.count))
             {
-                return 150;
+                return COACHINGCELLHEIGHT;
             }else  if (indexPath.section <  1+(arrCoaching.count)+arrAwards.count)
             {
                 long int index=indexPath.section - (1+ arrCoaching.count);
-                
                 if (index == 0) {
-                    
-                    return 165;
+                    return AWARDSCELLHEIGHT;
                 }else
                 {
-                    
-                    return 114;
+                    return OTHERCELLHEIGHT;
                 }
-                
             }
             break;
         }
-            
         case isAthlete:
         {
             if (indexPath.section == 0)
             {
-                return 220.0;
+                return GENRALINFOCELLHEIGHT;
             }else
             {
-                return 115;
+                return OTHERCELLHEIGHT;
             }
             break;
         }
@@ -542,16 +519,13 @@
         {
             if (indexPath.section == 0)
             {
-                return 220.0;
+                return GENRALINFOCELLHEIGHT;
             }else
             {
-                return 115;
+                return OTHERCELLHEIGHT;
             }
             break;
         }
-
-            
-            
         default:
             return 130 ;
             

@@ -23,6 +23,7 @@
 
 #define iconRightPosition 265
 #define GenralInfoWeight isIPAD ? 210 : 150
+#define Y_axis_Gap isIPAD ? 15 : 15
 #define GenralInfoAlignment NSTextAlignmentLeft
 #define SportInfoAlignment NSTextAlignmentLeft
 #define ColorLightgray [UIColor lightGrayColor]
@@ -111,7 +112,6 @@ int iconleftPosition;
             [self addSubview:txtFName];
             Fsection=Fsection+1;
             
-            
             UITextField *txtLName = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 0, GenralInfoWeight, 30)];
             txtLName.tag = (indexPath.section+1)*1000+Fsection;
             txtLName.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
@@ -128,19 +128,16 @@ int iconleftPosition;
             
             txtLName.alpha = 1.0;
             txtLName.userInteractionEnabled = isEdit;
-            
             [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtLName.tag]];
-            
             [self addSubview:txtLName];
             Fsection=Fsection+1;
-            
-            
             UIImageView *imageAddIndicator=[[UIImageView alloc] initWithFrame:CGRectMake(iconleftPosition, 32, 13, 15)];
             imageAddIndicator.image=[UIImage imageNamed:@"location_icon.png"];
-            
             [self addSubview:imageAddIndicator];
             
-            UILabel *txtViewAddress = [[UILabel alloc] initWithFrame:CGRectMake(((GenralInfoX)), 22, GenralInfoWeight, 40)];
+             CGSize maxLabelSize = CGSizeMake(GenralInfoWeight, 60);
+            CGSize expectedLabelSize = [[GenralInfo objectForKey:@"address"] sizeWithFont:txtLName.font constrainedToSize:maxLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+            UILabel *txtViewAddress = [[UILabel alloc] initWithFrame:CGRectMake(((GenralInfoX)), (Y_axis_Gap)+(txtFName.frame.origin.y + txtFName.frame.size.height/2), GenralInfoWeight, expectedLabelSize.height)];
             txtViewAddress.tag = (indexPath.section+1)*1000+Fsection;
             txtViewAddress.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
             txtViewAddress.font =Textfont;
@@ -158,28 +155,26 @@ int iconleftPosition;
             
             Fsection=Fsection+1;
             
-            UITextField *txtfieldCountry = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 54, GenralInfoWeight, 20)];
+            //(Y_axis_Gap)+(txtFName.frame.origin.y + txtFName.frame.size.height/2)
+            UITextField *txtfieldCountry = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, (Y_axis_Gap)+(txtViewAddress.frame.origin.y + txtViewAddress.frame.size.height/2), GenralInfoWeight, 20)];
             txtfieldCountry.tag = (indexPath.section+1)*1000+Fsection;
             txtfieldCountry.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
             txtfieldCountry.delegate = del;
             txtfieldCountry.font = Textfont;
-            //txtfieldCountry.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
             txtfieldCountry.textColor=isEdit ? ColorLightgray : ColorGray;;
             txtfieldCountry.borderStyle=isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
             txtfieldCountry.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             [txtfieldCountry setTextAlignment:GenralInfoAlignment];
             txtfieldCountry.text = [GenralInfo  objectForKey:@"country_name"];
             
-            //txtfieldCountry.placeholder = @"country_name";
             txtfieldCountry.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"country_name" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
-            
             txtfieldCountry.alpha = 1.0;
             txtfieldCountry.userInteractionEnabled = isEdit;
             [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtfieldCountry.tag]];
             [self addSubview:txtfieldCountry];
             Fsection=Fsection+1;
             
-            UITextField *txtfieldState = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 75, GenralInfoWeight, 20)];
+            UITextField *txtfieldState = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, (Y_axis_Gap)+(txtfieldCountry.frame.origin.y + txtfieldCountry.frame.size.height/2), GenralInfoWeight, 20)];
             txtfieldState.tag = (indexPath.section+1)*1000+Fsection;
             txtfieldState.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
             txtfieldState.delegate = del;
@@ -202,8 +197,31 @@ int iconleftPosition;
             [self addSubview:txtfieldState];
             Fsection=Fsection+1;
             
-            // UILabel *lblapt= [[UILabel alloc] initWithFrame:CGRectMake(43, 96, 45, 20)];
-            UILabel *lblapt= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 96, 65, 20)];
+            UITextField *txtfieldCity = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, (Y_axis_Gap)+(txtfieldState.frame.origin.y + txtfieldState.frame.size.height/2), GenralInfoWeight, 20)];
+            txtfieldCity.tag = (indexPath.section+1)*1000+Fsection;
+            txtfieldCity.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
+            txtfieldCity.delegate = del;
+            txtfieldCity.font = Textfont;
+            //txtfieldState.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+            txtfieldCity.textColor=isEdit ? ColorLightgray : ColorGray;;
+            txtfieldCity.borderStyle= isEdit ? UITextBorderStyleLine : UITextBorderStyleNone;
+            //txtfieldState.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+            [txtfieldCity setTextAlignment:GenralInfoAlignment];
+            
+            txtfieldCity.text = [GenralInfo  objectForKey:@"city"];
+            //txtfieldState.placeholder = @"state_name";
+            txtfieldCity.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"city" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
+            
+            txtfieldCity.alpha = 1.0;
+            txtfieldCity.userInteractionEnabled = isEdit;
+            
+            [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtfieldCity.tag]];
+            
+            [self addSubview:txtfieldCity];
+            Fsection=Fsection+1;
+
+            
+            UILabel *lblapt= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, (Y_axis_Gap)+(txtfieldCity.frame.origin.y + txtfieldCity.frame.size.height/2), 65, 20)];
             lblapt.text = @"Unit No-";
             lblapt.font = isIPAD ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:13];
             lblapt.textColor=isEdit ? ColorLightgray : ColorGray;;
@@ -212,8 +230,7 @@ int iconleftPosition;
             
             [self addSubview:lblapt];
             
-            
-            UITextField *txtfieldAppt = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 96, GenralInfoWeight, 20)];
+            UITextField *txtfieldAppt = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, (Y_axis_Gap)+(txtfieldCity.frame.origin.y + txtfieldCity.frame.size.height/2), GenralInfoWeight, 20)];
             txtfieldAppt.tag = (indexPath.section+1)*1000+Fsection;
             txtfieldAppt.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
             txtfieldAppt.delegate = del;
@@ -234,7 +251,7 @@ int iconleftPosition;
             [self addSubview:txtfieldAppt];
             Fsection=Fsection+1;
             
-            UILabel *lblZip= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, 117, 45, 20)];
+            UILabel *lblZip= [[UILabel alloc] initWithFrame:CGRectMake(iconleftPosition, (Y_axis_Gap)+(txtfieldAppt.frame.origin.y + txtfieldAppt.frame.size.height/2), 45, 20)];
             lblZip.text = @"Zip-";
             lblZip.font =isIPAD ? [UIFont fontWithName:@"HelveticaNeue" size:15] : [UIFont fontWithName:@"HelveticaNeue" size:13];
             lblZip.textColor=isEdit ? ColorLightgray : ColorGray;;
@@ -243,7 +260,7 @@ int iconleftPosition;
             
             [self addSubview:lblZip];
             
-            UITextField *txtfieldZip = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 117, GenralInfoWeight, 20)];
+            UITextField *txtfieldZip = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, (Y_axis_Gap)+(txtfieldAppt.frame.origin.y + txtfieldAppt.frame.size.height/2), GenralInfoWeight, 20)];
             txtfieldZip.tag = (indexPath.section+1)*1000+Fsection;
             txtfieldZip.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
             txtfieldZip.delegate = del;
@@ -267,18 +284,12 @@ int iconleftPosition;
             [self addSubview:txtfieldZip];
             Fsection=Fsection+1;
             
-            UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X, 140, LINE_SEP_W, 1)];
-            img.image=[UIImage imageNamed:@"menu_sep.png"];
+           
+            UIImageView *img2=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X, (Y_axis_Gap)+(txtfieldZip.frame.origin.y + txtfieldZip.frame.size.height/2), LINE_SEP_W, 1)];
+            img2.image=[UIImage imageNamed:@"menu_sep.png"];
+            [self addSubview:img2];
             
-            [self addSubview:img];
-            //UIImageView *imagePhoneIndicator=[[UIImageView alloc] initWithFrame:CGRectMake(43, 145, 15, 15)];
-            UIImageView *imagePhoneIndicator=[[UIImageView alloc] initWithFrame:CGRectMake(iconleftPosition, 145, 15, 15)];
-            imagePhoneIndicator.image=[UIImage imageNamed:@"phone_icon.png"];
-            
-            [self addSubview:imagePhoneIndicator];
-            
-            
-            UITextField *txtViewPhone = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, 145, GenralInfoWeight, 20)];
+            UITextField *txtViewPhone = [[UITextField alloc] initWithFrame:CGRectMake(GenralInfoX, (Y_axis_Gap)/2+(img2.frame.origin.y), GenralInfoWeight, 20)];
             txtViewPhone.tag = (indexPath.section+1)*1000+Fsection;
             txtViewPhone.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
             txtViewPhone.delegate = del;
@@ -298,16 +309,18 @@ int iconleftPosition;
             [self addSubview:txtViewPhone];
             Fsection=Fsection+1;
             
-            UIImageView *img2=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X, 170, LINE_SEP_W, 1)];
-            img2.image=[UIImage imageNamed:@"menu_sep.png"];
+            UIImageView *imagePhoneIndicator=[[UIImageView alloc] initWithFrame:CGRectMake(iconleftPosition,  ((txtViewPhone.frame.origin.y + (Y_axis_Gap)/2) - 5), 15, 15)];
+            imagePhoneIndicator.image=[UIImage imageNamed:@"phone_icon.png"];
             
-            [self addSubview:img2];
+            [self addSubview:imagePhoneIndicator];
             
-            UIImageView *imageEmailIndicator=[[UIImageView alloc] initWithFrame:CGRectMake(iconleftPosition, 185, 15, 10)];
-            imageEmailIndicator.image=[UIImage imageNamed:@"email_icon.png"];
-            [self addSubview:imageEmailIndicator];
+            UIImageView *img=[[UIImageView alloc] initWithFrame:CGRectMake(LINE_SEP_X, (Y_axis_Gap)+(txtViewPhone.frame.origin.y + txtViewPhone.frame.size.height/2), LINE_SEP_W, 1)];
+            img.image=[UIImage imageNamed:@"menu_sep.png"];
             
-            UITextField *txtViewEmail = [[UITextField alloc] initWithFrame:CGRectMake((GenralInfoX)-40, 180, (GenralInfoWeight)+20, 20)];
+            [self addSubview:img];
+            
+            
+            UITextField *txtViewEmail = [[UITextField alloc] initWithFrame:CGRectMake((GenralInfoX)-40, (img.frame.origin.y + (Y_axis_Gap)/2), (GenralInfoWeight)+20, 20)];
             txtViewEmail.tag = (indexPath.section+1)*1000+Fsection;
             txtViewEmail.backgroundColor = isEdit ? FieldWhiteBackground : FieldClearBackground;
             txtViewEmail.delegate = del;
@@ -324,6 +337,12 @@ int iconleftPosition;
             txtViewEmail.userInteractionEnabled = NO;
             
             [self addSubview:txtViewEmail];
+            
+            UIImageView *imageEmailIndicator=[[UIImageView alloc] initWithFrame:CGRectMake(iconleftPosition,(img.frame.origin.y + (Y_axis_Gap) - 5), 15, 10)];
+            imageEmailIndicator.image=[UIImage imageNamed:@"email_icon.png"];
+            [self addSubview:imageEmailIndicator];
+
+            
             if (delegate.arrCellFieldTag.count > (indexPath.section + Fsection)) {
                 [delegate.arrCellFieldTag replaceObjectAtIndex:indexPath.section withObject:arrIndex];
             }else{
@@ -410,12 +429,8 @@ int iconleftPosition;
                 [txtFromDate setTextAlignment:NSTextAlignmentRight];
                 
                 txtFromDate.text =[self dateFormate :[[coachingInfo objectAtIndex:index] objectForKey:@"from"]] ;
-                //txtFromDate.text =[[coachingInfo objectAtIndex:index] objectForKey:@"to"];
-                
                 txtFromDate.alpha = 1.0;
                 txtFromDate.userInteractionEnabled = isEdit;
-                // txtFromDate.placeholder=@"to";
-                
                 txtFromDate.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"from" attributes:@{NSForegroundColorAttributeName: colorPlaceHolder}];
                 [arrIndex addObject:[NSString stringWithFormat:@"%ld",(long)txtFromDate.tag]];
                 [self addSubview:txtFromDate];

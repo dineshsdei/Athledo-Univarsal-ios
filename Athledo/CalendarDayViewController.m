@@ -167,13 +167,6 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationItem.rightBarButtonItem = ButtonItem;
     _eventDic=[[NSMutableArray alloc] init];
     
-    //	self.data = @[
-    //  @[@"Meeting with five random dudes", @"", @5, @0, @5, @30],
-    //  @[@"Unlimited bread rolls got me sprung", @"Olive Garden", @7, @0, @12, @0],
-    //  @[@"Fishy Fishy Fishfelayyyyyyyy", @"McDonalds", @6, @30, @6, @35],
-    //  @[@"Turkey Time...... oh wait", @"Chick-fela", @14, s@0, @19, @0],
-    //  @[@"Greet the king at the castle", @"Burger King", @19, @30, @30, @0]];
-    
     // Last value for event tag for show in details
     
     UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];

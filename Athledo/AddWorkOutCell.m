@@ -8,7 +8,7 @@
 
 #import "AddWorkOutCell.h"
 #define CellX isIPAD ? 30 : 10
-#define Add_Delete_Size isIPAD ? 25 : 20
+#define Add_Delete_Size isIPAD ? 30 : 25
 #define CellWeight isIPAD ? ( ([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeLeft ) || ([SingletonClass ShareInstance].GloableOreintation== UIDeviceOrientationLandscapeRight) ? 960 : 708 ) : 300
 #define TextFeildHeight isIPAD ? 40 : 30
 #define CheckBoxEmailTag 1000;
@@ -109,7 +109,7 @@
                     {
                         UIButton *btnAdd=[UIButton buttonWithType:UIButtonTypeCustom];
                         [btnAdd setBackgroundImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
-                        btnAdd.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 40 : 30), txtField.frame.size.height/2-10,(Add_Delete_Size),(Add_Delete_Size));
+                        btnAdd.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 40 : 17), txtField.frame.size.height/2-((isIPAD) ? 15 : 10),(Add_Delete_Size),(Add_Delete_Size));
                         
                         
                         
@@ -118,7 +118,7 @@
                         
                         UIButton *btnDelete=[UIButton buttonWithType:UIButtonTypeCustom];
                         [btnDelete setBackgroundImage:[UIImage imageNamed:@"deleteBtn.png"] forState:UIControlStateNormal];
-                        btnDelete.frame=CGRectMake(txtField.frame.size.width+btnAdd.frame.size.width+((isIPAD) ? 50 : 35), txtField.frame.size.height/2-10,(Add_Delete_Size),(Add_Delete_Size));
+                        btnDelete.frame=CGRectMake(txtField.frame.size.width+btnAdd.frame.size.width+((isIPAD) ? 50 : 20), txtField.frame.size.height/2-14,(Add_Delete_Size+5),(Add_Delete_Size+5));
                         
                         if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Custom Tags"] )
                         {

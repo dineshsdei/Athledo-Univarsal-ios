@@ -9,9 +9,7 @@
 #import "AthleteDetail.h"
 @interface AthleteDetail ()
 @end
-
 @implementation AthleteDetail
-
 #pragma mark UIViewController Delegate
 - (void)viewDidLoad {
     [super viewDidLoad];

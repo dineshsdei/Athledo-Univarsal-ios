@@ -27,12 +27,12 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4v-uj-agb" customClass="CheckboxButton">
-                        <rect key="frame" x="285" y="17" width="25" height="25"/>
+                    <button opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4v-uj-agb" customClass="CheckboxButton">
+                        <rect key="frame" x="263" y="2" width="50" height="50"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="25" id="Mjz-jJ-of0"/>
+                            <constraint firstAttribute="width" constant="50" id="Mjz-jJ-of0"/>
                         </constraints>
-                        <state key="normal" backgroundImage="uncheck.png">
+                        <state key="normal" image="uncheck.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -44,10 +44,10 @@
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="B4v-uj-agb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="9" id="1Dn-IQ-GnH"/>
+                    <constraint firstItem="B4v-uj-agb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-6" id="1Dn-IQ-GnH"/>
                     <constraint firstItem="uF2-V3-QBT" firstAttribute="trailing" secondItem="K4q-xd-1QC" secondAttribute="trailing" id="3Tk-ru-CYV"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="B4v-uj-agb" secondAttribute="trailing" constant="2" id="GWy-kr-roF"/>
-                    <constraint firstItem="B4v-uj-agb" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ScL-tH-nj2"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="B4v-uj-agb" secondAttribute="trailing" constant="-1" id="GWy-kr-roF"/>
+                    <constraint firstItem="B4v-uj-agb" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-2.5" id="ScL-tH-nj2"/>
                     <constraint firstItem="uF2-V3-QBT" firstAttribute="top" secondItem="K4q-xd-1QC" secondAttribute="bottom" constant="8" symbolic="YES" id="Ufz-qd-y56"/>
                     <constraint firstAttribute="trailing" secondItem="wrU-k3-e0g" secondAttribute="trailing" id="fXV-Ku-V0A"/>
                     <constraint firstItem="uF2-V3-QBT" firstAttribute="leading" secondItem="K4q-xd-1QC" secondAttribute="leading" id="hqh-Gj-4ZH"/>
@@ -55,8 +55,8 @@
                     <constraint firstItem="wrU-k3-e0g" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ng3-UQ-9vV"/>
                     <constraint firstItem="wrU-k3-e0g" firstAttribute="top" secondItem="uF2-V3-QBT" secondAttribute="bottom" constant="6" id="rYN-p7-QZD"/>
                     <constraint firstItem="K4q-xd-1QC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="t4G-YF-orf"/>
-                    <constraint firstItem="B4v-uj-agb" firstAttribute="leading" secondItem="K4q-xd-1QC" secondAttribute="trailing" constant="51" id="y7P-pS-hbI"/>
-                    <constraint firstItem="wrU-k3-e0g" firstAttribute="top" secondItem="B4v-uj-agb" secondAttribute="bottom" constant="16" id="zni-zb-dy9"/>
+                    <constraint firstItem="B4v-uj-agb" firstAttribute="leading" secondItem="K4q-xd-1QC" secondAttribute="trailing" constant="29" id="y7P-pS-hbI"/>
+                    <constraint firstItem="wrU-k3-e0g" firstAttribute="top" secondItem="B4v-uj-agb" secondAttribute="bottom" constant="6" id="zni-zb-dy9"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -69,6 +69,6 @@
     </objects>
     <resources>
         <image name="menu_sep.png" width="400" height="2"/>
-        <image name="uncheck.png" width="41" height="41"/>
+        <image name="uncheck.png" width="25" height="25"/>
     </resources>
 </document>

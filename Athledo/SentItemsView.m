@@ -37,10 +37,11 @@
     
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
-        
+        webservice =[WebServiceClass shareInstance];
+        webservice.delegate=self;
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         
-        //[SingletonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         
         [webservice WebserviceCall:webServiceGetSentMessageslist :strURL :getMessagesTag];
     }else{
@@ -79,8 +80,6 @@
         {
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                //[SingletonClass RemoveActivityIndicator:self.view];
-                [SingletonClass ShareInstance].isMessangerSent =TRUE;
                 messageArrDic =[MyResults objectForKey:@"data"];
                 [SingletonClass deleteUnUsedLableFromTable:table];
                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
@@ -97,7 +96,6 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                   [SingletonClass ShareInstance].isMessangerInbox = TRUE;
                  [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
@@ -113,7 +111,8 @@
             
             if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
             {// Now we Need to decrypt data
-                   [SingletonClass ShareInstance].isMessangerInbox = TRUE;
+                [SingletonClass ShareInstance].isMessangerSent = TRUE;
+                [SingletonClass ShareInstance].isMessangerArchive = TRUE;
                 [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
@@ -142,12 +141,12 @@
     [self.navigationItem setHidesBackButton:YES animated:NO];
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:1];
     [tabBar setSelectedItem:tabBarItem];
-    if ([SingletonClass ShareInstance].isMessangerSent == TRUE) {
-        webservice =[WebServiceClass shareInstance];
-        webservice.delegate=self;
+    if([SingletonClass ShareInstance].isMessangerSent==TRUE)
+    {
         [self getMessages];
+        [SingletonClass ShareInstance].isMessangerSent=FALSE;
     }
-    // [self orientationChanged];
+
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -169,8 +168,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
+   
     messageArrDic=[[NSArray alloc] init];
     
     self.title = NSLocalizedString(@"Sent Messages", @"");

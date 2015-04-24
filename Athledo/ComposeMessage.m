@@ -195,7 +195,7 @@
                         [ToSelectedData setObject:[NSNumber numberWithBool:NO] forKey:[ToDataArray objectAtIndex:i]];
                     }
                 }else{
-                    //  [SingaltonClass initWithTitle:@"" message:@"Data Not Found!" delegate:nil btn1:@"Ok"];
+                    //  [SingaltonClass initWithTitle:@"" message:@"Data not found" delegate:nil btn1:@"Ok"];
                 }
             }
             break;

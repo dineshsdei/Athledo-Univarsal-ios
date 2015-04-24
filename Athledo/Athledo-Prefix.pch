@@ -24,6 +24,33 @@
 #import "CoachingHistory.h"
 #import "CalendarEvent.h"
 #import "WebServiceClass.h"
+#import "SWRevealViewController.h"
+#import "UIImageView+WebCache.h"
+#import "SWTableViewCell.h"
+#import "AAttendanceBO.h"
+
+#define UNIT_HEARTRATE @"Heart Rate"
+#define UNIT_WATTS @"Watts"
+#define UNIT_METERS @"Meters"
+#define UNIT_RATE @"Rate"
+#define UNIT_KILOMETERS @"Kilometers"
+#define UNIT_MILES @"Miles"
+#define UNIT_HH_MM_SS_SSS @"HH:mm:ss.SSS"
+#define UNIT_MM_SS_SSS @"mm:ss.SSS"
+#define UNIT_SS_SSS @"ss.SSS"
+#define UNIT_MM_SS_S @"mm:ss.S"
+
+#define WORKOUTTYPE_CARDIO @"Cardio"
+#define WORKOUTTYPE_INTERVAL @"Interval"
+#define WORKOUTTYPE_CORE @"Core"
+#define WORKOUTTYPE_OHTER @"Other"
+#define WORKOUTTYPE_STRETCHING @"Stretching"
+#define WORKOUTTYPE_LIFT @"Lift"
+
+#define WARMUPTIME @"WarmUp Time"
+#define COOLDOWNTIME @"CoolDown Time"
+#define NAVIGATIONBAR_COLOR [UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]
+
 
 #define accountSID @"ACdf9e62bbfd4132901754d34b445fb110"
 #define authToken @"e2a6374d96e4df75e245f2854850f3dd"
@@ -126,6 +153,9 @@
 #define getSeasonTag 77110
 #define getAlbumDataTag 777120
 
+#define getAttendanceTag 88888
+#define SaveAttendanceTag 88889
+
 
 #define listPickerHeight 168
 #define datePickerHeight 168
@@ -158,6 +188,9 @@
 #define GrayColor [UIColor grayColor]
 #define NavFontSize isIPAD ? 25 : 18
 
+#define WorkOutDetailFontSize (isIPAD) ? 15 : 12
+#define WorkOutDetailFont [UIFont fontWithName:(fontName) size:(WorkOutDetailFontSize)]
+
 #define Textfont [UIFont fontWithName:fontName size:BigfontSize] ;
 #define SmallTextfont [UIFont fontWithName:fontName size:SmallfontSize] ;
 #define MenuTextfont isIPAD ?[UIFont boldSystemFontOfSize:20]  : [UIFont boldSystemFontOfSize:17] ;
@@ -183,13 +216,14 @@
 #define DATE_TIME_FORMAT_M_D_Y_h_m_s_A  @"MM-dd-yyyy hh:mm:ss a"
 #define DATE_FORMAT_M_D_Y               @"MM-dd-yyyy"
 #define DATE_FORMAT_Y_M_D              @"yyyy-MM-dd"
-#define TIME_FORMAT_h_m_s_A             @"hh:mm:ss a"
+#define TIME_FORMAT_h_m_s_A            @"hh:mm:ss a"
 #define TIME_FORMAT_h_m_A             @"hh:mm a"
 #define TIME_FORMAT_24h_m             @"HH:mm"
 #define TIME_FORMAT_h_m_s             @"hh:mm:ss"
 
 #define DATE_FORMAT_Y_M_D_H_M_S         @"yyyy-MM-dd HH:mm:ss"
 #define DATE_FORMAT_D_M_Y               @"dd-MM-yyyy"
+#define DATE_FORMAT_D               @"dd"
 #define DATE_FORMAT_AddEvent          @"dd MMM yyyy HH:mm:ss"
 #define DATE_FORMAT_dd_MMM_yyyy         @"dd MMM yyyy"
 #define DATE_FORMAT_ThroughOut          @"dd MMM yyyy HH:mm:ss"
@@ -292,6 +326,10 @@
 #define webServiceSendSms [BaseUrl stringByAppendingString:@"sendSms"]
 #define webServiceGetSmsHistory [BaseUrl stringByAppendingString:@"smsHistory"]
 #define webServiceAddSmsOnWeb [BaseUrl stringByAppendingString:@"smsSave"]
+
+// Attendance
+#define webServiceGetAttendance [BaseUrl stringByAppendingString:@"getAthleteAttendance"]
+#define webServiceSaveAttendance [BaseUrl stringByAppendingString:@"setAthleteAttendance"]
 
 //Live server of smartData
 /*

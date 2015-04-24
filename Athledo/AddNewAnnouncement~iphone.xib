@@ -66,20 +66,20 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ECe-12-5GD">
-                                    <rect key="frame" x="110" y="205" width="25" height="25"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ECe-12-5GD">
+                                    <rect key="frame" x="99" y="193" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="btnDissable.png">
+                                    <state key="normal" image="btnDissable.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
                                         <action selector="emailBtnClick:" destination="-1" eventType="touchUpInside" id="gwa-7l-aKJ"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Vdn-np-Dxt">
-                                    <rect key="frame" x="20" y="205" width="25" height="25"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vdn-np-Dxt">
+                                    <rect key="frame" x="9" y="193" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="btnEnable.png">
+                                    <state key="normal" image="btnEnable.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -107,10 +107,10 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" tag="1000" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zpW-iB-470" customClass="CheckboxButton">
-                                    <rect key="frame" x="20" y="275" width="25" height="25"/>
+                                <button opaque="NO" tag="1000" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zpW-iB-470" customClass="CheckboxButton">
+                                    <rect key="frame" x="13" y="265" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="uncheck.png">
+                                    <state key="normal" image="uncheck.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -118,16 +118,16 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h7C-i3-ty1">
-                                    <rect key="frame" x="56" y="275" width="19" height="21"/>
+                                    <rect key="frame" x="56" y="274" width="19" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ccZ-9M-oL1" customClass="CheckboxButton">
-                                    <rect key="frame" x="88" y="275" width="25" height="25"/>
+                                <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ccZ-9M-oL1" customClass="CheckboxButton">
+                                    <rect key="frame" x="81" y="265" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="uncheck.png">
+                                    <state key="normal" image="uncheck.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -135,16 +135,16 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coach" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yLy-cY-DL5">
-                                    <rect key="frame" x="126" y="275" width="51" height="21"/>
+                                    <rect key="frame" x="126" y="274" width="51" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xcw-Pl-3CJ" customClass="CheckboxButton">
-                                    <rect key="frame" x="190" y="275" width="25" height="25"/>
+                                <button opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xcw-Pl-3CJ" customClass="CheckboxButton">
+                                    <rect key="frame" x="180" y="265" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="uncheck.png">
+                                    <state key="normal" image="uncheck.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -152,16 +152,16 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Athlete" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fJU-Ud-g87">
-                                    <rect key="frame" x="228" y="275" width="54" height="21"/>
+                                    <rect key="frame" x="228" y="274" width="54" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6ON-cq-PBc" customClass="CheckboxButton">
-                                    <rect key="frame" x="126" y="308" width="25" height="25"/>
+                                <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6ON-cq-PBc" customClass="CheckboxButton">
+                                    <rect key="frame" x="120" y="302" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="uncheck.png">
+                                    <state key="normal" image="uncheck.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -169,16 +169,16 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manager" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lni-Tq-P4g">
-                                    <rect key="frame" x="164" y="308" width="70" height="21"/>
+                                    <rect key="frame" x="164" y="311" width="70" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="V7i-eX-GuE" customClass="CheckboxButton">
-                                    <rect key="frame" x="20" y="308" width="25" height="25"/>
+                                <button opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V7i-eX-GuE" customClass="CheckboxButton">
+                                    <rect key="frame" x="13" y="302" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="uncheck.png">
+                                    <state key="normal" image="uncheck.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -186,7 +186,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alumini" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SyU-Q6-Mtl">
-                                    <rect key="frame" x="58" y="310" width="57" height="21"/>
+                                    <rect key="frame" x="57" y="311" width="57" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -212,7 +212,7 @@
                                         <outlet property="delegate" destination="-1" id="KBg-D9-qp8"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ml0-h5-V4R">
+                                <button opaque="NO" userInteractionEnabled="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ml0-h5-V4R">
                                     <rect key="frame" x="276" y="442" width="15" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <state key="normal" backgroundImage="arrow.png">
@@ -222,7 +222,7 @@
                                         <action selector="selectTime:" destination="-1" eventType="touchUpInside" id="cgE-hS-tvh"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" tag="501" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Htw-tl-UHr">
+                                <button opaque="NO" userInteractionEnabled="NO" tag="501" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Htw-tl-UHr">
                                     <rect key="frame" x="276" y="392" width="17" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <state key="normal" backgroundImage="calendar.png">
@@ -232,10 +232,10 @@
                                         <action selector="selectDate:" destination="-1" eventType="touchUpInside" id="g5a-E9-C6h"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SnE-5a-LZK" customClass="CheckboxButton">
-                                    <rect key="frame" x="20" y="343" width="25" height="25"/>
+                                <button opaque="NO" tag="1005" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SnE-5a-LZK" customClass="CheckboxButton">
+                                    <rect key="frame" x="14" y="338" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                    <state key="normal" backgroundImage="uncheck.png">
+                                    <state key="normal" image="uncheck.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -243,7 +243,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Groups" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="r5e-YC-rqA">
-                                    <rect key="frame" x="59" y="344" width="57" height="21"/>
+                                    <rect key="frame" x="59" y="347" width="57" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -271,10 +271,10 @@
     <resources>
         <image name="arrow.png" width="35" height="23"/>
         <image name="bottomBorder.png" width="640" height="7"/>
-        <image name="btnDissable.png" width="48" height="48"/>
-        <image name="btnEnable.png" width="48" height="48"/>
+        <image name="btnDissable.png" width="25" height="25"/>
+        <image name="btnEnable.png" width="25" height="25"/>
         <image name="calendar.png" width="40" height="40"/>
-        <image name="uncheck.png" width="41" height="41"/>
+        <image name="uncheck.png" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

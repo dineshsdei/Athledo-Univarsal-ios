@@ -286,7 +286,14 @@
 		71A53DB31A356A4300463864 /* EditGenralInfo~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A53DB21A356A4300463864 /* EditGenralInfo~ipad.xib */; };
 		71A53DB61A3585E400463864 /* AddCoachingHistory~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A53DB51A3585E400463864 /* AddCoachingHistory~ipad.xib */; };
 		71A53DB81A35D2FB00463864 /* AddAthleteHistory~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */; };
+		71A59ADB1AE9FBA4009E7C86 /* Attendance~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A59ADA1AE9FBA4009E7C86 /* Attendance~ipad.xib */; };
+		71A59ADD1AEA002C009E7C86 /* AttendanceCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A59ADC1AEA002C009E7C86 /* AttendanceCell~ipad.xib */; };
 		71A5A32B1A49456900A00298 /* RepeatEventCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A5A32A1A49456900A00298 /* RepeatEventCell~ipad.xib */; };
+		71A5F3FB1AE8CBFE00BBA5ED /* Tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A5F3F91AE8CBFE00BBA5ED /* Tick.png */; };
+		71A5F3FC1AE8CBFE00BBA5ED /* UnTick.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A5F3FA1AE8CBFE00BBA5ED /* UnTick.png */; };
+		71A5F3FF1AE8E57200BBA5ED /* Tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A5F3FD1AE8E57200BBA5ED /* Tick@2x.png */; };
+		71A5F4001AE8E57200BBA5ED /* UnTick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A5F3FE1AE8E57200BBA5ED /* UnTick@2x.png */; };
+		71A5F4051AE9171E00BBA5ED /* AAttendanceBO.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A5F4041AE9171E00BBA5ED /* AAttendanceBO.m */; };
 		71A63E131A259DFB00D0DA99 /* WorkOutView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */; };
 		71A63E151A25A06D00D0DA99 /* AddWorkOut~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */; };
 		71A63E171A25A29F00D0DA99 /* WorkOutListCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */; };
@@ -405,6 +412,12 @@
 		71B210A51AB7FAED002C1FA8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A41AB7FAED002C1FA8 /* CoreFoundation.framework */; };
 		71B210A71AB7FE1D002C1FA8 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A61AB7FE1D002C1FA8 /* libz.1.1.3.dylib */; };
 		71B210A91AB7FE32002C1FA8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A81AB7FE32002C1FA8 /* libz.dylib */; };
+		71B4987B1AE61F8F007CCAF1 /* attendance_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B4987A1AE61F8F007CCAF1 /* attendance_icon.png */; };
+		71B498801AE62538007CCAF1 /* Attendance.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B4987E1AE62538007CCAF1 /* Attendance.m */; };
+		71B498811AE62538007CCAF1 /* Attendance~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B4987F1AE62538007CCAF1 /* Attendance~iphone.xib */; };
+		71B498861AE6296A007CCAF1 /* AttendanceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B498841AE6296A007CCAF1 /* AttendanceCell.m */; };
+		71B498871AE6296A007CCAF1 /* AttendanceCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B498851AE6296A007CCAF1 /* AttendanceCell~iphone.xib */; };
+		71B498891AE64544007CCAF1 /* Celldot.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B498881AE64544007CCAF1 /* Celldot.png */; };
 		71B4CC061A13825E00042568 /* WorkoutHistoryDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B4CC041A13825E00042568 /* WorkoutHistoryDetails.m */; };
 		71B4CC071A13825E00042568 /* WorkoutHistoryDetails~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B4CC051A13825E00042568 /* WorkoutHistoryDetails~iphone.xib */; };
 		71B726871AA0A2B000901F8C /* notes.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B726851AA0A2B000901F8C /* notes.png */; };
@@ -434,6 +447,8 @@
 		71D66E3F1A7BA9C100B75F86 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E371A7BA9C100B75F86 /* reveal-icon.png */; };
 		71D66E401A7BA9C100B75F86 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71D66E381A7BA9C100B75F86 /* reveal-icon@2x.png */; };
 		71E7A9AA1A7A122F00CED0D1 /* map_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E7A9A91A7A122F00CED0D1 /* map_icon.png */; };
+		71EE8B7D1AEA682500BAC83C /* grn_arw.png in Resources */ = {isa = PBXBuildFile; fileRef = 71EE8B7B1AEA682500BAC83C /* grn_arw.png */; };
+		71EE8B7E1AEA682500BAC83C /* red_arw.png in Resources */ = {isa = PBXBuildFile; fileRef = 71EE8B7C1AEA682500BAC83C /* red_arw.png */; };
 		71F925FF199895F9001931D8 /* WorkOutListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F925FD199895F9001931D8 /* WorkOutListCell.m */; };
 		71F92600199895F9001931D8 /* WorkOutListCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71F925FE199895F9001931D8 /* WorkOutListCell~iphone.xib */; };
 		71F926051998BE30001931D8 /* CheckboxButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F926041998BE30001931D8 /* CheckboxButton.m */; };
@@ -869,7 +884,15 @@
 		71A53DB51A3585E400463864 /* AddCoachingHistory~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddCoachingHistory~ipad.xib"; sourceTree = "<group>"; };
 		71A53DB71A35D2FB00463864 /* AddAthleteHistory~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddAthleteHistory~ipad.xib"; sourceTree = "<group>"; };
 		71A5799219C31500001CD0FC /* Athledo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Athledo.entitlements; sourceTree = "<group>"; };
+		71A59ADA1AE9FBA4009E7C86 /* Attendance~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Attendance~ipad.xib"; sourceTree = "<group>"; };
+		71A59ADC1AEA002C009E7C86 /* AttendanceCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AttendanceCell~ipad.xib"; sourceTree = "<group>"; };
 		71A5A32A1A49456900A00298 /* RepeatEventCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "RepeatEventCell~ipad.xib"; sourceTree = "<group>"; };
+		71A5F3F91AE8CBFE00BBA5ED /* Tick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tick.png; sourceTree = "<group>"; };
+		71A5F3FA1AE8CBFE00BBA5ED /* UnTick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnTick.png; sourceTree = "<group>"; };
+		71A5F3FD1AE8E57200BBA5ED /* Tick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tick@2x.png"; sourceTree = "<group>"; };
+		71A5F3FE1AE8E57200BBA5ED /* UnTick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UnTick@2x.png"; sourceTree = "<group>"; };
+		71A5F4031AE9171E00BBA5ED /* AAttendanceBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAttendanceBO.h; sourceTree = "<group>"; };
+		71A5F4041AE9171E00BBA5ED /* AAttendanceBO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAttendanceBO.m; sourceTree = "<group>"; };
 		71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutView~ipad.xib"; sourceTree = "<group>"; };
 		71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddWorkOut~iphone.xib"; sourceTree = "<group>"; };
 		71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutListCell~ipad.xib"; sourceTree = "<group>"; };
@@ -1018,6 +1041,14 @@
 		71B210A41AB7FAED002C1FA8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		71B210A61AB7FE1D002C1FA8 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		71B210A81AB7FE32002C1FA8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		71B4987A1AE61F8F007CCAF1 /* attendance_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attendance_icon.png; sourceTree = "<group>"; };
+		71B4987D1AE62538007CCAF1 /* Attendance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attendance.h; sourceTree = "<group>"; };
+		71B4987E1AE62538007CCAF1 /* Attendance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attendance.m; sourceTree = "<group>"; };
+		71B4987F1AE62538007CCAF1 /* Attendance~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Attendance~iphone.xib"; sourceTree = "<group>"; };
+		71B498831AE6296A007CCAF1 /* AttendanceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttendanceCell.h; sourceTree = "<group>"; };
+		71B498841AE6296A007CCAF1 /* AttendanceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttendanceCell.m; sourceTree = "<group>"; };
+		71B498851AE6296A007CCAF1 /* AttendanceCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AttendanceCell~iphone.xib"; sourceTree = "<group>"; };
+		71B498881AE64544007CCAF1 /* Celldot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Celldot.png; sourceTree = "<group>"; };
 		71B4CC031A13825E00042568 /* WorkoutHistoryDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkoutHistoryDetails.h; sourceTree = "<group>"; };
 		71B4CC041A13825E00042568 /* WorkoutHistoryDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkoutHistoryDetails.m; sourceTree = "<group>"; };
 		71B4CC051A13825E00042568 /* WorkoutHistoryDetails~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkoutHistoryDetails~iphone.xib"; sourceTree = "<group>"; };
@@ -1061,6 +1092,8 @@
 		71D66E371A7BA9C100B75F86 /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reveal-icon.png"; path = "../../../../reveal-icon.png"; sourceTree = "<group>"; };
 		71D66E381A7BA9C100B75F86 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reveal-icon@2x.png"; path = "../../../../reveal-icon@2x.png"; sourceTree = "<group>"; };
 		71E7A9A91A7A122F00CED0D1 /* map_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map_icon.png; sourceTree = "<group>"; };
+		71EE8B7B1AEA682500BAC83C /* grn_arw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grn_arw.png; sourceTree = "<group>"; };
+		71EE8B7C1AEA682500BAC83C /* red_arw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red_arw.png; sourceTree = "<group>"; };
 		71F925FC199895F9001931D8 /* WorkOutListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkOutListCell.h; sourceTree = "<group>"; };
 		71F925FD199895F9001931D8 /* WorkOutListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkOutListCell.m; sourceTree = "<group>"; };
 		71F925FE199895F9001931D8 /* WorkOutListCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutListCell~iphone.xib"; sourceTree = "<group>"; };
@@ -1162,6 +1195,7 @@
 		3D9E04E2197BCF3C005CCB10 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				71B498881AE64544007CCAF1 /* Celldot.png */,
 				71D66E311A7BA9C100B75F86 /* back.png */,
 				71D66E321A7BA9C100B75F86 /* btnCamera.png */,
 				71D66E331A7BA9C100B75F86 /* btnCamera@2x.png */,
@@ -1200,6 +1234,8 @@
 		3D9E050A197BCF7D005CCB10 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				71A5F4011AE9165000BBA5ED /* BusinessLayer */,
+				71B4987C1AE624F0007CCAF1 /* Attendance */,
 				712397951AD40BB000506565 /* Notes */,
 				71A9962F1ACC04BD00252A0C /* Sms */,
 				7197E854197E76750086DA2E /* Profile */,
@@ -1762,6 +1798,7 @@
 		71A3689B1A6E18A900DDF05C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				71A5F3F81AE8CBEA00BBA5ED /* attendance */,
 				71A368A11A6E191200DDF05C /* placeholder.png */,
 				71A369381A6E1D9100DDF05C /* OtherImages */,
 				71A369271A6E1C9E00DDF05C /* MenuIcons */,
@@ -1879,6 +1916,7 @@
 		71A369271A6E1C9E00DDF05C /* MenuIcons */ = {
 			isa = PBXGroup;
 			children = (
+				71B4987A1AE61F8F007CCAF1 /* attendance_icon.png */,
 				71A8EA8B1ACE56B50068BC88 /* sms_icon.png */,
 				71B726851AA0A2B000901F8C /* notes.png */,
 				71A369281A6E1CAD00DDF05C /* annouce_icon.png */,
@@ -2027,6 +2065,36 @@
 			children = (
 			);
 			path = SMSAPI;
+			sourceTree = "<group>";
+		};
+		71A5F3F81AE8CBEA00BBA5ED /* attendance */ = {
+			isa = PBXGroup;
+			children = (
+				71EE8B7B1AEA682500BAC83C /* grn_arw.png */,
+				71EE8B7C1AEA682500BAC83C /* red_arw.png */,
+				71A5F3FD1AE8E57200BBA5ED /* Tick@2x.png */,
+				71A5F3FE1AE8E57200BBA5ED /* UnTick@2x.png */,
+				71A5F3F91AE8CBFE00BBA5ED /* Tick.png */,
+				71A5F3FA1AE8CBFE00BBA5ED /* UnTick.png */,
+			);
+			path = attendance;
+			sourceTree = "<group>";
+		};
+		71A5F4011AE9165000BBA5ED /* BusinessLayer */ = {
+			isa = PBXGroup;
+			children = (
+				71A5F4021AE9167400BBA5ED /* EntitiesBO */,
+			);
+			name = BusinessLayer;
+			sourceTree = "<group>";
+		};
+		71A5F4021AE9167400BBA5ED /* EntitiesBO */ = {
+			isa = PBXGroup;
+			children = (
+				71A5F4031AE9171E00BBA5ED /* AAttendanceBO.h */,
+				71A5F4041AE9171E00BBA5ED /* AAttendanceBO.m */,
+			);
+			name = EntitiesBO;
 			sourceTree = "<group>";
 		};
 		71A6E75E19EFD2C1002416B4 /* MJGeocoder */ = {
@@ -2440,6 +2508,29 @@
 			name = Notes;
 			sourceTree = "<group>";
 		};
+		71B4987C1AE624F0007CCAF1 /* Attendance */ = {
+			isa = PBXGroup;
+			children = (
+				71B498821AE628ED007CCAF1 /* CustomCell */,
+				71B4987D1AE62538007CCAF1 /* Attendance.h */,
+				71B4987E1AE62538007CCAF1 /* Attendance.m */,
+				71B4987F1AE62538007CCAF1 /* Attendance~iphone.xib */,
+				71A59ADA1AE9FBA4009E7C86 /* Attendance~ipad.xib */,
+			);
+			name = Attendance;
+			sourceTree = "<group>";
+		};
+		71B498821AE628ED007CCAF1 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				71A59ADC1AEA002C009E7C86 /* AttendanceCell~ipad.xib */,
+				71B498831AE6296A007CCAF1 /* AttendanceCell.h */,
+				71B498841AE6296A007CCAF1 /* AttendanceCell.m */,
+				71B498851AE6296A007CCAF1 /* AttendanceCell~iphone.xib */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
 		71B788E71AB8212200ED6421 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -2636,6 +2727,7 @@
 				71A369701A6E1DA300DDF05C /* Coach.png in Resources */,
 				71A3697C1A6E1DA300DDF05C /* login_btn.png in Resources */,
 				71A369781A6E1DA300DDF05C /* list_icon.png in Resources */,
+				71EE8B7E1AEA682500BAC83C /* red_arw.png in Resources */,
 				71A369181A6E1C3A00DDF05C /* compose_icon.png in Resources */,
 				71A89A221A247AED00CA9756 /* AddNewAnnouncement~ipad.xib in Resources */,
 				71D66E391A7BA9C100B75F86 /* back.png in Resources */,
@@ -2655,6 +2747,7 @@
 				7197E85F197E78BB0086DA2E /* AddAthleteHistory~iphone.xib in Resources */,
 				71A369861A6E1DA400DDF05C /* profile_icon.png in Resources */,
 				71A73C511A1DE648008C089A /* ForgotPassword~ipad.xib in Resources */,
+				71EE8B7D1AEA682500BAC83C /* grn_arw.png in Resources */,
 				71A8A8631A273D08004D1A27 /* WeekViewController~ipad.xib in Resources */,
 				71A3690B1A6E1BC400DDF05C /* today_icon.png in Resources */,
 				71A63E251A26048A00D0DA99 /* SentItemsView~ipad.xib in Resources */,
@@ -2678,6 +2771,7 @@
 				71ADF1B61A70F1B200457FB9 /* bubble-default-incoming.png in Resources */,
 				71A369251A6E1C5F00DDF05C /* edit@2x.png in Resources */,
 				71A369821A6E1DA300DDF05C /* menu_sep12.png in Resources */,
+				71B4987B1AE61F8F007CCAF1 /* attendance_icon.png in Resources */,
 				71A509FD1A8DD57E0060E9B1 /* today_icon1.png in Resources */,
 				719384D21980CECA00A790FF /* AnnouncementCell~iphone.xib in Resources */,
 				3D9E0533197BD5E0005CCB10 /* CalenderScheduleView.xib in Resources */,
@@ -2710,9 +2804,13 @@
 				71ADF1C81A70F1B200457FB9 /* input-bar.png in Resources */,
 				3D9E04EE197BCF3C005CCB10 /* Images.xcassets in Resources */,
 				71A7BA861A9C719A00C75ABA /* AddNotes~ipad.xib in Resources */,
+				71A59ADB1AE9FBA4009E7C86 /* Attendance~ipad.xib in Resources */,
 				71A461B919F4BF8200CD2C13 /* RepeatCalendarEvent~iphone.xib in Resources */,
+				71B498871AE6296A007CCAF1 /* AttendanceCell~iphone.xib in Resources */,
 				71A369841A6E1DA400DDF05C /* next.png in Resources */,
+				71A5F4001AE8E57200BBA5ED /* UnTick@2x.png in Resources */,
 				71A63E1B1A25C81600D0DA99 /* WorkoutHistoryDetails~ipad.xib in Resources */,
+				71A5F3FF1AE8E57200BBA5ED /* Tick@2x.png in Resources */,
 				71A63E271A2605D400D0DA99 /* ArichiveView~ipad.xib in Resources */,
 				71A63E211A25E32800D0DA99 /* MessangerView~ipad.xib in Resources */,
 				71A369311A6E1CAD00DDF05C /* message_icon.png in Resources */,
@@ -2759,10 +2857,12 @@
 				71950F9619C175F600B4BF1A /* MessageDetails.xib in Resources */,
 				71ADF1B21A70F1B200457FB9 /* bubble-default-incoming-green.png in Resources */,
 				71C9A89719ECE93A001A4017 /* CalendarMonthView~iphone.xib in Resources */,
+				71B498811AE62538007CCAF1 /* Attendance~iphone.xib in Resources */,
 				71D66E3E1A7BA9C100B75F86 /* placeholder.png in Resources */,
 				71F92600199895F9001931D8 /* WorkOutListCell~iphone.xib in Resources */,
 				71ADF1B91A70F1B200457FB9 /* bubble-default-outgoing-green@2x.png in Resources */,
 				71A368AB1A6E191200DDF05C /* mnth_icon.png in Resources */,
+				71A59ADD1AEA002C009E7C86 /* AttendanceCell~ipad.xib in Resources */,
 				71B15AD31A482603008C0C71 /* AddCalendarEvent~ipad.xib in Resources */,
 				71A369811A6E1DA300DDF05C /* menu_sep.png in Resources */,
 				71A369661A6E1DA300DDF05C /* add1.png in Resources */,
@@ -2792,6 +2892,7 @@
 				71A369351A6E1CAD00DDF05C /* schedule_icon.png in Resources */,
 				71A3698B1A6E1DA400DDF05C /* selectedCheck.png in Resources */,
 				71D66E3B1A7BA9C100B75F86 /* btnCamera@2x.png in Resources */,
+				71A5F3FB1AE8CBFE00BBA5ED /* Tick.png in Resources */,
 				710C633E19B9E41C00F11983 /* WeekViewController~iphone.xib in Resources */,
 				71A6E75C19EF78DF002416B4 /* AddCalendarEvent~iphone.xib in Resources */,
 				71A368A91A6E191200DDF05C /* btnCamera@2x.png in Resources */,
@@ -2812,6 +2913,7 @@
 				71A3691A1A6E1C3A00DDF05C /* edit.png in Resources */,
 				71A63E151A25A06D00D0DA99 /* AddWorkOut~iphone.xib in Resources */,
 				71ADF1C21A70F1B200457FB9 /* bubble-square-outgoing-selected.png in Resources */,
+				71B498891AE64544007CCAF1 /* Celldot.png in Resources */,
 				7199955A197D312E00C0F77F /* DashBoardCell.xib in Resources */,
 				711362DE1A8E319700634352 /* Default-568h.png in Resources */,
 				71A369871A6E1DA400DDF05C /* profileBg.png in Resources */,
@@ -2862,6 +2964,7 @@
 				71A368EB1A6E1AAD00DDF05C /* iTunesArtwork.png in Resources */,
 				71A369001A6E1B8E00DDF05C /* video_icon@2x.png in Resources */,
 				71A369851A6E1DA400DDF05C /* phone_icon.png in Resources */,
+				71A5F3FC1AE8CBFE00BBA5ED /* UnTick.png in Resources */,
 				71A3696A1A6E1DA300DDF05C /* bottomBorder.png in Resources */,
 				712397A61AD40C5400506565 /* AddNoteCell~ipad.xib in Resources */,
 				71B726871AA0A2B000901F8C /* notes.png in Resources */,
@@ -2918,6 +3021,7 @@
 				719384CE1980CB7C00A790FF /* AnnouncementCell.m in Sources */,
 				719A192C19B5770000F1155A /* TPKeyboardAvoidingTableView.m in Sources */,
 				7194ADFD19C04B5100DC0A23 /* UIButton+JSMessagesView.m in Sources */,
+				71B498801AE62538007CCAF1 /* Attendance.m in Sources */,
 				7197A49119CC29D0004CC2E4 /* SBJsonParser.m in Sources */,
 				7198FEA01986068C002925DA /* ProfileCell.m in Sources */,
 				71B142B619C974FE008EBC90 /* SWCellScrollView.m in Sources */,
@@ -3020,6 +3124,7 @@
 				7111F6041A9F26C4004F58E8 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				71977E241990DEBE00477EAF /* AddAthleteHistoryCell.m in Sources */,
 				710C634519B9E8A400F11983 /* MAEventKitDataSource.m in Sources */,
+				71A5F4051AE9171E00BBA5ED /* AAttendanceBO.m in Sources */,
 				71999537197CEBF000C0F77F /* ActiveIndicator.m in Sources */,
 				71A7B5AE197F762100038A15 /* Awards.m in Sources */,
 				710C635219B9E8FA00F11983 /* MAEvent.m in Sources */,
@@ -3039,6 +3144,7 @@
 				71999503197CC86000C0F77F /* Reachability.m in Sources */,
 				71ACB4FD198A13E3007C5AFA /* AddCoachingHistory.m in Sources */,
 				71950FAB19C1A5BE00B4BF1A /* TSPopoverTouchView.m in Sources */,
+				71B498861AE6296A007CCAF1 /* AttendanceCell.m in Sources */,
 				7111F6001A9F26C4004F58E8 /* AFURLRequestSerialization.m in Sources */,
 				7197E853197E76620086DA2E /* AddAthleteHistory.m in Sources */,
 				71B15AC41A47CDB1008C0C71 /* MultimediaVideo.m in Sources */,
@@ -3128,7 +3234,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
+				PROVISIONING_PROFILE = "e59553ee-046a-4e70-a1e6-9c24d3029767";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3161,7 +3267,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
+				PROVISIONING_PROFILE = "e59553ee-046a-4e70-a1e6-9c24d3029767";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3192,7 +3298,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
+				PROVISIONING_PROFILE = "e59553ee-046a-4e70-a1e6-9c24d3029767";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3216,7 +3322,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ab556a33-9e07-4970-97df-877543a44103";
+				PROVISIONING_PROFILE = "e59553ee-046a-4e70-a1e6-9c24d3029767";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Attendance">
+            <connections>
+                <outlet property="tableView" destination="vCr-lp-vBF" id="tJc-ws-wqV"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vCr-lp-vBF">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="441"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="yN7-hW-Dpa"/>
+                        <outlet property="delegate" destination="-1" id="1C7-ht-B4y"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="red_arw.png" translatesAutoresizingMaskIntoConstraints="NO" id="s2D-RH-w5I">
+                    <rect key="frame" x="99" y="450" width="25" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="FWT-zJ-9Mt"/>
+                        <constraint firstAttribute="height" constant="25" id="ysZ-vh-8X5"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grn_arw.png" translatesAutoresizingMaskIntoConstraints="NO" id="iAF-Pn-daS">
+                    <rect key="frame" x="195" y="450" width="25" height="25"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DRAG" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVA-1d-mrS">
+                    <rect key="frame" x="135" y="452" width="50" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="IHY-hM-Xub"/>
+                        <constraint firstAttribute="width" constant="50" id="tkf-8T-nJ7"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="CpS-DB-VM5">
+                    <rect key="frame" x="0.0" y="477" width="320" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="mPL-PD-BZJ"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_sep.png" translatesAutoresizingMaskIntoConstraints="NO" id="iMp-xV-eCx">
+                    <rect key="frame" x="0.0" y="446" width="320" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="7dP-MR-xz4"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="vCr-lp-vBF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="1Md-oi-ijn"/>
+                <constraint firstItem="iMp-xV-eCx" firstAttribute="top" secondItem="vCr-lp-vBF" secondAttribute="bottom" constant="5" id="5PR-d2-fO6"/>
+                <constraint firstItem="iAF-Pn-daS" firstAttribute="leading" secondItem="fVA-1d-mrS" secondAttribute="trailing" constant="10" id="B5m-ED-DO4"/>
+                <constraint firstItem="vCr-lp-vBF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CaA-h7-HpJ"/>
+                <constraint firstItem="iAF-Pn-daS" firstAttribute="top" secondItem="vCr-lp-vBF" secondAttribute="bottom" constant="9" id="DaT-Cu-PmW"/>
+                <constraint firstAttribute="bottom" secondItem="fVA-1d-mrS" secondAttribute="bottom" constant="7" id="Gry-KB-cLQ"/>
+                <constraint firstAttribute="trailing" secondItem="iAF-Pn-daS" secondAttribute="trailing" constant="100" id="KBq-uQ-aRO"/>
+                <constraint firstItem="fVA-1d-mrS" firstAttribute="top" secondItem="vCr-lp-vBF" secondAttribute="bottom" constant="11" id="KBt-o3-KzF"/>
+                <constraint firstItem="CpS-DB-VM5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="SwA-K5-G71"/>
+                <constraint firstItem="iMp-xV-eCx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="T1B-r1-1SE"/>
+                <constraint firstAttribute="bottom" secondItem="CpS-DB-VM5" secondAttribute="bottom" id="Tmf-0T-a0N"/>
+                <constraint firstItem="iAF-Pn-daS" firstAttribute="leading" secondItem="fVA-1d-mrS" secondAttribute="trailing" constant="10" id="UHO-DR-bxG"/>
+                <constraint firstItem="s2D-RH-w5I" firstAttribute="top" secondItem="vCr-lp-vBF" secondAttribute="bottom" constant="9" id="aFJ-Lz-xrZ"/>
+                <constraint firstAttribute="trailing" secondItem="iMp-xV-eCx" secondAttribute="trailing" id="b2B-gJ-fBJ"/>
+                <constraint firstAttribute="trailing" secondItem="CpS-DB-VM5" secondAttribute="trailing" id="cMr-01-8Rj"/>
+                <constraint firstAttribute="bottom" secondItem="iAF-Pn-daS" secondAttribute="bottom" constant="5" id="cpn-HY-Pud"/>
+                <constraint firstItem="fVA-1d-mrS" firstAttribute="leading" secondItem="s2D-RH-w5I" secondAttribute="trailing" constant="11" id="dFo-Yc-QSF"/>
+                <constraint firstAttribute="trailing" secondItem="vCr-lp-vBF" secondAttribute="trailing" id="efq-Ql-Rxb"/>
+                <constraint firstAttribute="bottom" secondItem="s2D-RH-w5I" secondAttribute="bottom" constant="5" id="mid-VA-7jt"/>
+                <constraint firstItem="s2D-RH-w5I" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="99" id="mup-ax-yCN"/>
+                <constraint firstItem="fVA-1d-mrS" firstAttribute="leading" secondItem="s2D-RH-w5I" secondAttribute="trailing" constant="11" id="rRV-nW-uBz"/>
+                <constraint firstItem="iAF-Pn-daS" firstAttribute="top" secondItem="vCr-lp-vBF" secondAttribute="bottom" constant="9" id="u5Z-EL-hob"/>
+                <constraint firstItem="iAF-Pn-daS" firstAttribute="top" secondItem="iMp-xV-eCx" secondAttribute="bottom" constant="3" id="wkd-Sz-aRp"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="98" y="84"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+        <image name="grn_arw.png" width="67" height="48"/>
+        <image name="menu_sep.png" width="400" height="2"/>
+        <image name="red_arw.png" width="67" height="48"/>
+    </resources>
+</document>

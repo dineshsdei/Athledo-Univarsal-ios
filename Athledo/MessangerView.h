@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "JSMessagesViewController.h"
-
 #import "WebServiceClass.h"
 #import "MessageInboxCell.h"
 #import "SWTableViewCell.h"

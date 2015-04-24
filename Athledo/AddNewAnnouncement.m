@@ -167,6 +167,7 @@ UIDeviceOrientation CurrentOrientation;
 }
 - (void)viewDidLoad
 {
+    [scrollView setContentSize:CGSizeMake(0, self.view.frame.size.height)];
     self.title = _ScreenTitle;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
@@ -246,15 +247,15 @@ UIDeviceOrientation CurrentOrientation;
         announcementId = [obj valueForKey:@"id"];
         if ([[obj valueForKey:@"email_notification"] intValue]==0) {
             emailBtn2.userInteractionEnabled=NO;
-            [emailBtn2 setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
-            [emailBtn1 setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+            [emailBtn2 setImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+            [emailBtn1 setImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
             emailBtn1.userInteractionEnabled=YES;
             emailNotification=@"0";
             
         }else{
             emailBtn1.userInteractionEnabled=NO;
-            [emailBtn1 setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
-            [emailBtn2 setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+            [emailBtn1 setImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+            [emailBtn2 setImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
             emailBtn2.userInteractionEnabled=YES;
             emailNotification=@"1";
         }
@@ -269,7 +270,7 @@ UIDeviceOrientation CurrentOrientation;
         }
         if ([array count]==4 && [array containsObject:@"2"]) {
             UIButton *btn = (UIButton*)[scrollView viewWithTag:1000];
-            [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             btn.selected=YES;
         }
         
@@ -282,7 +283,7 @@ UIDeviceOrientation CurrentOrientation;
                 a=4;
             }
             UIButton *btn = (UIButton*)[scrollView viewWithTag:(a+1000)];
-            [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             btn.selected=YES;
         }
     }
@@ -360,26 +361,18 @@ UIDeviceOrientation CurrentOrientation;
                     for (int i=0;i< groupArray.count;i++){
                         [selectedGroups setObject:[NSNumber numberWithBool:NO] forKey:[groupArray objectAtIndex:i]];
                     }
-                    
                     // In Edit mode group shows selected here
-                    
                     if (obj) {
-                        
                         NSString *settingStr = [obj valueForKey:@"group_ids"];
                         NSArray *array;
                         if (![settingStr isKindOfClass:[NSNull class]] && settingStr!=nil && settingStr.length > 0)
                             array = [settingStr componentsSeparatedByString:@","];
-                        
-                        
                         for (int i=0;i< array.count;i++){
-                            
                             [selectedGroups setObject:[NSNumber numberWithBool:YES] forKey:[AllGroupData objectForKey:[array objectAtIndex:i] ]];
                         }
-                        
                         if (array.count > 0) {
-                            [selectGroupBtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                            [selectGroupBtn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                         }
-                        
                     }
                 }
             }
@@ -411,7 +404,6 @@ UIDeviceOrientation CurrentOrientation;
     @finally {
         
     }
-    
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -422,9 +414,7 @@ UIDeviceOrientation CurrentOrientation;
         
     }
 }
-
 // this method used to keep position down of picker, Datepicker,multiselection picker
-
 -(void)doneClicked
 {
     UIScrollView *scrllView = (UIScrollView *)[self.view viewWithTag:90];
@@ -457,9 +447,7 @@ UIDeviceOrientation CurrentOrientation;
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
     
 }
-
 // this method used to hide listpicker , Datepicker when click on checkbox
-
 -(void)ClickCheckBoxHideControll
 {
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
@@ -515,6 +503,7 @@ UIDeviceOrientation CurrentOrientation;
         if (Date) {
             [tempdatePicker setDate:Date];
         }
+        
     }else{
         [df setTimeStyle:NSDateFormatterShortStyle];
         [df setDateFormat:@"hh:mm a"];
@@ -531,37 +520,34 @@ UIDeviceOrientation CurrentOrientation;
 {
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     [self setContentOffset:textField table:scrollView];
-    
+    currentText=nil;
     currentText=textField;
-    if (textField.tag==10 || textField.tag==11) {
-        
+     NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    if (currentText.tag==10||selectedBtn.tag==501) {
         [self setDateInDatePicker];
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-        
-        if (textField.tag==10)
-        {
-            datePicker.datePickerMode = UIDatePickerModeDate;
-        }else if (textField.tag==11){
-            
-            datePicker.datePickerMode = UIDatePickerModeTime;
-        }
-        
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        if ((currentText.tag==10||selectedBtn.tag==501) && currentText.text.length==0) {
+         datePicker.datePickerMode = UIDatePickerModeDate;
+        if (currentText.text.length ==0) {
             [df setDateFormat:@"MMM dd,yyyy"];
             [df setDateStyle:NSDateFormatterMediumStyle];
             [df setTimeStyle:NSDateFormatterNoStyle];
             currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-        }else if ((currentText.tag==11||selectedBtn.tag==502) && currentText.text.length==0)
-        {
-            [df setDateFormat:@"hh:mm a"];
-            currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
         }
-        df=nil;
+        [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
+        [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
+        return NO;
+    }else if (currentText.tag==11||selectedBtn.tag==502)
+    {
+        [self setDateInDatePicker];
+        [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+         datePicker.datePickerMode = UIDatePickerModeTime;
+        [df setDateFormat:@"hh:mm a"];
+        currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
         return NO;
     }
+    
     return YES;
 }
 
@@ -623,14 +609,14 @@ UIDeviceOrientation CurrentOrientation;
     // Lets handle ValueChanged event only for selected button, and ignore for deselected
     if(sender==emailBtn1) {
         emailBtn1.userInteractionEnabled=NO;
-        [sender setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
-        [emailBtn2 setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+        [emailBtn2 setImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
         emailBtn2.userInteractionEnabled=YES;
         emailNotification=@"1";
     }else if (sender==emailBtn2){
         emailBtn2.userInteractionEnabled=NO;
-        [sender setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
-        [emailBtn1 setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+        [emailBtn1 setImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
         emailBtn1.userInteractionEnabled=YES;
         emailNotification=@"0";
     }
@@ -653,7 +639,7 @@ UIDeviceOrientation CurrentOrientation;
         
         if (!button.selected)
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             //Athlete or All
             if (button.tag == 1002 || button.tag==1000) {
                 
@@ -663,7 +649,7 @@ UIDeviceOrientation CurrentOrientation;
                 if (btn.selected)
                 {
                     btn.selected=NO;
-                    [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                    [btn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                     [self ChangeAllGroupStatus : NO];
                 }
                 
@@ -675,7 +661,7 @@ UIDeviceOrientation CurrentOrientation;
                 if (btn1.selected)
                 {
                     btn1.selected=NO;
-                    [btn1 setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                    [btn1 setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                     
                     for (int i=0; i<4; i++)
                     {
@@ -686,10 +672,8 @@ UIDeviceOrientation CurrentOrientation;
                         
                         // Athlete button unckeck
                         if (btn.tag == 1002)
-                            [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                        
+                            [btn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                     }
-                    
                     NSString *str1=[NSString stringWithFormat:@"%d",(int)(btn1.tag-1000)];
                     if ([settingArray containsObject:str1])
                     {
@@ -702,8 +686,7 @@ UIDeviceOrientation CurrentOrientation;
                 if (btn.selected)
                 {
                     btn.selected=NO;
-                    [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                    
+                    [btn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                     NSString *str1=[NSString stringWithFormat:@"%d",(int)(btn.tag-1000)];
                     if ([settingArray containsObject:str1])
                     {
@@ -715,21 +698,19 @@ UIDeviceOrientation CurrentOrientation;
         }
         else
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
             
             if (button.tag ==1004) {
                 for (id key in [selectedGroups allKeys])
                 {
                     if ([[selectedGroups objectForKey:key] intValue] == 1) {
-                        
                         button.selected=YES;
-                        [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
-                        
+                        [button setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                         break;
                     }else
                     {
                         button.selected=NO;
-                        [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                        [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                     }
                     
                 }
@@ -748,7 +729,7 @@ UIDeviceOrientation CurrentOrientation;
                 
                 CheckboxButton *btn = (CheckboxButton*)[scrollView viewWithTag:(a+1000)];
                 if (!button.selected) {
-                    [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                     
                     if (a!=0) {
                         btn.selected=YES;
@@ -757,7 +738,7 @@ UIDeviceOrientation CurrentOrientation;
                             [settingArray addObject:str];
                     }
                 }else{
-                    [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                    [btn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                     
                     if (a!=0) {
                         btn.selected=NO;
@@ -835,9 +816,7 @@ UIDeviceOrientation CurrentOrientation;
             ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
             indicator.tag = 50;
             [self.view addSubview:indicator];
-            
             NSMutableString *groupIdString=[[NSMutableString alloc]init];
-            
             NSArray *arrKeys=[selectedGroups allKeys];
             NSArray *arrValues=[selectedGroups allValues];
             NSMutableArray *temp1=[[NSMutableArray alloc] init];
@@ -850,12 +829,10 @@ UIDeviceOrientation CurrentOrientation;
                 }
             }
             for (int i=0; i<temp1.count; i++) {
-                
                 if (i < temp1.count-1 )
                     [groupIdString appendFormat:@"%@,",temp1[i]];
                 else
                     [groupIdString appendFormat:@"%@",temp1[i]];
-                
             }
             NSString *tepmSetting=@"";
             for (int i=0; i<settingArray.count; i++) {
@@ -930,8 +907,7 @@ UIDeviceOrientation CurrentOrientation;
 }
 
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionGroupForRow:(NSInteger)row {
-    
-    return [[selectedGroups objectForKey:[groupArray objectAtIndex:row]] boolValue];
+      return [[selectedGroups objectForKey:[groupArray objectAtIndex:row]] boolValue];
 }
 
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionStateForRow:(NSInteger)row {
@@ -959,10 +935,10 @@ UIDeviceOrientation CurrentOrientation;
         }
     }
     if (status) {
-        [selectGroupBtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+        [selectGroupBtn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
     }else
     {
-        [selectGroupBtn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+        [selectGroupBtn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -990,7 +966,7 @@ UIDeviceOrientation CurrentOrientation;
                 int a = i;
                 
                 CheckboxButton *btn = (CheckboxButton*)[scrollView viewWithTag:(a+1000)];
-                [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                 
                 btn.selected=YES;
                 if (a!=0) {
@@ -1012,7 +988,7 @@ UIDeviceOrientation CurrentOrientation;
             }
             
             if (btnGroup.selected==YES) {
-                [btnGroup setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [btnGroup setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 btnGroup.selected=NO;
                 [self ChangeAllGroupStatus : NO];
             }
@@ -1025,7 +1001,7 @@ UIDeviceOrientation CurrentOrientation;
                 int a = i;
                 
                 CheckboxButton *btn = (CheckboxButton*)[scrollView viewWithTag:(a+1000)];
-                [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 
                 btn.selected=NO;
                 if (a!=0) {
@@ -1047,23 +1023,14 @@ UIDeviceOrientation CurrentOrientation;
         if (button.tag == 1001 && button.selected==YES)
         {
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-            
             if (Allbtn.selected==YES) {
-                
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                
+                [Allbtn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 Allbtn.selected=NO;
-                
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
-                
             }else{
-                
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
-                
             }
             
             NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
@@ -1073,7 +1040,7 @@ UIDeviceOrientation CurrentOrientation;
             
         }else if (button.tag == 1001 && button.selected==NO)
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             
             button.selected=YES;
             
@@ -1098,7 +1065,7 @@ UIDeviceOrientation CurrentOrientation;
             if (count==3) {
                 
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                [Allbtn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                 
                 Allbtn.selected=YES;
             }
@@ -1125,14 +1092,14 @@ UIDeviceOrientation CurrentOrientation;
             
             if (Allbtn.selected==YES) {
                 
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [Allbtn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 Allbtn.selected=NO;
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
                 
             }else{
                 
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
             }
             NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
@@ -1141,7 +1108,7 @@ UIDeviceOrientation CurrentOrientation;
             }
         }else if (button.tag == 1002 && button.selected==NO)
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             button.selected=YES;
             int count=0;
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1001)];
@@ -1162,7 +1129,7 @@ UIDeviceOrientation CurrentOrientation;
             if (count==3) {
                 
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                [Allbtn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                 Allbtn.selected=YES;
             }
             //Add values for use
@@ -1177,7 +1144,7 @@ UIDeviceOrientation CurrentOrientation;
                 [settingArray removeObject:str];
             }
             if (btnGroup.selected==YES) {
-                [btnGroup setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [btnGroup setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 btnGroup.selected=NO;
                 [self ChangeAllGroupStatus : NO];
             }
@@ -1191,27 +1158,17 @@ UIDeviceOrientation CurrentOrientation;
     if ([sender isKindOfClass:[CheckboxButton class]])
     {
         CheckboxButton *button=(CheckboxButton*)sender;
-        
         if (button.tag == 1004 && button.selected==YES)
         {
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-            
             if (Allbtn.selected==YES) {
-                
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                
+                [Allbtn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 Allbtn.selected=NO;
-                
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
-                
             }else{
-                
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
-                
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
-                
             }
             
             NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
@@ -1221,22 +1178,15 @@ UIDeviceOrientation CurrentOrientation;
             
         }else if (button.tag == 1004 && button.selected==NO)
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
-            
+            [button setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             button.selected=YES;
-            
             int count=0;
-            
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1002)];
-            
             if (btnAthlete.selected==YES) {
-                
                 count++;
             }
             CheckboxButton *btnAlumini = (CheckboxButton*)[scrollView viewWithTag:(1003)];
-            
             if (btnAlumini.selected==YES) {
-                
                 count++;
             }
             CheckboxButton *btnCoach = (CheckboxButton*)[scrollView viewWithTag:(1001)];
@@ -1246,8 +1196,7 @@ UIDeviceOrientation CurrentOrientation;
             if (count==3) {
                 
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
-                
+                [Allbtn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                 Allbtn.selected=YES;
             }
             //Add values for use
@@ -1255,13 +1204,11 @@ UIDeviceOrientation CurrentOrientation;
             if (![settingArray containsObject:str1]) {
                 [settingArray addObject:str1];
             }
-            
         }
     }
     
 }
 - (IBAction)AluminiButtonEvent:(id)sender {
-    
     [self ClickCheckBoxHideControll];
     if ([sender isKindOfClass:[CheckboxButton class]])
     {
@@ -1270,21 +1217,17 @@ UIDeviceOrientation CurrentOrientation;
         if (button.tag == 1003 && button.selected==YES)
         {
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-            
             if (Allbtn.selected==YES) {
-                
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [Allbtn setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 Allbtn.selected=NO;
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
                 
             }else{
                 
-                [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
-                
             }
-            
             NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
             if ([settingArray containsObject:str1]) {
                 [settingArray removeObject:str1];
@@ -1292,7 +1235,7 @@ UIDeviceOrientation CurrentOrientation;
             
         }else if (button.tag == 1003 && button.selected==NO)
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             
             button.selected=YES;
             int count=0;
@@ -1310,7 +1253,7 @@ UIDeviceOrientation CurrentOrientation;
             }
             if (count==3) {
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-                [Allbtn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                [Allbtn setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                 Allbtn.selected=YES;
             }
             //Add values for use
@@ -1318,10 +1261,8 @@ UIDeviceOrientation CurrentOrientation;
             if (![settingArray containsObject:str1]) {
                 [settingArray addObject:str1];
             }
-            
         }
     }
-    
 }
 
 - (IBAction)GroupsButtonEvent:(id)sender {
@@ -1337,22 +1278,22 @@ UIDeviceOrientation CurrentOrientation;
         CheckboxButton *button=(CheckboxButton*)sender;
         if (button.tag == 1005 && button.selected==YES)
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
             button.selected=NO;
         }else if (button.tag == 1005 && button.selected==NO)
         {
-            [button setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
             
             button.selected=YES;
             CheckboxButton *btnAll = (CheckboxButton*)[scrollView viewWithTag:(1000)];
             
             if (btnAll.selected==YES) {
-                [btnAll setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [btnAll setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 btnAll.selected=NO;
             }
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1002)];
             if (btnAthlete.selected==YES) {
-                [btnAthlete setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                [btnAthlete setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 btnAthlete.selected=NO;
                 NSString *str1=[NSString stringWithFormat:@"%d",(int)(btnAthlete.tag-1000)];
                 if ([settingArray containsObject:str1]) {

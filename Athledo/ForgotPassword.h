@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForgotPassword : UIViewController<UITextFieldDelegate>
+@interface ForgotPassword : UIViewController<UITextFieldDelegate,UIAlertViewDelegate>
 {
     IBOutlet UITextField *txtFieldUserId;
     IBOutlet UINavigationBar *NavBar;

@@ -20,7 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (strong, nonatomic) IBOutlet UIButton *btnSelectAll;
 @property (weak, nonatomic) IBOutlet UILabel *lblSelectAll;
-@property (strong, nonatomic) NSMutableArray *arrFilterdData; ;
+@property (strong, nonatomic) NSMutableArray *arrFilterdData;
+@property (strong, nonatomic) NSMutableArray *arrGroupFilterdData;
 @property (weak, nonatomic) id keyboardAppear;
 @property (weak, nonatomic) id keyboardHide;
 @end

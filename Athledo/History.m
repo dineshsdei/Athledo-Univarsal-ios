@@ -33,18 +33,15 @@
     [super didReceiveMemoryWarning];
 }
 #pragma mark SearchBar Delegate
-
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
 }
-
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     searchBar.showsCancelButton=YES;
 }
-
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [arrFilterdData removeAllObjects];

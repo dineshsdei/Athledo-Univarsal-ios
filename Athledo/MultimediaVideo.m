@@ -339,6 +339,25 @@
 - (IBAction)UploadVideo
 {
     if (urlvideo) {
+        
+        NSString *strError = @"";
+        if(_tfSeason.text.length < 1 )
+        {
+            strError = @"Please select season";
+        }
+        else if(_tfTitle.text.length < 1 )
+        {
+            strError = @"Please enter title";
+        } else if(_tfDescription.text.length < 1 )
+        {
+            strError = @"Please enter description";
+        }
+        if(strError.length > 2 )
+        {
+         [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            return;
+        }
+        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *urlString=[urlvideo path];
@@ -363,6 +382,12 @@
         [request setUploadProgressDelegate:self];
         [request setTimeOutSeconds:5000];
         [request startAsynchronous];
+        
+        _tfTitle.text = @"";
+        _tfDescription.text = @"";
+        _tfSeason.text =@"";
+       self.scrollview.hidden = YES ;
+        
     }else{
         [SingletonClass initWithTitle:@"" message:@"Please select video from device" delegate:nil btn1:@"Ok"];
     }
@@ -391,8 +416,6 @@
         _tfTitle.text = @"";
         _tfDescription.text = @"";
         _tfSeason.text =@"";
-        NSLog(@"json string %@",[theRequest responseString]);
-        NSLog(@"json string %@",[theRequest responseStatusMessage]);
         NSData *data = [[theRequest responseString] dataUsingEncoding:NSUTF8StringEncoding];
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         [json valueForKey:@"status"] ? [SingletonClass initWithTitle:[json valueForKey:@"status"] message:[json valueForKey:@"message"] delegate:nil btn1:@"Ok"] :[SingletonClass initWithTitle:@"" message:@"Server error" delegate:nil btn1:@"Ok"] ;
@@ -535,6 +558,7 @@
     // Start playbac0k
     
     [playerVC.moviePlayer prepareToPlay];
+    [playerVC.moviePlayer setCurrentPlaybackRate:2.0f];
     [playerVC.moviePlayer play];
 }
 #pragma mark - Tableview Delegate

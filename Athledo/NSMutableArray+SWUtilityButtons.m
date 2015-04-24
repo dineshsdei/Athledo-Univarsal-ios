@@ -7,6 +7,7 @@
 //
 
 #import "NSMutableArray+SWUtilityButtons.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @implementation NSMutableArray (SWUtilityButtons)
 
@@ -31,9 +32,11 @@
 
 - (void)sw_addUtilityButtonWithColor:(UIColor *)color icon:(UIImage *)icon :(int)btnTag
 {
-   // UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-   // button.frame=CGRectMake(230, 30, 30, 30);
+  
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+   // button.layer.borderWidth = .5f;
+   // button.layer.borderColor = [UIColor darkGrayColor].CGColor;
+
     button.backgroundColor = color;
     [button setImage:icon forState:UIControlStateNormal];
     button.tag=btnTag;
