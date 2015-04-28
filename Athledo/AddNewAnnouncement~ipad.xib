@@ -196,14 +196,14 @@
                                         <outlet property="delegate" destination="-1" id="BvO-yq-onP"/>
                                     </connections>
                                 </textField>
-                                <button opaque="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iaR-7P-9AD">
+                                <button opaque="NO" userInteractionEnabled="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iaR-7P-9AD">
                                     <rect key="frame" x="712" y="674" width="18" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="arrow.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
-                                <button opaque="NO" tag="501" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ajx-2Q-qN0">
+                                <button opaque="NO" userInteractionEnabled="NO" tag="501" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ajx-2Q-qN0">
                                     <rect key="frame" x="712" y="599" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" backgroundImage="calendar.png">

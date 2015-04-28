@@ -264,7 +264,7 @@
 		71A3698A1A6E1DA400DDF05C /* restore.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A3695D1A6E1DA300DDF05C /* restore.png */; };
 		71A3698B1A6E1DA400DDF05C /* selectedCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A3695E1A6E1DA300DDF05C /* selectedCheck.png */; };
 		71A3698C1A6E1DA400DDF05C /* trans_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A3695F1A6E1DA300DDF05C /* trans_bg.png */; };
-		71A3698D1A6E1DA400DDF05C /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369601A6E1DA300DDF05C /* uncheck.png */; };
+		71A3698D1A6E1DA400DDF05C /* uncheck1.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369601A6E1DA300DDF05C /* uncheck1.png */; };
 		71A3698E1A6E1DA400DDF05C /* ViewBacground.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369611A6E1DA300DDF05C /* ViewBacground.png */; };
 		71A3698F1A6E1DA400DDF05C /* wheel_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369621A6E1DA300DDF05C /* wheel_bg@2x.png */; };
 		71A369901A6E1DA400DDF05C /* wheel_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A369631A6E1DA300DDF05C /* wheel_shadow@2x.png */; };
@@ -435,6 +435,7 @@
 		71BC592219DA7488002B56DB /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BC592119DA7488002B56DB /* CustomTextField.m */; };
 		71BC76EA1A5A466F0085DE64 /* AddWorkOut~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BC76E91A5A466F0085DE64 /* AddWorkOut~ipad.xib */; };
 		71BC76F01A5AB3670085DE64 /* WorkOutDetails~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71BC76EF1A5AB3670085DE64 /* WorkOutDetails~ipad.xib */; };
+		71BCF9F71AEE4B30005D984A /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BCF9F61AEE4B30005D984A /* uncheck.png */; };
 		71C9A89419ECE2B6001A4017 /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C9A89319ECE2B6001A4017 /* MyAnnotation.m */; };
 		71C9A89719ECE93A001A4017 /* CalendarMonthView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */; };
 		71D66E301A7BA7FD00B75F86 /* AddWorkOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D66E2F1A7BA7FD00B75F86 /* AddWorkOut.m */; };
@@ -858,7 +859,7 @@
 		71A3695D1A6E1DA300DDF05C /* restore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restore.png; sourceTree = "<group>"; };
 		71A3695E1A6E1DA300DDF05C /* selectedCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selectedCheck.png; sourceTree = "<group>"; };
 		71A3695F1A6E1DA300DDF05C /* trans_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trans_bg.png; sourceTree = "<group>"; };
-		71A369601A6E1DA300DDF05C /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck.png; sourceTree = "<group>"; };
+		71A369601A6E1DA300DDF05C /* uncheck1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck1.png; sourceTree = "<group>"; };
 		71A369611A6E1DA300DDF05C /* ViewBacground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ViewBacground.png; sourceTree = "<group>"; };
 		71A369621A6E1DA300DDF05C /* wheel_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_bg@2x.png"; sourceTree = "<group>"; };
 		71A369631A6E1DA300DDF05C /* wheel_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel_shadow@2x.png"; sourceTree = "<group>"; };
@@ -1078,6 +1079,7 @@
 		71BC592119DA7488002B56DB /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
 		71BC76E91A5A466F0085DE64 /* AddWorkOut~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddWorkOut~ipad.xib"; sourceTree = "<group>"; };
 		71BC76EF1A5AB3670085DE64 /* WorkOutDetails~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutDetails~ipad.xib"; sourceTree = "<group>"; };
+		71BCF9F61AEE4B30005D984A /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck.png; sourceTree = "<group>"; };
 		71C9A89219ECE2B6001A4017 /* MyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnnotation.h; sourceTree = "<group>"; };
 		71C9A89319ECE2B6001A4017 /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "CalendarMonthView~iphone.xib"; sourceTree = "<group>"; };
@@ -1934,6 +1936,7 @@
 		71A369381A6E1D9100DDF05C /* OtherImages */ = {
 			isa = PBXGroup;
 			children = (
+				71BCF9F61AEE4B30005D984A /* uncheck.png */,
 				71A7CE341A790FA700A67905 /* back.png */,
 				71A7CE351A790FA700A67905 /* btnCamera.png */,
 				71A7CE361A790FA700A67905 /* btnCamera@2x.png */,
@@ -1988,7 +1991,7 @@
 				71A3695D1A6E1DA300DDF05C /* restore.png */,
 				71A3695E1A6E1DA300DDF05C /* selectedCheck.png */,
 				71A3695F1A6E1DA300DDF05C /* trans_bg.png */,
-				71A369601A6E1DA300DDF05C /* uncheck.png */,
+				71A369601A6E1DA300DDF05C /* uncheck1.png */,
 				71A369611A6E1DA300DDF05C /* ViewBacground.png */,
 				71A369621A6E1DA300DDF05C /* wheel_bg@2x.png */,
 				71A369631A6E1DA300DDF05C /* wheel_shadow@2x.png */,
@@ -2774,6 +2777,7 @@
 				71B4987B1AE61F8F007CCAF1 /* attendance_icon.png in Resources */,
 				71A509FD1A8DD57E0060E9B1 /* today_icon1.png in Resources */,
 				719384D21980CECA00A790FF /* AnnouncementCell~iphone.xib in Resources */,
+				71BCF9F71AEE4B30005D984A /* uncheck.png in Resources */,
 				3D9E0533197BD5E0005CCB10 /* CalenderScheduleView.xib in Resources */,
 				71A73C4E1A1DB1BD008C089A /* LoginVeiw~ipad.xib in Resources */,
 				71A713F01AD407FF00512585 /* SMSHistoryCell~ipad.xib in Resources */,
@@ -2852,7 +2856,7 @@
 				71A368B81A6E19F000DDF05C /* error_icon.png in Resources */,
 				71A53DB81A35D2FB00463864 /* AddAthleteHistory~ipad.xib in Resources */,
 				71ADF1C41A70F1B200457FB9 /* bubble-square-outgoing.png in Resources */,
-				71A3698D1A6E1DA400DDF05C /* uncheck.png in Resources */,
+				71A3698D1A6E1DA400DDF05C /* uncheck1.png in Resources */,
 				71A63E171A25A29F00D0DA99 /* WorkOutListCell~ipad.xib in Resources */,
 				71950F9619C175F600B4BF1A /* MessageDetails.xib in Resources */,
 				71ADF1B21A70F1B200457FB9 /* bubble-default-incoming-green.png in Resources */,

@@ -15,15 +15,11 @@
 @interface AddAthleteHistory ()
 {
     NSArray *arrHistoryInfo;
-    
     BOOL isKeyBoard;
     int toolBarPosition;
     UITextField *currentText;
-    
     NSString *strDate;
-    
     NSArray *arrAthleteHistory;
-    
 }
 
 @end
@@ -46,7 +42,6 @@
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:DATE_FORMAT_D_M_Y];
-    
     NSDate *date=[df dateFromString:strdate];
     [df setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
     NSString *str=@"";
@@ -56,19 +51,15 @@
     if(date==nil)
     {
         return @"";
-        
     }else{
-        
         return [NSString stringWithFormat:@"%@", [df stringFromDate:date]];
     }
-    
     return str;
 }
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
-    
     switch (Tag)
     {
         case EditData:
@@ -82,7 +73,6 @@
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
             }
-            
             break;
         }
         case Successtag:
@@ -132,25 +122,16 @@
 {
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
     self.title=@"Sport Info";
-    
-   
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     arrHistoryInfo=[[NSArray alloc] initWithObjects:@"Enter Team Name",@"Enter Description",@"From Date",@"To Date", nil];
-    
     if (_objData) {
-        
         arrAthleteHistory=[[NSArray alloc] initWithObjects:[_objData valueForKey:@"team"],[_objData valueForKey:@"description"],[self dateFormate:[_objData valueForKey:@"from"] ],[self dateFormate:[_objData valueForKey:@"to"] ],nil];
     }
     NSArray *vComp = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
-    
     if ([[vComp objectAtIndex:0] intValue] < 8) {
-        
         toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?266:180);
-        
     } else {
         toolBarPosition = (([[UIScreen mainScreen] bounds].size.height >= 568)?266:180)-40;
     }
@@ -160,23 +141,15 @@
     datePicker.datePickerMode = UIDatePickerModeDate;
     datePicker.date = [NSDate date];
     datePicker.tag=60;
-    //[datePicker setHidden:YES];
     datePicker.backgroundColor=[UIColor whiteColor];
-    
     [datePicker addTarget:self action:@selector(dateChange) forControlEvents:UIControlEventValueChanged];
-    
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
-    
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, (SCREEN_HEIGHT)+50, SCREEN_WIDTH, 44)];
     toolBar.tag = 40;
-    
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
-    
     [self.view addSubview:datePicker];
-    
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 50)];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave addTarget:self action:@selector(sendAthleteHistory:) forControlEvents:UIControlEventTouchUpInside];
@@ -186,7 +159,6 @@
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
     self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
 }
 -(void)dateChange
 {
@@ -249,9 +221,7 @@
         cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:@""];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
     return cell;
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -262,7 +232,6 @@
 {
     [textView becomeFirstResponder];
 }
-
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
 }
@@ -276,11 +245,7 @@
     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
-
-
-
 #pragma mark- UITextfield Delegate
-
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
      textField.autocorrectionType = UITextAutocorrectionTypeNo;

@@ -23,10 +23,10 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RcN-zS-ZCh">
-                    <rect key="frame" x="0.0" y="0.0" width="768" height="570"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="570" id="Aih-s9-29W"/>
+                        <constraint firstAttribute="height" constant="600" id="Aih-s9-29W"/>
                     </constraints>
                     <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -79,13 +79,13 @@
                 <constraint firstItem="RcN-zS-ZCh" firstAttribute="leading" secondItem="ZSp-bv-EVH" secondAttribute="leading" id="G0O-0T-S1D"/>
                 <constraint firstItem="270-JJ-nkI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="Qhg-9v-SSa"/>
                 <constraint firstItem="SVz-Ic-4xF" firstAttribute="trailing" secondItem="ZSp-bv-EVH" secondAttribute="trailing" constant="-2" id="ags-TX-JND"/>
-                <constraint firstItem="ddv-UV-BKg" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="bottom" constant="34" id="bqF-yt-K0B"/>
+                <constraint firstItem="ddv-UV-BKg" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="bottom" constant="4" id="bqF-yt-K0B"/>
                 <constraint firstItem="SVz-Ic-4xF" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="top" id="c9S-v8-G2o"/>
                 <constraint firstItem="RcN-zS-ZCh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eWl-9c-r3M"/>
                 <constraint firstItem="270-JJ-nkI" firstAttribute="top" secondItem="ZSp-bv-EVH" secondAttribute="bottom" constant="33" id="exr-g0-JQz"/>
                 <constraint firstAttribute="trailing" secondItem="RcN-zS-ZCh" secondAttribute="trailing" id="gp9-51-JzO"/>
                 <constraint firstItem="ddv-UV-BKg" firstAttribute="trailing" secondItem="270-JJ-nkI" secondAttribute="trailing" id="hjp-Gl-lhg"/>
-                <constraint firstItem="ZSp-bv-EVH" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="bottom" constant="215" id="ivb-80-9dW"/>
+                <constraint firstItem="ZSp-bv-EVH" firstAttribute="top" secondItem="RcN-zS-ZCh" secondAttribute="bottom" constant="185" id="ivb-80-9dW"/>
                 <constraint firstItem="ZSp-bv-EVH" firstAttribute="trailing" secondItem="RcN-zS-ZCh" secondAttribute="trailing" id="oII-vf-eaW"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>

@@ -784,35 +784,26 @@ UIDeviceOrientation CurrentOrientation;
 }
 
 - (IBAction)saveAnnouncement:(id)sender {
-    
     [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
     self.navigationItem.rightBarButtonItem.enabled=NO;
     NSString *strError = @"";
-    if(nameTxt.text.length < 1 )
-    {
+    if(nameTxt.text.length < 1 ){
         strError = @"Please enter announcement name";
     }
-    else if(dateTxt.text.length < 1 )
-    {
+    else if(dateTxt.text.length < 1 ){
         strError = @"Please enter announcement date";
-    } else if(timeTxt.text.length < 1 )
-    {
+    } else if(timeTxt.text.length < 1 ){
         strError = @"Please enter announcement time";
-    }else if(settingArray.count==0 )
-    {
+    }else if(settingArray.count==0 ){
         strError = @"Please select privacy setting item";
     }
-    if(strError.length>2)
-    {
+    if(strError.length>2){
         self.navigationItem.rightBarButtonItem.enabled=YES;
         [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
         return;
     }else{
-        
         if ([SingletonClass  CheckConnectivity]) {
-            
             UserInformation *userInfo=[UserInformation shareInstance];
-            
             ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
             indicator.tag = 50;
             [self.view addSubview:indicator];
@@ -821,8 +812,7 @@ UIDeviceOrientation CurrentOrientation;
             NSArray *arrValues=[selectedGroups allValues];
             NSMutableArray *temp1=[[NSMutableArray alloc] init];
             for (int i=0; i<arrValues.count; i++) {
-                if ([[arrValues objectAtIndex:i] intValue]==1)
-                {
+                if ([[arrValues objectAtIndex:i] intValue]==1){
                     NSArray *temp = [AllGroupData allKeysForObject:[arrKeys objectAtIndex:i]];
                     NSString *key = [temp lastObject];
                     [temp1 addObject: key];
@@ -841,16 +831,12 @@ UIDeviceOrientation CurrentOrientation;
                     tepmSetting =[tepmSetting stringByAppendingString:[NSString stringWithFormat:@"%@,",settingArray[i]]];
                 else
                     tepmSetting = [tepmSetting stringByAppendingString:[NSString stringWithFormat:@"%@",settingArray[i]]];
-                
             }
-            
             tepmSetting=[tepmSetting stringByReplacingOccurrencesOfString:@"4" withString:@"5"];
-            
             // add 4 for group data in setting
             if (temp1.count > 0) {
                 tepmSetting=[tepmSetting stringByAppendingString:@",4"];
             }
-            
             temp1=nil;
             NSString *description=descTxt.text;
             NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
@@ -868,12 +854,9 @@ UIDeviceOrientation CurrentOrientation;
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceAddAnnouncement]];
             [request setHTTPMethod:@"POST"];
             [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-            
             NSMutableData *data = [NSMutableData data];
-            
             [data appendData:jsonData];
             [request setHTTPBody:data];
-            
             [NSURLConnection sendAsynchronousRequest:request
                                                queue:[NSOperationQueue mainQueue]
                                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -893,19 +876,15 @@ UIDeviceOrientation CurrentOrientation;
             [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
         }
     }
-    
 }
 #pragma mark -
 #pragma mark ALPickerView delegate methods
-
 - (NSInteger)numberOfRowsForPickerView:(ALPickerView *)pickerView {
     return [groupArray count];
 }
-
 - (NSString *)pickerView:(ALPickerView *)pickerView textForRow:(NSInteger)row {
     return [groupArray objectAtIndex:row];
 }
-
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionGroupForRow:(NSInteger)row {
       return [[selectedGroups objectForKey:[groupArray objectAtIndex:row]] boolValue];
 }
@@ -1032,7 +1011,6 @@ UIDeviceOrientation CurrentOrientation;
                 [button setImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
                 button.selected=NO;
             }
-            
             NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
             if ([settingArray containsObject:str1]) {
                 [settingArray removeObject:str1];

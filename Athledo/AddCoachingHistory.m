@@ -109,8 +109,6 @@ UIDeviceOrientation CurrentOrientation;
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
             }
-            
-            
         }completion:^(BOOL finished){
             
         }];

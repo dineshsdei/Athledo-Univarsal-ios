@@ -2217,15 +2217,10 @@ static int LiftExerciseCount=0;
             if ([[arrkeys objectAtIndex:i] isEqualToString:SubKey])
             {
                 strValue=[arrValues objectAtIndex:i];
-                
                 break;
-                
             }
-            
         }
         return strValue;
-        
-        
     }
     @catch (NSException *exception) {
         
@@ -2304,7 +2299,6 @@ static int LiftExerciseCount=0;
                 }else
                     
                     strInterval=[NSString stringWithFormat:@"%@",[workOutDic valueForKey:@"# of Intervals"] ];
-                
             }
         }
         NSString *strTotalTime=@"";
@@ -2330,7 +2324,6 @@ static int LiftExerciseCount=0;
         {
             strUnitsIds=[self GetCode:[workOutDic valueForKey:@"Unit"]  :@"Unit"];
         }
-        
         
         if (strWorkOutTypeIds.length > 0) {
             
@@ -2450,7 +2443,6 @@ static int LiftExerciseCount=0;
                                                                [SingletonClass RemoveActivityIndicator:self.view];
                                                            }
                                                            
-                                                           
                                                        }];
                                 
                             }
@@ -2474,16 +2466,13 @@ static int LiftExerciseCount=0;
             
             [SingletonClass initWithTitle:@"" message:@"Please select workout type" delegate:nil btn1:@"Ok"];
         }
-        
     }
     @catch (NSException *exception) {
         
         //NSLog(@"Edit workout exception");
     }
     @finally {
-        
     }
-    
 }
 
 -(NSMutableArray  *)LiftDataWithUnitCode:(NSMutableArray *)data
@@ -2511,9 +2500,6 @@ static int LiftExerciseCount=0;
     @finally {
         
     }
-    
-    
-    
     return data;
 }
 -(NSMutableArray  *)LiftDataWithUnitValue:(NSMutableArray *)data
@@ -2569,8 +2555,6 @@ static int LiftExerciseCount=0;
                 
                 [webservice WebserviceCall:webUrlDeleteCustomTag :strURL :DeleteCustomTag];
             }
-            
-            
         }else{
             
             [SingletonClass initWithTitle:@"" message:@"No Custom Tag Found!" delegate:nil btn1:@"Ok"];
@@ -2583,31 +2567,20 @@ static int LiftExerciseCount=0;
             [SingletonClass addActivityIndicator:self.view];
             
             NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"excercise_name\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,currentText.text];
-            
             [webservice WebserviceCall:webUrlAddExerciseType :strURL :AddExerciseTypeTag];
-            
         }
-        
     }else if (alertView.tag ==DeleteexerciseAlertTag && buttonIndex==1)
     {
         if (currentText.text.length > 0)
         {
             if ([arrExerciseType containsObject:currentText.text]) {
-                
                 //  [arrExerciseType removeObject:currentText.text];
                 [self getWorkOutList];
-                
                 [SingletonClass addActivityIndicator:self.view];
-                
                 NSString *exerciseId=[self KeyForValue:@"Exercise" :currentText.text];
-                
                 NSString *strURL = [NSString stringWithFormat:@"{\"workoutexcercise_id\":\"%@\"}",exerciseId];
-                
                 [webservice WebserviceCall:webUrlDeleteExerciseType :strURL :DeleteExerciseTypeTag];
-                
-                
             }else{
-                
                 [SingletonClass initWithTitle:@"" message:@"No Exercise Name Found!" delegate:nil btn1:@"Ok"];
             }
         }
@@ -2629,11 +2602,8 @@ static int LiftExerciseCount=0;
                 WorkOutView *annView=[[WorkOutView alloc] init];
                 [self.navigationController pushViewController:annView animated:NO];
             }
-        }else{
-            
         }
     }
-    
 }
 -(void)deleteCustomTag:(id)sender
 {
