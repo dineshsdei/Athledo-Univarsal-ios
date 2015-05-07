@@ -51,20 +51,14 @@
         }else{
             keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
         }
-        
         if (currentTextview) {
             if (iosVersion < 8) {
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
             }else{
-                
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
             }
         }
-        
-        
-        
     }];
-    
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         
     }];
@@ -82,14 +76,10 @@
     [super viewDidLoad];
     [self getSMSListData];
     _ObjSegment.selectedSegmentIndex = 0;
-    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
     _textview.font = Textfont;
     DicCellCheckBoxState = [[NSMutableDictionary alloc] init];
     toolBar = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
-    self.title = @"Send sms";
+    self.title = @"Send SMS";
     
     arrFilterdData = [[NSMutableArray alloc] init];
     arrGroupFilterdData = [[NSMutableArray alloc] init];
@@ -99,8 +89,8 @@
     _textview.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _textview.textColor = [UIColor blackColor];
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                 NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     SWRevealViewController *revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
@@ -108,9 +98,9 @@
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(SendSMS:) forControlEvents:UIControlEventTouchUpInside];
@@ -282,7 +272,7 @@
     [arrGroupFilterdData removeAllObjects];
     [arrFilterdData removeAllObjects];
     _ObjSegment.selectedSegmentIndex == 0 ? [self FilterData:arrMemberListData] : [self FilterData:arrGroupsListData];
-    
+    [SingletonClass deleteUnUsedLableFromTable:self.view];
     [_tableview reloadData];
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
@@ -290,19 +280,19 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
 {
     @try {
-        _ObjSegment.selectedSegmentIndex == 0 ? (arrFilterdData.count ==0 ?[SingletonClass initWithTitle : @"" message:@"Contacts are not available." delegate:nil btn1:@"Ok"] : @"" ) : (arrGroupFilterdData.count ==0 ?[SingletonClass initWithTitle:@"" message:@"Contacts are not available." delegate:nil btn1:@"Ok"] :@"" )  ;
+        
         if(theSearchBar.text.length>0)
         {
             if ([SingletonClass  CheckConnectivity]) {
                 //Check for empty Text box
-                NSString *strError = @"";
+                NSString *strError = EMPTYSTRING;
                 if(theSearchBar.text.length < 1 )
                 {
                     strError = @"Please enter searching text";
                 }
                 if(strError.length > 1)
                 {
-                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }else{
                     [self PrepareSearchPredicate:theSearchBar.text];
@@ -310,7 +300,7 @@
                     [theSearchBar endEditing:YES];
                 }
             }else{
-                [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
             }
         }
     }
@@ -339,7 +329,7 @@
     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     currentTextview = textView;
     if ([_textview.text isEqualToString:@"Compose New Sms"]) {
-        _textview.text = @"";
+        _textview.text = EMPTYSTRING;
     }
     return YES;
 }
@@ -352,7 +342,7 @@
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if (textView.text.length > 140) {
-        [SingletonClass initWithTitle:@"" message:@"The message body exceeds the 160 character limit" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"The message body exceeds the 160 character limit" delegate:nil btn1:@"Ok"];
         return NO;
     }else{
         return YES;
@@ -364,13 +354,13 @@
     UISegmentedControl *objSegment=(UISegmentedControl *)sender;
     if (objSegment.selectedSegmentIndex==0) {
         PreviousIndex = objSegment.selectedSegmentIndex;
-        arrFilterdData.count == 0 ? [self FilterData:arrMemberListData] : @"";
+        arrFilterdData.count == 0 ? [self FilterData:arrMemberListData] : EMPTYSTRING;
         self.navigationItem.rightBarButtonItem.enabled = YES;
         [btnAllcheck setSelected:NO];
         [_tableview reloadData];
     }else if (objSegment.selectedSegmentIndex==1) {
         PreviousIndex = objSegment.selectedSegmentIndex;
-        arrGroupFilterdData.count==0 ? [self FilterData:arrGroupsListData] :@"";
+        arrGroupFilterdData.count==0 ? [self FilterData:arrGroupsListData] :EMPTYSTRING;
         self.navigationItem.rightBarButtonItem.enabled = YES;
         [btnAllcheck setSelected:NO];
         [_tableview reloadData];
@@ -405,7 +395,7 @@
         for (int i=0; i<arrFilterdData.count ; i++ ) {
             if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
                 
-                NSDictionary *tosDic = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"id"]],[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"cellphone"]],@""] forKeys:@[@"user_id",@"phone",@"group_id",]];
+                NSDictionary *tosDic = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"id"]],[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"cellphone"]],EMPTYSTRING] forKeys:@[@"user_id",@"phone",@"group_id",]];
                 [arrReceiverData addObject:tosDic];
             }
         }
@@ -428,7 +418,7 @@
         [dicttemp setObject:arrReceiverData forKey:@"Reciever"];
         [webservice WebserviceCallwithDic:dicttemp :webServiceAddSmsOnWeb :GetSaveSmsData];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
     }
     @catch (NSException *exception) {
@@ -446,75 +436,59 @@
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceSendSms :strURL :GetSmsData];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
--(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
-{
+-(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
     [SingletonClass RemoveActivityIndicator:self.view];
     self.navigationController.navigationItem.rightBarButtonItem.enabled = YES ;
-    switch (Tag)
-    {
-        case GetSmsData :
-        {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {
+    switch (Tag){
+        case GetSmsData :{
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 arrMemberListData = [MyResults valueForKey:@"userData"];
                 arrGroupsListData = [MyResults valueForKey:@"groupData"];
                 [self FilterData:arrMemberListData];
                 [_tableview reloadData];
             }else{
-                [SingletonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
+                [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] ;
             }
             break;
-        }case GetSaveSmsData :
-        {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {
-                
-            }else{
-                
+        }case GetSaveSmsData :{
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                // Save sms on server reponse, No required to show alert.
             }
             break;
         }
     }
 }
-
 #pragma mark Class Utility
--(void)AllButtonUpdateStatus
-{
+-(void)AllButtonUpdateStatus{
     int AllStatusCount = 0;
     if ( _ObjSegment.selectedSegmentIndex ==0) {
         for (int i=0; i<arrFilterdData.count; i++) {
-            
             if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue]) {
                 AllStatusCount = AllStatusCount + 1;
             }
         }
         if (AllStatusCount == arrFilterdData.count) {
             [btnAllcheck setSelected:YES];
-        }else
-        {
+        }else{
             [btnAllcheck setSelected:NO];
         }
-    }else  if ( _ObjSegment.selectedSegmentIndex ==1) {
+    }else  if (_ObjSegment.selectedSegmentIndex ==1) {
         for (int i=0; i<arrGroupFilterdData.count; i++) {
-            
-            if ([[[arrGroupFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue]) {
+            if ([[[arrGroupFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue]){
                 AllStatusCount = AllStatusCount + 1;
             }
         }
         if (AllStatusCount == arrGroupFilterdData.count) {
             [btnAllcheck setSelected:YES];
-        }else
-        {
+        }else{
             [btnAllcheck setSelected:NO];
         }
     }
-    
 }
--(void)PrepareSearchPredicate:(NSString *)theSearchBarText
-{
+-(void)PrepareSearchPredicate:(NSString *)theSearchBarText{
     if (_ObjSegment.selectedSegmentIndex == 0) {
         [arrFilterdData removeAllObjects];
         NSPredicate *lowerCase= [NSPredicate predicateWithFormat:
@@ -527,34 +501,36 @@
                                             [@"SELF['lastname'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBarText substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBarText substringFromIndex:1] ]]];
         NSPredicate *phone= [NSPredicate predicateWithFormat:
                              [@"SELF['cellphone'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
-        
         [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:lowerCase]] ;
         [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:orginaltext]] ;
         [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:lastNameLowerCase]] ;
         [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:lastNameOrginaltext]] ;
         [arrFilterdData addObjectsFromArray:[arrMemberListData filteredArrayUsingPredicate:phone]] ;
-        
         for (int i=0; i< arrFilterdData.count; i++) {
             [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }
+        
+        arrFilterdData.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
+        
     }else if (_ObjSegment.selectedSegmentIndex == 1) {
         [arrGroupFilterdData removeAllObjects];
         NSPredicate *lowerCase= [NSPredicate predicateWithFormat:
                                  [@"SELF['name'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[theSearchBarText lowercaseString]]];
         NSPredicate *orginaltext = [NSPredicate predicateWithFormat:
                                     [@"SELF['name'] CONTAINS " stringByAppendingFormat:@"\'%@\'",[[[theSearchBarText substringToIndex:1] uppercaseString] stringByAppendingString:[theSearchBarText substringFromIndex:1] ]]];
-        
         [arrGroupFilterdData addObjectsFromArray:[arrGroupsListData filteredArrayUsingPredicate:lowerCase]] ;
         [arrGroupFilterdData addObjectsFromArray:[arrGroupsListData filteredArrayUsingPredicate:orginaltext]] ;
         for (int i=0; i< arrGroupFilterdData.count; i++) {
             [[arrGroupFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }
+         arrGroupFilterdData.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
     }
 }
 -(void)FilterData:(id)data
 {
     @try {
         NSArray *arr = (NSArray *)data;
+         arr.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
         if (_ObjSegment.selectedSegmentIndex == 0) {
             for (int i=0; i< arr.count; i++) {
                 NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[[arr objectAtIndex:i] valueForKey:@"id"],[[arr objectAtIndex:i] valueForKey:@"firstname"],[[arr objectAtIndex:i] valueForKey:@"lastname"],[[arr objectAtIndex:i] valueForKey:@"cellphone"],[[arr objectAtIndex:i] valueForKey:@"age"],[[arr objectAtIndex:i] valueForKey:@"city"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"email"],[[arr objectAtIndex:i] valueForKey:@"school"],[[arr objectAtIndex:i] valueForKey:@"zip"],[[arr objectAtIndex:i] valueForKey:@"country"],[[arr objectAtIndex:i] valueForKey:@"address"],[[arr objectAtIndex:i] valueForKey:@"image"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"state"],[NSNumber numberWithBool:NO]] forKeys:@[@"id",@"firstname",@"lastname",@"cellphone",@"age",@"city",@"class_year",@"email",@"school",@"zip",@"country",@"address",@"image",@"class_year",@"state",@"isCheck"]];
@@ -569,10 +545,8 @@
         }
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
 }
 - (IBAction)selectAllCheckBox:(id)sender {
@@ -623,7 +597,7 @@
     @try {
         ShowOnceSuccessAlert = TRUE;
         BOOL selectedNumber = NO;
-        NSString *strError = @"";
+        NSString *strError = EMPTYSTRING;
         if(_textview.text.length < 1 || [_textview.text isEqualToString:@"Compose New Sms"] )
         {
             strError = @"Please enter sms text";
@@ -647,14 +621,14 @@
         }
         if(strError.length>2)
         {
-            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
         }
         NSMutableArray *arrIndividualPhones = [[NSMutableArray alloc] init];
         for (int i=0; i<arrFilterdData.count ; i++ ) {
             if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
-                NSString *phoneNumber = [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] ? [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] :@"" ;
-                if([phoneNumber isEqualToString:@""])
+                NSString *phoneNumber = [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] ? [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] :EMPTYSTRING ;
+                if([phoneNumber isEqualToString:EMPTYSTRING])
                     continue;
                 ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
                 [request setUsername:accountSID];
@@ -681,8 +655,8 @@
                     NSArray *arrTemp = [phoneDic allValues];
                     for (int i=0 ; i < arrTemp.count; i++) {
                         if (![arrIndividualPhones containsObject:[arrTemp objectAtIndex:i]]) {
-                            NSString *phoneNumber = [arrTemp objectAtIndex:i] ? [arrTemp objectAtIndex:i] :@"" ;
-                            if([phoneNumber isEqualToString:@""])
+                            NSString *phoneNumber = [arrTemp objectAtIndex:i] ? [arrTemp objectAtIndex:i] :EMPTYSTRING ;
+                            if([phoneNumber isEqualToString:EMPTYSTRING])
                                 continue;
                             ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://api.twilio.com/2010-04-01/Accounts/%@/SMS/Messages.json", accountSID]]];
                             [request setUsername:accountSID];
@@ -717,10 +691,10 @@
         
         if ( ShowOnceSuccessAlert==TRUE ) {
             ShowOnceSuccessAlert=FALSE;
-            [responseDict valueForKey:@"message"] ? [SingletonClass initWithTitle:@"" message:[responseDict valueForKey:@"message"]  delegate:nil btn1:@"Ok"] :@"";
-            if([[responseDict valueForKey:@"status"] isEqualToString:@"queued"])
+            [responseDict valueForKey:@"message"] ? [SingletonClass initWithTitle:EMPTYSTRING message:[responseDict valueForKey:@"message"]  delegate:nil btn1:@"Ok"] :EMPTYSTRING;
+            if([[responseDict valueForKey:STATUS] isEqualToString:@"queued"])
             {
-                [[responseDict valueForKey:@"status"] isEqualToString:@"queued"] ? [SingletonClass initWithTitle:@"" message:@"SMS has been send successfully"  delegate:nil btn1:@"Ok"] :@"";
+                [[responseDict valueForKey:STATUS] isEqualToString:@"queued"] ? [SingletonClass initWithTitle:EMPTYSTRING message:@"SMS has been send successfully"  delegate:nil btn1:@"Ok"] :EMPTYSTRING;
                 [self getSaveSMSDataOnWeb];
                 [self RefreshSMSView];
             }

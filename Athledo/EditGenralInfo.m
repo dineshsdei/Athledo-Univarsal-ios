@@ -109,8 +109,8 @@
     
     self.title=@"Genral Info";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     arrPlaceHolder=[[NSArray alloc] initWithObjects:@"First Name",@"Last Name",@"Address",@"Country ",@"State",@"City",@"Unit No.",@"Zip",@"Phone No", nil];
     
@@ -129,7 +129,7 @@
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
@@ -140,9 +140,9 @@
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
     
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     listPicker=[[UIPickerView alloc] init];
     listPicker.delegate=self;
     listPicker.dataSource=self;
@@ -171,14 +171,14 @@
     {
         case EditData:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
-                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:SAVED_DATA_MESSAGE delegate:self btn1:@"Ok"];
                 
             }else{
                 
-                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:NOT_SAVE_DATA_MESSAGE delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -258,7 +258,7 @@
                                }];
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
     
@@ -292,7 +292,7 @@
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -308,7 +308,7 @@
             
             UITextField *textfield=(UITextField *)[table viewWithTag:tag];
             
-            NSString *strError = @"";
+            NSString *strError = EMPTYSTRING;
             if(textfield.text.length < 1 && tag==1000)
             {
                 strError = @"Please enter first name";
@@ -349,7 +349,7 @@
             }
             if(strError.length > 1)
             {
-                [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                 return;
             }
         }
@@ -391,8 +391,8 @@
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
         
             [dict setObject:temp forKey:@"UserProfile"];
-            [dict setObject:@"" forKey:@"cochng_hstry"];
-            [dict setObject:@"" forKey:@"awards"];
+            [dict setObject:EMPTYSTRING forKey:@"cochng_hstry"];
+            [dict setObject:EMPTYSTRING forKey:@"awards"];
             [SingletonClass addActivityIndicator:self.view];
             
             [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
@@ -400,7 +400,7 @@
         }
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)doneClicked
@@ -502,7 +502,7 @@
             
             [listPicker reloadComponent:0];
             [self ShowPickerValueSelected:arrCountryList];
-            arrCountryList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"";
+            arrCountryList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : EMPTYSTRING;
             
             return NO;
             
@@ -511,7 +511,7 @@
             [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
             
             if (arrStateList.count == 0) {
-                [SingletonClass initWithTitle:@"" message:@"Please select country name" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Please select country name" delegate:nil btn1:@"Ok"];
                 
                 return NO;
             }
@@ -519,7 +519,7 @@
             isState=TRUE;
             [listPicker reloadComponent:0];
             [self ShowPickerValueSelected:arrStateList];
-            arrStateList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : @"";
+            arrStateList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : EMPTYSTRING;
             return NO;
         }
     }else
@@ -548,7 +548,7 @@
 {
     if ([textView.text isEqualToString:@"Enter Description"]) {
         
-        textView.text=@"";
+        textView.text=EMPTYSTRING;
     }
     
     return YES;
@@ -608,7 +608,7 @@
     if(cell == nil)
     {
      
-        cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrPlaceHolder:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]:@""];
+        cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrPlaceHolder:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]:EMPTYSTRING];
         
     }
     
@@ -633,7 +633,7 @@
 {
     if (isState) {
         if (arrStateList.count > 0 && currentText.text.length == 0) {
-            //currentText.text=@"";
+            //currentText.text=EMPTYSTRING;
             currentText.text=[arrStateList objectAtIndex:0];
         }
         
@@ -641,7 +641,7 @@
     }else
     {
         if (arrCountryList.count > 0 && currentText.text.length == 0) {
-            //currentText.text=@"";
+            //currentText.text=EMPTYSTRING;
             currentText.text=[arrCountryList objectAtIndex:0];
         }
         
@@ -659,7 +659,7 @@
 {
     @try {
         
-        NSString *str=@"";
+        NSString *str=EMPTYSTRING;
         if (isState) {
             str= row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];
         }else

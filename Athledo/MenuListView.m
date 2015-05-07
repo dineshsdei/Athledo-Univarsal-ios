@@ -89,7 +89,7 @@
         profileLbl.textAlignment=NSTextAlignmentLeft;
         profileLbl.tag=100;
         profileLbl.font=[UIFont boldSystemFontOfSize:18];
-        profileLbl.textColor=[UIColor lightGrayColor];
+        profileLbl.textColor=NAVIGATION_COMPONENT_COLOR;
         profileLbl.backgroundColor=[UIColor clearColor];
         [cell addSubview:profileLbl];
         
@@ -97,7 +97,7 @@
         lblShowUpdate.textAlignment=NSTextAlignmentCenter;
         lblShowUpdate.tag=110;
         lblShowUpdate.font=[UIFont boldSystemFontOfSize:13];
-        lblShowUpdate.textColor=[UIColor lightGrayColor];
+        lblShowUpdate.textColor=NAVIGATION_COMPONENT_COLOR;
         lblShowUpdate.backgroundColor=[UIColor colorWithRed:148/255.0 green:18/255.0 blue:27/255.0 alpha:1];
         [lblShowUpdate.layer setCornerRadius:5];
         lblShowUpdate.layer.masksToBounds=YES;
@@ -405,8 +405,8 @@
     switch (Tag){
         case getNotificationTag:{
             notificationData=nil;
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"]){
-                notificationData=[MyResults objectForKey:@"data"];
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                notificationData=[MyResults objectForKey:DATA];
             }
             [_rearTableView reloadData];
             break;
@@ -443,7 +443,7 @@
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
     switch (userInfo.userType) {
         case isCoach:{
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         case isAthlete:{
@@ -451,7 +451,7 @@
             break;
         }
         case isManeger:{
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"Sms",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         default:
@@ -467,6 +467,8 @@
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     [self getNotificationData];
+    lblLoginName.text=[UserInformation shareInstance].userFullName;
+    
 }
 
 - (void)viewDidLoad{
@@ -486,7 +488,7 @@
     lblLoginName=[[UILabel alloc] initWithFrame:CGRectMake(32,0,200,30)];
     lblLoginName.text=userdata.userFullName;
     lblLoginName.font=[UIFont boldSystemFontOfSize:15];
-    lblLoginName.textColor=[UIColor lightGrayColor];
+    lblLoginName.textColor=NAVIGATION_COMPONENT_COLOR;
     lblLoginName.backgroundColor=[UIColor clearColor];
     
     UIBarButtonItem *BarItemEdit1 = [[UIBarButtonItem alloc] initWithCustomView:lblLoginName];
@@ -518,7 +520,7 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)ChangeOrientation{

@@ -75,8 +75,8 @@
     [self setNeedsStatusBarAppearanceUpdate];
     self.title = @"Profile";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     tblProfile.backgroundColor=[UIColor clearColor];
@@ -112,7 +112,7 @@
         arrGenralinfo=nil;
         arrCoaching=nil;
         isEditProfilePic=NO;
-        [UserInformation shareInstance].userProfilePicUrl=@"";
+        [UserInformation shareInstance].userProfilePicUrl=EMPTYSTRING;
         [self performSelectorOnMainThread:@selector(getProfileData) withObject:nil waitUntilDone:YES];
         [SingletonClass ShareInstance].isProfileSectionUpdate=FALSE;
     }
@@ -195,7 +195,7 @@
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
     
@@ -250,7 +250,7 @@
     NSString *temp=[url lastPathComponent];
     
     if ([temp isEqualToString:@"no_image.png"]) {
-        url=@"";
+        url=EMPTYSTRING;
         [activityIndicator setHidden:YES];
         // imageviewProfile.userInteractionEnabled=NO;
     }else {
@@ -281,7 +281,7 @@
     {
         case UploadImageTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"sucess"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:@"sucess"])
             {
                 [self getProfileData];
             }
@@ -310,61 +310,61 @@
             arrAwards=nil;
             arrGenralinfo=nil;
             arrCoaching=nil;
-            userInfo.userProfilePicUrl=@"";
+            userInfo.userProfilePicUrl=EMPTYSTRING;
             // ***Tag 100 for Profile data in web service UserType 2->Athlete 1->coach
-            if([[myResults objectForKey:@"status"] isEqualToString:@"success"] && tagNumber==200)
+            if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS] && tagNumber==200)
             {
                 switch (userInfo.userType) {
                     case isCoach:
                     {
                         // coach  Section
                         // Genral Info
-                        arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
-                        arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"cochng_hstry"];
+                        arrGenralinfo=[[myResults objectForKey:DATA] objectForKey:@"UserProfile"] ;
+                        arrCoaching=[[myResults objectForKey:DATA] objectForKey:@"cochng_hstry"];
                         if (arrCoaching.count==0) {
-                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"from",@"",@"description",@"",@"school_name",@"",@"sport_name", @"",@"to",nil];
+                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:EMPTYSTRING,@"from",EMPTYSTRING,@"description",EMPTYSTRING,@"school_name",EMPTYSTRING,@"sport_name", EMPTYSTRING,@"to",nil];
                             [arrCoaching addObject:dic];
                         }
-                        arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"awards"];
+                        arrAwards=[[myResults objectForKey:DATA] objectForKey:@"awards"];
                         if (arrAwards.count==0) {
-                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"title",@"",@"description",@"",@"year_of_award", nil];
+                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:EMPTYSTRING,@"title",EMPTYSTRING,@"description",EMPTYSTRING,@"year_of_award", nil];
                             [arrAwards addObject:dic];
                         }
-                        userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
+                        userInfo.userProfilePicUrl=[[[myResults objectForKey:DATA] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
                         break;
                     }
                     case isAthlete:
                     {
                         // Genral Info
-                        arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
-                        if ([[[myResults objectForKey:@"data"] objectForKey:@"AthleteSport"] isEqual:@""]) {
-                            [arrCoaching addObject:@""];
+                        arrGenralinfo=[[myResults objectForKey:DATA] objectForKey:@"UserProfile"] ;
+                        if ([[[myResults objectForKey:DATA] objectForKey:@"AthleteSport"] isEqual:EMPTYSTRING]) {
+                            [arrCoaching addObject:EMPTYSTRING];
                         }else{
-                            arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"AthleteSport"];
+                            arrCoaching=[[myResults objectForKey:DATA] objectForKey:@"AthleteSport"];
                         }
-                        arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"athltc_hstry"];
+                        arrAwards=[[myResults objectForKey:DATA] objectForKey:@"athltc_hstry"];
                         if (arrAwards.count==0) {
-                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"team",@"",@"description", nil];
+                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:EMPTYSTRING,@"team",EMPTYSTRING,@"description", nil];
                             [arrAwards addObject:dic];
                         }
-                        userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
+                        userInfo.userProfilePicUrl=[[[myResults objectForKey:DATA] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
                         break;
                     }
                     case isManeger:
                     {
                         // Genral Info
-                        arrGenralinfo=[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"] ;
-                        if ([[[myResults objectForKey:@"data"] objectForKey:@"mangr_sport"] isEqual:@""]) {
-                            [arrCoaching addObject:@""];
+                        arrGenralinfo=[[myResults objectForKey:DATA] objectForKey:@"UserProfile"] ;
+                        if ([[[myResults objectForKey:DATA] objectForKey:@"mangr_sport"] isEqual:EMPTYSTRING]) {
+                            [arrCoaching addObject:EMPTYSTRING];
                         }else{
-                            arrCoaching=[[myResults objectForKey:@"data"] objectForKey:@"mangr_sport"];
+                            arrCoaching=[[myResults objectForKey:DATA] objectForKey:@"mangr_sport"];
                         }
-                        arrAwards=[[myResults objectForKey:@"data"] objectForKey:@"athltc_hstry"];
+                        arrAwards=[[myResults objectForKey:DATA] objectForKey:@"athltc_hstry"];
                         if (arrAwards.count==0) {
-                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"team",@"",@"description", nil];
+                            NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:EMPTYSTRING,@"team",EMPTYSTRING,@"description", nil];
                             [arrAwards addObject:dic];
                         }
-                        userInfo.userProfilePicUrl=[[[myResults objectForKey:@"data"] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
+                        userInfo.userProfilePicUrl=[[[myResults objectForKey:DATA] objectForKey:@"UserProfile"]objectForKey:@"profile_img"] ;
                         break;
                     }
                     default:
@@ -379,7 +379,7 @@
             }else{
                 NSString *str=[myResults objectForKey:@"message"];
                 if (str !=nil) {
-                    [SingletonClass initWithTitle:@"" message:str delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:str delegate:nil btn1:@"Ok"];
                 }
             }
             [tblProfile reloadData];
@@ -432,7 +432,7 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"image\":\"%@\"}",userInfo.userId,[imageData base64Encoding]];
         [Objwebcervice WebserviceCall:webServiceUploadImage :strURL :UploadImageTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

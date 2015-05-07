@@ -91,8 +91,8 @@
     [self.view addSubview:toolbar];
     self.title = NSLocalizedString(@"Add Sport Info", @"Title");
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
 
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(saveSportInfo:) forControlEvents:UIControlEventTouchUpInside];
@@ -336,7 +336,7 @@
         return [arrLeagues objectAtIndex:row];
     }else
     {
-        return @"";
+        return EMPTYSTRING;
     }
     
     
@@ -356,7 +356,7 @@
         currentText.text=arrLeagues.count > row ? [arrLeagues objectAtIndex:row] : [arrLeagues objectAtIndex:row-1] ;
     }else
     {
-        currentText.text=@"";
+        currentText.text=EMPTYSTRING;
     }
 }
 #pragma mark Webservice call event
@@ -364,17 +364,17 @@
     if ([SingletonClass  CheckConnectivity]) {
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        NSString *strURL = @"";
+        NSString *strURL = EMPTYSTRING;
         [webservice WebserviceCall:webServiceGetLeagueLevel :strURL :GetLeaguelavelTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)AddManagerSport{
     
     if ([SingletonClass  CheckConnectivity]) {
         
-        NSString *strError = @"";
+        NSString *strError = EMPTYSTRING;
         if(_txtSportName.text.length < 1 )
         {
             strError = @"Please enter sport name";
@@ -395,7 +395,7 @@
         if(strError.length > 1)
         {
             self.navigationItem.rightBarButtonItem.enabled=YES;
-            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
         }
         WebServiceClass *webservice =[WebServiceClass shareInstance];
@@ -409,12 +409,12 @@
             strURL= [NSString stringWithFormat:@"{\"id\":\"%@\",\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\",\"sport_name\":\"%@\",\"league_level_id\":\"%@\",\"height\":\"%@\",\"weight\":\"%@\",\"class_year\":\"%@\"}",[_objData valueForKey:@"id"],userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid,_txtSportName.text,leagueId,[_txtHeight.text stringByAppendingFormat:@"'%@",_txtHeightInches.text],_txtweight.text,_txtClassYear.text];
         }else
         {
-            strURL= [NSString stringWithFormat:@"{\"id\":\"%@\",\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\",\"sport_name\":\"%@\",\"league_level_id\":\"%@\",\"height\":\"%@\",\"weight\":\"%@\",\"class_year\":\"%@\"}",@"",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid,_txtSportName.text,leagueId,[_txtHeight.text stringByAppendingFormat:@"'%@",_txtHeightInches.text],_txtweight.text,_txtClassYear.text];
+            strURL= [NSString stringWithFormat:@"{\"id\":\"%@\",\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\",\"sport_name\":\"%@\",\"league_level_id\":\"%@\",\"height\":\"%@\",\"weight\":\"%@\",\"class_year\":\"%@\"}",EMPTYSTRING,userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid,_txtSportName.text,leagueId,[_txtHeight.text stringByAppendingFormat:@"'%@",_txtHeightInches.text],_txtweight.text,_txtClassYear.text];
         }
         self.navigationController.navigationItem.rightBarButtonItem.enabled = NO;
         [webservice WebserviceCall:webServiceAddManagerSport :strURL :AddManagerSportTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -438,9 +438,9 @@
         case AddManagerSportTag :
         {
             [SingletonClass ShareInstance].isProfileSectionUpdate = TRUE;
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                [SingletonClass initWithTitle:@"" message:@"Sport Information has been saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Sport Information has been saved successfully" delegate:self btn1:@"Ok"];
             }
             break;
         }

@@ -45,7 +45,7 @@
         
         [webservice WebserviceCall:webServiceGetSentMessageslist :strURL :getMessagesTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)deleteMessageEvent :(int)Webmail_id :(int)webmail_sender_id{
@@ -56,7 +56,7 @@
        [webservice WebserviceCall:webServiceDeleteMessage :strURL :deleteMessagesTag];
         
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)archiveMessageEvent :(int)webmail_parent_id{
@@ -68,7 +68,7 @@
     [webservice WebserviceCall:webServiceMessageStatus:strURL :archiveMessagesTag];
    
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -78,15 +78,14 @@
     {
         case getMessagesTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-                messageArrDic =[MyResults objectForKey:@"data"];
-                [SingletonClass deleteUnUsedLableFromTable:table];
-               messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
+                messageArrDic =[MyResults objectForKey:DATA];
+               messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages"]]): [SingletonClass deleteUnUsedLableFromTable:table];
                 [table reloadData];
             }else
             {
-                [table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]];
+                [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages"]];
             }
             
             break;
@@ -94,14 +93,14 @@
         case deleteMessagesTag:
         {
             
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                  [SingletonClass RemoveActivityIndicator:self.view];
-                [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
                   [SingletonClass RemoveActivityIndicator:self.view];
-                [SingletonClass initWithTitle:@"" message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -109,17 +108,17 @@
         case archiveMessagesTag:
         {
             
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 [SingletonClass ShareInstance].isMessangerSent = TRUE;
                 [SingletonClass ShareInstance].isMessangerArchive = TRUE;
                 [SingletonClass RemoveActivityIndicator:self.view];
-                [SingletonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
                  [SingletonClass RemoveActivityIndicator:self.view];
                 
-                [SingletonClass initWithTitle:@"" message:@"Message archive fail try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message archive fail try again" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -156,7 +155,7 @@
 -(void)orientationChanged
 {
    [SingletonClass deleteUnUsedLableFromTable:table];
-    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
+    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):EMPTYSTRING;
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -171,10 +170,10 @@
    
     messageArrDic=[[NSArray alloc] init];
     
-    self.title = NSLocalizedString(@"Sent Messages", @"");
+    self.title = NSLocalizedString(@"Sent Messages", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     UIButton  *btnCompose = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 25, 25)];
     UIImage *imageEdit=[UIImage imageNamed:@"compose_icon.png"];
@@ -191,9 +190,9 @@
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
 
     [self getMessages];
 }
@@ -252,7 +251,7 @@
     cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"sender"];
     cell.lblReceivingDate.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"date"];
     cell.lblDescription.text=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"desc"];
-    cell.lblDescription.text  =[cell.lblDescription.text  stringByReplacingOccurrencesOfString:@"/n" withString:@""];
+    cell.lblDescription.text  =[cell.lblDescription.text  stringByReplacingOccurrencesOfString:@"/n" withString:EMPTYSTRING];
     [cell.senderPic setImageWithURL:[NSURL URLWithString:[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
     cell.senderPic.layer.masksToBounds = YES;
     cell.senderPic.layer.cornerRadius=(cell.senderPic.frame.size.width)/2;
@@ -307,7 +306,7 @@
         
     }else{
         
-        return 80;
+        return CELLHEIGHT;
     }
 }
 
@@ -349,7 +348,7 @@
 -(void)deleteMessage:(id)sender
 {
     UIButton *btn=sender;
-    [SingletonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)btn.tag];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)btn.tag];
 }
 -(void)archiveMessage:(id)sender;
 {

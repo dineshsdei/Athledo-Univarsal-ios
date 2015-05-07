@@ -31,10 +31,10 @@
 }
 - (void)viewDidLoad
 {
-    self.title = NSLocalizedString(@"Event Details", @"");
+    self.title = NSLocalizedString(@"Event Details", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -69,11 +69,11 @@
         
         if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
             self.navigationItem.rightBarButtonItem = ButtonItem;
-            self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+            self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
         }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_eventDetailsDic  objectForKey:@"user_id"] intValue])
         {
             self.navigationItem.rightBarButtonItem = ButtonItem;
-            self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+            self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
         }
         
         _lblEventTitle.text=[_eventDetailsDic valueForKey:@"text"];
@@ -83,21 +83,21 @@
         _lblEventLocation.text=[_eventDetailsDic valueForKey:@"location"];
         _lblStartDate.text=strStartDate;
         // if reccurrence type
-        NSString *str=!([[_eventDetailsDic valueForKey:@"rec_type"] isEqual:[NSNull null]]) ?[_eventDetailsDic valueForKey:@"rec_type"] : @"";
+        NSString *str=!([[_eventDetailsDic valueForKey:@"rec_type"] isEqual:[NSNull null]]) ?[_eventDetailsDic valueForKey:@"rec_type"] : EMPTYSTRING;
         _lblRepeat.text=@"Never";
         if (str.length > 0) {
             int event_length=[[_eventDetailsDic valueForKey:@"event_length"] intValue];
             NSDate *enddate=[startdate dateByAddingTimeInterval:event_length];
             _lblEndDate.text=[df stringFromDate:enddate];
-            const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
+            const char *c = str.length > 0 ? [str UTF8String] : [EMPTYSTRING  UTF8String];
             if (c[0]=='d') {
-                _lblRepeat.text=@"Daily";
+                _lblRepeat.text=EVENTTYPE_DAILY;
             }else  if (c[0]=='w') {
-                _lblRepeat.text=@"Weekly";
+                _lblRepeat.text=EVENTTYPE_WEEKLY;
             }else  if (c[0]=='m') {
-                _lblRepeat.text=@"Monthly";
+                _lblRepeat.text=EVENTTYPE_MONTHLY;
             }else  if (c[0]=='y') {
-                _lblRepeat.text=@"Yearly";
+                _lblRepeat.text=EVENTTYPE_YEARLY;
             }
         }else{
             _lblEndDate.text=strEndDate;
@@ -118,15 +118,15 @@
 {
     if ([CalendarEvent ShareInstance].strRepeatSting.length > 0) {
         NSString *str=[CalendarEvent ShareInstance].strRepeatSting;
-        const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
+        const char *c = str.length > 0 ? [str UTF8String] : [EMPTYSTRING  UTF8String];
         if (c[0]=='d') {
-            _lblRepeat.text=@"Daily";
+            _lblRepeat.text=EVENTTYPE_DAILY;
         }else  if (c[0]=='w') {
-            _lblRepeat.text=@"Weekly";
+            _lblRepeat.text=EVENTTYPE_WEEKLY;
         }else  if (c[0]=='m') {
-            _lblRepeat.text=@"Monthly";
+            _lblRepeat.text=EVENTTYPE_MONTHLY;
         }else  if (c[0]=='y') {
-            _lblRepeat.text=@"Yearly";
+            _lblRepeat.text=EVENTTYPE_YEARLY;
         }
     }
     
@@ -149,7 +149,7 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+    if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
     {
         
     }
@@ -183,7 +183,7 @@
             [self.navigationController pushViewController:addEvent animated:NO];
         }
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Do you want to edit the whole set of repeated events?" delegate:self btn1:@"Cancel" btn2:@"Edit Occurrence" btn3:@"Edit Series" tagNumber:101];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Do you want to edit the whole set of repeated events?" delegate:self btn1:@"Cancel" btn2:@"Edit Occurrence" btn3:@"Edit Series" tagNumber:101];
     }
     
 }

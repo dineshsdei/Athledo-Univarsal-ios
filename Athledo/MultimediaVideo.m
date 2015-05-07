@@ -36,13 +36,15 @@
 #pragma mark - ViewController life cycle method
 -(void)viewDidAppear:(BOOL)animated
 {
+     [super viewDidAppear:animated];
     isCancelNotification = FALSE;
-    [super viewDidAppear:animated];
+   
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [super viewWillAppear:animated];
+     [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+   
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         
         NSDictionary* info = [note userInfo];
@@ -90,8 +92,8 @@
 
     self.title=@"Multimedia Videos";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:0];
     [_tabBar setSelectedItem:tabBarItem];
 }
@@ -134,8 +136,8 @@
     }
     
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     SWRevealViewController *revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
@@ -157,7 +159,7 @@
     toolBar.items = [NSArray arrayWithObjects:flex,btnDone,nil];
     [self.view addSubview:toolBar];
     
-    seasonId=@"";
+    seasonId=EMPTYSTRING;
     multimediaData=[[NSMutableArray alloc] init];
     AllMultimediaData=[[NSArray alloc] init];
     arrVisitedIndex=[[NSMutableArray alloc] init];
@@ -176,18 +178,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 #pragma mark- Class Utility method
-- (void)MPMoviePlayerDidExitFullscreen:(NSNotification *)notification
-{
+- (void)MPMoviePlayerDidExitFullscreen:(NSNotification *)notification{
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:MPMoviePlayerDidExitFullscreenNotification
                                                   object:nil];
     
     [playerVC.view removeFromSuperview];
 }
-- (void)movieFinishedCallback:(NSNotification*)aNotification
-{
+- (void)movieFinishedCallback:(NSNotification*)aNotification{
     // Obtain the reason why the movie playback finished
     NSNumber *finishReason = [[aNotification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
     
@@ -203,8 +202,7 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
-- (void)orientationChanged
-{
+- (void)orientationChanged{
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
@@ -216,8 +214,7 @@
     }
 }
 // for hide picker or call service for refresh data
--(void)doneClicked
-{
+-(void)doneClicked{
     if (self.scrollview.hidden) {
         [UIView animateWithDuration:0.27f
                          animations:^{
@@ -264,8 +261,7 @@
             break;
     }
 }
--(void)sortedData :(int)index
-{
+-(void)sortedData :(int)index{
     switch (index) {
         case 0:
         {
@@ -304,19 +300,16 @@
             break;
     }
 }
--(IBAction)SegmentSelected:(id)sender
-{
+-(IBAction)SegmentSelected:(id)sender{
     UISegmentedControl *segment=sender;
     [self sortedData:(int)(segment.selectedSegmentIndex)];
 }
 
--(void)SelectVideoFiles
-{
+-(void)SelectVideoFiles{
     self.scrollview.hidden = NO ;
 }
 // Pick video file from media library
-- (IBAction)ChooseFromGallery
-{
+- (IBAction)ChooseFromGallery{
     [self doneClicked];
     isCancelNotification = TRUE;
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
@@ -327,20 +320,16 @@
     NSArray *sourceTypes = [UIImagePickerController availableMediaTypesForSourceType:imagePicker.sourceType];
     if (![sourceTypes containsObject:(NSString *)kUTTypeMovie]) {
         // No images
-    }else
-    {
+    }else{
         [self presentViewController:imagePicker animated:YES completion:nil];
     }
 }
-- (IBAction)CancelUpload
-{
+- (IBAction)CancelUpload{
     self.scrollview.hidden = YES ;
 }
-- (IBAction)UploadVideo
-{
+- (IBAction)UploadVideo{
     if (urlvideo) {
-        
-        NSString *strError = @"";
+        NSString *strError = EMPTYSTRING;
         if(_tfSeason.text.length < 1 )
         {
             strError = @"Please select season";
@@ -354,10 +343,9 @@
         }
         if(strError.length > 2 )
         {
-         [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+         [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
         }
-        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *urlString=[urlvideo path];
@@ -382,46 +370,39 @@
         [request setUploadProgressDelegate:self];
         [request setTimeOutSeconds:5000];
         [request startAsynchronous];
-        
-        _tfTitle.text = @"";
-        _tfDescription.text = @"";
-        _tfSeason.text =@"";
+        _tfTitle.text = EMPTYSTRING;
+        _tfDescription.text = EMPTYSTRING;
+        _tfSeason.text =EMPTYSTRING;
        self.scrollview.hidden = YES ;
-        
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Please select video from device" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Please select video from device" delegate:nil btn1:@"Ok"];
     }
 }
 #pragma mark- ImagePicker Delegate method
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
-    if ([type isEqualToString:(NSString *)kUTTypeVideo] || [type isEqualToString:(NSString *)kUTTypeMovie])
-    {
+    if ([type isEqualToString:(NSString *)kUTTypeVideo] || [type isEqualToString:(NSString *)kUTTypeMovie]){
         urlvideo = [info objectForKey:UIImagePickerControllerMediaURL];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark- ASIHTTPRequest class delegate
 - (void)requestStarted:(ASIHTTPRequest *)theRequest {
 }
-
 - (void)requestFinished:(ASIHTTPRequest *)theRequest {
     @try {
-        _tfTitle.text = @"";
-        _tfDescription.text = @"";
-        _tfSeason.text =@"";
+        _tfTitle.text = EMPTYSTRING;
+        _tfDescription.text = EMPTYSTRING;
+        _tfSeason.text =EMPTYSTRING;
         NSData *data = [[theRequest responseString] dataUsingEncoding:NSUTF8StringEncoding];
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        [json valueForKey:@"status"] ? [SingletonClass initWithTitle:[json valueForKey:@"status"] message:[json valueForKey:@"message"] delegate:nil btn1:@"Ok"] :[SingletonClass initWithTitle:@"" message:@"Server error" delegate:nil btn1:@"Ok"] ;
+        [json valueForKey:STATUS] ? [SingletonClass initWithTitle:[json valueForKey:STATUS] message:[json valueForKey:@"message"] delegate:nil btn1:@"Ok"] :[SingletonClass initWithTitle:EMPTYSTRING message:@"Server error" delegate:nil btn1:@"Ok"] ;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.scrollview.hidden=YES;
-        if ([[json valueForKey:@"status"] isEqualToString:@"success"]) {
+        if ([[json valueForKey:STATUS] isEqualToString:SUCCESS]) {
             urlvideo=nil;
             [self getMultimediaVideos];
         }
@@ -432,7 +413,7 @@
     }
 }
 - (void)requestFailed:(ASIHTTPRequest *)theRequest {
-    [SingletonClass initWithTitle:@"" message:@"Video Upload to server failed, please try again" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:EMPTYSTRING message:@"Video Upload to server failed, please try again" delegate:nil btn1:@"Ok"];
 }
 #pragma mark Webservice call event
 -(void)getSeasonData{
@@ -444,7 +425,7 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
         [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getSeasonTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)getMultimediaVideos{
@@ -454,44 +435,42 @@
         webservice.delegate=self;
         UserInformation *userInfo=[UserInformation shareInstance];
         //self.navigationController.navigationItem.rightBarButtonItem.enabled = NO ;
-        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\",\"tag_video\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId,@""];
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"season_id\":\"%@\",\"tag_video\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,seasonId,EMPTYSTRING];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetMultimediaVideos :strURL :getPicDataTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
--(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
-{
+-(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
     [SingletonClass RemoveActivityIndicator:self.view];
     self.navigationController.navigationItem.rightBarButtonItem.enabled = YES ;
-    switch (Tag)
-    {
-        case getPicDataTag :
-        {
+    switch (Tag){
+        case getPicDataTag :{
             [multimediaData removeAllObjects];
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                AllMultimediaData=[[MyResults valueForKey:@"data"] copy];
+                AllMultimediaData=[[MyResults valueForKey:DATA] copy];
                 for (int i=0; i< AllMultimediaData.count; i++) {
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
                     [multimediaData addObject:temp];
                 }
+                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No videos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
                 _segmentControl.selectedSegmentIndex=0;
                 [_tableView reloadData];
             }else{
                 [multimediaData removeAllObjects];
                 [_tableView reloadData];
-                [SingletonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
+                multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No videos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
             }
             break;
         } case getSeasonTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                DicData=[MyResults  objectForKey:@"data"];
+                DicData=[MyResults  objectForKey:DATA];
                 arrSeasons=[[NSMutableArray alloc] init];
-                NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues];
+                NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues];
                 
                 for (int i=0;i<arrtemp.count; i++) {
                     if (![[arrtemp objectAtIndex:i] isEqualToString:@"Off Season"]) {
@@ -500,7 +479,7 @@
                 }
                 [listPicker reloadAllComponents];
             }else{
-                //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                //[SingaltonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
             }
             break;
         }
@@ -508,8 +487,7 @@
 }
 #pragma mark - Play video files
 // this is not used but you can used to play video in webview
-- (void)playVideo:(NSString *)urlString frame:(CGRect)frame
-{
+- (void)playVideo:(NSString *)urlString frame:(CGRect)frame{
     NSString *embedHTML = @"\
     <html><head>\
     <style type=\"text/css\">\
@@ -527,14 +505,13 @@
     [videoView loadHTMLString:html baseURL:nil];
     [self.view addSubview:videoView];
 }
--(void)PlayVideo:(id)sender
-{
+-(void)PlayVideo:(id)sender{
     UIButton *btn=(UIButton *)sender;
     // Pass your file path
     NSURL *vedioURL =[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]];
     
-    if ([@"" isEqualToString:[NSString stringWithFormat:@"%@",vedioURL]]) {
-        [SingletonClass initWithTitle:@"" message:@"Video file format doesn't support" delegate:nil btn1:@"Ok"];
+    if ([EMPTYSTRING isEqualToString:[NSString stringWithFormat:@"%@",vedioURL]]) {
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Video file format doesn't support" delegate:nil btn1:@"Ok"];
         return;
     }
     playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:vedioURL];
@@ -562,20 +539,16 @@
     [playerVC.moviePlayer play];
 }
 #pragma mark - Tableview Delegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     return 1;
 }
--(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return multimediaData.count;
 }
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier =@"MultimediaCell";
     static NSString *CellNib = @"MultimediaCell";
     MultimediaCell *cell = (MultimediaCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     @try {
         if (cell == nil) {
             NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
@@ -583,11 +556,10 @@
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             cell.btnPlay.tag=indexPath.row;
             [cell.imageView setImageWithURL:[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"thumbnail"] placeholderImage:[UIImage imageNamed:@"error_icon.png"]];
-            NSString *str = multimediaData.count > indexPath.row ?  [[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"] : @"";
+            NSString *str = multimediaData.count > indexPath.row ?  [[multimediaData objectAtIndex:indexPath.row] valueForKey:@"filename1"] : EMPTYSTRING;
             if (str.length == 0) {
                 cell.btnPlay.hidden = YES;
             }else{
-                
                 cell.btnPlay.hidden = NO;
             }
             cell.First_lblName.text=[[multimediaData objectAtIndex:indexPath.row] valueForKey:@"title"];
@@ -597,52 +569,44 @@
         cell.delegate=self;
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
     return cell;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self PlayVideo:tableView];
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 117;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return CELLHEIGHT;
 }
 #pragma mark- UIPickerView
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     if (currentText.text.length==0 && [currentText.placeholder isEqualToString:@"Select Season"]) {
-        arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :@"";
+        arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :EMPTYSTRING;
         seasonId=[self KeyForValue:@"Season":currentText.text];
     }
     return [arrSeasons count];
 }
 #pragma mark- Picker delegate method
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     NSString *str;
     str = [arrSeasons objectAtIndex:row];
-    NSArray *arr = [str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
+    NSArray *arr = [str componentsSeparatedByString:@"****"];
+    //For State, But will not effect to other
     return [arr objectAtIndex:0];
 }
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     currentText.text=arrSeasons.count > row ? [arrSeasons objectAtIndex:row] : [arrSeasons objectAtIndex:row-1];
     seasonId=[self KeyForValue:@"Season":currentText.text];
 }
--(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey
-{
+-(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey{
     NSArray *arrValues=[[DicData objectForKey:superKey] allValues];
     NSArray *arrkeys=[[DicData objectForKey:superKey] allKeys];
-    NSString *strValue=@"";
+    NSString *strValue=EMPTYSTRING;
     for (int i=0; i<arrValues.count; i++) {
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
@@ -652,19 +616,16 @@
     }
     return strValue;
 }
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [[touches anyObject] locationInView:listPicker];
 }
 
 #pragma mark - TextView Delegate
--(BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
      textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
+- (void)textViewDidBeginEditing:(UITextView *)textView{
     [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
         
         if (iosVersion < 8) {
@@ -678,8 +639,7 @@
     }];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
-{
-}
+{}
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
@@ -691,7 +651,7 @@
             webservice.delegate=self;
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
         }else{
-            [SingletonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
         }
         return NO;
     }else{
@@ -703,19 +663,14 @@
             }else{
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
             }
-        }completion:^(BOOL finished){
-        }];
+        }completion:^(BOOL finished){}];
         return YES;
-    }
-}
+}}
 -(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-}
+{}
 -(void)textFieldDidEndEditing:(UITextField *)textField
-{
-}
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+{}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
      textField.autocorrectionType = UITextAutocorrectionTypeNo;
     [textField resignFirstResponder];
     return YES;

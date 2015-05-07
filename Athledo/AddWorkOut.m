@@ -89,8 +89,8 @@ static int LiftExerciseCount=0;
     scrollHeight=0;
     self.title = NSLocalizedString(@"Workout", nil);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     arrLiftPlaceholder=[[NSMutableArray alloc] init];
@@ -121,7 +121,7 @@ static int LiftExerciseCount=0;
     
     for (int i=0; i<arrFieldsPlaceholder.count; i++) {
         
-        [workOutDic setObject:@"" forKey:[arrFieldsPlaceholder objectAtIndex:i]];
+        [workOutDic setObject:EMPTYSTRING forKey:[arrFieldsPlaceholder objectAtIndex:i]];
         
     }
     @try {
@@ -135,22 +135,22 @@ static int LiftExerciseCount=0;
                 case 1:
                 {
                     [workOutDic setObject:@"1" forKey:@"Whole Team"];
-                    [workOutDic setObject:@"" forKey:@"Athletes"];
-                    [workOutDic setObject:@"" forKey:@"Groups"];
+                    [workOutDic setObject:EMPTYSTRING forKey:@"Athletes"];
+                    [workOutDic setObject:EMPTYSTRING forKey:@"Groups"];
                     break;
                 }
                 case 2:
                 {
                     [workOutDic setObject:[objEditModeData valueForKey:@"Athletes"] forKey:@"Athletes"];
-                    [workOutDic setObject:@"" forKey:@"Whole Team"];
-                    [workOutDic setObject:@"" forKey:@"Groups"];
+                    [workOutDic setObject:EMPTYSTRING forKey:@"Whole Team"];
+                    [workOutDic setObject:EMPTYSTRING forKey:@"Groups"];
                     break;
                 }
                 case 3:
                 {
                     [workOutDic setObject:[objEditModeData valueForKey:@"Groups"] forKey:@"Groups"];
-                    [workOutDic setObject:@"" forKey:@"Whole Team"];
-                    [workOutDic setObject:@"" forKey:@"Athletes"];
+                    [workOutDic setObject:EMPTYSTRING forKey:@"Whole Team"];
+                    [workOutDic setObject:EMPTYSTRING forKey:@"Athletes"];
                     break;
                 }
                     
@@ -163,14 +163,14 @@ static int LiftExerciseCount=0;
             
             [workOutDic setObject:[[objEditModeData valueForKey:@"Email Notification"] intValue]== 1 ? @"Yes":@"No" forKey:@"Email Notification"];
             
-            [workOutDic setObject:[[objEditModeData valueForKey:WARMUPTIME] intValue]==0 ? @"":[[objEditModeData valueForKey:WARMUPTIME] stringByAppendingString:@" Minutes"] forKey:WARMUPTIME];
+            [workOutDic setObject:[[objEditModeData valueForKey:WARMUPTIME] intValue]==0 ? EMPTYSTRING:[[objEditModeData valueForKey:WARMUPTIME] stringByAppendingString:@" Minutes"] forKey:WARMUPTIME];
             
-            [workOutDic setObject:[[objEditModeData valueForKey:COOLDOWNTIME] intValue]==0 ? @"" :[[objEditModeData valueForKey:COOLDOWNTIME] stringByAppendingString:@" Minutes"]forKey:COOLDOWNTIME];
+            [workOutDic setObject:[[objEditModeData valueForKey:COOLDOWNTIME] intValue]==0 ? EMPTYSTRING :[[objEditModeData valueForKey:COOLDOWNTIME] stringByAppendingString:@" Minutes"]forKey:COOLDOWNTIME];
             [workOutDic setObject:[objEditModeData valueForKey:@"Workout Name"] forKey:@"Workout Name"];
             [workOutDic setObject:[objEditModeData valueForKey:@"Date"] forKey:@"Workout Date"];
             [workOutDic setObject:[objEditModeData valueForKey:@"Description"] forKey:@"Description"];
             [workOutDic setObject:[objEditModeData valueForKey:@"Workout Type"] forKey:@"Workout Type"];
-            [workOutDic setObject:@"" forKey:@"Unit"];
+            [workOutDic setObject:EMPTYSTRING forKey:@"Unit"];
             
             if ([[objEditModeData valueForKey:@"Workout Type"] isEqual:WORKOUTTYPE_INTERVAL]) {
                 
@@ -195,12 +195,12 @@ static int LiftExerciseCount=0;
         }else{
             // Whole team and email Yes is by default selected
             [workOutDic setObject:@"1" forKey:@"Whole Team"];
-            [workOutDic setObject:@"" forKey:@"Athletes"];
-            [workOutDic setObject:@"" forKey:@"Groups"];
+            [workOutDic setObject:EMPTYSTRING forKey:@"Athletes"];
+            [workOutDic setObject:EMPTYSTRING forKey:@"Groups"];
             [workOutDic setObject:@"1" forKey:@"assigned"];
             [workOutDic setObject:@"Yes" forKey:@"Email Notification"];
             [workOutDic setObject:[Data copy] forKey:@"Custom Tags"];
-            [workOutDic setObject:@"" forKey:@"Total Time"];
+            [workOutDic setObject:EMPTYSTRING forKey:@"Total Time"];
             Data=nil;
         }
     }
@@ -338,15 +338,15 @@ static int LiftExerciseCount=0;
         {
             case AddCustomTag:
             {
-                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
                     [arrCustomList insertObject:currentText.text atIndex:0];
-                    int customtagId=[[MyResults  objectForKey:@"data"] intValue];
+                    int customtagId=[[MyResults  objectForKey:DATA] intValue];
                     // add custom tag in dic for show in picker
                     NSArray *customTagValues;
                     NSArray *customTagKeys;
-                    [[workOutDic objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customTagValues =[[workOutDic objectForKey:@"Custom Tags"] allValues] :@"";
-                    [[workOutDic objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ?customTagKeys =[[workOutDic objectForKey:@"Custom Tags"] allKeys] : @"";
+                    [[workOutDic objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customTagValues =[[workOutDic objectForKey:@"Custom Tags"] allValues] :EMPTYSTRING;
+                    [[workOutDic objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ?customTagKeys =[[workOutDic objectForKey:@"Custom Tags"] allKeys] : EMPTYSTRING;
                     NSMutableDictionary *Tempdic=[[NSMutableDictionary alloc] init];
                     for (int i=0 ; i< customTagValues.count;i++) {
                         [Tempdic setObject:[customTagValues objectAtIndex:i] forKey:[customTagKeys objectAtIndex:i]];
@@ -357,9 +357,9 @@ static int LiftExerciseCount=0;
                     NSArray *customTagValues1;
                     NSArray *customTagKeys1;
                     
-                    [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]]  ? customTagValues1=[[WebWorkOutData objectForKey:@"Custom Tags"]  allValues] : @"";
+                    [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]]  ? customTagValues1=[[WebWorkOutData objectForKey:@"Custom Tags"]  allValues] : EMPTYSTRING;
                     
-                    [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customTagKeys1=[[WebWorkOutData objectForKey:@"Custom Tags"] allKeys] : @"";
+                    [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customTagKeys1=[[WebWorkOutData objectForKey:@"Custom Tags"] allKeys] : EMPTYSTRING;
                     
                     NSMutableDictionary *Tempdic1=[[NSMutableDictionary alloc] init];
                     for (int i=0 ; i< customTagValues1.count;i++) {
@@ -372,10 +372,10 @@ static int LiftExerciseCount=0;
                     
                     [WebWorkOutData setObject:[Tempdic1 copy] forKey:@"Custom Tags"];
                     Tempdic1=nil;
-                    [SingletonClass initWithTitle:@"" message:@"Custom tag has been added successfully" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Custom tag has been added successfully" delegate:nil btn1:@"Ok"];
                     
                 }else{
-                    [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
                 
                 break;
@@ -383,7 +383,7 @@ static int LiftExerciseCount=0;
             case DeleteCustomTag:
             {
                 
-                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
                     [arrCustomList removeObject:currentText.text];
                     
@@ -400,46 +400,46 @@ static int LiftExerciseCount=0;
                     
                     [workOutDic setObject:[Tempdic copy] forKey:@"Custom Tags"];
                     Tempdic=nil;
-                    [SingletonClass initWithTitle:@"" message:@"Custom tag has been removed successfully" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Custom tag has been removed successfully" delegate:nil btn1:@"Ok"];
                     
                 }else{
-                    [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
                 break;
             }
             case AddExerciseTypeTag:
             {
-                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
                     [arrExerciseType insertObject:currentText.text atIndex:0];
-                    [SingletonClass initWithTitle:@"" message:@"Exercise Type has been added successfully" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Exercise Type has been added successfully" delegate:nil btn1:@"Ok"];
                     
                 }else{
-                    [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
                 
                 break;
             } case DeleteExerciseTypeTag:
             {
                 
-                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
                     [arrExerciseType removeObject:currentText.text];
-                    [SingletonClass initWithTitle:@"" message:@"Exercise Type has been removed successfully" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Exercise Type has been removed successfully" delegate:nil btn1:@"Ok"];
                 }else{
-                    [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
                 
                 break;
             } case AddWorkoutTag:
             {
                 
-                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
                     
-                    [SingletonClass initWithTitle:@"" message:@"Workout has been saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
                 }else{
-                    [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
                 
                 break;
@@ -472,13 +472,13 @@ static int LiftExerciseCount=0;
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
     if (Tag == GetWorkOutUnitTag)
     {
-        if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+        if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
         {
-            NSDictionary *tepm=[myResults  objectForKey:@"data"];
+            NSDictionary *tepm=[myResults  objectForKey:DATA];
             
-            if (![tepm isEqual:@""])
+            if (![tepm isEqual:EMPTYSTRING])
             {
-                [WebWorkOutData setObject:[myResults  objectForKey:@"data"] forKey:@"Unit"];
+                [WebWorkOutData setObject:[myResults  objectForKey:DATA] forKey:@"Unit"];
                 if (isEditData) {
                     [self getUnitArryValues:@"Unit"];
                 }
@@ -487,13 +487,13 @@ static int LiftExerciseCount=0;
     }else if (Tag ==GetWorkOutListTag)
     {
         //First time we get these fields data-> Workout Unit ,WorkOut Type,Custom Tags Tag,liftUnits,groups,athletes
-        if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+        if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
         {
-            WebWorkOutData=[myResults  objectForKey:@"data"];
-             [[WebWorkOutData objectForKey:@"Lift Excercise"] isKindOfClass:[NSDictionary class]] ?  LiftExerciseDic=[WebWorkOutData objectForKey:@"Lift Excercise"] : @"";
-            LiftExerciseDic.count > 0 ? arrLiftExercise = [LiftExerciseDic allValues] : @"" ;
+            WebWorkOutData=[myResults  objectForKey:DATA];
+             [[WebWorkOutData objectForKey:@"Lift Excercise"] isKindOfClass:[NSDictionary class]] ?  LiftExerciseDic=[WebWorkOutData objectForKey:@"Lift Excercise"] : EMPTYSTRING;
+            LiftExerciseDic.count > 0 ? arrLiftExercise = [LiftExerciseDic allValues] : EMPTYSTRING ;
             NSArray *tempWorkout;
-            [[WebWorkOutData objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ?  tempWorkout=[[WebWorkOutData objectForKey:@"Workout Type"] allValues] : @"";
+            [[WebWorkOutData objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ?  tempWorkout=[[WebWorkOutData objectForKey:@"Workout Type"] allValues] : EMPTYSTRING;
             
             for (int i=0 ; i< tempWorkout.count;i++) {
                 
@@ -501,8 +501,8 @@ static int LiftExerciseCount=0;
             }
             NSArray *customTags;
             NSArray *customKeys;
-            [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]]  ? customTags=[[WebWorkOutData objectForKey:@"Custom Tags"]  allValues] : @"";
-            [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customKeys=[[WebWorkOutData objectForKey:@"Custom Tags"] allKeys] : @"";
+            [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]]  ? customTags=[[WebWorkOutData objectForKey:@"Custom Tags"]  allValues] : EMPTYSTRING;
+            [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customKeys=[[WebWorkOutData objectForKey:@"Custom Tags"] allKeys] : EMPTYSTRING;
             NSMutableDictionary *Tempdic=[[NSMutableDictionary alloc] init];
             for (int i=0 ; i< customTags.count;i++) {
                 
@@ -537,7 +537,7 @@ static int LiftExerciseCount=0;
             }
             // For delete funtionality of custom tag
             NSArray *customTag;
-            [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customTag=[[WebWorkOutData objectForKey:@"Custom Tags"] allValues] : @"";
+            [[WebWorkOutData objectForKey:@"Custom Tags"] isKindOfClass:[NSDictionary class]] ? customTag=[[WebWorkOutData objectForKey:@"Custom Tags"] allValues] : EMPTYSTRING;
             
             if (arrCustomList.count  >0 ) {
                 
@@ -551,8 +551,8 @@ static int LiftExerciseCount=0;
             // when at perticular key is no value in WebWorkOutData then allvalues method due to crash thats by use the method
             NSArray *ExerciseType;
             NSArray *Exerciseid;
-            [[WebWorkOutData objectForKey:@"Exercise"] isKindOfClass:[NSDictionary class]] ?  ExerciseType =[[WebWorkOutData objectForKey:@"Exercise"] allValues] :@"";
-            [[WebWorkOutData objectForKey:@"Exercise"] isKindOfClass:[NSDictionary class]] ?  Exerciseid=[[WebWorkOutData objectForKey:@"Exercise"] allKeys] : @"";
+            [[WebWorkOutData objectForKey:@"Exercise"] isKindOfClass:[NSDictionary class]] ?  ExerciseType =[[WebWorkOutData objectForKey:@"Exercise"] allValues] :EMPTYSTRING;
+            [[WebWorkOutData objectForKey:@"Exercise"] isKindOfClass:[NSDictionary class]] ?  Exerciseid=[[WebWorkOutData objectForKey:@"Exercise"] allKeys] : EMPTYSTRING;
             BOOL ArrStatus=FALSE;
             if (arrExerciseType.count  >0 ) {
                 ArrStatus=TRUE;
@@ -613,7 +613,7 @@ static int LiftExerciseCount=0;
             }
         }
         
-        [[WebWorkOutData objectForKey:@"Lift Unit"] isKindOfClass:[NSDictionary class]] ? arrLiftUnit=[[WebWorkOutData objectForKey:@"Lift Unit"] allValues] :@"";
+        [[WebWorkOutData objectForKey:@"Lift Unit"] isKindOfClass:[NSDictionary class]] ? arrLiftUnit=[[WebWorkOutData objectForKey:@"Lift Unit"] allValues] :EMPTYSTRING;
         // IN Case Edit data
         if (isEditData) {
             
@@ -628,12 +628,12 @@ static int LiftExerciseCount=0;
         
     }else if (Tag ==AddWorkOutLiftTag)
     {
-        if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+        if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
         {
-            [SingletonClass initWithTitle:@"" message:@"Workout has been saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
             
         }else{
-            [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
         }
     }
 }
@@ -686,11 +686,11 @@ static int LiftExerciseCount=0;
     }else  if (isLiftUnit)
     {
         str = [arrLiftUnit objectAtIndex:row];
-        currentText.text.length==0 ? currentText.text=str : @"";
+        currentText.text.length==0 ? currentText.text=str : EMPTYSTRING;
     }else  if (isCustomTag)
     {
         str = [arrCustomList objectAtIndex:row];
-        currentText.text.length==0 ? currentText.text=str : @"";
+        currentText.text.length==0 ? currentText.text=str : EMPTYSTRING;
     }else  if (isTime)
     {
         str = [arrTime objectAtIndex:row];
@@ -698,7 +698,7 @@ static int LiftExerciseCount=0;
     }else  if (isLiftExerciseName)
     {
         str = [arrLiftExercise objectAtIndex:row];
-        currentText.text.length==0 ? currentText.text = str : @""  ;
+        currentText.text.length==0 ? currentText.text = str : EMPTYSTRING  ;
     }else
     {
         str = [arrExerciseType objectAtIndex:row];
@@ -795,7 +795,7 @@ static int LiftExerciseCount=0;
 
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionStateForRow:(NSInteger)row {
     
-    //NSLog(@"");
+    //NSLog(EMPTYSTRING);
     
     return [[selectedUnits objectForKey:[UnitsArray objectAtIndex:row]] boolValue];
 }
@@ -869,15 +869,15 @@ static int LiftExerciseCount=0;
 {
     @try {
         
-        if ([pickerData isEqual:@""] || pickerData.count==0) {
+        if ([pickerData isEqual:EMPTYSTRING] || pickerData.count==0) {
             
-            return @"";
+            return EMPTYSTRING;
         }
         
         NSArray *arrKeys=[pickerData allKeys];
         NSArray *arrValues=[pickerData allValues];
         
-        NSString *values=@"";
+        NSString *values=EMPTYSTRING;
         
         for (int i=0; i<arrValues.count; i++) {
             
@@ -1068,7 +1068,7 @@ static int LiftExerciseCount=0;
                 /////
                 [listPicker reloadAllComponents];
                 [listPicker selectRow:0 inComponent:0 animated:YES];
-                arrLiftExercise.count > 0 ? [self setPickerVisibleAt:YES:arrLiftExercise] : @"";
+                arrLiftExercise.count > 0 ? [self setPickerVisibleAt:YES:arrLiftExercise] : EMPTYSTRING;
                 return NO;
                 ////
                 
@@ -1090,7 +1090,7 @@ static int LiftExerciseCount=0;
             
             if (arrCustomList.count == 0) {
                 
-                [SingletonClass initWithTitle:@"" message:@"Please add custom tag first" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Please add custom tag first" delegate:nil btn1:@"Ok"];
             }else
             {
                 [self selectCustomTags];
@@ -1219,7 +1219,7 @@ static int LiftExerciseCount=0;
             
         }else{
             
-            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
             
         }
         
@@ -1268,7 +1268,7 @@ static int LiftExerciseCount=0;
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
     
@@ -1346,7 +1346,7 @@ static int LiftExerciseCount=0;
             
             NSString *code= [self KeyForValue:@"Workout Type" :currentText.text];
             
-            [self getWorkOutUnit:code :@""];
+            [self getWorkOutUnit:code :EMPTYSTRING];
             
             [self ShowFieldsRegardingWorkOutType:currentText.text];
             
@@ -1358,12 +1358,12 @@ static int LiftExerciseCount=0;
     {
         // If nothing is selected from picker
         
-        if ([[workOutDic objectForKey:@"Athletes"] isEqual:@""] && [strPlaceHolder isEqualToString:@"Athletes"] ) {
+        if ([[workOutDic objectForKey:@"Athletes"] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:@"Athletes"] ) {
             
             [workOutDic setObject:@"1" forKey:@"Whole Team"];
         }
         
-        if ([[workOutDic objectForKey:@"Groups"] isEqual:@""] && [strPlaceHolder isEqualToString:@"Groups"] ) {
+        if ([[workOutDic objectForKey:@"Groups"] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:@"Groups"] ) {
             
             [workOutDic setObject:@"1" forKey:@"Whole Team"];
         }
@@ -1420,9 +1420,9 @@ static int LiftExerciseCount=0;
         if (currentText.text.length > 0) {
             if (isChangeWorkoutType==TRUE)
             {
-                [workOutDic setValue:@"" forKey:@"Exercise Type"];
+                [workOutDic setValue:EMPTYSTRING forKey:@"Exercise Type"];
                 NSString *code= [self KeyForValue:@"Workout Type" :currentText.text];
-                [self getWorkOutUnit:code :@""];
+                [self getWorkOutUnit:code :EMPTYSTRING];
                 [self ShowFieldsRegardingWorkOutType:currentText.text];
                 isChangeWorkoutType=FALSE;
             }
@@ -1431,11 +1431,11 @@ static int LiftExerciseCount=0;
     }else if([strPlaceHolder isEqualToString:@"Athletes"] || [strPlaceHolder isEqualToString:@"Groups"] )
     {
         // If nothing is selected from picker
-        if ([[workOutDic objectForKey:@"Athletes"] isEqual:@""] && [strPlaceHolder isEqualToString:@"Athletes"] ) {
+        if ([[workOutDic objectForKey:@"Athletes"] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:@"Athletes"] ) {
             [workOutDic setObject:@"1" forKey:@"Whole Team"];
         }
         
-        if ([[workOutDic objectForKey:@"Groups"] isEqual:@""] && [strPlaceHolder isEqualToString:@"Groups"] ) {
+        if ([[workOutDic objectForKey:@"Groups"] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:@"Groups"] ) {
             
             [workOutDic setObject:@"1" forKey:@"Whole Team"];
         }
@@ -1474,43 +1474,43 @@ static int LiftExerciseCount=0;
     if ([workOutType isEqualToString:WORKOUTTYPE_CARDIO]) {
         [arrFieldsPlaceholder removeObject:@"Exercise Type"];
         [arrFieldsPlaceholder removeObject:@"Unit"];
-        [workOutDic setObject:@"" forKey:@"Unit"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Unit"];
         
     }else if ( [workOutType isEqualToString:WORKOUTTYPE_CORE])
     {
         [arrFieldsPlaceholder removeObject:@"Unit"];
-        [workOutDic setObject:@"" forKey:@"Unit"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Unit"];
     }else  if ( [workOutType isEqualToString:WORKOUTTYPE_STRETCHING] )
     {
         [arrFieldsPlaceholder removeObject:@"Unit"];
-        [workOutDic setObject:@"" forKey:@"Unit"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Unit"];
         
     }else if ([workOutType isEqualToString:WORKOUTTYPE_OHTER]) {
         
         [arrFieldsPlaceholder removeObject:@"Exercise Type"];
         [arrFieldsPlaceholder removeObject:@"Unit"];
-        [workOutDic setObject:@"" forKey:@"Unit"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Unit"];
         
     }else if ([workOutType isEqualToString:WORKOUTTYPE_OHTER]) {
         
         [arrFieldsPlaceholder removeObject:@"Exercise Type"];
         [arrFieldsPlaceholder removeObject:@"Unit"];
-        [workOutDic setObject:@"" forKey:@"Unit"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Unit"];
         
     }else if ([workOutType isEqualToString:WORKOUTTYPE_INTERVAL] ) {
         
         [arrFieldsPlaceholder removeObject:@"Exercise Type"];
         [arrFieldsPlaceholder removeObject:@"# of Intervals"];
         [arrFieldsPlaceholder removeObject:@"Unit"];
-        [workOutDic setObject:@"" forKey:@"Unit"];
-        [workOutDic setObject:@"" forKey:@"# of Intervals"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Unit"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"# of Intervals"];
         
     }else if ([workOutType isEqualToString:WORKOUTTYPE_LIFT]) {
         LiftExerciseCount=0;
         [arrFieldsPlaceholder removeObject:@"Exercise"];
         [arrFieldsPlaceholder removeObject:@"Total Time"];
-        [workOutDic setObject:@"" forKey:@"Exercise"];
-        [workOutDic setObject:@"" forKey:@"Total Time"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Exercise"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Total Time"];
         [arrLiftPlaceholder removeAllObjects];
         
     }
@@ -1557,9 +1557,9 @@ static int LiftExerciseCount=0;
                     [arrFieldsPlaceholder insertObject:@"Total Time" atIndex:arrFieldsPlaceholder.count-1];
                 }
                 
-                [workOutDic setValue:@"" forKeyPath:@"Total Time"];
+                [workOutDic setValue:EMPTYSTRING forKeyPath:@"Total Time"];
                 
-                NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"Name",@"",@"Sets",@"",@"Reps",@"",@"Weight",@"",@"Unit.", nil];
+                NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:EMPTYSTRING,@"Name",EMPTYSTRING,@"Sets",EMPTYSTRING,@"Reps",EMPTYSTRING,@"Weight",EMPTYSTRING,@"Unit.", nil];
                 
                 [arrLiftPlaceholder addObject:dic];
                 
@@ -1568,10 +1568,10 @@ static int LiftExerciseCount=0;
                 
                 if (arrLiftPlaceholder.count==0) {
                     
-                    NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:@"",@"Name",@"",@"Sets",@"",@"Reps",@"",@"Weight",@"",@"Unit.", nil];
+                    NSMutableDictionary *dic=[[NSMutableDictionary alloc] initWithObjectsAndKeys:EMPTYSTRING,@"Name",EMPTYSTRING,@"Sets",EMPTYSTRING,@"Reps",EMPTYSTRING,@"Weight",EMPTYSTRING,@"Unit.", nil];
                     
                     [arrLiftPlaceholder addObject:dic];
-                    [workOutDic setValue:@"" forKeyPath:@"Total Time"];
+                    [workOutDic setValue:EMPTYSTRING forKeyPath:@"Total Time"];
                     
                     dic=nil;
                     [arrFieldsPlaceholder insertObject:@"Total Time" atIndex:arrFieldsPlaceholder.count];
@@ -1714,7 +1714,7 @@ static int LiftExerciseCount=0;
             
             df.dateFormat = @"HH:mm";
             currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-            [currentText.text isEqualToString:@"00:00"] ? currentText.text=@"00:01":@"";
+            [currentText.text isEqualToString:@"00:00"] ? currentText.text=@"00:01":EMPTYSTRING;
             
         }
         
@@ -1788,7 +1788,7 @@ static int LiftExerciseCount=0;
         {
             btn.selected=NO;
             [btn setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
-            [SingletonClass initWithTitle:@"" message:[NSString stringWithFormat:@"NO %@",strPlaceHolder] delegate:nil btn1:@"OK"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:[NSString stringWithFormat:@"NO %@",strPlaceHolder] delegate:nil btn1:@"OK"];
         }
     }
 }
@@ -1830,16 +1830,16 @@ static int LiftExerciseCount=0;
         
         [workOutDic setObject:@"1" forKey:@"assigned"];
         [workOutDic setObject:@"1" forKey:@"Whole Team"];
-        [workOutDic setObject:@"" forKey:@"Athletes"];
-        [workOutDic setObject:@"" forKey:@"Groups"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Athletes"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Groups"];
     }else if (isAthletes)
     {
         [workOutDic setObject:@"2" forKey:@"assigned"];
         
-        [workOutDic setObject:@"" forKey:@"Whole Team"];
-        [workOutDic setObject:@"" forKey:@"Groups"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Whole Team"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Groups"];
         
-        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:@""]) {
+        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:EMPTYSTRING]) {
             
             tempDic=[workOutDic objectForKey:strPlaceHolder];
         }
@@ -1853,10 +1853,10 @@ static int LiftExerciseCount=0;
     }else if (isGroups)
     {
         [workOutDic setObject:@"3" forKey:@"assigned"];
-        [workOutDic setObject:@"" forKey:@"Whole Team"];
-        [workOutDic setObject:@"" forKey:@"Athletes"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Whole Team"];
+        [workOutDic setObject:EMPTYSTRING forKey:@"Athletes"];
         
-        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:@""]) {
+        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:EMPTYSTRING]) {
             
             tempDic=[workOutDic objectForKey:strPlaceHolder];
         }
@@ -1869,7 +1869,7 @@ static int LiftExerciseCount=0;
         }
     }else if (isUnits)
     {
-        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:@""]) {
+        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:EMPTYSTRING]) {
             
             tempDic=[workOutDic objectForKey:strPlaceHolder];
         }
@@ -1887,7 +1887,7 @@ static int LiftExerciseCount=0;
     }else if (isCustomTag)
     {
         
-        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:@""]) {
+        if (![[workOutDic objectForKey:strPlaceHolder] isEqual:EMPTYSTRING]) {
             
             tempDic=[workOutDic objectForKey:strPlaceHolder];
         }
@@ -1908,7 +1908,7 @@ static int LiftExerciseCount=0;
 -(void)getUnitArryValues : (NSString *)Key
 {
     @try {
-        if (isEditData && ![[objEditModeData valueForKey:Key] isEqual:@""]) {
+        if (isEditData && ![[objEditModeData valueForKey:Key] isEqual:EMPTYSTRING]) {
             
             [tableview reloadData];
             
@@ -1930,11 +1930,11 @@ static int LiftExerciseCount=0;
             
             // In Edit Mode
             
-            if (isEditData && ![[objEditModeData valueForKey:Key] isEqual:@""]) {
+            if (isEditData && ![[objEditModeData valueForKey:Key] isEqual:EMPTYSTRING]) {
                 
                 NSArray *temp;
                 
-                if (![[objEditModeData valueForKey:Key] isEqual:@""]) {
+                if (![[objEditModeData valueForKey:Key] isEqual:EMPTYSTRING]) {
                     
                     temp =[objEditModeData objectForKey:Key];
                 }
@@ -1992,7 +1992,7 @@ static int LiftExerciseCount=0;
 {
     UIAlertView *alertView = [[UIAlertView alloc]
                               initWithTitle:@"Add Custom Tag"
-                              message:@""
+                              message:EMPTYSTRING
                               delegate:self
                               cancelButtonTitle:@"Cancel"
                               otherButtonTitles:@"Save", nil];
@@ -2010,7 +2010,7 @@ static int LiftExerciseCount=0;
 {
     UIAlertView *alertView = [[UIAlertView alloc]
                               initWithTitle:@"Add Exercise Type"
-                              message:@""
+                              message:EMPTYSTRING
                               delegate:self
                               cancelButtonTitle:@"Cancel"
                               otherButtonTitles:@"Save", nil];
@@ -2028,7 +2028,7 @@ static int LiftExerciseCount=0;
 {
     UIAlertView *alertView = [[UIAlertView alloc]
                               initWithTitle:@"Remove Exercise Type"
-                              message:@""
+                              message:EMPTYSTRING
                               delegate:self
                               cancelButtonTitle:@"Cancel"
                               otherButtonTitles:@"Delete", nil];
@@ -2080,15 +2080,15 @@ static int LiftExerciseCount=0;
 {
     @try {
         
-        if ([pickerData isEqual:@""] || pickerData.count==0) {
+        if ([pickerData isEqual:EMPTYSTRING] || pickerData.count==0) {
             
-            return @"";
+            return EMPTYSTRING;
         }
         
         
         NSArray *arrKeys=[pickerData allKeys];
         NSArray *arrValues;
-        NSString *values=@"";
+        NSString *values=EMPTYSTRING;
         
         //NSLog(@"code %@ ",[pickerData allValues]);
         
@@ -2111,7 +2111,7 @@ static int LiftExerciseCount=0;
             }
             if (values.length > 0) {
                 
-                values=[values stringByReplacingCharactersInRange:NSMakeRange(values.length-1, 1) withString:@""];
+                values=[values stringByReplacingCharactersInRange:NSMakeRange(values.length-1, 1) withString:EMPTYSTRING];
             }
             
             
@@ -2131,11 +2131,11 @@ static int LiftExerciseCount=0;
 {
     if (dic.count == 0) {
         
-        return @"";
+        return EMPTYSTRING;
     }
     NSArray *arrKeys = [dic allKeys];
     NSArray *arrValues = [dic allValues] ;
-    NSString *KeyId = @"";
+    NSString *KeyId = EMPTYSTRING;
     
   
         for (int i=0; i<arrValues.count; i++) {
@@ -2155,18 +2155,18 @@ static int LiftExerciseCount=0;
 {
     @try {
         
-        if ([WebWorkOutData isEqual:@""] || WebWorkOutData.count==0) {
+        if ([WebWorkOutData isEqual:EMPTYSTRING] || WebWorkOutData.count==0) {
             
-            return @"";
+            return EMPTYSTRING;
         }
         NSArray *arrValues;
         NSArray *arrkeys;
         
-        [[WebWorkOutData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ?  arrValues=[[WebWorkOutData objectForKey:superKey] allValues] :@"";
+        [[WebWorkOutData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ?  arrValues=[[WebWorkOutData objectForKey:superKey] allValues] :EMPTYSTRING;
         
-        [[WebWorkOutData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrkeys=[[WebWorkOutData objectForKey:superKey] allKeys] : @"";
+        [[WebWorkOutData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrkeys=[[WebWorkOutData objectForKey:superKey] allKeys] : EMPTYSTRING;
         
-        NSString *strValue=@"";
+        NSString *strValue=EMPTYSTRING;
         
         for (int i=0; i<arrValues.count; i++) {
             
@@ -2200,17 +2200,17 @@ static int LiftExerciseCount=0;
 {
     @try {
         
-        if ([WebWorkOutData isEqual:@""] || WebWorkOutData.count==0) {
+        if ([WebWorkOutData isEqual:EMPTYSTRING] || WebWorkOutData.count==0) {
             
-            return @"";
+            return EMPTYSTRING;
         }
         NSArray *arrValues;
         NSArray *arrkeys;
-        [[WebWorkOutData objectForKey:superKey] isKindOfClass: [NSDictionary class]] ? arrValues =[[WebWorkOutData objectForKey:superKey] allValues] : @"";
+        [[WebWorkOutData objectForKey:superKey] isKindOfClass: [NSDictionary class]] ? arrValues =[[WebWorkOutData objectForKey:superKey] allValues] : EMPTYSTRING;
         
-        [[WebWorkOutData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrkeys=[[WebWorkOutData objectForKey:superKey] allKeys] : @"";
+        [[WebWorkOutData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrkeys=[[WebWorkOutData objectForKey:superKey] allKeys] : EMPTYSTRING;
         
-        NSString *strValue=@"";
+        NSString *strValue=EMPTYSTRING;
         
         for (int i=0; i<arrValues.count; i++) {
             
@@ -2244,7 +2244,7 @@ static int LiftExerciseCount=0;
     @try {
         
         int assigned=[[workOutDic objectForKey:@"assigned"] intValue];
-        NSString *strAthletesIds=@"",*strGroupsIds=@"",*strWholeTeam=@"";
+        NSString *strAthletesIds=EMPTYSTRING,*strGroupsIds=EMPTYSTRING,*strWholeTeam=EMPTYSTRING;
         switch (assigned)
         {
             case 1:
@@ -2281,12 +2281,12 @@ static int LiftExerciseCount=0;
         NSString *strWorkOutEmail=[[workOutDic valueForKey:@"Email Notification"] isEqualToString: @"Yes"] ?[NSString stringWithFormat:@"%@",@"1"] :[NSString stringWithFormat:@"%@",@"0"];
         NSString *strWorkOutDes=[workOutDic objectForKey:@"Description"];
         NSString *strWormUpTime=[workOutDic objectForKey:WARMUPTIME];
-        strWormUpTime=[strWormUpTime stringByReplacingOccurrencesOfString:@"Minutes" withString:@""];
+        strWormUpTime=[strWormUpTime stringByReplacingOccurrencesOfString:@"Minutes" withString:EMPTYSTRING];
         NSString *strCoolDownTime=[workOutDic objectForKey:COOLDOWNTIME];
-        strCoolDownTime=[strCoolDownTime stringByReplacingOccurrencesOfString:@"Minutes" withString:@""];
+        strCoolDownTime=[strCoolDownTime stringByReplacingOccurrencesOfString:@"Minutes" withString:EMPTYSTRING];
         
-        NSString *strInterval=@"";
-        NSString *strUnitsIds=@"";
+        NSString *strInterval=EMPTYSTRING;
+        NSString *strUnitsIds=EMPTYSTRING;
         
         if ([[workOutDic valueForKey:@"Workout Type"] isEqual:WORKOUTTYPE_INTERVAL]) {
             
@@ -2294,14 +2294,14 @@ static int LiftExerciseCount=0;
                 
                 if([[workOutDic valueForKey:@"# of Intervals"] intValue ] < 2){
                     self.navigationItem.rightBarButtonItem.enabled=YES;
-                    [SingletonClass initWithTitle:@"" message:@"Please Enter # of intervals greater than one" delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Please Enter # of intervals greater than one" delegate:nil btn1:@"Ok"];
                     return;
                 }else
                     
                     strInterval=[NSString stringWithFormat:@"%@",[workOutDic valueForKey:@"# of Intervals"] ];
             }
         }
-        NSString *strTotalTime=@"";
+        NSString *strTotalTime=EMPTYSTRING;
          BOOL LiftExerciseStatus;
         
         if ([[workOutDic valueForKey:@"Workout Type"] isEqual:WORKOUTTYPE_LIFT]) {
@@ -2331,7 +2331,7 @@ static int LiftExerciseCount=0;
                 case 1:
                 {
                     //Check for empty Text box
-                    NSString *strError = @"";
+                    NSString *strError = EMPTYSTRING;
                     if(strWorkOutName.length < 1 )
                     {
                         strError = @"Please enter workout name";
@@ -2345,7 +2345,7 @@ static int LiftExerciseCount=0;
                     }else if((strUnitsIds.length < 1 ) && ![[workOutDic valueForKey:@"Workout Type"] isEqual:WORKOUTTYPE_LIFT])
                     {
                         strError = @"Please select units";
-                    }else if(assigned == 0 || ( [strAthletesIds isEqualToString:@""] && assigned==2)||([strGroupsIds isEqualToString:@""] && assigned==3) || ( [strWholeTeam isEqualToString:@""] && assigned==1 ))
+                    }else if(assigned == 0 || ( [strAthletesIds isEqualToString:EMPTYSTRING] && assigned==2)||([strGroupsIds isEqualToString:EMPTYSTRING] && assigned==3) || ( [strWholeTeam isEqualToString:EMPTYSTRING] && assigned==1 ))
                     {
                         strError = @"Please select Athletes/Groups/WholeTeam ";
                     }else if(strWorkOutDes.length <  1)
@@ -2362,7 +2362,7 @@ static int LiftExerciseCount=0;
                     if(strError.length > 2 )
                     {
                         self.navigationItem.rightBarButtonItem.enabled=YES;
-                        [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                        [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                         return;
                     }else{
                         
@@ -2370,7 +2370,7 @@ static int LiftExerciseCount=0;
                             
                             [SingletonClass addActivityIndicator:self.view];
                             
-                            NSString *strWorkOutId=@"";
+                            NSString *strWorkOutId=EMPTYSTRING;
                             if (objEditModeData) {
                                 
                                 strWorkOutId=[objEditModeData valueForKey:@"Workout Id"];
@@ -2381,7 +2381,7 @@ static int LiftExerciseCount=0;
                                 
                                 strInterval=[workOutDic objectForKey:@"# of Intervals"];
                             }
-                            NSString *strURL =@"";
+                            NSString *strURL =EMPTYSTRING;
                             
                             if (![[workOutDic valueForKey:@"Workout Type"] isEqual:WORKOUTTYPE_LIFT]) {
                                 
@@ -2410,15 +2410,15 @@ static int LiftExerciseCount=0;
                                 [dic setObject:[NSString stringWithFormat:@"%d",assigned] forKey:@"assigned"];
                                 [dic setObject:strAthletesIds forKey:@"Athletes"];
                                 [dic setObject:strGroupsIds forKey:@"Groups"];
-                                [dic setObject:@"" forKey:WORKOUTTYPE_INTERVAL];
-                                [dic setObject:@"" forKey:@"Exercise Type"];
+                                [dic setObject:EMPTYSTRING forKey:WORKOUTTYPE_INTERVAL];
+                                [dic setObject:EMPTYSTRING forKey:@"Exercise Type"];
                                 [dic setObject:strTotalTime forKey:@"Lift Total Time"];
                                 
                                 if (tempLiftdata) {
                                     [dic setObject:tempLiftdata forKey:WORKOUTTYPE_LIFT];
                                 }else{
                                     
-                                    [dic setObject:@"" forKey:WORKOUTTYPE_LIFT];
+                                    [dic setObject:EMPTYSTRING forKey:WORKOUTTYPE_LIFT];
                                 }
                                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:0 error:NULL];
                                 
@@ -2450,7 +2450,7 @@ static int LiftExerciseCount=0;
                         }else{
                             self.navigationItem.rightBarButtonItem.enabled=YES;
                             
-                            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+                            [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
                         }
                     }
                     
@@ -2464,7 +2464,7 @@ static int LiftExerciseCount=0;
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
             
-            [SingletonClass initWithTitle:@"" message:@"Please select workout type" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Please select workout type" delegate:nil btn1:@"Ok"];
         }
     }
     @catch (NSException *exception) {
@@ -2557,7 +2557,7 @@ static int LiftExerciseCount=0;
             }
         }else{
             
-            [SingletonClass initWithTitle:@"" message:@"No Custom Tag Found!" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"No Custom Tag Found!" delegate:nil btn1:@"Ok"];
         }
         
     }else if (alertView.tag == AddexerciseAlertTag && buttonIndex==1)
@@ -2581,7 +2581,7 @@ static int LiftExerciseCount=0;
                 NSString *strURL = [NSString stringWithFormat:@"{\"workoutexcercise_id\":\"%@\"}",exerciseId];
                 [webservice WebserviceCall:webUrlDeleteExerciseType :strURL :DeleteExerciseTypeTag];
             }else{
-                [SingletonClass initWithTitle:@"" message:@"No Exercise Name Found!" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"No Exercise Name Found!" delegate:nil btn1:@"Ok"];
             }
         }
     }else if(alertView.tag == AddWorkoutTag){
@@ -2609,7 +2609,7 @@ static int LiftExerciseCount=0;
 {
     UIAlertView *alertView = [[UIAlertView alloc]
                               initWithTitle:@"Remove Custom Tag"
-                              message:@""
+                              message:EMPTYSTRING
                               delegate:self
                               cancelButtonTitle:@"Cancel"
                               otherButtonTitles:@"Delete", nil];

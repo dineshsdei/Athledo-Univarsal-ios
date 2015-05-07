@@ -36,8 +36,8 @@
     arrFilterdData=[[NSMutableArray alloc] init];
     self.title=@"Notes";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
@@ -66,7 +66,7 @@
 -(void)getPdfLink:(NSString *)AthleteId
 {
     if (arrNotesData.count ==0) {
-        [SingletonClass initWithTitle:@"" message:@"PDF is not exist." delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"PDF is not exist." delegate:nil btn1:@"Ok"];
         return;
     }
     if ([SingletonClass  CheckConnectivity]) {
@@ -77,7 +77,7 @@
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webservicePDFLink :strURL :getPDFLinkTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)deletePDF
@@ -98,7 +98,7 @@
 -(void)DownloadPDF
 {
     pdfNameIndex = (int)AllPDF;
-    [self getPdfLink:@""];
+    [self getPdfLink:EMPTYSTRING];
 }
 -(void)downLoadpdfFromLink:(NSString *)link
 {
@@ -122,23 +122,23 @@
 -(void)ShareAllNotes
 {
     pdfShareIndex = (int)AllPDF;
-    [self ShareNotes:@""];
+    [self ShareNotes:EMPTYSTRING];
 }
 -(void)ShareNotes:(NSString *)AthleteId
 {
     if (arrNotesData.count ==0) {
-        [SingletonClass initWithTitle:@"" message:@"Notes is not exist." delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Notes is not exist." delegate:nil btn1:@"Ok"];
         return;
     }
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"user_id\":\"%d\",\"athlete_id\":\"%@\",\"coach_name\":\"%@\"}",userInfo.userSelectedTeamid,userInfo.userId,AthleteId,(arrFilterdData.count > pdfShareIndex) ? [[arrFilterdData objectAtIndex:pdfShareIndex] valueForKey:@"firstname"] : @"" ];
+        NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"user_id\":\"%d\",\"athlete_id\":\"%@\",\"coach_name\":\"%@\"}",userInfo.userSelectedTeamid,userInfo.userId,AthleteId,(arrFilterdData.count > pdfShareIndex) ? [[arrFilterdData objectAtIndex:pdfShareIndex] valueForKey:@"firstname"] : EMPTYSTRING ];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webserviceShareNotes :strURL:ShareNotesTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
     
     /*
@@ -224,11 +224,11 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,@"",@"",@""];
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,EMPTYSTRING,EMPTYSTRING,EMPTYSTRING];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webserviceNotesList :strURL :getNotesTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -238,11 +238,11 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,@"",@"user",searchKeyboard];
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,EMPTYSTRING,@"user",searchKeyboard];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webserviceNotesList :strURL :getNotesTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -253,17 +253,27 @@
     {
         case getNotesTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                arrNotesData =[MyResults objectForKey:@"data"];
-                [arrFilterdData addObjectsFromArray:[arrNotesData valueForKey:@"UserProfile"]];
+                arrNotesData =[MyResults objectForKey:DATA];
+                
+                for (int i=0; i<arrNotesData.count; i++) {
+                    
+                    NSDictionary *profile =[[arrNotesData objectAtIndex:i] valueForKey:@"UserProfile"];
+                     [arrFilterdData addObject:profile];
+                }
+               
+               arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
                 [tableview reloadData];
+            }else{
+                
+                [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]];
             }
             break;
         }
         case getPDFLinkTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 NSString *strUrl = [MyResults valueForKey:@"message"];
                 [self downLoadpdfFromLink:strUrl];
@@ -271,9 +281,9 @@
             break;
         }case ShareNotesTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                 [SingletonClass initWithTitle:@"" message:@"Notes have been shared suceessfully." delegate:nil btn1:@"Ok"];
+                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Notes have been shared suceessfully." delegate:nil btn1:@"Ok"];
             }
             break;
         }
@@ -285,12 +295,10 @@
 {
     return 1;
 }
-
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return arrFilterdData.count;
 }
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"NotesCell";
@@ -302,8 +310,8 @@
     }
     @try {
         
-        cell.lblName.text=[[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"firstname"] stringByAppendingString:[NSString stringWithFormat:@" %@",[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"lastname"]]];
-        cell.lblWorkoutName.text=[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"address"];
+        cell.lblName.text=[[arrFilterdData objectAtIndex:indexPath.row]isKindOfClass:[NSDictionary class]] ?[[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"firstname"] stringByAppendingString:[NSString stringWithFormat:@" %@",[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"lastname"]]] : @"";
+        cell.lblWorkoutName.text=[[arrFilterdData objectAtIndex:indexPath.row] isKindOfClass:[NSDictionary class]] ? [[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"address"] : @"";
         cell.lblName.font=Textfont;
         cell.lblWorkoutName.font=SmallTextfont;
         [cell.teamMemberPic setImageWithURL:[NSURL URLWithString:[[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
@@ -323,20 +331,15 @@
     }
     return cell;
 }
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AddNotes *addNotes = [[AddNotes alloc] initWithNibName:@"AddNotes" bundle:nil];
     addNotes.objNotes = [arrFilterdData objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:addNotes animated:YES];
+     [self.navigationController pushViewController:addNotes animated:YES] ;
 }
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isIPAD)
-        return 120;
-    else
-        return 81;
+        return CELLHEIGHT;
 }
 #pragma SWTableviewCell delegate
 - (NSArray *)rightButtons :(NSInteger)btnTag
@@ -346,10 +349,8 @@
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:41/255.0 green:58/255.0 blue:71/255.0 alpha:1.0] icon:[UIImage imageNamed:@"pdf_download.png"] :(int)btnTag];
     return rightUtilityButtons;
 }
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
 }
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     
     NSArray *arrButtons=cell.rightUtilityButtons;
@@ -395,6 +396,7 @@
 {
     [arrFilterdData removeAllObjects];
     [arrFilterdData addObjectsFromArray:[arrNotesData valueForKey:@"UserProfile"]];
+     arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
     [tableview reloadData];
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
@@ -403,20 +405,20 @@
 {
     @try {
         if (arrNotesData.count == 0) {
-            [SingletonClass initWithTitle:@"" message:@"No Notes" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"No Notes" delegate:nil btn1:@"Ok"];
         }
         if(theSearchBar.text.length>0)
         {
             if ([SingletonClass  CheckConnectivity]) {
                 //Check for empty Text box
-                NSString *strError = @"";
+                NSString *strError = EMPTYSTRING;
                 if(theSearchBar.text.length < 1 )
                 {
                     strError = @"Please enter searching text";
                 }
                 if(strError.length > 1)
                 {
-                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }else{
                     [arrFilterdData removeAllObjects];
@@ -428,10 +430,11 @@
                     [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:lowerCase]] ;
                     [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:orginaltext]] ;
                     [tableview reloadData];
+                    arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
                     [theSearchBar endEditing:YES];
                 }
             }else{
-                [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
             }
         }
     }

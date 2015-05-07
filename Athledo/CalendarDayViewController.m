@@ -48,7 +48,7 @@ UIBarButtonItem *revealButtonItem;;
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -63,10 +63,10 @@ UIBarButtonItem *revealButtonItem;;
             eventData=nil;
             [_eventDic removeAllObjects];
             
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 // Now we Need to decrypt data
-                eventData =[MyResults objectForKey:@"data"];
+                eventData =[MyResults objectForKey:DATA];
                 NSArray *arrKeys=[eventData allKeys ];
                 for (int i=0; i<arrKeys.count; i++) {
                     
@@ -81,7 +81,7 @@ UIBarButtonItem *revealButtonItem;;
                 
             }else
             {
-                [SingletonClass initWithTitle:@"" message:@"Events don't exist today" delegate:nil btn1:@"Ok"];
+//                [SingletonClass initWithTitle:EMPTYSTRING message:@"Events don't exist today" delegate:nil btn1:@"Ok"];
                 
             }
         }
@@ -141,7 +141,7 @@ UIBarButtonItem *revealButtonItem;;
     
     [super viewDidLoad];
     self.data=[[NSMutableArray alloc] init];
-    self.title = NSLocalizedString(@"Day Events", @"");
+    self.title = NSLocalizedString(@"Day Events", EMPTYSTRING);
     self.view.backgroundColor=[UIColor whiteColor];
     revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
@@ -154,8 +154,8 @@ UIBarButtonItem *revealButtonItem;;
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     UIButton  *btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
@@ -233,9 +233,9 @@ UIBarButtonItem *revealButtonItem;;
 
 -(void)AddNewEvent
 {
-    [CalendarEvent ShareInstance].strEventType=@"";
-    [CalendarEvent ShareInstance].strRepeatSting=@"";
-    [CalendarEvent ShareInstance].strEventEditBy=@"";
+    [CalendarEvent ShareInstance].strEventType=EMPTYSTRING;
+    [CalendarEvent ShareInstance].strRepeatSting=EMPTYSTRING;
+    [CalendarEvent ShareInstance].strEventEditBy=EMPTYSTRING;
     [CalendarEvent ShareInstance].CalendarRepeatStatus=FALSE;
     
     
@@ -293,7 +293,7 @@ UIBarButtonItem *revealButtonItem;;
     NSString *hour=[df stringFromDate:startdate];
     
     NSArray *arr=[hour componentsSeparatedByString:@":"];
-    hour=[arr objectAtIndex:0] ? [arr objectAtIndex:0] : @"";
+    hour=[arr objectAtIndex:0] ? [arr objectAtIndex:0] : EMPTYSTRING;
     
     return hour;
 }
@@ -308,7 +308,7 @@ UIBarButtonItem *revealButtonItem;;
     NSString *minutes=[df stringFromDate:startdate];
     
     NSArray *arr=[minutes componentsSeparatedByString:@":"];
-    minutes=[arr objectAtIndex:1] ? [arr objectAtIndex:1] : @"";
+    minutes=[arr objectAtIndex:1] ? [arr objectAtIndex:1] : EMPTYSTRING;
     
     return minutes;
 }

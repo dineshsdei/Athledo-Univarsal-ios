@@ -217,7 +217,7 @@
                             }
                             case 1:
                             {
-                                if (![[WorkOutDic objectForKey:@"Athletes"] isEqual:@""] && arrlblText.count== 3)
+                                if (![[WorkOutDic objectForKey:@"Athletes"] isEqual:EMPTYSTRING] && arrlblText.count== 3)
                                 {
                                     btnWholeTeam.selected=YES;
                                     [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
@@ -236,7 +236,7 @@
                             }
                             case 2:
                             {
-                                if (![[WorkOutDic objectForKey:@"Groups"] isEqual:@""])
+                                if (![[WorkOutDic objectForKey:@"Groups"] isEqual:EMPTYSTRING])
                                 {
                                     btnWholeTeam.selected=YES;
                                     [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
@@ -461,7 +461,7 @@
     
     id temp=[data objectAtIndex:index];
     
-    NSString *strVales=@"";
+    NSString *strVales=EMPTYSTRING;
     if ([temp isKindOfClass:[NSMutableDictionary class]])
     {
         if ([key isEqualToString:@"Unit."]) {
@@ -483,7 +483,7 @@
 {
     id temp=[data objectForKey:[keys objectAtIndex:index]];
     
-    NSString *strVales=@"";
+    NSString *strVales=EMPTYSTRING;
     if ([temp isKindOfClass:[NSString class]] )
     {
         

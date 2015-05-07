@@ -41,16 +41,16 @@
             _ProfilePic.layer.borderWidth = .05;
             _ProfilePic.layer.borderColor = [UIColor lightGrayColor].CGColor;
             [_ProfilePic setImageWithURL:[NSURL URLWithString:[_objAthleteDetails valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
-            _lblName.text = [[_objAthleteDetails valueForKey:@"firstname"] stringByAppendingFormat:@" %@",[_objAthleteDetails valueForKey:@"lastname"]] != nil ?[[_objAthleteDetails valueForKey:@"firstname"] stringByAppendingFormat:@" %@",[_objAthleteDetails valueForKey:@"lastname"]] : @"";
-            _lblPhone.text = [_objAthleteDetails valueForKey:@"cellphone"] != nil ? [_objAthleteDetails valueForKey:@"cellphone"] : @"";
-            _lblState.text = [_objAthleteDetails valueForKey:@"state"] != nil ? [_objAthleteDetails valueForKey:@"state"] : @"";
-            _lblCountry.text = [_objAthleteDetails valueForKey:@"country"] != nil ? [_objAthleteDetails valueForKey:@"country"] : @"";
-            _lblCity.text = [_objAthleteDetails valueForKey:@"city"] !=nil ? [_objAthleteDetails valueForKey:@"city"] : @"";
-            _lblZip.text = [_objAthleteDetails valueForKey:@"zip"] !=nil ? [_objAthleteDetails valueForKey:@"zip"] : @"";
-            _lblAddress.text = [_objAthleteDetails valueForKey:@"address"] !=nil ? [_objAthleteDetails valueForKey:@"address"] : @"";
-            _lblAge.text = [_objAthleteDetails valueForKey:@"age"] != nil ? [_objAthleteDetails valueForKey:@"age"] : @"";
-            _lblClassYear.text = [_objAthleteDetails valueForKey:@"class_year"] != nil ?[_objAthleteDetails valueForKey:@"class_year"] :@"";
-            _lblemail.text = [_objAthleteDetails valueForKey:@"email"] != nil ? [_objAthleteDetails valueForKey:@"email"] : @"";
+            _lblName.text = [[_objAthleteDetails valueForKey:@"firstname"] stringByAppendingFormat:@" %@",[_objAthleteDetails valueForKey:@"lastname"]] != nil ?[[_objAthleteDetails valueForKey:@"firstname"] stringByAppendingFormat:@" %@",[_objAthleteDetails valueForKey:@"lastname"]] : EMPTYSTRING;
+            _lblPhone.text = [_objAthleteDetails valueForKey:@"cellphone"] != nil ? [_objAthleteDetails valueForKey:@"cellphone"] : EMPTYSTRING;
+            _lblState.text = [_objAthleteDetails valueForKey:@"state"] != nil ? [_objAthleteDetails valueForKey:@"state"] : EMPTYSTRING;
+            _lblCountry.text = [_objAthleteDetails valueForKey:@"country"] != nil ? [_objAthleteDetails valueForKey:@"country"] : EMPTYSTRING;
+            _lblCity.text = [_objAthleteDetails valueForKey:@"city"] !=nil ? [_objAthleteDetails valueForKey:@"city"] : EMPTYSTRING;
+            _lblZip.text = [_objAthleteDetails valueForKey:@"zip"] !=nil ? [_objAthleteDetails valueForKey:@"zip"] : EMPTYSTRING;
+            _lblAddress.text = [_objAthleteDetails valueForKey:@"address"] !=nil ? [_objAthleteDetails valueForKey:@"address"] : EMPTYSTRING;
+            _lblAge.text = [_objAthleteDetails valueForKey:@"age"] != nil ? [_objAthleteDetails valueForKey:@"age"] : EMPTYSTRING;
+            _lblClassYear.text = [_objAthleteDetails valueForKey:@"class_year"] != nil ?[_objAthleteDetails valueForKey:@"class_year"] :EMPTYSTRING;
+            _lblemail.text = [_objAthleteDetails valueForKey:@"email"] != nil ? [_objAthleteDetails valueForKey:@"email"] : EMPTYSTRING;
         }
     }
     @catch (NSException *exception) {

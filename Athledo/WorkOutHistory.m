@@ -148,13 +148,13 @@
 - (void)viewDidLoad{
     self.title = NSLocalizedString(@"Workout History", nil);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    AthleteId=@"";
-    workoutId=@"";
-    seasonId=@"";
+    AthleteId=EMPTYSTRING;
+    workoutId=EMPTYSTRING;
+    seasonId=EMPTYSTRING;
     
     if (isIPAD) {
         _txtFieldWorkoutType.layer.cornerRadius=5;
@@ -214,7 +214,7 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
         [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getDataTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -222,10 +222,10 @@
 {
     NSArray *arrValues;
     NSArray *arrkeys;
-    [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrValues=[[DicData objectForKey:superKey] allValues] : @"";
-    [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ?  arrkeys=[[DicData objectForKey:superKey] allKeys] : @"";
+    [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrValues=[[DicData objectForKey:superKey] allValues] : EMPTYSTRING;
+    [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ?  arrkeys=[[DicData objectForKey:superKey] allKeys] : EMPTYSTRING;
     
-    NSString *strValue=@"";
+    NSString *strValue=EMPTYSTRING;
     for (int i=0; i<arrValues.count; i++) {
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
@@ -243,7 +243,7 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"season_id\":\"%@\",\"workout_type_id\":\"%@\",\"user_id\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,seasonId,workoutId,AthleteId];
         [webservice WebserviceCall:webUrlSearchHistory :strURL :getSearchDataTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -251,28 +251,29 @@
     [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag){
         case getDataTag:{
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"]){
-                DicData=[MyResults  objectForKey:@"data"];
-                // check if nsdictionary object then find allvalues otherwise  this @"" statement execute . it do nothing
-                [[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:@"data"] objectForKey:@"Workout Type"] allValues] : @"";
-                [[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:@"data"] valueForKey:@"Athletes"] allValues]] : @"";
-                [[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues] :@"";
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                DicData=[MyResults  objectForKey:DATA];
+                // check if nsdictionary object then find allvalues otherwise  this EMPTYSTRING statement execute . it do nothing
+                [[[MyResults  objectForKey:DATA] objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:DATA] objectForKey:@"Workout Type"] allValues] : EMPTYSTRING;
+                [[[MyResults  objectForKey:DATA] valueForKey:@"Athletes"] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:DATA] valueForKey:@"Athletes"] allValues]] : EMPTYSTRING;
+                [[[MyResults  objectForKey:DATA] objectForKey:@"Season"] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues] :EMPTYSTRING;
                 [arrAthletes addObject:@"Whole Team"];
             }else{
-                [SingletonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
             }
             break;
         }
         case getSearchDataTag:{
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"]){
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                [SingletonClass deleteUnUsedLableFromTable:self.view];
                 [arrSearchData removeAllObjects];
-                [arrSearchData addObjectsFromArray:[MyResults  objectForKey:@"data"] ];
+                [arrSearchData addObjectsFromArray:[MyResults  objectForKey:DATA] ];
                 if (arrSearchData.count==0) {
-                    [SingletonClass initWithTitle:@"" message:@"Data not found" delegate:nil btn1:@"Ok"];
+                    [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout history"]];
                 }
                 [tableview reloadData];
             }else{
-                [SingletonClass initWithTitle:@"" message:@"Try again!" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
             }
             break;
         }
@@ -305,7 +306,7 @@
     isPicker=FALSE;
     if (isAthletes) {
         isPicker=TRUE;
-        arrAthletes.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Athletes are not exist" delegate:nil btn1:@"Ok"];
+        arrAthletes.count > 0 ? EMPTYSTRING:[SingletonClass initWithTitle:EMPTYSTRING message:@"Athletes are not exist" delegate:nil btn1:@"Ok"];
         if (arrAthletes.count==0){
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
             [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
@@ -316,7 +317,7 @@
         }
     }else if(isWorkOutType){
         isPicker=TRUE;
-        arrWorkOut.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Workouts are not exist" delegate:nil btn1:@"Ok"];
+        arrWorkOut.count > 0 ? EMPTYSTRING:[SingletonClass initWithTitle:EMPTYSTRING message:@"Workouts are not exist" delegate:nil btn1:@"Ok"];
         if (arrWorkOut.count==0){
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
             [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
@@ -327,7 +328,7 @@
         }
     }else if(isSeasons){
         isPicker=TRUE;
-        arrSeasons.count > 0 ? @"":[SingletonClass initWithTitle:@"" message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
+        arrSeasons.count > 0 ? EMPTYSTRING:[SingletonClass initWithTitle:EMPTYSTRING message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
         if (arrSeasons.count==0)
         {
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
@@ -365,12 +366,12 @@
         // [cell.contentView setUserInteractionEnabled:NO];
     }
     cell.lblWorkoutName.textColor=[UIColor grayColor];
-    [cell.lblWorkoutName setFont:[UIFont boldSystemFontOfSize:15]];
+    cell.lblWorkoutName.font = Textfont;
     if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"name"] isKindOfClass:[NSNull class]]) {
         cell.lblWorkoutName.text=[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"name"];
     }
     cell.lblWorkoutDate.textColor=[UIColor lightGrayColor];
-    [cell.lblWorkoutDate setFont:[UIFont boldSystemFontOfSize:13]];
+   cell.lblWorkoutDate.font = SmallTextfont;
     if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"date"] isKindOfClass:[NSNull class]]) {
         
         NSDate *date=[formater dateFromString:[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"date"]];
@@ -383,7 +384,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 68.0f;
+    return CELLHEIGHT;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 }

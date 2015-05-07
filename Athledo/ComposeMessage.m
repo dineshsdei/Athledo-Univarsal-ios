@@ -93,7 +93,7 @@
 {
     NSArray *arrKeys=[pickerData allKeys];
     NSArray *arrValues=[pickerData allValues];
-    NSString *values=@"";
+    NSString *values=EMPTYSTRING;
     
     for (int i=0; i<arrValues.count; i++) {
         if ([[arrValues objectAtIndex:i] intValue]==1)
@@ -107,7 +107,7 @@
     }
     if (values.length > 0) {
         
-        values=[values stringByReplacingCharactersInRange:NSMakeRange(values.length-1, 1) withString:@""];
+        values=[values stringByReplacingCharactersInRange:NSMakeRange(values.length-1, 1) withString:EMPTYSTRING];
     }
     return values;
 }
@@ -116,7 +116,7 @@
 {
     NSArray *arrValues=[[userToData objectForKey:superKey] allValues];
     NSArray *arrkeys=[[userToData objectForKey:superKey] allKeys];
-    NSString *strValue=@"";
+    NSString *strValue=EMPTYSTRING;
     for (int i=0; i<arrValues.count; i++) {
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
@@ -129,12 +129,12 @@
 -(void)WebServiceComposeMessage
 {
     if (receiver_ids.length > 0) {
-        receiver_ids=[receiver_ids stringByReplacingCharactersInRange:NSMakeRange(receiver_ids.length-1, 1) withString:@""];
+        receiver_ids=[receiver_ids stringByReplacingCharactersInRange:NSMakeRange(receiver_ids.length-1, 1) withString:EMPTYSTRING];
     }
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         //Check for empty Text box
-        NSString *strError = @"";
+        NSString *strError = EMPTYSTRING;
         if(_txtType.text.length < 1 )
         {
             strError = @"Please select user type";
@@ -148,14 +148,14 @@
         }
         if(strError.length > 2)
         {
-            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
         }
-        NSString *strURL = [NSString stringWithFormat:@"{\"option_id\":\"%d\",\"user_id\":\"%d\",\"team_id\":\"%d\",\"receiver_id\":\"%@\",\"description\":\"%@\"}",option_id,userInfo.userId,userInfo.userSelectedTeamid,receiver_ids,[self.textviewDesc.text stringByReplacingOccurrencesOfString:@"\n" withString:@"" ]];
+        NSString *strURL = [NSString stringWithFormat:@"{\"option_id\":\"%d\",\"user_id\":\"%d\",\"team_id\":\"%d\",\"receiver_id\":\"%@\",\"description\":\"%@\"}",option_id,userInfo.userId,userInfo.userSelectedTeamid,receiver_ids,[self.textviewDesc.text stringByReplacingOccurrencesOfString:@"\n" withString:EMPTYSTRING ]];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceComposeMessage :strURL :sendMessageTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -169,7 +169,7 @@
         [webservice WebserviceCall:webServiceGetUserType :strURL :getUserTypeTag];
     }else
     {
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -182,11 +182,11 @@
     {
         case getUserTypeTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 // Now we Need to decrypt data
                 
-                userToData=[MyResults objectForKey:@"data"];
+                userToData=[MyResults objectForKey:DATA];
                 [ToDataArray removeAllObjects];
                 [ToSelectedData removeAllObjects];
                 if (userToData.count > 0) {
@@ -195,19 +195,19 @@
                         [ToSelectedData setObject:[NSNumber numberWithBool:NO] forKey:[ToDataArray objectAtIndex:i]];
                     }
                 }else{
-                    //  [SingaltonClass initWithTitle:@"" message:@"Data not found" delegate:nil btn1:@"Ok"];
+                    //  [SingaltonClass initWithTitle:EMPTYSTRING message:@"Data not found" delegate:nil btn1:@"Ok"];
                 }
             }
             break;
         }case sendMessageTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-                _txtType.text=@"";
-                _textviewDesc.text=@"";
-                _txtTo.text=@"";
+                _txtType.text=EMPTYSTRING;
+                _textviewDesc.text=EMPTYSTRING;
+                _txtTo.text=EMPTYSTRING;
                  [m_ScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-                [SingletonClass initWithTitle:@"" message:@"Message send successfully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message send successfully" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -272,7 +272,7 @@
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
     }
-      strUser=@"";
+      strUser=EMPTYSTRING;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
@@ -305,10 +305,10 @@
     arrUserTypeCode = [[NSArray alloc] initWithObjects:@"1",@"6",@"2",@"3",@"4",@"5", nil];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.title = NSLocalizedString(@"New Message", @"");
+    self.title = NSLocalizedString(@"New Message", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     // UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
 
@@ -414,7 +414,7 @@
             
         }else{
             
-            [SingletonClass initWithTitle:@"" message:@"Selected user type are not available " delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Selected user type are not available " delegate:nil btn1:@"Ok"];
         }
         return NO;
         
@@ -453,7 +453,7 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     
     if ([textView.text isEqualToString:@"Enter Text" ]) {
-        [textView setText:@""];
+        [textView setText:EMPTYSTRING];
         textView.textColor=[UIColor blackColor];
     }
     if (isIPAD) {
@@ -542,7 +542,7 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (isUserType) {
-        currentText.text.length==0 ?  currentText.text=@"Coach":@"";
+        currentText.text.length==0 ?  currentText.text=@"Coach":EMPTYSTRING;
         
         return [arrUserType count];
     }else{
@@ -571,7 +571,7 @@
     
     if ((isUserType)) {
         
-          _txtTo.text=@"";
+          _txtTo.text=EMPTYSTRING;
     }
     
     UITextField *text=(UITextField *)[self.view viewWithTag:11];
@@ -644,7 +644,7 @@
 {
     NSArray *arrKeys=[userData allKeys];
     NSArray *arrValues=[pickerData allValues];
-    NSString *values=@"";
+    NSString *values=EMPTYSTRING;
     for (int i=0; i<arrKeys.count; i++)
     {
         if ([[arrValues objectAtIndex:i] intValue]==1)
@@ -662,7 +662,7 @@
 {
     NSArray *arrKeys=[pickerData allKeys];
     NSArray *arrValues=[pickerData allValues];
-    NSString *values=@"";
+    NSString *values=EMPTYSTRING;
     
     for (int i=0; i<arrValues.count; i++) {
         

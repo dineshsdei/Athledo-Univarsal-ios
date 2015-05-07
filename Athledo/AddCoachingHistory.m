@@ -43,24 +43,24 @@ UIDeviceOrientation CurrentOrientation;
     {
         case EditData:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:SAVED_DATA_MESSAGE delegate:self btn1:@"Ok"];
             }else{
                 
-                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:NOT_SAVE_DATA_MESSAGE delegate:nil btn1:@"Ok"];
             }
             
             break;
         }
         case Successtag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:SAVED_DATA_MESSAGE delegate:self btn1:@"Ok"];
             }else{
                 
-                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:NOT_SAVE_DATA_MESSAGE delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -214,9 +214,9 @@ UIDeviceOrientation CurrentOrientation;
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
 }
 
 -(void)doneClicked
@@ -291,7 +291,7 @@ UIDeviceOrientation CurrentOrientation;
                 //Check for empty Text box
                 int tag=i+1000;
                 UITextField *textfield=(UITextField *)[tableView viewWithTag:tag];
-                NSString *strError = @"";
+                NSString *strError = EMPTYSTRING;
                 if(textfield.text.length < 1 && tag==1000)
                 {
                     strError = @"Please enter school name";
@@ -301,7 +301,7 @@ UIDeviceOrientation CurrentOrientation;
                     strError = @"Please enter sport name";
                 } else if(textfield.text.length < 1 && tag==1002)
                 {
-                    strError = @"";
+                    strError = EMPTYSTRING;
                     
                 } else if(textfield.text.length < 1 && tag==1003)
                 {
@@ -315,7 +315,7 @@ UIDeviceOrientation CurrentOrientation;
                 if(strError.length > 1)
                 {
                     self.navigationItem.rightBarButtonItem.enabled=YES;
-                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
             }
@@ -335,9 +335,9 @@ UIDeviceOrientation CurrentOrientation;
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-                [dict setObject:@"" forKey:@"UserProfile"];
+                [dict setObject:EMPTYSTRING forKey:@"UserProfile"];
                 [dict setObject:arrtemp forKey:@"cochng_hstry"];
-                [dict setObject:@"" forKey:@"awards"];
+                [dict setObject:EMPTYSTRING forKey:@"awards"];
                 [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
             }else{
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"school\":\"%@\", \"sport\":\"%@\",\"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", [[arrdata objectAtIndex:0] intValue] ,[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3],[arrdata objectAtIndex:4],[arrdata objectAtIndex:5]];
@@ -345,7 +345,7 @@ UIDeviceOrientation CurrentOrientation;
             }
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
-            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
             }
     }
     else
@@ -362,7 +362,7 @@ UIDeviceOrientation CurrentOrientation;
                 
                 int tag=i+1000;
                UITextField *textfield=(UITextField *)[tableView viewWithTag:tag];
-                NSString *strError = @"";
+                NSString *strError = EMPTYSTRING;
                 if(textfield.text.length < 1 && tag==1000)
                 {
                   strError = @"Please enter award title";
@@ -372,12 +372,12 @@ UIDeviceOrientation CurrentOrientation;
                     strError = @"Please enter year when awarded";
                 } else if(textfield.text.length < 1 && tag==1002)
                 {
-                    strError = @"";
+                    strError = EMPTYSTRING;
                 }
                 if(strError.length > 1)
                 {
                     self.navigationItem.rightBarButtonItem.enabled=YES;
-                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }
                 
@@ -402,8 +402,8 @@ UIDeviceOrientation CurrentOrientation;
                 
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-                [dict setObject:@"" forKey:@"UserProfile"];
-                [dict setObject:@"" forKey:@"cochng_hstry"];
+                [dict setObject:EMPTYSTRING forKey:@"UserProfile"];
+                [dict setObject:EMPTYSTRING forKey:@"cochng_hstry"];
                 [dict setObject:arrtemp forKey:@"awards"];
                 [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
                 
@@ -413,7 +413,7 @@ UIDeviceOrientation CurrentOrientation;
             }
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
-            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         }
     }
     self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -459,14 +459,14 @@ UIDeviceOrientation CurrentOrientation;
         
         if (textfieldStart.text.length !=0 && textfieldEnd.text.length !=0) {
             
-            NSString *strError=@"";
+            NSString *strError=EMPTYSTRING;
             switch ([dateOne compare:dateTwo]) {
                     
                 case NSOrderedSame:
                     
                 {
                     strError = @"Start and end date can not same";
-                    currentText.text=@"";
+                    currentText.text=EMPTYSTRING;
                     [SingletonClass initWithTitle:nil message:strError delegate:nil btn1:@"Ok"];
                     // The dates are the same
                     break;
@@ -474,7 +474,7 @@ UIDeviceOrientation CurrentOrientation;
                 case NSOrderedDescending:
                 {
                     strError = @"End date can not earlier to Start date";
-                    currentText.text=@"";
+                    currentText.text=EMPTYSTRING;
                     [SingletonClass initWithTitle:nil message:strError delegate:nil btn1:@"Ok"];
                     // dateOne is later in time than dateTwo
                     break;
@@ -562,9 +562,9 @@ UIDeviceOrientation CurrentOrientation;
     if(cell == nil)
     {
         if (_SectionTag ==1) {
-            cell = [[AddCoachongHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrCoachongInfo:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]: @""];
+            cell = [[AddCoachongHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrCoachongInfo:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]: EMPTYSTRING];
         }else{
-            cell = [[AddCoachongHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrAwardsInfo:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]: @""] ;
+            cell = [[AddCoachongHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrAwardsInfo:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]: EMPTYSTRING] ;
         }
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;

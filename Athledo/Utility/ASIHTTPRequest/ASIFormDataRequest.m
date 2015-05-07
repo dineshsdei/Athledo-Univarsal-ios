@@ -118,7 +118,7 @@
 		}
 	}
 	
-	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, @"data", contentType, @"contentType", fileName, @"fileName", key, @"key", nil];
+	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, DATA, contentType, @"contentType", fileName, @"fileName", key, @"key", nil];
 	[[self fileData] addObject:fileInfo];
 }
 
@@ -156,7 +156,7 @@
 		contentType = @"application/octet-stream";
 	}
 	
-	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, @"data", contentType, @"contentType", fileName, @"fileName", key, @"key", nil];
+	NSDictionary *fileInfo = [NSDictionary dictionaryWithObjectsAndKeys:data, DATA, contentType, @"contentType", fileName, @"fileName", key, @"key", nil];
 	[[self fileData] addObject:fileInfo];
 }
 
@@ -186,7 +186,7 @@
 	}
 	
 #if DEBUG_FORM_DATA_REQUEST
-	[self setDebugBodyString:@""];	
+	[self setDebugBodyString:@""];
 #endif
 	
 	if (![self postData] && ![self fileData]) {
@@ -246,7 +246,7 @@
 		[self appendPostString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", [val objectForKey:@"key"], [val objectForKey:@"fileName"]]];
 		[self appendPostString:[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", [val objectForKey:@"contentType"]]];
 		
-		id data = [val objectForKey:@"data"];
+		id data = [val objectForKey:DATA];
 		if ([data isKindOfClass:[NSString class]]) {
 			[self appendPostDataFromFile:data];
 		} else {

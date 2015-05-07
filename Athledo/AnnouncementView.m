@@ -64,9 +64,6 @@
 
 -(void)AddNewAnnouncement
 {
-   // AppDelegate *delegate =(AppDelegate *)[[UIApplication sharedApplication] delegate];
-   // [delegate redirectConsoleLogToDocumentFolder];
-    
     AddNewAnnouncement *addNew=[[AddNewAnnouncement alloc] initWithNibName:@"AddNewAnnouncement" bundle:nil];
     addNew.obj=nil;
     addNew.ScreenTitle=@"Add Announcement";
@@ -103,7 +100,7 @@
             if ([SingletonClass  CheckConnectivity]) {
                 
                 //Check for empty Text box
-                NSString *strError = @"";
+                NSString *strError = EMPTYSTRING;
                 if(theSearchBar.text.length < 1 )
                 {
                     strError = @"Please enter searching text";
@@ -111,17 +108,18 @@
                 
                 if(strError.length > 1)
                 {
-                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }else{
                     
                     [arrAnnouncements removeAllObjects];
+                    [SearchBar resignFirstResponder];
                     [self SearchAnnouncement : theSearchBar.text];
                  }
                 
             }else{
                 
-                [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
             }
         }
     }
@@ -148,7 +146,7 @@
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -158,9 +156,9 @@
     {
         case getNotificationTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                notificationData=[MyResults objectForKey:@"data"];
+                notificationData=[MyResults objectForKey:DATA];
                 if (userInfo.userType==1 || userInfo.userType==4) {
                     [tblAnnouncementRecods reloadData];
                 }else{
@@ -173,9 +171,12 @@
         case getAnnouncementTag:
         {
             
-            NSArray *data=[MyResults objectForKey:@"data"] ;
-            if ([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            NSArray *data=[MyResults objectForKey:DATA] ;
+            if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
+                [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+                [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
+               
                 [arrAnnouncements removeAllObjects];
                 [SingletonClass RemoveActivityIndicator:self.view];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -191,6 +192,7 @@
                     {
                         tblAnnouncementRecods.delegate=self;
                         tblAnnouncementRecods.dataSource=self;
+                        arrAnnouncements.count == 0 ?  [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ] : @"";
                         
                         [tblAnnouncementRecods reloadData];
                         
@@ -201,7 +203,7 @@
                     {
                         tblUpdatesRecods.delegate=self;
                         tblUpdatesRecods.dataSource=self;
-                        
+                        arrAnnouncements.count == 0 ?  [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ] : @"";
                         [tblUpdatesRecods reloadData];
                         break;
                     }
@@ -222,7 +224,8 @@
                 self.navigationItem.leftBarButtonItem.enabled=YES;
                 [SingletonClass RemoveActivityIndicator:self.view];
                 [arrAnnouncements removeObject:[[data objectAtIndex:0]objectForKey:@"Announcement"]];
-                [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
+                [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ];
+                 [tblUpdatesRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ];
             }
             
             break;
@@ -231,11 +234,11 @@
         {
             [SingletonClass RemoveActivityIndicator:self.view];
 
-            if ([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 [arrAnnouncements removeAllObjects];
                 
-                NSArray *data=[MyResults objectForKey:@"data"] ;
+                NSArray *data=[MyResults objectForKey:DATA] ;
                 
                 for (int i=0; i< data.count; i++)
                 {
@@ -265,9 +268,8 @@
             }else
             {
                 [SingletonClass RemoveActivityIndicator:self.view];
-                [SingletonClass initWithTitle:@"" message:@"No Data Found !" delegate:nil btn1:@"Ok"];
-                [self getList];
-                
+                 arrAnnouncements.count == 0 ? [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"]] :[SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+                [tblAnnouncementRecods reloadData];
             }
             break;
         }
@@ -289,7 +291,7 @@
    
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -301,13 +303,13 @@
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         
-       NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{\"name\":\"%@\",\"date\":\"%@\"}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,[searchText lowercaseString],@""];
+       NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{\"name\":\"%@\",\"date\":\"%@\"}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,[searchText lowercaseString],EMPTYSTRING];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceSearchAnnouncement :strURL :searchAnnouncementTag];
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -443,8 +445,8 @@
     tblUpdatesRecods.backgroundColor=[UIColor clearColor];
     arrAnnouncements=[[NSMutableArray alloc] init];
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     SWRevealViewController *revealController = [self revealViewController];
     // revealController.delegate=self;
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
@@ -519,17 +521,17 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
    
     int DesendingIndex=(int)(indexPath.section);
     cell.lblSenderName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"sender"];
-    cell.lblSenderName.font=SmallTextfont;
+    cell.lblSenderName.font=Textfont;
     
     cell.lblAnnoName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"name"];
     cell.lblAnnoName.tag=10;
-    cell.lblAnnoName.font=Textfont;
+    cell.lblAnnoName.font=SmallTextfont;
     
-    cell.lblAnnoDesc.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"description"] ?[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"description"] :@"" ;
+    cell.lblAnnoDesc.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"description"] ?[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"description"] :EMPTYSTRING ;
     cell.lblAnnoDesc.tag=11;
     cell.lblAnnoDesc.font=SmallTextfont;
     
-    cell.lblAnnoDate.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"schedule_date"] ?[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_date"] :@"" ;
+    cell.lblAnnoDate.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"schedule_date"] ?[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_date"] :EMPTYSTRING ;
     cell.lblAnnoDate.font=SmallTextfont;
     cell.lblAnnoDate.tag=12;
     
@@ -548,18 +550,11 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(isIPAD)
-    {
-        return 115;
-    }else{
-        
-        return 90;
-    }
+    return CELLHEIGHT;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     UpdateDetails *updateDetails=[[UpdateDetails alloc] init];
     updateDetails.obj=[arrAnnouncements objectAtIndex:indexPath.section];
     updateDetails.strName=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"name"];

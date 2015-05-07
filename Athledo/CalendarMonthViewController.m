@@ -12,20 +12,17 @@ int tagNumber;
 WebServiceClass *webservice;
 NSMutableArray *startDateArr;
 NSMutableArray *endDateArr;
-
 NSMutableArray *eventArrDic;
 NSDictionary *eventData;
 int tabBar_Y;
 int tbl_Y;
 SWRevealViewController *revealController;
 UIBarButtonItem *revealButtonItem;;
-
 #pragma mark - CalendarMonthViewController
 @implementation CalendarMonthViewController
 
 - (BOOL)shouldRotateToOrientation:(UIDeviceOrientation)orientation
 {
-   
     if (orientation == UIDeviceOrientationLandscapeLeft) {
         return YES;
     }
@@ -66,17 +63,15 @@ UIBarButtonItem *revealButtonItem;;
     else
         return NO;
 }
-
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    self.title=NSLocalizedString(@"Back", @"");
+    self.title=NSLocalizedString(@"Back", EMPTYSTRING);
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    
 }
 #pragma change control frame when device rotate
 - (void)orientationChanged
@@ -87,42 +82,35 @@ UIBarButtonItem *revealButtonItem;;
     if ((isIPAD ) && (orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationPortrait)) {
         
         if (orientation==UIDeviceOrientationLandscapeLeft || orientation==UIDeviceOrientationLandscapeRight ) {
-            
             tabBar.frame =CGRectMake(0, (iosVersion < 8 ? 647 : 655), 1024, (iosVersion < 8 ? 57 : 49));
         }else{
             tabBar.frame =CGRectMake(0, (iosVersion < 8 ? 903 : 911), 768, (iosVersion < 8 ? 57 : 49));
         }
         self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
-        
     }
-    
     [self.monthView RefreshView];
     [self.tableView reloadData];
 }
 #pragma mark View Lifecycle
 - (void) viewDidLoad{
     [super viewDidLoad];
-    
-    strCurrentMonth=@"";
-    
-    self.title=NSLocalizedString(@"Month Events", @"");
-    
+    strCurrentMonth=EMPTYSTRING;
+    self.title=NSLocalizedString(@"Month Events", EMPTYSTRING);
     eventArrDic=[[NSMutableArray alloc] init];
     startDateArr=[[NSMutableArray alloc] init];
     endDateArr=[[NSMutableArray alloc] init];
     revealController = [self revealViewController];
-    
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [self.monthView selectDate:[NSDate date]];
     UIButton  *btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
@@ -176,22 +164,18 @@ UIBarButtonItem *revealButtonItem;;
                                                    object:nil];
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     }
-    
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
-    self.title=NSLocalizedString(@"Month Events", @"");
+    self.title=NSLocalizedString(@"Month Events", EMPTYSTRING);
     [self.navigationItem setHidesBackButton:YES animated:NO];
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:0];
     tabBar.delegate=self;
     [tabBar setSelectedItem:tabBarItem];
     [self.tableView reloadData];
-    
 }
-
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     NSArray *arrController=[self.navigationController viewControllers];
-    
     switch (item.tag) {
         case 2:
         {
@@ -263,11 +247,11 @@ UIBarButtonItem *revealButtonItem;;
 
 -(void)AddNewEvent
 {
-    [CalendarEvent ShareInstance].strEventType=@"";
-    [CalendarEvent ShareInstance].strRepeatSting=@"";
-    [CalendarEvent ShareInstance].strEventEditBy=@"";
-    [CalendarEvent ShareInstance].CalendarRepeatStatus=FALSE;
-    [CalendarEvent ShareInstance].strEventAddOrEdit=@"Add";
+    [CalendarEvent ShareInstance].strEventType = EMPTYSTRING;
+    [CalendarEvent ShareInstance].strRepeatSting = EMPTYSTRING;
+    [CalendarEvent ShareInstance].strEventEditBy = EMPTYSTRING;
+    [CalendarEvent ShareInstance].CalendarRepeatStatus = FALSE;
+    [CalendarEvent ShareInstance].strEventAddOrEdit = @"Add";
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (int i=0; i< arrController.count; i++) {
@@ -293,15 +277,13 @@ UIBarButtonItem *revealButtonItem;;
         AddCalendarEvent *addEvent=[[AddCalendarEvent alloc] initWithNibName:@"AddCalendarEvent" bundle:nil];
         addEvent.screentitle=@"Add Event";
         addEvent.eventDetailsDic=nil;
-        addEvent.strMoveControllerName=@"CalendarMonthViewController";
+    addEvent.strMoveControllerName=@"CalendarMonthViewController";
         [self.navigationController pushViewController:addEvent animated:NO];
     }
     //[self presentViewController:addEvent animated:YES completion:nil];
 }
-
 #pragma mark MonthView Delegate & DataSource
 - (NSArray*) calendarMonthView:(TKCalendarMonthView*)monthView marksFromDate:(NSDate*)startDate toDate:(NSDate*)lastDate{
-    
     if (!_monthview) {
         _monthview=monthView;
     }
@@ -331,7 +313,6 @@ UIBarButtonItem *revealButtonItem;;
 - (void) calendarMonthView:(TKCalendarMonthView*)monthView didSelectDate:(NSDate*)date{
     // Show table on below to calendar ,Uncomment below line or reload table
     //[self.tableView reloadData];
-    
     // Move on dayview calendar
     if(self.dataDictionary.count > 0)
     {
@@ -339,8 +320,7 @@ UIBarButtonItem *revealButtonItem;;
         BOOL Status=FALSE;
         for (int i=0; i< arrController.count; i++) {
             
-            if ([[arrController objectAtIndex:i] isKindOfClass:[CalendarDayViewController class]])
-            {
+            if ([[arrController objectAtIndex:i] isKindOfClass:[CalendarDayViewController class]]){
                 CalendarDayViewController *dayView = [[CalendarDayViewController alloc]init];
                 dayView.eventDic=nil;
                 dayView.strComeFrom=@"MonthView";
@@ -359,8 +339,7 @@ UIBarButtonItem *revealButtonItem;;
                 return;
             }
         }
-        if (Status==FALSE)
-        {
+        if (Status==FALSE){
             CalendarDayViewController *dayView=[[CalendarDayViewController alloc] init];
             dayView.eventDic=nil;
             dayView.strComeFrom=@"MonthView";
@@ -374,11 +353,8 @@ UIBarButtonItem *revealButtonItem;;
 }
 - (void) calendarMonthView:(TKCalendarMonthView*)mv monthDidChange:(NSDate*)d animated:(BOOL)animated{
     [super calendarMonthView:mv monthDidChange:d animated:animated];
-    
     [self.tableView reloadData];
 }
-
-
 #pragma mark UITableView Delegate & DataSource
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -396,7 +372,6 @@ UIBarButtonItem *revealButtonItem;;
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    
     //NSArray *ar = self.dataDictionary[[self.monthView dateSelected]];
     NSArray *ar = [self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", [self.monthView dateSelected] ] ];
     NSDateFormatter* df = [[NSDateFormatter alloc] init];
@@ -416,9 +391,7 @@ UIBarButtonItem *revealButtonItem;;
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     [cell addSubview:img1];
     //cell.accessoryType=UITableViewCellAccessoryDetailButton;
-    
     return cell;
-    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -451,7 +424,6 @@ UIBarButtonItem *revealButtonItem;;
         [self.navigationController pushViewController:eventDetails animated:NO];
     }
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return CellHeight;
@@ -475,7 +447,6 @@ UIBarButtonItem *revealButtonItem;;
     NSMutableArray *arrdates=[[NSMutableArray alloc] init];
     NSArray *arr=[startdate componentsSeparatedByString:@"-"];
     for (int i=0; i< [self NoOFDaysBetween: startdate:enddate]; i++) {
-        
         [arrdates addObject:[NSString stringWithFormat:@"%@-%d-%@",[arr objectAtIndex:0],[[arr objectAtIndex:1] intValue]+i,[arr objectAtIndex:2]]];
     }
     return arrdates;
@@ -484,85 +455,64 @@ UIBarButtonItem *revealButtonItem;;
 {
     if ([date compare:beginDate] == NSOrderedAscending)
         return NO;
-    
     if ([date compare:endDate] == NSOrderedDescending)
         return NO;
     
     return YES;
 }
-
 - (void) MarkCalendarDataForStartDate:(NSDate*)start endDate:(NSDate*)end
 {
     // this function sets up dataArray & dataDictionary
     // dataArray: has boolean markers for each day to pass to the calendar view (via the delegate function)
     // dataDictionary: has items that are associated with date keys (for tableview)
     if (startDateArr.count > 0) {
-        
         self.dataArray = [NSMutableArray array];
         self.dataDictionary = [NSMutableDictionary dictionary];
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         NSDate *d = start;
         while(YES){
-            
             BOOL MatchStatus=FALSE;
-            
             for (int i=0; i< eventArrDic.count; i++) {
-                
                 [dateFormatter setDateFormat:dateFormatYearMonthDateHiphenWithTime];
                 NSString *startDate=[startDateArr objectAtIndex:i];
                 NSDate *startdate=[dateFormatter dateFromString:startDate];
-                
                 NSString *endDate=[endDateArr objectAtIndex:i];
                 NSDate *enddate=[dateFormatter dateFromString:endDate];
-                
                 NSString *strCalenderDate=[NSString stringWithFormat:@"%@",d];
                 NSDate *calenderdate=[dateFormatter dateFromString:strCalenderDate];
-                
                 [dateFormatter setDateFormat:DATE_FORMAT_M_D_Y];
-                
                 startDate=[dateFormatter stringFromDate:startdate];
                 endDate=[dateFormatter stringFromDate:enddate];
-                
                 strCalenderDate=[dateFormatter stringFromDate:calenderdate];
                 
                 if([self date:[dateFormatter dateFromString:strCalenderDate] isBetweenDate:[dateFormatter dateFromString:startDate] andDate:[dateFormatter dateFromString:endDate]])
                     // if ([startDate isEqualToString:strCalenderDate] || [endDate isEqualToString:strCalenderDate])
                 {
-                    
                     NSDateComponents *info = [d dateComponentsWithTimeZone:self.monthView.timeZone];
                     info.day--;
                     NSDate *temp = [NSDate dateWithDateComponents:info];
                     
                     if ( [self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", temp]]) {
-                        
                         NSArray *arr=[self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", temp ]];
-                        
                         NSMutableArray *arr1=[NSMutableArray arrayWithArray:arr];
                         [arr1 addObject:[eventArrDic objectAtIndex:i]];
                         [self.dataDictionary setObject:arr1 forKey:[NSString stringWithFormat:@"%@", temp]];
-                        
                     }else{
-                        
                         NSArray *arr=[[NSArray alloc] initWithObjects:[eventArrDic objectAtIndex:i], nil];
                         [self.dataDictionary setObject:arr forKey:[NSString stringWithFormat:@"%@", temp]];
-                        
                     }
-                    
                     MatchStatus=TRUE;
                 }
             }
-            
             if (!MatchStatus) {
                 [self.dataArray addObject:@NO];
-            }else
-            {
+            }else{
                 [self.dataArray addObject:@YES];
             }
             NSDateComponents *info = [d dateComponentsWithTimeZone:self.monthView.timeZone];
             info.day++;
             d = [NSDate dateWithDateComponents:info];
-            if([d compare:end]==NSOrderedDescending)
-            {
+            if([d compare:end]==NSOrderedDescending){
                 break;
             }
         }
@@ -571,58 +521,44 @@ UIBarButtonItem *revealButtonItem;;
         [self siftValues];
     }
 }
-
 #pragma mark Webservice call event
 -(void)getEvents :(NSDate*)startDate :(NSDate *)endDate{
     // Local server
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     formatter.dateFormat=DATE_FORMAT_Y_M_D;
     NSString *startdate=[formatter stringFromDate:startDate];
-    startdate=[startdate stringByAppendingString:@" 00:00:00"];
+    startdate=[startdate stringByAppendingString:STR_00_00_00];
     NSString *enddate=[formatter stringFromDate:endDate];
-    enddate=[enddate stringByAppendingString:@" 24:00:00"];
+    enddate=[enddate stringByAppendingString:STR_24_00_00];
     formatter=nil;
-    
     if ([SingletonClass  CheckConnectivity]) {
-        
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,startdate,enddate];
-        
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
-
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
-    
-    switch (Tag)
-    {
-        case getEventTag:
-        {
+    switch (Tag){
+        case getEventTag:{
             [eventArrDic removeAllObjects];
             [startDateArr removeAllObjects];
             [endDateArr removeAllObjects];
             [self.dataDictionary removeAllObjects];
             [self.dataArray removeAllObjects];
             
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {
-                eventData =[MyResults objectForKey:@"data"];
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                eventData =[MyResults objectForKey:DATA];
                 NSArray *arrKeys=[eventData allKeys ];
-                
-                for (int i=0; i<arrKeys.count; i++)
-                {
+                for (int i=0; i<arrKeys.count; i++){
                     NSArray *arrValues=[eventData valueForKey:[arrKeys objectAtIndex:i] ];
-    
-                    for (int j=0; j< arrValues.count; j++)
-                    {
+                    for (int j=0; j< arrValues.count; j++){
                         [eventArrDic addObject:[arrValues objectAtIndex:j]];
                         [startDateArr addObject:[[arrValues objectAtIndex:j] valueForKey:@"start_date"]];
                         [endDateArr addObject:[[arrValues objectAtIndex:j] valueForKey:@"end_date"]];
@@ -630,13 +566,11 @@ UIBarButtonItem *revealButtonItem;;
                 }
             }
             
-            if([[MyResults objectForKey:@"message"] isEqualToString:@"No record found!"])
-            {
-                [SingletonClass initWithTitle:@"" message:@"Events don't exist this month" delegate:nil btn1:@"Ok"];
+            if([[MyResults objectForKey:@"message"] isEqualToString:STR_NO_RECORD_FOUND]){
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Events don't exist this month" delegate:nil btn1:@"Ok"];
             }
         }
     }
-    
     [self.monthView reloadData];
     [self.tableView reloadData];
 }

@@ -23,8 +23,8 @@
     self.title = @"SMS History";
     arrFilterdData = [[NSMutableArray alloc] init];
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [self getSMSHistoryData];
     [super viewDidLoad];
 }
@@ -47,6 +47,7 @@
     [arrFilterdData removeAllObjects];
     [arrFilterdData addObjectsFromArray:historyDic];
     [_tableView reloadData];
+    [SingletonClass deleteUnUsedLableFromTable:_tableView];
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
 }
@@ -54,29 +55,30 @@
 {
     @try {
         if (arrFilterdData.count == 0) {
-            [SingletonClass initWithTitle:@"" message:@"No Notes" delegate:nil btn1:@"Ok"];
+            arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
         }
         if(theSearchBar.text.length>0)
         {
             if ([SingletonClass  CheckConnectivity]) {
                 //Check for empty Text box
-                NSString *strError = @"";
+                NSString *strError = EMPTYSTRING;
                 if(theSearchBar.text.length < 1 )
                 {
                     strError = @"Please enter searching text";
                 }
                 if(strError.length > 1)
                 {
-                    [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                     return;
                 }else{
                     [arrFilterdData removeAllObjects];
                     [self PrepareSearchPredicate:theSearchBar.text];
                     [_tableView reloadData];
                     [theSearchBar endEditing:YES];
+                    arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
                 }
             }else{
-                [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
             }
         }
     }
@@ -102,9 +104,9 @@
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (SMSHistoryCell *)[nib objectAtIndex:0];
-        cell.lblSenderName.text = [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"reciever"] ?   [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"reciever"] : @"";
+        cell.lblSenderName.text = [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"reciever"] ?   [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"reciever"] : EMPTYSTRING;
         cell.lblDate.text = [self dateFormate:[[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"sentTime"]];
-        cell.txtViewMessage.text = [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"message"] ?   [[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"message"] : @"";
+        cell.txtViewMessage.text = [[arrFilterdData objectAtIndex:indexPath.row]valueForKey:@"message"] ?   [[arrFilterdData objectAtIndex:indexPath.row] valueForKey:@"message"] : EMPTYSTRING;
         
         cell.lblSenderName.font = Textfont;
         cell.txtViewMessage.font = SmallTextfont;
@@ -128,7 +130,7 @@
     {
         return IpadCellHeight;
     }else{
-        return IphoneCellHeight;
+        return CELLHEIGHT;
     }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -146,7 +148,7 @@
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetSmsHistory :strURL :GetSmsHistoryData];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
@@ -156,13 +158,14 @@
     {
         case GetSmsHistoryData :
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 historyDic = [MyResults valueForKey:@"historyData"];
                 [arrFilterdData addObjectsFromArray:historyDic];
                 [_tableView reloadData];
+                arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
             }else{
-                [SingletonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
+                arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
             }
             break;
         }
@@ -193,7 +196,7 @@
     [df setDateFormat:DATE_FORMAT_M_D_Y_H_M];
     if(date==nil)
     {
-        return @"";
+        return EMPTYSTRING;
     }else{
         return [NSString stringWithFormat:@"%@", [df stringFromDate:date]];
     }

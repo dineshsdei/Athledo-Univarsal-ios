@@ -36,16 +36,16 @@
     
     self.title = @"Attendance";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     SWRevealViewController *revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(SaveAttendance) forControlEvents:UIControlEventTouchUpInside];
@@ -137,49 +137,36 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(isIPAD)
-    {
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(isIPAD){
         return 70;
     }else{
         return 60;
     }
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 }
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
-{
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state{
     cell.cellCurrentStatus = state;
 }
-- (void)swipeableTableViewCellDidEndScrolling:(SWTableViewCell *)cell
-{
-    if(cell.cellCurrentStatus == kCellStateCenter)
-    {
+- (void)swipeableTableViewCellDidEndScrolling:(SWTableViewCell *)cell{
+    if(cell.cellCurrentStatus == kCellStateCenter){
         [self ChangeCell:cell];
-    }else  if(cell.cellCurrentStatus == kCellStateLeft)
-    {
+    }else  if(cell.cellCurrentStatus == kCellStateLeft){
         [self ChangeCell:cell];
-    }else  if(cell.cellCurrentStatus == kCellStateRight)
-    {
+    }else  if(cell.cellCurrentStatus == kCellStateRight){
         [self ChangeCell:cell];
     }
 }
--(void)ChangeCellField:(SWTableViewCell *)cell
-{
+-(void)ChangeCellField:(SWTableViewCell *)cell{
     AttendanceCell *tempCell = (AttendanceCell *)cell;
-    
     if (cell.cellUtilityButtonState == kCellStateLeft) {
-        
         [[dicListData objectAtIndex:cell.tag] setValue:[NSNumber numberWithBool:YES] forKey:@"isCheck"];
-        
         tempCell.leftLblName.hidden = NO;
         tempCell.leftUserImage.hidden = NO;
         tempCell.rightLblName.hidden = YES;
         tempCell.rightUserImage.hidden = YES;
     }else  if (cell.cellUtilityButtonState == kCellStateRight) {
-        
         [[dicListData objectAtIndex:cell.tag] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         tempCell.leftLblName.hidden = YES;
         tempCell.leftUserImage.hidden = YES;
@@ -203,27 +190,21 @@
 }
 #pragma mark Webservice call event
 -(void)SaveAttendance{
-    
     if ([SingletonClass  CheckConnectivity]) {
-        
         if (dicListData.count ==0) {
             return;
         }
-        
         UserInformation *userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [SingletonClass addActivityIndicator:self.view];
         NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
         [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:@"team_id"];
         [dict setObject:dicListData forKey:@"attendance"];
         [webservice WebserviceCallwithDic:dict :webServiceSaveAttendance :SaveAttendanceTag];
-    
     }else{
-        
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)getAthleteList{
@@ -232,45 +213,33 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"sport_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userSelectedSportid,userInfo.userSelectedTeamid];
-        
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetAttendance :strURL :getAttendanceTag];
-        
     }else{
-        
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
--(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
-{
+-(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
     [SingletonClass RemoveActivityIndicator:self.view];
-
-    switch (Tag)
-    {
-        case getAttendanceTag:
-        {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {
+    switch (Tag){
+        case getAttendanceTag:{
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 // Now we Need to decrypt data
                 [SingletonClass deleteUnUsedLableFromTable:_tableView];
                 dicListData =[MyResults objectForKey:@"attendanceData"];
                 [_tableView reloadData];
-            }else
-            {
+            }else{
                 dicListData = nil;
-                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"NO PRACTICE"]];
+                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice"]];
                 [_tableView reloadData];
             }
             break;
         }
-        case SaveAttendanceTag:
-        {
+        case SaveAttendanceTag:{
             self.navigationItem.rightBarButtonItem.enabled = YES;
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {
-                 [SingletonClass initWithTitle:@"" message:@"Attendance has been saved successfully." delegate:nil btn1:@"Ok"];
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Attendance has been saved successfully." delegate:nil btn1:@"Ok"];
             }
             break;
         }
@@ -278,16 +247,13 @@
 }
 #pragma mark Class Utility method Method
 //this method call, when user rotate your device
-- (void)orientationChanged
-{
+- (void)orientationChanged{
     [_tableView reloadData];
 }
--( CAShapeLayer *)Line:(CGPoint)start_Point :(CGPoint)end_Point
-{
+-(CAShapeLayer *)Line:(CGPoint)start_Point :(CGPoint)end_Point{
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(end_Point.x, end_Point.y)];
     [path addLineToPoint:CGPointMake(start_Point.x, start_Point.y)];
-    
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     shapeLayer.path = [path CGPath];
     shapeLayer.strokeColor = [[UIColor darkGrayColor] CGColor];
@@ -296,17 +262,14 @@
     
     return shapeLayer;
 }
-- (NSArray *)rightButtons :(NSInteger)btnTag
-{
+- (NSArray *)rightButtons :(NSInteger)btnTag{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:223.0/255.0 green:223.0/255.0 blue:225.0/255.0 alpha:1.0] icon:[UIImage imageNamed:@"Tick.png"] :(int)btnTag];
     return rightUtilityButtons;
 }
-- (NSArray *)leftButton :(NSInteger)btnTag
-{
+- (NSArray *)leftButton :(NSInteger)btnTag{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:223.0/255.0 green:223.0/255.0 blue:225.0/255.0 alpha:1.0] icon:[UIImage imageNamed:@"UnTick.png"] :(int)btnTag];
-    
     return rightUtilityButtons;
 }
 @end

@@ -170,13 +170,13 @@ UIDeviceOrientation CurrentOrientation;
     [scrollView setContentSize:CGSizeMake(0, self.view.frame.size.height)];
     self.title = _ScreenTitle;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewDidLoad];
     UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     scrollHeight=0;
     emailNotification=@"1";
-    announcementId=@"";
+    announcementId=EMPTYSTRING;
     groupKeyArr=[[NSMutableArray alloc]init];
     arridIndex=[[NSMutableArray alloc]init];
     settingArray=[[NSMutableArray alloc]init];
@@ -297,9 +297,6 @@ UIDeviceOrientation CurrentOrientation;
     if ([SingletonClass  CheckConnectivity]) {
         
         UserInformation *userInfo=[UserInformation shareInstance];
-        ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-        indicator.tag = 50;
-        [self.view addSubview:indicator];
         NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\"}",userInfo.userSelectedTeamid];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetGroups]];
         [request setHTTPMethod:@"POST"];
@@ -316,15 +313,15 @@ UIDeviceOrientation CurrentOrientation;
                                        [self httpResponseReceived : data];
                                    }else{
                                        
-                                       ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-                                       if(acti)
-                                           [acti removeFromSuperview];
+//                                       ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
+//                                       if(acti)
+//                                           [acti removeFromSuperview];
                                    }
                                }];
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 // this method used to get web service response from server
@@ -334,20 +331,17 @@ UIDeviceOrientation CurrentOrientation;
     @try {
         self.navigationItem.leftBarButtonItem.enabled=YES;
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        
         // Now remove the Active indicator
-        ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-        if(acti)
-            [acti removeFromSuperview];
+       [SingletonClass RemoveActivityIndicator:self.view];
         // Now we Need to decrypt data
         NSError *error=nil;
         if (tagNumber == GetGroupsTag) {
             
             NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
             
-            if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                AllGroupData=[[myResults  objectForKey:@"data"]valueForKey:@"Group"]  ;
+                AllGroupData=[[myResults  objectForKey:DATA]valueForKey:@"Group"]  ;
                 
                 if (AllGroupData.count>0) {
                     NSArray *arr = [AllGroupData allValues];
@@ -379,7 +373,7 @@ UIDeviceOrientation CurrentOrientation;
             else
             {
                 self.navigationItem.rightBarButtonItem.enabled=YES;
-                //[SingaltonClass initWithTitle:@"" message:@"No Data Found !" delegate:nil btn1:@"Ok"];
+                //[SingaltonClass initWithTitle:EMPTYSTRING message:@"No Data Found !" delegate:nil btn1:@"Ok"];
             }
             [pickerView  reloadAllComponents];
         }
@@ -389,9 +383,9 @@ UIDeviceOrientation CurrentOrientation;
             
             // Result is nill but announcement is adding on web , I don't know why it happen
             
-            if([[myResults objectForKey:@"status"] isEqualToString:@"success"] || (myResults == nil))
+            if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS] || (myResults == nil))
             {
-                [SingletonClass initWithTitle:@"" message:@"Announcement has been saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Announcement has been saved successfully" delegate:self btn1:@"Ok"];
             }else{
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass initWithTitle:@"Server Fail" message:@"Please try again" delegate:nil btn1:@"Ok"];
@@ -573,7 +567,7 @@ UIDeviceOrientation CurrentOrientation;
     
     if ( txtViewCurrent.text.length == 0 && (obj == nil)) {
         
-        textView.text=@"";
+        textView.text=EMPTYSTRING;
     }
     
     txtViewCurrent=textView;
@@ -589,7 +583,7 @@ UIDeviceOrientation CurrentOrientation;
 {
     if ([textView.text isEqualToString:@"Enter Description"]) {
         
-        textView.text=@"";
+        textView.text=EMPTYSTRING;
     }
     
     return YES;
@@ -786,7 +780,7 @@ UIDeviceOrientation CurrentOrientation;
 - (IBAction)saveAnnouncement:(id)sender {
     [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
     self.navigationItem.rightBarButtonItem.enabled=NO;
-    NSString *strError = @"";
+    NSString *strError = EMPTYSTRING;
     if(nameTxt.text.length < 1 ){
         strError = @"Please enter announcement name";
     }
@@ -799,14 +793,12 @@ UIDeviceOrientation CurrentOrientation;
     }
     if(strError.length>2){
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
         return;
     }else{
         if ([SingletonClass  CheckConnectivity]) {
             UserInformation *userInfo=[UserInformation shareInstance];
-            ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-            indicator.tag = 50;
-            [self.view addSubview:indicator];
+            [SingletonClass addActivityIndicator:self.view];
             NSMutableString *groupIdString=[[NSMutableString alloc]init];
             NSArray *arrKeys=[selectedGroups allKeys];
             NSArray *arrValues=[selectedGroups allValues];
@@ -824,7 +816,7 @@ UIDeviceOrientation CurrentOrientation;
                 else
                     [groupIdString appendFormat:@"%@",temp1[i]];
             }
-            NSString *tepmSetting=@"";
+            NSString *tepmSetting=EMPTYSTRING;
             for (int i=0; i<settingArray.count; i++) {
                 
                 if (i < settingArray.count-1 )
@@ -865,15 +857,14 @@ UIDeviceOrientation CurrentOrientation;
                                        {
                                            [self httpResponseReceived : data];
                                        }else{
-                                           
-                                           ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
-                                           if(acti)
-                                               [acti removeFromSuperview];
+                                        
+                                           [SingletonClass RemoveActivityIndicator:self.view];
+                                        
                                        }
                                    }];
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
-            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         }
     }
 }
@@ -1248,7 +1239,7 @@ UIDeviceOrientation CurrentOrientation;
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
     if (groupArray.count==0) {
-        [SingletonClass initWithTitle:@"" message:@"Groups are not exist" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Groups are not exist" delegate:nil btn1:@"Ok"];
         return;
     }
     if ([sender isKindOfClass:[CheckboxButton class]])

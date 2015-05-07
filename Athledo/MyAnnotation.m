@@ -18,13 +18,10 @@
 @synthesize statusAction =  _statusAction;
 @synthesize tagNumber = _tagNumber;
 
-
--(void)setTitle:(NSString *)title
-{
+-(void)setTitle:(NSString *)title{
     _title = title;
 }
--(void)setSubtitle:(NSString *)subtitle
-{
+-(void)setSubtitle:(NSString *)subtitle{
     _subtitle = subtitle;
 }
 

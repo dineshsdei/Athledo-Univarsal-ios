@@ -43,7 +43,7 @@
     
     if ([SingletonClass  CheckConnectivity]) {
         //Check for empty Text box
-        NSString *strError = @"";
+        NSString *strError = EMPTYSTRING;
         if(txtFieldUserId.text.length < 1 )
         {
             strError = @"Please enter User Id";
@@ -54,7 +54,7 @@
         }
         if(strError.length>2)
         {
-            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
             
         }else{
@@ -86,12 +86,12 @@
                                        }];
             }else
             {
-                [SingletonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
              }
         }
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 #pragma mark-  Http call back
@@ -101,12 +101,12 @@
     NSError *error=nil;
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
     // ***Tag 100 for Log in web service
-    if([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+    if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
     {
         [SingletonClass RemoveActivityIndicator:self.view];
-        NSMutableDictionary *user=[[myResults objectForKey:@"data"] objectForKey:@"User"];
+        NSMutableDictionary *user=[[myResults objectForKey:DATA] objectForKey:@"User"];
         UserInformation *userdata=[UserInformation shareInstance];
-        userdata.arrUserTeam=[[myResults objectForKey:@"data"] objectForKey:@"UserTeam"];
+        userdata.arrUserTeam=[[myResults objectForKey:DATA] objectForKey:@"UserTeam"];
         userdata.userEmail=[user objectForKey:@"email"];
         userdata.userId=[[user objectForKey:@"id"] intValue];
         userdata.userType=[[user objectForKey:@"type"] intValue];
@@ -114,7 +114,7 @@
         userdata.userFullName=[user valueForKey:@"sender"];
         
         SingletonClass *obj=[SingletonClass ShareInstance];
-        [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :@"" :@""];
+        [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :EMPTYSTRING :EMPTYSTRING];
         NSArray *arrController=[self.navigationController viewControllers];
         if (userdata.arrUserTeam.count==1)
         {
@@ -158,11 +158,11 @@
             }
         }
         
-    }else  if([[myResults objectForKey:@"status"] isEqualToString:@"failed"])
+    }else  if([[myResults objectForKey:STATUS] isEqualToString:@"failed"])
     {
         [SingletonClass RemoveActivityIndicator:self.view];
-        txtFieldPassword.text=@"";
-        [SingletonClass initWithTitle:@"" message:@"Invalid User" delegate:nil btn1:@"Ok"];
+        txtFieldPassword.text=EMPTYSTRING;
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Invalid User" delegate:nil btn1:@"Ok"];
     }
 }
 -(UIStatusBarStyle)preferredStatusBarStyle
@@ -318,9 +318,9 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-     txtFieldUserId.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] :@"";
+     txtFieldUserId.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] :EMPTYSTRING;
     
-    txtFieldPassword.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] :@"";
+    txtFieldPassword.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] :EMPTYSTRING;
     
     return cell;
 }

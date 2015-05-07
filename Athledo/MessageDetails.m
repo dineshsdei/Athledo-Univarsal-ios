@@ -81,7 +81,7 @@
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -90,7 +90,7 @@
     [SingletonClass ShareInstance].isMessangerSent =TRUE;
      [SingletonClass ShareInstance].isMessangerInbox =TRUE;
     
-    NSString *strReceiver_id=@"";
+    NSString *strReceiver_id=EMPTYSTRING;
     
     for (int i= 0; i< arrSenderids.count; i++) {
         
@@ -113,7 +113,7 @@
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
      }
     
 }
@@ -127,10 +127,10 @@
         case getConversationTag:
         {
             
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 
-               arrMessageConversation =[MyResults objectForKey:@"data"];
+               arrMessageConversation =[MyResults objectForKey:DATA];
                 
                 for (int i=0 ; i < arrMessageConversation.count; i++) {
                     
@@ -145,7 +145,7 @@
         }
         case sendConversationTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 // Now we Need to decrypt data
  
@@ -240,7 +240,7 @@
 - (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[self hasTimestampForRowAtIndexPath:indexPath];
-    return indexPath.row > self.timestamps.count  ? [NSDate date] : [self.timestamps objectAtIndex:indexPath.row];
+    return (indexPath.row > self.timestamps.count)  ? [NSDate date] : [self.timestamps objectAtIndex:indexPath.row];
 }
 -(NSString *)setImageWithUrl:(int)index
 {
@@ -255,7 +255,7 @@
         if (UserdataIndex > 0 ) {
              return [[arrMessageConversation objectAtIndex:UserdataIndex] valueForKey:@"image"];
         }else
-             return @"";
+             return EMPTYSTRING;
     }
 }
 // Use this method when satatic images shows

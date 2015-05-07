@@ -50,7 +50,61 @@
 #define WARMUPTIME @"WarmUp Time"
 #define COOLDOWNTIME @"CoolDown Time"
 #define NAVIGATIONBAR_COLOR [UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]
+#define EVENTTYPE_YEARLY @"Yearly"
+#define EVENTTYPE_MONTHLY @"Monthly"
+#define EVENTTYPE_WEEKLY @"Weekly"
+#define EVENTTYPE_DAILY @"Daily"
+#define DEFAULTSETTING_YEARLY @"year_1_1_1_#no"
+#define DEFAULTSETTING_MONTHLY @"month_1_1_1_#no"
+#define DEFAULTSETTING_WEEKLY @"week_1___1,2,3,4,5,#no"
+#define DEFAULTSETTING_DAILY @"day_1___#no"
+#define STR_DAY @"day"
+#define STR_WEAK @"week"
+#define STR_MONTH @"month"
+#define STR_YEAR @"year"
+#define STR_DAY_UNDERSCORE @"day_"
+#define STR_WEAK_UNDERSCORE @"week_"
+#define STR_MONTH_UNDERSCORE @"month_"
+#define STR_YEAR_UNDERSCORE @"year_"
+#define EMPTYSTRING @""
 
+#define STR_UNDERSCORE @"_"
+#define STR_HASH @"#"
+
+#define SUNDAY @"Sunday"
+#define MONDAY @"Monday"
+#define TUESDAY @"Tuesday"
+#define WEDNESDAY @"Wednesday"
+#define THURSDAY @"Thursday"
+#define FRIDAY @"Friday"
+#define SATURDAY @"Saturday"
+
+#define JANUARY @"January"
+#define FEBRUARY @"Febraury"
+#define MARCH @"March"
+#define APRIL @"April"
+#define MAY @"May"
+#define JUNE @"June"
+#define JULY @"July"
+#define AUGUST @"August"
+#define SEPTEMBER @"September"
+#define OCTOBER @"October"
+#define NOVEMBER @"November"
+#define DECEMBER @"December"
+
+#define INFINITE_DATE @"9999-02-01 00:00:00"
+#define STR_00_00_00 @" 00:00:00"
+#define STR_24_00_00 @" 24:00:00"
+#define STR_SPACE @" "
+#define DAILY_TYPE_NONWORKINGDAY @"nonworkingday"
+#define DAILY_TYPE_WORKINGDAY @"workingday"
+#define SUCCESS @"success"
+#define STATUS @"status"
+#define DATA @"data"
+#define STR_NO_RECORD_FOUND @"No record found"
+#define SAVED_DATA_MESSAGE @"Data has been saved successfully"
+#define NOT_SAVE_DATA_MESSAGE @"Data did not save"
+#define INTERNET_NOT_AVAILABLE @"Internet connection is not available"
 
 #define accountSID @"ACdf9e62bbfd4132901754d34b445fb110"
 #define authToken @"e2a6374d96e4df75e245f2854850f3dd"
@@ -169,6 +223,8 @@
 #define PickerHeight isIPAD ? 162 : 162
 #define IpadCellHeight 100
 #define IphoneCellHeight 80
+#define CELLHEIGHT (isIPAD) ? 85 : 66
+
 
 
 # define tblViewY (([UIScreen mainScreen].bounds.size.height >= 568)?266:180)
@@ -182,6 +238,7 @@
 #define fontName @"HelveticaNeue"
 #define SmallfontSize isIPAD ? 16 : 13
 #define BigfontSize isIPAD ? 18 : 14
+#define NAVIGATION_COMPONENT_COLOR [UIColor lightGrayColor]
 #define HeadingColor [UIColor whiteColor]
 #define TextColor [UIColor lightTextColor]
 #define LightGrayColor [UIColor lightGrayColor]

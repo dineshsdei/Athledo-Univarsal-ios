@@ -44,13 +44,13 @@
     [df setDateFormat:DATE_FORMAT_D_M_Y];
     NSDate *date=[df dateFromString:strdate];
     [df setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
-    NSString *str=@"";
+    NSString *str=EMPTYSTRING;
     if (![[NSString stringWithFormat:@"%@", [df stringFromDate:date]] isEqualToString:@"(null)"]) {
         str=[NSString stringWithFormat:@"%@", [df stringFromDate:date]];
     }
     if(date==nil)
     {
-        return @"";
+        return EMPTYSTRING;
     }else{
         return [NSString stringWithFormat:@"%@", [df stringFromDate:date]];
     }
@@ -64,25 +64,25 @@
     {
         case EditData:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 // Now we Need to decrypt data
-                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:SAVED_DATA_MESSAGE delegate:self btn1:@"Ok"];
                 
             }else{
                 self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:NOT_SAVE_DATA_MESSAGE delegate:nil btn1:@"Ok"];
             }
             break;
         }
         case Successtag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-                [SingletonClass initWithTitle:nil message:@"Data saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:SAVED_DATA_MESSAGE delegate:self btn1:@"Ok"];
             }else{
                 
-                [SingletonClass initWithTitle:nil message:@"Invalid Data" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:nil message:NOT_SAVE_DATA_MESSAGE delegate:nil btn1:@"Ok"];
             }
             break;
         }
@@ -156,9 +156,9 @@
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
 }
 -(void)dateChange
 {
@@ -174,11 +174,11 @@
     NSDate *dateTwo=[df dateFromString:textfieldEnd.text];
     
     if (textfieldStart.text.length !=0 && textfieldEnd.text.length !=0) {
-        NSString *strError=@"";
+        NSString *strError=EMPTYSTRING;
         switch ([dateOne compare:dateTwo]) {
             case NSOrderedAscending:
             {
-                strError = @"";
+                strError = EMPTYSTRING;
                 // dateOne is earlier in time than dateTwo
                 break;
             }
@@ -198,8 +198,8 @@
         if(strError.length > 1)
         {
             // Uncomment to show last date should be greater
-            // currentText.text=@"";
-            //[SingaltonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            // currentText.text=EMPTYSTRING;
+            //[SingaltonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             // return;
         }
     }
@@ -218,7 +218,7 @@
     AddAthleteHistoryCell *cell = nil;
     if(cell == nil)
     {
-        cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:@""];
+        cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrHistoryInfo:arrAthleteHistory.count > 0 ? [arrAthleteHistory objectAtIndex:indexPath.section]:EMPTYSTRING];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return cell;
@@ -310,14 +310,14 @@
             UITableView *table=(UITableView *)[self.view viewWithTag:100];
             
             UITextField *textfield=(UITextField *)[table viewWithTag:tag];
-            NSString *strError = @"";
+            NSString *strError = EMPTYSTRING;
             if(textfield.text.length < 1 && tag==1000)
             {
                 strError = @"Please enter team name";
             }
             else if(textfield.text.length < 1 && tag==1001)
             {
-                strError = @"";
+                strError = EMPTYSTRING;
             } else if(textfield.text.length < 1 && tag==1002)
             {
                 strError = @"Please enter start date";
@@ -330,7 +330,7 @@
              if(strError.length > 1)
             {
                 self.navigationItem.rightBarButtonItem.enabled=YES;
-                [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                 return;
             }
         }
@@ -355,7 +355,7 @@
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
             
             
-            [dict setObject:@"" forKey:@"UserProfile"];
+            [dict setObject:EMPTYSTRING forKey:@"UserProfile"];
             [dict setObject:arrtemp forKey:@"athletic_hstry"];
             [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
         }else{
@@ -366,7 +366,7 @@
         
     }else{
         self.navigationItem.rightBarButtonItem.enabled=YES;
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 

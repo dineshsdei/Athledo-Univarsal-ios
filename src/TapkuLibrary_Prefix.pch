@@ -10,8 +10,7 @@
 	#warning "This project uses features only available in iPhone SDK 3.0 and later."
 #endif
 
-
-
+//#define EMPTYSTRING @""
 #ifdef __OBJC__
     @import Foundation;
 	@import UIKit;

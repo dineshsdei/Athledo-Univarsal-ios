@@ -46,7 +46,7 @@
 -(UIDeviceOrientation )CurrentOrientation :(id)controller;
 
 +(UILabel *)ShowEmptyMessage :(NSString *)text;
-+(void)deleteUnUsedLableFromTable :(UITableView *)table;
++(void)deleteUnUsedLableFromTable :(id)table;
 
 -(UIToolbar *)toolBarWithDoneButton:(UIView *)view;
 -(UIPickerView *)AddPickerView:(UIView *)view;

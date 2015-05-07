@@ -16,8 +16,8 @@
 - (void)viewDidLoad {
     self.title = NSLocalizedString(@"Workout History Details", nil);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewDidLoad];
     formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D];
@@ -26,12 +26,12 @@
         
         NSDate *date=[_obj valueForKey:@"date"] ?[formatter dateFromString:[_obj valueForKey:@"date"]]:nil;
         [formatter setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
-        _lblName.text=[_obj valueForKey:@"name"] ?[_obj valueForKey:@"name"] : @"";
+        _lblName.text=[_obj valueForKey:@"name"] ?[_obj valueForKey:@"name"] : EMPTYSTRING;
         //  _lblCreatedBy.text=[_obj valueForKey:@"name"];
-        _lblseason.text=[[_obj valueForKey:@"season"] isEqualToString:@""] ? @"Off Season" :[_obj valueForKey:@"season"] ;
-        _lblworkoutType.text=[_obj valueForKey:@"type"] ? [_obj valueForKey:@"type"]:@"" ;
-        _lbldate.text=[formatter stringFromDate:date] ? [formatter stringFromDate:date] : @"";
-        _lbldescription.text=[_obj valueForKey:@"desc"] ? [_obj valueForKey:@"desc"] :@"";
+        _lblseason.text=[[_obj valueForKey:@"season"] isEqualToString:EMPTYSTRING] ? @"Off Season" :[_obj valueForKey:@"season"] ;
+        _lblworkoutType.text=[_obj valueForKey:@"type"] ? [_obj valueForKey:@"type"]:EMPTYSTRING ;
+        _lbldate.text=[formatter stringFromDate:date] ? [formatter stringFromDate:date] : EMPTYSTRING;
+        _lbldescription.text=[_obj valueForKey:@"desc"] ? [_obj valueForKey:@"desc"] :EMPTYSTRING;
         _lblName.font=Textfont;
         _lblseason.font=SmallTextfont;
         _lbldescription.font=SmallTextfont;

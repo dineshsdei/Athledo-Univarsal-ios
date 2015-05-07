@@ -33,7 +33,6 @@
 {
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
-    
     self.title=@"Detail";
     _lblName.text=strName;
     _lblDate.text=strDate;
@@ -46,15 +45,11 @@
     _lblDate.font=SmallTextfont;
     _lblSenderName.font=SmallTextfont;
     _lblMEorAll.font=SmallTextfont;
-    
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     // Only Coach can edit and delete announcement
-    
     if ([UserInformation shareInstance].userType == 1 || [UserInformation shareInstance].userType == 4) {
-        
         _lblMEorAll.text=@"To All";
         // newView used for set button on middle of view if have need use it
         CGRect applicationFrame;
@@ -84,47 +79,41 @@
     }else{
         _lblMEorAll.text=@"To Me";
     }
-    
     [objPic setImageWithURL:[NSURL URLWithString:[_obj valueForKey:@"user_image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
-    
-   // objPic.contentMode=UIViewContentModeScaleAspectFit;
+    //objPic.contentMode=UIViewContentModeScaleAspectFit;
     objPic.layer.borderWidth=.50;
     objPic.layer.borderColor=[UIColor lightGrayColor].CGColor;
     if (_NotificationStataus) {
         [self DeleteNotificationFromWeb];
     }
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    //Do any additional setup after loading the view from its nib.
 }
-
 -(void)EditAnnouncement:(id)sender
 {
     AddNewAnnouncement *addNew=[[AddNewAnnouncement alloc] initWithNibName:@"AddNewAnnouncement" bundle:nil];
     addNew.obj = _obj;
     addNew.ScreenTitle=@"Edit Announcement";
     [self.navigationController pushViewController:addNew animated:YES];
-    
 }
 -(void)DeleteNotificationFromWeb
 {
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
     
     if ([SingletonClass  CheckConnectivity]) {
-        
         if (_obj) {
-            
             UserInformation *userInfo= [UserInformation shareInstance];
             NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",1,[[_obj objectForKey:@"id"] intValue],userInfo.userSelectedTeamid,userInfo.userId];
             //[SingaltonClass addActivityIndicator:self.view];
             [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
         }
     }else{
-        //[SingaltonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        //[SingaltonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)DeleteAnnouncement:(id)sender
 {
-    [SingletonClass initWithTitle:@"" message: @"Do you want to delete announcement ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete announcement ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -162,7 +151,7 @@
         [webservice WebserviceCall:webServicedeleteAnnouncement :strURL :deleteAnnouncement];
         
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -173,16 +162,15 @@
     {
         case deleteAnnouncement:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                [SingletonClass initWithTitle:@"" message:@"Announcement has been deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Announcement has been deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
             }
         }
         case deleteNotificationTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                
             }
             break;
         }

@@ -38,14 +38,14 @@
 - (instancetype) initWithStyle:(UITableViewStyle)s{
     if(!(self = [super initWithStyle:s])) return nil;
     self.title = @"Select Type";
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:EMPTYSTRING style:UIBarButtonItemStylePlain target:nil action:nil];
     return self;
 }
 
-#define MONTH_GRID NSLocalizedString(@"Month View ", @"")
-#define DAY_VIEW NSLocalizedString(@"Day View ", @"")
-#define WEEK_VIEW NSLocalizedString(@"Week View ", @"")
-#define MAP_VIEW NSLocalizedString(@"Map View ", @"")
+#define MONTH_GRID NSLocalizedString(@"Month View ", EMPTYSTRING)
+#define DAY_VIEW NSLocalizedString(@"Day View ", EMPTYSTRING)
+#define WEEK_VIEW NSLocalizedString(@"Week View ", EMPTYSTRING)
+#define MAP_VIEW NSLocalizedString(@"Map View ", EMPTYSTRING)
 
 
 #pragma mark Webservice call event
@@ -59,7 +59,7 @@
         [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
     
 }
@@ -72,12 +72,11 @@
     {
         case getEventTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-                
-                eventArrDic =[MyResults objectForKey:@"data"];
-                startDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"start_date"];
-                endDateArr = [[MyResults objectForKey:@"data"] valueForKey:@"end_date"];
+                eventArrDic =[MyResults objectForKey:DATA];
+                startDateArr = [[MyResults objectForKey:DATA] valueForKey:@"start_date"];
+                endDateArr = [[MyResults objectForKey:DATA] valueForKey:@"end_date"];
             }
         }
     }
@@ -104,8 +103,8 @@
 
     }
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor whiteColor],NSForegroundColorAttributeName,[UIFont systemFontOfSize:20],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont systemFontOfSize:20],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     SWRevealViewController *revealController = [self revealViewController];
     
@@ -119,7 +118,7 @@
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
     self.data = @[
-                  @{@"rows" : @[MONTH_GRID,DAY_VIEW,WEEK_VIEW,MAP_VIEW], @"title" : @""},];
+                  @{@"rows" : @[MONTH_GRID,DAY_VIEW,WEEK_VIEW,MAP_VIEW], @"title" : EMPTYSTRING},];
     self.tableView.backgroundColor=[UIColor clearColor];
     self.view.backgroundColor=[UIColor whiteColor];
     // self.tableView.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_bg.png"]];

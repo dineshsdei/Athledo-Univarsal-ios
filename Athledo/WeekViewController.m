@@ -78,7 +78,7 @@ UIBarButtonItem *revealButtonItem;;
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -92,11 +92,11 @@ UIBarButtonItem *revealButtonItem;;
         case getEventTag:
         {
             [_eventDic removeAllObjects];
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 // Now we Need to decrypt data
                 [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
-                eventData =[MyResults objectForKey:@"data"];
+                eventData =[MyResults objectForKey:DATA];
                 NSArray *arrKeys=[eventData allKeys ];
                 for (int i=0; i<arrKeys.count; i++) {
                     
@@ -109,7 +109,7 @@ UIBarButtonItem *revealButtonItem;;
                 
             }else
             {
-                [SingletonClass initWithTitle:@"" message:@"Events don't exist in this week" delegate:nil btn1:@"Ok"];
+//                [SingletonClass initWithTitle:EMPTYSTRING message:@"Events don't exist in this week" delegate:nil btn1:@"Ok"];
                 
             }
         }
@@ -123,7 +123,7 @@ UIBarButtonItem *revealButtonItem;;
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    self.title=NSLocalizedString(@"Week Events", @"");
+    self.title=NSLocalizedString(@"Week Events", EMPTYSTRING);
     //WeekStartDate=nil;
     
     revealController = [self revealViewController];
@@ -138,8 +138,8 @@ UIBarButtonItem *revealButtonItem;;
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
     UIButton  *btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -172,9 +172,9 @@ UIBarButtonItem *revealButtonItem;;
 }
 -(void)AddNewEvent
 {
-    [CalendarEvent ShareInstance].strEventType=@"";
-    [CalendarEvent ShareInstance].strRepeatSting=@"";
-    [CalendarEvent ShareInstance].strEventEditBy=@"";
+    [CalendarEvent ShareInstance].strEventType=EMPTYSTRING;
+    [CalendarEvent ShareInstance].strRepeatSting=EMPTYSTRING;
+    [CalendarEvent ShareInstance].strEventEditBy=EMPTYSTRING;
     [CalendarEvent ShareInstance].CalendarRepeatStatus=FALSE;
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;

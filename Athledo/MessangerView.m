@@ -49,7 +49,7 @@
               
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)deleteMessageEvent :(int)Webmail_id :(int)webmail_receiver_id{
@@ -65,7 +65,7 @@
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
     
@@ -85,7 +85,7 @@
         
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
     
@@ -103,16 +103,15 @@
         case getMessagesTag:
         {
             
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
         
-                messageArrDic =[MyResults objectForKey:@"data"];
-                [SingletonClass deleteUnUsedLableFromTable:table];
-                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
+                messageArrDic =[MyResults objectForKey:DATA];
+                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages"]]):[SingletonClass deleteUnUsedLableFromTable:table];
                 [table reloadData];
             }else
             {
-                [table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]];
+                [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages"]];
             }
             
             break;
@@ -120,33 +119,33 @@
         case deleteMessagesTag:
         {
             
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 
                [SingletonClass RemoveActivityIndicator:self.view];
                
-                [SingletonClass initWithTitle:@"" message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
                   [SingletonClass RemoveActivityIndicator:self.view];
-                [SingletonClass initWithTitle:@"" message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
             
              break;
         }
         case archiveMessagesTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 [SingletonClass ShareInstance].isMessangerInbox = TRUE;
                 [SingletonClass ShareInstance].isMessangerSent = TRUE;
                 [SingletonClass ShareInstance].isMessangerArchive = TRUE;
                  [SingletonClass RemoveActivityIndicator:self.view];
-                 [SingletonClass initWithTitle:@"" message:@"Message archived successully" delegate:nil btn1:@"Ok"];
+                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                  [self getMessages];
             }else{
                  [SingletonClass RemoveActivityIndicator:self.view];
-                 [SingletonClass initWithTitle:@"" message:@"Message archived fail try again" delegate:nil btn1:@"Ok"];
+                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message archived fail try again" delegate:nil btn1:@"Ok"];
             }
             
              break;
@@ -166,10 +165,10 @@
     }
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:0];
     [tabBar setSelectedItem:tabBarItem];
-    self.title = NSLocalizedString(@"Messenger", @"");
+    self.title = NSLocalizedString(@"Messenger", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewWillAppear:animated];
     if([SingletonClass ShareInstance].isMessangerInbox==TRUE)
     {
@@ -183,7 +182,7 @@
     [super viewDidDisappear:NO];
     if (isIPAD)
      [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-       self.title = NSLocalizedString(@"Back", @"");
+       self.title = NSLocalizedString(@"Back", EMPTYSTRING);
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -193,7 +192,7 @@
 -(void)orientationChanged
 {
     [SingletonClass deleteUnUsedLableFromTable:table];
-    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):@"";
+    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):EMPTYSTRING;
 }
 #pragma mark - View lifecycle
 - (void)viewDidLoad
@@ -223,9 +222,9 @@
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-      self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-      self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+      self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+      self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     [self getMessages];
     [SingletonClass ShareInstance].isMessangerInbox =FALSE;
@@ -271,7 +270,7 @@
    cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"sender"];
     cell.lblReceivingDate.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"date"];
     cell.lblDescription.text=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"desc"];
-    cell.lblDescription.text  =[cell.lblDescription.text  stringByReplacingOccurrencesOfString:@"/n" withString:@""];
+    cell.lblDescription.text  =[cell.lblDescription.text  stringByReplacingOccurrencesOfString:@"/n" withString:EMPTYSTRING];
     cell.lblSenderName.font=Textfont;
     cell.lblDescription.font=SmallTextfont;
     cell.lblReceivingDate.font=SmallTextfont;
@@ -341,8 +340,7 @@
         return 111;
         
     }else{
-        
-        return 80;
+        return CELLHEIGHT;
     }
 }
 
@@ -356,11 +354,8 @@
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    
 }
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-    
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
@@ -413,7 +408,7 @@
 -(void)deleteMessage:(id)sender
 {
     UIButton *btn=sender;
-    [SingletonClass initWithTitle:@"" message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
     
 }
 -(void)archiveMessage:(id)sender;

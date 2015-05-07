@@ -50,7 +50,7 @@ static WebServiceClass *objWebService=nil;
     @finally {
     }
     }else{
-    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -90,7 +90,7 @@ static WebServiceClass *objWebService=nil;
     }
     }else{
 
-    [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+    [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
 
     }
 }

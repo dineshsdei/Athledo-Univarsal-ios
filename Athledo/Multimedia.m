@@ -28,9 +28,7 @@
     UIDeviceOrientation CurrentOrientation;
 }
 @end
-
 @implementation Multimedia
-
 #pragma mark UIViewController method
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -40,11 +38,11 @@
 {
     self.title=@"Multimedia Photos";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
-    seasonId=@"";
-    AlbumId=@"";
+    seasonId=EMPTYSTRING;
+    AlbumId=EMPTYSTRING;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:1];
@@ -90,8 +88,8 @@
     toolBar.items = [NSArray arrayWithObjects:flex,btnDone,nil];
     [self.view addSubview:toolBar];
     
-    seasonId=@"";
-    AlbumId=@"";
+    seasonId=EMPTYSTRING;
+    AlbumId=EMPTYSTRING;
     multimediaData=[[NSMutableArray alloc] init];
     AllMultimediaData=[[NSArray alloc] init];
     [self getMultimediaPic];
@@ -205,7 +203,7 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (currentText.text.length==0) {
-        arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :@"";
+        arrSeasons.count > 0 ?currentText.text=[arrSeasons objectAtIndex:0] :EMPTYSTRING;
         seasonId=[self KeyForValue:@"Season":currentText.text];
     }
     return [arrSeasons count];
@@ -229,7 +227,7 @@
 {
     NSArray *arrValues=[[DicData objectForKey:superKey] allValues];
     NSArray *arrkeys=[[DicData objectForKey:superKey] allKeys];
-    NSString *strValue=@"";
+    NSString *strValue=EMPTYSTRING;
     for (int i=0; i<arrValues.count; i++) {
         if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
         {
@@ -250,7 +248,7 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"sport_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid,userInfo.userSelectedSportid];
         [webservice WebserviceCall:webServiceGetWorkOutdropdownList :strURL :getSeasonTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)getMultimediaAlbum{
@@ -260,9 +258,8 @@
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"album_id\":\"%@\"}",userInfo.userId,AlbumId];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetMultimediaAlbum :strURL :getAlbumDataTag];
-        
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)getMultimediaPic{
@@ -274,41 +271,40 @@
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetMultimediaPic :strURL :getPicDataTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
-    
     switch (Tag)
     {
         case getPicDataTag :
         {
             [multimediaData removeAllObjects];
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                AllMultimediaData=[[MyResults valueForKey:@"data"] copy];
+                AllMultimediaData=[[MyResults valueForKey:DATA] copy];
                 for (int i=0; i< AllMultimediaData.count; i++) {
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
                     [multimediaData addObject:temp];
                 }
                 _segmentControl.selectedSegmentIndex=0;
+                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Photos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
                 [_tableView reloadData];
             }else{
                 [multimediaData removeAllObjects];
                 [_tableView reloadData];
-                [SingletonClass initWithTitle:@"" message:@"No records found" delegate:nil btn1:@"Ok"];
+                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Photos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
             }
-            
-            break;
+             break;
         } case getSeasonTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                DicData=[MyResults  objectForKey:@"data"];
+                DicData=[MyResults  objectForKey:DATA];
                 arrSeasons=[[NSMutableArray alloc] init];
-                NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:@"data"] objectForKey:@"Season"] allValues];
+                NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues];
                 //To remove off season
                 for (int i=0;i<arrtemp.count; i++) {
                     if (![[arrtemp objectAtIndex:i] isEqualToString:@"Off Season"]) {
@@ -316,18 +312,18 @@
                     }
                 }
             }else{
-                //[SingaltonClass initWithTitle:@"" message:@"Try again" delegate:nil btn1:@"Ok"];
+                //[SingaltonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
             }
             break;
         }
         case getAlbumDataTag :
         {
-            if([AlbumId isEqualToString:@""])
+            if([AlbumId isEqualToString:EMPTYSTRING])
             {
-                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
                     [multimediaData removeAllObjects];
-                    NSArray *temp=[[MyResults valueForKey:@"data"] copy];
+                    NSArray *temp=[[MyResults valueForKey:DATA] copy];
                     for (int i=0; i< temp.count; i++) {
                         NSDictionary *tempDic=[[temp objectAtIndex:i] valueForKey:@"MultimediaAlbum"];
                         [multimediaData addObject:tempDic];
@@ -335,34 +331,31 @@
                     [_tableView reloadData];
                 } else
                 {
-                    [SingletonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
-                    AlbumId=@"";
+                    [SingletonClass initWithTitle:EMPTYSTRING message:STR_NO_RECORD_FOUND delegate:nil btn1:@"Ok"];
+                    AlbumId=EMPTYSTRING;
                 }
             }else{
                 
-                if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+                if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
-                    NSArray *temp=[MyResults valueForKey:@"data"] ;
+                    NSArray *temp=[MyResults valueForKey:DATA] ;
                     DisplayFolderContant *obj=[[DisplayFolderContant alloc] initWithNibName:@"DisplayFolderContant" bundle:nil];
                     obj.picData=temp;
                     obj.screenTitle=[[multimediaData objectAtIndex:titleIndex] valueForKey:@"name"];
                     [self.navigationController pushViewController:obj animated:NO];
                     
-                } else
-                {
-                    [SingletonClass initWithTitle:@"" message:@"No record found!" delegate:nil btn1:@"Ok"];
-                    AlbumId=@"";
+                } else{
+                    [SingletonClass initWithTitle:EMPTYSTRING message:STR_NO_RECORD_FOUND delegate:nil btn1:@"Ok"];
+                    AlbumId=EMPTYSTRING;
                 }
             }
         }
     }
 }
 #pragma mark -Tableview Delegate method
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
-
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     int noOfRow=(int)(multimediaData.count/2);
@@ -376,7 +369,6 @@
     }
     return (multimediaData.count/2);
 }
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *CellIdentifier = [NSString stringWithFormat:@"MultimediaCell_%d_%d",(int)indexPath.section,(int)indexPath.row ];
@@ -408,9 +400,8 @@
          if (multimediaData.count > 2*indexPath.row ) {
             cell.First_imageview.tag=2*indexPath.row;
             [cell.First_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
-            
-            [cell.First_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] : @""];
-             [cell.First_textViewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"]  :@""];
+            [cell.First_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] : EMPTYSTRING];
+             [cell.First_textViewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"]  :EMPTYSTRING];
         }else
         {
             cell.First_imageview.hidden=YES;
@@ -420,8 +411,8 @@
         if (multimediaData.count > 2*indexPath.row+1) {
             cell.Second_imageview.tag=2*indexPath.row+1;
             [cell.Second_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
-            [cell.Second_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row+1)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)+1] valueForKey:@"name"] : @""];
-            [cell.SecondTextviewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"]  :@""];
+            [cell.Second_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row+1)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)+1] valueForKey:@"name"] : EMPTYSTRING];
+            [cell.SecondTextviewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"]  :EMPTYSTRING];
         }else
         {
             cell.Second_imageview.hidden=YES;
@@ -441,11 +432,9 @@
             cell.First_textViewDes.hidden=YES;
         }
         if (multimediaData.count > 2*indexPath.row+1) {
-            
             [cell.Second_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row+1)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
             [cell.Second_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:indexPath.row+1]];
             [cell.SecondTextviewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row+1)]];
-            
         }else
         {
             cell.Second_imageview.hidden=YES;
@@ -455,25 +444,21 @@
     }
     return cell;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (isIPAD) {
         return 240;
     }else{
         return 190;
     }
 }
--(void)handlePinch :(UITapGestureRecognizer *)pinchGestureRecognizer
-{
+-(void)handlePinch :(UITapGestureRecognizer *)pinchGestureRecognizer{
     titleIndex=(int)pinchGestureRecognizer.view.tag;
     AlbumId=[[multimediaData objectAtIndex:pinchGestureRecognizer.view.tag] valueForKey:@"id"];
     [self getMultimediaAlbum];
 }
-
 #pragma mark- UITextfield Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
@@ -483,19 +468,16 @@
         [listPicker reloadComponent:0];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Seasons list is not exist" delegate:nil btn1:@"Ok"];
     }
     return NO;
 }
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
 }
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
+-(void)textFieldDidEndEditing:(UITextField *)textField{
     [textField resignFirstResponder];
 }
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
 }

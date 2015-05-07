@@ -8,20 +8,13 @@
 
 #import "ForgotPassword.h"
 #import "LoginVeiw.h"
-
-
-
 @interface ForgotPassword ()
 {
     NSArray *arrTableCelldata;
 }
-
 @end
-
 BOOL isKeyBoard;
-
 @implementation ForgotPassword
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -30,13 +23,12 @@ BOOL isKeyBoard;
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
-    self.title=NSLocalizedString(@"Reset Password", @"");
+    self.title=NSLocalizedString(@"Reset Password", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -86,19 +78,14 @@ BOOL isKeyBoard;
     }
 }
 #pragma mark- TableviewDelegate
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
 {
     return 1;
 }
-
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return arrTableCelldata.count;
-    
 }
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellId = @"cellId";
@@ -158,29 +145,26 @@ BOOL isKeyBoard;
     [self.navigationController.navigationBar setBackgroundImage:(isIPAD) ? [UIImage imageNamed: @"NavBg_ipad.png"]:[UIImage imageNamed: @"profileBg.png"]
                                                   forBarMetrics:UIBarMetricsDefault];
 }
-
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:NO];
     [self.navigationController setNavigationBarHidden:YES];
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
 }
-
 - (IBAction)submitdata:(id)sender {
     
     if ([SingletonClass  CheckConnectivity]) {
-        NSString *strError = @"";
+        NSString *strError = EMPTYSTRING;
         if(txtFieldUserId.text.length < 1 )
         {
-            strError = @"Please enter mail id";
+            strError = @"Please enter your mail address";
         }
         if(strError.length > 1)
         {
-            [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
         }else{
             
@@ -209,11 +193,11 @@ BOOL isKeyBoard;
                                            }
                                        }];
             }else{
-                [SingletonClass initWithTitle:@"" message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter valid mail address" delegate:nil btn1:@"Ok"];
             }
         }
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -229,12 +213,11 @@ BOOL isKeyBoard;
         [acti removeFromSuperview];
     NSError *error=nil;
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-    
-    if ([[myResults objectForKey:@"status"] isEqualToString:@"success"]) {
-        [SingletonClass initWithTitle:@"" message:[@"An email has been sent on email id " stringByAppendingFormat:@"%@ containing new password.",txtFieldUserId.text] delegate:self btn1:@"Ok"];
+    if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS]) {
+        [SingletonClass initWithTitle:EMPTYSTRING message:[@"An email has been sent on email id " stringByAppendingFormat:@"%@ containing new password.",txtFieldUserId.text] delegate:self btn1:@"Ok"];
     }else
     {
-        [SingletonClass initWithTitle:@"" message:@"Fail try again" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Fail try again" delegate:nil btn1:@"Ok"];
     }
 }
 @end

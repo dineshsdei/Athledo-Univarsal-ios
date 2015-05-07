@@ -1,40 +1,10 @@
-//  WhiteRaccoon
-//
-//  Created by Valentin Radu on 8/23/11.
-//  Copyright 2011 Valentin Radu. All rights reserved.
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
 
 #import "WhiteRaccoon.h"
-
-
-
 /*======================================================WRStreamInfo============================================================*/
-
-
 @implementation WRStreamInfo
 @synthesize buffer, bytesConsumedInTotal, bytesConsumedThisIteration, readStream, size, writeStream;
 
 @end
-
-
-
 /*======================================================WRBase============================================================*/
 
 @implementation WRBase
@@ -86,24 +56,16 @@ static NSMutableDictionary *folders;
 -(NSString *)path {
     //  we remove all the extra slashes from the directory path, including the last one (if there is one)
     //  we also escape it
-    NSString * escapedPath = [path stringByStandardizingPath];   
-    
-    
+    NSString * escapedPath = [path stringByStandardizingPath];
     //  we need the path to be absolute, if it's not, we *make* it
     if (![escapedPath isAbsolutePath]) {
         escapedPath = [@"/" stringByAppendingString:escapedPath];
     }
-    
     return escapedPath;
 }
-
-
 -(void) setPath:(NSString *)directoryPathLocal {
     path = directoryPathLocal;
 }
-
-
-
 -(NSString *)scheme {
     switch (self.schemeId) {
         case kWRFTP:
@@ -115,10 +77,8 @@ static NSMutableDictionary *folders;
             return @"ftp";
             break;
     }
-    
     return @"";
 }
-
 -(NSString *) hostname {
     return [hostname stringByStandardizingPath];
 }
@@ -140,28 +100,15 @@ static NSMutableDictionary *folders;
     }else{
         cred = @"";
     }
-    
     return [cred stringByStandardizingPath];
 }
-
-
-
-
 -(void) start{
 }
 
 -(void) destroy{
     
 }
-
-
 @end
-
-
-
-
-
-
 /*======================================================WRRequestQueue============================================================*/
 
 @implementation WRRequestQueue
@@ -187,15 +134,10 @@ static NSMutableDictionary *folders;
     if (tailRequest == nil){
         tailRequest = request;
     }else{
-        
-        
         tailRequest.nextRequest = request;
         request.prevRequest = tailRequest;
-        
-        
         tailRequest = request;
     }
-    
     if (headRequest == nil) {
         headRequest = tailRequest;        
     }    
@@ -212,19 +154,15 @@ static NSMutableDictionary *folders;
         
         request.nextRequest = headRequest.nextRequest;
         request.nextRequest.prevRequest = request;
-        
         headRequest.nextRequest = request;
         request.prevRequest = headRequest.nextRequest;
     }else{
         InfoLog(@"Adding in front of the queue request at least one element already in the queue. Use 'addRequest' otherwise.");
         return;
     }
-    
     if (tailRequest == nil) {
         tailRequest = request;        
     }
-    
-    
 }
 
 -(void) addRequestsFromArray: (NSArray *) array{

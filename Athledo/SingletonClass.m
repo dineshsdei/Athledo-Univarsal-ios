@@ -113,12 +113,26 @@ static SingletonClass *objSingaltonClass=nil;
     return [regExPredicate evaluateWithObject:email];
 }
 #pragma Show Empty Data Messsage in lable
-+(void)deleteUnUsedLableFromTable :(UITableView *)table
++(void)deleteUnUsedLableFromTable :(id)table
 {
-    UILabel *lblTemp= (UILabel *)[table viewWithTag:emptyLableMessagesTag];
-    if (lblTemp !=nil) {
-        [lblTemp removeFromSuperview];
+    if ([table isKindOfClass:[UITableView class]]) {
+        UITableView *tableview = (UITableView *)table;
+        UILabel *lblTemp= (UILabel *)[tableview viewWithTag:emptyLableMessagesTag];
+        if (lblTemp !=nil) {
+            [lblTemp removeFromSuperview];
+        }
+    }else
+    {
+        UIView *view = (UIView *)table;
+        UILabel *lblTemp= (UILabel *)[view viewWithTag:emptyLableMessagesTag];
+        if (lblTemp !=nil) {
+            [lblTemp removeFromSuperview];
+        }
+
+        
     }
+    
+   
 }
 +(UILabel *)ShowEmptyMessage :(NSString *)text
 {
@@ -150,7 +164,7 @@ static SingletonClass *objSingaltonClass=nil;
     lblShowEmptyMessage.text=text;
     lblShowEmptyMessage.tag=emptyLableMessagesTag;
     lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
-    lblShowEmptyMessage.font=(isIPAD )?[UIFont systemFontOfSize:30] : [UIFont systemFontOfSize:24] ;
+    lblShowEmptyMessage.font=(isIPAD )?[UIFont systemFontOfSize:25] : [UIFont systemFontOfSize:20] ;
     lblShowEmptyMessage.textColor=[UIColor grayColor];
     
     return lblShowEmptyMessage;
@@ -324,7 +338,7 @@ static SingletonClass *objSingaltonClass=nil;
 -(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id
 {
     NSMutableDictionary *Userdata;
-    if (![team_id isEqualToString:@""]) {
+    if (![team_id isEqualToString:EMPTYSTRING]) {
         Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,team_id,sport_id] forKeys:@[@"email",@"id",@"type",@"image",@"sender",@"team_id",@"sport_id"]];
     }else{
         

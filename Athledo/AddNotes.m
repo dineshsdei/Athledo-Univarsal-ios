@@ -19,23 +19,9 @@
 @end
 @implementation AddNotes
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:DATE_TIME_FORMAT_MESSAGE];
-    // Do any additional setup after loading the view from its nib.
-    self.title = @"Add Notes";
-    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
-    UIButton *btnShare = [[UIButton alloc] initWithFrame:CGRectMake(150, 5, 44, 44)];
-    UIImage *imageHistory=[UIImage imageNamed:@"add.png"];
-    [btnShare addTarget:self action:@selector(AddNote) forControlEvents:UIControlEventTouchUpInside];
-    [btnShare setImage:imageHistory forState:UIControlStateNormal];
-    UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnShare];
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemHistory, nil];
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor lightGrayColor];
-    
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
@@ -50,6 +36,26 @@
             
         }];
     }];
+    
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:DATE_TIME_FORMAT_MESSAGE];
+    // Do any additional setup after loading the view from its nib.
+    self.title = @"Add Notes";
+    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
+    UIButton *btnShare = [[UIButton alloc] initWithFrame:CGRectMake(150, 5, 44, 44)];
+    UIImage *imageHistory=[UIImage imageNamed:@"add.png"];
+    [btnShare addTarget:self action:@selector(AddNote) forControlEvents:UIControlEventTouchUpInside];
+    [btnShare setImage:imageHistory forState:UIControlStateNormal];
+    UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnShare];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemHistory, nil];
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    
+   
     [self RefreshNotes];
 }
 -(void)viewDidDisappear:(BOOL)animated
@@ -164,6 +170,7 @@
 }
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
+     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
 
@@ -212,10 +219,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isIPAD)
-        return 121;
-    else
-        return 76;
+    return CELLHEIGHT;
 }
 
 #pragma SWTableviewCell delegate
@@ -242,14 +246,14 @@
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
-        [dicttemp setObject:[NSString stringWithFormat:@"%@",@""] forKey:@"id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%@",EMPTYSTRING] forKey:@"id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",[[_objNotes valueForKey:@"user_id"] intValue]] forKey:@"athlete_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",txtViewCurrent.text] forKey:@"notes"];
         [SingletonClass addActivityIndicator:self.view];
         [webservice  WebserviceCallwithDic:dicttemp :webserviceAddNotes :AddNotesTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)EditNotesWebservice:(NSInteger)index
@@ -265,7 +269,7 @@
         [SingletonClass addActivityIndicator:self.view];
         [webservice  WebserviceCallwithDic:dicttemp :webserviceAddNotes :EditNotesTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)RefreshNotes
@@ -274,11 +278,11 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,[_objNotes valueForKey:@"user_id"],@"",@""];
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,[_objNotes valueForKey:@"user_id"],EMPTYSTRING,EMPTYSTRING];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webserviceNotesList :strURL :RefreshNotesTag];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -289,7 +293,7 @@
     {
         case AddNotesTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 [self RefreshNotes];
             }
@@ -297,15 +301,16 @@
         }
         case EditNotesTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                  [self RefreshNotes];
             }
             break;
         }case RefreshNotesTag:
         {
-            if([[MyResults objectForKey:@"status"] isEqualToString:@"success"])
-            {   arrNotesData =[[MyResults objectForKey:@"data"] valueForKey:@"AthleteNote"];
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
+            {   arrNotesData =[[MyResults objectForKey:DATA] valueForKey:@"AthleteNote"];
+                arrNotesData.count == 0 ? [objTableView addSubview:[SingletonClass ShowEmptyMessage:@"No Notes"]] :[SingletonClass deleteUnUsedLableFromTable:objTableView];
                  [objTableView reloadData];
             }
             break;

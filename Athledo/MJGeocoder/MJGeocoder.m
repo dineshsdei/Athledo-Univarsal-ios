@@ -82,7 +82,7 @@
 	NSDictionary *resultDict = [geocodingResponse JSONValue];
     [geocodingResponse release];
     
-	NSString *status = [resultDict valueForKey:@"status"];
+	NSString *status = [resultDict valueForKey:STATUS];
 	if([status isEqualToString:@"OK"]){
 		//if successful, build results array
 		NSArray *foundLocations = [resultDict objectForKey:@"results"];

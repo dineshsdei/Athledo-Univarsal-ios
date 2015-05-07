@@ -110,8 +110,8 @@
     tblList.userInteractionEnabled=YES;
     
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                 NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     SWRevealViewController *revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
@@ -121,7 +121,7 @@
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewWillAppear:NO];
     
     if ([SingletonClass ShareInstance].isWorkOutSectionUpdate == TRUE) {
@@ -164,11 +164,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         self.navigationItem.rightBarButtonItem.enabled=NO;
         self.navigationItem.leftBarButtonItem.enabled=NO;
         btnHistory.userInteractionEnabled=NO;
-        
-        
-        ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-        indicator.tag = ACTIVITYTAG;
-        [self.view addSubview:indicator];
+        [SingletonClass addActivityIndicator:self.view];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"type\":\"%d\",\"sport_id\":\"%d\",\"search\":\{}""}",userInfo.userSelectedTeamid,userInfo.userType,userInfo.userSelectedSportid];
         
@@ -190,14 +186,12 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                                        
                                        self.navigationItem.rightBarButtonItem.enabled=YES;
                                        self.navigationItem.leftBarButtonItem.enabled=YES;
-                                       ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:ACTIVITYTAG];
-                                       if(acti)
-                                           [acti removeFromSuperview];
+                                       [SingletonClass RemoveActivityIndicator:self.view];
                                    }
                                }];
     }else{
         
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
 }
@@ -208,10 +202,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     {
         self.navigationItem.rightBarButtonItem.enabled=NO;
         self.navigationItem.leftBarButtonItem.enabled=NO;
-        
-        ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-        indicator.tag = ACTIVITYTAG;
-        [self.view addSubview:indicator];
+        [SingletonClass addActivityIndicator:self.view];
         
         NSString *strURL = [NSString stringWithFormat:@"{\"workout_id\":\"%d\"}",[[[arrWorkOutData objectAtIndex:Index] objectForKey:@"Workout Id"] intValue]];
         
@@ -235,13 +226,11 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                                        
                                        self.navigationItem.rightBarButtonItem.enabled=YES;
                                        self.navigationItem.leftBarButtonItem.enabled=YES;
-                                       ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:ACTIVITYTAG];
-                                       if(acti)
-                                           [acti removeFromSuperview];
+                                       [SingletonClass RemoveActivityIndicator:self.view];
                                    }
                                }];
     }else{
-        [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 
@@ -257,9 +246,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     self.navigationItem.leftBarButtonItem.enabled=YES;
     btnHistory.userInteractionEnabled=YES;
     // Now remove the Active indicator
-    ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:ACTIVITYTAG];
-    if(acti)
-        [acti removeFromSuperview];
+    [SingletonClass RemoveActivityIndicator:self.view];
     // Now we Need to decrypt data
     NSError *error=nil;
     
@@ -268,28 +255,29 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         [SingletonClass ShareInstance].isWorkOutSectionUpdate =FALSE;
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
         
-        if ([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
         {
-            
+           
             [arrWorkOutData removeAllObjects];
-            NSArray *data=[myResults objectForKey:@"data"] ;
+            NSArray *data=[myResults objectForKey:DATA] ;
             for (int i=0; i< data.count; i++)
             {
                 if ([[data objectAtIndex:i]objectForKey:@"Workout"]) {
                     [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:@"Workout"]];
                 }
             }
+             arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
             [tblList reloadData];
         }else
         {
-            [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
+            [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]];
         }
     }else if (tagNumber == SearchWorkOutTag)
     {
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-        NSArray *data=[myResults objectForKey:@"data"] ;
+        NSArray *data=[myResults objectForKey:DATA] ;
         
-        if ([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
         {
             [arrWorkOutData removeAllObjects];
             for (int i=0; i< data.count; i++)
@@ -299,25 +287,26 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                 }
             }
             [tblList reloadData];
+            arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
             
         }else
         {
-            [self getList];
+            [tblList reloadData];
+            arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
             
-            [SingletonClass initWithTitle:@"" message:@"No Data Found!" delegate:nil btn1:@"Ok"];
         }
     }else if (tagNumber == DeleteWorkOutTag)
     {
         
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
         
-        if ([[myResults objectForKey:@"status"] isEqualToString:@"success"])
+        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
         {
-            [SingletonClass initWithTitle:@"" message:@"Workout has been deleted successfully." delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been deleted successfully." delegate:nil btn1:@"Ok"];
             [self getList];
         }else
         {
-            [SingletonClass initWithTitle:@"" message:@"Try Again!" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Try Again" delegate:nil btn1:@"Ok"];
         }
         
     }
@@ -348,7 +337,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             
             UserInformation *userInfo=[UserInformation shareInstance];
             //Check for empty Text box
-            NSString *strError = @"";
+            NSString *strError = EMPTYSTRING;
             if(theSearchBar.text.length < 1 )
             {
                 strError = @"Please enter searching text";
@@ -356,15 +345,13 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             
             if(strError.length > 1)
             {
-                [SingletonClass initWithTitle:@"" message:strError delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                 return;
                 
             }else{
                 
                 [arrWorkOutData removeAllObjects];
-                ActiveIndicator *indicator = [[ActiveIndicator alloc] initActiveIndicator];
-                indicator.tag = ACTIVITYTAG;
-                [self.view addSubview:indicator];
+                [SingletonClass addActivityIndicator:self.view];
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{\"name\":\"%@\"}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,[theSearchBar.text lowercaseString]];
                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceWorkoutInfo]];
                 [request setHTTPMethod:@"POST"];
@@ -382,9 +369,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                                            {
                                                [self httpResponseReceived:data :SearchWorkOutTag];
                                            }else{
-                                               ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:ACTIVITYTAG];
-                                               if(acti)
-                                                   [acti removeFromSuperview];
+                                               [SingletonClass RemoveActivityIndicator:self.view];
                                            }
                                            
                                        }];
@@ -392,7 +377,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             }
             
         }else{
-            [SingletonClass initWithTitle:@"" message:@"Internet connection is not available" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         }
     }
     [theSearchBar resignFirstResponder];
@@ -425,13 +410,13 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     cell.lblWorkoutName.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Name"];
     cell.lblWorkoutName.font=SmallTextfont;
     
-    cell.lblWorkoutSeason.text=[[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"season"] isEqual:@""] ? @"Off Season" :[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"season"]  ;
+    cell.lblWorkoutSeason.text=[[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"season"] isEqual:EMPTYSTRING] ? @"Off Season" :[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"season"]  ;
     cell.lblWorkoutSeason.font=SmallTextfont;
     
-    cell.lblWorkoutType.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Type"] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Type"] :@"" ;
+    cell.lblWorkoutType.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Type"] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Type"] :EMPTYSTRING ;
     cell.lblWorkoutType.font=SmallTextfont;
     
-    cell.lblWorkoutDate.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Date"] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Date"] :@"" ;
+    cell.lblWorkoutDate.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Date"] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Date"] :EMPTYSTRING ;
     cell.lblWorkoutDate.font=SmallTextfont;
     cell.lblWorkoutCratedBy.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"createdby"] ;
     cell.lblWorkoutCratedBy.font=Textfont;
@@ -467,11 +452,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (isIPAD) {
-        return 110.0f;
-    }else{
-        return 104.0f;
-    }
+    return CELLHEIGHT;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -567,13 +548,13 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    buttonIndex==1 ? [self WebServiceDeleteWorkOut :(int)(alertView.tag)] : @"";
+    buttonIndex==1 ? [self WebServiceDeleteWorkOut :(int)(alertView.tag)] : EMPTYSTRING;
     
 }
 -(void)DeleteWorkOut:(id)sender
 {
     UIButton *btn=sender;
-    [SingletonClass initWithTitle:@"" message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
 }
 - (void)didReceiveMemoryWarning
 {

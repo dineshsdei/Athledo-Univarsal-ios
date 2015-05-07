@@ -68,97 +68,97 @@ UIDeviceOrientation CurrentOrientation;
 // This method used to prepare array or splite sting into array after finaly to create string fron this array from repeat event string
 -(void)SpliteEventString:(NSString *)strEventString
 {
-    NSArray *arrStrTemp=[strEventString componentsSeparatedByString:@"#"];
+    NSArray *arrStrTemp=[strEventString componentsSeparatedByString:STR_HASH];
     //NSString *strBeforeHash=[arrStrTemp objectAtIndex:0];
     NSString *strAfterHash=[arrStrTemp objectAtIndex:1];;
     NSCharacterSet *delimiters = [NSCharacterSet characterSetWithCharactersInString:@"_#"];
     NSArray *components = [strEventString componentsSeparatedByCharactersInSet:delimiters];
     
-    if ([[components objectAtIndex:0] isEqualToString:@"day"]) {
-        strRepeatEvent=@"Daily";
+    if ([[components objectAtIndex:0] isEqualToString:STR_DAY]) {
+        strRepeatEvent=EVENTTYPE_DAILY;
         
-        [arrEventSting insertObject:@"day_" atIndex:0];
-    }else if([[components objectAtIndex:0] isEqualToString:@"week"])
+        [arrEventSting insertObject:STR_DAY_UNDERSCORE atIndex:0];
+    }else if([[components objectAtIndex:0] isEqualToString:STR_WEAK])
     {
-        strRepeatEvent=@"Weekly";
-        [arrEventSting insertObject:@"week_" atIndex:0];
-    }else if([[components objectAtIndex:0] isEqualToString:@"month"])
+        strRepeatEvent=EVENTTYPE_WEEKLY;
+        [arrEventSting insertObject:STR_WEAK_UNDERSCORE atIndex:0];
+    }else if([[components objectAtIndex:0] isEqualToString:STR_MONTH])
     {
-        strRepeatEvent=@"Monthly";
-        [arrEventSting insertObject:@"month_" atIndex:0];
-    }else if([[components objectAtIndex:0] isEqualToString:@"year"])
+        strRepeatEvent=EVENTTYPE_MONTHLY;
+        [arrEventSting insertObject:STR_MONTH_UNDERSCORE atIndex:0];
+    }else if([[components objectAtIndex:0] isEqualToString:STR_YEAR])
     {
-        strRepeatEvent=@"Yearly";
-        [arrEventSting insertObject:@"year_" atIndex:0];
+        strRepeatEvent=EVENTTYPE_YEARLY;
+        [arrEventSting insertObject:STR_YEAR_UNDERSCORE atIndex:0];
     }else{
         
         return;
     }
     
     // occurrences
-    if ([[arrEventSting objectAtIndex:0] isEqualToString:@"day_"]) {
+    if ([[arrEventSting objectAtIndex:0] isEqualToString:STR_DAY_UNDERSCORE]) {
         if (components.count > 1) {
             [arrEventSting insertObject:[components objectAtIndex:1] atIndex:1];
         }
         
-        [arrEventSting insertObject:@"_" atIndex:2];
-        [arrEventSting insertObject:@"_" atIndex:3];
-        [arrEventSting insertObject:@"_" atIndex:4];
-        [arrEventSting insertObject:@"#" atIndex:5];
+        [arrEventSting insertObject:STR_UNDERSCORE atIndex:2];
+        [arrEventSting insertObject:STR_UNDERSCORE atIndex:3];
+        [arrEventSting insertObject:STR_UNDERSCORE atIndex:4];
+        [arrEventSting insertObject:STR_HASH atIndex:5];
         [arrEventSting insertObject:strAfterHash atIndex:6];
         
-    }else  if ([[arrEventSting objectAtIndex:0] isEqualToString:@"week_"])
+    }else  if ([[arrEventSting objectAtIndex:0] isEqualToString:STR_WEAK_UNDERSCORE])
     {
         if (components.count > 1) {
             [arrEventSting insertObject:[components objectAtIndex:1] atIndex:1];
         }
-        [arrEventSting insertObject:@"_" atIndex:2];
-        [arrEventSting insertObject:@"_" atIndex:3];
-        [arrEventSting insertObject:@"_" atIndex:4];
+        [arrEventSting insertObject:STR_UNDERSCORE atIndex:2];
+        [arrEventSting insertObject:STR_UNDERSCORE atIndex:3];
+        [arrEventSting insertObject:STR_UNDERSCORE atIndex:4];
         [arrEventSting insertObject:[components objectAtIndex:components.count-2] atIndex:5];
-        [arrEventSting insertObject:@"#" atIndex:6];
+        [arrEventSting insertObject:STR_HASH atIndex:6];
         [arrEventSting insertObject:strAfterHash atIndex:7];
-    }else  if ([[arrEventSting objectAtIndex:0] isEqualToString:@"month_"])
+    }else  if ([[arrEventSting objectAtIndex:0] isEqualToString:STR_MONTH_UNDERSCORE])
     {
         if (components.count > 1) {
             [arrEventSting insertObject:[components objectAtIndex:1] atIndex:1];
         }
-        if ([[components objectAtIndex:3] isEqualToString:@""]) {
-            [arrEventSting insertObject:@"_" atIndex:2];
-            [arrEventSting insertObject:@"_" atIndex:3];
-            [arrEventSting insertObject:@"_" atIndex:4];
-            [arrEventSting insertObject:@"#" atIndex:5];
+        if ([[components objectAtIndex:3] isEqualToString:EMPTYSTRING]) {
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:2];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:3];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:4];
+            [arrEventSting insertObject:STR_HASH atIndex:5];
             [arrEventSting insertObject:strAfterHash atIndex:6];
         }else{
             
-            [arrEventSting insertObject:@"_" atIndex:2];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:2];
             [arrEventSting insertObject:[components objectAtIndex:2] atIndex:3];
-            [arrEventSting insertObject:@"_" atIndex:4];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:4];
             [arrEventSting insertObject:[components objectAtIndex:3] atIndex:5];
-            [arrEventSting insertObject:@"_" atIndex:6];
-            [arrEventSting insertObject:@"#" atIndex:7];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:6];
+            [arrEventSting insertObject:STR_HASH atIndex:7];
             [arrEventSting insertObject:strAfterHash atIndex:8];
         }
         
-    }else  if ([[arrEventSting objectAtIndex:0] isEqualToString:@"year_"])
+    }else  if ([[arrEventSting objectAtIndex:0] isEqualToString:STR_YEAR_UNDERSCORE])
     {
         // fix 1 value in year case
         [arrEventSting insertObject:@"1" atIndex:1];
         
-        if ([[components objectAtIndex:3] isEqualToString:@""]) {
-            [arrEventSting insertObject:@"_" atIndex:2];
-            [arrEventSting insertObject:@"_" atIndex:3];
-            [arrEventSting insertObject:@"_" atIndex:4];
-            [arrEventSting insertObject:@"#" atIndex:5];
+        if ([[components objectAtIndex:3] isEqualToString:EMPTYSTRING]) {
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:2];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:3];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:4];
+            [arrEventSting insertObject:STR_HASH atIndex:5];
             [arrEventSting insertObject:strAfterHash atIndex:6];
         }else{
             
-            [arrEventSting insertObject:@"_" atIndex:2];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:2];
             [arrEventSting insertObject:[components objectAtIndex:2] atIndex:3];
-            [arrEventSting insertObject:@"_" atIndex:4];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:4];
             [arrEventSting insertObject:[components objectAtIndex:3] atIndex:5];
-            [arrEventSting insertObject:@"_" atIndex:6];
-            [arrEventSting insertObject:@"#" atIndex:7];
+            [arrEventSting insertObject:STR_UNDERSCORE atIndex:6];
+            [arrEventSting insertObject:STR_HASH atIndex:7];
             [arrEventSting insertObject:strAfterHash atIndex:8];
         }
         
@@ -220,7 +220,7 @@ UIDeviceOrientation CurrentOrientation;
         }];
         
     }];
-
+    
     if (isIPAD)
     {
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -232,10 +232,10 @@ UIDeviceOrientation CurrentOrientation;
 - (void)viewDidLoad
 {
     
-    self.title=NSLocalizedString(@"Repeat Event", @"");
+    self.title=NSLocalizedString(@"Repeat Event", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  [UIColor lightGrayColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=[UIColor lightGrayColor];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     
     scrollHeight=0;
     segment.selected=NO;
@@ -244,8 +244,7 @@ UIDeviceOrientation CurrentOrientation;
         
         // Edit event
         
-        // NSString *str=[@"day_1___1,2,3,4,5#no" stringByReplacingOccurrencesOfString:@"1,2,3,4,5" withString:@""];
-        NSString *str=@"";
+        NSString *str=EMPTYSTRING;
         if ([CalendarEvent ShareInstance].strRepeatSting.length > 0)
         {
             str=[CalendarEvent ShareInstance].strRepeatSting;
@@ -255,24 +254,24 @@ UIDeviceOrientation CurrentOrientation;
         }
         
         if (str.length==0) {
-            str=@"day_1___#no";
+            str=DEFAULTSETTING_DAILY;
         }
         
         arrEventSting=[[NSMutableArray alloc] init];
         [self SpliteEventString:str];
-        const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
+        const char *c = str.length > 0 ? [str UTF8String] : [EMPTYSTRING  UTF8String];
         if (c[0]=='d') {
-            strRepeatEvent=@"Daily";
-            [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
+            strRepeatEvent=EVENTTYPE_DAILY;
+            [CalendarEvent ShareInstance].strDailyEventSubType=DAILY_TYPE_NONWORKINGDAY;
             segment.selectedSegmentIndex=0;
         }else  if (c[0]=='w') {
-            strRepeatEvent=@"Weekly";
+            strRepeatEvent=EVENTTYPE_WEEKLY;
             segment.selectedSegmentIndex=1;
         }else  if (c[0]=='m') {
-            strRepeatEvent=@"Monthly";
+            strRepeatEvent=EVENTTYPE_MONTHLY;
             segment.selectedSegmentIndex=2;
         }else  if (c[0]=='y') {
-            strRepeatEvent=@"Yearly";
+            strRepeatEvent=EVENTTYPE_YEARLY;
             segment.selectedSegmentIndex=3;
         }
         
@@ -280,24 +279,24 @@ UIDeviceOrientation CurrentOrientation;
     }else{
         
         // Default setting for Daily event
-        NSString *str=@"day_1___#no";
-        [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
+        NSString *str=DEFAULTSETTING_DAILY;
+        [CalendarEvent ShareInstance].strDailyEventSubType=DAILY_TYPE_NONWORKINGDAY;
         
         if ([CalendarEvent ShareInstance].strRepeatSting.length > 0) {
             str=[CalendarEvent ShareInstance].strRepeatSting;
             
-            const char *c = str.length > 0 ? [str UTF8String] : [@""  UTF8String];
+            const char *c = str.length > 0 ? [str UTF8String] : [EMPTYSTRING  UTF8String];
             if (c[0]=='d') {
-                strRepeatEvent=@"Daily";
+                strRepeatEvent=EVENTTYPE_DAILY;
                 segment.selectedSegmentIndex=0;
             }else  if (c[0]=='w') {
-                strRepeatEvent=@"Weekly";
+                strRepeatEvent=EVENTTYPE_WEEKLY;
                 segment.selectedSegmentIndex=1;
             }else  if (c[0]=='m') {
-                strRepeatEvent=@"Monthly";
+                strRepeatEvent=EVENTTYPE_MONTHLY;
                 segment.selectedSegmentIndex=2;
             }else  if (c[0]=='y') {
-                strRepeatEvent=@"Yearly";
+                strRepeatEvent=EVENTTYPE_YEARLY;
                 segment.selectedSegmentIndex=3;
                 
             }
@@ -313,8 +312,8 @@ UIDeviceOrientation CurrentOrientation;
         
     }
     
-    arrDays=[[NSArray alloc] initWithObjects:@"Sunday",@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday", nil];
-    arrMonths=[[NSArray alloc] initWithObjects:@"January",@"February",@"March",@"April",@"May",@"June",@"July",@"August",@"September",@"October",@"November",@"December", nil];
+    arrDays=[[NSArray alloc] initWithObjects:SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY, nil];
+    arrMonths=[[NSArray alloc] initWithObjects:JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER,nil];
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
@@ -368,20 +367,20 @@ UIDeviceOrientation CurrentOrientation;
 -(NSString *)PrepareEndDateAndRepeatString
 {
     // NO limit case
-    // if ([[arrEventSting objectAtIndex:0] isEqualToString:@"day_"]) {
+    // if ([[arrEventSting objectAtIndex:0] isEqualToString:STR_DAY_UNDERSCORE]) {
     [CalendarEvent ShareInstance].NoOfDay=0;
     [CalendarEvent ShareInstance].NoOfOccurrence=0;
     
     NSArray *arr=@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     if ([[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"])
     {
-        [CalendarEvent ShareInstance].strEndDate=@"9999-02-01 00:00:00";
+        [CalendarEvent ShareInstance].strEndDate=INFINITE_DATE;
         
     }else if ([arr containsObject:[arrEventSting objectAtIndex:arrEventSting.count-1]])
     {
         // if user select no of occurrence
         
-        if ([strRepeatEvent isEqualToString:@"Monthly"] || [strRepeatEvent isEqualToString:@"Yearly"])
+        if ([strRepeatEvent isEqualToString:EVENTTYPE_MONTHLY] || [strRepeatEvent isEqualToString:EVENTTYPE_YEARLY])
         {
             // if user select no of occurrence and repeat type monthly
             
@@ -395,7 +394,6 @@ UIDeviceOrientation CurrentOrientation;
             [self CalculateEndDate];
             
         }else{
-            
             // if user select no of occurrence and repeat type Daily and weekly
             int noOfday=[[arrEventSting objectAtIndex:1] intValue];
             int noOfOccurrence=[[arrEventSting objectAtIndex:arrEventSting.count-1] intValue];
@@ -404,14 +402,14 @@ UIDeviceOrientation CurrentOrientation;
             [CalendarEvent ShareInstance].NoOfOccurrence=noOfOccurrence;
             
         }
-    }else if(strSelectedEndDate.length > 0 && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@""])
+    }else if(strSelectedEndDate.length > 0 && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:EMPTYSTRING])
     {
         // if repeat end on perticular date
         
         [CalendarEvent ShareInstance].strEndDate=strSelectedEndDate ;
     }
     
-    NSString *strRepeat=@"";
+    NSString *strRepeat=EMPTYSTRING;
     
     for (int i=0; i< arrEventSting.count ; i++) {
         
@@ -554,18 +552,18 @@ UIDeviceOrientation CurrentOrientation;
     
     NSInteger btnCkeckedIndex=0;
     
-    if (tableCell.tag==0 && [strRepeatEvent isEqualToString:@"Daily"]) {
+    if (tableCell.tag==0 && [strRepeatEvent isEqualToString:EVENTTYPE_DAILY]) {
         
         for (id obj in arrtemp) {
             
             if ([obj isKindOfClass:[UIButton class]]) {
                 UIButton *btntemp=obj;
                 
-                if (btntemp.tag==1000 && [[arrEventSting objectAtIndex:0] isEqualToString:@"day_"]) {
+                if (btntemp.tag==1000 && [[arrEventSting objectAtIndex:0] isEqualToString:STR_DAY_UNDERSCORE]) {
                     
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
-                }else if (btntemp.tag==1002 && [[arrEventSting objectAtIndex:0] isEqualToString:@"week_"]) {
+                }else if (btntemp.tag==1002 && [[arrEventSting objectAtIndex:0] isEqualToString:STR_WEAK_UNDERSCORE]) {
                     
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
@@ -580,14 +578,14 @@ UIDeviceOrientation CurrentOrientation;
             {
                 UITextField *tftemp=obj;
                 
-                if (![[arrEventSting objectAtIndex:1] isEqualToString:@""])
+                if (![[arrEventSting objectAtIndex:1] isEqualToString:EMPTYSTRING])
                 {
                     tftemp.text=[arrEventSting objectAtIndex:1];
                 }
             }
         }
         
-    }else if (tableCell.tag==0 && [strRepeatEvent isEqualToString:@"Weekly"])
+    }else if (tableCell.tag==0 && [strRepeatEvent isEqualToString:EVENTTYPE_WEEKLY])
     {
         
         for (id obj in arrtemp) {
@@ -607,7 +605,6 @@ UIDeviceOrientation CurrentOrientation;
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3003 && [arrdays containsObject:@"3"]) {
-                    
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3004 && [arrdays containsObject:@"4"]) {
@@ -637,14 +634,14 @@ UIDeviceOrientation CurrentOrientation;
             {
                 UITextField *tftemp=obj;
                 
-                if (![[arrEventSting objectAtIndex:1] isEqualToString:@""])
+                if (![[arrEventSting objectAtIndex:1] isEqualToString:EMPTYSTRING])
                 {
                     tftemp.text=[arrEventSting objectAtIndex:1];
                 }
             }
         }
         
-    }else if(tableCell.tag==2 && [strRepeatEvent isEqualToString:@"Monthly"])
+    }else if(tableCell.tag==2 && [strRepeatEvent isEqualToString:EVENTTYPE_MONTHLY])
     {
         UIButton *btnCheckBoxOne=(UIButton *)[tableCell viewWithTag:4000];
         UIButton *btnCheckBoxOneTwo=(UIButton *)[tableCell viewWithTag:4003];
@@ -655,31 +652,25 @@ UIDeviceOrientation CurrentOrientation;
         UITextField *textfieldFive=(UITextField *)[tableCell viewWithTag:4006];
         // Case 1 when repeat on like (repeat 4 day every 1 month)
         
-        if([[arrEventSting objectAtIndex:3] isEqualToString:@"_"])
+        if([[arrEventSting objectAtIndex:3] isEqualToString:STR_UNDERSCORE])
         {
             [btnCheckBoxOne setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
             btnCheckBoxOne.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
-                
                 textfieldOne.text=@"1";
                 textfieldTwo.text=@"1";
-                
             }else{
-                
                 textfieldOne.text=[self CalculateRepeatDayValue];
                 textfieldTwo.text=[arrEventSting objectAtIndex:1];
             }
             [self CalculateStartDate_On_Given_MonthDay:[textfieldOne.text intValue]];
             // Case 2 when repeat on like (on 1 monday every 1 month)
-            
         }else{
-            
             [btnCheckBoxOneTwo setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
             btnCheckBoxOneTwo.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
-                
                 textfieldThree.text=@"1";
-                textfieldFour.text=@"Monday";
+                textfieldFour.text=MONDAY;
                 textfieldFive.text=@"1";
                 
             }else{
@@ -690,10 +681,7 @@ UIDeviceOrientation CurrentOrientation;
             }
             [self CalculateStartDate_On_Given_WeekDay:textfieldFour.text :[CalendarEvent ShareInstance].strActualStartDate];
         }
-        
-        
-        
-    }else if(tableCell.tag==2 && [strRepeatEvent isEqualToString:@"Yearly"])
+    }else if(tableCell.tag==2 && [strRepeatEvent isEqualToString:EVENTTYPE_YEARLY])
     {
         UIButton *btnCheckBoxOne=(UIButton *)[tableCell viewWithTag:5000];
         UIButton *btnCheckBoxOneTwo=(UIButton *)[tableCell viewWithTag:5003];
@@ -702,107 +690,77 @@ UIDeviceOrientation CurrentOrientation;
         UITextField *textfieldThree=(UITextField *)[tableCell viewWithTag:5004];
         UITextField *textfieldFour=(UITextField *)[tableCell viewWithTag:5005];
         UITextField *textfieldFive=(UITextField *)[tableCell viewWithTag:5006];
-        
-        
         // Case 1 when repeat on like (repeat 4 day every 1 month)
-        
-        if([[arrEventSting objectAtIndex:3] isEqualToString:@"_"])
+        if([[arrEventSting objectAtIndex:3] isEqualToString:STR_UNDERSCORE])
         {
             [btnCheckBoxOne setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
             btnCheckBoxOne.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
-                
                 textfieldOne.text=@"1";
                 textfieldTwo.text=@"January";
-                
             }else{
-                
                 textfieldOne.text=[self CalculateRepeatDayValue];
                 textfieldTwo.text=[self CalculateRepeatMonthValue_YearCase];;
             }
             [self CalculateStartDate_On_Given_MonthDay_YearlyCase:[textfieldOne.text intValue]:[self IndexOfMonth:textfieldTwo.text]];
             // Case 2 when repeat on like (on 1 monday every 1 month)
-            
         }else{
-            
             [btnCheckBoxOneTwo setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
             btnCheckBoxOneTwo.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
-                
                 textfieldThree.text=@"1";
-                textfieldFour.text=@"Monday";
+                textfieldFour.text=MONDAY;
                 textfieldFive.text=@"January";
-                
             }else{
-                
                 textfieldThree.text=[arrEventSting objectAtIndex:5];
                 textfieldFour.text=[self DayOnIndex:[[arrEventSting objectAtIndex:3] intValue]];
                 textfieldFive.text=[self CalculateMonthFronStartDate_YearlyCase];
             }
-            
             [self CalculateStartDate_On_Given_WeekDay_YearlyCase:[self IndexOfMonth:textfieldFive.text] :[CalendarEvent ShareInstance].strActualStartDate];
         }
-        
-        
-    }else  if (tableCell.tag==1 )
-    {
+    }else  if (tableCell.tag==1 ){
         for (id obj in arrtemp) {
-            
             if ([obj isKindOfClass:[UIButton class]]) {
                 UIButton *btntemp=obj;
-                
                 if (btntemp.tag==2000 && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"]) {
                     
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
                     btnCkeckedIndex=btntemp.tag;
-                }else if (btntemp.tag==2001 && (![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"] && ![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@""])) {
+                }else if (btntemp.tag==2001 && (![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"] && ![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:EMPTYSTRING])) {
                     
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
                     btnCkeckedIndex=btntemp.tag;
-                }else if (btntemp.tag==2003 && (![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"] && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@""])) {
+                }else if (btntemp.tag==2003 && (![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"] && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:EMPTYSTRING])) {
                     
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
                     btnCkeckedIndex=btntemp.tag;
-                    
                 }else{
-                    
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
                     btntemp.selected=NO;
                     btnCkeckedIndex=0;
                 }
             }
-            
             if ([obj isKindOfClass:[UITextField class]]) {
                 UITextField *tftemp=obj;
-                
                 if ( tftemp.tag==2004) {
-                    
                     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
                     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
-                    
                     if ([CalendarEvent ShareInstance].strEndDate.length > 0) {
-                        
                         NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strEndDate];
                         tftemp.text=[formatter stringFromDate:date];
-                        
                     }else{
-                        
                         tftemp.text=[NSString stringWithFormat:@"%@",[formatter stringFromDate:[NSDate date] ]];
                     }
-                    
                 }else if ( tftemp.tag==2002){
-                    
                     NSArray *arr=@[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
-                    
                     if ([arr containsObject:[arrEventSting objectAtIndex:arrEventSting.count-1]]) {
                         tftemp.text=[arrEventSting objectAtIndex:arrEventSting.count-1];
                     }else
                     {
                         tftemp.text=@"4";
-                        
                     }
                 }
             }
@@ -810,19 +768,13 @@ UIDeviceOrientation CurrentOrientation;
     }
     return tableCell;
 }
-
--(NSString *)DayOnIndex :(int)Index
-{
+-(NSString *)DayOnIndex :(int)Index{
     return [arrDays objectAtIndex:Index];
 }
-
--(NSString *)MonthsOnIndex :(int)Index
-{
+-(NSString *)MonthsOnIndex :(int)Index{
     return [arrMonths objectAtIndex:Index];
 }
-
--(NSString *)IndexOfDay :(NSString *)day
-{
+-(NSString *)IndexOfDay :(NSString *)day{
     NSString *strday;
     for (int i=0; i < arrDays.count; i++) {
         
@@ -834,8 +786,7 @@ UIDeviceOrientation CurrentOrientation;
     return strday;
 }
 
--(NSString *)IndexOfMonth :(NSString *)month
-{
+-(NSString *)IndexOfMonth :(NSString *)month{
     NSString *strday;
     for (int i=0; i < arrMonths.count; i++) {
         
@@ -848,8 +799,7 @@ UIDeviceOrientation CurrentOrientation;
     return strday;
 }
 //IN case year we will selected
--(NSString *)CalculateRepeatMonthValue_YearCase
-{
+-(NSString *)CalculateRepeatMonthValue_YearCase{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     
@@ -864,111 +814,72 @@ UIDeviceOrientation CurrentOrientation;
 
 // when edit event and startdate is given , to show no of day in textfield
 
--(NSString *)CalculateRepeatDayValue
-{
+-(NSString *)CalculateRepeatDayValue{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
-    
     NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strStartDate];
-    
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:(NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekdayOrdinalCalendarUnit | NSDayCalendarUnit) fromDate:date];
-    
-    // NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
-    
+    // NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components]
     NSString *strday=[NSString stringWithFormat:@"%d",(int)(components.day)];
-    
     return strday;
 }
 
 // when edit event and startdate is given , to show no of month in textfield
 
--(NSString *)CalculateRepeatMonthValue
-{
+-(NSString *)CalculateRepeatMonthValue{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
-    
     NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strStartDate];
-    
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:(NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekdayOrdinalCalendarUnit | NSDayCalendarUnit) fromDate:date];
-    
     // NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
-    
     NSString *strday=[NSString stringWithFormat:@"%d",(int)(components.month)];
-    
     return strday;
 }
-
 #pragma mark- TableviewDelegate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     return 2;
 }
-
--(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     // NSString *CellIdentifier =[NSString stringWithFormat:@"Cell%i %i",indexPath.section, indexPath.row];
     //AddWorkOutCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     static NSString *CellIdentifier = @"RepeatEventCell";
     static NSString *CellNib = @"RepeatEventCell";
-    
     cell = (RepeatEventCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     ;
-    
     if (nib == nil) {
-        
         nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         // [cell.contentView setUserInteractionEnabled:NO];
     }
-    
     if (indexPath.section==0) {
-        if ([strRepeatEvent isEqualToString:@"Daily"]) {
-            
+        if ([strRepeatEvent isEqualToString:EVENTTYPE_DAILY]) {
             CellIndex=0;
-            
-        }else if ([strRepeatEvent isEqualToString:@"Weekly"]) {
-            
+        }else if ([strRepeatEvent isEqualToString:EVENTTYPE_WEEKLY]) {
             CellIndex=2;
-            
-        }else if ([strRepeatEvent isEqualToString:@"Monthly"]) {
+        }else if ([strRepeatEvent isEqualToString:EVENTTYPE_MONTHLY]) {
             CellIndex=1;
-            
-        }else if ([strRepeatEvent isEqualToString:@"Yearly"]) {
-            
+        }else if ([strRepeatEvent isEqualToString:EVENTTYPE_YEARLY]) {
             CellIndex=3;
         }
-        
     }else{
-        
         CellIndex=4;
     }
-    
     cell=[self UpdateCellValues:(RepeatEventCell *)[nib objectAtIndex:CellIndex]];
     cell.sectionIndex=indexPath.section;
-    
-    // cell = (RepeatEventCell *)[nib objectAtIndex:CellIndex];
-    //strRepeatEvent=@"";
-    
     nib=nil;
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     cell.backgroundColor=[UIColor clearColor];
-    
     cell.tag=indexPath.section;
     UIDeviceOrientation orientation=[[SingletonClass ShareInstance] CurrentOrientation:self];
     UIImageView *img1;
     if (isIPAD) {
-        
         if ((orientation==UIDeviceOrientationLandscapeLeft) || orientation == UIDeviceOrientationLandscapeRight) {
-            
             img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,137, self.view.frame.size.width, 1)];
         }else{
             img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,137, self.view.frame.size.width, 1)];
@@ -976,27 +887,20 @@ UIDeviceOrientation CurrentOrientation;
     }else{
         img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,137, self.view.frame.size.width, 1)];
     }
-    
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     if(indexPath.section==0)
         [cell addSubview:img1];
     cell.delegate=self;
-    
     return cell;
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section==0) {
-        
         if (isIPAD) {
             return 135;
-        }else
-        {
+        }else{
             return 135;
         }
-    }else if (indexPath.section == 1)
-    {
+    }else if (indexPath.section == 1){
         if (isIPAD) {
             return 140;
         }else{
@@ -1004,15 +908,11 @@ UIDeviceOrientation CurrentOrientation;
         }
     }
     return 120;
-    
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-}
-
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     //    NSArray *arrController=[self.navigationController viewControllers];
     //
     //    for (id object in arrController) {
@@ -1022,60 +922,48 @@ UIDeviceOrientation CurrentOrientation;
     //    }
     
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 - (IBAction)ValueChange:(id)sender {
-    
     UISegmentedControl *objSegment=(UISegmentedControl *)sender;
     [self doneClicked ];
-    
     if (objSegment.selectedSegmentIndex==0) {
-        strRepeatEvent=@"Daily";
-        NSString *str=@"day_1___#no";
-        [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
-        
+        strRepeatEvent=EVENTTYPE_DAILY;
+        NSString *str=DEFAULTSETTING_DAILY;
+        [CalendarEvent ShareInstance].strDailyEventSubType=DAILY_TYPE_NONWORKINGDAY;
         [arrEventSting removeAllObjects];
         [self SpliteEventString:str];
         
     }else if (objSegment.selectedSegmentIndex==1) {
-        strRepeatEvent=@"Weekly";
-        NSString *str=@"week_1___1,2,3,4,5,#no";
+        strRepeatEvent=EVENTTYPE_WEEKLY;
+        NSString *str=DEFAULTSETTING_WEEKLY;
         [arrEventSting removeAllObjects];
         [self SpliteEventString:str];
-        [arrEventSting replaceObjectAtIndex:5 withObject:@""];
-        
-        
+        [arrEventSting replaceObjectAtIndex:5 withObject:EMPTYSTRING];
     }else if (objSegment.selectedSegmentIndex==2) {
-        strRepeatEvent=@"Monthly";
+        strRepeatEvent=EVENTTYPE_MONTHLY;
         NSString *str=@"month_1___#no";
         [arrEventSting removeAllObjects];
         [self SpliteEventString:str];
         
     }else if (objSegment.selectedSegmentIndex==3) {
-        strRepeatEvent=@"Yearly";
+        strRepeatEvent=EVENTTYPE_YEARLY;
         NSString *str=@"year_1___#no";
         [arrEventSting removeAllObjects];
         [self SpliteEventString:str];
-        
-    }
-    
-    [_tableview reloadData];
+     }
+      [_tableview reloadData];
 }
 
--(void)CreateRepeatString :(NSString *)eventType :(NSInteger)checkBoxIndex :(id)objControl
-{
+-(void)CreateRepeatString :(NSString *)eventType :(NSInteger)checkBoxIndex :(id)objControl{
     UITextField *textfield=objControl;
     RepeatEventCell *tempcell;
-    
     if(iosVersion < 8)
     {
         // Find cell object , when ios version is less than ios8
-        
         UIView* contentView =[textfield superview];
         CGPoint center = [self.tableview convertPoint:textfield.center fromView:contentView];
         NSIndexPath *indexpath =[self.tableview indexPathForRowAtPoint:center];
@@ -1089,35 +977,29 @@ UIDeviceOrientation CurrentOrientation;
     {
         // if cell tag is 0 for cell section 0
         
-        if ([eventType isEqualToString:@"Daily"])
+        if ([eventType isEqualToString:EVENTTYPE_DAILY])
         {
             UIButton *btnOne=(UIButton *)[tempcell viewWithTag:1000];
             UITextField *textfield=(UITextField *)[tempcell viewWithTag:1001];
             UIButton *btnTwo=(UIButton *)[tempcell viewWithTag:1002];
-            
             if (btnOne.selected==YES && textfield.text.length > 0)
             {
-                [arrEventSting replaceObjectAtIndex:0 withObject:@"day_"];
-                [CalendarEvent ShareInstance].strDailyEventSubType=@"nonworkingday";
+                [arrEventSting replaceObjectAtIndex:0 withObject:STR_DAY_UNDERSCORE];
+                [CalendarEvent ShareInstance].strDailyEventSubType=DAILY_TYPE_NONWORKINGDAY;
                 [arrEventSting replaceObjectAtIndex:1 withObject:textfield.text];
                 
                 if (arrEventSting.count > 5 && [[arrEventSting objectAtIndex:5] isEqualToString:@"1,2,3,4,5"])
                 {
-                    
-                    [arrEventSting removeObjectAtIndex:5];
-                    
+                  [arrEventSting removeObjectAtIndex:5];
                 }
-                
             }else if( btnTwo.selected==YES)
             {
-                [CalendarEvent ShareInstance].strDailyEventSubType=@"workingday";
-                [arrEventSting replaceObjectAtIndex:0 withObject:@"week_"];
+                [CalendarEvent ShareInstance].strDailyEventSubType=DAILY_TYPE_WORKINGDAY;
+                [arrEventSting replaceObjectAtIndex:0 withObject:STR_WEAK_UNDERSCORE];
                 [arrEventSting replaceObjectAtIndex:1 withObject:@"1"];
                 [arrEventSting insertObject:@"1,2,3,4,5" atIndex:5];
-                
             }
-        }else if ([eventType isEqualToString:@"Weekly"]) {
-            
+        }else if ([eventType isEqualToString:EVENTTYPE_WEEKLY]) {
             UITextField *textfield=(UITextField *)[tempcell viewWithTag:3000];
             UIButton *btnCheckBoxOne=(UIButton *)[tempcell viewWithTag:3001];
             UIButton *btnCheckBoxOneTwo=(UIButton *)[tempcell viewWithTag:3002];
@@ -1126,12 +1008,9 @@ UIDeviceOrientation CurrentOrientation;
             UIButton *btnCheckBoxFive=(UIButton *)[tempcell viewWithTag:3005];
             UIButton *btnCheckBoxOneSix=(UIButton *)[tempcell viewWithTag:3006];
             UIButton *btnCheckBoxSeaven=(UIButton *)[tempcell viewWithTag:3007];
-            
-            [arrEventSting replaceObjectAtIndex:0 withObject:@"week_"];
+            [arrEventSting replaceObjectAtIndex:0 withObject:STR_WEAK_UNDERSCORE];
             [arrEventSting replaceObjectAtIndex:1 withObject:textfield.text];
-            
-            NSString *strTemp=@"";
-            
+            NSString *strTemp=EMPTYSTRING;
             if (btnCheckBoxOne.selected==YES) {
                 strTemp=[strTemp stringByAppendingString:@"1,"];
             }
@@ -1163,7 +1042,7 @@ UIDeviceOrientation CurrentOrientation;
                 [arrEventSting replaceObjectAtIndex:5 withObject:strTemp];
                 
             }
-        }else if ([eventType isEqualToString:@"Monthly"]) {
+        }else if ([eventType isEqualToString:EVENTTYPE_MONTHLY]) {
             
             [arrEventSting removeAllObjects];
             UIButton *btnCheckBoxOne=(UIButton *)[tempcell viewWithTag:4000];
@@ -1177,31 +1056,31 @@ UIDeviceOrientation CurrentOrientation;
             if (btnCheckBoxOne.selected==YES) {
                 NSString *str=@"month_1___#no";
                 if ([CalendarEvent ShareInstance].strRepeatSting.length==0) {
-                    str=@"month_1_1_1_#no";
+                    str=DEFAULTSETTING_MONTHLY;
                 }else{
                     str=[CalendarEvent ShareInstance].strRepeatSting;
                 }
                 [self SpliteEventString:str];
-                [arrEventSting replaceObjectAtIndex:0 withObject:@"month_"];
+                [arrEventSting replaceObjectAtIndex:0 withObject:STR_MONTH_UNDERSCORE];
                 [arrEventSting replaceObjectAtIndex:1 withObject:textfieldTwo.text];
                 [self CalculateStartDate_On_Given_MonthDay:[textfieldOne.text intValue]];
             }else{
                 
-                NSString *str=@"month_1_1_1_#no";
+                NSString *str=DEFAULTSETTING_MONTHLY;
                 if ([CalendarEvent ShareInstance].strRepeatSting.length==0) {
-                    str=@"month_1_1_1_#no";
+                    str=DEFAULTSETTING_MONTHLY;
                 }else{
                     str=[CalendarEvent ShareInstance].strRepeatSting;
                 }
                 [self SpliteEventString:str];
-                [arrEventSting replaceObjectAtIndex:0 withObject:@"month_"];
+                [arrEventSting replaceObjectAtIndex:0 withObject:STR_MONTH_UNDERSCORE];
                 [arrEventSting replaceObjectAtIndex:1 withObject:textfieldFive.text];
                 [arrEventSting replaceObjectAtIndex:3 withObject:[self IndexOfDay:textfieldFour.text]];
                 [arrEventSting replaceObjectAtIndex:5 withObject:textfieldThree.text];
                 
                 [self CalculateStartDate_On_Given_WeekDay:textfieldFour.text :[CalendarEvent ShareInstance].strActualStartDate];
             }
-        }else if ([eventType isEqualToString:@"Yearly"])
+        }else if ([eventType isEqualToString:EVENTTYPE_YEARLY])
         {
             [arrEventSting removeAllObjects];
             UIButton *btnCheckBoxOne=(UIButton *)[tempcell viewWithTag:5000];
@@ -1214,7 +1093,7 @@ UIDeviceOrientation CurrentOrientation;
             // UITextField *textfieldSix=(UITextField *)[tempcell viewWithTag:4007];
             if (btnCheckBoxOne.selected==YES) {
                 
-                NSString *str=@"";
+                NSString *str=EMPTYSTRING;
                 if ([CalendarEvent ShareInstance].strRepeatSting.length==0) {
                     str=@"year_1___#no";
                     [self CellUpdate];
@@ -1223,20 +1102,20 @@ UIDeviceOrientation CurrentOrientation;
                 }
                 
                 [self SpliteEventString:str];
-                [arrEventSting replaceObjectAtIndex:0 withObject:@"year_"];
+                [arrEventSting replaceObjectAtIndex:0 withObject:STR_YEAR_UNDERSCORE];
                 [self CalculateStartDate_On_Given_MonthDay_YearlyCase:[textfieldOne.text intValue]:[self IndexOfMonth:textfieldTwo.text ]];
                 
             }else{
                 
-                NSString *str=@"year_1_1_1_#no";
+                NSString *str=DEFAULTSETTING_YEARLY;
                 if ([CalendarEvent ShareInstance].strRepeatSting.length==0) {
-                    str=@"year_1_1_1_#no";
+                    str=DEFAULTSETTING_YEARLY;
                     [self CellUpdate];
                 }else{
                     str=[CalendarEvent ShareInstance].strRepeatSting;
                 }
                 [self SpliteEventString:str];
-                [arrEventSting replaceObjectAtIndex:0 withObject:@"year_"];
+                [arrEventSting replaceObjectAtIndex:0 withObject:STR_YEAR_UNDERSCORE];
                 [arrEventSting replaceObjectAtIndex:3 withObject:[self IndexOfDay:textfieldFour.text]];
                 [arrEventSting replaceObjectAtIndex:5 withObject:textfieldThree.text];
                 
@@ -1261,14 +1140,13 @@ UIDeviceOrientation CurrentOrientation;
             [arrEventSting replaceObjectAtIndex:arrEventSting.count-1 withObject:textfieldOne.text];
         }else if (btnThree.selected==YES && textfieldTwo.text.length > 0)
         {
-            [arrEventSting replaceObjectAtIndex:arrEventSting.count-1 withObject:@""];
+            [arrEventSting replaceObjectAtIndex:arrEventSting.count-1 withObject:EMPTYSTRING];
             strSelectedEndDate=textfieldTwo.text;
         }
     }
 }
 
--(NSString *)CalculateDateFronStartDate_YearlyCase :(int)nth_Day
-{
+-(NSString *)CalculateDateFronStartDate_YearlyCase :(int)nth_Day{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     
@@ -1277,14 +1155,11 @@ UIDeviceOrientation CurrentOrientation;
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [gregorian components:(NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSWeekdayOrdinalCalendarUnit | NSDayCalendarUnit) fromDate:date];
     components.week=nth_Day;
-    
-    
     return [self DayOnIndex:(int)components.day];
 }
 
 
--(NSString *)CalculateMonthFronStartDate_YearlyCase
-{
+-(NSString *)CalculateMonthFronStartDate_YearlyCase{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     
@@ -1297,8 +1172,7 @@ UIDeviceOrientation CurrentOrientation;
 }
 
 
--(void)CalculateStartDate_On_Given_MonthDay_YearlyCase :(int)monthDay :(NSString *)month
-{
+-(void)CalculateStartDate_On_Given_MonthDay_YearlyCase :(int)monthDay :(NSString *)month{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     [CalendarEvent ShareInstance].strStartDate=[CalendarEvent ShareInstance].strActualStartDate;
@@ -1314,8 +1188,8 @@ UIDeviceOrientation CurrentOrientation;
     
     [CalendarEvent ShareInstance].strStartDate=[formatter stringFromDate:dayOneInCurrentMonth];
 }
--(void)CalculateStartDate_On_Given_MonthDay :(int)monthDay
-{
+-(void)CalculateStartDate_On_Given_MonthDay :(int)monthDay{
+    
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     [CalendarEvent ShareInstance].strStartDate=[CalendarEvent ShareInstance].strActualStartDate;
@@ -1327,8 +1201,7 @@ UIDeviceOrientation CurrentOrientation;
     [CalendarEvent ShareInstance].strStartDate=[formatter stringFromDate:dayOneInCurrentMonth];
 }
 
--(void)CalculateStartDate_On_Given_WeekDay_YearlyCase :(NSString *)Month :(NSString*)Startdate
-{
+-(void)CalculateStartDate_On_Given_WeekDay_YearlyCase :(NSString *)Month :(NSString*)Startdate{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     
@@ -1351,8 +1224,7 @@ UIDeviceOrientation CurrentOrientation;
     [CalendarEvent ShareInstance].strStartDate=[formatter stringFromDate:EventStartDate];
     formatter=nil;
 }
--(void)CalculateStartDate_On_Given_WeekDay :(NSString *)DayName :(NSString*)Startdate
-{
+-(void)CalculateStartDate_On_Given_WeekDay :(NSString *)DayName :(NSString*)Startdate{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     
@@ -1379,8 +1251,7 @@ UIDeviceOrientation CurrentOrientation;
     
     formatter=nil;
 }
--(NSString *)DateAfter_Nth_Year_Interval :(int)Interval
-{
+-(NSString *)DateAfter_Nth_Year_Interval :(int)Interval{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strStartDate];
@@ -1392,8 +1263,7 @@ UIDeviceOrientation CurrentOrientation;
     return strDate;
 }
 
--(NSString *)DateAfter_Nth_Interval :(int)Interval
-{
+-(NSString *)DateAfter_Nth_Interval :(int)Interval{
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strStartDate];
@@ -1402,28 +1272,20 @@ UIDeviceOrientation CurrentOrientation;
     components.month=components.month+Interval;
     NSDate *dayOneInCurrentMonth = [gregorian dateFromComponents:components];
     NSString *strDate=[formatter stringFromDate:dayOneInCurrentMonth];
-    
     return strDate;
 }
-
 // Calculate end date of monthly repeat event
-
--(void)CalculateEndDate
-{
-    if ([strRepeatEvent isEqualToString:@"Monthly"])
-    {
+-(void)CalculateEndDate{
+    if ([strRepeatEvent isEqualToString:EVENTTYPE_MONTHLY]){
         // end date for case repeat nth day of every nth month
-        if ([[arrEventSting objectAtIndex:3] isEqualToString:@"_"]) {
-            
+        if ([[arrEventSting objectAtIndex:3] isEqualToString:STR_UNDERSCORE]) {
             int NoOfMonth=[[arrEventSting objectAtIndex:1] intValue];
             [CalendarEvent ShareInstance].NoOfOccurrence=[[arrEventSting objectAtIndex:arrEventSting.count-1] intValue];
             int endDateAfter=NoOfMonth*[CalendarEvent ShareInstance].NoOfOccurrence;
             [CalendarEvent ShareInstance].strEndDate=[self DateAfter_Nth_Interval:endDateAfter];
-            
             // end date for case repeat nth weekday of every nth month interval
         }
-        else
-        {
+        else{
             NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
             [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
             NSString *dayName=[arrEventSting objectAtIndex:3];
@@ -1448,33 +1310,24 @@ UIDeviceOrientation CurrentOrientation;
             [CalendarEvent ShareInstance].strEndDate=[formatter stringFromDate:EventEndDate];
             formatter=nil;
         }
-        
-    }else if ([strRepeatEvent isEqualToString:@"Yearly"])
-    {
+    }else if ([strRepeatEvent isEqualToString:EVENTTYPE_YEARLY]){
         // When repeat type yearly
         // end date for case repeat nth day of every nth month
-        if ([[arrEventSting objectAtIndex:3] isEqualToString:@"_"]) {
-            
+        if ([[arrEventSting objectAtIndex:3] isEqualToString:STR_UNDERSCORE]) {
             int NoOfMonth=[[arrEventSting objectAtIndex:1] intValue];
             [CalendarEvent ShareInstance].NoOfOccurrence=[[arrEventSting objectAtIndex:arrEventSting.count-1] intValue];
             int endDateAfter=NoOfMonth*[CalendarEvent ShareInstance].NoOfOccurrence;
             [CalendarEvent ShareInstance].strEndDate=[self DateAfter_Nth_Year_Interval:endDateAfter];
-            
             // end date for case repeat nth weekday of every nth month interval
         }
-        else
-        {
+        else{
             NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
             [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
-            
             NSString *dayName=[arrEventSting objectAtIndex:3];
-            
             NSString *DayNumber=dayName ;
             NSString *nth_Week=[arrEventSting objectAtIndex:5];
-            
             int after_nth_month=([CalendarEvent ShareInstance].NoOfOccurrence * [[arrEventSting objectAtIndex:arrEventSting.count-1] intValue]);
             NSString *dateAfterInterval=[self DateAfter_Nth_Year_Interval:after_nth_month];
-            
             NSDate *date=[formatter dateFromString:dateAfterInterval];
             [formatter setDateFormat:DATE_FORMAT_Y_M_D];
             NSArray *dateComponents=[[formatter stringFromDate:date] componentsSeparatedByString:@"-"];
@@ -1493,57 +1346,43 @@ UIDeviceOrientation CurrentOrientation;
     }
 }
 
--(void)CellUpdate
-{
+-(void)CellUpdate{
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
     RepeatEventCell *tempcell=(RepeatEventCell *)[_tableview cellForRowAtIndexPath:indexPath];
-    
     UIButton *btnOne=(UIButton *)[tempcell viewWithTag:2000];
     [btnOne setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
     btnOne.selected=YES;
-    
     UIButton *btnTwo=(UIButton *)[tempcell viewWithTag:2001];
     UIButton *btnThree=(UIButton *)[tempcell viewWithTag:2003];
-    
     [btnTwo setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
     btnTwo.selected=NO;
     [btnThree setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
     btnThree.selected=NO;
 }
-
 #pragma mark- cell delegate
-
--(void)comboBoxBoxClick:(id)sender
-{
-    [CalendarEvent ShareInstance].strRepeatSting=@"";
+-(void)comboBoxBoxClick:(id)sender{
+    [CalendarEvent ShareInstance].strRepeatSting=EMPTYSTRING;
     UIButton *btn=sender;
     NSArray *arrtemp=[[sender superview] subviews];
-    
-    for (id obj in arrtemp)
-    {
+    for (id obj in arrtemp){
         if ([obj isKindOfClass:[UIButton class]]) {
             UIButton *btntemp=obj;
-            
             if (btntemp.selected==YES) {
                 [btntemp setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
                 btntemp.selected=NO;
             }
         }
     }
-    
     [btn setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
     btn.selected=YES;
     [self CreateRepeatString:strRepeatEvent :btn.tag :sender];
 }
--(void)checkBoxClick:(id)sender
-{
+-(void)checkBoxClick:(id)sender{
     UIButton *btn=sender;
-    if (btn.isSelected)
-    {
+    if (btn.isSelected){
         [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
         btn.selected=NO;
-    }else
-    {
+    }else{
         [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
         btn.selected=YES;
     }
@@ -1551,8 +1390,7 @@ UIDeviceOrientation CurrentOrientation;
 }
 
 #pragma mark- UITextfield Delegate
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     currentText=textField;
     textField.keyboardType=UIKeyboardTypeNumberPad;
@@ -1567,8 +1405,7 @@ UIDeviceOrientation CurrentOrientation;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
         return NO;
-    }else  if (isDay)
-    {
+    }else  if (isDay){
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [listPicker reloadComponent:0];
         [self ShowPickerSelection:arrDays];
@@ -1576,7 +1413,6 @@ UIDeviceOrientation CurrentOrientation;
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
         return NO;
     }else if ([textField.placeholder isEqualToString:@"Date"]) {
-        
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
         currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
@@ -1590,24 +1426,19 @@ UIDeviceOrientation CurrentOrientation;
     }
     return YES;
 }
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
 }
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
+-(void)textFieldDidEndEditing:(UITextField *)textField{
     [textField resignFirstResponder];
     if (textField.text.length==0) {
-        [SingletonClass initWithTitle:@"" message:@"Please enter value" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter value" delegate:nil btn1:@"Ok"];
     }else{
-        
         [self CreateRepeatString:strRepeatEvent :0:textField];
         // [_tableview reloadData];
     }
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
 }
