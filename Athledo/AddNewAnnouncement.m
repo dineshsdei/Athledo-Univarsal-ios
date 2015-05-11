@@ -336,13 +336,10 @@ UIDeviceOrientation CurrentOrientation;
         // Now we Need to decrypt data
         NSError *error=nil;
         if (tagNumber == GetGroupsTag) {
-            
             NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-            
             if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 AllGroupData=[[myResults  objectForKey:DATA]valueForKey:@"Group"]  ;
-                
                 if (AllGroupData.count>0) {
                     NSArray *arr = [AllGroupData allValues];
                     

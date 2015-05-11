@@ -526,14 +526,9 @@
                                                object:playerVC.moviePlayer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerDidExitFullscreen:) name:MPMoviePlayerDidExitFullscreenNotification object:nil];
-    
-    // Set the modal transition style of your choice
     playerVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    
     // Present the movie player view controller
     [self presentViewController:playerVC animated:YES completion:nil];
-    // Start playbac0k
-    
     [playerVC.moviePlayer prepareToPlay];
     [playerVC.moviePlayer setCurrentPlaybackRate:2.0f];
     [playerVC.moviePlayer play];
@@ -578,7 +573,7 @@
     [self PlayVideo:tableView];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return CELLHEIGHT;
+    return 117;
 }
 #pragma mark- UIPickerView
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{

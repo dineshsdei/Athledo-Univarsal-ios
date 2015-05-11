@@ -300,14 +300,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(isIPAD)
-    {
-        return 111;
-        
-    }else{
-        
-        return CELLHEIGHT;
-    }
+    return CELLHEIGHT;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

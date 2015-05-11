@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="zxo-qn-pji">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="zxo-qn-pji">
                         <rect key="frame" x="77" y="8" width="266" height="152"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="266" id="YFW-hJ-e94"/>
@@ -30,7 +30,7 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="highlightedColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="NjH-De-zNo">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" misplaced="YES" image="profile_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="NjH-De-zNo">
                         <rect key="frame" x="445" y="7" width="266" height="150"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="266" id="HEw-05-oVA"/>

@@ -236,14 +236,11 @@ UIDeviceOrientation CurrentOrientation;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
-    
     scrollHeight=0;
     segment.selected=NO;
     
     if (_obj) {
-        
         // Edit event
-        
         NSString *str=EMPTYSTRING;
         if ([CalendarEvent ShareInstance].strRepeatSting.length > 0)
         {
@@ -347,11 +344,8 @@ UIDeviceOrientation CurrentOrientation;
     // [btnSave setBackgroundImage:imageEdit forState:UIControlStateNormal];
     [btnSave setTitle:@"Done" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
-    
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    
 }
 -(void)dateChange
 {
@@ -359,9 +353,7 @@ UIDeviceOrientation CurrentOrientation;
     dformate.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
     currentText.text=[NSString stringWithFormat:@"%@", [ dformate stringFromDate:[_datePicker date] ]];
     strSelectedEndDate=currentText.text;
-    
     dformate=nil;
-    
 }
 // Create repeat string from array and creat event end date
 -(NSString *)PrepareEndDateAndRepeatString
@@ -379,20 +371,15 @@ UIDeviceOrientation CurrentOrientation;
     }else if ([arr containsObject:[arrEventSting objectAtIndex:arrEventSting.count-1]])
     {
         // if user select no of occurrence
-        
         if ([strRepeatEvent isEqualToString:EVENTTYPE_MONTHLY] || [strRepeatEvent isEqualToString:EVENTTYPE_YEARLY])
         {
             // if user select no of occurrence and repeat type monthly
-            
             int noOfday=[[arrEventSting objectAtIndex:1] intValue];
             int noOfOccurrence=[[arrEventSting objectAtIndex:arrEventSting.count-1] intValue];
-            
             [CalendarEvent ShareInstance].NoOfDay=noOfday;
             [CalendarEvent ShareInstance].NoOfOccurrence=noOfOccurrence;
-            
             // end date for case repeat nth day of every nth month
             [self CalculateEndDate];
-            
         }else{
             // if user select no of occurrence and repeat type Daily and weekly
             int noOfday=[[arrEventSting objectAtIndex:1] intValue];
@@ -400,24 +387,17 @@ UIDeviceOrientation CurrentOrientation;
             [CalendarEvent ShareInstance].strNoOfDaysWeekCase =[arrEventSting objectAtIndex:5];
             [CalendarEvent ShareInstance].NoOfDay=noOfday;
             [CalendarEvent ShareInstance].NoOfOccurrence=noOfOccurrence;
-            
         }
     }else if(strSelectedEndDate.length > 0 && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:EMPTYSTRING])
     {
         // if repeat end on perticular date
-        
         [CalendarEvent ShareInstance].strEndDate=strSelectedEndDate ;
     }
-    
     NSString *strRepeat=EMPTYSTRING;
-    
     for (int i=0; i< arrEventSting.count ; i++) {
-        
         strRepeat=[strRepeat stringByAppendingString:[arrEventSting objectAtIndex:i]];
     }
-    
     return strRepeat;
-    
 }
 -(void)SaveEvent
 {
@@ -427,19 +407,15 @@ UIDeviceOrientation CurrentOrientation;
     
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-        
-        if ([object isKindOfClass:[AddCalendarEvent class]])
-        {
+    for (id object in arrController){
+        if ([object isKindOfClass:[AddCalendarEvent class]]){
             Status=TRUE;
             AddCalendarEvent *temp=(AddCalendarEvent *)object;
             temp.eventDetailsDic=_obj;
             [self.navigationController popToViewController:temp animated:NO];
         }
     }
-    if (Status==FALSE)
-    {
+    if (Status==FALSE){
         AddCalendarEvent *annView=[[AddCalendarEvent alloc] init];
         annView.eventDetailsDic=_obj;
         [self.navigationController pushViewController:annView animated:NO];
@@ -455,7 +431,6 @@ UIDeviceOrientation CurrentOrientation;
 -(void)doneClicked
 {
     if ([currentText.placeholder isEqualToString:@"Date"] && currentText.tag==2004) {
-        
         [CalendarEvent ShareInstance].strEndDate=currentText.text;
         [self CreateRepeatString:strRepeatEvent :2003 :currentText];
         
@@ -505,40 +480,29 @@ UIDeviceOrientation CurrentOrientation;
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     NSString *str;
-    
     if (isMonth) {
         str = [arrMonths objectAtIndex:row];
-    }else
-    {
+    }else{
         str = [arrDays objectAtIndex:row];
     }
-    
-    
     NSArray *arr = [str componentsSeparatedByString:@"****"];
-    
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if (isMonth)
-    {
+    if (isMonth){
         currentText.text=[arrMonths objectAtIndex:row];
         [self CreateRepeatString:strRepeatEvent :0:currentText];
         
-    }else if (isDay)
-    { currentText.text=[arrDays objectAtIndex:row];
+    }else if (isDay){
+        currentText.text=[arrDays objectAtIndex:row];
         [self CreateRepeatString:strRepeatEvent :0:currentText];
-    }else
-    {
+    }else{
         currentText.text=[arrDays objectAtIndex:row];
     }
 }
-
-
--(RepeatEventCell *)UpdateCellValues:(RepeatEventCell*)tableCell
-{
+-(RepeatEventCell *)UpdateCellValues:(RepeatEventCell*)tableCell{
     // Fill cell text fields  values and checkbox state regarding to repeat string array
-    
     if (arrEventSting.count ==0) {
         return tableCell;
     }
@@ -549,13 +513,9 @@ UIDeviceOrientation CurrentOrientation;
     }else{
         arrtemp=[[[[[tableCell subviews] objectAtIndex:0] subviews] objectAtIndex:1] subviews];
     }
-    
     NSInteger btnCkeckedIndex=0;
-    
     if (tableCell.tag==0 && [strRepeatEvent isEqualToString:EVENTTYPE_DAILY]) {
-        
         for (id obj in arrtemp) {
-            
             if ([obj isKindOfClass:[UIButton class]]) {
                 UIButton *btntemp=obj;
                 
@@ -601,7 +561,6 @@ UIDeviceOrientation CurrentOrientation;
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3002 && [arrdays containsObject:@"2"]) {
-                    
                     [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3003 && [arrdays containsObject:@"3"]) {
@@ -1056,7 +1015,7 @@ UIDeviceOrientation CurrentOrientation;
             if (btnCheckBoxOne.selected==YES) {
                 NSString *str=@"month_1___#no";
                 if ([CalendarEvent ShareInstance].strRepeatSting.length==0) {
-                    str=DEFAULTSETTING_MONTHLY;
+                    str=str;
                 }else{
                     str=[CalendarEvent ShareInstance].strRepeatSting;
                 }
@@ -1299,8 +1258,9 @@ UIDeviceOrientation CurrentOrientation;
             [formatter setDateFormat:DATE_FORMAT_Y_M_D];
             NSArray *dateComponents=[[formatter stringFromDate:date] componentsSeparatedByString:@"-"];
             NSDateComponents *components = [[NSDateComponents alloc] init];
-            components.day=[DayNumber intValue];
-            //[components setWeekday:[DayNumber intValue]];                       // on day
+            //components.day=[DayNumber intValue];
+            int day = [DayNumber intValue]+1 ;                 // sunday is 0 that's why add 1
+            [components setWeekday:day];                        // on day
             [components setWeekdayOrdinal:[nth_Week intValue]];                  // The nth day in the month
             [components setMonth:[[dateComponents objectAtIndex:1] intValue]];  // Month
             [components setYear:[[dateComponents objectAtIndex:0] intValue]];   // Year

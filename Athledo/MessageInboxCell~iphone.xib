@@ -39,11 +39,11 @@
                         <rect key="frame" x="297" y="27" width="13" height="15"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lNk-Ic-RHc">
-                        <rect key="frame" x="8" y="2" width="60" height="60"/>
+                        <rect key="frame" x="10" y="2" width="60" height="60"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A6e-vl-xf6">
-                        <rect key="frame" x="51" y="34" width="16" height="19"/>
+                        <rect key="frame" x="53" y="34" width="16" height="19"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="menu_sep.png" translatesAutoresizingMaskIntoConstraints="NO" id="Le8-0U-nuH">
                         <rect key="frame" x="0.0" y="64" width="320" height="1"/>

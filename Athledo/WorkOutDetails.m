@@ -306,7 +306,7 @@
     {
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemEdit,BarItemReassign,BarItemDelete,nil];
     }
-    
+    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
     if (_obj) {
         
         [_imgCreatedBy setImageWithURL:[NSURL URLWithString:[_obj valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
@@ -528,14 +528,7 @@
             temp=nil;
             increaseCount = increaseCount+2;
         }
-        if (isSplit) {
-            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isSplit],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[@"Distance",@"Time",@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
-            
-            [arrAvgTotalStatus addObject:temp];
-            [arrAvgTotalStatus addObject:temp];
-            temp=nil;
-            increaseCount = increaseCount+1;
-        }
+       
         if (isRate) {
             NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isRate],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[@"Distance",@"Time",@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             
@@ -560,7 +553,14 @@
             temp=nil;
             increaseCount = increaseCount+2;
         }
-        
+        if (isSplit) {
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isSplit],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[@"Distance",@"Time",@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
+            
+            [arrAvgTotalStatus addObject:temp];
+            //[arrAvgTotalStatus addObject:temp];
+            temp=nil;
+            increaseCount = increaseCount+1;
+        }
         return units.count+increaseCount;
         
     }else
@@ -695,15 +695,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                   
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
                         
@@ -731,7 +723,17 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else   if ((indexPath.row==units.count+1) ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                        
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else   if ((indexPath.row==units.count+1) ) {
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:1];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
@@ -752,15 +754,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                   
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         
                         txtFieldLeftHeader.text=@"Average Rate";
@@ -789,7 +783,17 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else   if ((indexPath.row==units.count+2) ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else   if ((indexPath.row==units.count+2) ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:2];
                     
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
@@ -808,14 +812,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -840,7 +837,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+3) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+3) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:3];
                     
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
@@ -859,14 +865,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                   }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                        txtFieldLeftHeader.text=@"Average Rate";
                        txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -891,7 +890,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+4 ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+4 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:4];
                   if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                        txtFieldLeftHeader.text=@"Total Distance(Meters)";
@@ -909,14 +917,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -941,7 +942,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+5 ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+5 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:5];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Distance(Meters)";
@@ -961,16 +971,7 @@
                         txtField.userInteractionEnabled=NO;
                         
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                        
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         
                         txtFieldLeftHeader.text=@"Average Rate";
@@ -1000,7 +1001,18 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+6 ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                        
+                    }
+                }
+                else if ( indexPath.row==units.count+6 ) {
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:6];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
@@ -1020,14 +1032,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1052,7 +1057,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+7) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+7) {
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:7];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
@@ -1072,14 +1086,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1104,7 +1111,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+8 ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+8 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:8];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Distance(Meters)";
@@ -1123,14 +1139,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                   
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1155,7 +1164,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+9) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+9) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:9];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Distance(Meters)";
@@ -1173,14 +1191,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                   
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1205,7 +1216,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+10 ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+10 ) {
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:10];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
@@ -1224,14 +1244,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1256,7 +1269,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+11) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+11) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:11];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Distance(Meters)";
@@ -1274,14 +1296,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1306,7 +1321,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+6 ) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+12 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:6];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Distance(Meters)";
@@ -1324,14 +1348,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1356,7 +1373,16 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                }else if ( indexPath.row==units.count+7) {
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                }
+                else if ( indexPath.row==units.count+13) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:7];
                     if ([[tempdic valueForKey:@"Distance"] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Distance(Meters)";
@@ -1374,14 +1400,7 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
-                        txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                    }
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1403,6 +1422,14 @@
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }

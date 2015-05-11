@@ -462,6 +462,7 @@
     [btnAddNew setImage:imageEdit forState:UIControlStateNormal];
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     self.navigationItem.rightBarButtonItem = ButtonItem;
+    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
     [self CerateLayOut];
     [[SingletonClass ShareInstance] CurrentOrientation:self];
     [self getList];

@@ -18,24 +18,17 @@
     
     UITextField *currentText;
     WebServiceClass *webservice;
-    
     NSString *strLat;
     NSString *strLong;
-    
     NSString *strAddBeforeTag;
     NSString *strNaveegatorStatus;
-    
     BOOL isDate;
     UIToolbar *toolBar;
-    
     BOOL SaveWithoutChange;
     UIDeviceOrientation CurrentOrientation;
 }
-
 @end
-
 @implementation AddCalendarEvent
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,45 +37,34 @@
     }
     return self;
 }
-
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    
     [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag)
     {
         case AddEventTag:
         {
-            
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
-                
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Event saved successfully" delegate:self btn1:@"Ok"];
             }else {
-                
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Event have not saved" delegate:nil btn1:@"Ok"];
-                
             }
-            
             break;
         } case DeleteEventTag:
         {
-            
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Event delete successfully" delegate:self btn1:@"Ok"];
             }else {
-                
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Event didn't delete" delegate:nil btn1:@"Ok"];
-                
             }
-            
             break;
         }
     }
@@ -130,7 +112,6 @@
                             return;
                         }
                     }
-                    
                 }else   if ([_strMoveControllerName isEqualToString:@"WeekViewController"])
                 {
                     if ([object isKindOfClass:[WeekViewController class]])
@@ -140,15 +121,11 @@
                         return;
                     }
                 }
-                
-                
             }
-            
             if (Status==FALSE)
             {
                 if ([_strMoveControllerName isEqualToString:@"CalendarMonthViewController"])
                 {
-                    
                     CalendarMonthViewController *annView=[[CalendarMonthViewController alloc] initWithNibName:@"CalendarMonthView" bundle:nil];
                     [self.navigationController pushViewController:annView animated:NO];
                     
@@ -165,14 +142,11 @@
             }
             
         }else{
-            
         }
     }
-    
 }
 -(void)getLatLong:(NSString *)CityName
 {
-    
     MJGeocoder *forwardGeocoder = [[MJGeocoder alloc] init];
     forwardGeocoder.delegate = self;
     //show network indicator
@@ -183,39 +157,28 @@
 - (void)geocoder:(MJGeocoder *)geocoder didFindLocations:(NSArray *)locations{
     //hide network indicator
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
-    
     Address *addressModel =locations.count > 0 ? [locations objectAtIndex:0] : EMPTYSTRING;
-    
     strLat= [NSString stringWithFormat:@"%f", addressModel.coordinate.latitude];
     strLong= [NSString stringWithFormat:@"%f",  addressModel.coordinate.longitude];
-    
 }
 - (void)geocoder:(MJGeocoder *)geocoder didFailWithError:(NSError *)error
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     if([error code] == 1)
     {
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter valid city name" delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(int)CalculateTimeInterval :(NSString *)ActualstartDate :(NSString *)startDate
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
-    
     NSArray *ActualstartDatecomponenets=[ActualstartDate componentsSeparatedByString:STR_SPACE];
     NSArray *startDateDatecomponenets=[startDate componentsSeparatedByString:STR_SPACE];
-    
     NSString *strFinalDate=[[startDateDatecomponenets objectAtIndex:0] stringByAppendingFormat:@" %@",[ActualstartDatecomponenets objectAtIndex:1]];
-    
     NSDate *date=[df dateFromString:strFinalDate];
-    
     double TotalStartDate=[date timeIntervalSince1970];
     //double timeAfterSubstract=TotalStartDate-((5*60*60)+(30*60));
-    
     return (TotalStartDate);
 }
 -(void)DeleteEventAlert:(id)sender
@@ -228,9 +191,7 @@
     {
         NSString *strAddBeforeParameter=EMPTYSTRING;
         NSString *strStatus=EMPTYSTRING;
-        
         NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
-        
         if (_eventDetailsDic)
         {
             NSString *strValue=[_eventDetailsDic valueForKey:@"rec_type"] ? [_eventDetailsDic valueForKey:@"rec_type"] : EMPTYSTRING ;
@@ -240,18 +201,13 @@
                 case 3:
                 {
                     // Delete simple event
-                    
-                    
-                    
                     if ([[_eventDetailsDic valueForKey:@"event_pid"] intValue]==0) {
-                        
                         strAddBeforeParameter=[NSString stringWithFormat:@"%@_",[_eventDetailsDic valueForKey:@"event_id"]];
                         strStatus=@"delete";
                     }
                     else
                     {
                     }
-                    
                     [dicttemp setObject:strStatus forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeParameter,@"!nativeeditor_status"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"end_date"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"end_date"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"start_date"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"start_date"]];
@@ -264,8 +220,6 @@
                     [dicttemp setObject:EMPTYSTRING forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_type"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"text"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"text"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"event_id"] forKey:@"ids"];
-                    
-                    
                     break;
                 }
                 case 1:
@@ -273,14 +227,9 @@
                     // Delete repeat type event of type Edit by series
                     
                     if ([[_eventDetailsDic valueForKey:@"event_pid"] intValue]==0) {
-                        
                         strAddBeforeParameter=[NSString stringWithFormat:@"%@_",[_eventDetailsDic valueForKey:@"event_id"]];
                         strStatus=@"delete";
                     }
-                    else
-                    {
-                    }
-                    
                     [dicttemp setObject:strStatus forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeParameter,@"!nativeeditor_status"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"end_date"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"end_date"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"start_date"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"start_date"]];
@@ -293,8 +242,6 @@
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"rec_type"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_type"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"text"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"text"]];
                     [dicttemp setObject:[strAddBeforeParameter stringByReplacingOccurrencesOfString:@"_" withString:EMPTYSTRING] forKey:@"ids"];
-                    
-                    
                     break;
                 }
                 case 2:
@@ -306,10 +253,6 @@
                         strAddBeforeParameter=@"1418618715293_";
                         strStatus=@"inserted";
                     }
-                    else
-                    {
-                    }
-                    
                     [dicttemp setObject:strStatus forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeParameter,@"!nativeeditor_status"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"end_date"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"end_date"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"start_date"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"start_date"]];
@@ -326,32 +269,22 @@
                     [dicttemp setObject:@"none" forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_type"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"text"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"text"]];
                     [dicttemp setObject:[strAddBeforeParameter stringByReplacingOccurrencesOfString:@"_" withString:EMPTYSTRING] forKey:@"ids"];
-                    
-                    
                     break;
                 }
                 default:
                     break;
             }
-            
         }
         [dicttemp setObject:@"mobile" forKey:@"interface"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userType] forKey:@"type"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userId] forKey:@"user_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedTeamid] forKey:@"team_id"];
-        
         [SingletonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCallwithDic:dicttemp :webServiceAddEvents :DeleteEventTag];
-        
-        
     }else{
         self.navigationItem.rightBarButtonItem.enabled=YES;
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
-    
-    
 }
 -(void)CheckUserValueChange
 {
@@ -372,10 +305,7 @@
 -(void)SaveEvent
 {
     // Create startdate first because start time used in end date time
-    
     [self CheckUserValueChange];
-    
-    
     if ([SingletonClass  CheckConnectivity])
     {
         self.navigationItem.rightBarButtonItem.enabled=NO;
@@ -387,7 +317,6 @@
         else if(_tfLocation.text.length < 1 )
         {
             //Not Mendatory
-            
             //strError = @"Please enter event location";
         } else if(_texviewDescription.text.length < 1 )
         {
@@ -410,10 +339,8 @@
         }else{
             
         }
-        
         if ([SingletonClass  CheckConnectivity])
         {
-            
             UserInformation *userInfo=[UserInformation shareInstance];
             NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
             
@@ -429,57 +356,38 @@
                 {
                     strAddBeforeTag=[NSString stringWithFormat:@"%@_",[_eventDetailsDic valueForKey:@"event_id"]];
                     strNaveegatorStatus=@"updated";
-                    
                 }
-                
                 [dicttemp setObject:[NSString stringWithFormat:@"%@",[_eventDetailsDic valueForKey:@"event_id"]] forKey:@"id"];
-                
                 // Edit repeat event two type edit by series or edit by occurrence
                 if ([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Series"]) {
                     
                     if([[CalendarEvent ShareInstance].strRepeatSting isEqualToString:EMPTYSTRING])
                     {
                         [CalendarEvent ShareInstance].strRepeatSting=[_eventDetailsDic valueForKey:@"rec_type"];
-                    }else{
-                        
-                        
                     }
-                    
                     [dicttemp setObject:@"0" forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeTag,@"event_pid"]];
-                    
                     [dicttemp setObject:[NSString stringWithFormat:@"%f",(endTime-startTime)] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
-                    
-                    
-                    
                 }
                 else if ([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"]){
                     
                     if([[CalendarEvent ShareInstance].strRepeatSting isEqualToString:EMPTYSTRING])
                     {
                         [CalendarEvent ShareInstance].strRepeatSting=[_eventDetailsDic valueForKey:@"rec_type"];
-                    }else{
-                        
-                        
                     }
                     if ([[_eventDetailsDic valueForKey:@"event_pid"] intValue]==0) {
                         
                         strAddBeforeTag=@"1416899535876_";
                         strNaveegatorStatus=@"inserted";
                         [dicttemp setObject:[_eventDetailsDic valueForKey:@"event_id"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeTag,@"event_pid"]];
-                        
                     }else{
-                        
                         strAddBeforeTag=[NSString stringWithFormat:@"%@_",[_eventDetailsDic valueForKey:@"event_id"]];
                         strNaveegatorStatus=@"updated";
                         [dicttemp setObject:[_eventDetailsDic valueForKey:@"event_pid"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeTag,@"event_pid"]];
-                        
                     }
-                    
                     [dicttemp setObject:[NSString stringWithFormat:@"%d",[self CalculateTimeInterval:[_eventDetailsDic valueForKey:@"actual_start_date"] :[_eventDetailsDic valueForKey:@"start_date"] ]] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
                     
                 }else{
                     // Edit simple event
-                    
                     strAddBeforeTag=[NSString stringWithFormat:@"%@_",[_eventDetailsDic valueForKey:@"event_id"]];
                     strNaveegatorStatus=@"updated";
                     [dicttemp setObject:[NSString stringWithFormat:@"%f",(endTime-startTime)] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
@@ -488,12 +396,9 @@
             }else{
                 
                 // Add Simple or repeat event
-                
                 strAddBeforeTag=@"1416899535876_";
                 strNaveegatorStatus=@"inserted";
-                
                 [dicttemp setObject:[NSString stringWithFormat:@"%f",(endTime-startTime)] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"event_length"]];
-                
                 [dicttemp setObject:EMPTYSTRING forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"id"]];
             }
             //  Comman code
@@ -553,9 +458,7 @@
             [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         }
     }
-    
 }
-
 -(NSString *)CalculateStartdate
 {
     NSString *strDate;
@@ -564,7 +467,6 @@
         [self CalculateStartDate_of_Monday_of_Given_Month];
         strDate=[[[CalendarEvent ShareInstance].strStartDate componentsSeparatedByString:STR_SPACE] objectAtIndex:0];
         NSString *strTime=[[[self DateINY_M_D_H_M_S: _tfStartTime.text ] componentsSeparatedByString:STR_SPACE] objectAtIndex:1];
-        
         strDate=[strDate stringByAppendingFormat:@" %@",strTime];
         [CalendarEvent ShareInstance].strStartDate=strDate;
         
@@ -572,12 +474,9 @@
         
         strDate=[[[CalendarEvent ShareInstance].strStartDate componentsSeparatedByString:STR_SPACE] objectAtIndex:0];
         NSString *strTime=[[[self DateINY_M_D_H_M_S: _tfStartTime.text ] componentsSeparatedByString:STR_SPACE] objectAtIndex:1];
-        
         strDate=[strDate stringByAppendingFormat:@" %@",strTime];
         [CalendarEvent ShareInstance].strStartDate=strDate;
-
     }
-    
     return strDate;
 }
 -(void)CalculateStartDate_of_Monday_of_Given_Month{
@@ -585,47 +484,36 @@
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     [formatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
     NSDate *date=[formatter dateFromString:[CalendarEvent ShareInstance].strStartDate];
-  
     NSCalendar *gregorianCalendar = [[NSCalendar alloc]  initWithCalendarIdentifier:NSGregorianCalendar];
     [gregorianCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
-    
     NSDateComponents *components = [gregorianCalendar components:(NSYearCalendarUnit| NSMonthCalendarUnit
                                                                   | NSDayCalendarUnit| NSWeekdayCalendarUnit|NSWeekCalendarUnit)  fromDate:date];
-    
     NSDateComponents *dt=[[NSDateComponents alloc]init];
     [dt setWeek:[components week]];
     [dt setWeekday:2];
     [dt setMonth:[components month]];
     [dt setYear:[components year]];
-     NSDate *monday=[gregorianCalendar dateFromComponents:dt];
-    
+    NSDate *monday=[gregorianCalendar dateFromComponents:dt];
     [CalendarEvent ShareInstance].strStartDate = [formatter stringFromDate:monday];
-    
 }
 -(NSString *)CalculateEventEndDate
 {
-    
     if (SaveWithoutChange==TRUE) {
-        
         if (([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Series"]))
         {
             return [_eventDetailsDic valueForKey:@"actual_end_date"];
-            
         }else  if (([[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"])){
-            
             return [_eventDetailsDic valueForKey:@"actual_end_date"];
-            
         }
         else{
-            
             return [_eventDetailsDic valueForKey:@"end_date"];
         }
     }
     else
     {
         NSString *enddate=EMPTYSTRING;
-         NSDateFormatter *locFormater=[[NSDateFormatter alloc] init];
-         locFormater.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
+        NSDateFormatter *locFormater=[[NSDateFormatter alloc] init];
+        locFormater.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
         NSString *strStartdate=[CalendarEvent ShareInstance].strStartDate;
         
         NSDate *dateStartDateDay = [locFormater dateFromString:strStartdate];
@@ -679,7 +567,6 @@
             else
             {
                 // End date selected by user from repeate screen
-                
                 enddate=[[[[CalendarEvent ShareInstance].strEndDate componentsSeparatedByString:STR_SPACE] objectAtIndex:0] stringByAppendingFormat:STR_00_00_00];
             }
             
@@ -1307,7 +1194,7 @@
         
         [CalendarEvent ShareInstance].strEndDate= [dformate stringFromDate:_datePicker.date];
     }
-     [self CalculateStartDate_of_Monday_of_Given_Month];
+    [self CalculateStartDate_of_Monday_of_Given_Month];
 }
 
 -(void)setDatePickerVisibleAt :(BOOL)ShowHide

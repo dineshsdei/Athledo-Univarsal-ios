@@ -95,13 +95,10 @@
         cell.rightUserImage.layer.cornerRadius=(cell.rightUserImage.frame.size.width)/2;
         cell.rightUserImage.layer.borderWidth=2.0f;
         cell.rightUserImage.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        
         cell.leftLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:@"name"];
         cell.leftLblName.font = Textfont;
-        
         cell.rightLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:@"name"];
         cell.rightLblName.font = Textfont;
-        
         cell.leftUserImage.hidden =YES;
         cell.rightUserImage.hidden =YES;
         cell.leftLblName.hidden =YES;
@@ -109,15 +106,12 @@
         cell.rightUtilityButtons = [self rightButtons : indexPath.section];
         cell.leftUtilityButtons = [self leftButton : indexPath.section];
         cell.delegate = self;
-        
         if ([[[dicListData objectAtIndex:indexPath.row] valueForKey:@"isCheck"] boolValue] == NO) {
-            
             cell.rightUserImage.hidden =NO;
             cell.rightLblName.hidden =NO;
             cell.cellUtilityButtonState = kCellStateRight;
             cell.cellCurrentStatus = kCellStateRight;
             [cell showRightUtilityButtonsAnimated:YES];
-            
         }else  if ([[[dicListData objectAtIndex:indexPath.row] valueForKey:@"isCheck"] boolValue] == YES){
             cell.leftUserImage.hidden =NO;
             cell.leftLblName.hidden =NO;
@@ -137,7 +131,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPat{
     if(isIPAD){
         return 70;
     }else{
@@ -174,8 +168,7 @@
         tempCell.rightUserImage.hidden = NO;
     }
 }
--(void)ChangeCell:(SWTableViewCell*)cell
-{
+-(void)ChangeCell:(SWTableViewCell*)cell{
     if (cell.cellUtilityButtonState == kCellStateLeft) {
         [self ChangeCellField:cell];
         [cell showLeftUtilityButtonsAnimated:NO];
@@ -231,7 +224,7 @@
                 [_tableView reloadData];
             }else{
                 dicListData = nil;
-                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice"]];
+                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice now"]];
                 [_tableView reloadData];
             }
             break;
@@ -259,7 +252,6 @@
     shapeLayer.strokeColor = [[UIColor darkGrayColor] CGColor];
     shapeLayer.lineWidth = 1.0;
     shapeLayer.fillColor = [[UIColor clearColor] CGColor];
-    
     return shapeLayer;
 }
 - (NSArray *)rightButtons :(NSInteger)btnTag{

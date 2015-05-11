@@ -369,15 +369,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(isIPAD)
-    {
-        return 111;
-        
-    }else{
-        
-        return CELLHEIGHT;
-    }
-    
+    return CELLHEIGHT;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -396,8 +388,6 @@
     
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-    
-
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
@@ -410,28 +400,21 @@
             case 0:
             {
                 [self deleteMessage:btn];
-                
                 break;
             }
             case 1:
             {
-                
                 [self archiveMessage:btn];
-                
                 break;
             }
             default:
                 break;
         }
-
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
-    
   }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -445,24 +428,16 @@
 -(void)deleteMessage:(id)sender
 {
     UIButton *btn=sender;
-
     [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)btn.tag];
-
-    
 }
 -(void)archiveMessage:(id)sender;
 {
    UIButton *btn=sender;
   [self archiveMessageMoveToInboxEvent:(int)btn.tag];
-    
-    
-    
 }
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    
     NSArray *arrController=[self.navigationController viewControllers];
-    
     switch (item.tag) {
         case 0:
         {
@@ -504,19 +479,12 @@
                 
                 [self.navigationController pushViewController:compose animated:NO];
             }
-            
             break;
         }
-            
         default:
             break;
     }
-    
-    
 }
-
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
