@@ -2,8 +2,8 @@
 //  Mutimedia.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 12/16/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 12/16/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "Multimedia.h"
@@ -125,6 +125,7 @@
 
 - (void)orientationChanged
 {
+    [SingletonClass deleteUnUsedLableFromTable:_tableView];
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
@@ -290,12 +291,12 @@
                     [multimediaData addObject:temp];
                 }
                 _segmentControl.selectedSegmentIndex=0;
-                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Photos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
+                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Photos":_tableView]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
                 [_tableView reloadData];
             }else{
                 [multimediaData removeAllObjects];
                 [_tableView reloadData];
-                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Photos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
+                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Photos":_tableView]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
             }
              break;
         } case getSeasonTag:

@@ -2,8 +2,8 @@
 //  UpdateDetails.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 8/19/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 8/19/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "UpdateDetails.h"
@@ -61,7 +61,7 @@
         UIView * newView = [[UIView alloc] initWithFrame:applicationFrame] ;
         newView.backgroundColor=[UIColor clearColor];
         UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage *imageDelete=[UIImage imageNamed:@"deleteBtn.png"];
+        UIImage *imageDelete=[UIImage imageNamed:@"navDeleteBtn.png"];
         btnDelete.bounds = CGRectMake( 80, 0, imageDelete.size.width, imageDelete.size.height );
         [btnDelete addTarget:self action:@selector(DeleteAnnouncement:) forControlEvents:UIControlEventTouchUpInside];
         [btnDelete setImage:imageDelete forState:UIControlStateNormal];
@@ -113,7 +113,7 @@
 }
 -(void)DeleteAnnouncement:(id)sender
 {
-    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete announcement ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete announcement?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:1];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

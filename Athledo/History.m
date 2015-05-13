@@ -2,8 +2,8 @@
 //  History.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 4/1/15.
-//  Copyright (c) 2015 Dinesh. All rights reserved.
+//  Created by Smartdata on 4/1/15.
+//  Copyright (c) 2015 Athledo Inc. All rights reserved.
 //
 
 #import "History.h"
@@ -19,7 +19,25 @@
 
 @implementation History
 #pragma mark UIViewController life cycle Method
+-(void)viewDidDisappear:(BOOL)animated
+{
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    [super viewDidDisappear:animated];
+}
 - (void)viewDidLoad {
+    
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+        
+    }
+    
     self.title = @"SMS History";
     arrFilterdData = [[NSMutableArray alloc] init];
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
@@ -47,16 +65,14 @@
     [arrFilterdData removeAllObjects];
     [arrFilterdData addObjectsFromArray:historyDic];
     [_tableView reloadData];
-    [SingletonClass deleteUnUsedLableFromTable:_tableView];
+    [SingletonClass deleteUnUsedLableFromTable:self.view];
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
 {
     @try {
-        if (arrFilterdData.count == 0) {
-            arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
-        }
+        
         if(theSearchBar.text.length>0)
         {
             if ([SingletonClass  CheckConnectivity]) {
@@ -75,7 +91,8 @@
                     [self PrepareSearchPredicate:theSearchBar.text];
                     [_tableView reloadData];
                     [theSearchBar endEditing:YES];
-                    arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
+                    [SingletonClass deleteUnUsedLableFromTable:self.view];
+                    arrFilterdData.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history":self.view]] :@"";
                 }
             }else{
                 [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
@@ -126,7 +143,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   return CELLHEIGHT;
+    return CELLHEIGHT;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -158,15 +175,21 @@
                 historyDic = [MyResults valueForKey:@"historyData"];
                 [arrFilterdData addObjectsFromArray:historyDic];
                 [_tableView reloadData];
-                arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
+                [SingletonClass deleteUnUsedLableFromTable:self.view];
+                arrFilterdData.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history":self.view]] :@"";
             }else{
-                arrFilterdData.count == 0 ? [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history"]] :[SingletonClass deleteUnUsedLableFromTable:_tableView];
+                [SingletonClass deleteUnUsedLableFromTable:self.view];
+                arrFilterdData.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No SMS history":self.view]] :@"";
             }
             break;
         }
     }
 }
 #pragma mark Class Utility
+- (void)orientationChanged
+{
+    [SingletonClass deleteUnUsedLableFromTable:self.view];
+}
 -(void)PrepareSearchPredicate:(NSString *)theSearchBarText
 {
     NSPredicate *lowerCase= [NSPredicate predicateWithFormat:

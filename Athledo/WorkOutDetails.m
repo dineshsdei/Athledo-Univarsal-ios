@@ -2,8 +2,8 @@
 //  WorkOutDetails.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 9/24/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 9/24/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "WorkOutDetails.h"
@@ -47,6 +47,7 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
     [SingletonClass RemoveActivityIndicator:self.view];
+    [SingletonClass deleteUnUsedLableFromTable:table];
     switch (Tag){
         case deleteWorkoutTag:{
             [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
@@ -104,7 +105,7 @@
                     }
                 }else{
                     
-                    [ self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout details"] ];
+                    [ table addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":table] ];
                 }
             }
             else if (([[_obj valueForKey:@"Workout Type"] isEqualToString:WORKOUTTYPE_INTERVAL] )){
@@ -117,7 +118,7 @@
                     [table reloadData];
                     
                 }else{
-                     [ self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout details"] ];
+                      [ table addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":table] ];
                 }
             }else{
                 if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]) {
@@ -127,7 +128,7 @@
                     table.dataSource=self;
                     [table reloadData];
                 }else{
-                    [ self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout details"] ];
+                     [ table addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":table] ];
                 }
             }
             break;
@@ -206,6 +207,7 @@
     
 }
 - (void)orientationChanged{
+    [SingletonClass deleteUnUsedLableFromTable:table];
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
@@ -277,7 +279,7 @@
     // UIView * newView = [[UIView alloc] initWithFrame:applicationFrame] ;
     
     UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageDelete=[UIImage imageNamed:@"deleteBtn.png"];
+    UIImage *imageDelete=[UIImage imageNamed:@"navDeleteBtn.png"];
     btnDelete.bounds = CGRectMake( 0, 0, imageDelete.size.width, imageDelete.size.height );
     [btnDelete addTarget:self action:@selector(DeleteWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnDelete setImage:imageDelete forState:UIControlStateNormal];
@@ -387,7 +389,7 @@
 }
 
 -(void)DeleteWorkout:(id)sender{
-    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:1];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete workout?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:1];
     
 }
 -(void)DeleteFromWeb{

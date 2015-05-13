@@ -2,15 +2,17 @@
 //  Attendance.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 4/21/15.
-//  Copyright (c) 2015 Dinesh. All rights reserved.
+//  Created by Smartdata on 4/21/15.
+//  Copyright (c) 2015 Athledo Inc. All rights reserved.
 //
 #import "Attendance.h"
-
+#define ATTENDANCE_DRAG_VIEW 9999
 @interface Attendance ()
 {
     NSArray *dicListData;
     NSArray *serviceListData;
+    UIBarButtonItem *ButtonItem;
+    
 }
 @end
 @implementation Attendance
@@ -20,7 +22,12 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self getAthleteList];
+    SWRevealViewController *revealController = [self revealViewController];
+    [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.panGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,8 +59,9 @@
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
+    ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     self.navigationItem.rightBarButtonItem = ButtonItem;
+    [self showHideFields:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -219,12 +227,14 @@
         case getAttendanceTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 // Now we Need to decrypt data
+                [self showHideFields:NO];
                 [SingletonClass deleteUnUsedLableFromTable:_tableView];
                 dicListData =[MyResults objectForKey:@"attendanceData"];
                 [_tableView reloadData];
             }else{
                 dicListData = nil;
-                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice now"]];
+                [self showHideFields:YES];
+                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice now":_tableView]];
                 [_tableView reloadData];
             }
             break;
@@ -232,15 +242,28 @@
         case SaveAttendanceTag:{
             self.navigationItem.rightBarButtonItem.enabled = YES;
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
-                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Attendance has been saved successfully." delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Attendance has been saved successfully." delegate:nil btn1:@"Ok"];
             }
             break;
         }
     }
 }
 #pragma mark Class Utility method Method
+-(void)showHideFields:(BOOL)responseStatus
+{
+    UIView *view = [self.view viewWithTag:ATTENDANCE_DRAG_VIEW];
+    view.hidden = responseStatus;
+    if(responseStatus)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }else
+    {
+        self.navigationItem.rightBarButtonItem = ButtonItem;
+    }
+}
 //this method call, when user rotate your device
 - (void)orientationChanged{
+    [SingletonClass deleteUnUsedLableFromTable:_tableView];
     [_tableView reloadData];
 }
 -(CAShapeLayer *)Line:(CGPoint)start_Point :(CGPoint)end_Point{
@@ -250,7 +273,7 @@
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     shapeLayer.path = [path CGPath];
     shapeLayer.strokeColor = [[UIColor darkGrayColor] CGColor];
-    shapeLayer.lineWidth = 1.0;
+    shapeLayer.lineWidth = .25;
     shapeLayer.fillColor = [[UIColor clearColor] CGColor];
     return shapeLayer;
 }

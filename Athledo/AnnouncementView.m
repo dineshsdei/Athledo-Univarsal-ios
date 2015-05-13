@@ -2,8 +2,8 @@
 //  AnnouncementView.m
 //  Athledo
 //
-//  Created by Dinesh on 20/07/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 20/07/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "AnnouncementView.h"
@@ -60,6 +60,8 @@
 
 - (void)orientationChanged:(NSNotification *)notification
 {
+    [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+    [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
 }
 
 -(void)AddNewAnnouncement
@@ -152,6 +154,8 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
+    [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+    [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
     switch (Tag)
     {
         case getNotificationTag:
@@ -174,9 +178,7 @@
             NSArray *data=[MyResults objectForKey:DATA] ;
             if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
-                [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
-                [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
-               
+                
                 [arrAnnouncements removeAllObjects];
                 [SingletonClass RemoveActivityIndicator:self.view];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -187,88 +189,72 @@
                     [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
                 }
                 switch (userInfo.userType) {
-                        
-                    case 1:
-                    {
+                    case 1:{
                         tblAnnouncementRecods.delegate=self;
                         tblAnnouncementRecods.dataSource=self;
-                        arrAnnouncements.count == 0 ?  [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ] : @"";
+                        arrAnnouncements.count == 0 ?  [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblAnnouncementRecods] ] : @"";
                         
                         [tblAnnouncementRecods reloadData];
                         
                         break;
                     }
-                        
-                    case 2:
-                    {
+                    case 2:{
                         tblUpdatesRecods.delegate=self;
                         tblUpdatesRecods.dataSource=self;
-                        arrAnnouncements.count == 0 ?  [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ] : @"";
+                        arrAnnouncements.count == 0 ?  [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblAnnouncementRecods] ] : @"";
                         [tblUpdatesRecods reloadData];
                         break;
                     }
-                    case 4:
-                    {
+                    case 4:{
                         tblAnnouncementRecods.delegate=self;
                         tblAnnouncementRecods.dataSource=self;
-                        
                         [tblAnnouncementRecods reloadData];
-                        
                         break;
                     }
                 }
-            }else
-            {
+            }else{
                 [tblAnnouncementRecods reloadData];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 self.navigationItem.leftBarButtonItem.enabled=YES;
                 [SingletonClass RemoveActivityIndicator:self.view];
                 [arrAnnouncements removeObject:[[data objectAtIndex:0]objectForKey:@"Announcement"]];
-                [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ];
-                 [tblUpdatesRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"] ];
+                
+                [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblAnnouncementRecods] ];
+                 [tblUpdatesRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblUpdatesRecods] ];
             }
-            
             break;
         }
-         case searchAnnouncementTag:
-        {
+         case searchAnnouncementTag:{
             [SingletonClass RemoveActivityIndicator:self.view];
-
-            if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {
+            if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 [arrAnnouncements removeAllObjects];
-                
                 NSArray *data=[MyResults objectForKey:DATA] ;
-                
-                for (int i=0; i< data.count; i++)
-                {
+                for (int i=0; i< data.count; i++){
                     //if (![arrAnnouncements containsObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]]) {
                         [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
                     //}
                     
                 }
                 switch (userInfo.userType) {
-                  case 1:
-                    {
+                  case 1:{
                         [tblAnnouncementRecods reloadData];
                         break;
                     }
-                 case 2:
-                    {
+                 case 2:{
                         [tblUpdatesRecods reloadData];
                         break;
                     }
-                    case 4:
-                    {
+                    case 4:{
                         [tblAnnouncementRecods reloadData];
                         break;
                     }
                 }
                 
-            }else
-            {
+            }else{
                 [SingletonClass RemoveActivityIndicator:self.view];
-                 arrAnnouncements.count == 0 ? [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements"]] :[SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+                [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+                 arrAnnouncements.count == 0 ?
+                [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblAnnouncementRecods]] :@"";
                 [tblAnnouncementRecods reloadData];
             }
             break;
@@ -320,20 +306,15 @@
     return arrayTosort;
 }
 
--(IBAction)searchData:(NSString *)searchText
-{
+-(IBAction)searchData:(NSString *)searchText{
 }
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
-{
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
     if (searchBar.text.length==0) {
         [self getList];
     }
     [searchBar resignFirstResponder];
 }
-
--(void)viewWillDisappear:(BOOL)animated
-{
+-(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSUserDefaults standardUserDefaults] setObject:arrAnnouncements forKey:@"announcementdata"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -341,11 +322,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated{
     self.title = @"Announcements";
-    if (isIPAD)
-    {
+    if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged:)
@@ -356,30 +335,24 @@
     [self getNotificationData];
     [self CerateLayOut];
     [super viewWillAppear:NO];
-    
     if ([SingletonClass ShareInstance].isAnnouncementUpdate == TRUE) {
         [self getList];
-        
         [SingletonClass ShareInstance].isAnnouncementUpdate=FALSE;
     }else{
         switch (userInfo.userType) {
-                
-            case isCoach:
-            {
+            case isCoach:{
                 tblAnnouncementRecods.delegate=self;
                 tblAnnouncementRecods.dataSource=self;
                 [tblAnnouncementRecods reloadData];
                 break;
             }
-            case isAthlete:
-            {
+            case isAthlete:{
                 tblUpdatesRecods.delegate=self;
                 tblUpdatesRecods.dataSource=self;
                 [tblUpdatesRecods reloadData];
                 break;
             }
-            case isManeger:
-            {
+            case isManeger:{
                 tblAnnouncementRecods.delegate=self;
                 tblAnnouncementRecods.dataSource=self;
                 [tblAnnouncementRecods reloadData];
@@ -391,18 +364,15 @@
 }
 -(void)CerateLayOut
 {
-    switch (userInfo.userType)
-    {
-        case isCoach:
-        {
+    switch (userInfo.userType){
+        case isCoach:{
             tblUpdatesRecods.hidden=YES;
             tblAnnouncementRecods.hidden=NO;
             btnAddNew.hidden=NO;
             SearchBar.hidden=NO;
              break;
         }
-        case isAthlete:
-        {
+        case isAthlete:{
             tblAnnouncementRecods.hidden=YES;
             btnAddNew.hidden=YES;
             btnSearch.hidden=YES;
@@ -411,15 +381,13 @@
             
             break;
         }
-        case isManeger:
-        {
+        case isManeger:{
             tblUpdatesRecods.hidden=YES;
             tblAnnouncementRecods.hidden=NO;
             btnAddNew.hidden=NO;
             SearchBar.hidden=NO;
             break;
         }
-            
         default:
             break;
     }
@@ -428,10 +396,7 @@
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     if (isIPAD) {
         [AppDelegate restrictRotation :NO];
     }else{

@@ -95,11 +95,4 @@
 	
 	if(animated) [UIView commitAnimations];
 }
-
-
-
-
-
-
-
 @end

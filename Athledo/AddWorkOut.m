@@ -2,8 +2,8 @@
 //  AddWorkOut.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 8/14/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 8/14/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "AddWorkOut.h"
@@ -241,10 +241,7 @@ static int LiftExerciseCount=0;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
-    
-    
     UIBarButtonItem *btnDone1 = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(Done)];
-    
     UIToolbar *toolBarOne = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBarOne.tag = toolBar1Tag;
     

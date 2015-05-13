@@ -2,8 +2,8 @@
 //  MessageDetails.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 9/10/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 9/10/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "MessageDetails.h"
@@ -137,7 +137,6 @@
                     [self.messages addObject: [[arrMessageConversation objectAtIndex:i] valueForKey:@"desc"]];
                 }
                 arrSenderids=[MyResults objectForKey:@"receiver_id"];
-                self.tableView.frame=CGRectMake(self.view.frame.origin.x+10, 0, self.view.frame.size.width-20, self.view.frame.size.height);
                 [self.tableView reloadData];
             }
             
@@ -240,7 +239,8 @@
 - (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[self hasTimestampForRowAtIndexPath:indexPath];
-    return (indexPath.row > self.timestamps.count)  ? [NSDate date] : [self.timestamps objectAtIndex:indexPath.row];
+//    return (indexPath.row > self.timestamps.count)  ? [NSDate date] : [self.timestamps objectAtIndex:indexPath.row];
+    return [NSDate date] ;
 }
 -(NSString *)setImageWithUrl:(int)index
 {
@@ -277,15 +277,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

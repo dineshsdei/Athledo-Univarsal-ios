@@ -27,7 +27,7 @@
     
     CGSize size = self.view.frame.size;
 	
-    CGRect tableFrame = CGRectMake(0.0f, 0.0f, size.width, size.height - INPUT_HEIGHT);
+    CGRect tableFrame = CGRectMake(10.0f, 0.0f, size.width-20, size.height - INPUT_HEIGHT);
 	self.tableView = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStylePlain];
 	self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.tableView.dataSource = self;
@@ -242,6 +242,15 @@
     [self textViewDidChange:self.inputToolBarView.textView];
     [self.tableView reloadData];
     [self scrollToBottomAnimated:YES];
+    if (self.inputToolBarView.textView.text.length == 0) {
+       
+        CGRect inputViewFrame = self.inputToolBarView.frame;
+        self.inputToolBarView.frame = CGRectMake(0.0f,
+                                                 (self.view.frame.size.height - INPUT_HEIGHT),
+                                                 inputViewFrame.size.width,
+                                                 INPUT_HEIGHT);
+    }
+   
 }
 
 - (void)setBackgroundColor:(UIColor *)color
@@ -291,15 +300,13 @@
     // BOOL isShrinking = NO;
     CGFloat changeInHeight = textViewContentHeight - self.previousTextViewContentHeight;
     
-    if(!isShrinking && self.previousTextViewContentHeight == maxHeight) {
+    if((!isShrinking && self.previousTextViewContentHeight == maxHeight) || changeInHeight < 0 ) {
         changeInHeight = 0;
     }
     else {
         changeInHeight = MIN(changeInHeight , maxHeight - self.previousTextViewContentHeight);
     }
     
-    //if(changeInHeight != 0.0f ) {
-       // if(!isShrinking)
             [self.inputToolBarView adjustTextViewHeightBy:changeInHeight];
         
         [UIView animateWithDuration:0.25f
@@ -325,9 +332,9 @@
                          }];
         
         self.previousTextViewContentHeight = MIN(textViewContentHeight, maxHeight);
-    //}
-    
+  
     self.inputToolBarView.sendButton.enabled = ([textView.text trimWhitespace].length > 0);
+     
 }
 
 #pragma mark - Keyboard notifications
@@ -339,6 +346,7 @@
 - (void)handleWillHideKeyboard:(NSNotification *)notification
 {
     [self keyboardWillShowHide:notification];
+    
 }
 
 - (void)keyboardWillShowHide:(NSNotification *)notification

@@ -2,8 +2,8 @@
 //  EditProfileGenral.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 7/22/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 7/22/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "AddAthleteHistory.h"
@@ -321,11 +321,9 @@
             } else if(textfield.text.length < 1 && tag==1002)
             {
                 strError = @"Please enter start date";
-                
             }else if(textfield.text.length < 1 && tag==1003)
             {
                 strError = @"Please enter end date";
-                
             }
              if(strError.length > 1)
             {
@@ -334,20 +332,14 @@
                 return;
             }
         }
-        
         for (int i=0; i < arrHistoryInfo.count; i++) {
-            
             int tag=i+1000;
             UITableView *table=(UITableView *)[self.view viewWithTag:100];
-            
             UITextField *textfield=(UITextField *)[table viewWithTag:tag];
-            
             [arrdata addObject:textfield.text];
-            
         }
         // ObjData in case edit
         if (_objData) {
-            
             NSDictionary *temp=[[NSDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrdata objectAtIndex:0],@"team",[arrdata objectAtIndex:1],@"description",[arrdata objectAtIndex:2],@"to",[arrdata objectAtIndex:3],@"from", nil];
             NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
             NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
@@ -359,18 +351,14 @@
             [dict setObject:arrtemp forKey:@"athletic_hstry"];
             [webservice WebserviceCallwithDic:dict :webServiceEditProfileInfo :EditData];
         }else{
-            
             NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\", \"team\":\"%@\", \"desc\":\"%@\",\"from\":\"%@\",\"to\":\"%@\"}", userInfo.userId ,[arrdata objectAtIndex:0],[arrdata objectAtIndex:1],[arrdata objectAtIndex:2],[arrdata objectAtIndex:3]];
             [webservice WebserviceCall:webServiceAddAthleteHistoryInfo:strURL :Successtag];
         }
-        
     }else{
         self.navigationItem.rightBarButtonItem.enabled=YES;
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
-
-
 -(void)doneClicked
 {
     [currentText resignFirstResponder];
@@ -379,7 +367,6 @@
     [self setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50)];
     [self setContentOffsetDown:currentText table:tableView];
 }
-
 -(void)setToolbarVisibleAt:(CGPoint)point
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -388,8 +375,6 @@
     [self.view viewWithTag:40].center = point;
     [UIView commitAnimations];
 }
-
-
 -(void)setDatePickerVisibleAt :(BOOL)ShowHide
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -400,11 +385,9 @@
     if (ShowHide) {
         point.y=self.view.frame.size.height-(datePicker.frame.size.height/2);
         [self setToolbarVisibleAt:CGPointMake(point.x,point.y-(datePicker.frame.size.height/2)-22)];
-        
     }else{
         point.y=self.view.frame.size.height+(datePicker.frame.size.height/2);
     }
-    
     [self.view viewWithTag:60].center = point;
     [UIView commitAnimations];
 }

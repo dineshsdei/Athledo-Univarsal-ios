@@ -2,8 +2,8 @@
 //  AAttendanceBO.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 4/23/15.
-//  Copyright (c) 2015 Dinesh. All rights reserved.
+//  Created by Smartdata on 4/23/15.
+//  Copyright (c) 2015 Athledo Inc. All rights reserved.
 //
 
 #import "AAttendanceBO.h"
@@ -31,18 +31,14 @@ static AAttendanceBO *objAttendanceBO = nil;
 -(id)init
 {
     self = [super init];
-    
     if (self)
-    {
-        userName = @"";
+    {   userName = @"";
         imgUrl = @"";
         attendanceId = @"";
         isPresent = YES;
-        
     }
     return self;
 }
-
 -(void)encodeWithCoder:(NSCoder *)aCoder{
     
     [aCoder encodeObject:self.userName forKey:@"userName"];
@@ -53,12 +49,10 @@ static AAttendanceBO *objAttendanceBO = nil;
 -(id)initWithCoder:(NSCoder *)aDecoder{
     
     if (self= [super init]) {
-        
         [self setAttendanceId:[aDecoder decodeObjectForKey:@"Id"]];
         [self setUserName:[aDecoder decodeObjectForKey:@"userName"]];
         [self setImgUrl:[aDecoder decodeObjectForKey:@"nickName"]];
         [self setIsPresent:[[aDecoder decodeObjectForKey:@"isCheck"] boolValue]];
-        
     }
     return self;
 }

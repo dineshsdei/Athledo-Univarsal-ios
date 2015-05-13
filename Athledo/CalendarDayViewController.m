@@ -104,7 +104,6 @@ UIBarButtonItem *revealButtonItem;;
 - (void)orientationChanged
 {
     if ((isIPAD)) {
-        
         dayView.frame=CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height);
         NSArray *arr= dayView.subviews;
         UIView *view=(UIView *)[arr objectAtIndex:1];

@@ -163,7 +163,7 @@
 #define EditData 120
 #define Successtag 130
 //#define CellHeight  isIPAD ? 60 : 60
-
+#define INPUT_HEIGHT 40.0f
 #define getAnnouncementTag 7000
 #define searchAnnouncementTag 7001
 #define getNotificationTag 7002
@@ -210,6 +210,9 @@
 #define getAttendanceTag 88888
 #define SaveAttendanceTag 88889
 
+#define getPracticeTag 88800
+#define SaveAddPracticeTag 88801
+
 
 #define listPickerHeight 168
 #define datePickerHeight 168
@@ -244,6 +247,9 @@
 #define LightGrayColor [UIColor lightGrayColor]
 #define GrayColor [UIColor grayColor]
 #define NavFontSize isIPAD ? 25 : 18
+#define BORDERCOLOR [UIColor lightGrayColor].CGColor
+#define BORDERWIDTH .50
+
 
 #define WorkOutDetailFontSize (isIPAD) ? 15 : 12
 #define WorkOutDetailFont [UIFont fontWithName:(fontName) size:(WorkOutDetailFontSize)]
@@ -285,7 +291,7 @@
 #define DATE_FORMAT_dd_MMM_yyyy         @"dd MMM yyyy"
 #define DATE_FORMAT_ThroughOut          @"dd MMM yyyy HH:mm:ss"
 #define DATE_FORMAT_M_D_Y_H_M     @"MMM dd, yyyy HH:mm"
-#define DATE_FORMAT_ThroughOut_Bday     @"MMM dd, yyyy"
+#define DATE_FORMAT_MMM_DD_YYYY     @"MMM dd, yyyy"
 #define DATE_FORMAT_DOB                 @"yyyy-MM-dd"
 #define DATE_FORMAT_CLIENT              @"dd MMM, yyyy"
 #define DATE_FORMAT_ThroughOutNEW_Chat  @"EEE MMM dd HH:mm:ss Z yyyy"
@@ -387,6 +393,13 @@
 // Attendance
 #define webServiceGetAttendance [BaseUrl stringByAppendingString:@"getAthleteAttendance"]
 #define webServiceSaveAttendance [BaseUrl stringByAppendingString:@"setAthleteAttendance"]
+
+// Practice log
+
+#define webServiceGetPracticeData [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"getPractice"]
+#define webServiceSaveAttendance [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"setAthleteAttendance"]
+
+
 
 //Live server of smartData
 /*

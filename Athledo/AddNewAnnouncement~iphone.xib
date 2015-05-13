@@ -39,7 +39,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Name" minimumFontSize="17" id="IVt-G2-cfp">
-                                    <rect key="frame" x="20" y="3" width="280" height="30"/>
+                                    <rect key="frame" x="10" y="3" width="290" height="30"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -49,7 +49,7 @@
                                     </connections>
                                 </textField>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter Description" id="HE1-8n-7N2">
-                                    <rect key="frame" x="20" y="53" width="280" height="97"/>
+                                    <rect key="frame" x="10" y="53" width="290" height="97"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,7 +60,7 @@
                                     </connections>
                                 </textView>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Notification" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0go-fk-Xko">
-                                    <rect key="frame" x="20" y="170" width="245" height="21"/>
+                                    <rect key="frame" x="10" y="170" width="245" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -101,7 +101,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Settinng" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RU9-xh-Vul">
-                                    <rect key="frame" x="20" y="240" width="245" height="21"/>
+                                    <rect key="frame" x="10" y="240" width="245" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -192,18 +192,8 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textField opaque="NO" clipsSubviews="YES" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date" minimumFontSize="17" id="KBx-Pl-Us4">
-                                    <rect key="frame" x="20" y="385" width="280" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="-1" id="bsO-zX-rpv"/>
-                                    </connections>
-                                </textField>
                                 <textField opaque="NO" clipsSubviews="YES" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Time" id="tJA-Qo-GQG">
-                                    <rect key="frame" x="20" y="435" width="280" height="30"/>
+                                    <rect key="frame" x="10" y="435" width="290" height="30"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -213,7 +203,7 @@
                                     </connections>
                                 </textField>
                                 <button opaque="NO" userInteractionEnabled="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ml0-h5-V4R">
-                                    <rect key="frame" x="276" y="442" width="15" height="16"/>
+                                    <rect key="frame" x="278" y="442" width="15" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <state key="normal" backgroundImage="arrow.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -223,7 +213,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" userInteractionEnabled="NO" tag="501" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Htw-tl-UHr">
-                                    <rect key="frame" x="276" y="392" width="17" height="17"/>
+                                    <rect key="frame" x="278" y="392" width="17" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                     <state key="normal" backgroundImage="calendar.png">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -249,6 +239,16 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <textField opaque="NO" clipsSubviews="YES" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Date" minimumFontSize="17" id="KBx-Pl-Us4">
+                                    <rect key="frame" x="10" y="386" width="290" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="bsO-zX-rpv"/>
+                                    </connections>
+                                </textField>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

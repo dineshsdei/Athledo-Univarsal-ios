@@ -2,8 +2,8 @@
 //  WorkOutView.m
 //  Athledo
 //
-//  Created by Dinesh on 20/07/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 20/07/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "WorkOutView.h"
@@ -74,9 +74,6 @@
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemAdd,BarItemHistory, nil];
     self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-    
-    
-    
 }
 -(void)doneClicked
 {
@@ -84,20 +81,19 @@
     
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 }
-
-
 -(void)setToolbarVisibleAt:(CGPoint)point
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
-    
     [self.view viewWithTag:40].center = point;
-    
     [UIView commitAnimations];
 }
-
-
+#pragma mark Class Utility method 
+- (void)orientationChanged
+{
+    [SingletonClass deleteUnUsedLableFromTable:tblList];
+}
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:NO];
@@ -106,6 +102,14 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
     self.title = NSLocalizedString(@"Workouts", nil);
     tblList.userInteractionEnabled=YES;
     
@@ -221,7 +225,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                                    if (data!=nil)
                                    {
                                        [self httpResponseReceived:data :DeleteWorkOutTag];
-                                       
                                    }else{
                                        
                                        self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -233,10 +236,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
-
-
 #pragma mark-  Http call back
-
 -(void)httpResponseReceived:(NSData *)webResponse :(int )tagNumber
 {
     // tagNumber->100 for get list data
@@ -247,6 +247,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     btnHistory.userInteractionEnabled=YES;
     // Now remove the Active indicator
     [SingletonClass RemoveActivityIndicator:self.view];
+    [SingletonClass deleteUnUsedLableFromTable:tblList];
     // Now we Need to decrypt data
     NSError *error=nil;
     
@@ -266,11 +267,11 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                     [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:@"Workout"]];
                 }
             }
-             arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
+             arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
             [tblList reloadData];
         }else
         {
-            [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]];
+            [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]];
         }
     }else if (tagNumber == SearchWorkOutTag)
     {
@@ -287,12 +288,12 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                 }
             }
             [tblList reloadData];
-            arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
+            arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
             
         }else
         {
             [tblList reloadData];
-            arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts"]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
+            arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
             
         }
     }else if (tagNumber == DeleteWorkOutTag)
@@ -554,7 +555,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 -(void)DeleteWorkOut:(id)sender
 {
     UIButton *btn=sender;
-    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete workout ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete workout?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:(int)(btn.tag)];
 }
 - (void)didReceiveMemoryWarning
 {

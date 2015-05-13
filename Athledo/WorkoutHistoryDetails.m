@@ -2,8 +2,8 @@
 //  WorkoutHistoryDetails.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 11/12/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 11/12/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "WorkoutHistoryDetails.h"
@@ -38,11 +38,12 @@
         _lblworkoutType.font=SmallTextfont;
         _lblCreatedBy.font=SmallTextfont;
         _lbldate.font=SmallTextfont;
+        _lbldescription.layer.borderWidth = .50;
+        _lbldescription.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        _lbldescription.layer.cornerRadius = 10;
     }
-    // Do any additional setup after loading the view from its nib.
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 @end

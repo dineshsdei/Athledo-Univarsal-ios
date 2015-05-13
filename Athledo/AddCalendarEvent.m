@@ -2,8 +2,8 @@
 //  AddCalendarEvent.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 10/16/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 10/16/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "AddCalendarEvent.h"
@@ -703,7 +703,7 @@
     {
         // In Case Edit, show delete and save button
         UIButton *btnDelete = [[UIButton alloc] initWithFrame:CGRectMake(110, 5, 44, 44)];
-        UIImage *imageDelete=[UIImage imageNamed:@"deleteBtn.png"];
+        UIImage *imageDelete=[UIImage imageNamed:@"navDeleteBtn.png"];
         [btnDelete addTarget:self action:@selector(DeleteEventAlert:) forControlEvents:UIControlEventTouchUpInside];
         [btnDelete setImage:imageDelete forState:UIControlStateNormal];
         UIBarButtonItem *ButtonItemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnDelete];

@@ -2,8 +2,8 @@
 //  MenuLIstView.m
 //  Athledo
 //
-//  Created by Dinesh on 20/07/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 20/07/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 #import "Notes.h"
 #import "MenuListView.h"
@@ -26,6 +26,7 @@
 #import "MAWeekView.h"
 #import <MapKit/MapKit.h>
 #import "AppDelegate.h"
+#import "PracticeLog.h"
 
 
 @class CalenderScheduleView;
@@ -61,7 +62,7 @@
     if(isIPAD){
         return 69;
     }else{
-        return 43;
+        return 38;
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -361,6 +362,17 @@
             [revealController revealToggleAnimated:YES];
         }
     }else if (row == 6){
+        if ( ![frontNavigationController.topViewController isKindOfClass:[PracticeLog class]] ){
+            PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else{
+            [revealController revealToggleAnimated:YES];
+        }
+    }else if (row == 7){
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] ){
             CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
             vc.objNotificationData=notificationData ;
@@ -372,7 +384,7 @@
         else{
             [revealController revealToggleAnimated:YES];
         }
-    }else if (row == 7){
+    }else if (row == 8){
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] ){
             MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
@@ -383,7 +395,7 @@
         else{
             [revealController revealToggleAnimated:YES];
         }
-    }else if (row == 8){
+    }else if (row == 9){
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] ){
             ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
@@ -443,25 +455,25 @@
     [ProfilePic setImageWithURL:[NSURL URLWithString:[UserInformation shareInstance].userPicUrl] placeholderImage:nil options:SDWebImageCacheMemoryOnly];
     switch (userInfo.userType) {
         case isCoach:{
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Practice Log",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         case isAthlete:{
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Practice Log",@"Schedule",@"Multimedia",@"Profile", nil];
             break;
         }
         case isManeger:{
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Practice Log",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         default:
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Schedule",@"Multimedia",@"Profile", nil];
+            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Practice Log",@"Schedule",@"Multimedia",@"Profile", nil];
             break;
     }
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
-        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"sms_icon.png",@"message_icon.png",@"attendance_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
+        arrImagesName=[[NSArray alloc] initWithObjects:@"annouce_icon.png",@"workout_icon.png",@"notes.png",@"sms_icon.png",@"message_icon.png",@"attendance_icon.png",@"practice_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png", @"profile_menu_icon.png",nil];
     }else{
-        arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
+        arrImagesName=[[NSArray alloc] initWithObjects:@"update_menu_icon.png",@"workout_icon.png",@"message_icon.png",@"practice_icon.png",@"schedule_icon.png",@"multimedia_icon.png",@"profile_menu_icon.png",@"profile_menu_icon.png", nil];
     }
     [_rearTableView reloadData];
     webservice =[WebServiceClass shareInstance];

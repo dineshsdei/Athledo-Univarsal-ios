@@ -2,8 +2,8 @@
 //  User.h
 //  Athledo
 //
-//  Created by Dinesh Kumar on 7/21/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 7/21/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

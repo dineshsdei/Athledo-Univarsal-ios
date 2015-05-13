@@ -2,8 +2,8 @@
 //  SMSView.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 3/26/15.
-//  Copyright (c) 2015 Dinesh. All rights reserved.
+//  Created by Smartdata on 3/26/15.
+//  Copyright (c) 2015 Athledo Inc. All rights reserved.
 //
 
 #import "SMSView.h"
@@ -36,6 +36,8 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [super viewDidDisappear:animated];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -63,16 +65,19 @@
         
     }];
     
-    // _ObjSegment.selectedSegmentIndex = PreviousIndex;
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
     
-    //    if (arrFilterdData.count > 0) {
-    //        [btnAllcheck setSelected:NO];
-    //        [arrFilterdData removeAllObjects];
-    //        [self FilterData:arrMemberListData];
-    //        [_tableview reloadData];
-    //    }
 }
 - (void)viewDidLoad {
+   
+
     [super viewDidLoad];
     [self getSMSListData];
     _ObjSegment.selectedSegmentIndex = 0;
@@ -450,7 +455,7 @@
                 [self FilterData:arrMemberListData];
                 [_tableview reloadData];
             }else{
-                [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] ;
+                [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] ;
             }
             break;
         }case GetSaveSmsData :{
@@ -462,6 +467,11 @@
     }
 }
 #pragma mark Class Utility
+- (void)orientationChanged
+{
+    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height +(keyboardHeight+200)):toolBar];
+    [SingletonClass deleteUnUsedLableFromTable:_tableview];
+}
 -(void)AllButtonUpdateStatus{
     int AllStatusCount = 0;
     if ( _ObjSegment.selectedSegmentIndex ==0) {
@@ -510,7 +520,7 @@
             [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }
         
-        arrFilterdData.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
+        arrFilterdData.count == 0 ? [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
         
     }else if (_ObjSegment.selectedSegmentIndex == 1) {
         [arrGroupFilterdData removeAllObjects];
@@ -523,14 +533,14 @@
         for (int i=0; i< arrGroupFilterdData.count; i++) {
             [[arrGroupFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }
-         arrGroupFilterdData.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
+         arrGroupFilterdData.count == 0 ? [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
     }
 }
 -(void)FilterData:(id)data
 {
     @try {
         NSArray *arr = (NSArray *)data;
-         arr.count == 0 ? [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No records"]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
+         arr.count == 0 ? [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
         if (_ObjSegment.selectedSegmentIndex == 0) {
             for (int i=0; i< arr.count; i++) {
                 NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[[arr objectAtIndex:i] valueForKey:@"id"],[[arr objectAtIndex:i] valueForKey:@"firstname"],[[arr objectAtIndex:i] valueForKey:@"lastname"],[[arr objectAtIndex:i] valueForKey:@"cellphone"],[[arr objectAtIndex:i] valueForKey:@"age"],[[arr objectAtIndex:i] valueForKey:@"city"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"email"],[[arr objectAtIndex:i] valueForKey:@"school"],[[arr objectAtIndex:i] valueForKey:@"zip"],[[arr objectAtIndex:i] valueForKey:@"country"],[[arr objectAtIndex:i] valueForKey:@"address"],[[arr objectAtIndex:i] valueForKey:@"image"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"state"],[NSNumber numberWithBool:NO]] forKeys:@[@"id",@"firstname",@"lastname",@"cellphone",@"age",@"city",@"class_year",@"email",@"school",@"zip",@"country",@"address",@"image",@"class_year",@"state",@"isCheck"]];

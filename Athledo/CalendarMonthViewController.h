@@ -10,9 +10,7 @@
 @interface CalendarMonthViewController : TKCalendarMonthTableViewController<WebServiceDelegate,UITabBarDelegate>
 {
     IBOutlet UITabBar *tabBar;
-    
     NSString *strCurrentMonth;
-    
     NSDate *SelectedMonthStart;
     NSDate *SelectedMonthEnd;
     UIDeviceOrientation currentOrientation;

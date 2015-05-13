@@ -2,8 +2,8 @@
 //  WorkOutHistory.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 8/25/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 8/25/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "WorkOutHistory.h"
@@ -119,6 +119,7 @@
     }
 }
 - (void)orientationChanged{
+     [SingletonClass deleteUnUsedLableFromTable:tableview];
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
@@ -248,6 +249,7 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
+    [SingletonClass deleteUnUsedLableFromTable:tableview];
     [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag){
         case getDataTag:{
@@ -269,7 +271,7 @@
                 [arrSearchData removeAllObjects];
                 [arrSearchData addObjectsFromArray:[MyResults  objectForKey:DATA] ];
                 if (arrSearchData.count==0) {
-                    [self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout history"]];
+                    [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No workout history":tableview]];
                 }
                 [tableview reloadData];
             }else{

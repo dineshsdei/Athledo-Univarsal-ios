@@ -193,9 +193,6 @@ int Box_W;
 	info.day = daysInMonth;
 	NSDate *lastInMonth = [NSDate dateWithDateComponents:info];
 	NSDateComponents *lastDateInfo = [lastInMonth dateComponentsWithTimeZone:timeZone];
-
-	
-	
 	if(lastDateInfo.weekday < 7 && sunday){
 		
 		lastDateInfo.day = 7 - lastDateInfo.weekday;
@@ -220,13 +217,8 @@ int Box_W;
 	}else{
 		lastDate = lastInMonth;
 	}
-	
-	
-	
 	return @[firstDate,lastDate];
 }
-
-
 - (instancetype) initWithMonth:(NSDate*)date marks:(NSArray*)markArray startDayOnSunday:(BOOL)sunday timeZone:(NSTimeZone*)timeZone{
 	if(!(self=[super initWithFrame:CGRectZero])) return nil;
 
@@ -1193,6 +1185,8 @@ int Box_W;
 	
 	if([self.delegate respondsToSelector:@selector(calendarMonthView:didSelectDate:)])
 		[self.delegate calendarMonthView:self didSelectDate:[self dateSelected]];
+    
+    
 	
 	return ret;
 }

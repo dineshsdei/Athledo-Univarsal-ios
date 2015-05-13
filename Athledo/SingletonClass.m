@@ -2,8 +2,8 @@
 //  SingaltonClass.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 7/21/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 7/21/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "SingletonClass.h"
@@ -170,6 +170,26 @@ static SingletonClass *objSingaltonClass=nil;
     return lblShowEmptyMessage;
 }
 
++(UILabel *)ShowEmptyMessage :(NSString *)text :(id)control
+{
+    UIView *messageView = (UIView *)control;
+    UILabel *lblShowEmptyMessage;
+    float SCREENWIDTH;
+    float SCREENHEIGHT;
+
+    SCREENWIDTH=messageView.frame.size.width;
+    SCREENHEIGHT=messageView.frame.size.height;
+    
+    lblShowEmptyMessage=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/2-150, SCREENHEIGHT/2-50,300, 100)];
+    lblShowEmptyMessage.text=text;
+    lblShowEmptyMessage.tag=emptyLableMessagesTag;
+    lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
+    lblShowEmptyMessage.font=(isIPAD )?[UIFont systemFontOfSize:25] : [UIFont systemFontOfSize:20] ;
+    lblShowEmptyMessage.textColor=[UIColor grayColor];
+    
+    return lblShowEmptyMessage;
+}
+
 #pragma mark-Create Control
 -(UIToolbar *)toolBarWithDoneButton:(UIView *)view
 {
@@ -187,6 +207,14 @@ static SingletonClass *objSingaltonClass=nil;
     listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
     return listPicker;
 }
+-(UIDatePicker *)AddDatePickerView:(UIView *)view
+{
+    UIDatePicker *datePicker=[[UIDatePicker alloc] init];
+    datePicker.frame =CGRectMake(0,view.frame.size.height+50,view.frame.size.width, PickerHeight);
+    datePicker.backgroundColor=[UIColor whiteColor];
+    return datePicker;
+}
+
 
 -(void)doneClicked
 {

@@ -2,8 +2,8 @@
 //  MessangerView.m
 //  Athledo
 //
-//  Created by Dinesh on 20/07/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 20/07/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "MessangerView.h"
@@ -97,6 +97,7 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
+    [SingletonClass deleteUnUsedLableFromTable:table];
     
     switch (Tag)
     {
@@ -107,11 +108,11 @@
             {// Now we Need to decrypt data
         
                 messageArrDic =[MyResults objectForKey:DATA];
-                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages"]]):[SingletonClass deleteUnUsedLableFromTable:table];
+                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]]):[SingletonClass deleteUnUsedLableFromTable:table];
                 [table reloadData];
             }else
             {
-                [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages"]];
+                [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]];
             }
             
             break;
@@ -192,7 +193,6 @@
 -(void)orientationChanged
 {
     [SingletonClass deleteUnUsedLableFromTable:table];
-    messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"NO MESSAGE"]]):EMPTYSTRING;
 }
 #pragma mark - View lifecycle
 - (void)viewDidLoad
@@ -402,7 +402,7 @@
 -(void)deleteMessage:(id)sender
 {
     UIButton *btn=sender;
-    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete message ?" delegate:self btn1:@"NO" btn2:@"YES" tagNumber:(int)(btn.tag)];
+    [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete message?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:(int)(btn.tag)];
     
 }
 -(void)archiveMessage:(id)sender;

@@ -2,8 +2,8 @@
 //  ProfileView.m
 //  Athledo
 //
-//  Created by Dinesh on 20/07/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 20/07/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "ProfileView.h"
@@ -106,7 +106,6 @@
     [self setNeedsStatusBarAppearanceUpdate];
     Objwebcervice =[WebServiceClass shareInstance];
     Objwebcervice.delegate=self;
-    
     if ( [SingletonClass ShareInstance].isProfileSectionUpdate==TRUE) {
         arrAwards=nil;
         arrGenralinfo=nil;
@@ -117,13 +116,11 @@
         [SingletonClass ShareInstance].isProfileSectionUpdate=FALSE;
     }
     [super viewWillAppear:NO];
-    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:NO];
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -2,8 +2,8 @@
 //  Notes.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 2/23/15.
-//  Copyright (c) 2015 Dinesh. All rights reserved.
+//  Created by Smartdata on 2/23/15.
+//  Copyright (c) 2015 Athledo Inc. All rights reserved.
 //
 
 #import "Notes.h"
@@ -27,7 +27,26 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [self deletePDF];
+    if (isIPAD)
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [super viewDidDisappear:animated];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (isIPAD)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(orientationChanged)
+                                                     name:UIDeviceOrientationDidChangeNotification
+                                                   object:nil];
+    }
+
+}
+- (void)orientationChanged
+{
+    [SingletonClass deleteUnUsedLableFromTable:tableview];
 }
 - (void)viewDidLoad {
     
@@ -249,6 +268,7 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     [SingletonClass RemoveActivityIndicator:self.view];
+    [SingletonClass deleteUnUsedLableFromTable:tableview];
     switch (Tag)
     {
         case getNotesTag:
@@ -258,16 +278,15 @@
                 arrNotesData =[MyResults objectForKey:DATA];
                 
                 for (int i=0; i<arrNotesData.count; i++) {
-                    
                     NSDictionary *profile =[[arrNotesData objectAtIndex:i] valueForKey:@"UserProfile"];
                      [arrFilterdData addObject:profile];
                 }
                
-               arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
+               arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes":tableview]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
                 [tableview reloadData];
             }else{
                 
-                [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]];
+                [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes":tableview]];
             }
             break;
         }
@@ -396,7 +415,7 @@
 {
     [arrFilterdData removeAllObjects];
     [arrFilterdData addObjectsFromArray:[arrNotesData valueForKey:@"UserProfile"]];
-     arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
+     arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes":tableview]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
     [tableview reloadData];
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
@@ -430,7 +449,7 @@
                     [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:lowerCase]] ;
                     [arrFilterdData addObjectsFromArray:[res filteredArrayUsingPredicate:orginaltext]] ;
                     [tableview reloadData];
-                    arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes"]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
+                    arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes":tableview]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
                     [theSearchBar endEditing:YES];
                 }
             }else{

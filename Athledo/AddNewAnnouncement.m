@@ -3,8 +3,8 @@
 //  AddNewAnnouncement.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 7/24/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 7/24/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "AddNewAnnouncement.h"
@@ -451,12 +451,12 @@ UIDeviceOrientation CurrentOrientation;
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     if (currentText.tag==10||selectedBtn.tag==501) {
-        [df setDateFormat:@"MMM dd,yyyy"];
+        [df setDateFormat:DATE_FORMAT_MMM_DD_YYYY];
         [df setDateStyle:NSDateFormatterMediumStyle];
         [df setTimeStyle:NSDateFormatterNoStyle];
     }else if (currentText.tag==11||selectedBtn.tag==502)
     {
-        [df setDateFormat:@"hh:mm a"];
+        [df setDateFormat:TIME_FORMAT_h_m_A];
     }
     currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
 }
@@ -467,27 +467,13 @@ UIDeviceOrientation CurrentOrientation;
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark setcontent offset
-- (void)setContentOffset:(id)textField table:(UIScrollView*)m_ScrollView {
-    
-    UIView* txt = textField;
-    // Scroll to cell
-    int position=self.view.frame.size.height-(txt.frame.origin.y+txt.frame.size.height);
-    scrollHeight= scrollHeight ==0 ? [@"216" intValue]:scrollHeight;
-    if ((position < scrollHeight )) {
-        
-        [m_ScrollView setContentOffset:CGPointMake(0,scrollHeight+2*(txt.frame.size.height)) animated: YES];
-    }
-}
-
 // Set date in date picker in edit mode of Announcement
 
 -(void)setDateInDatePicker
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     if (currentText.text.length > 0 && currentText.tag == 10) {
-        
-        [df setDateFormat:@"MMM dd,yyyy"];
+        [df setDateFormat:DATE_FORMAT_MMM_DD_YYYY];
         NSDate *Date;
         Date= [df dateFromString:currentText.text];
         UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
@@ -497,7 +483,7 @@ UIDeviceOrientation CurrentOrientation;
         
     }else{
         [df setTimeStyle:NSDateFormatterShortStyle];
-        [df setDateFormat:@"hh:mm a"];
+        [df setDateFormat:TIME_FORMAT_h_m_A];
         NSDate *Date;
         Date= [df dateFromString:currentText.text];
         UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
@@ -510,7 +496,9 @@ UIDeviceOrientation CurrentOrientation;
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    [self setContentOffset:textField table:scrollView];
+    if (![textField.placeholder isEqualToString:@"Enter Name"]) {
+        scrollView.contentOffset = CGPointMake(0, textField.frame.origin.y-(100));
+    }
     currentText=nil;
     currentText=textField;
      NSDateFormatter *df = [[NSDateFormatter alloc] init];
@@ -519,7 +507,7 @@ UIDeviceOrientation CurrentOrientation;
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
          datePicker.datePickerMode = UIDatePickerModeDate;
         if (currentText.text.length ==0) {
-            [df setDateFormat:@"MMM dd,yyyy"];
+            [df setDateFormat:DATE_FORMAT_MMM_DD_YYYY];
             [df setDateStyle:NSDateFormatterMediumStyle];
             [df setTimeStyle:NSDateFormatterNoStyle];
             currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
@@ -532,7 +520,7 @@ UIDeviceOrientation CurrentOrientation;
         [self setDateInDatePicker];
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
          datePicker.datePickerMode = UIDatePickerModeTime;
-        [df setDateFormat:@"hh:mm a"];
+        [df setDateFormat:TIME_FORMAT_h_m_A];
         currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
@@ -544,6 +532,7 @@ UIDeviceOrientation CurrentOrientation;
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -561,14 +550,8 @@ UIDeviceOrientation CurrentOrientation;
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
-    
-    if ( txtViewCurrent.text.length == 0 && (obj == nil)) {
-        
-        textView.text=EMPTYSTRING;
-    }
-    
     txtViewCurrent=textView;
-    [self setContentOffset:textView table:scrollView];
+     scrollView.contentOffset = CGPointMake(0, textView.frame.origin.y-(20));
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -579,13 +562,11 @@ UIDeviceOrientation CurrentOrientation;
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([textView.text isEqualToString:@"Enter Description"]) {
-        
         textView.text=EMPTYSTRING;
     }
     
     return YES;
 }
-
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     textView.autocorrectionType = UITextAutocorrectionTypeNo;

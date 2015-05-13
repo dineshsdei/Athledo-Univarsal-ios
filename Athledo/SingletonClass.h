@@ -2,8 +2,8 @@
 //  SingaltonClass.h
 //  Athledo
 //
-//  Created by Dinesh Kumar on 7/21/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 7/21/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -46,10 +46,12 @@
 -(UIDeviceOrientation )CurrentOrientation :(id)controller;
 
 +(UILabel *)ShowEmptyMessage :(NSString *)text;
++(UILabel *)ShowEmptyMessage :(NSString *)text :(id)control;
 +(void)deleteUnUsedLableFromTable :(id)table;
 
 -(UIToolbar *)toolBarWithDoneButton:(UIView *)view;
 -(UIPickerView *)AddPickerView:(UIView *)view;
+-(UIDatePicker *)AddDatePickerView:(UIView *)vie;
 -(void)doneClicked;
 +(NSString *)DocumentDirectoryPath;
 

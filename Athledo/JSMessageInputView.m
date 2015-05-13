@@ -5,7 +5,7 @@
 #import "NSString+JSMessagesView.h"
 #import "UIImage+JSMessagesView.h"
 
-#define SEND_BUTTON_WIDTH 78.0f
+#define SEND_BUTTON_WIDTH 50.0f
 
 @interface JSMessageInputView ()
 
@@ -92,6 +92,7 @@
         [sendButton removeFromSuperview];
     
     sendButton = btn;
+    sendButton.frame = CGRectMake(sendButton.frame.origin.x+20, sendButton.frame.origin.y, 30, 25);
     [self addSubview:self.sendButton];
 }
 
@@ -111,25 +112,19 @@
                                      prevFrame.origin.y,
                                      prevFrame.size.width,
                                      prevFrame.size.height + changeInHeight);
-    
+
     self.textView.contentInset = UIEdgeInsetsMake((numLines >= 6 ? 4.0f : 0.0f),
                                                   0.0f,
                                                   (numLines >= 6 ? 4.0f : 0.0f),
                                                   0.0f);
-    
-    //self.textView.scrollEnabled = (numLines >= 4);
-    
     if(numLines >2) {
         CGPoint bottomOffset = CGPointMake(0.0f, self.textView.contentSize.height - self.textView.bounds.size.height);
         
         if (bottomOffset.y > 0) {
              [self.textView setContentOffset:bottomOffset animated:YES];
         }
-        
-       
     }
 }
-
 + (CGFloat)textViewLineHeight
 {
     return 30.0f; // for fontSize 15.0f
@@ -137,14 +132,14 @@
 
 + (CGFloat)maxLines
 {
-    return ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) ? 8.0f : 8.0f;
+    return ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) ? 5.0f : 5.0f;
 
    // return ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) ? 4.0f : 8.0f;
 }
 
 + (CGFloat)maxHeight
 {
-    return ([JSMessageInputView maxLines] + 1.0f) * [JSMessageInputView textViewLineHeight];
+       return ([JSMessageInputView maxLines] + 1.0f) * [JSMessageInputView textViewLineHeight];
 }
 
 @end

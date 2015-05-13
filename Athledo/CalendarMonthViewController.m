@@ -355,6 +355,7 @@ UIBarButtonItem *revealButtonItem;;
     [super calendarMonthView:mv monthDidChange:d animated:animated];
     [self.tableView reloadData];
 }
+
 #pragma mark UITableView Delegate & DataSource
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -571,7 +572,13 @@ UIBarButtonItem *revealButtonItem;;
             }
         }
     }
+    
+    
+    
     [self.monthView reloadData];
+   
     [self.tableView reloadData];
 }
+
+
 @end

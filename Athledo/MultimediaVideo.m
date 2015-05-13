@@ -2,8 +2,8 @@
 //  MultimediaVideo.m
 //  Athledo
 //
-//  Created by Dinesh Kumar on 12/16/14.
-//  Copyright (c) 2014 Dinesh. All rights reserved.
+//  Created by Smartdata on 12/16/14.
+//  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
 #import "MultimediaVideo.h"
@@ -203,6 +203,7 @@
     }
 }
 - (void)orientationChanged{
+    [SingletonClass deleteUnUsedLableFromTable:_tableView];
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
@@ -455,13 +456,13 @@
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
                     [multimediaData addObject:temp];
                 }
-                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No videos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
+                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No videos":_tableView]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
                 _segmentControl.selectedSegmentIndex=0;
                 [_tableView reloadData];
             }else{
                 [multimediaData removeAllObjects];
                 [_tableView reloadData];
-                multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No videos"]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
+                multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No videos":_tableView]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
             }
             break;
         } case getSeasonTag:
