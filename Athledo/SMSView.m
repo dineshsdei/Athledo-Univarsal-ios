@@ -43,27 +43,27 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        NSDictionary* info = [note userInfo];
-        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        keyboardHeight = kbSize.height;
-        
-        if (iosVersion < 8) {
-            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
-        }else{
-            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
-        }
-        if (currentTextview) {
-            if (iosVersion < 8) {
-                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
-            }else{
-                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
-            }
-        }
-    }];
-    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        
-    }];
+    //    self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+    //        NSDictionary* info = [note userInfo];
+    //        CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    //        keyboardHeight = kbSize.height;
+    //
+    //        if (iosVersion < 8) {
+    //            keyboardHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
+    //        }else{
+    //            keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
+    //        }
+    //        if (currentTextview) {
+    //            if (iosVersion < 8) {
+    //                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
+    //            }else{
+    //                [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
+    //            }
+    //        }
+    //    }];
+    //    self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+    //
+    //    }];
     
     if (isIPAD)
     {
@@ -76,8 +76,8 @@
     
 }
 - (void)viewDidLoad {
-   
-
+    
+    
     [super viewDidLoad];
     [self getSMSListData];
     _ObjSegment.selectedSegmentIndex = 0;
@@ -94,7 +94,7 @@
     _textview.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _textview.textColor = [UIColor blackColor];
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                 NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     SWRevealViewController *revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
@@ -122,7 +122,6 @@
     
     [btnAllcheck setImage:UncheckImage forState:UIControlStateNormal];
     [btnAllcheck setImage:CheckImage forState:UIControlStateSelected];
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -148,12 +147,9 @@
         }else{
             [[arrGroupFilterdData objectAtIndex:button.tag] setValue:[NSNumber numberWithBool:YES] forKey:@"isCheck"];
         }
-        
     }
-    
     [self AllButtonUpdateStatus];
 }
-
 #pragma mark- UITableview Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -248,15 +244,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_ObjSegment.selectedSegmentIndex == 0) {
-        
         AthleteDetail *athleteDetails = [[AthleteDetail alloc] initWithNibName:@"AthleteDetail" bundle:nil];
         athleteDetails.objAthleteDetails = [arrFilterdData objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:athleteDetails animated:YES];
     }
 }
-
 #pragma mark SearchBar Delegate
-
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     currentTextview = searchBar;
@@ -264,11 +257,10 @@
     searchBar.showsCancelButton=NO;
     [searchBar resignFirstResponder];
 }
-
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     currentTextview= nil;
-    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
+    //[SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
     searchBar.showsCancelButton=YES;
 }
 
@@ -285,7 +277,6 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
 {
     @try {
-        
         if(theSearchBar.text.length>0)
         {
             if ([SingletonClass  CheckConnectivity]) {
@@ -317,25 +308,29 @@
 #pragma mark UITextview Delegate
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-        
-        if (iosVersion < 8) {
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
-        }else{
-            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
-        }
-        
-    }completion:^(BOOL finished){
-        
-    }];
+    //    [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+    //
+    //        if (iosVersion < 8) {
+    //            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+    //        }else{
+    //            [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
+    //        }
+    //
+    //    }completion:^(BOOL finished){
+    //
+    //    }];
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    textView.autocorrectionType = UITextAutocorrectionTypeNo;
     currentTextview = textView;
     if ([_textview.text isEqualToString:@"Compose New Sms"]) {
         _textview.text = EMPTYSTRING;
     }
+    
+    textView.autocorrectionType = UITextAutocorrectionTypeNo;
+    [SingletonClass ShareInstance].delegate = self;
+    textView.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];;
+    
     return YES;
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
@@ -346,7 +341,7 @@
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if (textView.text.length > 140) {
+    if (textView.text.length > 140 && !(text.length==0)) {
         [SingletonClass initWithTitle:EMPTYSTRING message:@"The message body exceeds the 160 character limit" delegate:nil btn1:@"Ok"];
         return NO;
     }else{
@@ -355,7 +350,6 @@
 }
 #pragma mark UISegmentControl Delegate
 - (IBAction)ValueChange:(id)sender {
-    
     UISegmentedControl *objSegment=(UISegmentedControl *)sender;
     if (objSegment.selectedSegmentIndex==0) {
         PreviousIndex = objSegment.selectedSegmentIndex;
@@ -380,13 +374,12 @@
 -(void)Done
 {
     [self.view endEditing:YES];
-    [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
+    //[SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+(keyboardHeight+22)) :toolBar];
 }
 #pragma mark WebService Comunication Method
 -(void)getSaveSMSDataOnWeb{
     
     @try {if ([SingletonClass  CheckConnectivity]) {
-        
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -533,14 +526,14 @@
         for (int i=0; i< arrGroupFilterdData.count; i++) {
             [[arrGroupFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }
-         arrGroupFilterdData.count == 0 ? [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
+        arrGroupFilterdData.count == 0 ? [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
     }
 }
 -(void)FilterData:(id)data
 {
     @try {
         NSArray *arr = (NSArray *)data;
-         arr.count == 0 ? [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
+        arr.count == 0 ? [_tableview addSubview:[SingletonClass ShowEmptyMessage:@"No records":_tableview]] :[SingletonClass deleteUnUsedLableFromTable:self.view];
         if (_ObjSegment.selectedSegmentIndex == 0) {
             for (int i=0; i< arr.count; i++) {
                 NSMutableDictionary *dicTemp = [NSMutableDictionary dictionaryWithObjects:@[[[arr objectAtIndex:i] valueForKey:@"id"],[[arr objectAtIndex:i] valueForKey:@"firstname"],[[arr objectAtIndex:i] valueForKey:@"lastname"],[[arr objectAtIndex:i] valueForKey:@"cellphone"],[[arr objectAtIndex:i] valueForKey:@"age"],[[arr objectAtIndex:i] valueForKey:@"city"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"email"],[[arr objectAtIndex:i] valueForKey:@"school"],[[arr objectAtIndex:i] valueForKey:@"zip"],[[arr objectAtIndex:i] valueForKey:@"country"],[[arr objectAtIndex:i] valueForKey:@"address"],[[arr objectAtIndex:i] valueForKey:@"image"],[[arr objectAtIndex:i] valueForKey:@"class_year"],[[arr objectAtIndex:i] valueForKey:@"state"],[NSNumber numberWithBool:NO]] forKeys:@[@"id",@"firstname",@"lastname",@"cellphone",@"age",@"city",@"class_year",@"email",@"school",@"zip",@"country",@"address",@"image",@"class_year",@"state",@"isCheck"]];
@@ -626,7 +619,7 @@
                 }
             }
             if (selectedNumber == NO) {
-                strError = @"Please select receiver";
+                strError = @"Please select Athletes/Groups";
             }
         }
         if(strError.length>2)
@@ -686,6 +679,8 @@
                 }
             }
         }
+        
+        [SingletonClass addActivityIndicator:self.view];
     }@catch (NSException *exception) {
     }
     @finally {
@@ -696,6 +691,8 @@
 }
 - (void)requestFinished:(ASIHTTPRequest *)theRequest {
     @try {
+        [SingletonClass RemoveActivityIndicator:self.view];
+        
         SBJsonParser *parser = [[SBJsonParser alloc] init];
         NSDictionary *responseDict = [parser objectWithString:[theRequest responseString ]];
         

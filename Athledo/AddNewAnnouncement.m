@@ -218,7 +218,6 @@ UIDeviceOrientation CurrentOrientation;
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
     //set pickerView
-    
     [self getGroupList];
     if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight)))
     {
@@ -345,10 +344,8 @@ UIDeviceOrientation CurrentOrientation;
                     
                     for (int i=0; i<[arr count]; i++) {
                         NSString *value=[arr objectAtIndex:i];
-                        
                         [groupArray addObject:value];
                     }
-                    
                     for (int i=0;i< groupArray.count;i++){
                         [selectedGroups setObject:[NSNumber numberWithBool:NO] forKey:[groupArray objectAtIndex:i]];
                     }

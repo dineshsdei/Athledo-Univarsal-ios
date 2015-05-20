@@ -11,7 +11,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 
-@interface Attendance : UIViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,WebServiceDelegate>
+@interface Attendance : UIViewController<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,WebServiceDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

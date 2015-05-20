@@ -59,10 +59,14 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    int cellHeight;
+    cellHeight = (SCREEN_HEIGHT == 480 && !(isIPAD)) ? 38 : (SCREEN_HEIGHT == 568 ? 45 : ((SCREEN_HEIGHT > 568 && !(isIPAD)) ? 50 : (SCREEN_HEIGHT == 1024 ? 60 : 60)));
+    
     if(isIPAD){
-        return 69;
+        return cellHeight;
     }else{
-        return 38;
+        return cellHeight;
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -74,13 +78,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
         cell.backgroundColor=[UIColor clearColor];
         UIImageView *cellImageView;
-//        if(indexPath.row==12 && [[arrMenuList objectAtIndex:2] isEqualToString:@"Notes"])
-//        {
-//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(17,(cell.frame.size.height/2)-(isIPAD ? 5: 15),35,30)];
-//        }else
-//        {
-//            cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
-//        }
          cellImageView=[[UIImageView alloc] initWithFrame:CGRectMake(20,(cell.frame.size.height/2)-(isIPAD ? 5: 15),30,30)];
         cellImageView.tag=101;
         [cell addSubview:cellImageView];
@@ -133,8 +130,9 @@
                 if ([[NSString stringWithFormat:@"%@",[notificationData valueForKey:@"message"]] intValue] > 0){
                     lblShowUpdate.hidden=NO;
                     lblShowUpdate.text= [NSString stringWithFormat:@"%d",[[notificationData valueForKey:@"message"] intValue]];
-                }
-            } else
+                }else
+                    lblShowUpdate.hidden=YES;
+            }else
                 lblShowUpdate.hidden=YES;
             break;
         }
@@ -186,6 +184,7 @@
     [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
     [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
     [SingletonClass ShareInstance].isMessangerArchive=TRUE;
+    [SingletonClass ShareInstance].isPracticeLogUpdate=TRUE;
     if ([UserInformation shareInstance].userType == isManeger || [UserInformation shareInstance].userType == isCoach) {
         [self isCoahOrManagerMoveToController:indexPath.row];
     }else{
@@ -212,7 +211,17 @@
         }
         else
         {
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                 [revealController revealToggleAnimated:YES];
+            }
+           
         }
     }
     else if (row == 1){
@@ -226,7 +235,19 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                WorkOutView *workoutViewController = [[WorkOutView alloc] initWithNibName:@"WorkOutView" bundle:nil];
+                workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:workoutViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+               
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
+
         }
     }
     else if (row == 2){
@@ -239,9 +260,52 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+                
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
         }
     }else if (row == 3){
+
+        if ( ![frontNavigationController.topViewController isKindOfClass:[PracticeLog class]] ){
+            PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+            [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+            [navigationController.navigationBar setTranslucent:NO];
+            [revealController pushFrontViewController:navigationController animated:YES];
+        }
+        else{
+            
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                    [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                    PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+                    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+                    [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                    [navigationController.navigationBar setTranslucent:NO];
+                    [revealController pushFrontViewController:navigationController animated:YES];
+                    
+                }else{
+                    [revealController revealToggleAnimated:YES];
+                }
+            }
+           
+        }
+    }else if (row == 4){
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] ){
             CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
             vc.objNotificationData=notificationData ;
@@ -251,9 +315,21 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
+                vc.objNotificationData=notificationData ;
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+
+                
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
         }
-    }else if (row == 4){
+    }else if (row == 5){
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
         {
             MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
@@ -263,9 +339,19 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+                
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
         }
-    }else if (row == 5){
+    }else if (row == 6){
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] ){
             ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
@@ -275,7 +361,17 @@
         }
         // Seems the user attempts to 'switch' to exactly the same controller he came from!
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+                
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
         }
     }
 }
@@ -297,8 +393,18 @@
         }
         else
         {
-            [revealController revealToggleAnimated:YES];
-        }
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                Notes *notesViewController = [[Notes alloc] initWithNibName:@"Notes" bundle:nil];            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+
+            }else{
+                [revealController revealToggleAnimated:YES];
+  
+            }
+                    }
     }else if (row == 0){
         if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] )
         {
@@ -310,7 +416,17 @@
         }
         else
         {
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                 [revealController revealToggleAnimated:YES];
+            }
+           
         }
     }
     else if (row == 1){
@@ -324,7 +440,19 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                WorkOutView *workoutViewController = [[WorkOutView alloc] initWithNibName:@"WorkOutView" bundle:nil];
+                workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:workoutViewController];
+                
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                 [revealController revealToggleAnimated:YES];
+            }
+           
         }
     }
     else if (row == 3){
@@ -336,7 +464,17 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                SMSView *ViewController = [[SMSView alloc] initWithNibName:@"SMSView" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
+            
         }
     }
     else if (row == 4){
@@ -348,7 +486,17 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                  [revealController revealToggleAnimated:YES];
+            }
+          
         }
     }else if (row == 5){
         if ( ![frontNavigationController.topViewController isKindOfClass:[Attendance class]] ){
@@ -359,19 +507,45 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                Attendance *ViewController = [[Attendance alloc] initWithNibName:@"Attendance" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                 [revealController revealToggleAnimated:YES];
+            }
+           
         }
     }else if (row == 6){
+
         if ( ![frontNavigationController.topViewController isKindOfClass:[PracticeLog class]] ){
             PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+            vc.comesFromMenuStatus = TRUE;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
-        }
+            
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE) {
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+
+                PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+                vc.comesFromMenuStatus = TRUE;
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+                
+
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
+                   }
     }else if (row == 7){
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] ){
             CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
@@ -382,7 +556,18 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                CalendarMonthViewController   *vc =  [[CalendarMonthViewController alloc] initWithSunday:YES];
+                vc.objNotificationData=notificationData ;
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                 [revealController revealToggleAnimated:YES];
+            }
+           
         }
     }else if (row == 8){
         if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] ){
@@ -393,7 +578,17 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            [revealController revealToggleAnimated:YES];
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
+                [revealController revealToggleAnimated:YES];
+            }
+           
         }
     }else if (row == 9){
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] ){
@@ -406,7 +601,16 @@
         // Seems the user attempts to 'switch' to exactly the same controller he came from!
         else
         {
+            if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
+                [SingletonClass ShareInstance].isUserLogOut = FALSE;
+                ProfileView *frontViewController = [[ProfileView alloc] initWithNibName:@"ProfileView" bundle:nil];
+                UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
+                [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
+                [navigationController.navigationBar setTranslucent:NO];
+                [revealController pushFrontViewController:navigationController animated:YES];
+            }else{
             [revealController revealToggleAnimated:YES];
+            }
         }
     }
 }
@@ -509,6 +713,13 @@
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
     self.rearTableView.backgroundColor=[UIColor clearColor];
     self.rearTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    int tableHeight =0;
+    UIDeviceOrientation orentation = [[SingletonClass ShareInstance] CurrentOrientation:self];
+    tableHeight = (SCREEN_HEIGHT == 480 && !(isIPAD)) ? 300 : (SCREEN_HEIGHT == 568 ? 460 : (orentation == UIDeviceOrientationPortrait) ? 970 : 700);
+    self.rearTableView.frame = CGRectMake(self.rearTableView.frame.origin.x
+                                          , self.rearTableView.frame.origin.y, self.rearTableView.frame.size.width, tableHeight);
+    
+    
     SWRevealViewController *parentRevealController = self.revealViewController;
     SWRevealViewController *grandParentRevealController = parentRevealController.revealViewController;
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
@@ -612,6 +823,8 @@
     [SingletonClass ShareInstance].isMessangerInbox=TRUE;
     [SingletonClass ShareInstance].isMessangerSent=TRUE;
     [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isUserLogOut = TRUE;
+
     notificationData=nil;
     [UserInformation resetSharedInstance];
     BOOL isLoginView=FALSE;

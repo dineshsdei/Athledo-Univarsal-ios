@@ -232,7 +232,7 @@
     btnSave.titleLabel.textColor=[UIColor whiteColor];
     isSelectAthlete=FALSE;
     
-    self.title =@"Detail";
+    self.title =@"Workout Detail";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;

@@ -131,7 +131,6 @@
             {// Now we Need to decrypt data
                 
                arrMessageConversation =[MyResults objectForKey:DATA];
-                
                 for (int i=0 ; i < arrMessageConversation.count; i++) {
                     
                     [self.messages addObject: [[arrMessageConversation objectAtIndex:i] valueForKey:@"desc"]];

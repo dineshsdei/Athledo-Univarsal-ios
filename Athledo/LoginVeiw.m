@@ -75,12 +75,15 @@
                 [NSURLConnection sendAsynchronousRequest:request
                                                    queue:[NSOperationQueue mainQueue]
                                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                           
                                            if (data!=nil)
                                            {
                                                [self httpResponseReceived : data];
                                            }else
                                            {
-                                               [SingletonClass RemoveActivityIndicator:self.view];
+                                               [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
+                                               //[SingletonClass RemoveActivityIndicator:self.view];
+                                               
                                            }
                                            
                                        }];
@@ -103,7 +106,7 @@
     // ***Tag 100 for Log in web service
     if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
     {
-        [SingletonClass RemoveActivityIndicator:self.view];
+       
         NSMutableDictionary *user=[[myResults objectForKey:DATA] objectForKey:@"User"];
         UserInformation *userdata=[UserInformation shareInstance];
         userdata.arrUserTeam=[[myResults objectForKey:DATA] objectForKey:@"UserTeam"];
@@ -157,7 +160,8 @@
                 [self.navigationController pushViewController:Dashboard animated:NO];
             }
         }
-        
+     [SingletonClass RemoveActivityIndicator:self.view];
+    
     }else  if([[myResults objectForKey:STATUS] isEqualToString:@"failed"])
     {
         [SingletonClass RemoveActivityIndicator:self.view];

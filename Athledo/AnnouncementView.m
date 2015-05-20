@@ -154,8 +154,7 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
-    [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
+    
     switch (Tag)
     {
         case getNotificationTag:
@@ -169,18 +168,18 @@
                     [tblUpdatesRecods reloadData];
                 }
             }
-            
-            break;
+           break;
         }
         case getAnnouncementTag:
         {
+            [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+            [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
             
             NSArray *data=[MyResults objectForKey:DATA] ;
             if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 
                 [arrAnnouncements removeAllObjects];
-                [SingletonClass RemoveActivityIndicator:self.view];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 self.navigationItem.leftBarButtonItem.enabled=YES;
 
@@ -216,16 +215,18 @@
                 [tblAnnouncementRecods reloadData];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 self.navigationItem.leftBarButtonItem.enabled=YES;
-                [SingletonClass RemoveActivityIndicator:self.view];
                 [arrAnnouncements removeObject:[[data objectAtIndex:0]objectForKey:@"Announcement"]];
                 
                 [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblAnnouncementRecods] ];
                  [tblUpdatesRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblUpdatesRecods] ];
             }
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
          case searchAnnouncementTag:{
-            [SingletonClass RemoveActivityIndicator:self.view];
+             [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
+             [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
+           
             if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 [arrAnnouncements removeAllObjects];
                 NSArray *data=[MyResults objectForKey:DATA] ;
@@ -257,6 +258,7 @@
                 [tblAnnouncementRecods addSubview:[SingletonClass ShowEmptyMessage:@"No announcements":tblAnnouncementRecods]] :@"";
                 [tblAnnouncementRecods reloadData];
             }
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
     }
@@ -421,13 +423,13 @@
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
      btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
+    UIImage *imageEdit=[UIImage imageNamed:@"Navadd.png"];
      btnAddNew.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnAddNew addTarget:self action:@selector(AddNewAnnouncement) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setImage:imageEdit forState:UIControlStateNormal];
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_ICON_BG_COLOR;
     [self CerateLayOut];
     [[SingletonClass ShareInstance] CurrentOrientation:self];
     [self getList];

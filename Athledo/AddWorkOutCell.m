@@ -117,7 +117,7 @@
                         
                         
                         UIButton *btnDelete=[UIButton buttonWithType:UIButtonTypeCustom];
-                        [btnDelete setBackgroundImage:[UIImage imageNamed:@"deleteBtn.png"] forState:UIControlStateNormal];
+                        [btnDelete setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
                         btnDelete.frame=CGRectMake(txtField.frame.size.width+btnAdd.frame.size.width+((isIPAD) ? 50 : 20), txtField.frame.size.height/2-14,(Add_Delete_Size+5),(Add_Delete_Size+5));
                         
                         if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Custom Tags"] )
@@ -301,7 +301,7 @@
                 
                 
                 UIButton *btnSave=[UIButton buttonWithType:UIButtonTypeCustom];
-                [btnSave setBackgroundImage:[UIImage imageNamed:@"deleteBtn.png"] forState:UIControlStateNormal];
+                [btnSave setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
                 btnSave.frame=CGRectMake(CellWeight/3, 10,CellWeight/3,30);
                 [btnSave setBackgroundImage:[UIImage imageNamed:@"login_btn.png"] forState:UIControlStateNormal];
                 [btnSave setTitle:@"Save" forState:UIControlStateNormal];
@@ -363,7 +363,7 @@
                 
             }else{
                 
-                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"deleteBtn.png"] forState:UIControlStateNormal];
+                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
                 [btnWholeTeam addTarget:self action:@selector(deleteExerciseSection:) forControlEvents:UIControlEventTouchUpInside];
             }
             btnWholeTeam.tag=indexPath.section-(arrfixCellFields.count-(count));

@@ -96,9 +96,8 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingletonClass RemoveActivityIndicator:self.view];
+   
     [SingletonClass deleteUnUsedLableFromTable:table];
-    
     switch (Tag)
     {
         case getMessagesTag:
@@ -114,7 +113,7 @@
             {
                 [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]];
             }
-            
+             [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
         case deleteMessagesTag:
@@ -131,7 +130,7 @@
                   [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
-            
+             [SingletonClass RemoveActivityIndicator:self.view];
              break;
         }
         case archiveMessagesTag:
@@ -148,7 +147,7 @@
                  [SingletonClass RemoveActivityIndicator:self.view];
                  [SingletonClass initWithTitle:EMPTYSTRING message:@"Message archived fail try again" delegate:nil btn1:@"Ok"];
             }
-            
+             [SingletonClass RemoveActivityIndicator:self.view];
              break;
         }
     }

@@ -12,6 +12,8 @@
     NSArray *dicListData;
     NSArray *serviceListData;
     UIBarButtonItem *ButtonItem;
+    NSArray *arrAbsenceReason;
+    UITextField *currentTextField;
     
 }
 @end
@@ -31,7 +33,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    arrAbsenceReason = @[@"Injured",@"Sick",@"Emergency",@"Class/Exam",@"InExcused",@"Other"];
     if (isIPAD)
     {
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -178,6 +180,7 @@
 }
 -(void)ChangeCell:(SWTableViewCell*)cell{
     if (cell.cellUtilityButtonState == kCellStateLeft) {
+        //[self ReasonForAbsent:cell];
         [self ChangeCellField:cell];
         [cell showLeftUtilityButtonsAnimated:NO];
         cell.cellUtilityButtonState = kCellStateRight;
@@ -188,6 +191,28 @@
     }
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+
+}
+#pragma mark- UIPickerView
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [arrAbsenceReason count];
+}
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    if (currentTextField.text.length == 0) {
+        currentTextField.text=[arrAbsenceReason objectAtIndex:0];
+    }
+    NSString *str = [arrAbsenceReason objectAtIndex:row];
+    return str;
+}
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    currentTextField.text=[arrAbsenceReason objectAtIndex:row];
 }
 #pragma mark Webservice call event
 -(void)SaveAttendance{
@@ -222,7 +247,7 @@
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
-    [SingletonClass RemoveActivityIndicator:self.view];
+   
     switch (Tag){
         case getAttendanceTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
@@ -237,6 +262,7 @@
                 [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice now":_tableView]];
                 [_tableView reloadData];
             }
+             [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
         case SaveAttendanceTag:{
@@ -244,11 +270,51 @@
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Attendance has been saved successfully." delegate:nil btn1:@"Ok"];
             }
+             [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
     }
 }
 #pragma mark Class Utility method Method
+
+-(void)ReasonForAbsent:(id)sender
+{
+    UIPickerView *reasonPicker = [[SingletonClass ShareInstance] AddPickerView:self.view];
+    reasonPicker.delegate = self;
+    reasonPicker.backgroundColor = [UIColor whiteColor];
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"Reason For Absence"
+                              message:EMPTYSTRING
+                              delegate:self
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil, nil];
+    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    textField.placeholder=@"Select Reason";
+    currentTextField = textField;
+    [reasonPicker reloadComponent:0];
+    [textField setInputView:reasonPicker];
+    
+    //        if (iosVersion >=8) {
+    //            [reasonPicker removeFromSuperview];
+    //        }
+    //
+    //    //textField.delegate=self;
+    //    currentText=textField;
+    // Add arrow image in textfield
+    UIImage *image;
+    
+    image=[UIImage imageNamed:@"arrow.png"];
+    UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
+    imageview.frame=CGRectMake(textField.frame.size.width-imageview.frame.size.width, textField.frame.origin.x,imageview.frame.size.width, imageview.frame.size.height);
+    [textField addSubview:imageview];
+    // textField.keyboardType = UIKeyboardTypeNumberPad;
+    
+    [alertView show];
+    //alertView=nil;
+    
+}
+
 -(void)showHideFields:(BOOL)responseStatus
 {
     UIView *view = [self.view viewWithTag:ATTENDANCE_DRAG_VIEW];

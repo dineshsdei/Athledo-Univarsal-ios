@@ -14,7 +14,7 @@
 @end
 @implementation WorkoutHistoryDetails
 - (void)viewDidLoad {
-    self.title = NSLocalizedString(@"Workout History Details", nil);
+    self.title = NSLocalizedString(@"Workout History Detail", nil);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;

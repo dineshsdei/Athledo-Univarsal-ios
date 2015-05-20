@@ -16,11 +16,8 @@
 #import "MessageDetails.h"
 #import "SWRevealViewController.h"
 
-
 @interface SentItemsView ()
-
 @end
-
 @implementation SentItemsView
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -50,30 +47,27 @@
 }
 -(void)deleteMessageEvent :(int)Webmail_id :(int)webmail_sender_id{
     if ([SingletonClass  CheckConnectivity]) {
-       // UserInformation *userInfo=[UserInformation shareInstance];
+        // UserInformation *userInfo=[UserInformation shareInstance];
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\"}",webmail_sender_id,Webmail_id];
-       [SingletonClass addActivityIndicator:self.view];
-       [webservice WebserviceCall:webServiceDeleteMessage :strURL :deleteMessagesTag];
+        [SingletonClass addActivityIndicator:self.view];
+        [webservice WebserviceCall:webServiceDeleteMessage :strURL :deleteMessagesTag];
         
     }else{
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)archiveMessageEvent :(int)webmail_parent_id{
-    
     if ([SingletonClass  CheckConnectivity]) {
+        NSString *strURL = [NSString stringWithFormat:@"{\"status\":\"%@\",\"webmail_parent_id\":\"%d\"}",@"sent_to_archive",webmail_parent_id];
+        [SingletonClass addActivityIndicator:self.view];
+        [webservice WebserviceCall:webServiceMessageStatus:strURL :archiveMessagesTag];
         
-    NSString *strURL = [NSString stringWithFormat:@"{\"status\":\"%@\",\"webmail_parent_id\":\"%d\"}",@"sent_to_archive",webmail_parent_id];
-    [SingletonClass addActivityIndicator:self.view];
-    [webservice WebserviceCall:webServiceMessageStatus:strURL :archiveMessagesTag];
-   
     }else{
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag)
     {
         case getMessagesTag:
@@ -81,33 +75,31 @@
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 messageArrDic =[MyResults objectForKey:DATA];
-               messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]]): [SingletonClass deleteUnUsedLableFromTable:table];
+                messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]]): [SingletonClass deleteUnUsedLableFromTable:table];
                 [table reloadData];
             }else
             {
                 [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]];
             }
-            
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
         case deleteMessagesTag:
         {
-            
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-                 [SingletonClass RemoveActivityIndicator:self.view];
+                [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
-                  [SingletonClass RemoveActivityIndicator:self.view];
+                [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
-            
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
         case archiveMessagesTag:
         {
-            
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 [SingletonClass ShareInstance].isMessangerSent = TRUE;
@@ -116,11 +108,10 @@
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message archived successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
-                 [SingletonClass RemoveActivityIndicator:self.view];
-                
+                [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message archive fail try again" delegate:nil btn1:@"Ok"];
             }
-            
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
     }
@@ -145,16 +136,13 @@
         [self getMessages];
         [SingletonClass ShareInstance].isMessangerSent=FALSE;
     }
-
 }
-
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
 -(void)orientationChanged
 {
-   [SingletonClass deleteUnUsedLableFromTable:table];
+    [SingletonClass deleteUnUsedLableFromTable:table];
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -166,7 +154,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-   
+    
     messageArrDic=[[NSArray alloc] init];
     
     self.title = NSLocalizedString(@"Sent Messages", EMPTYSTRING);
@@ -184,7 +172,7 @@
     SWRevealViewController *revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
-     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
@@ -192,7 +180,7 @@
     self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
-
+    
     [self getMessages];
 }
 
@@ -208,12 +196,12 @@
             [self.navigationController popToViewController:object animated:NO];
         }
     }
-     if (Status==FALSE)
+    if (Status==FALSE)
     {
         ComposeMessage *compose=[[ComposeMessage alloc] initWithNibName:@"ComposeMessage" bundle:nil];
         [self.navigationController pushViewController:compose animated:NO];
     }
-
+    
 }
 
 
@@ -227,7 +215,7 @@
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-     return 1;
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -268,7 +256,7 @@
     cell.lblDescription.font=SmallTextfont;
     cell.lblReceivingDate.font=SmallTextfont;
     if ([[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"is_read"] intValue] == 1) {
-       // cell.lblSenderName.textColor=[UIColor lightGrayColor];
+        // cell.lblSenderName.textColor=[UIColor lightGrayColor];
     }else
     {    cell.lblSenderName.font = [UIFont boldSystemFontOfSize:15];
         //cell.lblSenderName.textColor=[UIColor lightGrayColor];
@@ -317,9 +305,7 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     
 }
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
-    
     NSArray *arrButtons=cell.rightUtilityButtons;
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:0];
     switch (index) {
@@ -378,7 +364,7 @@
                 MessangerView *sentItems=[[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
                 [self.navigationController pushViewController:sentItems animated:NO];
             }
- 
+            
             break;
         } case 2:
         {
@@ -404,153 +390,152 @@
 }
 -(void)CalculateBMI
 {
-   /*
-    float feet, inches, stones, pounds, m, cm, kg, kilo, meter, cmeter;
-    NSString* ft =self.ftInput.text;
-    feet = [ft floatValue];
-    NSString* ins = self.insInput.text;
-    inches = [ins floatValue];
-    
-    NSString *st = self.stInput.text;
-    stones = [st floatValue];
-    NSString *lbs = self.lbsInput.text;
-    pounds = [lbs floatValue];
-    
-    m = feet;
-    cm = inches;
-    kg = stones;
-    cm=feet;
-    
-    if ([labelFt.text isEqualToString:@"ft"] && [labelSt.text isEqualToString:@"st"]) {
-        
-        float height = (feet*12)+inches;
-        float heightValue =height*height;
-        
-        float weightValue = (stones*14)+pounds;
-        float result = ((weightValue / heightValue)*703);
-        finalBmi = result;
-        NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
-        NSRange range = [resultBmi rangeOfString:@"." options: 0];
-        NSString *newString = [resultBmi substringToIndex:(range.location+2)];
-        
-        bmiResult.text = newString;
-        
-    }else if([labelFt.text isEqualToString:@"m"] && [labelSt.text isEqualToString:@"kg"]){
-        
-        float height = m+(cm/100);
-        float heightValue =height*height;
-        
-        float weightValue = kg;
-        
-        float result = (weightValue / heightValue);
-        finalBmi = result;
-        
-        NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
-        NSRange range = [resultBmi rangeOfString:@"." options: 0];
-        NSString *newString = [resultBmi substringToIndex:(range.location+2)];
-        
-        bmiResult.text = newString;
-    }else if([labelFt.text isEqualToString:@"ft"] && [labelSt.text isEqualToString:@"kg"]){
-        meter = m*0.3048;
-        cmeter = inches*2.54;
-        float height = meter+(cmeter/100);
-        float heightValue =height*height;
-        
-        float weightValue = kg;
-        
-        float result = (weightValue / heightValue);
-        finalBmi = result;
-        
-        NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
-        NSRange range = [resultBmi rangeOfString:@"." options: 0];
-        NSString *newString = [resultBmi substringToIndex:(range.location+2)];
-        
-        bmiResult.text = newString;
-    }else if([labelFt.text isEqualToString:@"m"] && [labelSt.text isEqualToString:@"st"]){
-        kilo = kg*6.35;
-        float height = m+(cm/100);
-        float heightValue =height*height;
-        
-        float weightValue = kilo;
-        float result = ((weightValue / heightValue)*703);
-        finalBmi = result;
-        
-        
-        
-        NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
-        NSRange range = [resultBmi rangeOfString:@"." options:0 ];
-        NSString *newString = [resultBmi substringToIndex:(range.location+2)];
-        
-        bmiResult.text = newString;        }
-    
-    
-    // Only to calculate in CM
-    else if([labelFt.text isEqualToString:@"cm"]&& [labelSt.text isEqualToString:@"st"]){
-        kilo = kg*6.35;
-        
-        kilo= kilo+(pounds*0.454);
-        
-        // float height = m+(cm/100);
-        float height= cm/100;
-        float heightValue =height*height;
-        
-        //        float weightValue = kilo;
-        //        float result = ((weightValue / heightValue)*703);
-        //        finalBmi = result;
-        
-        float weightValue = kilo;
-        
-        float result = (weightValue / heightValue);
-        finalBmi = result;
-        
-        
-        
-        NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
-        NSRange range = [resultBmi rangeOfString:@"." options:0 ];
-        NSString *newString = [resultBmi substringToIndex:(range.location+2)];
-        
-        bmiResult.text = newString;        }
-    
-    
-    else if([labelFt.text isEqualToString:@"cm"]&& [labelSt.text isEqualToString:@"kg"]){
-        float height = cm/100;
-        float heightValue =height*height;
-        
-        float weightValue = kg;
-        
-        float result = (weightValue / heightValue);
-        finalBmi = result;
-        
-        NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
-        NSRange range = [resultBmi rangeOfString:@"." options: 0];
-        NSString *newString = [resultBmi substringToIndex:(range.location+2)];
-        
-        bmiResult.text = newString;
-    }
-    
-    
-    NSMutableArray *userInfo = [[NSMutableArray alloc]init];
-    CommonClass *singleton=[CommonClass sharedInstance];
-    userInfo = singleton.loginUser;
-    
-    if (finalBmi > 25)
-    {
-        
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Cambridge Weight Plan" message:@"Your BMI suggests that you are overweight. Please contact your nearest Cambridge Weight Plan Consultant to see how you can\nstart losing weight and looking\n great today" delegate:self cancelButtonTitle:@"Find a Consultant" otherButtonTitles:@" Maybe later  ", nil];
-        [alert show];
-    }
-    
-    
-    //        if (finalBmi > 25 && [[CommonClass sharedInstance].logged isEqual:@"Yes"] && ([[userInfo valueForKey:@"roles"] isEqualToString:@"Paid"] || [[userInfo valueForKey:@"roles"] isEqualToString:@"Consultant"]))
-    //        {
-    //
-    //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Cambridge Weight Plan" message:@"Your BMI suggests that you are overweight. Please contact your nearest Cambridge Weight Plan Consultant to see how you can start losing weight and looking great today" delegate:self cancelButtonTitle:@"     Maybe later    " otherButtonTitles:@"Find a Consultant", nil];
-    //            [alert show];
-    //            }
-    
-    */
+    /*
+     float feet, inches, stones, pounds, m, cm, kg, kilo, meter, cmeter;
+     NSString* ft =self.ftInput.text;
+     feet = [ft floatValue];
+     NSString* ins = self.insInput.text;
+     inches = [ins floatValue];
+     
+     NSString *st = self.stInput.text;
+     stones = [st floatValue];
+     NSString *lbs = self.lbsInput.text;
+     pounds = [lbs floatValue];
+     
+     m = feet;
+     cm = inches;
+     kg = stones;
+     cm=feet;
+     
+     if ([labelFt.text isEqualToString:@"ft"] && [labelSt.text isEqualToString:@"st"]) {
+     
+     float height = (feet*12)+inches;
+     float heightValue =height*height;
+     
+     float weightValue = (stones*14)+pounds;
+     float result = ((weightValue / heightValue)*703);
+     finalBmi = result;
+     NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
+     NSRange range = [resultBmi rangeOfString:@"." options: 0];
+     NSString *newString = [resultBmi substringToIndex:(range.location+2)];
+     
+     bmiResult.text = newString;
+     
+     }else if([labelFt.text isEqualToString:@"m"] && [labelSt.text isEqualToString:@"kg"]){
+     
+     float height = m+(cm/100);
+     float heightValue =height*height;
+     
+     float weightValue = kg;
+     
+     float result = (weightValue / heightValue);
+     finalBmi = result;
+     
+     NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
+     NSRange range = [resultBmi rangeOfString:@"." options: 0];
+     NSString *newString = [resultBmi substringToIndex:(range.location+2)];
+     
+     bmiResult.text = newString;
+     }else if([labelFt.text isEqualToString:@"ft"] && [labelSt.text isEqualToString:@"kg"]){
+     meter = m*0.3048;
+     cmeter = inches*2.54;
+     float height = meter+(cmeter/100);
+     float heightValue =height*height;
+     
+     float weightValue = kg;
+     
+     float result = (weightValue / heightValue);
+     finalBmi = result;
+     
+     NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
+     NSRange range = [resultBmi rangeOfString:@"." options: 0];
+     NSString *newString = [resultBmi substringToIndex:(range.location+2)];
+     
+     bmiResult.text = newString;
+     }else if([labelFt.text isEqualToString:@"m"] && [labelSt.text isEqualToString:@"st"]){
+     kilo = kg*6.35;
+     float height = m+(cm/100);
+     float heightValue =height*height;
+     
+     float weightValue = kilo;
+     float result = ((weightValue / heightValue)*703);
+     finalBmi = result;
+     
+     
+     
+     NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
+     NSRange range = [resultBmi rangeOfString:@"." options:0 ];
+     NSString *newString = [resultBmi substringToIndex:(range.location+2)];
+     
+     bmiResult.text = newString;        }
+     
+     
+     // Only to calculate in CM
+     else if([labelFt.text isEqualToString:@"cm"]&& [labelSt.text isEqualToString:@"st"]){
+     kilo = kg*6.35;
+     
+     kilo= kilo+(pounds*0.454);
+     
+     // float height = m+(cm/100);
+     float height= cm/100;
+     float heightValue =height*height;
+     
+     //        float weightValue = kilo;
+     //        float result = ((weightValue / heightValue)*703);
+     //        finalBmi = result;
+     
+     float weightValue = kilo;
+     
+     float result = (weightValue / heightValue);
+     finalBmi = result;
+     
+     
+     
+     NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
+     NSRange range = [resultBmi rangeOfString:@"." options:0 ];
+     NSString *newString = [resultBmi substringToIndex:(range.location+2)];
+     
+     bmiResult.text = newString;        }
+     
+     
+     else if([labelFt.text isEqualToString:@"cm"]&& [labelSt.text isEqualToString:@"kg"]){
+     float height = cm/100;
+     float heightValue =height*height;
+     
+     float weightValue = kg;
+     
+     float result = (weightValue / heightValue);
+     finalBmi = result;
+     
+     NSString *resultBmi = [NSString stringWithFormat:@"%f", result];
+     NSRange range = [resultBmi rangeOfString:@"." options: 0];
+     NSString *newString = [resultBmi substringToIndex:(range.location+2)];
+     
+     bmiResult.text = newString;
+     }
+     
+     
+     NSMutableArray *userInfo = [[NSMutableArray alloc]init];
+     CommonClass *singleton=[CommonClass sharedInstance];
+     userInfo = singleton.loginUser;
+     
+     if (finalBmi > 25)
+     {
+     
+     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Cambridge Weight Plan" message:@"Your BMI suggests that you are overweight. Please contact your nearest Cambridge Weight Plan Consultant to see how you can\nstart losing weight and looking\n great today" delegate:self cancelButtonTitle:@"Find a Consultant" otherButtonTitles:@" Maybe later  ", nil];
+     [alert show];
+     }
+     
+     
+     //        if (finalBmi > 25 && [[CommonClass sharedInstance].logged isEqual:@"Yes"] && ([[userInfo valueForKey:@"roles"] isEqualToString:@"Paid"] || [[userInfo valueForKey:@"roles"] isEqualToString:@"Consultant"]))
+     //        {
+     //
+     //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Cambridge Weight Plan" message:@"Your BMI suggests that you are overweight. Please contact your nearest Cambridge Weight Plan Consultant to see how you can start losing weight and looking great today" delegate:self cancelButtonTitle:@"     Maybe later    " otherButtonTitles:@"Find a Consultant", nil];
+     //            [alert show];
+     //            }
+     
+     */
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -558,4 +543,4 @@
 }
 
 @end
-    
+

@@ -48,27 +48,25 @@
         UIView *progress;
         
         if (isIPAD) {
-             progress = [[UIView alloc] initWithFrame:CGRectMake(X_Prosition, Y_Position, 100, 100)];
+             progress = [[UIView alloc] initWithFrame:CGRectMake(X_Prosition, Y_Position, 120, 120)];
         }else{
              progress = [[UIView alloc] initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width/2-40, self.frame.size.height/2-80, 80, 80)];
         }
     
         //progress.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"login_btn.png"]];
         progress.backgroundColor = [UIColor colorWithRed:35/255.0 green:47/255.0 blue:(58/255.0) alpha:1];
-        progress.layer.cornerRadius = 10;
+        progress.layer.cornerRadius = isIPAD ? 20 : 15;
         
         progress.tag=222;
         UIActivityIndicatorView *actvity;
         UILabel *lblWaitPlease;
         if (isIPAD) {
             
-            actvity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(35,20,30,30)];
-            
+            actvity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(progress.frame.size.width/2-15,20,30,30)];
             actvity.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
             [actvity startAnimating];
             [progress addSubview:actvity];
-            
-            lblWaitPlease= [[UILabel alloc] initWithFrame:CGRectMake(5, 50, 100,40)];
+            lblWaitPlease= [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 100,40)];
             lblWaitPlease.text = @"Loading...";
             lblWaitPlease.textColor = [UIColor whiteColor];
             lblWaitPlease.font = [UIFont boldSystemFontOfSize:18];
@@ -76,13 +74,10 @@
             lblWaitPlease.textAlignment = NSTextAlignmentCenter;
             
         }else{
-            
             actvity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(25,20,30,30)];
-            
             actvity.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
             [actvity startAnimating];
             [progress addSubview:actvity];
-            
              lblWaitPlease= [[UILabel alloc] initWithFrame:CGRectMake(2, 50, 80,30)];
             lblWaitPlease.text = @"Loading...";
             lblWaitPlease.textColor = [UIColor whiteColor];
@@ -90,7 +85,7 @@
             lblWaitPlease.backgroundColor = [UIColor clearColor];
             lblWaitPlease.textAlignment = NSTextAlignmentCenter;
         }
-    
+
         [progress addSubview:lblWaitPlease];
 //        [self addSubview:lblWaitPlease];
         [self addSubview:progress];

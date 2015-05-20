@@ -128,7 +128,6 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag)
     {
         case getMessagesTag:
@@ -142,7 +141,7 @@
             {
                 [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]];
             }
-            
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
         case deleteMessagesTag:
@@ -155,6 +154,7 @@
                 
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message delete fail try again" delegate:nil btn1:@"Ok"];
             }
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
         case archiveMessagesTag:
@@ -169,6 +169,7 @@
             }else{
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message restored fail try again" delegate:nil btn1:@"Ok"];
             }
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
     }

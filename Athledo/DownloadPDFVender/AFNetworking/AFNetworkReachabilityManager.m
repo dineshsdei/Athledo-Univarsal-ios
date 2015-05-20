@@ -236,13 +236,10 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
 }
 
 #pragma mark -
-
 - (NSString *)localizedNetworkReachabilityStatusString {
     return AFStringFromNetworkReachabilityStatus(self.networkReachabilityStatus);
 }
-
 #pragma mark -
-
 - (void)setReachabilityStatusChangeBlock:(void (^)(AFNetworkReachabilityStatus status))block {
     self.networkReachabilityStatusBlock = block;
 }

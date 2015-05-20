@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddPracticeLog">
+            <connections>
+                <outlet property="txtViewNotes" destination="Y7C-YX-vNQ" id="zqb-pq-2lU"/>
+                <outlet property="view" destination="iN0-l3-epB" id="jYW-Ww-Ay9"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pIq-Jy-iJ9">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1021"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4hf-Nl-ALs">
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="1021"/>
+                            <subviews>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" text="Enter Notes" translatesAutoresizingMaskIntoConstraints="NO" id="Y7C-YX-vNQ">
+                                    <rect key="frame" x="30" y="30" width="708" height="200"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="200" id="oJa-Q8-xrV"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="TvL-ow-xSn"/>
+                                    </connections>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="Y7C-YX-vNQ" secondAttribute="trailing" constant="30" id="6aL-JH-zrl"/>
+                                <constraint firstItem="Y7C-YX-vNQ" firstAttribute="top" secondItem="4hf-Nl-ALs" secondAttribute="top" constant="30" id="qdU-UQ-TqW"/>
+                                <constraint firstAttribute="bottom" secondItem="Y7C-YX-vNQ" secondAttribute="bottom" constant="791" id="tRu-nX-CZY"/>
+                                <constraint firstItem="Y7C-YX-vNQ" firstAttribute="leading" secondItem="4hf-Nl-ALs" secondAttribute="leading" constant="30" id="taf-wU-X1F"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="4hf-Nl-ALs" secondAttribute="trailing" id="6QE-0S-EPN"/>
+                        <constraint firstItem="4hf-Nl-ALs" firstAttribute="top" secondItem="pIq-Jy-iJ9" secondAttribute="top" id="9dj-Rz-3Jb"/>
+                        <constraint firstItem="4hf-Nl-ALs" firstAttribute="centerX" secondItem="pIq-Jy-iJ9" secondAttribute="centerX" id="VTe-s7-Umw"/>
+                        <constraint firstAttribute="bottom" secondItem="4hf-Nl-ALs" secondAttribute="bottom" id="g4X-K5-9xR"/>
+                        <constraint firstItem="4hf-Nl-ALs" firstAttribute="leading" secondItem="pIq-Jy-iJ9" secondAttribute="leading" id="q8y-Fl-TT3"/>
+                    </constraints>
+                </scrollView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="wAZ-fl-zty">
+                    <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="g0C-8J-YKq"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="wAZ-fl-zty" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5CB-A1-C0n"/>
+                <constraint firstAttribute="bottom" secondItem="wAZ-fl-zty" secondAttribute="bottom" id="AZs-05-ePh"/>
+                <constraint firstAttribute="trailing" secondItem="wAZ-fl-zty" secondAttribute="trailing" id="J6u-MN-dzF"/>
+                <constraint firstItem="pIq-Jy-iJ9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="fIM-Dd-VwA"/>
+                <constraint firstItem="pIq-Jy-iJ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fnj-da-QVV"/>
+                <constraint firstAttribute="trailing" secondItem="pIq-Jy-iJ9" secondAttribute="trailing" id="syS-pR-4iN"/>
+                <constraint firstItem="wAZ-fl-zty" firstAttribute="top" secondItem="pIq-Jy-iJ9" secondAttribute="bottom" id="xgK-uY-REA"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="114" y="208"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

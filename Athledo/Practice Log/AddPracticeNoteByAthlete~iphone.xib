@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddPracticeLog">
+            <connections>
+                <outlet property="txtViewNotes" destination="Y7C-YX-vNQ" id="zqb-pq-2lU"/>
+                <outlet property="view" destination="iN0-l3-epB" id="jYW-Ww-Ay9"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pIq-Jy-iJ9">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="474"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4hf-Nl-ALs">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="472"/>
+                            <subviews>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" fixedFrame="YES" text="Enter Notes" translatesAutoresizingMaskIntoConstraints="NO" id="Y7C-YX-vNQ">
+                                    <rect key="frame" x="10" y="10" width="300" height="120"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="TvL-ow-xSn"/>
+                                    </connections>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </scrollView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="wAZ-fl-zty">
+                    <rect key="frame" x="0.0" y="477" width="320" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="VDH-91-viq"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="wAZ-fl-zty" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="2XA-Py-UkZ"/>
+                <constraint firstItem="pIq-Jy-iJ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IjW-ig-mYE"/>
+                <constraint firstItem="pIq-Jy-iJ9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="PYO-uv-kzr"/>
+                <constraint firstAttribute="bottom" secondItem="wAZ-fl-zty" secondAttribute="bottom" id="Tlr-uJ-tww"/>
+                <constraint firstAttribute="trailing" secondItem="pIq-Jy-iJ9" secondAttribute="trailing" id="Vba-J4-dta"/>
+                <constraint firstAttribute="trailing" secondItem="wAZ-fl-zty" secondAttribute="trailing" id="WlF-mU-JLV"/>
+                <constraint firstItem="wAZ-fl-zty" firstAttribute="top" secondItem="pIq-Jy-iJ9" secondAttribute="bottom" constant="3" id="ts0-Ln-Mtz"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="114" y="208"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
+</document>

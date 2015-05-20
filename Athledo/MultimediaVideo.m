@@ -165,7 +165,7 @@
     arrVisitedIndex=[[NSMutableArray alloc] init];
     
     UIButton *btnAddWorkout = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageAdd=[UIImage imageNamed:@"add.png"];
+    UIImage *imageAdd=[UIImage imageNamed:@"Navadd.png"];
     btnAddWorkout.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
     [btnAddWorkout addTarget:self action:@selector(SelectVideoFiles) forControlEvents:UIControlEventTouchUpInside];
     [btnAddWorkout setImage:imageAdd forState:UIControlStateNormal];
@@ -444,7 +444,7 @@
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
-    [SingletonClass RemoveActivityIndicator:self.view];
+   
     self.navigationController.navigationItem.rightBarButtonItem.enabled = YES ;
     switch (Tag){
         case getPicDataTag :{
@@ -464,6 +464,7 @@
                 [_tableView reloadData];
                 multimediaData.count == 0 ? ([_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No videos":_tableView]]):[SingletonClass deleteUnUsedLableFromTable:_tableView];
             }
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         } case getSeasonTag:
         {
@@ -482,6 +483,7 @@
             }else{
                 //[SingaltonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
             }
+             [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
     }

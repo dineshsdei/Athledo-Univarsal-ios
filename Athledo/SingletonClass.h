@@ -24,6 +24,9 @@
 @property(nonatomic)BOOL isMessangerSent;
 @property(nonatomic)BOOL isMessangerArchive;
 @property(nonatomic)BOOL isCalendarUpdate;
+@property(nonatomic)BOOL isPracticeLogUpdate;
+
+@property(nonatomic)BOOL isUserLogOut;
 
 @property(nonatomic,strong)NSString *strCalendarEventType;
 @property(nonatomic,strong)NSString *strCalendarRepeatSting;
@@ -54,5 +57,6 @@
 -(UIDatePicker *)AddDatePickerView:(UIView *)vie;
 -(void)doneClicked;
 +(NSString *)DocumentDirectoryPath;
+
 
 @end

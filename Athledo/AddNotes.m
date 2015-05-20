@@ -48,7 +48,7 @@
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     UIButton *btnShare = [[UIButton alloc] initWithFrame:CGRectMake(150, 5, 44, 44)];
-    UIImage *imageHistory=[UIImage imageNamed:@"add.png"];
+    UIImage *imageHistory=[UIImage imageNamed:@"Navadd.png"];
     [btnShare addTarget:self action:@selector(AddNote) forControlEvents:UIControlEventTouchUpInside];
     [btnShare setImage:imageHistory forState:UIControlStateNormal];
     UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnShare];

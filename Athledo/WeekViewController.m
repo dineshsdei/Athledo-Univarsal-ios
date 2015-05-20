@@ -143,7 +143,7 @@ UIBarButtonItem *revealButtonItem;;
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
     UIButton  *btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageEdit=[UIImage imageNamed:@"add.png"];
+    UIImage *imageEdit=[UIImage imageNamed:@"Navadd.png"];
     btnAddNew.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnAddNew addTarget:self action:@selector(AddNewEvent) forControlEvents:UIControlEventTouchUpInside];
     [btnAddNew setBackgroundImage:imageEdit forState:UIControlStateNormal];

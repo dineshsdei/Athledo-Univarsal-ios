@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "AddPracticeLog.h"
 
-@interface PracticeLog : TKCalendarMonthTableViewController<WebServiceDelegate>
+@interface PracticeLog : TKCalendarMonthTableViewController<WebServiceDelegate,SWTableViewCellDelegate>
 @property(nonatomic,retain)TKCalendarMonthView *monthview;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic,strong) NSMutableDictionary *dataDictionary;
+@property (nonatomic)BOOL comesFromMenuStatus;
 @end

@@ -241,6 +241,7 @@
 #define fontName @"HelveticaNeue"
 #define SmallfontSize isIPAD ? 16 : 13
 #define BigfontSize isIPAD ? 18 : 14
+#define NAVIGATION_ICON_BG_COLOR [UIColor whiteColor]
 #define NAVIGATION_COMPONENT_COLOR [UIColor lightGrayColor]
 #define HeadingColor [UIColor whiteColor]
 #define TextColor [UIColor lightTextColor]
@@ -395,9 +396,8 @@
 #define webServiceSaveAttendance [BaseUrl stringByAppendingString:@"setAthleteAttendance"]
 
 // Practice log
-
-#define webServiceGetPracticeData [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"getPractice"]
-#define webServiceSaveAttendance [@"http://172.24.2.222:8024/webservices/" stringByAppendingString:@"setAthleteAttendance"]
+#define webServiceGetPracticeData [BaseUrl stringByAppendingString:@"getPractice"]
+#define webServiceSavePractice [BaseUrl stringByAppendingString:@"setPractice"]
 
 
 

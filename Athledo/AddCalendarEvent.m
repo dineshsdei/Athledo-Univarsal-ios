@@ -48,7 +48,7 @@
             {// Now we Need to decrypt data
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass ShareInstance].isCalendarUpdate=TRUE;
-                [SingletonClass initWithTitle:EMPTYSTRING message:@"Event saved successfully" delegate:self btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Event has been saved successfully" delegate:self btn1:@"Ok"];
             }else {
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Event have not saved" delegate:nil btn1:@"Ok"];
@@ -335,8 +335,6 @@
             self.navigationItem.rightBarButtonItem.enabled=YES;
             [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
-            
-        }else{
             
         }
         if ([SingletonClass  CheckConnectivity])

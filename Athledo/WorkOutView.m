@@ -57,19 +57,20 @@
     // Do any additional setup after loading the view from its nib.
     
     arrWorkOutData=[[NSMutableArray alloc] init];
-    UIButton *btnAddWorkout = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageAdd=[UIImage imageNamed:@"add.png"];
-    btnAddWorkout.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
-    [btnAddWorkout addTarget:self action:@selector(AddNewWorkOut) forControlEvents:UIControlEventTouchUpInside];
-    [btnAddWorkout setImage:imageAdd forState:UIControlStateNormal];
+    btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *imageAdd=[UIImage imageNamed:@"Navadd.png"];
+    btnAddNew.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
+    [btnAddNew addTarget:self action:@selector(AddNewWorkOut) forControlEvents:UIControlEventTouchUpInside];
+    [btnAddNew setImage:imageAdd forState:UIControlStateNormal];
     
-    UIBarButtonItem *BarItemAdd = [[UIBarButtonItem alloc] initWithCustomView:btnAddWorkout];
+    UIBarButtonItem *BarItemAdd = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     
-    btnHistory = [[UIButton alloc] initWithFrame:CGRectMake(150, 5, 44, 44)];
+    btnHistory = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageHistory=[UIImage imageNamed:@"save_icon.png"];
+     btnHistory.bounds = CGRectMake( 0, 0, imageHistory.size.width, imageHistory.size.height );
     [btnHistory addTarget:self action:@selector(WorkoutHistory:) forControlEvents:UIControlEventTouchUpInside];
     [btnHistory setImage:imageHistory forState:UIControlStateNormal];
-    
+   // btnHistory.backgroundColor = NAVIGATION_COMPONENT_COLOR;
     UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnHistory];
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemAdd,BarItemHistory, nil];

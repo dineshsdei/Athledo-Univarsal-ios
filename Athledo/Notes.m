@@ -267,7 +267,6 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    [SingletonClass RemoveActivityIndicator:self.view];
     [SingletonClass deleteUnUsedLableFromTable:tableview];
     switch (Tag)
     {
@@ -288,6 +287,7 @@
                 
                 [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes":tableview]];
             }
+             [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
         case getPDFLinkTag:
@@ -297,6 +297,7 @@
                 NSString *strUrl = [MyResults valueForKey:@"message"];
                 [self downLoadpdfFromLink:strUrl];
             }
+            [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }case ShareNotesTag:
         {
@@ -304,6 +305,7 @@
             {
                  [SingletonClass initWithTitle:EMPTYSTRING message:@"Notes have been shared suceessfully." delegate:nil btn1:@"Ok"];
             }
+           [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
     }

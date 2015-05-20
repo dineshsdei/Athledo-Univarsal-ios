@@ -7,14 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PracticeLog.h"
 
-@interface AddPracticeLog : UIViewController<UITextFieldDelegate,UITextViewDelegate,SingletonClassDelegate,WebServiceDelegate>
-@property (weak, nonatomic) IBOutlet UITextView *txtViewDescription;
+@interface AddPracticeLog : UIViewController<UITextFieldDelegate,UITextViewDelegate,SingletonClassDelegate,WebServiceDelegate,UIAlertViewDelegate>
+@property (strong, nonatomic) IBOutlet UITextView *txtViewDescription;
 @property (weak, nonatomic) IBOutlet UITextView *txtViewDrill;
 @property (weak, nonatomic) IBOutlet UITextView *txtViewNotes;
 @property (weak, nonatomic) IBOutlet UITextField *txtFieldStartTime;
 @property (weak, nonatomic) IBOutlet UITextField *txtFieldEndTime;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property(nonatomic,weak)NSString *strScreenTitle;
+@property(nonatomic,strong)id objEditPracticeData;
+@property(nonatomic,weak)NSDate *addPracticeOnDate;
 @property (strong, nonatomic) id keyboardAppear;
 @property (strong, nonatomic) id keyboardHide;
 - (IBAction)GetPickerTime:(id)sender;
