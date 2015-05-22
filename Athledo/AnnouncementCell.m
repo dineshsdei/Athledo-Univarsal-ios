@@ -45,8 +45,8 @@
         
         UIButton *btn=[UIButton buttonWithType:UIButtonTypeRoundedRect];
         btn.frame=CGRectMake(230, 40, 30, 30);
-        [btn.titleLabel setText:@"OK"];
-        btn.titleLabel.text=@"OK";
+        [btn.titleLabel setText:@"Ok"];
+        btn.titleLabel.text=@"Ok";
         
         btn.enabled = FALSE;
         [btn setTitle:@"Test" forState:UIControlStateNormal];

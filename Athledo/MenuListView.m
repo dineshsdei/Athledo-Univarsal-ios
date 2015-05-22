@@ -276,6 +276,7 @@
 
         if ( ![frontNavigationController.topViewController isKindOfClass:[PracticeLog class]] ){
             PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+             vc.comesFromMenuStatus = TRUE;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
@@ -286,6 +287,7 @@
             if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                 [SingletonClass ShareInstance].isUserLogOut = FALSE;
                 PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+                 vc.comesFromMenuStatus = TRUE;
                 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
                 [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                 [navigationController.navigationBar setTranslucent:NO];
@@ -294,6 +296,7 @@
                 if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                     [SingletonClass ShareInstance].isUserLogOut = FALSE;
                     PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
+                     vc.comesFromMenuStatus = TRUE;
                     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
                     [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                     [navigationController.navigationBar setTranslucent:NO];

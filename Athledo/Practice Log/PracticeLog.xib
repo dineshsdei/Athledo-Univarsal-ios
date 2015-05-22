@@ -14,7 +14,23 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="7kY-h6-Wng">
+                    <rect key="frame" x="0.0" y="597" width="768" height="3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="cmg-mZ-4bH"/>
+                    </constraints>
+                </imageView>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="7kY-h6-Wng" secondAttribute="trailing" constant="-168" id="Cfs-cg-AL0"/>
+                <constraint firstAttribute="bottom" secondItem="7kY-h6-Wng" secondAttribute="bottom" id="uJW-3j-Dun"/>
+                <constraint firstItem="7kY-h6-Wng" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yMe-rG-j0j"/>
+            </constraints>
         </view>
     </objects>
+    <resources>
+        <image name="bottomBorder.png" width="640" height="7"/>
+    </resources>
 </document>

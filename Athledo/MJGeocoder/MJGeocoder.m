@@ -83,7 +83,7 @@
     [geocodingResponse release];
     
 	NSString *status = [resultDict valueForKey:STATUS];
-	if([status isEqualToString:@"OK"]){
+	if([status isEqualToString:@"Ok"]){
 		//if successful, build results array
 		NSArray *foundLocations = [resultDict objectForKey:@"results"];
 		results = [NSMutableArray arrayWithCapacity:[foundLocations count]];

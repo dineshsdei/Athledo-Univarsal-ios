@@ -357,6 +357,11 @@
 		71AAF8361B0AEF9A004DB37C /* AddPracticeLog~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71AAF8351B0AEF9A004DB37C /* AddPracticeLog~ipad.xib */; };
 		71AAF8391B0AFD8E004DB37C /* PracticeLogDetail~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71AAF8381B0AFD8E004DB37C /* PracticeLogDetail~ipad.xib */; };
 		71AAF83D1B0B1113004DB37C /* AddPracticeNoteByAthlete~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71AAF83C1B0B1113004DB37C /* AddPracticeNoteByAthlete~ipad.xib */; };
+		71AB4CA11B0DAD6000AA13B2 /* AthletePracticeNotesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71AB4C9F1B0DAD6000AA13B2 /* AthletePracticeNotesCell.m */; };
+		71AB4CA21B0DAD6000AA13B2 /* AthletePracticeNotesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71AB4CA01B0DAD6000AA13B2 /* AthletePracticeNotesCell.xib */; };
+		71AB4CA61B0DD0C100AA13B2 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 71AB4CA41B0DD0C100AA13B2 /* cross.png */; };
+		71AB4CA71B0DD0C100AA13B2 /* cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71AB4CA51B0DD0C100AA13B2 /* cross@2x.png */; };
+		71AB4CA91B0E0AA400AA13B2 /* AthletePracticeNotesCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71AB4CA81B0E0AA400AA13B2 /* AthletePracticeNotesCell~ipad.xib */; };
 		71ACB4FD198A13E3007C5AFA /* AddCoachingHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */; };
 		71ACB4FF198A140B007C5AFA /* AddCoachingHistory~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */; };
 		71ACB503198A187E007C5AFA /* AddCoachongHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71ACB502198A187E007C5AFA /* AddCoachongHistoryCell.m */; };
@@ -428,6 +433,8 @@
 		71B210A51AB7FAED002C1FA8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A41AB7FAED002C1FA8 /* CoreFoundation.framework */; };
 		71B210A71AB7FE1D002C1FA8 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A61AB7FE1D002C1FA8 /* libz.1.1.3.dylib */; };
 		71B210A91AB7FE32002C1FA8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B210A81AB7FE32002C1FA8 /* libz.dylib */; };
+		71B38D7D1B0F32F500440D32 /* cross~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B38D7B1B0F32F500440D32 /* cross~ipad.png */; };
+		71B38D7E1B0F32F500440D32 /* cross~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B38D7C1B0F32F500440D32 /* cross~ipad@2x.png */; };
 		71B4987B1AE61F8F007CCAF1 /* attendance_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71B4987A1AE61F8F007CCAF1 /* attendance_icon.png */; };
 		71B498801AE62538007CCAF1 /* Attendance.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B4987E1AE62538007CCAF1 /* Attendance.m */; };
 		71B498811AE62538007CCAF1 /* Attendance~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B4987F1AE62538007CCAF1 /* Attendance~iphone.xib */; };
@@ -1003,6 +1010,12 @@
 		71AAF8351B0AEF9A004DB37C /* AddPracticeLog~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddPracticeLog~ipad.xib"; sourceTree = "<group>"; };
 		71AAF8381B0AFD8E004DB37C /* PracticeLogDetail~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "PracticeLogDetail~ipad.xib"; sourceTree = "<group>"; };
 		71AAF83C1B0B1113004DB37C /* AddPracticeNoteByAthlete~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddPracticeNoteByAthlete~ipad.xib"; sourceTree = "<group>"; };
+		71AB4C9E1B0DAD6000AA13B2 /* AthletePracticeNotesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AthletePracticeNotesCell.h; sourceTree = "<group>"; };
+		71AB4C9F1B0DAD6000AA13B2 /* AthletePracticeNotesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AthletePracticeNotesCell.m; sourceTree = "<group>"; };
+		71AB4CA01B0DAD6000AA13B2 /* AthletePracticeNotesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AthletePracticeNotesCell.xib; sourceTree = "<group>"; };
+		71AB4CA41B0DD0C100AA13B2 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
+		71AB4CA51B0DD0C100AA13B2 /* cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross@2x.png"; sourceTree = "<group>"; };
+		71AB4CA81B0E0AA400AA13B2 /* AthletePracticeNotesCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AthletePracticeNotesCell~ipad.xib"; sourceTree = "<group>"; };
 		71ACB4FB198A13E3007C5AFA /* AddCoachingHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCoachingHistory.h; sourceTree = "<group>"; };
 		71ACB4FC198A13E3007C5AFA /* AddCoachingHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCoachingHistory.m; sourceTree = "<group>"; };
 		71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddCoachingHistory~iphone.xib"; sourceTree = "<group>"; };
@@ -1090,6 +1103,8 @@
 		71B210A41AB7FAED002C1FA8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		71B210A61AB7FE1D002C1FA8 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		71B210A81AB7FE32002C1FA8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		71B38D7B1B0F32F500440D32 /* cross~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross~ipad.png"; sourceTree = "<group>"; };
+		71B38D7C1B0F32F500440D32 /* cross~ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross~ipad@2x.png"; sourceTree = "<group>"; };
 		71B4987A1AE61F8F007CCAF1 /* attendance_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attendance_icon.png; sourceTree = "<group>"; };
 		71B4987D1AE62538007CCAF1 /* Attendance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attendance.h; sourceTree = "<group>"; };
 		71B4987E1AE62538007CCAF1 /* Attendance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attendance.m; sourceTree = "<group>"; };
@@ -1862,6 +1877,7 @@
 		71A3689B1A6E18A900DDF05C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				71B38D801B0F330300440D32 /* PracticeLog */,
 				71F93D2D1B09C1FA00F58499 /* reveal-icon~ipad@2x.png */,
 				71F93D2B1B09C14E00F58499 /* reveal-icon~ipad.png */,
 				71BEF75E1B035EE400041F42 /* PracticeLog */,
@@ -2156,6 +2172,10 @@
 				71A421F61B00A27500BCA3BD /* PracticeCell.m */,
 				71A421F71B00A27500BCA3BD /* PracticeCell.xib */,
 				71F93D331B09E1C600F58499 /* PracticeCell~ipad.xib */,
+				71AB4C9E1B0DAD6000AA13B2 /* AthletePracticeNotesCell.h */,
+				71AB4C9F1B0DAD6000AA13B2 /* AthletePracticeNotesCell.m */,
+				71AB4CA01B0DAD6000AA13B2 /* AthletePracticeNotesCell.xib */,
+				71AB4CA81B0E0AA400AA13B2 /* AthletePracticeNotesCell~ipad.xib */,
 			);
 			path = PracticeCustomCell;
 			sourceTree = "<group>";
@@ -2620,6 +2640,17 @@
 			name = Notes;
 			sourceTree = "<group>";
 		};
+		71B38D801B0F330300440D32 /* PracticeLog */ = {
+			isa = PBXGroup;
+			children = (
+				71B38D7B1B0F32F500440D32 /* cross~ipad.png */,
+				71B38D7C1B0F32F500440D32 /* cross~ipad@2x.png */,
+				71AB4CA41B0DD0C100AA13B2 /* cross.png */,
+				71AB4CA51B0DD0C100AA13B2 /* cross@2x.png */,
+			);
+			name = PracticeLog;
+			sourceTree = "<group>";
+		};
 		71B4987C1AE624F0007CCAF1 /* Attendance */ = {
 			isa = PBXGroup;
 			children = (
@@ -2862,6 +2893,7 @@
 				71A89A281A24B14700CA9756 /* UpdateDetails~ipad.xib in Resources */,
 				71A369801A6E1DA300DDF05C /* menu_logo.png in Resources */,
 				71A369961A6E268100DDF05C /* viewBg.png in Resources */,
+				71AB4CA61B0DD0C100AA13B2 /* cross.png in Resources */,
 				71A63E191A25AB2000D0DA99 /* WorkOutHistory~ipad.xib in Resources */,
 				71A369241A6E1C5F00DDF05C /* deleteBtn@2x.png in Resources */,
 				71A3697F1A6E1DA300DDF05C /* mail_icon.png in Resources */,
@@ -2961,7 +2993,9 @@
 				712397A71AD40C5400506565 /* AddNoteCell~iphone.xib in Resources */,
 				71A368B91A6E19F000DDF05C /* folder_image.png in Resources */,
 				71A369751A6E1DA300DDF05C /* frame_middle@2x.png in Resources */,
+				71AB4CA91B0E0AA400AA13B2 /* AthletePracticeNotesCell~ipad.xib in Resources */,
 				71A368E71A6E1AAD00DDF05C /* Default.png in Resources */,
+				71B38D7D1B0F32F500440D32 /* cross~ipad.png in Resources */,
 				71A369671A6E1DA300DDF05C /* add12.png in Resources */,
 				710C633919B9E41C00F11983 /* CalendarMainViewController.xib in Resources */,
 				71A713C41AD4030000512585 /* AthleteDetail~iphone.xib in Resources */,
@@ -2983,6 +3017,7 @@
 				71A368B81A6E19F000DDF05C /* error_icon.png in Resources */,
 				71A53DB81A35D2FB00463864 /* AddAthleteHistory~ipad.xib in Resources */,
 				71ADF1C41A70F1B200457FB9 /* bubble-square-outgoing.png in Resources */,
+				71AB4CA71B0DD0C100AA13B2 /* cross@2x.png in Resources */,
 				71A3698D1A6E1DA400DDF05C /* uncheck1.png in Resources */,
 				71A63E171A25A29F00D0DA99 /* WorkOutListCell~ipad.xib in Resources */,
 				71950F9619C175F600B4BF1A /* MessageDetails.xib in Resources */,
@@ -3021,6 +3056,7 @@
 				71A3691B1A6E1C3A00DDF05C /* reassign.png in Resources */,
 				71A7CE381A790FA700A67905 /* btnCamera.png in Resources */,
 				3D9E0515197BCFE6005CCB10 /* DashBoard~iphone.xib in Resources */,
+				71AB4CA21B0DAD6000AA13B2 /* AthletePracticeNotesCell.xib in Resources */,
 				71D66E401A7BA9C100B75F86 /* reveal-icon@2x.png in Resources */,
 				3D9E051F197BD0FA005CCB10 /* MenuListView~iphone.xib in Resources */,
 				71B15AC61A47CDB1008C0C71 /* MultimediaVideo~ipad.xib in Resources */,
@@ -3105,6 +3141,7 @@
 				71B4CC071A13825E00042568 /* WorkoutHistoryDetails~iphone.xib in Resources */,
 				71A368EB1A6E1AAD00DDF05C /* iTunesArtwork.png in Resources */,
 				71A369001A6E1B8E00DDF05C /* video_icon@2x.png in Resources */,
+				71B38D7E1B0F32F500440D32 /* cross~ipad@2x.png in Resources */,
 				71A369851A6E1DA400DDF05C /* phone_icon.png in Resources */,
 				71A5F3FC1AE8CBFE00BBA5ED /* UnTick.png in Resources */,
 				71A3696A1A6E1DA300DDF05C /* bottomBorder.png in Resources */,
@@ -3221,6 +3258,7 @@
 				3D9E051A197BD098005CCB10 /* SWRevealViewController.m in Sources */,
 				71A68EF719DBB4220066F3B3 /* WorkOutDetailCell.m in Sources */,
 				710C635119B9E8FA00F11983 /* MADayView.m in Sources */,
+				71AB4CA11B0DAD6000AA13B2 /* AthletePracticeNotesCell.m in Sources */,
 				7199957C197D44AB00C0F77F /* UserTeam.m in Sources */,
 				71A0708219AB291C00CA98D3 /* WorkOutHistory.m in Sources */,
 				3D9E0537197BD603005CCB10 /* MessangerView.m in Sources */,

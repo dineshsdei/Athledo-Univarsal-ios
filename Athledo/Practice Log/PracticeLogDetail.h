@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PracticeLogDetail : UIViewController
+@interface PracticeLogDetail : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,SingletonClassDelegate,WebServiceDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lblEndTimeHeading;
 @property (weak, nonatomic) IBOutlet UILabel *lblStartTimeHeading;
 @property (weak, nonatomic) IBOutlet UILabel *lblDescriptionHeading;
@@ -22,6 +22,7 @@
 @property(nonatomic,strong)id objEditPracticeData;
 @property (weak, nonatomic) IBOutlet UIScrollView *PracticeDetailScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *btnViewNotes;
+@property (strong, nonatomic) id keyboardAppear;
 - (IBAction)ViewAthletesNotes:(id)sender;
 
 @end

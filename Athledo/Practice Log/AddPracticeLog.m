@@ -377,6 +377,7 @@
 }
 #pragma mark UIAlertView Delegate menthod
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [SingletonClass ShareInstance].isPracticeLogUpdate = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 @end

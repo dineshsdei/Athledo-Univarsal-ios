@@ -66,7 +66,6 @@
 
 }
 - (void)viewDidLoad {
-    
     [self getSeasonData];
     self.automaticallyAdjustsScrollViewInsets = NO;
     [_ScrollView setContentSize:CGSizeMake(self.view.frame.size.width, 700)];
@@ -81,27 +80,22 @@
     for (int i=0; i< 150; i++) {
         [arrYear addObject:[NSString stringWithFormat:@"%d",currentyear-i]];
     }
-    
     picker = [[SingletonClass ShareInstance] AddPickerView:self.view];
     [self.view addSubview:picker];
     picker.delegate = self;
     picker.dataSource = self;
-    
     toolbar = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
     [self.view addSubview:toolbar];
     self.title = NSLocalizedString(@"Add Sport Info", @"Title");
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
-
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(saveSportInfo:) forControlEvents:UIControlEventTouchUpInside];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    
     [super viewDidLoad];
     [self FieldsSetProperty];
     if (_objData) {
@@ -173,21 +167,19 @@
         _txtweight.text = [_objData valueForKey:@"weight"];
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
 }
 -(void)FieldsSetProperty
 {
-    _txtSportName.layer.borderWidth = .5;
-    _txtweight.layer.borderWidth = .5;
-    _txtLeague.layer.borderWidth = .5;
-    _txtClassYear.layer.borderWidth = .5;
-    _txtweight.layer.borderWidth = .5;
-    _txtHeightInches.layer.borderWidth = .5;
-    _txtHeight.layer.borderWidth = .5;
+    _txtSportName.layer.borderWidth = BORDERWIDTH;
+    _txtweight.layer.borderWidth = BORDERWIDTH;
+    _txtLeague.layer.borderWidth = BORDERWIDTH;
+    _txtClassYear.layer.borderWidth = BORDERWIDTH;
+    _txtweight.layer.borderWidth = BORDERWIDTH;
+    _txtHeightInches.layer.borderWidth = BORDERWIDTH;
+    _txtHeight.layer.borderWidth = BORDERWIDTH;
     _txtSportName.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _txtweight.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _txtLeague.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -195,7 +187,6 @@
     _txtweight.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _txtHeightInches.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _txtHeight.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    
     _txtSportName.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
     _txtSportName.leftViewMode = UITextFieldViewModeAlways;
     _txtweight.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
@@ -208,12 +199,10 @@
     _txtHeight.leftViewMode = UITextFieldViewModeAlways;
     _txtHeightInches.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, PadingW, PadingH)];
     _txtHeightInches.leftViewMode = UITextFieldViewModeAlways;
-    
 }
 #pragma mark TextField Delegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    
 }
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
@@ -227,9 +216,7 @@
     isClassYear = [textField.placeholder isEqualToString:@"Enter class year"] ? YES : NO;
     isLeagueLable = [textField.placeholder isEqualToString:@"Enter league level"] ? YES : NO;
     currentText = textField;
-    
     [SingletonClass ShareInstance].delegate = self;
-
     if (isHeightInInches == YES || isHeightInFeet == YES || isClassYear == YES || isLeagueLable == YES) {
         [self.view endEditing:YES];
         if (textField.text.length > 0) {
@@ -249,7 +236,6 @@
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+50) :toolbar];
         textField.inputAccessoryView = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
     }
-    
     return YES;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -259,7 +245,6 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if ([textField.placeholder isEqualToString:@"Enter weight in lbs"]) {
-        
         NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
         NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:textField.text];
         BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
@@ -284,7 +269,6 @@
 {
     return 1;
 }
-
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (isHeightInFeet) {
@@ -314,22 +298,16 @@
     {
         return 0;
     }
-    
 }
-
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    //NSString *str;
     if (isHeightInFeet) {
-        //str= [arrFeets objectAtIndex:row];
         return [arrFeets objectAtIndex:row];
     }else if (isHeightInInches)
     {
-        //str= [arrInches objectAtIndex:row];
         return [arrInches objectAtIndex:row];
     }else if (isClassYear)
     {
-        // str= [arrYear objectAtIndex:row];
         return [arrYear objectAtIndex:row];
     }else if (isLeagueLable)
     {
@@ -338,8 +316,6 @@
     {
         return EMPTYSTRING;
     }
-    
-    
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
@@ -468,6 +444,4 @@
     }else{
     }
 }
-
-
 @end

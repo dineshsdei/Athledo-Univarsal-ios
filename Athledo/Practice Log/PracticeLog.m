@@ -20,6 +20,7 @@
     NSMutableArray *eventArrDic;
     NSArray *PracticeOnDate;
     NSDate *currentSelectedDate;
+  
 }
 @end
 @implementation PracticeLog
@@ -41,7 +42,7 @@
     [self orientationChanged];
     [SingletonClass ShareInstance].isPracticeLogUpdate = FALSE;
     self.title=NSLocalizedString(@"Practice", EMPTYSTRING);
-}
+   }
 -(void)viewWillAppear:(BOOL)animated{
     
     if (isIPAD) {
@@ -51,21 +52,36 @@
                                                    object:nil];
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     }
-    if ([SingletonClass ShareInstance].isPracticeLogUpdate && _comesFromMenuStatus == TRUE) {
+    if ([SingletonClass ShareInstance].isPracticeLogUpdate && _comesFromMenuStatus == TRUE ) {
         strCurrentMonth= @"";
         [self.monthView selectDate:[NSDate date]];
         [self orientationChanged];
     }
     currentSelectedDate = [NSDate date];
     [super viewWillAppear:animated];
-    //[self.view addGestureRecognizer:revealController.panGestureRecognizer];
-    //[self.view addGestureRecognizer:revealController.tapGestureRecognizer];
+    //[self.monthView addGestureRecognizer:revealController.panGestureRecognizer];
+    //[self.monthView addGestureRecognizer:revealController.tapGestureRecognizer];
     [self SetNavigationBarProperty];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 #pragma Class Utility method
+-(void)RemoveBorder
+{
+    UIImageView *imageView = (UIImageView *)[self.view viewWithTag:100];
+    if (imageView) {
+        [imageView removeFromSuperview];
+    }
+    imageView = nil;
+}
+-(void)addBorder
+{
+    UIImageView *imageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bottomBorder.png"]];
+    imageview.frame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height-67, self.view.frame.size.width, 3);
+    imageview.tag = 100;
+    [self.view addSubview:imageview];
+}
 -(UIButton *)addPracticeLogButton{
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(self.tableView.frame.size.width-((ADD_PRACTICE_ICON_SIZE)+((isIPAD )? 10 :5)),2,ADD_PRACTICE_ICON_SIZE,ADD_PRACTICE_ICON_SIZE)];
     [btnSave addTarget:self action:@selector(addPracticeLog) forControlEvents:UIControlEventTouchUpInside];
@@ -107,7 +123,6 @@
     
     if (![[arrComponents objectAtIndex:1] isEqualToString:strCurrentMonth]) {
         formatter.dateFormat=DATE_FORMAT_Y_M_D;
-        
         NSString *strStartDate = [formatter stringFromDate:startDate];
         NSString *strEndDate = [formatter stringFromDate:lastDate];
         strCurrentMonth=[arrComponents objectAtIndex:1];
@@ -246,8 +261,7 @@
                 NSString *strCalenderDate=[NSString stringWithFormat:@"%@",d];
                 [dateFormatter setDateFormat:DATE_FORMAT_Y_M_D];
                 strCalenderDate=[dateFormatter stringFromDate:d];
-                if ([startDate isEqualToString:strCalenderDate])
-                {
+                if ([startDate isEqualToString:strCalenderDate]){
                     NSDateComponents *info = [d dateComponentsWithTimeZone:self.monthView.timeZone];
                     NSDate *temp = [NSDate dateWithDateComponents:info];
                     if ( [self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", temp]]) {
@@ -321,6 +335,8 @@
 }
 #pragma change control frame when device rotate
 - (void)orientationChanged{
+    [self RemoveBorder];
+    [self addBorder];
     [self.monthView AssignViewWidthBoxWidth:[[SingletonClass ShareInstance] CurrentOrientation:self]];
     [self.monthView RefreshView];
     [self.tableView reloadData];

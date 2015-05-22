@@ -212,7 +212,7 @@
 
 #define getPracticeTag 88800
 #define SaveAddPracticeTag 88801
-
+#define EditAthletNoteTag 88802
 
 #define listPickerHeight 168
 #define datePickerHeight 168
@@ -398,6 +398,7 @@
 // Practice log
 #define webServiceGetPracticeData [BaseUrl stringByAppendingString:@"getPractice"]
 #define webServiceSavePractice [BaseUrl stringByAppendingString:@"setPractice"]
+#define webServiceEditAthleteNote [BaseUrl stringByAppendingString:@"editPractice"]
 
 
 

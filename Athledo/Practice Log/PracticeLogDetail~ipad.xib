@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PracticeLogDetail">
             <connections>
                 <outlet property="PracticeDetailScrollView" destination="rkJ-SZ-1g2" id="22s-Sd-X0M"/>
+                <outlet property="btnViewNotes" destination="foH-Eb-GQP" id="qvC-iQ-kwi"/>
                 <outlet property="lblDescriptionHeading" destination="A2k-ZQ-yLW" id="5zX-TA-aBu"/>
                 <outlet property="lblDrillHeading" destination="EVc-ui-9xB" id="BxU-TP-I5s"/>
                 <outlet property="lblEndTime" destination="1Gb-Ag-y8I" id="7Z9-qD-yLV"/>
@@ -35,7 +36,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Practice Start Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Fs-yG-Ybg">
-                                    <rect key="frame" x="209.99999962212902" y="13" width="530" height="21"/>
+                                    <rect key="frame" x="182.00000010076553" y="13" width="530" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -49,7 +50,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Practice Start Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Gb-Ag-y8I">
-                                    <rect key="frame" x="209.99999962212902" y="53" width="530" height="21"/>
+                                    <rect key="frame" x="182.00000010076556" y="53" width="530" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -84,7 +85,7 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0ps-jY-nZa">
-                                    <rect key="frame" x="30" y="618" width="300" height="21"/>
+                                    <rect key="frame" x="30" y="618" width="60" height="21"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -104,6 +105,16 @@
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="foH-Eb-GQP">
+                                    <rect key="frame" x="115" y="614" width="130" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="View athlete note">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="ViewAthletesNotes:" destination="-1" eventType="touchUpInside" id="S5K-3l-3IV"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

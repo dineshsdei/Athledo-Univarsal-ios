@@ -99,10 +99,8 @@ static int LiftExerciseCount=0;
         arrFieldsPlaceholder=[[NSMutableArray alloc] initWithObjects:@"Workout Name",@"Workout Date",@"Workout Type",@"Custom Tags",@"Athletes",@"Email Notification",@"Description",WARMUPTIME,COOLDOWNTIME, nil];
         //BTNSave
     }else{
-        
         arrFieldsPlaceholder=[[NSMutableArray alloc] initWithObjects:@"Workout Name",@"Workout Date",@"Workout Type",@"Custom Tags",@"Email Notification",@"Description",WARMUPTIME,COOLDOWNTIME, nil];
     }
-    
     arrLiftUnit=[[NSArray alloc] initWithObjects:@"lbs",@"kg",@"%of 1RM",@"N/A", nil];
     
     arrTime=[[NSArray alloc] initWithObjects:@"05",@"10",@"15",@"20",@"30",@"25",@"35",@"40",@"45",@"50",@"55", nil];
@@ -115,22 +113,14 @@ static int LiftExerciseCount=0;
     
     selectedUnits = [[NSMutableDictionary alloc] init];
     UnitsArray=[[NSMutableArray alloc]init];
-    
     NSMutableDictionary  *Data=[[NSMutableDictionary alloc] init];
-    
-    
     for (int i=0; i<arrFieldsPlaceholder.count; i++) {
-        
         [workOutDic setObject:EMPTYSTRING forKey:[arrFieldsPlaceholder objectAtIndex:i]];
-        
     }
     @try {
-        
         if (objEditModeData) {
-            
             isEditData=YES;
             // Open in edit mode
-            
             switch ([[objEditModeData valueForKey:@"assigned"] intValue]) {
                 case 1:
                 {
@@ -157,8 +147,6 @@ static int LiftExerciseCount=0;
                 default:
                     break;
             }
-            
-            
             [workOutDic setObject:[objEditModeData valueForKey:@"assigned"] forKey:@"assigned"];
             
             [workOutDic setObject:[[objEditModeData valueForKey:@"Email Notification"] intValue]== 1 ? @"Yes":@"No" forKey:@"Email Notification"];
@@ -187,9 +175,7 @@ static int LiftExerciseCount=0;
                 
                 NSString *code= [objEditModeData valueForKey:@"workout_type_id"];
                 NSString *exercise_id= [objEditModeData valueForKey:@"Exercise Type"];
-                
                 [self getWorkOutUnit:code :exercise_id];
-                
                 [self ShowFieldsRegardingWorkOutType:strtemp];
             }
         }else{
@@ -292,8 +278,6 @@ static int LiftExerciseCount=0;
         }completion:^(BOOL finished){
             
         }];
-        
-        
     }];
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
@@ -394,11 +378,9 @@ static int LiftExerciseCount=0;
                             [Tempdic setObject:[customTagValues objectAtIndex:i] forKey:[customTagKeys objectAtIndex:i]];
                         }
                     }
-                    
                     [workOutDic setObject:[Tempdic copy] forKey:@"Custom Tags"];
                     Tempdic=nil;
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Custom tag has been removed successfully" delegate:nil btn1:@"Ok"];
-                    
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
@@ -426,26 +408,20 @@ static int LiftExerciseCount=0;
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
-                
                 break;
             } case AddWorkoutTag:
             {
-                
                 if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
                 {
-                    
-                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been saved successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:AddWorkoutTag];
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
-                
                 break;
             }
-                
             default:
                 break;
         }
-        
     }
     @catch (NSException *exception) {
         
@@ -453,8 +429,6 @@ static int LiftExerciseCount=0;
     @finally {
         
     }
-    
-    
 }
 -(void)httpResponseReceived:(NSData *)webResponse : (int)Tag
 {
@@ -627,7 +601,7 @@ static int LiftExerciseCount=0;
     {
         if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
         {
-            [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been saved successfully" delegate:self btn1:@"OK" btn2:nil tagNumber:AddWorkoutTag];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been saved successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:AddWorkoutTag];
             
         }else{
             [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
@@ -1785,7 +1759,7 @@ static int LiftExerciseCount=0;
         {
             btn.selected=NO;
             [btn setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
-            [SingletonClass initWithTitle:EMPTYSTRING message:[NSString stringWithFormat:@"NO %@",strPlaceHolder] delegate:nil btn1:@"OK"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:[NSString stringWithFormat:@"NO %@",strPlaceHolder] delegate:nil btn1:@"Ok"];
         }
     }
 }

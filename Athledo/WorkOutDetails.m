@@ -1617,7 +1617,7 @@
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         if (arrAllAthlete.count==0 && [textField.placeholder isEqualToString:@"Select athlete"]) {
             [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
-            [SingletonClass initWithTitle:EMPTYSTRING message:@"Athlete doesn't exist" delegate:nil btn1:@"OK"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Athlete doesn't exist" delegate:nil btn1:@"Ok"];
         }else
         {
             if (arrTime.count==0) {
