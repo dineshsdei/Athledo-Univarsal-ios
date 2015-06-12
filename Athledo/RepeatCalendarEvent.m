@@ -430,7 +430,7 @@ UIDeviceOrientation CurrentOrientation;
 }
 -(void)doneClicked
 {
-    if ([currentText.placeholder isEqualToString:@"Date"] && currentText.tag==2004) {
+    if ([currentText.placeholder isEqualToString:KEY_DATE] && currentText.tag==2004) {
         [CalendarEvent ShareInstance].strEndDate=currentText.text;
         [self CreateRepeatString:strRepeatEvent :2003 :currentText];
         
@@ -485,7 +485,7 @@ UIDeviceOrientation CurrentOrientation;
     }else{
         str = [arrDays objectAtIndex:row];
     }
-    NSArray *arr = [str componentsSeparatedByString:@"****"];
+    NSArray *arr = [str componentsSeparatedByString:KEY_TRIPLE_STAR];
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
@@ -1372,7 +1372,7 @@ UIDeviceOrientation CurrentOrientation;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :_datePicker :toolBar];
         [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar];
         return NO;
-    }else if ([textField.placeholder isEqualToString:@"Date"]) {
+    }else if ([textField.placeholder isEqualToString:KEY_DATE]) {
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
         currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];

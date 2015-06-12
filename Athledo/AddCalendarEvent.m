@@ -277,8 +277,8 @@
         }
         [dicttemp setObject:@"mobile" forKey:@"interface"];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userType] forKey:@"type"];
-        [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userId] forKey:@"user_id"];
-        [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedTeamid] forKey:@"team_id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userId] forKey:KEY_USER_ID];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedTeamid] forKey:KEY_TEAM_ID];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCallwithDic:dicttemp :webServiceAddEvents :DeleteEventTag];
     }else{
@@ -402,8 +402,8 @@
             //  Comman code
             
             [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
-            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:@"team_id"];
+            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
+            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:KEY_TEAM_ID];
             [dicttemp setObject:strNaveegatorStatus forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"!nativeeditor_status"]];
             [dicttemp setObject:@"mobile" forKey:@"interface"];
             [dicttemp setObject:[NSString stringWithFormat:@"%@",_tfLocation.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"location"]];
@@ -1276,7 +1276,7 @@
             
             NSDate *date=[df dateFromString:currentText.text];
             
-            [_datePicker setDate:date];
+            date !=nil ? [_datePicker setDate:date] : @"";
             
         }else{
             
@@ -1300,7 +1300,7 @@
                 
                 // Automatic set date and time After one hour of start time in text field
                 NSDate *enddate=[[_datePicker date] dateByAddingTimeInterval:(60*60)];
-                [_datePicker setDate:enddate];
+                enddate !=nil ?  [_datePicker setDate:enddate] :@"";
                 
                 dateIs = [NSString stringWithFormat:@"%@", [df stringFromDate:[_datePicker date]]];
                 currentText.text = dateIs;
@@ -1356,14 +1356,14 @@
     // to manage placeholder text
     if (textView.text.length==0)
     {
-        // textView.text=@"Description";
+        // textView.text=KEY_DESCRIPTION;
     }
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     // to manage placeholder text
-    if ([textView.text isEqualToString:@"Description"])
+    if ([textView.text isEqualToString:KEY_DESCRIPTION])
     {
         //textView.text=EMPTYSTRING;
     }

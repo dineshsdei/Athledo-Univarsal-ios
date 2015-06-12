@@ -27,7 +27,6 @@
 {
     @try {
         if (_objAthleteDetails != nil) {
-            
             _lblName.font = Textfont;
             _lblPhone.font = Textfont;
             _lblState.font = Textfont;

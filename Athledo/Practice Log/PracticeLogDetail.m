@@ -12,6 +12,7 @@
 #define BORDERWEIGHT 2
 #define ICON_HEIGHT_WEIGHT 30
 #define PRACTICENOTE_CELL_HEIGHT isIPAD ? 70 : 60
+#define VIEW_ATHLETE_NOTE_BG [UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1]
 
 @interface PracticeLogDetail ()
 {
@@ -34,17 +35,14 @@
     _PracticeDetailScrollView.scrollEnabled = YES;
     
 }
--(void)viewDidDisappear:(BOOL)animated
-{
+-(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
 }
--(void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     if (isIPAD) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
@@ -68,13 +66,13 @@
 }
 - (void)viewDidLoad {
     _btnViewNotes.hidden=YES;
+    _btnViewNotes.backgroundColor = VIEW_ATHLETE_NOTE_BG;
     self.title = @"Practice Log Detail";
     [super viewDidLoad];
     [_PracticeDetailScrollView setContentSize:CGSizeMake(_PracticeDetailScrollView.frame.size.width, _PracticeDetailScrollView.frame.size.height+(isIPAD ? 300 :100))];
     _PracticeDetailScrollView.scrollEnabled = YES;
     if (_objEditPracticeData) {
         if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
-           
             if([[_objEditPracticeData valueForKey:@"athleteNotes"] isKindOfClass:[NSArray class]])
             {
                  arrAthletesNotes =  [_objEditPracticeData valueForKey:@"athleteNotes"] ;
@@ -83,8 +81,7 @@
                 _btnViewNotes.hidden = YES;
                 [_btnViewNotes removeFromSuperview];
             }
-        }else
-        {
+        }else{
             _btnViewNotes.hidden = YES;
             [_btnViewNotes removeFromSuperview];
         }
@@ -98,12 +95,11 @@
         NSString *strendtime = [df stringFromDate:end_time];
         start_time !=nil ?  [_objEditPracticeData setObject:strstarttime forKey:@"start_time"] :@"";
         end_time !=nil ?  [_objEditPracticeData setObject:strendtime forKey:@"end_time"] : @"";
-        
-        _lblStartTime.text = [_objEditPracticeData valueForKey:@"start_time"];
-        _lblEndTime.text = [_objEditPracticeData valueForKey:@"end_time"];
-        _textviewDescription.text = [_objEditPracticeData valueForKey:@"description"];
-        _textViewDrill.text = [_objEditPracticeData valueForKey:@"drills"];
-        _txtViewNotes.text = [_objEditPracticeData valueForKey:@"notes"];
+        _lblStartTime.text = [[_objEditPracticeData valueForKey:@"start_time"] isKindOfClass:[NSString class]] ?[_objEditPracticeData valueForKey:@"start_time"] : @"";
+        _lblEndTime.text = [[_objEditPracticeData valueForKey:@"end_time"] isKindOfClass:[NSString class]]? [_objEditPracticeData valueForKey:@"end_time"]: @"";
+        _textviewDescription.text = [[_objEditPracticeData valueForKey:@"description"] isKindOfClass:[NSString class]] ?[_objEditPracticeData valueForKey:@"description"] :@"" ;
+        _textViewDrill.text = [[_objEditPracticeData valueForKey:@"drills"] isKindOfClass:[NSString class]]? [_objEditPracticeData valueForKey:@"drills"]:@"";
+        _txtViewNotes.text = [[_objEditPracticeData valueForKey:@"notes"] isKindOfClass:[NSString class]] ? [_objEditPracticeData valueForKey:@"notes"]:@"";
         
         _btnViewNotes.hidden=NO;
         _btnViewNotes.layer.borderWidth = BORDERWIDTH;
@@ -119,10 +115,8 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 #pragma mark Class Utility Method
--(void)Done
-{
+-(void)Done{
     [[arrAthletesNotes objectAtIndex:EditIndex] setValue:txtViewCurrent.text forKey:@"notes"];
     [tblAthleteNotes reloadData];
     [self EditAthleteNote:EditIndex];
@@ -138,16 +132,13 @@
         }
     } ];
 }
--(void)EditNote:(NSInteger)index
-{
-    if(txtViewCurrent)
-    {
+-(void)EditNote:(NSInteger)index{
+    if(txtViewCurrent){
         [UIView animateWithDuration:0.20f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
             txtViewCurrent.frame = CGRectMake(150, 100, 0, 0);
             [txtViewCurrent resignFirstResponder];
         } completion:^(BOOL finished){
-            if(txtViewCurrent)
-            {
+            if(txtViewCurrent){
                 [txtViewCurrent removeFromSuperview];
                 txtViewCurrent=nil;
             }
@@ -192,8 +183,7 @@
     [_PracticeDetailScrollView setContentSize:CGSizeMake(_PracticeDetailScrollView.frame.size.width, self.view.frame.size.height+(isIPAD ? 300 : 100))];
     _PracticeDetailScrollView.scrollEnabled = YES;
 }
--(void)setFieldsProperty
-{
+-(void)setFieldsProperty{
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
@@ -223,7 +213,6 @@
     _txtViewNotes.textColor = LightGrayColor;
     _textviewDescription.textColor = LightGrayColor;
     _textViewDrill.textColor = LightGrayColor;
-    
     _lblStartTime.font = Textfont;
     _lblStartTime.textColor = LightGrayColor;
     _lblEndTime.font = Textfont;
@@ -249,17 +238,17 @@
     tblAthleteNotes.layer.cornerRadius = CornerRadius;
     tblAthleteNotes.layer.borderWidth = BORDERWIDTH;
     tblAthleteNotes.layer.borderColor = BORDERCOLOR;
-    
-    [athleteNotesView addSubview:tblAthleteNotes];
-    [athleteNotesView addSubview:btnRemoveView];
-    [self.view addSubview:athleteNotesView];
+    [UIView animateWithDuration:0.20f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [athleteNotesView addSubview:tblAthleteNotes];
+        [athleteNotesView addSubview:btnRemoveView];
+       [self.view addSubview:athleteNotesView];
+    } completion:^(BOOL finished){
+    } ];
 }
--(void)RemoveNotesView
-{
+-(void)RemoveNotesView{
     isOpenNoteView = NO;
     [athleteNotesView removeFromSuperview];
 }
-
 #pragma mark UITableView Delegate & DataSource
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -272,8 +261,7 @@
     static NSString *CellNibName = @"AthletePracticeNotesCell";
     AthletePracticeNotesCell *cell = (AthletePracticeNotesCell *)[table dequeueReusableCellWithIdentifier:CellIdentifier];
     @try {
-        if (cell == nil)
-        {
+        if (cell == nil){
             NSArray *arrNib = [[NSBundle mainBundle] loadNibNamed:CellNibName owner:self options:nil];
             cell = [arrNib objectAtIndex:0];
             cell.contentView.userInteractionEnabled =YES;
@@ -295,7 +283,6 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"index path %d",indexPath.row);
     [self EditNote:indexPath.row];
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -336,8 +323,7 @@
         }
     }
 }
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [self.navigationController popViewControllerAnimated:YES];
 }
 @end

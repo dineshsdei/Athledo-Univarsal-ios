@@ -5,11 +5,11 @@
 //  Created by Smartdata on 8/25/14.
 //  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
-
 #import "WorkOutHistory.h"
 #import "WorkOutView.h"
 #import "DashBoardCell.h"
 #import "WorkoutHistoryDetails.h"
+#define HISTORYCELL_HEIGHT isIPAD ? 60 :50
 
 @interface WorkOutHistory ()
 {
@@ -31,7 +31,6 @@
     NSDateFormatter *formater;
     UIToolbar *toolBar;
     UIDeviceOrientation CurrentOrientation;
-    
 }
 @end
 @implementation WorkOutHistory
@@ -58,7 +57,7 @@
     {
         if (currentText.text.length==0) {
             currentText.text=[arrWorkOut objectAtIndex:0];
-            workoutId=[self KeyForValue:@"Workout Type":currentText.text];
+            workoutId=[self KeyForValue:KEY_WORKOUT_TYPE:currentText.text];
         }
         return [arrWorkOut count];
     }else if (isAthletes)
@@ -80,13 +79,13 @@
     }else if (isSeasons){
         str = [arrSeasons objectAtIndex:row];
     }
-    NSArray *arr = [str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
+    NSArray *arr = [str componentsSeparatedByString:KEY_TRIPLE_STAR]; //For State, But will not effect to other
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (isWorkOutType) {
         currentText.text=arrWorkOut.count > row ? [arrWorkOut objectAtIndex:row] : [arrWorkOut objectAtIndex:row-1] ;
-        workoutId=[self KeyForValue:@"Workout Type":currentText.text];
+        workoutId=[self KeyForValue:KEY_WORKOUT_TYPE:currentText.text];
     }else  if (isAthletes){
         currentText.text=arrAthletes.count > row ? [arrAthletes objectAtIndex:row] : [arrAthletes objectAtIndex:row-1] ;
         AthleteId=[self KeyForValue:@"Athletes":currentText.text];
@@ -95,7 +94,6 @@
         seasonId=[self KeyForValue:@"Season":currentText.text];
     }
 }
-
 -(IBAction)Workoutlist:(id)sender{
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
@@ -203,7 +201,7 @@
     NSIndexPath *indexPath = [tableview indexPathForRowAtPoint:tapLocation];
     WorkoutHistoryDetails *workoutDetails=[[WorkoutHistoryDetails alloc] init];
     if (arrSearchData.count > 0) {
-        workoutDetails.obj=[[[arrSearchData objectAtIndex:indexPath.section] valueForKey:@"Workout"]copy];
+        workoutDetails.obj=[[[arrSearchData objectAtIndex:indexPath.section] valueForKey:KEY_WORKOUT]copy];
         [self.navigationController pushViewController:workoutDetails animated:YES];
     }
 }
@@ -218,9 +216,7 @@
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
-
--(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey
-{
+-(NSString *)KeyForValue :(NSString *)superKey :(NSString *)SubKey{
     NSArray *arrValues;
     NSArray *arrkeys;
     [[DicData objectForKey:superKey] isKindOfClass:[NSDictionary class]] ? arrValues=[[DicData objectForKey:superKey] allValues] : EMPTYSTRING;
@@ -247,8 +243,7 @@
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
--(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
-{
+-(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
     [SingletonClass deleteUnUsedLableFromTable:tableview];
     [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag){
@@ -256,7 +251,7 @@
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 DicData=[MyResults  objectForKey:DATA];
                 // check if nsdictionary object then find allvalues otherwise  this EMPTYSTRING statement execute . it do nothing
-                [[[MyResults  objectForKey:DATA] objectForKey:@"Workout Type"] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:DATA] objectForKey:@"Workout Type"] allValues] : EMPTYSTRING;
+                [[[MyResults  objectForKey:DATA] objectForKey:KEY_WORKOUT_TYPE] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:DATA] objectForKey:KEY_WORKOUT_TYPE] allValues] : EMPTYSTRING;
                 [[[MyResults  objectForKey:DATA] valueForKey:@"Athletes"] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:DATA] valueForKey:@"Athletes"] allValues]] : EMPTYSTRING;
                 [[[MyResults  objectForKey:DATA] objectForKey:@"Season"] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues] :EMPTYSTRING;
                 [arrAthletes addObject:@"Whole Team"];
@@ -369,14 +364,14 @@
     }
     cell.lblWorkoutName.textColor=[UIColor grayColor];
     cell.lblWorkoutName.font = Textfont;
-    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"name"] isKindOfClass:[NSNull class]]) {
-        cell.lblWorkoutName.text=[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"name"];
+    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"name"] isKindOfClass:[NSNull class]]) {
+        cell.lblWorkoutName.text=[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"name"];
     }
     cell.lblWorkoutDate.textColor=[UIColor lightGrayColor];
    cell.lblWorkoutDate.font = SmallTextfont;
-    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"date"] isKindOfClass:[NSNull class]]) {
+    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"date"] isKindOfClass:[NSNull class]]) {
         
-        NSDate *date=[formater dateFromString:[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:@"Workout"] valueForKey:@"date"]];
+        NSDate *date=[formater dateFromString:[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"date"]];
         [formater setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
         cell.lblWorkoutDate.text=[formater stringFromDate:date];
         [formater setDateFormat:DATE_FORMAT_Y_M_D];
@@ -384,9 +379,8 @@
     cell.backgroundColor=[UIColor clearColor];
     return cell;
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return CELLHEIGHT;
+    return HISTORYCELL_HEIGHT;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 }
@@ -396,5 +390,4 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end

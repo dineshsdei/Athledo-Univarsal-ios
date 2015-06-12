@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,25 +15,39 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qga-65-h5u">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qga-65-h5u">
                         <rect key="frame" x="119" y="19" width="600" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="600" id="pa5-V1-whA"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQ6-6l-yhP">
-                        <rect key="frame" x="30" y="19" width="90" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQ6-6l-yhP">
+                        <rect key="frame" x="30" y="19" width="100" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="JLD-p9-dpe"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="11" id="06C-Ss-9Mu"/>
+                    <constraint firstItem="Qga-65-h5u" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="GNK-0L-a86"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Qga-65-h5u" secondAttribute="trailing" constant="41" id="Vsa-ed-AbB"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="EQ6-6l-yhP" secondAttribute="bottom" constant="14" id="flX-Zn-0hJ"/>
+                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="22" id="hdo-gR-OEg"/>
+                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="top" secondItem="Qga-65-h5u" secondAttribute="top" id="tsy-KY-TyG"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="lblPracticeDesc" destination="Qga-65-h5u" id="Tcw-hu-RDq"/>
                 <outlet property="lblPracticeTime" destination="EQ6-6l-yhP" id="lpU-9E-rP0"/>
             </connections>
-            <point key="canvasLocation" x="403" y="211"/>
+            <point key="canvasLocation" x="403" y="214"/>
         </tableViewCell>
     </objects>
 </document>

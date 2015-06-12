@@ -85,7 +85,7 @@
 -(void)getPdfLink:(NSString *)AthleteId
 {
     if (arrNotesData.count ==0) {
-        [SingletonClass initWithTitle:EMPTYSTRING message:@"PDF is not exist." delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"PDF doesn't exist." delegate:nil btn1:@"Ok"];
         return;
     }
     if ([SingletonClass  CheckConnectivity]) {
@@ -385,7 +385,8 @@
         case 1:
         {
             pdfNameIndex = (int)btn.tag;
-            [self DownloadSelectedUserPDF:btn.tag];
+            
+            [self DownloadSelectedUserPDF:[[[arrFilterdData objectAtIndex:pdfNameIndex] valueForKey:KEY_USER_ID] intValue]];
             break;
         }
         default:
@@ -399,7 +400,7 @@
 
 -(void)ShareSelectedUserNotes :(NSInteger)userTag
 {
-    [self ShareNotes:[[arrFilterdData objectAtIndex:userTag] valueForKey:@"user_id"]];
+    [self ShareNotes:[[arrFilterdData objectAtIndex:userTag] valueForKey:KEY_USER_ID]];
 }
 #pragma SearchBar Delegate
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
@@ -426,7 +427,7 @@
 {
     @try {
         if (arrNotesData.count == 0) {
-            [SingletonClass initWithTitle:EMPTYSTRING message:@"No Notes" delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"No Athletes" delegate:nil btn1:@"Ok"];
         }
         if(theSearchBar.text.length>0)
         {

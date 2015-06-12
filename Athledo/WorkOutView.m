@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Athledo Inc. All rights reserved.
 //
 
+
 #import "WorkOutView.h"
 #import "SWRevealViewController.h"
 #import "WorkOutListCell.h"
@@ -27,32 +28,24 @@
 
 @implementation WorkOutView
 
--(void)ReAsignWorkout :(int)index
-{
-    
+-(void)ReAsignWorkout :(int)index{
 }
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
     return self;
 }
--(void)ReAsignWorkOut:(id)sender
-{
-    
+-(void)ReAsignWorkOut:(id)sender{
 }
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
--(void)viewWillDisappear:(BOOL)animated
-{
+-(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -76,14 +69,11 @@
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemAdd,BarItemHistory, nil];
     self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
 }
--(void)doneClicked
-{
+-(void)doneClicked{
     [self setToolbarVisibleAt:CGPointMake(160, self.view.bounds.size.height+50)];
-    
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 }
--(void)setToolbarVisibleAt:(CGPoint)point
-{
+-(void)setToolbarVisibleAt:(CGPoint)point{
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
@@ -91,20 +81,16 @@
     [UIView commitAnimations];
 }
 #pragma mark Class Utility method 
-- (void)orientationChanged
-{
+- (void)orientationChanged{
     [SingletonClass deleteUnUsedLableFromTable:tblList];
 }
--(void)viewDidDisappear:(BOOL)animated
-{
+-(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:NO];
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    if (isIPAD)
-    {
+-(void)viewWillAppear:(BOOL)animated{
+    if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
@@ -142,35 +128,24 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 {
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-        
-        if ([object isKindOfClass:[AddWorkOut class]])
-        {
+    for (id object in arrController){
+        if ([object isKindOfClass:[AddWorkOut class]]){
             Status=TRUE;
             [self.navigationController popToViewController:object animated:NO];
         }
     }
-    
-    if (Status==FALSE)
-    {
+    if (Status==FALSE){
         AddWorkOut *annView=[[AddWorkOut alloc] initWithNibName:@"AddWorkOut" bundle:nil];
-        
         [self.navigationController pushViewController:annView animated:NO];
     }
-    
 }
-- (void)getList
-{
+- (void)getList{
     if ([SingletonClass  CheckConnectivity]) {
-        
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         self.navigationItem.rightBarButtonItem.enabled=NO;
         self.navigationItem.leftBarButtonItem.enabled=NO;
         btnHistory.userInteractionEnabled=NO;
         [SingletonClass addActivityIndicator:self.view];
-        
         NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"type\":\"%d\",\"sport_id\":\"%d\",\"search\":\{}""}",userInfo.userSelectedTeamid,userInfo.userType,userInfo.userSelectedSportid];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceWorkoutInfo]];
@@ -195,31 +170,24 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                                    }
                                }];
     }else{
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
 }
 
-- (void)WebServiceDeleteWorkOut : (int )Index
-{
-    if ([SingletonClass  CheckConnectivity])
-    {
+- (void)WebServiceDeleteWorkOut : (int )Index{
+    if ([SingletonClass  CheckConnectivity]){
         self.navigationItem.rightBarButtonItem.enabled=NO;
         self.navigationItem.leftBarButtonItem.enabled=NO;
         [SingletonClass addActivityIndicator:self.view];
         
-        NSString *strURL = [NSString stringWithFormat:@"{\"workout_id\":\"%d\"}",[[[arrWorkOutData objectAtIndex:Index] objectForKey:@"Workout Id"] intValue]];
+        NSString *strURL = [NSString stringWithFormat:@"{\"workout_id\":\"%d\"}",[[[arrWorkOutData objectAtIndex:Index] objectForKey:KEY_WORKOUT_ID] intValue]];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceDeleteWorkOut]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
         NSMutableData *data = [NSMutableData data];
-        
         [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
         [request setHTTPBody:data];
-        
         [NSURLConnection sendAsynchronousRequest:request
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -242,7 +210,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 {
     // tagNumber->100 for get list data
     // tagNumber->200 for get search result
-    
     self.navigationItem.rightBarButtonItem.enabled=YES;
     self.navigationItem.leftBarButtonItem.enabled=YES;
     btnHistory.userInteractionEnabled=YES;
@@ -251,107 +218,73 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     [SingletonClass deleteUnUsedLableFromTable:tblList];
     // Now we Need to decrypt data
     NSError *error=nil;
-    
     if (tagNumber == GetWorkOutListTag)
     {
         [SingletonClass ShareInstance].isWorkOutSectionUpdate =FALSE;
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
         
-        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
-        {
-           
+        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS]){
             [arrWorkOutData removeAllObjects];
             NSArray *data=[myResults objectForKey:DATA] ;
-            for (int i=0; i< data.count; i++)
-            {
-                if ([[data objectAtIndex:i]objectForKey:@"Workout"]) {
-                    [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:@"Workout"]];
+            for (int i=0; i< data.count; i++){
+                if ([[data objectAtIndex:i]objectForKey:KEY_WORKOUT]) {
+                    [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:KEY_WORKOUT]];
                 }
             }
              arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
             [tblList reloadData];
-        }else
-        {
+        }else{
             [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]];
         }
-    }else if (tagNumber == SearchWorkOutTag)
-    {
+    }else if (tagNumber == SearchWorkOutTag){
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
         NSArray *data=[myResults objectForKey:DATA] ;
         
-        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
-        {
+        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS]){
             [arrWorkOutData removeAllObjects];
-            for (int i=0; i< data.count; i++)
-            {
-                if ([[data objectAtIndex:i]objectForKey:@"Workout"]) {
-                    [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:@"Workout"]];
+            for (int i=0; i< data.count; i++){
+                if ([[data objectAtIndex:i]objectForKey:KEY_WORKOUT]) {
+                    [arrWorkOutData addObject:[[data objectAtIndex:i]objectForKey:KEY_WORKOUT]];
                 }
             }
             [tblList reloadData];
             arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
-            
-        }else
-        {
+        }else{
             [tblList reloadData];
             arrWorkOutData.count == 0 ? [tblList addSubview:[SingletonClass ShowEmptyMessage:@"No workouts":tblList]] :[SingletonClass deleteUnUsedLableFromTable:tblList];
-            
         }
-    }else if (tagNumber == DeleteWorkOutTag)
-    {
-        
+    }else if (tagNumber == DeleteWorkOutTag){
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-        
-        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
-        {
+        if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS]){
             [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been deleted successfully." delegate:nil btn1:@"Ok"];
             [self getList];
-        }else
-        {
+        }else{
             [SingletonClass initWithTitle:EMPTYSTRING message:@"Try Again" delegate:nil btn1:@"Ok"];
         }
-        
     }
-    
 }
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
-{
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
     if (searchBar.text.length==0) {
         [self getList];
     }
-    
     [searchBar resignFirstResponder];
 }
-
-
-
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
 }
-
-- (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
-{
-    if(theSearchBar.text.length>0)
-    {
+- (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar{
+    if(theSearchBar.text.length>0){
         if ([SingletonClass  CheckConnectivity]) {
-            
             UserInformation *userInfo=[UserInformation shareInstance];
             //Check for empty Text box
             NSString *strError = EMPTYSTRING;
-            if(theSearchBar.text.length < 1 )
-            {
+            if(theSearchBar.text.length < 1 ){
                 strError = @"Please enter searching text";
             }
-            
-            if(strError.length > 1)
-            {
+            if(strError.length > 1){
                 [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                 return;
-                
             }else{
-                
                 [arrWorkOutData removeAllObjects];
                 [SingletonClass addActivityIndicator:self.view];
                 NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"search\":\{\"name\":\"%@\"}""}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,[theSearchBar.text lowercaseString]];
@@ -360,7 +293,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                 [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
                 
                 NSMutableData *data = [NSMutableData data];
-                //[data appendData:[[NSString stringWithFormat: @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"] dataUsingEncoding: NSUTF8StringEncoding]];
                 [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
                 [request setHTTPBody:data];
                 [NSURLConnection sendAsynchronousRequest:request
@@ -375,7 +307,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
                                            }
                                            
                                        }];
-                
             }
             
         }else{
@@ -385,23 +316,17 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     [theSearchBar resignFirstResponder];
 }
 #pragma mark- TableviewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     return arrWorkOutData.count;
 }
-
--(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"WorkOutCell";
     static NSString *CellNib = @"WorkOutListCell";
-    
     WorkOutListCell *cell = (WorkOutListCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (WorkOutListCell *)[nib objectAtIndex:0];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -409,73 +334,56 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         cell.del=self;
         // [cell.contentView setUserInteractionEnabled:NO];
     }
-    cell.lblWorkoutName.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Name"];
+    cell.lblWorkoutName.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_NAME];
     cell.lblWorkoutName.font=SmallTextfont;
-    
-    cell.lblWorkoutSeason.text=[[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"season"] isEqual:EMPTYSTRING] ? @"Off Season" :[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"season"]  ;
+    cell.lblWorkoutSeason.text=[[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_SEASON] isEqual:EMPTYSTRING] ? KEY_OFF_SEASON :[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_SEASON]  ;
     cell.lblWorkoutSeason.font=SmallTextfont;
-    
-    cell.lblWorkoutType.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Type"] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Type"] :EMPTYSTRING ;
+    cell.lblWorkoutType.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_TYPE] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_TYPE] :EMPTYSTRING ;
     cell.lblWorkoutType.font=SmallTextfont;
     
-    cell.lblWorkoutDate.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Date"] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Date"] :EMPTYSTRING ;
+    cell.lblWorkoutDate.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_DATE] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_DATE] :EMPTYSTRING ;
     cell.lblWorkoutDate.font=SmallTextfont;
-    cell.lblWorkoutCratedBy.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"createdby"] ;
+    cell.lblWorkoutCratedBy.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_CREATED_BY] ;
     cell.lblWorkoutCratedBy.font=Textfont;
     
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
         cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
         cell.delegate=self;
-
-    }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"user_id"] intValue])
-    {
+    }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_USER_ID] intValue]){
         cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
         cell.delegate=self;
     }
     if (_notificationData) {
-        
         NSArray *arrTemp=(NSArray *)_notificationData ;
-        if ([arrTemp containsObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Id"]]) {
-            
+        if ([arrTemp containsObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_ID]]) {
             cell.lblWorkoutCratedBy.font=[UIFont boldSystemFontOfSize: cell.lblWorkoutCratedBy.font.pointSize];
             cell.lblWorkoutName.font=[UIFont boldSystemFontOfSize: cell.lblWorkoutName.font.pointSize];
         }
     }
     return cell;
 }
-
-- (NSArray *)rightButtons :(int)tag
-{
+- (NSArray *)rightButtons :(int)tag{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:149/255.0 green:29/255.0 blue:27/255.0 alpha:1.0f] icon:[UIImage imageNamed:@"deleteBtn.png"] :tag];
     return rightUtilityButtons;
 }
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return CELLHEIGHT;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-        if ([object isKindOfClass:[WorkOutDetails class]])
-        {
+    for (id object in arrController){
+        if ([object isKindOfClass:[WorkOutDetails class]]){
             Status=TRUE;
             WorkOutDetails *workoutDetails=(WorkOutDetails *)object;
             workoutDetails.obj=[[arrWorkOutData objectAtIndex:indexPath.section] copy];
-            if (_notificationData)
-            {
+            if (_notificationData){
                 NSArray *arrTemp=(NSArray *)_notificationData;
-                if ([arrTemp containsObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Id"]])
-                {
-                    [_notificationData removeObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Id"]];
+                if ([arrTemp containsObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_ID]]){
+                    [_notificationData removeObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_ID]];
                     workoutDetails.NotificationStataus=TRUE;
-                    
                 }else{
                     workoutDetails.NotificationStataus=FALSE;
                 }
@@ -483,17 +391,14 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             [self.navigationController popToViewController:workoutDetails animated:NO];
         }
     }
-    
-    if (Status==FALSE)
-    {
+    if (Status==FALSE){
         WorkOutDetails *workoutDetails=[[WorkOutDetails alloc] initWithNibName:@"WorkOutDetails" bundle:nil];
         workoutDetails.obj=[[arrWorkOutData objectAtIndex:indexPath.section] copy];
         if (_notificationData) {
             NSArray *arrTemp=(NSArray *)_notificationData;
-            if ([arrTemp containsObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Id"]]) {
-                [_notificationData removeObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:@"Workout Id"]];
+            if ([arrTemp containsObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_ID]]) {
+                [_notificationData removeObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_ID]];
                 workoutDetails.NotificationStataus=TRUE;
-                
             }else{
                 workoutDetails.NotificationStataus=FALSE;
             }
@@ -502,66 +407,50 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     }
 }
 
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
-    
     NSArray *arrButtons=cell.rightUtilityButtons;
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:0];
     switch (index) {
-        case 0:
-        {
+        case 0:{
             [self DeleteWorkOut:btn];
-            
             break;
         }
-            
         default:
             break;
     }
 }
--(void)EditWorkOut:(id)sender
-{
+-(void)EditWorkOut:(id)sender{
     UIButton *btn=sender;
     AddWorkOut *edit=[[AddWorkOut alloc] init];
     edit.objEditModeData=[arrWorkOutData objectAtIndex:btn.tag];
     [self.navigationController pushViewController:edit animated:YES];
 }
 
--(IBAction)WorkoutHistory:(id)sender
-{
+-(IBAction)WorkoutHistory:(id)sender{
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController) {
-        
-        if ([object isKindOfClass:[WorkOutHistory class]])
-        {
+        if ([object isKindOfClass:[WorkOutHistory class]]){
             Status=TRUE;
             [self.navigationController popToViewController:object animated:NO];
         }
     }
-    if (Status==FALSE)
-    {
+    if (Status==FALSE){
         WorkOutHistory *addNew=[[WorkOutHistory alloc] init];
         [self.navigationController pushViewController:addNew animated:NO];
     }
-    
 }
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    buttonIndex==1 ? [self WebServiceDeleteWorkOut :(int)(alertView.tag)] : EMPTYSTRING;
-    
-}
--(void)DeleteWorkOut:(id)sender
-{
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    buttonIndex == 1 ? [self WebServiceDeleteWorkOut :(int)(alertView.tag)] : EMPTYSTRING;
+    }
+-(void)DeleteWorkOut:(id)sender{
     UIButton *btn=sender;
     [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete workout?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:(int)(btn.tag)];
 }
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end

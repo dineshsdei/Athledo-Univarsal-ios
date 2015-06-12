@@ -16,26 +16,26 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="apo-t1-Hv8">
-                    <rect key="frame" x="0.0" y="0.0" width="768" height="1021"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="SCY-SS-WcC"/>
-                        <outlet property="delegate" destination="-1" id="iYq-jH-vZC"/>
-                    </connections>
-                </tableView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomBorder.png" translatesAutoresizingMaskIntoConstraints="NO" id="vfn-wZ-9Yo">
                     <rect key="frame" x="0.0" y="1021" width="768" height="3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="3" id="jMi-nw-DqQ"/>
                     </constraints>
                 </imageView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="apo-t1-Hv8">
+                    <rect key="frame" x="0.0" y="4" width="768" height="1015"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="SCY-SS-WcC"/>
+                        <outlet property="delegate" destination="-1" id="iYq-jH-vZC"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="apo-t1-Hv8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="J80-RE-hQt"/>
-                <constraint firstItem="apo-t1-Hv8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="KVX-xZ-suO"/>
-                <constraint firstItem="vfn-wZ-9Yo" firstAttribute="top" secondItem="apo-t1-Hv8" secondAttribute="bottom" id="c0k-Rv-vx7"/>
+                <constraint firstItem="apo-t1-Hv8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="KVX-xZ-suO"/>
+                <constraint firstItem="vfn-wZ-9Yo" firstAttribute="top" secondItem="apo-t1-Hv8" secondAttribute="bottom" constant="2" id="c0k-Rv-vx7"/>
                 <constraint firstAttribute="trailing" secondItem="vfn-wZ-9Yo" secondAttribute="trailing" id="cIK-Cx-gWz"/>
                 <constraint firstItem="vfn-wZ-9Yo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rrl-Sy-UHU"/>
                 <constraint firstAttribute="bottom" secondItem="vfn-wZ-9Yo" secondAttribute="bottom" id="ry1-R3-W7Q"/>

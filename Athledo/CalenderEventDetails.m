@@ -44,7 +44,6 @@
     [btnEdit setBackgroundImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
-    
     NSDateFormatter* df = [[NSDateFormatter alloc] init];
     [df setDateFormat:dateFormatYearMonthDateHiphenWithTime];
     NSDate *startdate=[df dateFromString:[_eventDetailsDic valueForKey:@"start_date"]];
@@ -70,7 +69,7 @@
         if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
             self.navigationItem.rightBarButtonItem = ButtonItem;
             self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
-        }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_eventDetailsDic  objectForKey:@"user_id"] intValue])
+        }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_eventDetailsDic  objectForKey:KEY_USER_ID] intValue])
         {
             self.navigationItem.rightBarButtonItem = ButtonItem;
             self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;

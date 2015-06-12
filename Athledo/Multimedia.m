@@ -215,7 +215,7 @@
 {
     NSString *str;
     str = [arrSeasons objectAtIndex:row];
-    NSArray *arr = [str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
+    NSArray *arr = [str componentsSeparatedByString:KEY_TRIPLE_STAR]; //For State, But will not effect to other
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
@@ -308,7 +308,7 @@
                 NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues];
                 //To remove off season
                 for (int i=0;i<arrtemp.count; i++) {
-                    if (![[arrtemp objectAtIndex:i] isEqualToString:@"Off Season"]) {
+                    if (![[arrtemp objectAtIndex:i] isEqualToString:KEY_OFF_SEASON]) {
                         [arrSeasons addObject:[arrtemp objectAtIndex:i]];
                     }
                 }

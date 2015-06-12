@@ -191,7 +191,7 @@
         NSDate *Date;
         Date= [df dateFromString:textField.text];
         if (Date) {
-            [practice_TimePicker setDate:Date];
+            Date ?[practice_TimePicker setDate:Date] : @"";
         }
     }
 }
@@ -244,9 +244,7 @@
     _txtViewNotes.textColor = LightGrayColor;
     _txtFieldEndTime.textColor = LightGrayColor;
     _txtFieldStartTime.textColor = LightGrayColor;
-    
     if (isIPAD) {
-        
         [self.txtViewDescription sizeToFit];
         [_txtViewDescription layoutIfNeeded];
     }
@@ -274,7 +272,7 @@
     return YES;
 }
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView{
-    if (textView.tag == DESCRIPTIONTAG && textView.text.length == 0) {
+    if (textView.tag == DESCRIPTIONTAG && textView.text.length == 0){
         textView.text = @"Enter Description";
     }
     if (textView.tag == DRILLTAG  && textView.text.length == 0) {
@@ -313,11 +311,9 @@
         
         if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
             
-            if((_txtViewDescription.text.length > 0) && ([_txtViewDescription.text isEqualToString:@"Enter Description"]) )
-            {
+            if((_txtViewDescription.text.length > 0) && ([_txtViewDescription.text isEqualToString:@"Enter Description"]) ){
                 strError = @"Please enter practice description";
-            }
-            else if((_txtViewNotes.text.length > 0)  && ([_txtViewNotes.text isEqualToString:@"Enter Notes"])){
+            }else if((_txtViewNotes.text.length > 0)  && ([_txtViewNotes.text isEqualToString:@"Enter Notes"])){
                 strError = @"Please enter practice notes";
             } else if(_txtFieldStartTime.text.length == 0 ){
                 strError = @"Please enter practice start time";
@@ -342,13 +338,13 @@
         NSMutableDictionary *DicPracticeData;
         if (_objEditPracticeData) {
             if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
-                DicPracticeData=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:userInfo.userType ],@"type",[NSNumber numberWithInt:userInfo.userId ],@"loguser_id",[_objEditPracticeData valueForKey:@"user_id"],@"practice_user_id",[_objEditPracticeData valueForKey:@"id" ],@"id",[_objEditPracticeData valueForKey:@"parent_id"] ,@"parent_id",[NSNumber numberWithInt:userInfo.userSelectedTeamid ],@"team_id",_txtViewDescription.text,@"description",_txtViewDrill.text,@"drills",_txtViewNotes.text,@"notes",[self weekCurrentPracticeDate],@"week_current_date",[self weekStartDate],@"week_start_date",[self weekEndDate],@"week_end_date",_txtFieldStartTime.text,@"start_time",_txtFieldEndTime.text,@"end_time", nil];
+                DicPracticeData=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:userInfo.userType ],@"type",[NSNumber numberWithInt:userInfo.userId ],@"loguser_id",[_objEditPracticeData valueForKey:KEY_USER_ID],@"practice_user_id",[_objEditPracticeData valueForKey:@"id" ],@"id",[_objEditPracticeData valueForKey:@"parent_id"] ,@"parent_id",[NSNumber numberWithInt:userInfo.userSelectedTeamid ],KEY_TEAM_ID,_txtViewDescription.text,@"description",_txtViewDrill.text,@"drills",_txtViewNotes.text,@"notes",[self weekCurrentPracticeDate],@"week_current_date",[self weekStartDate],@"week_start_date",[self weekEndDate],@"week_end_date",_txtFieldStartTime.text,@"start_time",_txtFieldEndTime.text,@"end_time", nil];
             }else{
                 
-                DicPracticeData=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:userInfo.userType ],@"type",[NSNumber numberWithInt:userInfo.userId ],@"loguser_id",[_objEditPracticeData valueForKey:@"user_id"],@"practice_user_id",[_objEditPracticeData valueForKey:@"id" ],@"id",[_objEditPracticeData valueForKey:@"parent_id"] ,@"parent_id",[NSNumber numberWithInt:userInfo.userSelectedTeamid ],@"team_id",@"",@"description",@"",@"drills",_txtViewNotes.text,@"notes",[self weekCurrentPracticeDate],@"week_current_date",[self weekStartDate],@"week_start_date",[self weekEndDate],@"week_end_date",[_objEditPracticeData valueForKey:@"start_time"],@"start_time",[_objEditPracticeData valueForKey:@"end_time"],@"end_time", nil];
+                DicPracticeData=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:userInfo.userType ],@"type",[NSNumber numberWithInt:userInfo.userId ],@"loguser_id",[_objEditPracticeData valueForKey:KEY_USER_ID],@"practice_user_id",[_objEditPracticeData valueForKey:@"id" ],@"id",[_objEditPracticeData valueForKey:@"parent_id"] ,@"parent_id",[NSNumber numberWithInt:userInfo.userSelectedTeamid ],KEY_TEAM_ID,@"",@"description",@"",@"drills",_txtViewNotes.text,@"notes",[self weekCurrentPracticeDate],@"week_current_date",[self weekStartDate],@"week_start_date",[self weekEndDate],@"week_end_date",[_objEditPracticeData valueForKey:@"start_time"],@"start_time",[_objEditPracticeData valueForKey:@"end_time"],@"end_time", nil];
             }
         }else{
-            DicPracticeData=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:userInfo.userType ],@"type",[NSNumber numberWithInt:userInfo.userId ],@"loguser_id",[NSNumber numberWithInt:userInfo.userId ],@"practice_user_id",@"",@"id",@"",@"parent_id",[NSNumber numberWithInt:userInfo.userSelectedTeamid ],@"team_id",_txtViewDescription.text,@"description",_txtViewDrill.text,@"drills",_txtViewNotes.text,@"notes",[self weekCurrentPracticeDate],@"week_current_date",[self weekStartDate],@"week_start_date",[self weekEndDate],@"week_end_date",_txtFieldStartTime.text,@"start_time",_txtFieldEndTime.text,@"end_time", nil];
+            DicPracticeData=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:userInfo.userType ],@"type",[NSNumber numberWithInt:userInfo.userId ],@"loguser_id",[NSNumber numberWithInt:userInfo.userId ],@"practice_user_id",@"",@"id",@"",@"parent_id",[NSNumber numberWithInt:userInfo.userSelectedTeamid ],KEY_TEAM_ID,_txtViewDescription.text,@"description",_txtViewDrill.text,@"drills",_txtViewNotes.text,@"notes",[self weekCurrentPracticeDate],@"week_current_date",[self weekStartDate],@"week_start_date",[self weekEndDate],@"week_end_date",_txtFieldStartTime.text,@"start_time",_txtFieldEndTime.text,@"end_time", nil];
         }
         [SingletonClass ShareInstance].isPracticeLogUpdate = TRUE;
         [webservice WebserviceCallwithDic:DicPracticeData :webServiceSavePractice :SaveAddPracticeTag];

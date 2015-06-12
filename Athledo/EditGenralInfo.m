@@ -241,11 +241,8 @@
 
 - (void)getCountryList{
     if ([SingletonClass  CheckConnectivity]) {
-        
-        
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetCountryList]];
         [request setHTTPMethod:@"POST"];
-        
         [NSURLConnection sendAsynchronousRequest:request
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -259,9 +256,7 @@
     }else{
         
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
-    
 }
 
 - (void)getStateList : (int )CountryCode{
@@ -365,15 +360,13 @@
                 
                 [temp setObject:[arrStateCode objectAtIndex:stateCodeIndex] forKey:@"state_id"];
                 [temp setObject:[arrCountryCode objectAtIndex:CountryCodeIndex] forKey:@"country_id"];
-                
             }else
             {
                 [temp setObject: [_objData valueForKey:@"state_id"] forKey:@"state_id"];
                 [temp setObject: [_objData valueForKey:@"country_id"] forKey:@"country_id"];
             }
-            [temp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
+            [temp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
             //Use less but mandatory field on web
-            
             [temp setObject: [_objData valueForKey:@"age"] forKey:@"age"];
             [temp setObject: [_objData valueForKey:@"class_year"] forKey:@"class_year"];
             [temp setObject: [_objData valueForKey:@"created"] forKey:@"created"];
@@ -388,7 +381,7 @@
             
             NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
-            [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
+            [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
         
             [dict setObject:temp forKey:@"UserProfile"];
             [dict setObject:EMPTYSTRING forKey:@"cochng_hstry"];
@@ -433,17 +426,12 @@
     [self.view viewWithTag:toolBarTag].center = point;
     [UIView commitAnimations];
 }
-
 #pragma mark setcontent offset
 - (void)setContentOffsetDown:(id)textField table:(UITableView*)m_TableView {
-    
     [m_TableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
-
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
-    
-    if (iosVersion < 8) {
-        
+    if (iosVersion <= 8) {
         int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
         UIView* txt = textField;
         
@@ -667,7 +655,7 @@
             str= row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
         }
         
-        NSArray *arr =[str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
+        NSArray *arr =[str componentsSeparatedByString:KEY_TRIPLE_STAR]; //For State, But will not effect to other
         
         return [arr objectAtIndex:0];
     }

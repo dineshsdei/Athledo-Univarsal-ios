@@ -154,13 +154,9 @@
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-    
-    switch (Tag)
-    {
-        case getNotificationTag:
-        {
-            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {
+    switch (Tag){
+        case getNotificationTag:{
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 notificationData=[MyResults objectForKey:DATA];
                 if (userInfo.userType==1 || userInfo.userType==4) {
                     [tblAnnouncementRecods reloadData];
@@ -170,21 +166,15 @@
             }
            break;
         }
-        case getAnnouncementTag:
-        {
+        case getAnnouncementTag:{
             [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
             [SingletonClass deleteUnUsedLableFromTable:tblUpdatesRecods];
-            
             NSArray *data=[MyResults objectForKey:DATA] ;
-            if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {
-                
+            if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 [arrAnnouncements removeAllObjects];
                 self.navigationItem.rightBarButtonItem.enabled=YES;
                 self.navigationItem.leftBarButtonItem.enabled=YES;
-
-                for (int i=0; i< data.count; i++)
-                {
+                for (int i=0; i< data.count; i++){
                     [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
                 }
                 switch (userInfo.userType) {
@@ -234,7 +224,6 @@
                     //if (![arrAnnouncements containsObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]]) {
                         [arrAnnouncements addObject:[[data objectAtIndex:i]objectForKey:@"Announcement"]];
                     //}
-                    
                 }
                 switch (userInfo.userType) {
                   case 1:{
@@ -250,7 +239,6 @@
                         break;
                     }
                 }
-                
             }else{
                 [SingletonClass RemoveActivityIndicator:self.view];
                 [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
@@ -296,18 +284,14 @@
         [webservice WebserviceCall:webServiceSearchAnnouncement :strURL :searchAnnouncementTag];
         
     }else{
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
-
--(NSMutableArray*)sortingArrayOfDict:(NSMutableArray *)arrayTosort sortByObject:(NSString*)sortKey
-{
+-(NSMutableArray*)sortingArrayOfDict:(NSMutableArray *)arrayTosort sortByObject:(NSString*)sortKey{
     NSSortDescriptor *aSortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:YES];
     [arrayTosort sortUsingDescriptors:[NSArray arrayWithObject:aSortDescriptor]];
     return arrayTosort;
 }
-
 -(IBAction)searchData:(NSString *)searchText{
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
@@ -323,7 +307,6 @@
     if (isIPAD)
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
-
 -(void)viewWillAppear:(BOOL)animated{
     self.title = @"Announcements";
     if (isIPAD){
@@ -362,10 +345,8 @@
             }
         }
     }
-    
 }
--(void)CerateLayOut
-{
+-(void)CerateLayOut{
     switch (userInfo.userType){
         case isCoach:{
             tblUpdatesRecods.hidden=YES;
@@ -380,7 +361,6 @@
             btnSearch.hidden=YES;
             tfSearch.hidden=YES;
             SearchBar.hidden=YES;
-            
             break;
         }
         case isManeger:{
@@ -394,7 +374,6 @@
             break;
     }
 }
-
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
@@ -404,7 +383,6 @@
     }else{
         [AppDelegate restrictRotation :YES];
     }
-    
     userInfo=[UserInformation shareInstance];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -437,45 +415,33 @@
 }
 
 - (BOOL)revealController:(SWRevealViewController *)revealController
-panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
+panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return YES;
 }
--(void)doneClicked
-{
+-(void)doneClicked{
     [currentText resignFirstResponder];
     [self setToolbarVisibleAt:CGPointMake(160, self.view.bounds.size.height+50)];
     [[[UIApplication sharedApplication]keyWindow] endEditing:YES];
 }
--(void)setToolbarVisibleAt:(CGPoint)point
-{
+-(void)setToolbarVisibleAt:(CGPoint)point{
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
     [self.view viewWithTag:40].center = point;
     [UIView commitAnimations];
 }
-
 #pragma mark- TableviewDelegate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     return arrAnnouncements.count;
 }
-
--(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"DashBoardCell";
     static NSString *CellNib = @"AnnouncementCell";
-    
     AnnouncementCell *cell = (AnnouncementCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (AnnouncementCell *)[nib objectAtIndex:0];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -486,11 +452,9 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     cell.btnEdit.tag=indexPath.section;
     
     // Show desending order data of array
-   
     int DesendingIndex=(int)(indexPath.section);
     cell.lblSenderName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"sender"];
     cell.lblSenderName.font=Textfont;
-    
     cell.lblAnnoName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"name"];
     cell.lblAnnoName.tag=10;
     cell.lblAnnoName.font=SmallTextfont;
@@ -505,7 +469,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     
     NSArray *arrtemp=[notificationData valueForKey:@"announcements"];
     if (notificationData) {
-        
         if ([arrtemp containsObject:[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"id"]]) {
             cell.lblSenderName.font=[UIFont boldSystemFontOfSize:cell.lblSenderName.font.pointSize];
             cell.lblAnnoName.font=[UIFont boldSystemFontOfSize:cell.lblAnnoName.font.pointSize];

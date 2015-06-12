@@ -40,4 +40,7 @@
 @property(strong,nonatomic)IBOutlet UILabel *lblWorkoutDate;
 @property(strong,nonatomic)IBOutlet UILabel *lblMeOrALl;
 @property(strong,nonatomic)IBOutlet UITextView *txtViewDescription;
+@property (weak, nonatomic) IBOutlet UIButton *btnBoats;
+@property (weak, nonatomic) IBOutlet UIButton *btnAthletes;
+@property (weak, nonatomic) IBOutlet UIView *boatView;
 @end

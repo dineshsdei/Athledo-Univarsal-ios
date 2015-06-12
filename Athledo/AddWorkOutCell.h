@@ -19,6 +19,8 @@
 -(void)SaveWorkOutData:(id)sender;
 -(void)addExerciseSection:(id)sender;
 -(void)deleteExerciseSection:(id)sender;
+-(void)addBoat:(id)sender;
+-(void)deleteBoat:(id)sender;
 
 @end
 

@@ -99,8 +99,8 @@
         userdata.userType=[[user objectForKey:@"type"] intValue];
         userdata.userPicUrl=[user valueForKey:@"image"];
         userdata.userFullName=[user valueForKey:@"sender"];
-        userdata.userSelectedTeamid =[[user objectForKey:@"team_id"] intValue];
-        userdata.userSelectedSportid =[[user objectForKey:@"sport_id"] intValue];
+        userdata.userSelectedTeamid =[[user objectForKey:KEY_TEAM_ID] intValue];
+        userdata.userSelectedSportid =[[user objectForKey:KEY_SPORT_ID] intValue];
         NSArray *arrController=[self.NavViewController viewControllers];
         
         for (id object in arrController)

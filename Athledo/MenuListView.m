@@ -523,7 +523,6 @@
            
         }
     }else if (row == 6){
-
         if ( ![frontNavigationController.topViewController isKindOfClass:[PracticeLog class]] ){
             PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
             vc.comesFromMenuStatus = TRUE;
@@ -534,17 +533,14 @@
         }
         else{
             
-            if ([SingletonClass ShareInstance].isUserLogOut == TRUE) {
+        if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                 [SingletonClass ShareInstance].isUserLogOut = FALSE;
-
                 PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
                 vc.comesFromMenuStatus = TRUE;
                 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
                 [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                 [navigationController.navigationBar setTranslucent:NO];
                 [revealController pushFrontViewController:navigationController animated:YES];
-                
-
             }else{
                 [revealController revealToggleAnimated:YES];
             }
@@ -579,8 +575,7 @@
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
-        }
-        else{
+        }else{
             if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                 [SingletonClass ShareInstance].isUserLogOut = FALSE;
                 MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
@@ -591,7 +586,6 @@
             }else{
                 [revealController revealToggleAnimated:YES];
             }
-           
         }
     }else if (row == 9){
         if ( ![frontNavigationController.topViewController isKindOfClass:[ProfileView class]] ){
@@ -687,9 +681,7 @@
     webservice.delegate=self;
     [self getNotificationData];
     lblLoginName.text=[UserInformation shareInstance].userFullName;
-    
 }
-
 - (void)viewDidLoad{
     if (!(isIPAD)) {
         [AppDelegate restrictRotation:YES];
@@ -813,8 +805,7 @@
 }
 
 // This method, Add tableview cell images
--(UIImage *)SetImage:(NSInteger)index
-{
+-(UIImage *)SetImage:(NSInteger)index{
     UIImage *image;
     NSString *imageName=[arrImagesName objectAtIndex:index];
     image=[UIImage imageNamed:imageName];
@@ -832,23 +823,19 @@
     [UserInformation resetSharedInstance];
     BOOL isLoginView=FALSE;
     NSArray *arrController=[self.navigationController viewControllers];
-    for (id object in arrController)
-    {
-        if ([object isKindOfClass:[LoginVeiw class]])
-        {
+    for (id object in arrController){
+        if ([object isKindOfClass:[LoginVeiw class]]){
             isLoginView=TRUE;
             [self.navigationController popToRootViewControllerAnimated:NO];
         }
     }
-    if (isLoginView == FALSE)
-    {
+    if (isLoginView == FALSE){
         AppDelegate *delegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
         LoginVeiw *login=[[LoginVeiw alloc] init];
         [delegate.NavViewController pushViewController:login animated:NO];
     }
 }
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

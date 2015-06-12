@@ -40,6 +40,7 @@
 #define UNIT_SS_SSS @"ss.SSS"
 #define UNIT_MM_SS_S @"mm:ss.S"
 
+#define STR_WORKOUTTYPE KEY_WORKOUT_TYPE
 #define WORKOUTTYPE_CARDIO @"Cardio"
 #define WORKOUTTYPE_INTERVAL @"Interval"
 #define WORKOUTTYPE_CORE @"Core"
@@ -49,6 +50,61 @@
 
 #define WARMUPTIME @"WarmUp Time"
 #define COOLDOWNTIME @"CoolDown Time"
+#define STRKEY_BOATNAME @"BoatName"
+#define STRKEY_SETLINEUP @"SetLineup"
+#define SETLINEUP_PLACEHOLDER @"Set Lineup"
+#define STR_ENTER_ATHLETENAME @"Enter Athlete Name"
+#define STR_NOMATCHFOUND @"No match found"
+#define STR_ENTER_GROUPNAME @"Enter Group Name"
+#define STR_SELECTATHLETES @"Select Athletes"
+#define STR_SELECTFROMGROUPS @"Select From Groups"
+#define BOATNAME_PLACEHOLDER @"Boat Name"
+#define EXERCISE_ROWING @"ROWING"
+#define STR_BOATS @"Boats"
+#define STR_ATHLETES @"Athletes"
+#define STR_GROUPS @"Groups"
+#define STR_WHOLE_TEAM @"Whole Team"
+#define STR_ROWING @"Rowing"
+#define STATUS_SELECTED @"1"
+#define STATUS_UNSELECTED @""
+#define EXERCISE_TYPE KEY_EXERCISE_TYPE
+
+#define KEY_WORKOUT_ID @"Workout Id"
+#define KEY_WORKOUT_NAME @"Workout Name"
+#define KEY_SEASON @"season"
+#define KEY_WORKOUT_TYPE @"Workout Type"
+#define KEY_DATE @"Date"
+#define KEY_CREATED_BY @"createdby"
+#define KEY_OFF_SEASON @"Off Season"
+#define KEY_USER_ID @"user_id"
+#define KEY_WORKOUT @"Workout"
+#define KEY_TOTAL_TIME @"Total Time"
+#define KEY_UNIT @"Unit"
+#define KEY_HASH_OF_INTERVAL @"# of Intervals"
+#define KEY_TEAM_ID @"team_id"
+#define KEY_SPORT_ID @"sport_id"
+#define KEY_USER_TYPE @"user_type"
+#define KEY_CUSTOM_TAG @"Custom Tags"
+#define KEY_DESCRIPTION @"Description"
+#define KEY_EXERCISE @"Exercise"
+#define KEY_EXERCISE_TYPE @"Exercise Type"
+#define KEY_ASSIGNED @"assigned"
+#define KEY_LIFT_UNIT @"Lift Unit"
+#define KEY_TRIPLE_STAR @"****"
+#define STR_MINUTES @" Minutes"
+#define STR_UNIT_DOT @"Unit."
+#define KEY_WORKOUT_DATE @"Workout Date"
+#define STR_SETS @"Sets"
+#define STR_REPS @"Reps"
+#define STR_WEIGHT @"Weight"
+#define STR_EMAIL_NOTIFICATION @"Email Notification"
+#define STR_LIFT_TOTAL_TIME @"Lift Total Time"
+#define KEY_UNITS @"Units"
+#define KEY_INTERVAL_COUNT @"intervalCount"
+#define KEY_DISTANCE @"Distance"
+#define KEY_TIME @"Time"
+
+
 #define NAVIGATIONBAR_COLOR [UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]
 #define EVENTTYPE_YEARLY @"Yearly"
 #define EVENTTYPE_MONTHLY @"Monthly"
@@ -91,7 +147,6 @@
 #define OCTOBER @"October"
 #define NOVEMBER @"November"
 #define DECEMBER @"December"
-
 #define INFINITE_DATE @"9999-02-01 00:00:00"
 #define STR_00_00_00 @" 00:00:00"
 #define STR_24_00_00 @" 24:00:00"
@@ -109,6 +164,14 @@
 #define accountSID @"ACdf9e62bbfd4132901754d34b445fb110"
 #define authToken @"e2a6374d96e4df75e245f2854850f3dd"
 #define FromPhoneNumber @"+14844364239"
+
+#define ATTENDANCE_DRAG_VIEW 9999
+#define ABSENT_REASONS [[NSDictionary alloc] initWithObjects:@[@"1",@"2",@"3",@"4",@"5",@"6"] forKeys:@[@"Injured",@"Sick",@"Emergency",@"Class/Exam",@"InExcused",@"Other"]]
+#define ReasonTextField_BG_Tag 1000
+#define ReasonTextField_Tag 1001
+#define OtherReasonTextField_Tag 1002
+#define REASON_ID @"reason_id"
+#define REASON_TEXT @"reason"
 
 #define UncheckImage [UIImage imageNamed:@"uncheck.png"]
 #define CheckImage [UIImage imageNamed:@"selectedCheck.png"]
@@ -214,6 +277,9 @@
 #define SaveAddPracticeTag 88801
 #define EditAthletNoteTag 88802
 
+#define GetGroupsAthletesTag 99902
+
+
 #define listPickerHeight 168
 #define datePickerHeight 168
 #define topNavigationHeight 50
@@ -221,9 +287,12 @@
 #define viewHeight self.view.frame.size.height
 #define invisiblePosition viewHeight+60
 #define toolBarHeight 44
+#define navBarHeight 64
+#define SearchBarHeight 70
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define SCREEN_WIDTH    [[UIScreen mainScreen] bounds].size.width
 #define PickerHeight isIPAD ? 162 : 162
+#define KeyboardMinHeight isIPAD ? 216 : 216
 #define IpadCellHeight 100
 #define IphoneCellHeight 80
 #define CELLHEIGHT (isIPAD) ? 85 : 66
@@ -246,7 +315,9 @@
 #define HeadingColor [UIColor whiteColor]
 #define TextColor [UIColor lightTextColor]
 #define LightGrayColor [UIColor lightGrayColor]
+#define NON_EDIT_COLOR [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
 #define GrayColor [UIColor grayColor]
+#define WhiteColor [UIColor whiteColor]
 #define NavFontSize isIPAD ? 25 : 18
 #define BORDERCOLOR [UIColor lightGrayColor].CGColor
 #define BORDERWIDTH .50
@@ -344,6 +415,8 @@
 #define webservicePDFLink [BaseUrl stringByAppendingString:@"downloadNotes"]
 #define webserviceNotesList [BaseUrl stringByAppendingString:@"getAthleteNotes"]
 #define webserviceAddNotes [BaseUrl stringByAppendingString:@"addNotes"]
+#define webserviceGetGroupsAthlete [BaseUrl stringByAppendingString:@"getGroupsAthlete"]
+//http://172.24.2.222:8024/webservices/getGroupsAthlete
 
 //Calender
 

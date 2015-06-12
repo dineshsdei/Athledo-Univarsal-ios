@@ -207,7 +207,7 @@
                 _textviewDesc.text=EMPTYSTRING;
                 _txtTo.text=EMPTYSTRING;
                  [m_ScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message send successfully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message has been send successfully" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -561,7 +561,7 @@
         
     }
     
-    NSArray *arr = [str componentsSeparatedByString:@"****"]; //For State, But will not effect to other
+    NSArray *arr = [str componentsSeparatedByString:KEY_TRIPLE_STAR]; //For State, But will not effect to other
     
     return [arr objectAtIndex:0];
 }

@@ -582,7 +582,7 @@
                     AddCoachingInfo.SectionTag=1;
                     AddCoachingInfo.objData=[[arrCoaching objectAtIndex:indexPath.section-1] valueForKey:@"id"] ?[arrCoaching objectAtIndex:indexPath.section-1] : nil ;
                     AddCoachingInfo.strTitle=@"Coaching Info";
-                    [self.navigationController pushViewController:AddCoachingInfo animated:YES];
+                    [self.navigationController pushViewController:AddCoachingInfo animated:NO];
                     
                 }
                 
@@ -610,7 +610,7 @@
                     AddCoachingInfo.objData=[[arrAwards objectAtIndex:index] valueForKey:@"id"] ?[arrAwards objectAtIndex:index] : nil;
                     AddCoachingInfo.SectionTag=2;
                     AddCoachingInfo.strTitle=@"Award";
-                    [self.navigationController pushViewController:AddCoachingInfo animated:YES];
+                    [self.navigationController pushViewController:AddCoachingInfo animated:NO];
                 }
                 
             }
@@ -660,7 +660,7 @@
                 {
                     AddAthleteHistory *objAthleteHistory=[[AddAthleteHistory alloc] initWithNibName:@"AddAthleteHistory" bundle:nil];
                     objAthleteHistory.objData=[[arrAwards objectAtIndex:index] valueForKey:@"id"] ?[arrAwards objectAtIndex:index] : nil ;
-                    [self.navigationController pushViewController:objAthleteHistory animated:YES];
+                    [self.navigationController pushViewController:objAthleteHistory animated:NO];
                 }
                 
             }
@@ -687,7 +687,7 @@
                 {
                     EditGenralInfo *AddInfo=[[EditGenralInfo alloc] init];
                     AddInfo.objData=[arrGenralinfo valueForKey:@"id"] ? arrGenralinfo : nil ;
-                    [self.navigationController pushViewController:AddInfo animated:YES];
+                    [self.navigationController pushViewController:AddInfo animated:NO];
                 }
             }else  if (indexPath.section <  1+(arrCoaching.count))
             {
@@ -708,7 +708,7 @@
                 {
                     AddManagerSportInfo *objManagerSportInfo=[[AddManagerSportInfo alloc] initWithNibName:@"AddManagerSportInfo" bundle:nil];
                     objManagerSportInfo.objData=[arrCoaching objectAtIndex:index];
-                    [self.navigationController pushViewController:objManagerSportInfo animated:YES];
+                    [self.navigationController pushViewController:objManagerSportInfo animated:NO];
                 }
 
                 
@@ -731,7 +731,7 @@
                 {
                     AddAthleteHistory *objAthleteHistory=[[AddAthleteHistory alloc] initWithNibName:@"AddAthleteHistory" bundle:nil];
                     objAthleteHistory.objData=[[arrAwards objectAtIndex:index] valueForKey:@"id"] ?[arrAwards objectAtIndex:index] : nil ;
-                    [self.navigationController pushViewController:objAthleteHistory animated:YES];
+                    [self.navigationController pushViewController:objAthleteHistory animated:NO];
                 }
                 
             }

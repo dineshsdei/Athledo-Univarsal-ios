@@ -367,7 +367,7 @@ static SingletonClass *objSingaltonClass=nil;
 {
     NSMutableDictionary *Userdata;
     if (![team_id isEqualToString:EMPTYSTRING]) {
-        Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,team_id,sport_id] forKeys:@[@"email",@"id",@"type",@"image",@"sender",@"team_id",@"sport_id"]];
+        Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,team_id,sport_id] forKeys:@[@"email",@"id",@"type",@"image",@"sender",KEY_TEAM_ID,KEY_SPORT_ID]];
     }else{
         
         Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,] forKeys:@[@"email",@"id",@"type",@"image",@"sender"]];

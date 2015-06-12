@@ -107,9 +107,7 @@
     self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
-    
-    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
 }
 #pragma mark MonthView Delegate & DataSource
@@ -127,8 +125,7 @@
         NSString *strEndDate = [formatter stringFromDate:lastDate];
         strCurrentMonth=[arrComponents objectAtIndex:1];
         [self getPracticeListData:strStartDate:strEndDate];
-    }else
-    {
+    }else{
         [self MarkCalendarDataForStartDate:startDate endDate:lastDate];
     }
     return self.dataArray;
@@ -156,8 +153,7 @@
     static NSString *CellNibName = @"PracticeCell";
     PracticeCell *cell = (PracticeCell *)[tv dequeueReusableCellWithIdentifier:CellIdentifier];
     @try {
-        if (cell == nil)
-        {
+        if (cell == nil){
             NSArray *arrNib = [[NSBundle mainBundle] loadNibNamed:CellNibName owner:self options:nil];
             cell = [arrNib objectAtIndex:0];
             PracticeOnDate = [self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", [self.monthView dateSelected] ] ];
@@ -181,7 +177,7 @@
         }
         tv.separatorStyle=UITableViewCellSeparatorStyleNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell.layer addSublayer:[self Line:CGPointMake(0, cell.frame.size.height) :CGPointMake([[UIScreen mainScreen] bounds].size.width+500, cell.frame.size.height)]] ;
+        [cell.layer addSublayer:[self Line:CGPointMake(0, PRACTICE_CELL_HEIGHT) :CGPointMake([[UIScreen mainScreen] bounds].size.width+500, PRACTICE_CELL_HEIGHT)]] ;
     }
     @catch (NSException *exception) {
     }
@@ -219,30 +215,29 @@
 -(BOOL)CheckDateIsBetweenSeason:(NSDate *)currentDate{
     NSDateFormatter *dateformater = [[NSDateFormatter alloc] init];
     [dateformater setDateFormat:DATE_FORMAT_Y_M_D];
-    BOOL SeasonStatus = FALSE;
-    NSString *currentDay = [[[dateformater stringFromDate:currentDate] componentsSeparatedByString:@"-"] objectAtIndex:2];
-    NSArray *arr = [self.dataDictionary allValues];
-    for (int i=0; i<arr.count; i++) {
-        NSArray *arrtemp = [arr objectAtIndex:i];
-        for (int j=0; j<arrtemp.count; j++) {
-            NSString *seasonSdate = [[arrtemp objectAtIndex: j] valueForKey:@"week_start_date"];
-            NSString *seasonEdate = [[arrtemp objectAtIndex: j] valueForKey:@"week_end_date"];
-            NSString *Sday = seasonSdate.length > 0 ? [[seasonSdate componentsSeparatedByString:@"-"] objectAtIndex:2] : @"";
-            NSString *Eday = seasonEdate.length > 0 ? [[seasonEdate componentsSeparatedByString:@"-"] objectAtIndex:2] : @"";
-            if (([currentDay intValue] >= [Sday intValue]) && ([currentDay intValue] <= [Eday intValue])) {
-                SeasonStatus = TRUE;
-                if (SeasonStatus == TRUE) {
-                    [SingletonClass deleteUnUsedLableFromTable:self.tableView];
-                    return SeasonStatus;
-                }
-            }
+    //BOOL SeasonStatus = FALSE;
+   // NSString *currentDay = [[[dateformater stringFromDate:currentDate] componentsSeparatedByString:@"-"] objectAtIndex:2];
+    NSString *currentDay = [dateformater stringFromDate:currentDate] ;
+    NSArray *arrKeys=[arrPracticeData allKeys ];
+   
+    if ([arrKeys containsObject:currentDay]) {
+        if ([[arrPracticeData valueForKey:currentDay] isKindOfClass:[NSArray class]])
+        {
+         [SingletonClass deleteUnUsedLableFromTable:self.tableView];
+         return YES;
+        }else
+        {
+            [SingletonClass deleteUnUsedLableFromTable:self.tableView];
+            [self.tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Season" :self.tableView]];
+            return NO;
         }
-    }
-    if (SeasonStatus == FALSE) {
+    }else
+    {
         [SingletonClass deleteUnUsedLableFromTable:self.tableView];
         [self.tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Season" :self.tableView]];
+         return NO;
     }
-    return SeasonStatus;
+    return NO;
 }
 - (void) MarkCalendarDataForStartDate:(NSDate*)start endDate:(NSDate*)end{
     // this function sets up dataArray & dataDictionary
@@ -355,7 +350,6 @@
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
-   
     self.navigationController.navigationItem.rightBarButtonItem.enabled = YES ;
     [SingletonClass ShareInstance].isPracticeLogUpdate = FALSE;
     switch (Tag){
@@ -368,7 +362,6 @@
                 [endDateArr removeAllObjects];
                 [self.dataDictionary removeAllObjects];
                 [self.dataArray removeAllObjects];
-                
                 NSArray *arrKeys=[arrPracticeData allKeys ];
                 for (int i=0; i<arrKeys.count; i++){
                     if ([[arrPracticeData valueForKey:[arrKeys objectAtIndex:i] ] isKindOfClass:[NSArray class]]) {

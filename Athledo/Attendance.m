@@ -6,24 +6,26 @@
 //  Copyright (c) 2015 Athledo Inc. All rights reserved.
 //
 #import "Attendance.h"
-#define ATTENDANCE_DRAG_VIEW 9999
-@interface Attendance ()
-{
-    NSArray *dicListData;
+#define ALERTVIEW_WEIGHT (iosVersion >= 8) ? 250 : 220
+#define REASON_FIELD_X_Y (iosVersion >= 8) ? 10 : 2
+#define ATTENDENCECELL_HEIGHT isIPAD ? 70 : 60
+
+@interface Attendance (){
+    NSMutableArray *dicListData;
     NSArray *serviceListData;
     UIBarButtonItem *ButtonItem;
     NSArray *arrAbsenceReason;
     UITextField *currentTextField;
-    
+    UIAlertView *alertViewReason;
+    UIView *ReasonAlertBG;
+    NSInteger AbsentReasonIndex;
 }
 @end
 @implementation Attendance
 #pragma mark UIViewController life cycle method
--(void)viewDidDisappear:(BOOL)animated
-{
+-(void)viewDidDisappear:(BOOL)animated{
 }
--(void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self getAthleteList];
     SWRevealViewController *revealController = [self revealViewController];
@@ -32,35 +34,32 @@
     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
 }
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    dicListData = [[NSMutableArray alloc] init];
     arrAbsenceReason = @[@"Injured",@"Sick",@"Emergency",@"Class/Exam",@"InExcused",@"Other"];
-    if (isIPAD)
-    {
+    if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
     }
-    
     self.title = @"Attendance";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     SWRevealViewController *revealController = [self revealViewController];
-    
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
-    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
-                                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
+    UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"] style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.leftBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor = NAVIGATION_COMPONENT_COLOR;
     
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(SaveAttendance) forControlEvents:UIControlEventTouchUpInside];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
     ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     self.navigationItem.rightBarButtonItem = ButtonItem;
     [self showHideFields:YES];
@@ -69,16 +68,13 @@
     [super didReceiveMemoryWarning];
 }
 #pragma mark UITableview Delegate Method
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return dicListData.count;
 }
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"ATTENDANCECELL";
     static NSString *CellNib = @"AttendanceCell";
     AttendanceCell *cell = (AttendanceCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -86,45 +82,43 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (AttendanceCell *)[nib objectAtIndex:0];
         cell.contentView.userInteractionEnabled = YES;
-        cell.tag = indexPath.row;
-        
         UIDeviceOrientation oreintation = [[SingletonClass ShareInstance] CurrentOrientation:self];
         if (!(oreintation == UIDeviceOrientationPortrait ) && (isIPAD)) {
             cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, [[UIScreen mainScreen] bounds].size.width, cell.frame.size.height);
         }
     }
     @try {
+        cell.tag = indexPath.row;
         [cell.leftUserImage setImageWithURL:[NSURL URLWithString:[[dicListData objectAtIndex:indexPath.row] valueForKey:@"imgUrl"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
         cell.leftUserImage.layer.masksToBounds = YES;
-        cell.leftUserImage.layer.cornerRadius=(cell.leftUserImage.frame.size.width)/2;
-        cell.leftUserImage.layer.borderWidth=2.0f;
-        cell.leftUserImage.layer.borderColor=[UIColor lightGrayColor].CGColor;
-        
+        cell.leftUserImage.layer.cornerRadius = (cell.leftUserImage.frame.size.width)/2;
+        cell.leftUserImage.layer.borderWidth = 2.0f;
+        cell.leftUserImage.layer.borderColor = [UIColor lightGrayColor].CGColor;
         [cell.rightUserImage setImageWithURL:[NSURL URLWithString:[[dicListData objectAtIndex:indexPath.row] valueForKey:@"imgUrl"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
         cell.rightUserImage.layer.masksToBounds = YES;
-        cell.rightUserImage.layer.cornerRadius=(cell.rightUserImage.frame.size.width)/2;
-        cell.rightUserImage.layer.borderWidth=2.0f;
-        cell.rightUserImage.layer.borderColor=[UIColor lightGrayColor].CGColor;
+        cell.rightUserImage.layer.cornerRadius = (cell.rightUserImage.frame.size.width)/2;
+        cell.rightUserImage.layer.borderWidth = 2.0f;
+        cell.rightUserImage.layer.borderColor = [UIColor lightGrayColor].CGColor;
         cell.leftLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:@"name"];
         cell.leftLblName.font = Textfont;
         cell.rightLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:@"name"];
         cell.rightLblName.font = Textfont;
-        cell.leftUserImage.hidden =YES;
-        cell.rightUserImage.hidden =YES;
-        cell.leftLblName.hidden =YES;
-        cell.rightLblName.hidden =YES;
+        cell.leftUserImage.hidden = YES;
+        cell.rightUserImage.hidden = YES;
+        cell.leftLblName.hidden = YES;
+        cell.rightLblName.hidden = YES;
         cell.rightUtilityButtons = [self rightButtons : indexPath.section];
         cell.leftUtilityButtons = [self leftButton : indexPath.section];
         cell.delegate = self;
         if ([[[dicListData objectAtIndex:indexPath.row] valueForKey:@"isCheck"] boolValue] == NO) {
-            cell.rightUserImage.hidden =NO;
-            cell.rightLblName.hidden =NO;
+            cell.rightUserImage.hidden = NO;
+            cell.rightLblName.hidden = NO;
             cell.cellUtilityButtonState = kCellStateRight;
             cell.cellCurrentStatus = kCellStateRight;
             [cell showRightUtilityButtonsAnimated:YES];
         }else  if ([[[dicListData objectAtIndex:indexPath.row] valueForKey:@"isCheck"] boolValue] == YES){
-            cell.leftUserImage.hidden =NO;
-            cell.leftLblName.hidden =NO;
+            cell.leftUserImage.hidden = NO;
+            cell.leftLblName.hidden = NO;
             cell.cellUtilityButtonState = kCellStateLeft;
             cell.cellCurrentStatus = kCellStateLeft ;
             [cell showLeftUtilityButtonsAnimated:YES];
@@ -134,19 +128,15 @@
     }
     @finally {
     }
-    [cell.layer addSublayer:[self Line:CGPointMake(0, 0) :CGPointMake([[UIScreen mainScreen] bounds].size.width, 0)]] ;
+    [cell.layer addSublayer:[self Line:CGPointMake(0, 0) :CGPointMake([[UIScreen mainScreen] bounds].size.width+500, 0)]] ;
     if (indexPath.row == dicListData.count-1) {
-        [cell.layer addSublayer:[self Line:CGPointMake(0, cell.frame.size.height) :CGPointMake([[UIScreen mainScreen] bounds].size.width, cell.frame.size.height)]];
+        [cell.layer addSublayer:[self Line:CGPointMake(0, cell.frame.size.height) :CGPointMake([[UIScreen mainScreen] bounds].size.width+500, cell.frame.size.height)]];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPat{
-    if(isIPAD){
-        return 70;
-    }else{
-        return 60;
-    }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+        return ATTENDENCECELL_HEIGHT;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 }
@@ -176,11 +166,13 @@
         tempCell.leftUserImage.hidden = YES;
         tempCell.rightLblName.hidden = NO;
         tempCell.rightUserImage.hidden = NO;
+        [self RemoveOldReason:cell];
     }
 }
 -(void)ChangeCell:(SWTableViewCell*)cell{
+    
     if (cell.cellUtilityButtonState == kCellStateLeft) {
-        //[self ReasonForAbsent:cell];
+        [self ReasonForAbsent:cell];
         [self ChangeCellField:cell];
         [cell showLeftUtilityButtonsAnimated:NO];
         cell.cellUtilityButtonState = kCellStateRight;
@@ -191,33 +183,39 @@
     }
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
-
 }
 #pragma mark- UIPickerView
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     return [arrAbsenceReason count];
 }
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     if (currentTextField.text.length == 0) {
         currentTextField.text=[arrAbsenceReason objectAtIndex:0];
+         [[dicListData objectAtIndex:AbsentReasonIndex] setValue:[self GetReasonId:currentTextField.text] forKey:REASON_ID];
     }
     NSString *str = [arrAbsenceReason objectAtIndex:row];
     return str;
 }
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     currentTextField.text=[arrAbsenceReason objectAtIndex:row];
+    if ([currentTextField.text isEqualToString:@"Other"]) {
+        [[dicListData objectAtIndex:AbsentReasonIndex] setValue:[self GetReasonId:currentTextField.text] forKey:REASON_ID];
+        //[alertViewReason removeFromSuperview];
+        UITextField *otherReasonField = (UITextField *)[ReasonAlertBG viewWithTag:OtherReasonTextField_Tag];
+        otherReasonField.hidden = NO;
+    }else{
+        [[dicListData objectAtIndex:AbsentReasonIndex] setValue:[self GetReasonId:currentTextField.text] forKey:REASON_ID];
+        UITextField *otherReasonField = (UITextField *)[ReasonAlertBG viewWithTag:OtherReasonTextField_Tag];
+        otherReasonField.hidden = YES;
+    }
 }
 #pragma mark Webservice call event
 -(void)SaveAttendance{
     if ([SingletonClass  CheckConnectivity]) {
-        if (dicListData.count ==0) {
+        if (dicListData.count == 0) {
             return;
         }
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -226,7 +224,7 @@
         self.navigationItem.rightBarButtonItem.enabled = NO;
         [SingletonClass addActivityIndicator:self.view];
         NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-        [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:@"team_id"];
+        [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:KEY_TEAM_ID];
         [dict setObject:dicListData forKey:@"attendance"];
         [webservice WebserviceCallwithDic:dict :webServiceSaveAttendance :SaveAttendanceTag];
     }else{
@@ -234,7 +232,6 @@
     }
 }
 -(void)getAthleteList{
-    
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
@@ -247,7 +244,6 @@
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
-   
     switch (Tag){
         case getAttendanceTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
@@ -276,54 +272,62 @@
     }
 }
 #pragma mark Class Utility method Method
-
--(void)ReasonForAbsent:(id)sender
-{
-    UIPickerView *reasonPicker = [[SingletonClass ShareInstance] AddPickerView:self.view];
-    reasonPicker.delegate = self;
-    reasonPicker.backgroundColor = [UIColor whiteColor];
-    UIAlertView *alertView = [[UIAlertView alloc]
-                              initWithTitle:@"Reason For Absence"
-                              message:EMPTYSTRING
-                              delegate:self
-                              cancelButtonTitle:@"Ok"
-                              otherButtonTitles:nil, nil];
-    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    textField.placeholder=@"Select Reason";
-    currentTextField = textField;
-    [reasonPicker reloadComponent:0];
-    [textField setInputView:reasonPicker];
-    
-    //        if (iosVersion >=8) {
-    //            [reasonPicker removeFromSuperview];
-    //        }
-    //
-    //    //textField.delegate=self;
-    //    currentText=textField;
-    // Add arrow image in textfield
-    UIImage *image;
-    
-    image=[UIImage imageNamed:@"arrow.png"];
-    UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
-    imageview.frame=CGRectMake(textField.frame.size.width-imageview.frame.size.width, textField.frame.origin.x,imageview.frame.size.width, imageview.frame.size.height);
-    [textField addSubview:imageview];
-    // textField.keyboardType = UIKeyboardTypeNumberPad;
-    
-    [alertView show];
-    //alertView=nil;
-    
+-(void)RemoveOldReason:(id)sender{
+    SWTableViewCell *cell = (SWTableViewCell *)sender;
+    [[dicListData objectAtIndex:cell.tag] setObject:@"" forKey:REASON_ID];
+    [[dicListData objectAtIndex:cell.tag] setObject:@"" forKey:REASON_TEXT];
 }
-
--(void)showHideFields:(BOOL)responseStatus
-{
+-(NSString *)GetReasonId:(NSString *)reason{
+    NSDictionary *dicReasonData = ABSENT_REASONS;
+    NSString *reasonId = [dicReasonData valueForKey:reason];
+    return reasonId ;
+}
+-(void)ReasonForAbsent:(id)sender{
+    SWTableViewCell *cell = (SWTableViewCell *)sender;
+    if ([[[dicListData objectAtIndex:cell.tag] objectForKey:REASON_ID] isEqualToString:@""]) {
+        AbsentReasonIndex = cell.tag;
+        UIPickerView *reasonPicker = [[SingletonClass ShareInstance] AddPickerView:self.view];
+        reasonPicker.delegate = self;
+        reasonPicker.backgroundColor = [UIColor whiteColor];
+        alertViewReason = [[UIAlertView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        ReasonAlertBG = [[UIView alloc] initWithFrame:CGRectMake(REASON_FIELD_X_Y, 0, (ALERTVIEW_WEIGHT), 80)];
+        ReasonAlertBG.tag = ReasonTextField_BG_Tag;
+        UITextField *txtFieldReason = [[UITextField alloc] initWithFrame:CGRectMake(REASON_FIELD_X_Y, REASON_FIELD_X_Y, ReasonAlertBG.frame.size.width, 30)];
+        txtFieldReason.layer.cornerRadius = CornerRadius;
+        txtFieldReason.layer.borderWidth = BORDERWIDTH;
+        txtFieldReason.layer.borderColor = BORDERCOLOR;
+        txtFieldReason.placeholder = @"Select reason";
+        txtFieldReason.layer.sublayerTransform = CATransform3DMakeTranslation(10.0f, 0.0f, 0.0f);
+        txtFieldReason.autocorrectionType = UITextAutocapitalizationTypeNone;
+        txtFieldReason.inputView = reasonPicker;
+        [txtFieldReason becomeFirstResponder];
+        UIImage *image;
+        image=[UIImage imageNamed:@"arrow.png"];
+        UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
+        imageview.frame=CGRectMake(txtFieldReason.frame.size.width-40, 5,20, 20);
+        [txtFieldReason addSubview:imageview];
+        currentTextField = txtFieldReason;
+        UITextField *txtFieldOtherReason = [[UITextField alloc] initWithFrame:CGRectMake(REASON_FIELD_X_Y, txtFieldReason.frame.size.height+(REASON_FIELD_X_Y)+5, ALERTVIEW_WEIGHT, txtFieldReason.frame.size.height)];
+        txtFieldOtherReason.layer.cornerRadius = CornerRadius;
+        txtFieldOtherReason.layer.borderWidth = BORDERWIDTH;
+        txtFieldOtherReason.layer.borderColor = BORDERCOLOR;
+        txtFieldOtherReason.tag = OtherReasonTextField_Tag;
+        txtFieldOtherReason.placeholder = @"Enter other reason";
+        txtFieldOtherReason.hidden = YES;
+        txtFieldOtherReason.delegate = self;
+        txtFieldOtherReason.layer.sublayerTransform = CATransform3DMakeTranslation(10.0f, 0.0f, 0.0f);
+        [ReasonAlertBG addSubview:txtFieldReason];
+        [ReasonAlertBG addSubview:txtFieldOtherReason];
+        [alertViewReason setValue:ReasonAlertBG forKey:@"accessoryView"];
+        [alertViewReason show];
+    }
+}
+-(void)showHideFields:(BOOL)responseStatus{
     UIView *view = [self.view viewWithTag:ATTENDANCE_DRAG_VIEW];
     view.hidden = responseStatus;
-    if(responseStatus)
-    {
+    if(responseStatus){
         self.navigationItem.rightBarButtonItem = nil;
-    }else
-    {
+    }else{
         self.navigationItem.rightBarButtonItem = ButtonItem;
     }
 }
@@ -352,5 +356,24 @@
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:223.0/255.0 green:223.0/255.0 blue:225.0/255.0 alpha:1.0] icon:[UIImage imageNamed:@"UnTick.png"] :(int)btnTag];
     return rightUtilityButtons;
+}
+#pragma mark UITextField Delegate
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    return YES;
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    currentTextField = textField;
+    if ([textField.placeholder isEqualToString:@"Enter Other reason"]) {
+         [[dicListData objectAtIndex:AbsentReasonIndex] setValue:textField.text forKey:REASON_TEXT];
+    }
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+     return YES;
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [self.view endEditing:YES];
+    if ([currentTextField.placeholder isEqualToString:@"Enter other reason"]) {
+        [[dicListData objectAtIndex:AbsentReasonIndex] setValue:currentTextField.text forKey:REASON_TEXT];
+    }
 }
 @end

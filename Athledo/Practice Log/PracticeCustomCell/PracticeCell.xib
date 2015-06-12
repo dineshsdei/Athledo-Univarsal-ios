@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,19 +15,30 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="19 AM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQ6-6l-yhP">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="19 AM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQ6-6l-yhP">
                         <rect key="frame" x="10" y="14" width="70" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="jBe-NE-Uk7"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qga-65-h5u">
-                        <rect key="frame" x="82" y="14" width="230" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qga-65-h5u">
+                        <rect key="frame" x="82" y="14" width="220" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="f46-Se-5FW"/>
+                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="top" secondItem="Qga-65-h5u" secondAttribute="top" id="fiz-RH-d2k"/>
+                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="sO5-K8-0QD"/>
+                    <constraint firstItem="Qga-65-h5u" firstAttribute="bottom" secondItem="EQ6-6l-yhP" secondAttribute="bottom" id="shV-0U-HXm"/>
+                    <constraint firstItem="Qga-65-h5u" firstAttribute="leading" secondItem="EQ6-6l-yhP" secondAttribute="trailing" constant="2" id="vAg-7Y-fsn"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Qga-65-h5u" secondAttribute="trailing" constant="10" id="yOf-8V-ZDe"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="lblPracticeDesc" destination="Qga-65-h5u" id="Tcw-hu-RDq"/>
@@ -34,12 +46,5 @@
             </connections>
             <point key="canvasLocation" x="338" y="218"/>
         </tableViewCell>
-        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_sep.png" id="Jnh-Z0-dKw">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-        </imageView>
     </objects>
-    <resources>
-        <image name="menu_sep.png" width="400" height="2"/>
-    </resources>
 </document>

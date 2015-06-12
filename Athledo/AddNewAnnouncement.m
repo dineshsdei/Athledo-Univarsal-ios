@@ -475,7 +475,7 @@ UIDeviceOrientation CurrentOrientation;
         Date= [df dateFromString:currentText.text];
         UIDatePicker *tempdatePicker= (UIDatePicker *)[self.view viewWithTag:70];
         if (Date) {
-            [tempdatePicker setDate:Date];
+            Date !=nil ? [tempdatePicker setDate:Date] :@"";
         }
         
     }else{
@@ -808,8 +808,8 @@ UIDeviceOrientation CurrentOrientation;
             NSString *description=descTxt.text;
             NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
             [dicttemp setObject:[NSString stringWithFormat:@"%@",announcementId] forKey:@"id"];
-            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:@"team_id"];
+            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
+            [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedTeamid] forKey:KEY_TEAM_ID];
             [dicttemp setObject:[NSString stringWithFormat:@"%@",groupIdString] forKey:@"group_ids"];
             [dicttemp setObject:[NSString stringWithFormat:@"%@",nameTxt.text] forKey:@"name"];
             [dicttemp setObject:[NSString stringWithFormat:@"%@",description] forKey:@"desc"];
@@ -1214,7 +1214,7 @@ UIDeviceOrientation CurrentOrientation;
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :datePicker :toolBar];
     if (groupArray.count==0) {
-        [SingletonClass initWithTitle:EMPTYSTRING message:@"Groups are not exist" delegate:nil btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Groups don't exist" delegate:nil btn1:@"Ok"];
         return;
     }
     if ([sender isKindOfClass:[CheckboxButton class]])

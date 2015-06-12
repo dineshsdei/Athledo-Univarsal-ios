@@ -28,7 +28,7 @@
         [formatter setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
         _lblName.text=[_obj valueForKey:@"name"] ?[_obj valueForKey:@"name"] : EMPTYSTRING;
         //  _lblCreatedBy.text=[_obj valueForKey:@"name"];
-        _lblseason.text=[[_obj valueForKey:@"season"] isEqualToString:EMPTYSTRING] ? @"Off Season" :[_obj valueForKey:@"season"] ;
+        _lblseason.text=[[_obj valueForKey:KEY_SEASON] isEqualToString:EMPTYSTRING] ? KEY_OFF_SEASON :[_obj valueForKey:KEY_SEASON] ;
         _lblworkoutType.text=[_obj valueForKey:@"type"] ? [_obj valueForKey:@"type"]:EMPTYSTRING ;
         _lbldate.text=[formatter stringFromDate:date] ? [formatter stringFromDate:date] : EMPTYSTRING;
         _lbldescription.text=[_obj valueForKey:@"desc"] ? [_obj valueForKey:@"desc"] :EMPTYSTRING;

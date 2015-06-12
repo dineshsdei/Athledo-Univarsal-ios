@@ -354,8 +354,8 @@
         NSString *urlpath = webServiceUploadVideo;
         NSURL *url = [NSURL URLWithString:[urlpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         request = [ASIFormDataRequest requestWithURL:url];
-        [request addPostValue:[NSString stringWithFormat:@"%d", userInfo.userId ] forKey:@"user_id"];
-        [request addPostValue:[NSString stringWithFormat:@"%d", userInfo.userSelectedTeamid ] forKey:@"team_id"];
+        [request addPostValue:[NSString stringWithFormat:@"%d", userInfo.userId ] forKey:KEY_USER_ID];
+        [request addPostValue:[NSString stringWithFormat:@"%d", userInfo.userSelectedTeamid ] forKey:KEY_TEAM_ID];
         [request addPostValue:seasonId forKey:@"season_id"];
         [request addPostValue:[NSString stringWithFormat:@"%d", userInfo.userType ] forKey:@"type"];
         [request addPostValue:_tfTitle.text forKey:@"title"];
@@ -475,7 +475,7 @@
                 NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues];
                 
                 for (int i=0;i<arrtemp.count; i++) {
-                    if (![[arrtemp objectAtIndex:i] isEqualToString:@"Off Season"]) {
+                    if (![[arrtemp objectAtIndex:i] isEqualToString:KEY_OFF_SEASON]) {
                         [arrSeasons addObject:[arrtemp objectAtIndex:i]];
                     }
                 }
@@ -593,7 +593,7 @@
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     NSString *str;
     str = [arrSeasons objectAtIndex:row];
-    NSArray *arr = [str componentsSeparatedByString:@"****"];
+    NSArray *arr = [str componentsSeparatedByString:KEY_TRIPLE_STAR];
     //For State, But will not effect to other
     return [arr objectAtIndex:0];
 }

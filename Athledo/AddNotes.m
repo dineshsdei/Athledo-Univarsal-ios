@@ -247,8 +247,8 @@
         webservice.delegate=self;
         NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",EMPTYSTRING] forKey:@"id"];
-        [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
-        [dicttemp setObject:[NSString stringWithFormat:@"%d",[[_objNotes valueForKey:@"user_id"] intValue]] forKey:@"athlete_id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
+        [dicttemp setObject:[NSString stringWithFormat:@"%d",[[_objNotes valueForKey:KEY_USER_ID] intValue]] forKey:@"athlete_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",txtViewCurrent.text] forKey:@"notes"];
         [SingletonClass addActivityIndicator:self.view];
         [webservice  WebserviceCallwithDic:dicttemp :webserviceAddNotes :AddNotesTag];
@@ -263,7 +263,7 @@
         webservice.delegate=self;
         NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",[[arrNotesData objectAtIndex:index] valueForKey:@"id"]] forKey:@"id"];
-        [dicttemp setObject:[NSString stringWithFormat:@"%@",[[arrNotesData objectAtIndex:index] valueForKey:@"user_id"]] forKey:@"user_id"];
+        [dicttemp setObject:[NSString stringWithFormat:@"%@",[[arrNotesData objectAtIndex:index] valueForKey:KEY_USER_ID]] forKey:KEY_USER_ID];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",[[arrNotesData objectAtIndex:index] valueForKey:@"athlete_id"]] forKey:@"athlete_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",txtViewCurrent.text] forKey:@"notes"];
         [SingletonClass addActivityIndicator:self.view];
@@ -278,7 +278,7 @@
         UserInformation *userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
-        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,[_objNotes valueForKey:@"user_id"],EMPTYSTRING,EMPTYSTRING];
+        NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\",\"athlete_id\":\"%@\",\"searchType\":\"%@\",\"keyword\":\"%@\"}",userInfo.userId,userInfo.userSelectedTeamid,[_objNotes valueForKey:KEY_USER_ID],EMPTYSTRING,EMPTYSTRING];
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webserviceNotesList :strURL :RefreshNotesTag];
     }else{

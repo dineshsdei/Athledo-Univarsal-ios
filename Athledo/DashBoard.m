@@ -84,12 +84,12 @@
          NSLog(@"%@",[UserInformation shareInstance].arrUserTeam);
       
     NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:indexPath.row] ;
-    [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
-    [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:@"sport_id"] intValue];
+    [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:KEY_TEAM_ID] intValue];
+    [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:KEY_SPORT_ID] intValue];
         
     SingletonClass *obj=[SingletonClass ShareInstance];
         NSDictionary *user=[obj GetUSerSaveData];
-    [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :[team objectForKey:@"team_id"] :[team objectForKey:@"sport_id"]];
+    [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :[team objectForKey:KEY_TEAM_ID] :[team objectForKey:KEY_SPORT_ID]];
     
 
     NSArray *arrController=[self.navigationController viewControllers];
@@ -188,7 +188,7 @@
     @try {
 
     NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:indexPath.row] ;
-    [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:@"team_id"] intValue];
+    [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:KEY_TEAM_ID] intValue];
 
     NSArray *arrController=[self.navigationController viewControllers];
 

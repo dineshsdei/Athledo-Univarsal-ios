@@ -334,7 +334,7 @@ UIDeviceOrientation CurrentOrientation;
                 NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
-                [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
+                [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
                 [dict setObject:EMPTYSTRING forKey:@"UserProfile"];
                 [dict setObject:arrtemp forKey:@"cochng_hstry"];
                 [dict setObject:EMPTYSTRING forKey:@"awards"];
@@ -401,7 +401,7 @@ UIDeviceOrientation CurrentOrientation;
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
                 
                 [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
-                [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
+                [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
                 [dict setObject:EMPTYSTRING forKey:@"UserProfile"];
                 [dict setObject:EMPTYSTRING forKey:@"cochng_hstry"];
                 [dict setObject:arrtemp forKey:@"awards"];
@@ -627,7 +627,7 @@ UIDeviceOrientation CurrentOrientation;
             if (currentText.text.length > 0) {
                 df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
                 NSDate *date=[df dateFromString:currentText.text];
-                [datePicker setDate:date];
+                date !=nil ? [datePicker setDate:date] : @"";
                 df=nil;
             }
             [SingletonClass setListPickerDatePickerMultipickerVisible:YES :datePicker :toolBar];
@@ -672,7 +672,7 @@ UIDeviceOrientation CurrentOrientation;
 {
     NSString *str;
     str = [arrAwardsYear objectAtIndex:row];
-    NSArray *arr = [str componentsSeparatedByString:@"****"];
+    NSArray *arr = [str componentsSeparatedByString:KEY_TRIPLE_STAR];
     return [arr objectAtIndex:0];
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component

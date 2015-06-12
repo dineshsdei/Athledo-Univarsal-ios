@@ -11,6 +11,12 @@
 @protocol SingletonClassDelegate <NSObject>
 -(void)Done;
 @end
+typedef enum
+{
+    NHDropDownDirectionUp,
+    NHDropDownDirectionDown
+    
+} NHDropDownDirection;
 
 @interface SingletonClass : NSObject
 {

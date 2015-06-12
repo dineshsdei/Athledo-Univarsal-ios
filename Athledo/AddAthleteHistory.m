@@ -165,7 +165,6 @@
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat =DATE_FORMAT_dd_MMM_yyyy;
     currentText.text = [NSString stringWithFormat:@"%@", [df stringFromDate:datePicker.date]];
-    
     UITableView *table=(UITableView *)[self.view viewWithTag:100];
     UITextField *textfieldStart=(UITextField *)[table viewWithTag:1002];
     UITextField *textfieldEnd=(UITextField *)[table viewWithTag:1003];
@@ -344,7 +343,7 @@
             NSArray *arrtemp=[[NSArray alloc] initWithObjects:temp, nil];
             NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
-            [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"user_id"];
+            [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
             
             
             [dict setObject:EMPTYSTRING forKey:@"UserProfile"];
