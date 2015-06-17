@@ -33,6 +33,7 @@
     int isKeyboard;
     UIDeviceOrientation CurrentOrientation;
     NSMutableArray *arrAvgTotalStatus;
+    BOOL isEdit;
 }
 
 @end
@@ -169,7 +170,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-   
+    isEdit = YES;
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -344,10 +345,14 @@
     if (btn.tag == BTNBOAT_TAG){
         [btn setSelected:YES];
         [_btnAthletes setSelected:NO];
+        isEdit = YES;
+         [table reloadData];
     }
     else{
         [btn setSelected:YES];
         [_btnBoats setSelected:NO];
+         isEdit = NO;
+        [table reloadData];
     }
 }
 - (IBAction)SaveEvent:(id)sender {
@@ -988,6 +993,7 @@
         if (cell == nil) {
             cell=[[WorkOutDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier indexPath:indexPath delegate:self WorkOutType:[_obj valueForKey:KEY_WORKOUT_TYPE]:0];
             tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+            cell.userInteractionEnabled = isEdit;
         }
         if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
             CustomTextField *txtFieldRepitition=(CustomTextField *)[cell viewWithTag:1001];
@@ -1914,7 +1920,6 @@
     txtviewNotes.text = (strTemp.length > 0 ?[[arrWorkOuts objectAtIndex:section] valueForKey:@"note"] :@"Add Note");
     txtviewNotes.textColor = LightGrayColor;
     txtviewNotes.autocorrectionType = UITextAutocorrectionTypeNo;
-   // txtviewNotes.backgroundColor = [UIColor clearColor];
     txtviewNotes.layer.borderWidth = .50;
     txtviewNotes.layer.cornerRadius = 5.0;
     txtviewNotes.layer.borderColor = LightGrayColor.CGColor;

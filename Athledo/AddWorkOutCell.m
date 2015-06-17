@@ -81,20 +81,15 @@
                 {
                     // Add arrow image in textfield
                     UIImage *image;
-                    if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Enter Date"] )
-                    {
+                    if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Enter Date"] ){
                         image=[UIImage imageNamed:@"calendar.png"];
                     }else{
-                        
                         image=[UIImage imageNamed:@"arrow.png"];
-                        
                     }
-                    
                     UIImageView *imageview=[[UIImageView alloc] initWithImage:image];
                     imageview.frame=CGRectMake(txtField.frame.size.width-imageview.frame.size.width+10, txtField.frame.size.height/2-7,15, 15);
                     [txtField addSubview:imageview];
-                    if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] || [[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE_TYPE] )
-                    {
+                    if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] || [[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE_TYPE] ){
                         UIButton *btnAdd=[UIButton buttonWithType:UIButtonTypeCustom];
                         [btnAdd setBackgroundImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
                         btnAdd.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 40 : 17), txtField.frame.size.height/2-((Add_Delete_Size)/2),(Add_Delete_Size),(Add_Delete_Size));
@@ -103,19 +98,13 @@
                         [btnDelete setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
                         btnDelete.frame=CGRectMake(txtField.frame.size.width+btnAdd.frame.size.width+((isIPAD) ? 50 : 20), txtField.frame.size.height/2-14,(Add_Delete_Size+5),(Add_Delete_Size+5));
                         
-                        if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] )
-                        {
-                            
+                        if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] ){
                             [btnAdd addTarget:self action:@selector(addCustomTag:) forControlEvents:UIControlEventTouchUpInside];
-                            
                             [btnDelete addTarget:self action:@selector(deleteCustomTag:) forControlEvents:UIControlEventTouchUpInside];
-                        }else
-                        {
+                        }else{
                             [btnAdd addTarget:self action:@selector(addExercise:) forControlEvents:UIControlEventTouchUpInside];
-                            
                             [btnDelete addTarget:self action:@selector(deleteExercise:) forControlEvents:UIControlEventTouchUpInside];
                         }
-                        
                         [self addSubview:btnDelete];
                         btnAdd=nil;
                         btnDelete=nil;
