@@ -57,9 +57,8 @@
         }
         case ReassignWorkoutTag:{
             [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
-            
-            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {   // Now we Need to decrypt data
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                // Now we Need to decrypt data
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout has been reassigned successfully." delegate:nil btn1:@"Ok"];
             }else{
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Workout reassign fail try again" delegate:nil btn1:@"Ok"];
@@ -70,19 +69,17 @@
             if (([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT])) {
                 
                 if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]) {
-                    
                     [SingletonClass deleteUnUsedLableFromTable:self.view];
-                    arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:@"WorkoutAthlete"];
+                    arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:KEY_WORKOUTATHLETE];
                     for (int i=0; i< arrWorkOuts.count; i++) {
                         
-                        NSArray *tempExercise=[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteExercise"];
+                        NSArray *tempExercise=[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETEEXERCISE];
                         if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
-                            [arrAllAthlete addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"]];
+                            [arrAllAthlete addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETENAME]];
                         }
                         for (int j=0; j < tempExercise.count; j++) {
-                            
-                            [arrAthleteName addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"]];
-                            NSString *str = [[tempExercise objectAtIndex:j] valueForKey:@"exerciseName"] ?[[tempExercise objectAtIndex:j] valueForKey:@"exerciseName"]  : EMPTYSTRING;
+                            [arrAthleteName addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETENAME]];
+                            NSString *str = [[tempExercise objectAtIndex:j] valueForKey:KEY_EXERCISENAME] ?[[tempExercise objectAtIndex:j] valueForKey:KEY_EXERCISENAME]  : EMPTYSTRING;
                             if (str.length==0) {
                                 [arrAthleteExerciseName addObject:EMPTYSTRING];
                             }else{
@@ -90,7 +87,6 @@
                             }
                         }
                     }
-                    
                     if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
                         //Reload table after select athlete name
                         arrAllAthleteData=[[NSMutableArray alloc] init];
@@ -100,30 +96,29 @@
                     }
                 }else{
                     
-                    [ self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":self.view] ];
+                    [scrollView addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":scrollView] ];
                 }
             }
             else if (([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL] )){
                 if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]) {
                      [SingletonClass deleteUnUsedLableFromTable:self.view];
-                    arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:@"WorkoutAthlete"];
+                    arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:KEY_WORKOUTATHLETE];
                     for (int i=0; i< arrWorkOuts.count; i++) {
                         [self CalculateAVG :i];
                     }
                     [table reloadData];
-                    
                 }else{
-                      [ self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":self.view] ];
+                      [ scrollView addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":scrollView] ];
                 }
             }else{
                 if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]) {
                      [SingletonClass deleteUnUsedLableFromTable:self.view];
-                    arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:@"WorkoutAthlete"];
+                    arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:KEY_WORKOUTATHLETE];
                     table.delegate=self;
                     table.dataSource=self;
                     [table reloadData];
                 }else{
-                     [ self.view addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":self.view] ];
+                     [ scrollView addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":scrollView] ];
                 }
             }
             break;
@@ -178,7 +173,6 @@
         
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
             isKeyboard=TRUE;
@@ -316,6 +310,12 @@
             
             _lblMeOrALl.text=@"to me";
         }
+        if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT) {
+            [self showBoatOptions];
+        }
+        else{
+            _boatView.hidden = YES;
+        }
     }
     if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
         
@@ -336,7 +336,7 @@
     if (_NotificationStataus) {
         [self DeleteNotificationFromWeb];
     }
-    [self showBoatOptions];
+    
 }
 #pragma mark Class Utility Function
 -(void)clickEventOfBoatsAthletes:(id)sender
@@ -365,12 +365,12 @@
             if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]){
                 [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-                [dict setObject:arrWorkOuts forKey:@"WorkoutAthleteLift"];
+                [dict setObject:arrWorkOuts forKey:@"KEY_WORKOUTATHLETELift"];
                 [webservice WebserviceCallwithDic:dict :webServiceSaveWorkOutDetails :SaveDataTag];
             }else{
                 [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-                [dict setObject:arrWorkOuts forKey:@"WorkoutAthlete"];
+                [dict setObject:arrWorkOuts forKey:KEY_WORKOUTATHLETE];
                 [webservice WebserviceCallwithDic:dict :webServiceSaveWorkOutDetails :SaveDataTag];
             }
         }
@@ -461,9 +461,9 @@
     }
     UITextField *txtfield=(UITextField *)textField;
     if ([txtfield.placeholder isEqualToString:STR_WEIGHT]) {
-        [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:sectionindex] valueForKey:@"exerciseDetail"] objectAtIndex:rowindex]setValue:value forKey:@"weight_value"];
+        [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:KEY_ATHLETEEXERCISE] objectAtIndex:sectionindex] valueForKey:@"exerciseDetail"] objectAtIndex:rowindex]setValue:value forKey:@"weight_value"];
     }else if ([txtfield.placeholder isEqualToString:@"Repetitions"]){
-        [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:sectionindex] valueForKey:@"exerciseDetail"] objectAtIndex:rowindex]setValue:value forKey:@"rep_value"];
+        [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:KEY_ATHLETEEXERCISE] objectAtIndex:sectionindex] valueForKey:@"exerciseDetail"] objectAtIndex:rowindex]setValue:value forKey:@"rep_value"];
     }
 }
 -(BOOL)CheckStatus :(NSString *)StrValues :(long)section
@@ -794,12 +794,12 @@
         
         for (int i=0; i< arrAllAthleteData.count; i++) {
             
-            if ([[[arrAllAthleteData objectAtIndex:i] valueForKey:@"athleteName"] isEqualToString:athleteName]) {
-                NSArray *tempExercise=[[arrAllAthleteData objectAtIndex:i] valueForKey:@"athleteExercise"];
+            if ([[[arrAllAthleteData objectAtIndex:i] valueForKey:KEY_ATHLETENAME] isEqualToString:athleteName]) {
+                NSArray *tempExercise=[[arrAllAthleteData objectAtIndex:i] valueForKey:KEY_ATHLETEEXERCISE];
                 for (int j=0; j < tempExercise.count; j++) {
                     
                     [arrAthleteName containsObject:athleteName] ? :[arrAthleteName addObject:athleteName];
-                    [arrAthleteExerciseName containsObject:[[tempExercise objectAtIndex:j] valueForKey:@"exerciseName"]] ? :[arrAthleteExerciseName addObject:[[tempExercise objectAtIndex:j] valueForKey:@"exerciseName"]];
+                    [arrAthleteExerciseName containsObject:[[tempExercise objectAtIndex:j] valueForKey:KEY_EXERCISENAME]] ? :[arrAthleteExerciseName addObject:[[tempExercise objectAtIndex:j] valueForKey:KEY_EXERCISENAME]];
                     [arrWorkOuts containsObject:[arrAllAthleteData objectAtIndex:i]] ? : [arrWorkOuts addObject:[arrAllAthleteData objectAtIndex:i]];
                 }
             }
@@ -858,8 +858,7 @@
         }
     }
 }
--(void)EditWorkout:(id)sender
-{
+-(void)EditWorkout:(id)sender{
     if (_obj) {
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
@@ -881,13 +880,11 @@
 -(void)ReassignWorkout:(id)sender{
     if ([SingletonClass  CheckConnectivity]) {
         if (_obj) {
-            
             UserInformation *userInfo= [UserInformation shareInstance];
             NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"workout_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\"}",userInfo.userSelectedTeamid,[[_obj objectForKey:KEY_WORKOUT_ID] intValue],userInfo.userSelectedSportid,[[_obj objectForKey:KEY_USER_ID] intValue]];
             [SingletonClass addActivityIndicator:self.view];
             [webservice WebserviceCall:webServiceReAssignWorkOut :strURL :ReassignWorkoutTag];
         }
-        
     }else{
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
@@ -898,9 +895,8 @@
     if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
         // NSMutableArray *arrTemp=[[NSMutableArray alloc] init];
         for (int i=0; i< arrWorkOuts.count; i++) {
-            NSArray *AthleteExercise=  [[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteExercise"] ;
+            NSArray *AthleteExercise=  [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETEEXERCISE] ;
             for (int j=0; j < AthleteExercise.count; j++) {
-                
                 NSArray *AthleteExerciseDetails=  [[AthleteExercise objectAtIndex:j]  valueForKey:@"exerciseDetail"];
                 [arrNoOfRowInSection addObject:[NSString stringWithFormat:@"%lu",(unsigned long)AthleteExerciseDetails.count]];
             }
@@ -910,8 +906,8 @@
         
     }else if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL]) {
         return arrWorkOuts.count;
-    }else
-    {
+    }
+    else{
         return arrWorkOuts.count;
     }
 }
@@ -919,8 +915,7 @@
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
         return [[arrNoOfRowInSection objectAtIndex:section] intValue];
-    }else if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL])
-    {
+    }else if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL]){
         isDistance=FALSE;
         isTime=FALSE;
         isRate=FALSE;
@@ -940,14 +935,12 @@
             increaseCount = increaseCount+2;
         }
         if (isTime) {
-            
             NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isTime],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             [arrAvgTotalStatus addObject:temp];
             [arrAvgTotalStatus addObject:temp];
             temp=nil;
             increaseCount = increaseCount+2;
         }
-       
         if (isRate) {
             NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isRate],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             [arrAvgTotalStatus addObject:temp];
@@ -979,8 +972,8 @@
             increaseCount = increaseCount+1;
         }
         return units.count+increaseCount;
-    }else
-    {
+    }
+    else{
         NSArray *units=[[arrWorkOuts objectAtIndex:section] valueForKey:KEY_UNITS];
         return units.count+2;
     }
@@ -1010,45 +1003,42 @@
             athleteName=[arrAthleteName objectAtIndex:indexPath.section];
             athleteExerciseName=[arrAthleteExerciseName objectAtIndex:indexPath.section] ? [arrAthleteExerciseName objectAtIndex:indexPath.section]: EMPTYSTRING;
             for (int i=0; i< arrWorkOuts.count; i++) {
-                if ([[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"] isEqualToString:athleteName]) {
+                if ([[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETENAME] isEqualToString:athleteName]) {
                     AthleteIndex=i;
                     break;
                 }
             }
             // Code for set Athlete exercise index which is matches with Athlete name
             for (int i=0; i< arrWorkOuts.count; i++) {
-                NSArray *tempExercise=[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteExercise"];
+                NSArray *tempExercise=[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETEEXERCISE];
                 for (int j=0; j < tempExercise.count; j++){
-                    [arrAthleteName addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"]];
-                    if ([[[tempExercise objectAtIndex:j] valueForKey:@"exerciseName"] isEqualToString:athleteExerciseName] && [[[arrWorkOuts objectAtIndex:i] valueForKey:@"athleteName"] isEqualToString:athleteName] ){
-                        AthleteExerciseIndex=j;
+                    [arrAthleteName addObject:[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETENAME]];
+                    if ([[[tempExercise objectAtIndex:j] valueForKey:KEY_EXERCISENAME] isEqualToString:athleteExerciseName] && [[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETENAME] isEqualToString:athleteName] ){
+                        AthleteExerciseIndex = j;
                         break;
                     }
                 }
             }
             txtFieldWeight.liftAthleteIndex=AthleteIndex;
             txtFieldRepitition.liftAthleteIndex=AthleteIndex;
-            
             txtFieldWeight.liftExerciseIndex=AthleteExerciseIndex;
             txtFieldRepitition.liftExerciseIndex=AthleteExerciseIndex;
-            
             txtFieldWeight.SectionIndex=(int)indexPath.section;
             txtFieldWeight.RowIndex=(int)indexPath.row;
             txtFieldRepitition.SectionIndex=(int)indexPath.section;
             txtFieldRepitition.RowIndex=(int)indexPath.row;
-            
             txtFieldRepitition.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Repetitions" attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor] ,NSFontAttributeName :WorkOutDetailFont}];
             txtFieldRepitition.textAlignment=NSTextAlignmentCenter;
             txtFieldWeight.attributedPlaceholder = [[NSAttributedString alloc] initWithString:STR_WEIGHT attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor] ,NSFontAttributeName :WorkOutDetailFont}];
-            txtFieldWeight.text=  [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"weight_value"]?[[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"weight_value"] :EMPTYSTRING;
+            txtFieldWeight.text=  [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:KEY_ATHLETEEXERCISE] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"weight_value"]?[[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:KEY_ATHLETEEXERCISE] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"weight_value"] :EMPTYSTRING;
             
             txtFieldWeight.textAlignment=NSTextAlignmentCenter;
-            txtFieldRepitition.text=  [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"rep_value"] ? [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:@"athleteExercise"] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"rep_value"] : EMPTYSTRING;
+            txtFieldRepitition.text=  [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:KEY_ATHLETEEXERCISE] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"rep_value"] ? [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:KEY_ATHLETEEXERCISE] objectAtIndex:AthleteExerciseIndex] valueForKey:@"exerciseDetail"] objectAtIndex:indexPath.row]valueForKey:@"rep_value"] : EMPTYSTRING;
             
             if (indexPath.row==0) {
                 lblExerciseName.text=STR_SETS;
-            }else{
-                
+            }
+            else{
                 lblExerciseName.text=EMPTYSTRING;
             }
             lblSets.text=[NSString stringWithFormat:@"%d",(int)indexPath.row+1];
@@ -1093,22 +1083,17 @@
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
-                        
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        
                         txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
-                        
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                   
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Rate";
-                        
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
@@ -1117,7 +1102,6 @@
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Total Watts";
-                        
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
@@ -1135,7 +1119,6 @@
                     }
                     if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
                         txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
-                        
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
@@ -1143,7 +1126,7 @@
                         txtField.userInteractionEnabled=NO;
                     }
                 }
-                else   if ((indexPath.row==units.count+1) ) {
+                else if ((indexPath.row==units.count+1) ) {
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:1];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
@@ -1153,7 +1136,6 @@
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
-                        
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
                         
@@ -1203,7 +1185,6 @@
                 }
                 else   if ((indexPath.row==units.count+2) ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:2];
-                    
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
                       txtFieldLeftHeader.text=@"Total Distance(Meters)";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1273,7 +1254,6 @@
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                   }
-                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
                        txtFieldLeftHeader.text=@"Average Rate";
                        txtFieldLeftHeader.font = WorkOutDetailFont;
@@ -1307,7 +1287,7 @@
                         txtField.userInteractionEnabled=NO;
                     }
                 }
-                else if ( indexPath.row==units.count+4 ) {
+                else if ( indexPath.row==units.count + 4 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:4];
                   if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
                        txtFieldLeftHeader.text=@"Total Distance(Meters)";
@@ -1381,24 +1361,20 @@
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        
                         txtFieldLeftHeader.text=@"Average Rate";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
-                        
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        
                         txtFieldLeftHeader.text=@"Average Watts";
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
                         txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
-                        
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
                         
@@ -1894,7 +1870,7 @@
             NSString *str =  [NSString stringWithFormat:@"%@ (%@)",arrAthleteName.count > section ? [arrAthleteName objectAtIndex:section] : EMPTYSTRING,arrAthleteExerciseName.count > section ? [arrAthleteExerciseName objectAtIndex:section] : EMPTYSTRING ] ? [NSString stringWithFormat:@"%@ (%@)",arrAthleteName.count > section ? [arrAthleteName objectAtIndex:section] : EMPTYSTRING,arrAthleteExerciseName.count > section ? [arrAthleteExerciseName objectAtIndex:section] : EMPTYSTRING ] : EMPTYSTRING;
             return str;
         }else if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL]){
-            NSString *str = [[arrWorkOuts objectAtIndex:section] valueForKey:@"athleteName"] ? [[arrWorkOuts objectAtIndex:section] valueForKey:@"athleteName"]: EMPTYSTRING;
+            NSString *str = [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_ATHLETENAME] ? [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_ATHLETENAME]: EMPTYSTRING;
             return str ;
         }else
         {

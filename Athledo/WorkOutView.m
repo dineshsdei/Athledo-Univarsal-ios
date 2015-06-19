@@ -99,7 +99,6 @@
     }
     self.title = NSLocalizedString(@"Workouts", nil);
     tblList.userInteractionEnabled=YES;
-    
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
@@ -114,18 +113,15 @@
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewWillAppear:NO];
-    
     if ([SingletonClass ShareInstance].isWorkOutSectionUpdate == TRUE) {
         [self getList];
     }
 }
 - (BOOL)revealController:(SWRevealViewController *)revealController
-panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
+panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return YES;
 }
--(void)AddNewWorkOut
-{
+-(void)AddNewWorkOut{
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController){

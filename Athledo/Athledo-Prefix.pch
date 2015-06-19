@@ -69,6 +69,8 @@
 #define STATUS_UNSELECTED @""
 #define EXERCISE_TYPE KEY_EXERCISE_TYPE
 
+#define KEY_COOLDOWN_TIME @"CoolDown Time"
+#define KEY_WARMUP_TIME @"WarmUp Time"
 #define KEY_WORKOUT_ID @"Workout Id"
 #define KEY_WORKOUT_NAME @"Workout Name"
 #define KEY_SEASON @"season"
@@ -103,6 +105,11 @@
 #define KEY_INTERVAL_COUNT @"intervalCount"
 #define KEY_DISTANCE @"Distance"
 #define KEY_TIME @"Time"
+#define KEY_INTERVAL @"Interval"
+#define KEY_WORKOUTATHLETE @"WorkoutAthlete"
+#define KEY_ATHLETENAME @"athleteName"
+#define KEY_EXERCISENAME @"exerciseName"
+#define KEY_ATHLETEEXERCISE @"athleteExercise"
 
 
 #define NAVIGATIONBAR_COLOR [UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]
@@ -156,6 +163,7 @@
 #define SUCCESS @"success"
 #define STATUS @"status"
 #define DATA @"data"
+#define ASSIGNED_TYPE_BOAT 4
 #define STR_NO_RECORD_FOUND @"No record found"
 #define SAVED_DATA_MESSAGE @"Data has been saved successfully"
 #define NOT_SAVE_DATA_MESSAGE @"Data did not save"
@@ -394,22 +402,22 @@
 #define webServiceGetLeagueLevel [BaseUrl stringByAppendingString:@"getLeagueLevel"]
 #define webServiceAddManagerSport [BaseUrl stringByAppendingString:@"addManagerSport"]
 //Add WorkOut
-#define webServiceWorkoutInfo [BaseUrl stringByAppendingString:@"coachWorkoutList"]
-#define webServiceDeleteWorkOut [BaseUrl stringByAppendingString:@"deleteWorkout"]
-#define webServiceReAssignWorkOut [BaseUrl stringByAppendingString:@"coach_reassign"]
+#define webServiceWorkoutInfo [@"http://192.155.246.146:8020/webservices/"  stringByAppendingString:@"coachWorkoutList"]
+#define webServiceDeleteWorkOut [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"deleteWorkout"]
+#define webServiceReAssignWorkOut [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"coach_reassign"]
 #define webServiceGetWorkOutdropdownList [BaseUrl stringByAppendingString:@"workout_dropdown_data"]
-#define webServiceGetWorkOutUnitList [BaseUrl stringByAppendingString:@"workout_unit"]
+#define webServiceGetWorkOutUnitList [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_unit"]
 
-#define webUrlAddCustomTag [BaseUrl stringByAppendingString:@"workout_customtag_add"]
-#define webUrlDeleteCustomTag [BaseUrl stringByAppendingString:@"workout_customtag_delete"]
-#define webUrlAddExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_add"]
-#define webUrlDeleteExerciseType [BaseUrl stringByAppendingString:@"workout_excercise_delete"]
+#define webUrlAddCustomTag [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_customtag_add"]
+#define webUrlDeleteCustomTag [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_customtag_delete"]
+#define webUrlAddExerciseType [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_excercise_add"]
+#define webUrlDeleteExerciseType [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_excercise_delete"]
 
-#define webUrlAddWorkOut [BaseUrl stringByAppendingString:@"workout_add"]
-#define webUrlSearchHistory [BaseUrl stringByAppendingString:@"workout_history"]
-#define WebServiceWorkoutDetails [BaseUrl stringByAppendingString:@"workout_view"]
+#define webUrlAddWorkOut [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_add"]
+#define webUrlSearchHistory [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_history"]
+#define WebServiceWorkoutDetails [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_view"]
 
-#define webServiceSaveWorkOutDetails [BaseUrl stringByAppendingString:@"workoutAthleteData"]
+#define webServiceSaveWorkOutDetails [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workoutAthleteData"]
 
 #define webserviceShareNotes [BaseUrl stringByAppendingString:@"sendNotesMail"]
 #define webservicePDFLink [BaseUrl stringByAppendingString:@"downloadNotes"]

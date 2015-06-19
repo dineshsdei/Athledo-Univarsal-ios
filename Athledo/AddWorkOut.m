@@ -23,6 +23,7 @@
 #define IS_SELECTED @"isSelected"
 #define ATHLETE_NAME @"AthleteName"
 
+
 static int LiftExerciseCount=0;
 @interface AddWorkOut ()
 {
@@ -120,10 +121,12 @@ static int LiftExerciseCount=0;
                 }
                 case 4:
                 {
-                    [workOutDic setObject:[objEditModeData valueForKey:STR_BOATS] forKey:@"Boats"];
+                    //[workOutDic setObject:[objEditModeData valueForKey:STR_BOATS] forKey:STR_BOATS];
                     [workOutDic setObject:EMPTYSTRING forKey:STR_WHOLE_TEAM];
                     [workOutDic setObject:EMPTYSTRING forKey:STR_ATHLETES];
                     [workOutDic setObject:EMPTYSTRING forKey:STR_GROUPS];
+                    [workOutDic setObject:STR_ROWING forKey:KEY_EXERCISE_TYPE];
+                    
                     break;
                 }
                     
@@ -267,10 +270,13 @@ static int LiftExerciseCount=0;
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
     @try {
-        [SingletonClass RemoveActivityIndicator:self.view];
+        
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         switch (Tag){
             case AddCustomTag:{
                 if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                   
                     [arrCustomList insertObject:currentText.text atIndex:0];
                     int customtagId=[[MyResults  objectForKey:DATA] intValue];
                     // add custom tag in dic for show in picker
@@ -304,6 +310,7 @@ static int LiftExerciseCount=0;
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 break;
             }
             case DeleteCustomTag:{
@@ -325,6 +332,7 @@ static int LiftExerciseCount=0;
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 break;
             }
             case AddExerciseTypeTag:{
@@ -335,7 +343,7 @@ static int LiftExerciseCount=0;
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
-                
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 break;
             } case DeleteExerciseTypeTag:{
                 if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
@@ -344,6 +352,7 @@ static int LiftExerciseCount=0;
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 break;
             } case AddWorkoutTag:{
                 if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
@@ -351,9 +360,11 @@ static int LiftExerciseCount=0;
                 }else{
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
                 }
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 break;
             }case GetGroupsAthletesTag:{
                 if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                    [SingletonClass RemoveActivityIndicator:self.view];
                     GroupsAthleteDic = MyResults;
                     
                     NSArray *arrGroups=[GroupsAthleteDic valueForKey:GROUPDATA];
@@ -368,7 +379,19 @@ static int LiftExerciseCount=0;
                         [arr addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[arrAthleteName objectAtIndex:i],ATHLETE_NAME,[arrAthleteId objectAtIndex:i],@"id",[NSNumber numberWithBool:NO],IS_SELECTED, nil]];
                     }
                     [GroupsAthleteDic setValue:arr forKey:ATHLETEDATA];
+                    
+                    if (objEditModeData) {
+                        if ([[objEditModeData valueForKey:KEY_ASSIGNED] isEqualToString:@"4"]) {
+                            [workOutDic setObject:STR_ROWING forKey:KEY_EXERCISE_TYPE];
+                            [workOutDic setValue:[self PrepareBoatsDataToLocal] forKey:STR_BOATS];
+                            //[self ReloadDataOfTabbleSection:5];
+                            [tableview reloadData];
+
+                        }
+                        
+                    }
                 }
+                 [SingletonClass RemoveActivityIndicator:self.view];
                 break;
             }
             default:
@@ -452,13 +475,10 @@ static int LiftExerciseCount=0;
             [[WebWorkOutData objectForKey:KEY_CUSTOM_TAG] isKindOfClass:[NSDictionary class]] ? customTag=[[WebWorkOutData objectForKey:KEY_CUSTOM_TAG] allValues] : EMPTYSTRING;
             
             if (arrCustomList.count  >0 ) {
-                
                 [arrCustomList removeAllObjects];
             }
-            
             for (int i=0 ; i< customTag.count;i++) {
-                
-                [arrCustomList addObject:[customTag objectAtIndex:i]];
+              [arrCustomList addObject:[customTag objectAtIndex:i]];
             }
             // when at perticular key is no value in WebWorkOutData then allvalues method due to crash thats by use the method
             NSArray *ExerciseType;
@@ -506,7 +526,6 @@ static int LiftExerciseCount=0;
             @catch (NSException *exception) {
             }
             @finally {
-                
             }
         }
         [[WebWorkOutData objectForKey:KEY_LIFT_UNIT] isKindOfClass:[NSDictionary class]] ? arrLiftUnit=[[WebWorkOutData objectForKey:KEY_LIFT_UNIT] allValues] :EMPTYSTRING;
@@ -928,6 +947,7 @@ static int LiftExerciseCount=0;
             UIPickerView *picker =[[SingletonClass ShareInstance] AddPickerView:self.view];
             picker.delegate =self;
             [picker reloadComponent:0];
+            [self showSelectedValue:arrExerciseType :picker];
             textField.inputView = picker;
             return YES;
         }
@@ -962,8 +982,8 @@ static int LiftExerciseCount=0;
                 }else
                 {
                     [listPicker reloadAllComponents];
-                    [listPicker selectRow:0 inComponent:0 animated:YES];
                     [self setPickerVisibleAt:YES:arrTime];
+                     [self showTimePickerSelection:arrTime];
                 }
             }
             return NO;
@@ -1170,6 +1190,7 @@ static int LiftExerciseCount=0;
 {
     webservice =[WebServiceClass shareInstance];
     webservice.delegate = self;
+    [SingletonClass addActivityIndicator:self.view];
     NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\"}",[UserInformation shareInstance].userSelectedTeamid];
     [webservice WebserviceCall:webserviceGetGroupsAthlete :strURL :GetGroupsAthletesTag];
     
@@ -1361,6 +1382,85 @@ static int LiftExerciseCount=0;
     }
     
 }
+-(void)editCheckedAthleteOrGroupStatus :(NSString *)checkKey :(NSString *)checkValue
+{
+    @try {
+        if ([checkKey isEqualToString:STR_ENTER_ATHLETENAME]) {
+            NSArray *arrAthleteData = [GroupsAthleteDic valueForKey:ATHLETEDATA] ;
+            for (int i=0; i< arrAthleteData.count; i++) {
+                NSString *strAthletename = [[arrAthleteData objectAtIndex:i] valueForKey:ATHLETE_NAME];
+                if ([strAthletename isEqualToString:checkValue]) {
+                    // Update status of AthleteName data
+                    [[[GroupsAthleteDic valueForKey:ATHLETEDATA] objectAtIndex:i] setValue:[NSNumber numberWithBool:YES] forKey:IS_SELECTED];
+                }
+            }
+            ////////// Update status of groupdata if athlete exist in group ///////////////
+            NSArray *arrGroupData = [GroupsAthleteDic valueForKey:GROUPDATA];
+            for (int i=0; i< arrGroupData.count; i++) {
+                
+                NSArray *arrMember = [[[[GroupsAthleteDic valueForKey:GROUPDATA] objectAtIndex:i] valueForKey:KEY_GROUPMEMBERS] allKeys] ;
+                
+                for (int j=0; j< arrMember.count; j++) {
+                    if ([[arrMember objectAtIndex:j] isEqualToString:checkValue]) {
+                        
+                        [[[GroupsAthleteDic valueForKey:GROUPDATA] objectAtIndex:i] setValue:[NSNumber numberWithBool:YES] forKey:IS_SELECTED];
+                    }
+                    
+                }
+                
+            }
+            
+            ////////////////////////////////////////
+        }
+        else  if ([checkKey isEqualToString:STR_ENTER_GROUPNAME]){
+            
+            NSArray *arrGroupData = [GroupsAthleteDic valueForKey:GROUPDATA] ;
+            for (int j=0; j< arrGroupData.count; j++) {
+                NSString *strGroupName = [[arrGroupData objectAtIndex:j] valueForKey:KEY_NAME];
+                
+                if ([strGroupName isEqualToString:checkValue]) {
+                    //[[[GroupsAthleteDic valueForKey:GROUPDATA] objectAtIndex:j] setValue:[NSNumber numberWithBool:YES] forKey:IS_SELECTED];
+                    
+                    NSArray *arrAthleteData = [GroupsAthleteDic valueForKey:ATHLETEDATA] ;
+                    NSArray *arrMember = [[[[GroupsAthleteDic valueForKey:GROUPDATA] objectAtIndex:j] valueForKey:KEY_GROUPMEMBERS] allKeys] ;
+                    
+                    for (int k=0; k< arrMember.count; k++) {
+                        // set yes of Athlete
+                        for (int l=0; l< arrAthleteData.count; l++) {
+                            if ([[arrMember objectAtIndex:k] isEqualToString:[[arrAthleteData objectAtIndex:l] valueForKey:ATHLETE_NAME]]) {
+                                
+                                [[[GroupsAthleteDic valueForKey:ATHLETEDATA] objectAtIndex:l] setValue:[NSNumber numberWithBool:YES] forKey:IS_SELECTED];
+                            }
+                            
+                        }
+                        
+                        // set yes of group where group member exists
+                        for (int n=0; n< arrGroupData.count; n++) {
+                            NSArray *arrSubMember = [[[[GroupsAthleteDic valueForKey:GROUPDATA] objectAtIndex:n] valueForKey:KEY_GROUPMEMBERS] allKeys] ;
+                            for (int nn=0; nn< arrSubMember.count; nn++) {
+                                if ([[arrSubMember objectAtIndex:nn] isEqualToString:[arrMember objectAtIndex:k]]) {
+                                    [[[GroupsAthleteDic valueForKey:GROUPDATA] objectAtIndex:n] setValue:[NSNumber numberWithBool:YES] forKey:IS_SELECTED];
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                    
+                }
+            }
+        }
+        
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+}
 -(void)checkedAthleteOrGroupStatus:(NSString *)checkValue
 {
     @try {
@@ -1456,6 +1556,7 @@ static int LiftExerciseCount=0;
 -(void)SetDicValue:(NSString*)key
 {
     if ([key isEqualToString:STR_WHOLE_TEAM]) {
+        boatCount=0;
         [workOutDic setObject:STATUS_SELECTED forKey:STR_WHOLE_TEAM];
         [workOutDic setObject:EMPTYSTRING forKey:STR_ATHLETES];
         [workOutDic setObject:EMPTYSTRING forKey:STR_GROUPS];
@@ -1494,12 +1595,15 @@ static int LiftExerciseCount=0;
 }
 -(void)ReloadDataOfTabbleSection:(int)sectionIndex
 {
-    NSRange range = NSMakeRange(sectionIndex, sectionIndex);
-    NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
-    [tableview reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+    BOOL isRowing = [[workOutDic valueForKey:EXERCISE_TYPE] isEqualToString:STR_ROWING ] ? YES : NO;
+     NSArray *arrBoats = [[workOutDic valueForKey:STR_BOATS] isKindOfClass:[NSArray class]] ?[workOutDic valueForKey:STR_BOATS] :@[];
+    if (isRowing || arrBoats.count > 0) {
+        NSRange range = NSMakeRange(sectionIndex, sectionIndex);
+        NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
+        [tableview reloadSections:section withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
-- (void)orientationChanged
-{
+- (void)orientationChanged{
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
@@ -1509,8 +1613,7 @@ static int LiftExerciseCount=0;
         pickerView=nil;
         if ((orientation==UIDeviceOrientationLandscapeRight || (orientation==UIDeviceOrientationLandscapeLeft))) {
             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(512,1050, 1024, 216)];
-        }else
-        {
+        }else{
             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,self.view.frame.size.height+350, self.view.frame.size.width, 216)];
         }
         pickerView.backgroundColor=[UIColor whiteColor];
@@ -1527,14 +1630,12 @@ static int LiftExerciseCount=0;
     [tableview reloadData];
 }
 
--(void)Done
-{
+-(void)Done{
     [self Done:CGPointMake(self.view.frame.size.width, self.view.frame.size.height+50)];
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     [self setContentOffsetDown:currentText table:tableview];
 }
--(void)Done :(CGPoint)point
-{
+-(void)Done :(CGPoint)point{
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
@@ -1542,8 +1643,7 @@ static int LiftExerciseCount=0;
     [UIView commitAnimations];
 }
 
--(void)saveDicData
-{
+-(void)saveDicData{
     if ((currentText && (![currentText.placeholder isEqualToString:KEY_UNIT] && ![currentText.placeholder isEqualToString:KEY_CUSTOM_TAG] )) && (arrLiftPlaceholder.count ==0 || [currentText.placeholder isEqualToString:KEY_TOTAL_TIME]|| [currentText.placeholder isEqualToString:KEY_WORKOUT_NAME]|| [currentText.placeholder isEqualToString:KEY_WORKOUT_DATE] || [currentText.placeholder isEqualToString:KEY_DESCRIPTION]|| [currentText.placeholder isEqualToString:WARMUPTIME]|| [currentText.placeholder isEqualToString:COOLDOWNTIME] ))
     {
         [workOutDic setObject:currentText.text forKey:currentText.placeholder];
@@ -1551,10 +1651,8 @@ static int LiftExerciseCount=0;
     }else if([currentText.placeholder isEqualToString:PLACEHOLDER_NAME] || [currentText.placeholder isEqualToString:STR_SETS] || [currentText.placeholder isEqualToString:STR_REPS]||[currentText.placeholder isEqualToString:STR_UNIT_DOT]||[currentText.placeholder isEqualToString:STR_WEIGHT]) {
         
         if ([currentText.placeholder isEqualToString:STR_UNIT_DOT]) {
-            
             [[arrLiftPlaceholder objectAtIndex:currentText.tag] setValue:currentText.text forKey:KEY_UNIT];
         }else{
-            
             [[arrLiftPlaceholder objectAtIndex:currentText.tag] setValue:currentText.text forKey:currentText.placeholder];
         }
         [workOutDic setObject:arrLiftPlaceholder forKey:WORKOUTTYPE_LIFT];
@@ -1570,20 +1668,16 @@ static int LiftExerciseCount=0;
     }else if([strPlaceHolder isEqualToString:STR_ATHLETES] || [strPlaceHolder isEqualToString:STR_GROUPS] )
     {
         // If nothing is selected from picker
-        
         if ([[workOutDic objectForKey:STR_ATHLETES] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:STR_ATHLETES] ) {
-            
-            [workOutDic setObject:STATUS_SELECTED forKey:STR_WHOLE_TEAM];
+              [workOutDic setObject:STATUS_SELECTED forKey:STR_WHOLE_TEAM];
         }
         if ([[workOutDic objectForKey:STR_GROUPS] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:STR_GROUPS] ) {
             [workOutDic setObject:STATUS_SELECTED forKey:STR_WHOLE_TEAM];
         }
     }
     if ((currentText) && !([currentText.placeholder isEqualToString:PLACEHOLDER_NAME]||[currentText.placeholder isEqualToString:STR_SETS] || [currentText.placeholder isEqualToString:STR_REPS]||[currentText.placeholder isEqualToString:STR_WEIGHT])) {
-        
         [currentText resignFirstResponder];
-        
-    }
+      }
     currentText=nil;
 }
 -(void)doneClicked
@@ -1610,15 +1704,11 @@ static int LiftExerciseCount=0;
         NSString *code= [self KeyForValue:KEY_WORKOUT_TYPE :workoutType];
         
         NSString *ExerciseCode= [self KeyForValue:KEY_EXERCISE :currentText.text];
-        
         [self getWorkOutUnit:code :ExerciseCode];
-        
-    }
-    if(([currentText.placeholder isEqualToString:KEY_WORKOUT_TYPE]  ) )
-    {
+      }
+    if(([currentText.placeholder isEqualToString:KEY_WORKOUT_TYPE]  ) ){
         if (currentText.text.length > 0) {
-            if (isChangeWorkoutType==TRUE)
-            {
+            if (isChangeWorkoutType==TRUE){
                 [workOutDic setValue:EMPTYSTRING forKey:KEY_EXERCISE_TYPE];
                 NSString *code= [self KeyForValue:KEY_WORKOUT_TYPE :currentText.text];
                 [self getWorkOutUnit:code :EMPTYSTRING];
@@ -1627,19 +1717,15 @@ static int LiftExerciseCount=0;
             }
         }
         
-    }else if([strPlaceHolder isEqualToString:STR_ATHLETES] || [strPlaceHolder isEqualToString:STR_GROUPS] )
-    {
+    }else if([strPlaceHolder isEqualToString:STR_ATHLETES] || [strPlaceHolder isEqualToString:STR_GROUPS] ){
         // If nothing is selected from picker
         if ([[workOutDic objectForKey:STR_ATHLETES] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:STR_ATHLETES] ) {
             [workOutDic setObject:STATUS_SELECTED forKey:STR_WHOLE_TEAM];
         }
-        
         if ([[workOutDic objectForKey:STR_GROUPS] isEqual:EMPTYSTRING] && [strPlaceHolder isEqualToString:STR_GROUPS] ) {
-            
             [workOutDic setObject:STATUS_SELECTED forKey:STR_WHOLE_TEAM];
         }
     }
-    
     if ((currentText) && !([currentText.placeholder isEqualToString:PLACEHOLDER_NAME]||[currentText.placeholder isEqualToString:STR_SETS] || [currentText.placeholder isEqualToString:STR_REPS]||[currentText.placeholder isEqualToString:STR_WEIGHT])) {
         [self setContentOffsetDown:currentText table:tableview];
     }else
@@ -1810,6 +1896,7 @@ static int LiftExerciseCount=0;
     pickerView.center = point;
     [UIView commitAnimations];
 }
+
 -(void)setDatePickerVisibleAt :(BOOL)ShowHide
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -1828,7 +1915,24 @@ static int LiftExerciseCount=0;
     [self.view viewWithTag:datePickerTag].center = Point;
     [UIView commitAnimations];
 }
-
+-(void)showTimePickerSelection:(NSArray *)data
+{
+    if (currentText.text.length > 0) {
+        for (int i=0; i< data.count; i++) {
+            NSString *str = @"";
+            str=[[currentText.text stringByReplacingOccurrencesOfString:@"Minutes" withString:@""] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            NSString *strMinutes = [data objectAtIndex:i];
+            if ([strMinutes isEqualToString:str]) {
+                [listPicker selectRow:i inComponent:0 animated:YES];
+                break;
+            }
+           
+        }
+    } else{
+        [listPicker selectRow:0 inComponent:0 animated:YES];
+    }
+    
+}
 -(void)setPickerVisibleAt :(BOOL)ShowHide :(NSArray*)data
 {
     [UIView beginAnimations:@"tblViewMove" context:nil];
@@ -1873,58 +1977,52 @@ static int LiftExerciseCount=0;
 -(void)AthletesCheckBoxEvent:(id)sender
 {
     currentText=nil;
+    [self.view endEditing:YES];
     UIButton *btn=sender;
     if (btn.selected == YES) {
         return;
     }
     UITableViewCell *tableview1=(UITableViewCell *)[sender superview];
     NSArray *subview=[tableview1 subviews];
-    for (int i=0 ;i < subview.count ;i++)
-    {
+    for (int i=0 ;i < subview.count ;i++){
         id temp=[subview objectAtIndex:i];
-        if ([temp isKindOfClass:[UIButton class]])
-        {
+        if ([temp isKindOfClass:[UIButton class]]){
             UIButton *bb=temp;
             bb.selected=NO;
             [bb setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
         }
     }
-    if (btn.selected)
-    {
+    if (btn.selected){
         btn.selected=NO;
         [btn setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
-    }else
-    {
+    }else{
         btn.selected=YES;
         [btn setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
     }
+    NSArray *arrBoats = [[workOutDic valueForKey:STR_BOATS] isKindOfClass:[NSArray class]] ?[workOutDic valueForKey:STR_BOATS] :@[];
     switch (btn.tag) {
-        case 2000:
-        {
+        case 2000:{
             boatCount = 0;
             strPlaceHolder=STR_WHOLE_TEAM;
             [self SetDicValue:STR_WHOLE_TEAM];
-            [self ReloadDataOfTabbleSection:5];
+            arrBoats.count >0 ? [self ReloadDataOfTabbleSection:5] :@"";
             break;
         }
-        case 2001:
-        {
+        case 2001:{
             boatCount = 0;
             strPlaceHolder=STR_ATHLETES;
             [self SetDicValue:STR_ATHLETES];
-            [self ReloadDataOfTabbleSection:5];
+             arrBoats.count >0 ? [self ReloadDataOfTabbleSection:5] :@"";
             break;
         }
-        case 2002:
-        {
+        case 2002:{
             boatCount = 0;
             strPlaceHolder=STR_GROUPS;
             [self SetDicValue:STR_GROUPS];
-            [self ReloadDataOfTabbleSection:5];
+            arrBoats.count >0 ? [self ReloadDataOfTabbleSection:5] :@"";
             break;
         }
-        case 2003:
-        {
+        case 2003:{
             strPlaceHolder=STR_BOATS;
             [self SetDicValue:STR_BOATS];
             boatCount = 1;
@@ -1933,8 +2031,7 @@ static int LiftExerciseCount=0;
         }
         default:
             break;
-            
-    }
+   }
     isWholeTeam=[strPlaceHolder isEqualToString:STR_WHOLE_TEAM] ? YES : NO ;
     isAthletes=[strPlaceHolder isEqualToString:STR_ATHLETES] ? YES : NO ;
     isGroups=[strPlaceHolder isEqualToString:STR_GROUPS] ? YES : NO ;
@@ -1942,8 +2039,7 @@ static int LiftExerciseCount=0;
     isUnits=[strPlaceHolder isEqualToString:KEY_UNIT] ? YES : NO ;
     isCustomTag=[strPlaceHolder isEqualToString:KEY_CUSTOM_TAG] ? YES : NO ;
     [self SetValuesforShowInMultiPicker];
-    if (!(isWholeTeam ) && !(isBoats ) )
-    {
+    if (!(isWholeTeam ) && !(isBoats ) ){
         if ((UnitsArray.count > 0)) {
             [pickerView reloadAllComponents];
             [self setMultipleSlectionPicker:YES];
@@ -2381,10 +2477,151 @@ static int LiftExerciseCount=0;
     @finally {
     }
 }
+//-(NSArray *)PrepareBoatsDataToWeb
+//{
+//    NSMutableArray *arrBoatsData = [NSMutableArray new];
+//    NSArray *boats = [workOutDic valueForKey:STR_BOATS];
+//    
+//    for (int i = 0; i < boats.count; i++) {
+//        
+//        NSArray *arrTeampBoat = [boats objectAtIndex:i];
+//        [arrBoatsData addObject:[[NSMutableDictionary alloc]initWithObjectsAndKeys:@"",@"id",@"",STRKEY_BOATNAME,@"",STRKEY_SETLINEUP, nil ]];
+//    }
+//    
+//    
+//    
+//    return boats;
+//}
+-(NSMutableArray *)PrepareBoatsDataToLocal {
+    
+    NSArray *tempBoats =[objEditModeData valueForKey:STR_BOATS];
+    //NSArray *tempBoats =@[[NSDictionary dictionaryWithObjects:@[@"27,183",@"Boat A",@[],@"2",@"13"] forKeys:@[@"Athletes",@"BoatName",@"Groups",@"SetLineup",@"id"]],[NSDictionary dictionaryWithObjects:@[@"",@"Boat B",@"9",@"1",@"13"] forKeys:@[@"Athletes",@"BoatName",@"Groups",@"SetLineup",@"id"]]];
+    NSMutableArray *arrData =[[NSMutableArray alloc] init];
+    boatCount = tempBoats.count;
+    for (id temp in tempBoats) {
+        [arrData addObject:[temp mutableCopy]];
+    }
+    tempBoats = nil;
+    for (int i=0; i<arrData.count; i++) {
+        NSString *strSetLineup = [[arrData objectAtIndex:i] valueForKey:STRKEY_SETLINEUP];
+        
+        if ([strSetLineup isEqualToString:@"2"]) {
+            NSString *strAthletes = [[arrData objectAtIndex:i] valueForKey:STR_ATHLETES];
+            NSArray *arrTemp = [strAthletes componentsSeparatedByString:@","];
+            NSMutableArray  *arrAthletes = [NSMutableArray arrayWithArray:arrTemp];
+            for (int j=0; j< arrAthletes.count; j++) {
+                
+                NSArray *arrAthleteData = [GroupsAthleteDic valueForKey:ATHLETEDATA];
+                for (int l = 0 ; l< arrAthleteData.count; l++) {
+                    
+                    if ([[arrAthletes objectAtIndex:j] isEqualToString:[[arrAthleteData objectAtIndex:l] valueForKey:@"id"]]) {
+                        [arrAthletes replaceObjectAtIndex:j withObject:[[arrAthleteData objectAtIndex:l] valueForKey:ATHLETE_NAME]];
+                        [self editCheckedAthleteOrGroupStatus :STR_ENTER_ATHLETENAME :[[arrAthleteData objectAtIndex:l] valueForKey:ATHLETE_NAME]];
+                    }
+                }
+            }
+            [[arrData objectAtIndex:i] setValue:arrAthletes forKey:STR_ATHLETES];
+            [[arrData objectAtIndex:i] setValue:@"" forKey:STR_GROUPS];
+            [[arrData objectAtIndex:i] setValue:STR_SELECTATHLETES forKey:STRKEY_SETLINEUP];
+        }
+        else if ([strSetLineup isEqualToString:@"1"]){
+           NSString *strGroups = [[arrData objectAtIndex:i] valueForKey:STR_GROUPS];
+            NSArray *arrTemp = [strGroups componentsSeparatedByString:@","];
+            NSMutableArray  *arrGroups = [NSMutableArray arrayWithArray:arrTemp];
+            
+            for (int j=0; j< arrGroups.count; j++) {
+                NSArray *arrGroupData = [GroupsAthleteDic valueForKey:GROUPDATA];
+                for (int l = 0 ; l< arrGroupData.count; l++) {
+                    if ([[arrGroups objectAtIndex:j] isEqualToString:[[arrGroupData objectAtIndex:l] valueForKey:@"id" ]]) {
+                        [arrGroups replaceObjectAtIndex:j withObject:[[arrGroupData objectAtIndex:l] valueForKey:KEY_NAME]];
+                        [self editCheckedAthleteOrGroupStatus :STR_ENTER_GROUPNAME :[[arrGroupData objectAtIndex:l] valueForKey:KEY_NAME]];
+                    }
+                    
+                }
+            }
+            [[arrData objectAtIndex:i] setValue:arrGroups forKey:STR_GROUPS];
+            [[arrData objectAtIndex:i] setValue:@"" forKey:STR_ATHLETES];
+            [[arrData objectAtIndex:i] setValue:STR_SELECTFROMGROUPS forKey:STRKEY_SETLINEUP];
+        }
+    }
+    return arrData;
+}
+-(NSMutableArray *)PrepareBoatsDataToWeb {
+    NSMutableArray *arrEmptyArray;
+    NSArray *tempBoats =[workOutDic valueForKey:STR_BOATS];
+    NSMutableArray *arrData =[[NSMutableArray alloc] init];
+    for (id temp in tempBoats) {
+        [arrData addObject:[temp mutableCopy]];
+    }
+    tempBoats = nil;
+    for (int i=0; i<arrData.count; i++) {
+        NSString *strSetLineup = [[arrData objectAtIndex:i] valueForKey:STRKEY_SETLINEUP];
+       
+        if ([strSetLineup isEqualToString:STR_SELECTATHLETES]) {
+            NSString *strIds = @"";
+            NSArray *arrAthletes = [[arrData objectAtIndex:i] valueForKey:STR_ATHLETES];
+            for (int j=0; j< arrAthletes.count; j++) {
+                
+                NSArray *arrAthleteData = [GroupsAthleteDic valueForKey:ATHLETEDATA];
+                for (int l = 0 ; l< arrAthleteData.count; l++) {
+                    
+                    if ([[arrAthletes objectAtIndex:j] isEqualToString:[[arrAthleteData objectAtIndex:l] valueForKey:ATHLETE_NAME]]) {
+                        strIds = [strIds stringByAppendingFormat:@"%@,",[[arrAthleteData objectAtIndex:l] valueForKey:@"id"]];
+                    }
+                }
+            }
+            strIds = [strIds stringByReplacingCharactersInRange:NSMakeRange(strIds.length-1, 1) withString:@""];
+            if (strIds.length == 0) {
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter boat information" delegate:nil btn1:@"Ok"];
+                return arrEmptyArray;
+            }
+            [[arrData objectAtIndex:i] setValue:strIds forKey:STR_ATHLETES];
+             [[arrData objectAtIndex:i] setValue:@"" forKey:STR_GROUPS];
+            [[arrData objectAtIndex:i] setValue:[NSNumber numberWithInt:2] forKey:STRKEY_SETLINEUP];
+            if (!objEditModeData)
+            [[arrData objectAtIndex:i] setValue:@"" forKey:@"id"];
+                
+        }
+        else if ([strSetLineup isEqualToString:STR_SELECTFROMGROUPS]){
+             NSString *strIds = @"";
+            NSArray *arrGroups = [[arrData objectAtIndex:i] valueForKey:STR_GROUPS];
+
+            for (int j=0; j< arrGroups.count; j++) {
+                NSArray *arrGroupData = [GroupsAthleteDic valueForKey:GROUPDATA];
+                for (int l = 0 ; l< arrGroupData.count; l++) {
+                    if ([[arrGroups objectAtIndex:j] isEqualToString:[[arrGroupData objectAtIndex:l] valueForKey:KEY_NAME ]]) {
+                        strIds = [strIds stringByAppendingFormat:@"%@,",[[arrGroupData objectAtIndex:l] valueForKey:@"id"]];
+                    }
+                }
+            }
+            strIds = [strIds stringByReplacingCharactersInRange:NSMakeRange(strIds.length-1, 1) withString:@""];
+            if (strIds.length == 0) {
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter boat information" delegate:nil btn1:@"Ok"];
+                return arrEmptyArray;
+            }
+            [[arrData objectAtIndex:i] setValue:strIds forKey:STR_GROUPS];
+              [[arrData objectAtIndex:i] setValue:@"" forKey:STR_ATHLETES];
+            [[arrData objectAtIndex:i] setValue:[NSNumber numberWithInt:1] forKey:STRKEY_SETLINEUP];
+            if (!objEditModeData)
+                [[arrData objectAtIndex:i] setValue:@"" forKey:@"id"];
+               
+        }
+        else
+        {
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter boat information" delegate:nil btn1:@"Ok"];
+             [SingletonClass RemoveActivityIndicator:self.view];
+            self.navigationItem.leftBarButtonItem.enabled = YES;
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            return arrEmptyArray;
+            
+        }
+    }
+    return arrData;
+}
 -(void)SaveWorkOutData:(id)sender{
     [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
-    self.navigationItem.leftBarButtonItem.enabled=NO;
-    self.navigationItem.rightBarButtonItem.enabled=NO;
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     @try {
         int assigned=[[workOutDic objectForKey:KEY_ASSIGNED] intValue];
         NSString *strAthletesIds=EMPTYSTRING,*strGroupsIds=EMPTYSTRING,*strWholeTeam=EMPTYSTRING;
@@ -2410,19 +2647,15 @@ static int LiftExerciseCount=0;
         NSString *strWorkOutName=[workOutDic objectForKey:KEY_WORKOUT_NAME];
         NSString *strWorkOutDate=[workOutDic objectForKey:KEY_WORKOUT_DATE];
         NSString *strWorkOutEmail=[[workOutDic valueForKey:STR_EMAIL_NOTIFICATION] isEqualToString: @"Yes"] ?[NSString stringWithFormat:@"%@",STATUS_SELECTED] :[NSString stringWithFormat:@"%@",@"0"];
-        NSString *strWorkOutDes=[workOutDic objectForKey:KEY_DESCRIPTION];
-        NSString *strWormUpTime=[workOutDic objectForKey:WARMUPTIME];
+        NSString *strWorkOutDes = [workOutDic objectForKey:KEY_DESCRIPTION];
+        NSString *strWormUpTime = [workOutDic objectForKey:WARMUPTIME];
         strWormUpTime=[strWormUpTime stringByReplacingOccurrencesOfString:@"Minutes" withString:EMPTYSTRING];
-        NSString *strCoolDownTime=[workOutDic objectForKey:COOLDOWNTIME];
-        strCoolDownTime=[strCoolDownTime stringByReplacingOccurrencesOfString:@"Minutes" withString:EMPTYSTRING];
-        
+        NSString *strCoolDownTime = [workOutDic objectForKey:COOLDOWNTIME];
+        strCoolDownTime = [strCoolDownTime stringByReplacingOccurrencesOfString:@"Minutes" withString:EMPTYSTRING];
         NSString *strInterval=EMPTYSTRING;
         NSString *strUnitsIds=EMPTYSTRING;
-        
         if ([[workOutDic valueForKey:KEY_WORKOUT_TYPE] isEqual:WORKOUTTYPE_INTERVAL]) {
-            
             if (![[workOutDic valueForKey:KEY_HASH_OF_INTERVAL] isKindOfClass:[NSNull class]]) {
-                
                 if([[workOutDic valueForKey:KEY_HASH_OF_INTERVAL] intValue ] < 2){
                     self.navigationItem.rightBarButtonItem.enabled=YES;
                     [SingletonClass initWithTitle:EMPTYSTRING message:@"Please Enter # of intervals greater than one" delegate:nil btn1:@"Ok"];
@@ -2496,11 +2729,45 @@ static int LiftExerciseCount=0;
                             }
                             NSString *strURL =EMPTYSTRING;
                             if (![[workOutDic valueForKey:KEY_WORKOUT_TYPE] isEqual:WORKOUTTYPE_LIFT]) {
-                                strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\",\"user_type\":\"%d\",\"Workout Id\":\"%@\",\"Workout Name\":\"%@\",\"CoolDown Time\":\"%@\",\"WarmUp Time\":\"%@\",\"Custom Tags\":\"%@\",\"Description\":\"%@\",\"Email Notification\":\"%@\",\"Date\":\"%@\",\"Exercise Type\":\"%@\",\"Unit\":\"%@\",\"Workout Type\":\"%@\",\"assigned\":\"%d\",\"Athletes\":\"%@\",\"Groups\":\"%@\",\"Interval\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,[UserInformation shareInstance].userId,[UserInformation shareInstance].userType,strWorkOutId,strWorkOutName,strCoolDownTime,strWormUpTime,strCustomTagsIds,strWorkOutDes,strWorkOutEmail,strWorkOutDate,strExerciseIds,strUnitsIds,strWorkOutTypeIds,assigned,strAthletesIds,strGroupsIds,strInterval];
                                 
-                                [webservice WebserviceCall:webUrlAddWorkOut :strURL :AddWorkoutTag];
-                                
-                            }else{
+                                if (assigned == ASSIGNED_TYPE_BOAT) {
+                                    
+                                    NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedTeamid] forKey:KEY_TEAM_ID];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userSelectedSportid] forKey:KEY_SPORT_ID];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userId] forKey:KEY_USER_ID];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%d",[UserInformation shareInstance].userType] forKey:KEY_USER_TYPE];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strWorkOutId] forKey:KEY_WORKOUT_ID];
+                                     [dicttemp setObject:[NSString stringWithFormat:@"%@",strWorkOutName] forKey:KEY_WORKOUT_NAME];
+                                    [dicttemp setObject:strCoolDownTime forKey:KEY_COOLDOWN_TIME];
+                                    [dicttemp setObject:strWormUpTime forKey:KEY_WARMUP_TIME];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strCustomTagsIds] forKey:KEY_CUSTOM_TAG];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strWorkOutDes] forKey:KEY_DESCRIPTION];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strWorkOutEmail] forKey:STR_EMAIL_NOTIFICATION];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strWorkOutDate] forKey:KEY_DATE];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strExerciseIds] forKey:KEY_EXERCISE_TYPE];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strUnitsIds] forKey:KEY_UNIT];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strWorkOutTypeIds] forKey:KEY_WORKOUT_TYPE];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%d",assigned] forKey:KEY_ASSIGNED];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strAthletesIds] forKey:STR_ATHLETES];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strGroupsIds] forKey:STR_GROUPS];
+                                    [dicttemp setObject:[NSString stringWithFormat:@"%@",strInterval] forKey:KEY_INTERVAL];
+                                    NSMutableArray *arr = [self PrepareBoatsDataToWeb];
+                                    if (arr.count == 0) {
+                                        return;
+                                    }else{
+                                         [dicttemp setObject:arr forKey:STR_BOATS];
+                                    }
+                                   
+                                    [webservice WebserviceCallwithDic :dicttemp: webUrlAddWorkOut: AddWorkoutTag];
+                                    
+                                }else{
+                                    strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\",\"user_type\":\"%d\",\"Workout Id\":\"%@\",\"Workout Name\":\"%@\",\"CoolDown Time\":\"%@\",\"WarmUp Time\":\"%@\",\"Custom Tags\":\"%@\",\"Description\":\"%@\",\"Email Notification\":\"%@\",\"Date\":\"%@\",\"Exercise Type\":\"%@\",\"Unit\":\"%@\",\"Workout Type\":\"%@\",\"assigned\":\"%d\",\"Athletes\":\"%@\",\"Groups\":\"%@\",\"Interval\":\"%@\"}",[UserInformation shareInstance].userSelectedTeamid,[UserInformation shareInstance].userSelectedSportid,[UserInformation shareInstance].userId,[UserInformation shareInstance].userType,strWorkOutId,strWorkOutName,strCoolDownTime,strWormUpTime,strCustomTagsIds,strWorkOutDes,strWorkOutEmail,strWorkOutDate,strExerciseIds,strUnitsIds,strWorkOutTypeIds,assigned,strAthletesIds,strGroupsIds,strInterval];
+                                    
+                                    [webservice WebserviceCall:webUrlAddWorkOut :strURL :AddWorkoutTag];
+                                }
+                            }
+                            else{
                                 
                                 NSArray *tempLiftdata=[self LiftDataWithUnitCode:[workOutDic valueForKeyPath:WORKOUTTYPE_LIFT]];
                                 

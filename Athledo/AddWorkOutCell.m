@@ -16,16 +16,14 @@
 
 #define PlaceHolderColor [UIColor lightGrayColor]
 #define TextFieldColor [UIColor grayColor]
-#define FIRST_BOAT_Y 0
+#define FIRST_BOAT_Y isIPAD ? -10 : 0
 #define FIELD_GAP 30
 
 @implementation AddWorkOutCell
 @synthesize delegate;
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib{
 }
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{
     [super setSelected:selected animated:animated];
 }
@@ -37,35 +35,22 @@
         if (!([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE])) {
             //  If section will design ui for all but else for  Email Notification and Athletes section
             
-            if( (!([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:STR_ATHLETES]) && !([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:STR_EMAIL_NOTIFICATION])))
-            {
-                
+            if( (!([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:STR_ATHLETES]) && !([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:STR_EMAIL_NOTIFICATION]))){
                 UITextField *txtField;
-                
-                // Height increase of description textfield
-                
+               // Height increase of description textfield
                 if ([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_DESCRIPTION]) {
-                    
-                    if(IS_IPHONE_5)
-                    {
+                    if(IS_IPHONE_5){
                         txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX,0, CellWeight, ((TextFeildHeight)+30))];
-                        
-                    }else
-                    {
+                    }else{
                         txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX,0, CellWeight, ((TextFeildHeight)+30))];
                     }
-                    
                 }else{
-                    
-                    if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] ||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE_TYPE] )
-                    {
+                    if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] ||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE_TYPE] ){
                         txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX, 0, ((CellWeight)-((isIPAD) ? 70 : 60)), TextFeildHeight)];
                     }else{
-                        
-                        txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX, 0, CellWeight, TextFeildHeight)];
+                    txtField = [[UITextField alloc] initWithFrame:CGRectMake(CellX, 0, CellWeight, TextFeildHeight)];
                     }
                 }
-                
                 txtField.borderStyle = UITextBorderStyleRoundedRect;
                 txtField.tag = indexPath.section;
                 txtField.delegate = del;
@@ -77,8 +62,7 @@
                 
                 txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
                 
-                if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_WORKOUT_TYPE] || [[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] ||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Enter Date"]||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE_TYPE]||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_UNIT])
-                {
+                if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_WORKOUT_TYPE] || [[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] ||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Enter Date"]||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE_TYPE]||[[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_UNIT]){
                     // Add arrow image in textfield
                     UIImage *image;
                     if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:@"Enter Date"] ){
@@ -209,11 +193,9 @@
                                 }
                                 case 3:
                                 {
-                                    if ([[WorkOutDic objectForKey:STR_BOATS] isKindOfClass:[NSMutableArray class]])
-                                    {
+                                    if ([[WorkOutDic objectForKey:STR_BOATS] isKindOfClass:[NSMutableArray class]]){
                                         btnWholeTeam.selected=YES;
                                         [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
-                                        
                                     }else{
                                         btnWholeTeam.selected=NO;
                                         [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
@@ -246,9 +228,8 @@
                         
                     }
                     arrlblText=nil;
-                    
                 }
-            }
+                }
             else{
                 // This code unsed to show save button below of list but now it in top that why code will not run.
                 
