@@ -106,7 +106,6 @@
     // ***Tag 100 for Log in web service
     if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
     {
-       
         NSMutableDictionary *user=[[myResults objectForKey:DATA] objectForKey:@"User"];
         UserInformation *userdata=[UserInformation shareInstance];
         userdata.arrUserTeam=[[myResults objectForKey:DATA] objectForKey:@"UserTeam"];
@@ -145,48 +144,39 @@
             }
         }else{
             BOOL Status=FALSE;
-            for (id object in arrController)
-            {
-                if ([object isKindOfClass:[DashBoard class]])
-                {
+            for (id object in arrController){
+                if ([object isKindOfClass:[DashBoard class]]){
                     Status=TRUE;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            if (Status==FALSE)
-            {
+            if (Status==FALSE){
                 DashBoard *Dashboard=[[DashBoard alloc] init];
                 [self.navigationController pushViewController:Dashboard animated:NO];
             }
         }
      [SingletonClass RemoveActivityIndicator:self.view];
     
-    }else  if([[myResults objectForKey:STATUS] isEqualToString:@"failed"])
-    {
+    }else  if([[myResults objectForKey:STATUS] isEqualToString:@"failed"]){
         [SingletonClass RemoveActivityIndicator:self.view];
         txtFieldPassword.text=EMPTYSTRING;
         [SingletonClass initWithTitle:EMPTYSTRING message:@"Invalid User" delegate:nil btn1:@"Ok"];
     }
 }
--(UIStatusBarStyle)preferredStatusBarStyle
-{
+-(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
--(void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-        
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
         [UIView setAnimationCurve:[note.userInfo[UIKeyboardAnimationCurveUserInfoKey]integerValue]];
         [UIView setAnimationBeginsFromCurrentState:YES];
-        
         int dif=0;
-        
         UITableViewCell *theTextFieldCell = (UITableViewCell *)[currentText superview];
         // Get the text fields location
         CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:self.view];
@@ -197,9 +187,7 @@
             self.view.frame = frame;
         }
         [UIView commitAnimations];
-        
     }];
-    
     self.keyboardHide = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillHideNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue]];
@@ -258,8 +246,7 @@
 {
     static NSString *cellId = @"cellId";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if(cell== nil)
-    {
+    if(cell== nil){
         cell =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     int FieldHeight=0,FieldWeight=0,FieldPaiding=0;
@@ -268,14 +255,12 @@
         FieldWeight=400;
         FieldPaiding=20;
     }else{
-        
         FieldHeight=40;
         FieldWeight=280;
         FieldPaiding=10;
     }
     
     if (indexPath.section==0) {
-        
         txtFieldUserId = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
         txtFieldUserId.borderStyle = UITextBorderStyleNone;
         UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FieldPaiding, 20)];
@@ -294,10 +279,8 @@
         txtFieldUserId.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         txtFieldUserId.font=Textfont;
         [cell addSubview:txtFieldUserId];
-        
     }
-    else
-    {
+    else{
         txtFieldPassword = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
         txtFieldPassword.backgroundColor = [UIColor clearColor];
         txtFieldPassword.borderStyle = UITextBorderStyleNone;
@@ -307,7 +290,6 @@
         txtFieldPassword.layer.borderColor = (__bridge CGColorRef)([UIColor whiteColor]);;
         txtFieldPassword.delegate = self;
         txtFieldPassword.placeholder = @"Password";
-        
         UIColor *color = [UIColor lightGrayColor];
         txtFieldPassword.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
         txtFieldPassword.backgroundColor=[UIColor clearColor];
@@ -317,7 +299,6 @@
         txtFieldPassword.font=Textfont;
        [cell addSubview:txtFieldPassword];
         cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
-        
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
@@ -327,57 +308,44 @@
     
     return cell;
 }
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (isIPAD) {
         return 60.0f;
     }else{
         return 45.0f;
     }
-    
 }
-
 #pragma mark- UITextfield Delegate
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     return YES;
 }
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
     currentText=textField;
     [textField returnKeyType];
 }
-
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
+-(void)textFieldDidEndEditing:(UITextField *)textField{
 }
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
 }
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)ForgotPasswordClick:(id)sender {
-    
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController) {
-        if ([object isKindOfClass:[ForgotPassword class]])
-        {
+        if ([object isKindOfClass:[ForgotPassword class]]){
             Status=TRUE;
             [self.navigationController popToViewController:object animated:NO];
             break;
         }
     }
-    if (Status==FALSE)
-    {
+    if (Status==FALSE){
         ForgotPassword *forgotPw=[[ForgotPassword alloc] init];
         [self.navigationController pushViewController:forgotPw animated:NO];
     }

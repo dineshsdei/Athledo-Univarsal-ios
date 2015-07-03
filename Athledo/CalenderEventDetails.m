@@ -76,7 +76,7 @@
         }
         
         _lblEventTitle.text=[_eventDetailsDic valueForKey:@"text"];
-        _lblEventDescription.text=[_eventDetailsDic valueForKey:@"name"];
+        _lblEventDescription.text=[_eventDetailsDic valueForKey:Key_name];
         // [_lblEventDescription setNumberOfLines:0];
         // [_lblEventDescription sizeToFit];
         _lblEventLocation.text=[_eventDetailsDic valueForKey:@"location"];

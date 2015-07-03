@@ -521,15 +521,15 @@ UIDeviceOrientation CurrentOrientation;
                 
                 if (btntemp.tag==1000 && [[arrEventSting objectAtIndex:0] isEqualToString:STR_DAY_UNDERSCORE]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==1002 && [[arrEventSting objectAtIndex:0] isEqualToString:STR_WEAK_UNDERSCORE]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else{
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                     btntemp.selected=NO;
                 }
             }
@@ -558,33 +558,33 @@ UIDeviceOrientation CurrentOrientation;
                 
                 if (btntemp.tag==3001 && [arrdays containsObject:@"1"]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:CheckImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3002 && [arrdays containsObject:@"2"]) {
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:CheckImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3003 && [arrdays containsObject:@"3"]) {
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:CheckImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3004 && [arrdays containsObject:@"4"]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:CheckImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3005 && [arrdays containsObject:@"5"]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:CheckImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3006 && [arrdays containsObject:@"6"]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:CheckImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else if (btntemp.tag==3007 && [arrdays containsObject:@"7"]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:CheckImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                 }else{
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:UncheckImage forState:UIControlStateNormal];
                     btntemp.selected=NO;
                 }
             }
@@ -613,7 +613,7 @@ UIDeviceOrientation CurrentOrientation;
         
         if([[arrEventSting objectAtIndex:3] isEqualToString:STR_UNDERSCORE])
         {
-            [btnCheckBoxOne setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+            [btnCheckBoxOne setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
             btnCheckBoxOne.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
                 textfieldOne.text=@"1";
@@ -625,7 +625,7 @@ UIDeviceOrientation CurrentOrientation;
             [self CalculateStartDate_On_Given_MonthDay:[textfieldOne.text intValue]];
             // Case 2 when repeat on like (on 1 monday every 1 month)
         }else{
-            [btnCheckBoxOneTwo setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+            [btnCheckBoxOneTwo setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
             btnCheckBoxOneTwo.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
                 textfieldThree.text=@"1";
@@ -652,7 +652,7 @@ UIDeviceOrientation CurrentOrientation;
         // Case 1 when repeat on like (repeat 4 day every 1 month)
         if([[arrEventSting objectAtIndex:3] isEqualToString:STR_UNDERSCORE])
         {
-            [btnCheckBoxOne setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+            [btnCheckBoxOne setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
             btnCheckBoxOne.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
                 textfieldOne.text=@"1";
@@ -664,7 +664,7 @@ UIDeviceOrientation CurrentOrientation;
             [self CalculateStartDate_On_Given_MonthDay_YearlyCase:[textfieldOne.text intValue]:[self IndexOfMonth:textfieldTwo.text]];
             // Case 2 when repeat on like (on 1 monday every 1 month)
         }else{
-            [btnCheckBoxOneTwo setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+            [btnCheckBoxOneTwo setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
             btnCheckBoxOneTwo.selected=YES;
             if ([[CalendarEvent ShareInstance].strEventAddOrEdit isEqualToString:@"Add"]) {
                 textfieldThree.text=@"1";
@@ -683,21 +683,21 @@ UIDeviceOrientation CurrentOrientation;
                 UIButton *btntemp=obj;
                 if (btntemp.tag==2000 && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"]) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                     btnCkeckedIndex=btntemp.tag;
                 }else if (btntemp.tag==2001 && (![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"] && ![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:EMPTYSTRING])) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                     btnCkeckedIndex=btntemp.tag;
                 }else if (btntemp.tag==2003 && (![[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:@"no"] && [[arrEventSting objectAtIndex:arrEventSting.count-1] isEqualToString:EMPTYSTRING])) {
                     
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                     btntemp.selected=YES;
                     btnCkeckedIndex=btntemp.tag;
                 }else{
-                    [btntemp setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                    [btntemp setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                     btntemp.selected=NO;
                     btnCkeckedIndex=0;
                 }
@@ -1310,13 +1310,13 @@ UIDeviceOrientation CurrentOrientation;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
     RepeatEventCell *tempcell=(RepeatEventCell *)[_tableview cellForRowAtIndexPath:indexPath];
     UIButton *btnOne=(UIButton *)[tempcell viewWithTag:2000];
-    [btnOne setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+    [btnOne setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
     btnOne.selected=YES;
     UIButton *btnTwo=(UIButton *)[tempcell viewWithTag:2001];
     UIButton *btnThree=(UIButton *)[tempcell viewWithTag:2003];
-    [btnTwo setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+    [btnTwo setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
     btnTwo.selected=NO;
-    [btnThree setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+    [btnThree setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
     btnThree.selected=NO;
 }
 #pragma mark- cell delegate
@@ -1328,22 +1328,22 @@ UIDeviceOrientation CurrentOrientation;
         if ([obj isKindOfClass:[UIButton class]]) {
             UIButton *btntemp=obj;
             if (btntemp.selected==YES) {
-                [btntemp setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                [btntemp setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                 btntemp.selected=NO;
             }
         }
     }
-    [btn setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+    [btn setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
     btn.selected=YES;
     [self CreateRepeatString:strRepeatEvent :btn.tag :sender];
 }
 -(void)checkBoxClick:(id)sender{
     UIButton *btn=sender;
     if (btn.isSelected){
-        [btn setBackgroundImage:[UIImage imageNamed:@"uncheck.png"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:UncheckImage forState:UIControlStateNormal];
         btn.selected=NO;
     }else{
-        [btn setBackgroundImage:[UIImage imageNamed:@"selectedCheck.png"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:CheckImage forState:UIControlStateNormal];
         btn.selected=YES;
     }
     [self CreateRepeatString:strRepeatEvent :btn.tag :sender];

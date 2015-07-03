@@ -9,6 +9,13 @@
 #import "WorkOutView.h"
 #import "DashBoardCell.h"
 #import "WorkoutHistoryDetails.h"
+#define History_key_season @"Season"
+#define History_Placeholder_select_season @"Select Season"
+#define History_Placeholder_select_workout_type @"Select Workout Type"
+#define History_Placeholder_select_athlete @"Select Athlete"
+#define History_key_name @"name"
+#define History_key_date KEY_date
+
 #define HISTORYCELL_HEIGHT isIPAD ? 60 :50
 
 @interface WorkOutHistory ()
@@ -50,7 +57,7 @@
     if (isSeasons) {
         if (currentText.text.length==0) {
             currentText.text=[arrSeasons objectAtIndex:0];
-            seasonId=[self KeyForValue:@"Season":currentText.text];
+            seasonId=[self KeyForValue:History_key_season:currentText.text];
         }
         return [arrSeasons count];
     }else if (isWorkOutType)
@@ -64,7 +71,7 @@
     {
         if (currentText.text.length==0) {
             currentText.text=[arrAthletes objectAtIndex:0];
-            AthleteId=[self KeyForValue:@"Athletes":currentText.text];
+            AthleteId=[self KeyForValue:STR_ATHLETES:currentText.text];
         }
         return [arrAthletes count];
     }else
@@ -88,10 +95,10 @@
         workoutId=[self KeyForValue:KEY_WORKOUT_TYPE:currentText.text];
     }else  if (isAthletes){
         currentText.text=arrAthletes.count > row ? [arrAthletes objectAtIndex:row] : [arrAthletes objectAtIndex:row-1] ;
-        AthleteId=[self KeyForValue:@"Athletes":currentText.text];
+        AthleteId=[self KeyForValue:STR_ATHLETES:currentText.text];
     }else if (isSeasons){
         currentText.text=arrSeasons.count > row ? [arrSeasons objectAtIndex:row] : [arrSeasons objectAtIndex:row-1] ;
-        seasonId=[self KeyForValue:@"Season":currentText.text];
+        seasonId=[self KeyForValue:History_key_season:currentText.text];
     }
 }
 -(IBAction)Workoutlist:(id)sender{
@@ -252,9 +259,9 @@
                 DicData=[MyResults  objectForKey:DATA];
                 // check if nsdictionary object then find allvalues otherwise  this EMPTYSTRING statement execute . it do nothing
                 [[[MyResults  objectForKey:DATA] objectForKey:KEY_WORKOUT_TYPE] isKindOfClass:[NSDictionary class]] ? arrWorkOut=[[[MyResults  objectForKey:DATA] objectForKey:KEY_WORKOUT_TYPE] allValues] : EMPTYSTRING;
-                [[[MyResults  objectForKey:DATA] valueForKey:@"Athletes"] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:DATA] valueForKey:@"Athletes"] allValues]] : EMPTYSTRING;
-                [[[MyResults  objectForKey:DATA] objectForKey:@"Season"] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues] :EMPTYSTRING;
-                [arrAthletes addObject:@"Whole Team"];
+                [[[MyResults  objectForKey:DATA] valueForKey:STR_ATHLETES] isKindOfClass:[NSDictionary class]] ? arrAthletes=[NSMutableArray arrayWithArray:[[[MyResults  objectForKey:DATA] valueForKey:STR_ATHLETES] allValues]] : EMPTYSTRING;
+                [[[MyResults  objectForKey:DATA] objectForKey:History_key_season] isKindOfClass:[NSDictionary class]] ?  arrSeasons=[[[MyResults  objectForKey:DATA] objectForKey:History_key_season] allValues] :EMPTYSTRING;
+                [arrAthletes addObject:STR_WHOLE_TEAM];
             }else{
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Try again" delegate:nil btn1:@"Ok"];
             }
@@ -297,9 +304,9 @@
 #pragma mark- UITextfield Delegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     currentText=textField;
-    isSeasons=[textField.placeholder isEqualToString:@"Select Season"] ? YES : NO ;
-    isWorkOutType=[textField.placeholder isEqualToString:@"Select Workout Type"] ? YES : NO ;
-    isAthletes=[textField.placeholder isEqualToString:@"Select Athlete"] ? YES : NO ;
+    isSeasons=[textField.placeholder isEqualToString:History_Placeholder_select_season] ? YES : NO ;
+    isWorkOutType=[textField.placeholder isEqualToString:History_Placeholder_select_workout_type] ? YES : NO ;
+    isAthletes=[textField.placeholder isEqualToString:History_Placeholder_select_athlete] ? YES : NO ;
     isPicker=FALSE;
     if (isAthletes) {
         isPicker=TRUE;
@@ -364,14 +371,14 @@
     }
     cell.lblWorkoutName.textColor=[UIColor grayColor];
     cell.lblWorkoutName.font = Textfont;
-    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"name"] isKindOfClass:[NSNull class]]) {
-        cell.lblWorkoutName.text=[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"name"];
+    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:History_key_name] isKindOfClass:[NSNull class]]) {
+        cell.lblWorkoutName.text=[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:History_key_name];
     }
     cell.lblWorkoutDate.textColor=[UIColor lightGrayColor];
    cell.lblWorkoutDate.font = SmallTextfont;
-    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"date"] isKindOfClass:[NSNull class]]) {
+    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:History_key_date] isKindOfClass:[NSNull class]]) {
         
-        NSDate *date=[formater dateFromString:[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:@"date"]];
+        NSDate *date=[formater dateFromString:[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:History_key_date]];
         [formater setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
         cell.lblWorkoutDate.text=[formater stringFromDate:date];
         [formater setDateFormat:DATE_FORMAT_Y_M_D];

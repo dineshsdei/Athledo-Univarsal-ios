@@ -58,18 +58,31 @@
         
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
-        
     }
-    
-    if (isIPAD) {
+     if (isIPAD) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    }
+    if (_objEditPracticeData) {
+        _lblDescription.hidden = NO;
+        _lblDrill.hidden = NO;
+        _lblEndTime.hidden = NO;
+        _lblNotes.hidden = NO;
+        _lblStartTime.hidden = NO;
+        _lblnotes.hidden = NO;
+    }
+    else{
+        _lblDescription.hidden = YES;
+        _lblDrill.hidden = YES;
+        _lblEndTime.hidden = YES;
+        _lblNotes.hidden = YES;
+        _lblStartTime.hidden = YES;
+        _lblnotes.hidden = YES;
     }
 }
 - (void)viewDidLoad {
@@ -90,13 +103,11 @@
     _scrollView.scrollEnabled = YES;
     [super viewDidLoad];
     toolBar = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
-    if(([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger))
-    {
+    if(([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger)){
         [self setFieldsProperty];
         practice_TimePicker = [[SingletonClass ShareInstance] AddDatePickerView:self.view];
         [practice_TimePicker addTarget:self action:@selector(GetPickerTime:) forControlEvents:UIControlEventValueChanged];
-    }else
-    {
+    }else{
         _txtViewNotes.layer.borderWidth = BORDERWIDTH;
         _txtViewNotes.layer.borderColor = BORDERCOLOR;
         _txtViewNotes.layer.cornerRadius = CornerRadius;
@@ -166,12 +177,12 @@
     [components setDay:([components day]+(7-Enddayofweek))];// for end day of the week
     NSDate *endOfWeek = [gregorian dateFromComponents:components];
     NSString *strEndOfWeek = [dateFormat stringFromDate:endOfWeek];
-    return strEndOfWeek;}
+    return strEndOfWeek;
+}
 
 -(NSString *)weekCurrentPracticeDate
 {
     if (_objEditPracticeData) {
-        
         NSString *str =[_objEditPracticeData valueForKey:@"week_current_date"];
         return str;
     }
@@ -225,6 +236,9 @@
                 // dateOne is later in time than dateTwo
                 break;
             }
+            case NSOrderedAscending:{
+                break;
+            }
         }
         // To check end is greater or not uncomment
     }
@@ -237,7 +251,7 @@
     _txtViewDrill.layer.borderWidth = BORDERWIDTH;
     _txtViewDrill.layer.borderColor = BORDERCOLOR;
     _txtViewDrill.layer.cornerRadius = CornerRadius;
-    _txtViewDrill.textColor =LightGrayColor;
+    _txtViewDrill.textColor = LightGrayColor;
     _txtViewNotes.layer.borderWidth = BORDERWIDTH;
     _txtViewNotes.layer.borderColor = BORDERCOLOR;
     _txtViewNotes.layer.cornerRadius = CornerRadius;
@@ -359,10 +373,9 @@
         case SaveAddPracticeTag :{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 if ([UserInformation shareInstance].userType == isAthlete) {
-                [SingletonClass initWithTitle:EMPTYSTRING message:@"Practice note has been saved successfully" delegate:self btn1:@"Ok"];
-                }else
-                {
-                [SingletonClass initWithTitle:EMPTYSTRING message:@"Practice has been saved successfully" delegate:self btn1:@"Ok"];
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Practice note has been saved successfully" delegate:self btn1:@"Ok"];
+                }else{
+                    [SingletonClass initWithTitle:EMPTYSTRING message:@"Practice has been saved successfully" delegate:self btn1:@"Ok"];
                 }
             }else{
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Please try again" delegate:self btn1:@"Ok"];

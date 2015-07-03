@@ -133,7 +133,7 @@
                arrMessageConversation =[MyResults objectForKey:DATA];
                 for (int i=0 ; i < arrMessageConversation.count; i++) {
                     
-                    [self.messages addObject: [[arrMessageConversation objectAtIndex:i] valueForKey:@"desc"]];
+                    [self.messages addObject: [[arrMessageConversation objectAtIndex:i] valueForKey:Key_discription]];
                 }
                 arrSenderids=[MyResults objectForKey:@"receiver_id"];
                 [self.tableView reloadData];

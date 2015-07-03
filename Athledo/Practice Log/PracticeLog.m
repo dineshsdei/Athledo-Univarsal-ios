@@ -20,7 +20,7 @@
     NSMutableArray *eventArrDic;
     NSArray *PracticeOnDate;
     NSDate *currentSelectedDate;
-  
+    
 }
 @end
 @implementation PracticeLog
@@ -37,14 +37,17 @@
     startDateArr=[[NSMutableArray alloc] init];
     endDateArr=[[NSMutableArray alloc] init];
     strCurrentMonth = EMPTYSTRING;
-    self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.monthView selectDate:[NSDate date]];
     [self orientationChanged];
     [SingletonClass ShareInstance].isPracticeLogUpdate = FALSE;
     self.title=NSLocalizedString(@"Practice", EMPTYSTRING);
-   }
+    if([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger ){
+        UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self addPracticeLogButton]];
+        self.navigationItem.rightBarButtonItem = ButtonItem;
+    }
+}
 -(void)viewWillAppear:(BOOL)animated{
-    
     if (isIPAD) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
@@ -89,6 +92,16 @@
     return btnSave;
 }
 -(void)addPracticeLog{
+    
+    BOOL seasonStatus =FALSE;
+    NSDate *selectedDate =currentSelectedDate;
+    if (selectedDate !=nil ) {
+        seasonStatus=[self CheckDateIsBetweenSeason:selectedDate];
+    }
+    if(!(seasonStatus && ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger ))){
+        [SingletonClass initWithTitle:@"No practice season" message:@"Please create practice season from web end" delegate:nil btn1:@"Ok"];
+        return;
+    }
     currentSelectedDate = [self.monthView dateSelected];
     if (currentSelectedDate != nil) {
         AddPracticeLog *addPracticeView = [[AddPracticeLog alloc] initWithNibName:@"AddPracticeLog" bundle:nil];
@@ -104,11 +117,11 @@
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                         style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
-    self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.leftBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor = NAVIGATION_COMPONENT_COLOR;
 }
 #pragma mark MonthView Delegate & DataSource
 - (NSArray*) calendarMonthView:(TKCalendarMonthView*)monthView marksFromDate:(NSDate*)startDate toDate:(NSDate*)lastDate{
@@ -116,11 +129,10 @@
     NSDateFormatter *formatter=[[NSDateFormatter alloc] init];
     formatter.dateFormat=DATE_FORMAT_dd_MMM_yyyy;
     NSDate *newDate1 = [lastDate dateByAddingTimeInterval:60*60*24*12];
-    NSString *strLastdate=[formatter stringFromDate:newDate1];
-    NSArray *arrComponents=[strLastdate componentsSeparatedByString:@" "];
-    
+    NSString *strLastdate = [formatter stringFromDate:newDate1];
+    NSArray *arrComponents = [strLastdate componentsSeparatedByString:@" "];
     if (![[arrComponents objectAtIndex:1] isEqualToString:strCurrentMonth]) {
-        formatter.dateFormat=DATE_FORMAT_Y_M_D;
+        formatter.dateFormat = DATE_FORMAT_Y_M_D;
         NSString *strStartDate = [formatter stringFromDate:startDate];
         NSString *strEndDate = [formatter stringFromDate:lastDate];
         strCurrentMonth=[arrComponents objectAtIndex:1];
@@ -198,7 +210,8 @@
         seasonStatus=[self CheckDateIsBetweenSeason:selectedDate];
     }
     if(seasonStatus && ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger )){
-        return (ADD_PRACTICE_ICON_SIZE)+5;
+        //return (ADD_PRACTICE_ICON_SIZE)+5;
+        return 0;
     }else{
         return 0;
     }
@@ -216,26 +229,23 @@
     NSDateFormatter *dateformater = [[NSDateFormatter alloc] init];
     [dateformater setDateFormat:DATE_FORMAT_Y_M_D];
     //BOOL SeasonStatus = FALSE;
-   // NSString *currentDay = [[[dateformater stringFromDate:currentDate] componentsSeparatedByString:@"-"] objectAtIndex:2];
+    // NSString *currentDay = [[[dateformater stringFromDate:currentDate] componentsSeparatedByString:@"-"] objectAtIndex:2];
     NSString *currentDay = [dateformater stringFromDate:currentDate] ;
     NSArray *arrKeys=[arrPracticeData allKeys ];
-   
+    
     if ([arrKeys containsObject:currentDay]) {
-        if ([[arrPracticeData valueForKey:currentDay] isKindOfClass:[NSArray class]])
-        {
-         [SingletonClass deleteUnUsedLableFromTable:self.tableView];
-         return YES;
-        }else
-        {
+        if ([[arrPracticeData valueForKey:currentDay] isKindOfClass:[NSArray class]]){
+            [SingletonClass deleteUnUsedLableFromTable:self.tableView];
+            return YES;
+        }else{
             [SingletonClass deleteUnUsedLableFromTable:self.tableView];
             [self.tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Season" :self.tableView]];
             return NO;
         }
-    }else
-    {
+    }else{
         [SingletonClass deleteUnUsedLableFromTable:self.tableView];
         [self.tableView addSubview:[SingletonClass ShowEmptyMessage:@"No Season" :self.tableView]];
-         return NO;
+        return NO;
     }
     return NO;
 }
@@ -283,7 +293,7 @@
                 break;
             }
         }
-        dateFormatter=nil;
+        dateFormatter = nil;
     }
 }
 - (NSArray *)rightButtons :(NSInteger)btnTag{
@@ -355,7 +365,7 @@
     switch (Tag){
         case getPracticeTag :{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
-                 arrPracticeData.count > 0 ? [arrPracticeData removeAllObjects] : @"";
+                arrPracticeData.count > 0 ? [arrPracticeData removeAllObjects] : @"";
                 arrPracticeData = [MyResults valueForKey:@"practiceData"];
                 [eventArrDic removeAllObjects];
                 [startDateArr removeAllObjects];

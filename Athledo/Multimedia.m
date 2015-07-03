@@ -342,7 +342,7 @@
                     NSArray *temp=[MyResults valueForKey:DATA] ;
                     DisplayFolderContant *obj=[[DisplayFolderContant alloc] initWithNibName:@"DisplayFolderContant" bundle:nil];
                     obj.picData=temp;
-                    obj.screenTitle=[[multimediaData objectAtIndex:titleIndex] valueForKey:@"name"];
+                    obj.screenTitle=[[multimediaData objectAtIndex:titleIndex] valueForKey:Key_name];
                     [self.navigationController pushViewController:obj animated:NO];
                     
                 } else{
@@ -401,7 +401,7 @@
          if (multimediaData.count > 2*indexPath.row ) {
             cell.First_imageview.tag=2*indexPath.row;
             [cell.First_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
-            [cell.First_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:@"name"] : EMPTYSTRING];
+            [cell.First_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:Key_name] ?[[multimediaData objectAtIndex:(2*indexPath.row)] valueForKey:Key_name] : EMPTYSTRING];
              [cell.First_textViewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row) ] valueForKey:@"description"]  :EMPTYSTRING];
         }else
         {
@@ -412,7 +412,7 @@
         if (multimediaData.count > 2*indexPath.row+1) {
             cell.Second_imageview.tag=2*indexPath.row+1;
             [cell.Second_imageview setImage:[UIImage imageNamed:@"folder_image.png"]];
-            [cell.Second_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row+1)] valueForKey:@"name"] ?[[multimediaData objectAtIndex:(2*indexPath.row)+1] valueForKey:@"name"] : EMPTYSTRING];
+            [cell.Second_lblName setText:[[multimediaData objectAtIndex:(2*indexPath.row+1)] valueForKey:Key_name] ?[[multimediaData objectAtIndex:(2*indexPath.row)+1] valueForKey:Key_name] : EMPTYSTRING];
             [cell.SecondTextviewDes setText:[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"] ?[[multimediaData objectAtIndex:(2*indexPath.row+1) ] valueForKey:@"description"]  :EMPTYSTRING];
         }else
         {
@@ -424,7 +424,7 @@
     {
         if (multimediaData.count > 2*indexPath.row ) {
             [cell.First_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
-            [cell.First_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:(2*indexPath.row)]];
+            [cell.First_lblName setText:[[multimediaData valueForKey:Key_name] objectAtIndex:(2*indexPath.row)]];
             [cell.First_textViewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row)]];
         }else
         {
@@ -434,7 +434,7 @@
         }
         if (multimediaData.count > 2*indexPath.row+1) {
             [cell.Second_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row+1)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
-            [cell.Second_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:indexPath.row+1]];
+            [cell.Second_lblName setText:[[multimediaData valueForKey:Key_name] objectAtIndex:indexPath.row+1]];
             [cell.SecondTextviewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row+1)]];
         }else
         {

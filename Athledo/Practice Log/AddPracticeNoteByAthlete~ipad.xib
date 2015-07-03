@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddPracticeLog">
             <connections>
+                <outlet property="lblnotes" destination="4MV-cY-1lb" id="482-eX-79u"/>
                 <outlet property="txtViewNotes" destination="Y7C-YX-vNQ" id="zqb-pq-2lU"/>
                 <outlet property="view" destination="iN0-l3-epB" id="jYW-Ww-Ay9"/>
             </connections>
@@ -22,8 +23,18 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4hf-Nl-ALs">
                             <rect key="frame" x="0.0" y="0.0" width="768" height="1021"/>
                             <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4MV-cY-1lb">
+                                    <rect key="frame" x="30" y="30" width="300" height="21"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="300" id="bpR-33-VIa"/>
+                                        <constraint firstAttribute="height" constant="21" id="wdO-Yp-THm"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" text="Enter Notes" translatesAutoresizingMaskIntoConstraints="NO" id="Y7C-YX-vNQ">
-                                    <rect key="frame" x="30" y="30" width="708" height="200"/>
+                                    <rect key="frame" x="30" y="62" width="708" height="200"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="200" id="oJa-Q8-xrV"/>
@@ -38,8 +49,11 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="Y7C-YX-vNQ" secondAttribute="trailing" constant="30" id="6aL-JH-zrl"/>
-                                <constraint firstItem="Y7C-YX-vNQ" firstAttribute="top" secondItem="4hf-Nl-ALs" secondAttribute="top" constant="30" id="qdU-UQ-TqW"/>
-                                <constraint firstAttribute="bottom" secondItem="Y7C-YX-vNQ" secondAttribute="bottom" constant="791" id="tRu-nX-CZY"/>
+                                <constraint firstItem="Y7C-YX-vNQ" firstAttribute="top" secondItem="4MV-cY-1lb" secondAttribute="bottom" constant="11" id="9JL-GO-rVW"/>
+                                <constraint firstItem="4MV-cY-1lb" firstAttribute="leading" secondItem="4hf-Nl-ALs" secondAttribute="leading" constant="30" id="Qup-32-QLa"/>
+                                <constraint firstItem="4MV-cY-1lb" firstAttribute="top" secondItem="4hf-Nl-ALs" secondAttribute="top" constant="30" id="iOn-ec-Bcr"/>
+                                <constraint firstItem="Y7C-YX-vNQ" firstAttribute="top" secondItem="4hf-Nl-ALs" secondAttribute="top" constant="62" id="qdU-UQ-TqW"/>
+                                <constraint firstAttribute="bottom" secondItem="Y7C-YX-vNQ" secondAttribute="bottom" constant="759" id="tRu-nX-CZY"/>
                                 <constraint firstItem="Y7C-YX-vNQ" firstAttribute="leading" secondItem="4hf-Nl-ALs" secondAttribute="leading" constant="30" id="taf-wU-X1F"/>
                             </constraints>
                         </view>

@@ -16,6 +16,7 @@
 @interface WorkOutDetails ()
 {
     NSMutableArray *arrWorkOuts;
+    NSMutableArray *arrTempWorkOuts;
     NSArray *arrTime;
     NSMutableArray *arrNoOfRowInSection;
     CustomTextField *currentText;
@@ -28,6 +29,7 @@
     NSMutableArray *arrAvarageTimeDistance;
     NSMutableArray *arrRateTimeDistanceStatus;
     BOOL isRate,isDistance,isTime,isSplit,isSelectAthlete,isWatts,isHeartRate;
+    BOOL isBoatSelected;
     UIToolbar *toolBar;
     int ViewY;
     int isKeyboard;
@@ -101,24 +103,33 @@
             }
             else if (([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL] )){
                 if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]) {
-                     [SingletonClass deleteUnUsedLableFromTable:self.view];
+                    [SingletonClass deleteUnUsedLableFromTable:self.view];
                     arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:KEY_WORKOUTATHLETE];
+                    if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT){
+                        [arrTempWorkOuts addObjectsFromArray:[arrWorkOuts mutableCopy]];
+                        [self clickEventOfBoatsAthletes:_btnBoats];
+                    }
                     for (int i=0; i< arrWorkOuts.count; i++) {
                         [self CalculateAVG :i];
                     }
                     [table reloadData];
                 }else{
-                      [ scrollView addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":scrollView] ];
+                    [ scrollView addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":scrollView] ];
                 }
             }else{
                 if ([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]) {
-                     [SingletonClass deleteUnUsedLableFromTable:self.view];
+                    [SingletonClass deleteUnUsedLableFromTable:self.view];
                     arrWorkOuts=[[MyResults valueForKey:DATA] valueForKey:KEY_WORKOUTATHLETE];
+                    
+                    if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT){
+                        [arrTempWorkOuts addObjectsFromArray:[arrWorkOuts mutableCopy]];
+                        [self clickEventOfBoatsAthletes:_btnBoats];
+                    }
                     table.delegate=self;
                     table.dataSource=self;
                     [table reloadData];
                 }else{
-                     [ scrollView addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":scrollView] ];
+                    [ scrollView addSubview:[SingletonClass ShowEmptyMessage:@"No workout details":scrollView] ];
                 }
             }
             break;
@@ -140,10 +151,11 @@
         }
     }
 }
--(void)GetWorkoutData
-{
+-(void)GetWorkoutData{
     if ([SingletonClass  CheckConnectivity]) {
         if (_obj) {
+            webservice = [WebServiceClass shareInstance];
+            webservice.delegate = self;
             NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"workout_id\":\"%d\",\"team_id\":\"%d\"}",[UserInformation shareInstance].userId,[UserInformation shareInstance].userType,[[_obj objectForKey:KEY_WORKOUT_ID] intValue],[UserInformation shareInstance].userSelectedTeamid];
             [SingletonClass addActivityIndicator:self.view];
             [webservice WebserviceCall:WebServiceWorkoutDetails :strURL :getDetailDataTag];
@@ -160,7 +172,6 @@
     }
     return self;
 }
-
 - (void)viewDidLayoutSubviews {
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -170,7 +181,6 @@
     webservice.delegate=self;
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         // message received
-        
         NSDictionary* info = [note userInfo];
         CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
@@ -180,7 +190,6 @@
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
             }else{
-                
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
                 scrollHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
             }
@@ -202,8 +211,7 @@
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-    if (isIPAD)
-    {
+    if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
@@ -213,26 +221,24 @@
     // Do any additional setup after loading the view from its nib.
     btnSave.titleLabel.textColor=[UIColor whiteColor];
     isSelectAthlete=FALSE;
-    
     self.title =@"Workout Detail";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
-                                                                 NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
-    _lblCreatedBy.font=Textfont;
-    _lblMeOrALl.font=Textfont;
-    _lblSeasion.font=Textfont;
-    _lblWorkoutDate.font=Textfont;
-    _lblWorkOutName.font=Textfont;
-    _lblWorkoutType.font=Textfont;
+                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
+    self.navigationController.navigationBar.tintColor = NAVIGATION_COMPONENT_COLOR;
+    _lblCreatedBy.font = Textfont;
+    _lblMeOrALl.font = Textfont;
+    _lblSeasion.font = Textfont;
+    _lblWorkoutDate.font = Textfont;
+    _lblWorkOutName.font = Textfont;
+    _lblWorkoutType.font = Textfont;
     
-    _txtViewDescription.layer.borderWidth=.50;
-    _txtViewDescription.layer.cornerRadius=10;
-    _txtViewDescription.layer.borderColor=[[UIColor lightGrayColor] CGColor];
-    _txtViewDescription.font=Textfont;
-    ViewY=self.view.frame.origin.y;
+    _txtViewDescription.layer.borderWidth = .50;
+    _txtViewDescription.layer.cornerRadius = 10;
+    _txtViewDescription.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    _txtViewDescription.font = Textfont;
+    ViewY = self.view.frame.origin.y;
     
     UIBarButtonItem *btnDone = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked)];
-    
     toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 44)];
     toolBar.tag = toolBarTag;
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
@@ -247,52 +253,44 @@
     arrAthleteExerciseSets=[[NSMutableArray alloc] init];
     arrAvarageTimeDistance=[[NSMutableArray alloc] init];
     arrRateTimeDistanceStatus=[[NSMutableArray alloc] init];
+    arrTempWorkOuts = [[NSMutableArray alloc] init];
     
-    listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
-    listPicker.tag=listPickerTag;
-    listPicker.backgroundColor=[UIColor groupTableViewBackgroundColor];
+    listPicker.frame = CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
+    listPicker.tag = listPickerTag;
+    listPicker.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
-    webservice =[WebServiceClass shareInstance];
-    webservice.delegate=self;
-    
-    // if Add button in middle of view , uncomment code below
-    
-    //CGRect applicationFrame =isIPAD ? CGRectMake(200, 0, 260, 50) : CGRectMake(50, 0, 260, 50);
-    // UIView * newView = [[UIView alloc] initWithFrame:applicationFrame] ;
+    webservice = [WebServiceClass shareInstance];
+    webservice.delegate = self;
     
     UIButton *btnDelete = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageDelete=[UIImage imageNamed:@"navDeleteBtn.png"];
+    UIImage *imageDelete = [UIImage imageNamed:@"navDeleteBtn.png"];
     btnDelete.bounds = CGRectMake( 0, 0, imageDelete.size.width, imageDelete.size.height );
     [btnDelete addTarget:self action:@selector(DeleteWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnDelete setImage:imageDelete forState:UIControlStateNormal];
     
     UIBarButtonItem *BarItemDelete = [[UIBarButtonItem alloc] initWithCustomView:btnDelete];
     UIButton *btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageEdit=[UIImage imageNamed:@"edit.png"];
+    UIImage *imageEdit = [UIImage imageNamed:@"edit.png"];
     btnEdit.bounds = CGRectMake( 0, 0, imageEdit.size.width, imageEdit.size.height );
     [btnEdit addTarget:self action:@selector(EditWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnEdit setImage:imageEdit forState:UIControlStateNormal];
     
     UIBarButtonItem *BarItemEdit = [[UIBarButtonItem alloc] initWithCustomView:btnEdit];
-    
-    UIButton *btnReassign =[UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *imageReassign=[UIImage imageNamed:@"reassign.png"];
+    UIButton *btnReassign = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *imageReassign = [UIImage imageNamed:@"reassign.png"];
     btnReassign.bounds = CGRectMake( 0, 0, imageReassign.size.width, imageReassign.size.height );
-    
     [btnReassign addTarget:self action:@selector(ReassignWorkout:) forControlEvents:UIControlEventTouchUpInside];
     [btnReassign setImage:imageReassign forState:UIControlStateNormal];
     
     UIBarButtonItem *BarItemReassign = [[UIBarButtonItem alloc] initWithCustomView:btnReassign];
-    arrAvgTotalStatus=[[NSMutableArray alloc] init];
+    arrAvgTotalStatus = [[NSMutableArray alloc] init];
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemEdit,BarItemReassign,BarItemDelete,nil];
-    }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_obj  objectForKey:KEY_USER_ID] intValue])
-    {
+    }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_obj  objectForKey:KEY_USER_ID] intValue]){
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemEdit,BarItemReassign,BarItemDelete,nil];
     }
     self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
     if (_obj) {
-        
         [_imgCreatedBy setImageWithURL:[NSURL URLWithString:[_obj valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
         _imgCreatedBy.contentMode=UIViewContentModeScaleAspectFit;
         
@@ -304,13 +302,12 @@
         _txtViewDescription.text=[_obj valueForKey:KEY_DESCRIPTION];
         
         if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger)) {
-            
             _lblMeOrALl.text=@"to all";
         }else{
-            
             _lblMeOrALl.text=@"to me";
         }
         if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT) {
+            isBoatSelected = YES;
             [self showBoatOptions];
         }
         else{
@@ -318,46 +315,122 @@
         }
     }
     if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
-        
         _tfSelectUserType.hidden=NO;
         _dropdownImageview.hidden=NO;
         arrAllAthlete=[[NSMutableArray alloc] init];
-        
     }else{
-        
         _tfSelectUserType.hidden=YES;
         _dropdownImageview.hidden=YES;
-        
     }
     [self GetWorkoutData];
     scrollHeight=0;
     [self setContentOffsetOfTableDown:currentText table:table];
-    
     if (_NotificationStataus) {
         [self DeleteNotificationFromWeb];
     }
-    
 }
 #pragma mark Class Utility Function
--(void)clickEventOfBoatsAthletes:(id)sender
+-(NSString *)FindTextFieldKeyIndexValue :(NSArray*)arrUnitKeys :(NSArray*)arrUnitValues
 {
+    NSString *unitKeyValue = EMPTYSTRING ;
+    for(int i=0 ; i<arrUnitKeys.count ; i++)
+    {
+        if (((!([[arrUnitKeys objectAtIndex:i] isEqualToString:@"intervalCount"]) && !([[arrUnitKeys objectAtIndex:i] isEqualToString:@"id"])) && !( [[arrUnitKeys objectAtIndex:i] isEqualToString:@"unit_id"]))) {
+           unitKeyValue=[arrUnitValues objectAtIndex:i];
+            return unitKeyValue;
+        }
+    }
+    return unitKeyValue;
+}
+-(NSString *)FindTextFieldKey:(NSArray*)arrUnitKeys
+{
+    NSString *unitKey = EMPTYSTRING;
+    for(int i=0 ; i<arrUnitKeys.count ; i++){
+        if (((!([[arrUnitKeys objectAtIndex:i] isEqualToString:@"intervalCount"]) && !([[arrUnitKeys objectAtIndex:i] isEqualToString:@"id"])) && !( [[arrUnitKeys objectAtIndex:i] isEqualToString:@"unit_id"]))) {
+            unitKey=[arrUnitKeys objectAtIndex:i];
+            return unitKey;
+        }
+    }
+    return unitKey;
+}
+-(void)FinalsetDataofBoat{
+    [arrWorkOuts removeAllObjects];
+    [arrWorkOuts addObjectsFromArray:[arrTempWorkOuts mutableCopy]];
+}
+-(void)clickEventOfBoatsAthletes:(id)sender{
     UIButton *btn = sender;
     if (btn.tag == BTNBOAT_TAG){
         [btn setSelected:YES];
         [_btnAthletes setSelected:NO];
         isEdit = YES;
-         [table reloadData];
+        isBoatSelected = YES;
+        [arrWorkOuts removeAllObjects];
+        [arrAvarageTimeDistance removeAllObjects];
+        [arrWorkOuts addObjectsFromArray:[arrTempWorkOuts mutableCopy]];
+        NSString *boatName = EMPTYSTRING;
+        for (int i=0; i<arrWorkOuts.count; i++) {
+            boatName = [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_BAOTNAME] ? [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_BAOTNAME]: EMPTYSTRING;
+            for (int j=i+1; j< arrWorkOuts.count; j++) {
+                NSString *tempboatName = [[arrWorkOuts objectAtIndex:j] valueForKey:KEY_BAOTNAME] ? [[arrWorkOuts objectAtIndex:j] valueForKey:KEY_BAOTNAME]: EMPTYSTRING;
+                if ([boatName isEqualToString:tempboatName]) {
+                    [arrWorkOuts removeObjectAtIndex:j];
+                }
+            }
+        }
+        for (int i=0; i< arrWorkOuts.count; i++) {
+            [self CalculateAVG :i];
+        }
+        [table reloadData];
     }
     else{
         [btn setSelected:YES];
         [_btnBoats setSelected:NO];
-         isEdit = NO;
+        isBoatSelected = NO;
+        isEdit = NO;
+        NSString *boatName = EMPTYSTRING;
+        for (int i=0; i<arrWorkOuts.count; i++) {
+            boatName = [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_BAOTNAME] ? [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_BAOTNAME]: EMPTYSTRING;
+            for (int j=0; j< arrTempWorkOuts.count; j++) {
+                NSString *tempboatName = [[arrTempWorkOuts objectAtIndex:j] valueForKey:KEY_BAOTNAME] ? [[arrTempWorkOuts objectAtIndex:j] valueForKey:KEY_BAOTNAME]: EMPTYSTRING;
+                if ([boatName isEqualToString:tempboatName]) {
+                    NSString *wormuptime = [[[arrTempWorkOuts objectAtIndex:i] valueForKey:WARMUPTIME] isKindOfClass:[NSString class]] ? [[arrTempWorkOuts objectAtIndex:i] valueForKey:WARMUPTIME]  : EMPTYSTRING;
+                    NSString *coldowntime = [[[arrTempWorkOuts objectAtIndex:i] valueForKey:COOLDOWNTIME] isKindOfClass:[NSString class]] ? [[arrTempWorkOuts objectAtIndex:i] valueForKey:COOLDOWNTIME] : EMPTYSTRING;
+                    if(wormuptime.length > 0 && coldowntime.length > 0){
+                        [[arrTempWorkOuts objectAtIndex:j] setValue:wormuptime forKey:WARMUPTIME];
+                        [[arrTempWorkOuts objectAtIndex:j] setValue:coldowntime forKey:COOLDOWNTIME];
+                    }
+                    NSArray *arrUnits = [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_UNITS];
+                    for (int l=0; l< arrUnits.count; l++) {
+                        
+                        NSArray *arrKeys =[[[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_UNITS] objectAtIndex:l]allKeys];
+                        NSArray *arrValues =[[[[arrWorkOuts objectAtIndex:i] valueForKey:KEY_UNITS] objectAtIndex:l]allValues];
+                        NSString *key = [self FindTextFieldKey:arrKeys] ;
+                        NSString *value = [self FindTextFieldKeyIndexValue:arrKeys :arrValues];
+                        if (arrTempWorkOuts.count > j) {
+                            NSDictionary *arrDicWorkout;
+                            arrDicWorkout = [arrTempWorkOuts objectAtIndex:j];
+                            NSArray *unites = [[arrTempWorkOuts objectAtIndex:j] valueForKey:KEY_UNITS];
+                            if (unites.count > l ) {
+                                [[[[arrTempWorkOuts objectAtIndex:j] valueForKey:KEY_UNITS] objectAtIndex:l] setValue:value forKey:key];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        [arrWorkOuts removeAllObjects];
+        [arrAvarageTimeDistance removeAllObjects];
+        [arrWorkOuts addObjectsFromArray:[arrTempWorkOuts mutableCopy]];
+        for (int i=0; i< arrWorkOuts.count; i++) {
+            [self CalculateAVG :i];
+        }
         [table reloadData];
     }
 }
 - (IBAction)SaveEvent:(id)sender {
-    // if there are no values available or comes from web, then no data to save
-    if (arrWorkOuts.count==0) {
+    // if there are no values available or comes from web and in case of boat ,Athlete login cann't save boat data , then no data to save
+   
+    if (arrWorkOuts.count==0 || ( isBoatSelected && ([UserInformation shareInstance].userType==isAthlete))) {
         return;
     }
     if ([SingletonClass  CheckConnectivity]) {
@@ -365,11 +438,16 @@
             if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]){
                 [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-                [dict setObject:arrWorkOuts forKey:@"KEY_WORKOUTATHLETELift"];
+                
+                [dict setObject:arrWorkOuts forKey:@"WorkoutAthleteLift"];
                 [webservice WebserviceCallwithDic:dict :webServiceSaveWorkOutDetails :SaveDataTag];
             }else{
                 [SingletonClass addActivityIndicator:self.view];
                 NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
+                if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT) {
+                    [self FinalsetDataofBoat];
+                }
+                 [dict setObject:[NSNumber numberWithInt:[UserInformation shareInstance].userType] forKey:@"type"];
                 [dict setObject:arrWorkOuts forKey:KEY_WORKOUTATHLETE];
                 [webservice WebserviceCallwithDic:dict :webServiceSaveWorkOutDetails :SaveDataTag];
             }
@@ -378,16 +456,13 @@
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
-
--(void)doneClicked
-{
+-(void)doneClicked{
     [self setContentOffsetOfTableDown];
     [[[UIApplication sharedApplication] keyWindow ] endEditing:YES];
     [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
     [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+350) :toolBar];
     [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
-    if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL])
-    {
+    if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL]){
         for (int i=0; i< arrWorkOuts.count; i++) {
             [self CalculateAVG :i];
         }
@@ -397,16 +472,13 @@
 + (void)setContentOffsetOfScrollView:(id)textField table:(UIScrollView*)m_TableView {
     
     UIDeviceOrientation orientation=[SingletonClass getOrientation];
-    int moveUp= (([[UIScreen mainScreen] bounds].size.height >= 568)?((orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft)? 150 : 50):130);
+    int moveUp= (([[UIScreen mainScreen] bounds].size.height >= 568)?((orientation==UIDeviceOrientationLandscapeRight || orientation==UIDeviceOrientationLandscapeLeft)? 150 : 50):180);
     if (moveUp) {
         [m_TableView setContentOffset:CGPointMake(0, moveUp) animated: YES];
     }
 }
 -(void)setContentOffsetOfTableDown {
-    int moveUp= (([[UIScreen mainScreen] bounds].size.height >= 568)?50:130);
-    if (moveUp) {
-        [table setContentOffset:CGPointMake(0, 0) animated: YES];
-    }
+    [table setContentOffset:CGPointMake(0, 0) animated: YES];
 }
 - (void)setContentOffsetOfTableDown:(id)textField table:(UITableView*)m_TableView {
     
@@ -426,8 +498,7 @@
     m_TableView.scrollIndicatorInsets = contentInsets;
     [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
--(void)UpdateCelldata
-{
+-(void)UpdateCelldata{
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:currentText.SectionIndex] valueForKey:KEY_UNITS];
     NSString*strPlaceholder=EMPTYSTRING;
     NSString *myString = currentText.placeholder;
@@ -440,18 +511,18 @@
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:arrTemp.count inSection:currentText.SectionIndex];
         WorkOutDetailCell *cell=(WorkOutDetailCell *)[table cellForRowAtIndexPath:indexPath];
         CustomTextField *textfield=(CustomTextField *)[cell viewWithTag:1002];
-        textfield.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+        textfield.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
     }else  if ([strPlaceholder isEqualToString:KEY_TIME]) {
         
         NSIndexPath *indexPath1 = [NSIndexPath indexPathForRow:arrTemp.count+1 inSection:currentText.SectionIndex];
         WorkOutDetailCell *cell=(WorkOutDetailCell *)[table cellForRowAtIndexPath:indexPath1];
         CustomTextField *textfield=(CustomTextField *)[cell viewWithTag:1002];
-        textfield.text=[[arrAvarageTimeDistance objectAtIndex:indexPath1.section] valueForKey:@"AVG_TIME"];
+        textfield.text=[[arrAvarageTimeDistance objectAtIndex:indexPath1.section] valueForKey:AVG_TIME];
     }else  if ([myString isEqualToString:UNIT_RATE]) {
         NSIndexPath *indexPath2 = [NSIndexPath indexPathForRow:arrTemp.count+2 inSection:currentText.SectionIndex];
         WorkOutDetailCell *cell=(WorkOutDetailCell *)[table cellForRowAtIndexPath:indexPath2];
         CustomTextField *textfield=(CustomTextField *)[cell viewWithTag:1002];
-        textfield.text=[[arrAvarageTimeDistance objectAtIndex:indexPath2.section] valueForKey:@"AVG_RATE"];
+        textfield.text=[[arrAvarageTimeDistance objectAtIndex:indexPath2.section] valueForKey:AVG_RATE];
     }
 }
 -(void)updateLiftValue :(int)AthleteIndex :(NSString *)value : (int)rowindex : (int)sectionindex :(id)textField
@@ -466,8 +537,7 @@
         [[[[[[arrWorkOuts objectAtIndex:AthleteIndex] valueForKey:KEY_ATHLETEEXERCISE] objectAtIndex:sectionindex] valueForKey:@"exerciseDetail"] objectAtIndex:rowindex]setValue:value forKey:@"rep_value"];
     }
 }
--(BOOL)CheckStatus :(NSString *)StrValues :(long)section
-{
+-(BOOL)CheckStatus :(NSString *)StrValues :(long)section{
     if (StrValues ==nil) {
         return NO;
     }
@@ -475,8 +545,7 @@
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:KEY_UNITS];
     for (int i=0; i < arrTemp.count ; i++) {
         NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:i] allKeys];
-        NSString *unitKey=EMPTYSTRING;
-        unitKey= arrUnitKeys.count > 2 ? [arrUnitKeys objectAtIndex:2] : EMPTYSTRING;
+        NSString *unitKey = [self FindTextFieldKey:arrUnitKeys];
         NSString *value;
         NSString *myString = unitKey;
         NSRange startRange = [myString rangeOfString:@"("];
@@ -485,8 +554,7 @@
             value = [myString substringWithRange:NSMakeRange(0,startRange.location)];
             value=[value stringByReplacingOccurrencesOfString:@" " withString:EMPTYSTRING];
         }
-        if ([StrValues isEqualToString:UNIT_RATE] &&[myString isEqualToString:StrValues ] )
-        {
+        if ([StrValues isEqualToString:UNIT_RATE] &&[myString isEqualToString:StrValues ] ){
             status=TRUE;
             return TRUE;
         }else if ([value isEqualToString:StrValues] ) {
@@ -496,15 +564,13 @@
     }
     return status;
 }
--(int)CheckTimeDestanceRateExist:(long)section
-{
+-(int)CheckTimeDestanceRateExist:(long)section{
     int count=0;
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:KEY_UNITS];
     count=(int)arrTemp.count;
     for (int i=0; i < arrTemp.count ; i++) {
         NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:i] allKeys];
-        NSString *unitKey=EMPTYSTRING;
-        unitKey=[arrUnitKeys objectAtIndex:2];
+        NSString *unitKey = [self FindTextFieldKey:arrUnitKeys];
         NSString *value;
         NSString *myString = unitKey;
         NSRange startRange = [myString rangeOfString:@"("];
@@ -522,7 +588,7 @@
         }else  if ([myString isEqualToString:UNIT_RATE] && isRate==FALSE) {
             count=count+1;
             isRate=TRUE;
-        }else  if ([value isEqualToString:@"Split"] && isSplit==FALSE) {
+        }else  if ([value isEqualToString:KEY_SPLIT] && isSplit==FALSE) {
             count=count+1;
             isSplit=TRUE;
         }else  if ([myString isEqualToString:UNIT_WATTS] && isWatts==FALSE) {
@@ -535,8 +601,7 @@
     }
     return count;
 }
--(void)CalculateAVG:(int)section
-{
+-(void)CalculateAVG:(int)section{
     float TotalDistance;
     float DistanceAVG;
     int DistanceCount;
@@ -573,9 +638,7 @@
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:KEY_UNITS];
     for (int i=0; i < arrTemp.count ; i++) {
         NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:i] allKeys];
-        NSString *unitKey=EMPTYSTRING;
-        NSString *strTemp= arrUnitKeys.count > 2 ? [arrUnitKeys objectAtIndex:2] : EMPTYSTRING;
-        unitKey=strTemp;
+        NSString *unitKey = [self FindTextFieldKey:arrUnitKeys];
         NSString *values=[[[[arrWorkOuts objectAtIndex:section] valueForKey:KEY_UNITS] objectAtIndex:i] valueForKey:unitKey];
         NSString *value;
         NSString *myString = unitKey;
@@ -713,7 +776,7 @@
     
     NSString *sss_TotalTime = [NSString stringWithFormat:@"%@",arrTotalTimeComponenet.count > 3 ?[arrTotalTimeComponenet objectAtIndex:3] : EMPTYSTRING];
     
-    NSDictionary *dicTemp=[[NSDictionary alloc] initWithObjectsAndKeys:TimeAVG,@"AVG_TIME",[NSString stringWithFormat:@"%@:%@:%@.%@", hh_TotalTime,mm_TotalTime,ss_TotalTime,sss_TotalTime],@"TOTAL_TIME",[NSString stringWithFormat:@"%f", DistanceAVG ],@"AVG_DISTANCE",[NSString stringWithFormat:@"%f", TotalDistance ],@"TOTAL_DISTANCE",[NSString stringWithFormat:@"%f", HeartRateAVG ],@"AVG_HEARTRATE",[NSString stringWithFormat:@"%f", TotalHeartRate ],@"TOTAL_HEARTRATE",[NSString stringWithFormat:@"%f",WattsAVG],@"AVG_WATTS",[NSString stringWithFormat:@"%f", TotalWatts ],@"TOTAL_WATTS",[NSString stringWithFormat:@"%f", RateAVG ],@"AVG_RATE",[NSString stringWithFormat:@"%f", TotalRate ],@"TOTAL_RATE",[NSString stringWithFormat:@"%@", SplitTimeAVG ],@"AVG_SPLIT",[NSString stringWithFormat:@"%@:%@.%@", [arrTotalSplitTimeComponenet objectAtIndex:0],[arrTotalSplitTimeComponenet objectAtIndex:1],[arrTotalSplitTimeComponenet objectAtIndex:2] ],@"TOTAL_SPLIT", nil];
+    NSDictionary *dicTemp=[[NSDictionary alloc] initWithObjectsAndKeys:TimeAVG,AVG_TIME,[NSString stringWithFormat:@"%@:%@:%@.%@", hh_TotalTime,mm_TotalTime,ss_TotalTime,sss_TotalTime],TOTAL_TIME,[NSString stringWithFormat:@"%f", DistanceAVG ],AVG_DISTANCE,[NSString stringWithFormat:@"%f", TotalDistance ],KEY_TOTAL_DISTANCE,[NSString stringWithFormat:@"%f", HeartRateAVG ],AVG_HEARTRATE,[NSString stringWithFormat:@"%f", TotalHeartRate ],KEY_TOTAL_HEARTRATE,[NSString stringWithFormat:@"%f",WattsAVG],AVG_WATTS,[NSString stringWithFormat:@"%f", TotalWatts ],KEY_TOTAL_WATTS,[NSString stringWithFormat:@"%f", RateAVG ],AVG_RATE,[NSString stringWithFormat:@"%f", TotalRate ],KEY_TOTAL_RATE,[NSString stringWithFormat:@"%@", SplitTimeAVG ],AVG_SPLIT,[NSString stringWithFormat:@"%@:%@.%@", [arrTotalSplitTimeComponenet objectAtIndex:0],[arrTotalSplitTimeComponenet objectAtIndex:1],[arrTotalSplitTimeComponenet objectAtIndex:2] ],@"TOTAL_SPLIT", nil];
     if (arrAvarageTimeDistance.count > section) {
         [arrAvarageTimeDistance replaceObjectAtIndex:section withObject: dicTemp ];
     }else{
@@ -760,28 +823,25 @@
         [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height+550) :toolBar];
     }
 }
--(void)showBoatOptions
-{
+-(void)showBoatOptions{
     if ([[_obj valueForKey:STR_WORKOUTTYPE] isEqualToString:WORKOUTTYPE_CARDIO] || [[_obj valueForKey:STR_WORKOUTTYPE] isEqualToString:WORKOUTTYPE_INTERVAL] || [[_obj valueForKey:STR_WORKOUTTYPE] isEqualToString:WORKOUTTYPE_OHTER]) {
         
         _boatView.hidden = NO;
         _btnAthletes.tag = BTNATHLETE_TAG;
         _btnBoats.tag = BTNBOAT_TAG;
-        [_btnAthletes setImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
-        [_btnAthletes setImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateSelected];
-        [_btnBoats setImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
-        [_btnBoats setImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateSelected];
+        [_btnAthletes setImage:BTNDisableImage forState:UIControlStateNormal];
+        [_btnAthletes setImage:BTNEnableImage forState:UIControlStateSelected];
+        [_btnBoats setImage:BTNDisableImage forState:UIControlStateNormal];
+        [_btnBoats setImage:BTNEnableImage forState:UIControlStateSelected];
         [_btnBoats addTarget:self action:@selector(clickEventOfBoatsAthletes:) forControlEvents:UIControlEventTouchUpInside];
         [_btnAthletes addTarget:self action:@selector(clickEventOfBoatsAthletes:) forControlEvents:UIControlEventTouchUpInside];
         [_btnBoats setSelected:YES];
     }else{
         _boatView.hidden = YES;
     }
-
 }
 -(void)FilterDataAccourdingAthlete:(NSString *)athleteName{
     @try {
-        
         if (arrAthleteName.count > 0) {
             [arrAthleteName removeAllObjects];
         }
@@ -806,13 +866,11 @@
         }
     }
     @catch (NSException *exception) {
-        
     }
     @finally {
     }
     [table reloadData];
 }
-
 -(void)DeleteWorkout:(id)sender{
     [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete workout?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:1];
 }
@@ -831,13 +889,13 @@
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
     if ([SingletonClass  CheckConnectivity]) {
         if (_obj) {
+            
             UserInformation *userInfo= [UserInformation shareInstance];
             NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",3,[[_obj objectForKey:KEY_WORKOUT_ID] intValue],userInfo.userSelectedTeamid,userInfo.userId];
             [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
         }
     }
 }
-
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1 && alertView.tag==1) {
         [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
@@ -911,7 +969,6 @@
         return arrWorkOuts.count;
     }
 }
-
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
         return [[arrNoOfRowInSection objectAtIndex:section] intValue];
@@ -927,7 +984,7 @@
         [self CheckTimeDestanceRateExist:section];
         int increaseCount=0;
         if (isDistance) {
-            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:isDistance],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:isDistance],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,KEY_SPLIT,UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             
             [arrAvgTotalStatus addObject:temp];
             [arrAvgTotalStatus addObject:temp];
@@ -935,28 +992,28 @@
             increaseCount = increaseCount+2;
         }
         if (isTime) {
-            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isTime],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isTime],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,KEY_SPLIT,UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             [arrAvgTotalStatus addObject:temp];
             [arrAvgTotalStatus addObject:temp];
             temp=nil;
             increaseCount = increaseCount+2;
         }
         if (isRate) {
-            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isRate],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isRate],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,KEY_SPLIT,UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             [arrAvgTotalStatus addObject:temp];
             [arrAvgTotalStatus addObject:temp];
             temp=nil;
             increaseCount = increaseCount+2;
         }
         if (isHeartRate) {
-            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isHeartRate]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isHeartRate]] forKeys:@[KEY_DISTANCE,KEY_TIME,KEY_SPLIT,UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             [arrAvgTotalStatus addObject:temp];
             [arrAvgTotalStatus addObject:temp];
             temp=nil;
             increaseCount = increaseCount+2;
         }
         if (isWatts) {
-            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isWatts],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isWatts],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,KEY_SPLIT,UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             
             [arrAvgTotalStatus addObject:temp];
             [arrAvgTotalStatus addObject:temp];
@@ -964,10 +1021,8 @@
             increaseCount = increaseCount+2;
         }
         if (isSplit) {
-            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isSplit],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,@"Split",UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
-            
+            NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isSplit],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,KEY_SPLIT,UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
             [arrAvgTotalStatus addObject:temp];
-            //[arrAvgTotalStatus addObject:temp];
             temp=nil;
             increaseCount = increaseCount+1;
         }
@@ -1047,19 +1102,27 @@
             CustomTextField *txtFieldLeftHeader=(CustomTextField *)[cell viewWithTag:1001];
             CustomTextField *txtField=(CustomTextField *)[cell viewWithTag:1002];
             txtField.borderStyle=UITextBorderStyleRoundedRect;
-            txtField.userInteractionEnabled=YES;
+            if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT) {
+                if (isBoatSelected && !([UserInformation shareInstance].userType == isAthlete)) {
+                    txtField.userInteractionEnabled=YES;
+                    txtFieldLeftHeader.userInteractionEnabled = YES;
+                }else{
+                    txtField.userInteractionEnabled=NO;
+                    txtFieldLeftHeader.userInteractionEnabled = NO;
+                }
+            }
+            else{
+                txtField.userInteractionEnabled=YES;
+                txtFieldLeftHeader.userInteractionEnabled = YES;
+            }
             txtField.textAlignment=NSTextAlignmentCenter;
-            
             txtField.SectionIndex=(int)indexPath.section;
             txtField.RowIndex=(int)indexPath.row;
-            
             NSArray *arrTemp=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:KEY_UNITS];
             
             if (arrTemp.count > indexPath.row){
                 NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:indexPath.row] allKeys];
-                NSString *unitKey=EMPTYSTRING;
-                if(arrUnitKeys.count > 2){
-                    unitKey=[arrUnitKeys objectAtIndex:2];
+                NSString *unitKey = [self FindTextFieldKey:arrUnitKeys];
                     NSString *str=[NSString stringWithFormat:@"%@", [[[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:KEY_UNITS] objectAtIndex:indexPath.row] valueForKey:KEY_INTERVAL_COUNT] ];
                     str=[str stringByAppendingString:[NSString stringWithFormat:@" %@",unitKey]];
                     
@@ -1069,7 +1132,7 @@
                     txtField.text=[[[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:KEY_UNITS] objectAtIndex:indexPath.row] valueForKey:unitKey];
                     txtField=nil;
                     txtFieldLeftHeader=nil;
-                }
+                
             }else{
                 
                 NSArray *units=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:KEY_UNITS];
@@ -1077,108 +1140,107 @@
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:0];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=KEY_TOTAL_TIME_HHMMSS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:TOTAL_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_HEARTRATE;
                         
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                 }
                 else if ((indexPath.row==units.count+1) ) {
-                    
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:1];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_TIME;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                         
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1186,51 +1248,51 @@
                 else   if ((indexPath.row==units.count+2) ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:2];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                      txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=KEY_TOTAL_TIME_HHMMSS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:TOTAL_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1239,102 +1301,102 @@
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:3];
                     
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                       txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_TIME;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
-                  }
+                    }
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                       txtFieldLeftHeader.text=@"Average Rate";
-                       txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
-                  }
-                    if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_RATE];
+                        txtField.textAlignment=NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled=NO;
+                    }
+                    if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_WATTS;
+                        txtFieldLeftHeader.font = WorkOutDetailFont;
+                        txtField.borderStyle=UITextBorderStyleNone;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                 }
                 else if ( indexPath.row==units.count + 4 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:4];
-                  if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                       txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                    if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
-                  }
+                    }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=KEY_TOTAL_TIME_HHMMSS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:TOTAL_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1342,55 +1404,55 @@
                 else if ( indexPath.row==units.count+5 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:5];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_TIME;
                         txtFieldLeftHeader.font= WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                         
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_HEARTRATE];
+                        txtField.textAlignment = NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled = NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                         
@@ -1400,52 +1462,51 @@
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:6];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        
-                        txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=KEY_TOTAL_TIME_HHMMSS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:TOTAL_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1454,105 +1515,104 @@
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:7];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
                         
-                        txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_TIME;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                 }
-                else if ( indexPath.row==units.count+8 ) {
-                    NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:8];
+                else if ( indexPath.row == units.count+8 ) {
+                    NSDictionary *tempdic = [arrAvgTotalStatus objectAtIndex:8];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                        txtFieldLeftHeader.text = PLACEHOLDER_TOTAL_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
+                        txtField.borderStyle = UITextBorderStyleNone;
+                        txtField.text = [[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_DISTANCE];
+                        txtField.textAlignment = NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled = NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        
-                        txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=KEY_TOTAL_TIME_HHMMSS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:TOTAL_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                   
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Heart Rate";
+                        txtFieldLeftHeader.text = PLACEHOLDER_TOTAL_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
-                        txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_HEARTRATE"];
-                        txtField.textAlignment=NSTextAlignmentCenter;
-                        txtField.userInteractionEnabled=NO;
+                        txtField.borderStyle = UITextBorderStyleNone;
+                        txtField.text = [[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_HEARTRATE];
+                        txtField.textAlignment = NSTextAlignmentCenter;
+                        txtField.userInteractionEnabled = NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1560,51 +1620,51 @@
                 else if ( indexPath.row==units.count+9) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:9];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_TIME;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                   
+                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1613,51 +1673,51 @@
                     
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:10];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=KEY_TOTAL_TIME_HHMMSS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:TOTAL_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1665,51 +1725,50 @@
                 else if ( indexPath.row==units.count+11) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:11];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_TIME;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
@@ -1717,51 +1776,51 @@
                 else if ( indexPath.row==units.count+12 ) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:6];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled=NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=KEY_TOTAL_TIME_HHMMSS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:TOTAL_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
                     
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Watts";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Total Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_TOTAL_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"TOTAL_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:KEY_TOTAL_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S))";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
@@ -1769,51 +1828,50 @@
                 else if ( indexPath.row==units.count+13) {
                     NSDictionary *tempdic=[arrAvgTotalStatus objectAtIndex:7];
                     if ([[tempdic valueForKey:KEY_DISTANCE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Distance(Meters)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_DISTANCE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_DISTANCE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_DISTANCE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
                     if ([[tempdic valueForKey:KEY_TIME] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Time(hh:mm:ss:SSS)";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_TIME;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_TIME"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_TIME];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
-                    
                     if ([[tempdic valueForKey:UNIT_RATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_RATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_RATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_RATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
                     if ([[tempdic valueForKey:UNIT_WATTS] intValue] == 1) {
-                        txtFieldLeftHeader.text = @"Average Watts";
+                        txtFieldLeftHeader.text = PLACEHOLDER_AVG_WATTS;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_WATTS"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_WATTS];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
                     if ([[tempdic valueForKey:UNIT_HEARTRATE] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Heart Rate";
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_HEARTRATE;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_HEARTRATE"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_HEARTRATE];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
-                    if ([[tempdic valueForKey:@"Split"] intValue] == 1) {
-                        txtFieldLeftHeader.text=@"Average Split(mm:ss.S)";
+                    if ([[tempdic valueForKey:KEY_SPLIT] intValue] == 1) {
+                        txtFieldLeftHeader.text=PLACEHOLDER_AVG_SPLIT;
                         txtFieldLeftHeader.font = WorkOutDetailFont;
                         txtField.borderStyle=UITextBorderStyleNone;
-                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:@"AVG_SPLIT"];
+                        txtField.text=[[arrAvarageTimeDistance objectAtIndex:indexPath.section] valueForKey:AVG_SPLIT];
                         txtField.textAlignment=NSTextAlignmentCenter;
                         txtField.userInteractionEnabled = NO;
                     }
@@ -1824,28 +1882,35 @@
             CustomTextField *txtField=(CustomTextField *)[cell viewWithTag:1002];
             txtFieldLeftHeader.textColor=[UIColor darkGrayColor];
             txtField.textAlignment=NSTextAlignmentCenter;
-            txtField.SectionIndex=(int)indexPath.section;
-            txtField.RowIndex=(int)indexPath.row;
+            if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT) {
+                if (isBoatSelected && !([UserInformation shareInstance].userType ==isAthlete)) {
+                    txtField.userInteractionEnabled = YES;
+                    txtFieldLeftHeader.userInteractionEnabled = YES;
+                }else{
+                    txtField.userInteractionEnabled = NO;
+                    txtFieldLeftHeader.userInteractionEnabled = NO;
+                }
+            }
+            else{
+                txtField.userInteractionEnabled = YES;
+                txtFieldLeftHeader.userInteractionEnabled = YES;
+            }
+            txtField.SectionIndex = (int)indexPath.section;
+            txtField.RowIndex = (int)indexPath.row;
             if (indexPath.row == 0) {
                 txtField.text=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:WARMUPTIME];
-                txtFieldLeftHeader.text=WARMUPTIME;
+                txtFieldLeftHeader.text = WARMUPTIME;
                 txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:WARMUPTIME attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor] ,NSFontAttributeName :WorkOutDetailFont}];
-            }else if (indexPath.row==1){
+            }else if (indexPath.row == 1){
                 txtField.text=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:COOLDOWNTIME];
-                txtFieldLeftHeader.text=COOLDOWNTIME;
+                txtFieldLeftHeader.text = COOLDOWNTIME;
                 txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:COOLDOWNTIME attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor],NSFontAttributeName : WorkOutDetailFont }];
             }else{
-                NSArray *arrTemp=[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:KEY_UNITS];
-                NSArray *arrUnitKeys=[[ arrTemp objectAtIndex:indexPath.row-2] allKeys];
-                NSString *unitKey=EMPTYSTRING;
-                NSString *strTemp=[arrUnitKeys objectAtIndex:0];
-                if ([strTemp isEqualToString:@"id"]) {
-                    unitKey=[arrUnitKeys objectAtIndex:1];
-                }else{
-                    unitKey=[arrUnitKeys objectAtIndex:0];
-                }
+                NSArray *arrTemp = [[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:KEY_UNITS];
+                NSArray *arrUnitKeys = [[ arrTemp objectAtIndex:indexPath.row-2] allKeys];
+                NSString *unitKey = [self FindTextFieldKey:arrUnitKeys];;
                 txtFieldLeftHeader.text=unitKey;
-                txtField.attributedPlaceholder= [[NSAttributedString alloc] initWithString:unitKey attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor],NSFontAttributeName :WorkOutDetailFont}];
+                txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:unitKey attributes:@{ NSForegroundColorAttributeName :[UIColor lightGrayColor],NSFontAttributeName :WorkOutDetailFont}];
                 txtField.text=[[[[arrWorkOuts objectAtIndex:indexPath.section] valueForKey:KEY_UNITS] objectAtIndex:indexPath.row-2] valueForKey:unitKey];
             }
             txtField = nil;
@@ -1859,22 +1924,31 @@
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return cell;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return isIPAD ? 60 : 50.0;
 }
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     @try {
         if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
             NSString *str =  [NSString stringWithFormat:@"%@ (%@)",arrAthleteName.count > section ? [arrAthleteName objectAtIndex:section] : EMPTYSTRING,arrAthleteExerciseName.count > section ? [arrAthleteExerciseName objectAtIndex:section] : EMPTYSTRING ] ? [NSString stringWithFormat:@"%@ (%@)",arrAthleteName.count > section ? [arrAthleteName objectAtIndex:section] : EMPTYSTRING,arrAthleteExerciseName.count > section ? [arrAthleteExerciseName objectAtIndex:section] : EMPTYSTRING ] : EMPTYSTRING;
             return str;
         }else if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL]){
-            NSString *str = [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_ATHLETENAME] ? [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_ATHLETENAME]: EMPTYSTRING;
+            NSString *str = EMPTYSTRING;
+            if (isBoatSelected) {
+                str = [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_BAOTNAME] ? [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_BAOTNAME]: EMPTYSTRING;
+            }
+            else{
+                str = [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_ATHLETENAME] ? [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_ATHLETENAME]: EMPTYSTRING;
+            }
             return str ;
-        }else
-        {
-            NSString *str = [[arrWorkOuts objectAtIndex:section] valueForKey:@"Name"] ? [[arrWorkOuts objectAtIndex:section] valueForKey:@"Name"] : EMPTYSTRING;
+        }else{
+            NSString *str;
+            if (isBoatSelected) {
+                str = [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_BAOTNAME] ? [[arrWorkOuts objectAtIndex:section] valueForKey:KEY_BAOTNAME] : EMPTYSTRING;
+            }
+            else{
+                str = [[arrWorkOuts objectAtIndex:section] valueForKey:@"Name"] ? [[arrWorkOuts objectAtIndex:section] valueForKey:@"Name"] : EMPTYSTRING;
+            }
             return str;
         }
     }
@@ -1883,8 +1957,7 @@
     @finally {
     }
 }
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width/2, isIPAD ? 60 : 50.0)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, ((headerView.frame.size.height/2) - (isIPAD ? 20 : 15) ), tableView.bounds.size.width/2-5, isIPAD ? 40 : 30)];
     label.text = [tableView.dataSource tableView:tableView titleForHeaderInSection:section];
@@ -1900,6 +1973,17 @@
     txtviewNotes.layer.cornerRadius = 5.0;
     txtviewNotes.layer.borderColor = LightGrayColor.CGColor;
     txtviewNotes.font = Textfont;
+    // Disable user interaction when athlete button selected, in workout Boat case
+    if ([[_obj valueForKey:KEY_ASSIGNED] intValue] == ASSIGNED_TYPE_BOAT) {
+        if (isBoatSelected && !([UserInformation shareInstance].userType==isAthlete)) {
+            txtviewNotes.userInteractionEnabled=YES;
+        }else{
+            txtviewNotes.userInteractionEnabled=NO;
+        }
+    }
+    else{
+        txtviewNotes.userInteractionEnabled = YES;
+    }
     txtviewNotes.tag = section;
     txtviewNotes.delegate = self;
     headerView.backgroundColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
@@ -1910,44 +1994,35 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return isIPAD ? 45 : 35.0;
 }
--(void)viewDidDisappear:(BOOL)animated
-{
+-(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver:self.keyboardHide];
 }
-
 #pragma mark- UITextview Delegate
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
+- (void)textViewDidBeginEditing:(UITextView *)textView{
     [textView.text isEqualToString:@"Add Note"] ? textView.text = EMPTYSTRING : EMPTYSTRING;
     [WorkOutDetails setContentOffsetOfScrollView:textView table:scrollView];
     [self setContentOffsetOfTableDown:textView table:table];
     textView.delegate = self;
 }
--(void)textViewDidEndEditing:(UITextView *)textView
-{
+-(void)textViewDidEndEditing:(UITextView *)textView{
     // textView.text.length == 0  ? textView.text = @"Add Note" : EMPTYSTRING;
     NSInteger index = textView.tag;
     [[arrWorkOuts objectAtIndex:index] setValue:textView.text forKey:@"note"];
 }
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     return YES;
 }
-- (BOOL) textViewShouldBeginEditing:(UITextView *)textView
-{
+- (BOOL) textViewShouldBeginEditing:(UITextView *)textView{
     textView.autocorrectionType = UITextAutocorrectionTypeNo;
     textView.keyboardType = UIKeyboardTypeDefault;
     return YES;
 }
-
 #pragma mark- UITextfield Delegate
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     isSelectAthlete=[textField.placeholder isEqualToString:@"Select athlete"] ? YES:NO ;
     currentText=(CustomTextField *)textField;
@@ -1960,11 +2035,9 @@
         if (arrAllAthlete.count==0 && [textField.placeholder isEqualToString:@"Select athlete"]) {
             [scrollView setContentOffset:CGPointMake(0, 0) animated: YES];
             [SingletonClass initWithTitle:EMPTYSTRING message:@"Athlete doesn't exist" delegate:nil btn1:@"Ok"];
-        }else
-        {
+        }else{
             if (arrTime.count==0) {
-            }else
-            {
+            }else{
                 [listPicker reloadAllComponents];
                 [listPicker selectRow:0 inComponent:0 animated:YES];
                 [self showPickerSeleted:arrTime];
@@ -1973,16 +2046,13 @@
         }
         return NO;
     }else{
-        
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
     }
     return YES;
 }
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
 }
--(NSString *)EntervalueInCorrectFormate:(NSString *)Key :(NSString *)value : (int)rowindex : (int)sectionindex
-{
+-(NSString *)EntervalueInCorrectFormate:(NSString *)Key :(NSString *)value : (int)rowindex : (int)sectionindex{
     @try {
         NSString *correctValue = EMPTYSTRING;
         NSString *PlaceholderValue = EMPTYSTRING;
@@ -2063,8 +2133,7 @@
                 default:
                     break;
             }
-        }else  if ([PlaceholderValue isEqualToString:UNIT_MM_SS_SSS])
-        {
+        }else  if ([PlaceholderValue isEqualToString:UNIT_MM_SS_SSS]){
             switch (value.length) {
                 case 0:{
                     return @"00:00.000";
@@ -2102,9 +2171,7 @@
                 default:
                     break;
             }
-            
-        }else  if ([ PlaceholderValue isEqualToString:UNIT_MM_SS_S])
-        {
+        }else  if ([PlaceholderValue isEqualToString:UNIT_MM_SS_S]){
             switch (value.length) {
                 case 0:{
                     return @"00:00.0";
@@ -2135,8 +2202,7 @@
                     break;
             }
             
-        }else  if ([ PlaceholderValue isEqualToString:UNIT_SS_SSS])
-        {
+        }else  if ([ PlaceholderValue isEqualToString:UNIT_SS_SSS]){
             switch (value.length) {
                 case 0:{
                     return @"00.000";
@@ -2177,16 +2243,13 @@
     @finally {
     }
 }
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
+-(void)textFieldDidEndEditing:(UITextField *)textField{
     @try {
         CustomTextField *Mytext=(CustomTextField *)textField;
         Mytext.text = [self EntervalueInCorrectFormate:Mytext.placeholder :Mytext.text :Mytext.RowIndex :Mytext.SectionIndex];
-        if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT])
-        {
+        if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]){
             [self updateLiftValue:Mytext.liftAthleteIndex :Mytext.text :Mytext.RowIndex :Mytext.liftExerciseIndex:textField];
-        }else  if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL])
-        {
+        }else  if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL]){
             [self updateValue:Mytext.placeholder :Mytext.text :Mytext.RowIndex :Mytext.SectionIndex];
             [self CalculateAVG :Mytext.SectionIndex];
             mytextfiled=Mytext;
@@ -2201,14 +2264,11 @@
     @finally {
     }
 }
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
 }
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSCharacterSet *numbersOnly = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     NSCharacterSet *characterSetFromTextField = [NSCharacterSet characterSetWithCharactersInString:string];
     BOOL stringIsValid = [numbersOnly isSupersetOfSet:characterSetFromTextField];
@@ -2226,7 +2286,7 @@
             return NO;
         }
     }else{
-        // This code not work for lift and interval ( in both case method work updateLiftValue)
+        //This code not work for lift and interval ( in both case method work updateLiftValue)
         NSString *value=EMPTYSTRING;
         NSString *myString = textField.placeholder;
         NSRange startRange = [myString rangeOfString:@"("];
@@ -2237,70 +2297,62 @@
         const char *c = [value UTF8String];
         int strTraverselength=(int)textField.text.length;
         if ([value isEqualToString:UNIT_MILES]) {
-            strTraverselength=2;
+            strTraverselength = 2;
         }else if ([value isEqualToString:UNIT_METERS]){
-            strTraverselength=9;
+            strTraverselength = 9;
         }else if ([value isEqualToString:UNIT_KILOMETERS]){
-            strTraverselength=2;
+            strTraverselength = 2;
         }else if ([value isEqualToString:UNIT_MILES]){
-            strTraverselength=2;
+            strTraverselength = 2;
         }else if ([value isEqualToString:EMPTYSTRING]){
-            strTraverselength=3;
+            strTraverselength = 3;
         }else{
             strTraverselength=(int)value.length;
         }
-        int textfieldcount=(int)textField.text.length;
-        if (strTraverselength==textField.text.length) {
+        int textfieldcount = (int)textField.text.length;
+        if (strTraverselength == textField.text.length) {
             return NO;
         }
-        if (c[textfieldcount]==':') {
+        if (c[textfieldcount] == ':') {
             textField.text= [textField.text stringByAppendingString:@":"];
-        }else if (c[textfieldcount]=='.'){
-            textField.text= [textField.text stringByAppendingString:@"."];
+        }else if (c[textfieldcount] == '.'){
+            textField.text = [textField.text stringByAppendingString:@"."];
         }
         [self updateValue:LocalTxtFeild.placeholder :LocalTxtFeild.text :LocalTxtFeild.RowIndex :LocalTxtFeild.SectionIndex];
     }
     return YES;
 }
-
 #pragma mark- UIPickerView
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
-
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     if (isSelectAthlete  ) {
-        if (_tfSelectUserType.text.length==0) {
+        if (_tfSelectUserType.text.length == 0) {
             _tfSelectUserType.text=arrAllAthlete.count > 0 ?[arrAllAthlete objectAtIndex:0] : @"";
             [self FilterDataAccourdingAthlete:currentText.text];
         }
         return [arrAllAthlete count];
-    }else
-    {
-        if (currentText.text.length==0 && ([currentText.placeholder isEqualToString:WARMUPTIME] || [currentText.placeholder isEqualToString:COOLDOWNTIME] )) {
-            currentText.text=[arrTime objectAtIndex:0];
+    }else{
+        if (currentText.text.length == 0 && ([currentText.placeholder isEqualToString:WARMUPTIME] || [currentText.placeholder isEqualToString:COOLDOWNTIME] )) {
+            currentText.text = [arrTime objectAtIndex:0];
             [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
         }
         return [arrTime count];
     }
 }
-
 #pragma mark- Picker delegate method
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     NSString *str;
     if (isSelectAthlete) {
         str = [arrAllAthlete objectAtIndex:row];
-        if (currentText.text.length==0) {
+        if (currentText.text.length == 0) {
             currentText.text=[arrAllAthlete objectAtIndex:row] ;
             [self FilterDataAccourdingAthlete:currentText.text];
         }
-    }else
-    {
+    }else{
         str = [arrTime objectAtIndex:row];
-        if (currentText.text.length==0 && ([currentText.placeholder isEqualToString:WARMUPTIME] || [currentText.placeholder isEqualToString:COOLDOWNTIME] )) {
+        if (currentText.text.length == 0 && ([currentText.placeholder isEqualToString:WARMUPTIME] || [currentText.placeholder isEqualToString:COOLDOWNTIME] )) {
             currentText.text=[arrTime objectAtIndex:row] ;
             [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
         }
@@ -2308,14 +2360,12 @@
     NSArray *arr = [str componentsSeparatedByString:KEY_TRIPLE_STAR];
     return [arr objectAtIndex:0];
 }
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (isSelectAthlete) {
-        currentText.text=[arrAllAthlete objectAtIndex:row] ;
+        currentText.text = [arrAllAthlete objectAtIndex:row] ;
         [self FilterDataAccourdingAthlete:currentText.text];
-    }else
-    {
-        currentText.text=[arrTime objectAtIndex:row] ;
+    }else{
+        currentText.text = [arrTime objectAtIndex:row] ;
         [self updateValue:currentText.placeholder :currentText.text :currentText.RowIndex :currentText.SectionIndex];
     }
 }

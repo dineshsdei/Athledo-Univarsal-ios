@@ -242,7 +242,7 @@ UIBarButtonItem *revealButtonItem;;
         [df setDateFormat:DATE_FORMAT_M_D_Y_H_M];
         MyAnnotation *annotation = [[MyAnnotation alloc] init];
         annotation.subtitle=[[data valueForKey:@"text"] stringByAppendingFormat:@" (%@)",[df stringFromDate:startdate]] ;
-        annotation.title = [data valueForKey:@"name"];
+        annotation.title = [data valueForKey:Key_name];
         annotation.tagNumber= i;
         annotation.coordinate=theCoordinate;
         //  Add annotations in map

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,33 +14,21 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qga-65-h5u">
-                        <rect key="frame" x="119" y="19" width="600" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="600" id="pa5-V1-whA"/>
-                        </constraints>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qga-65-h5u">
+                        <rect key="frame" x="135" y="17" width="590" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQ6-6l-yhP">
-                        <rect key="frame" x="30" y="19" width="100" height="18"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="JLD-p9-dpe"/>
-                        </constraints>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EQ6-6l-yhP">
+                        <rect key="frame" x="30" y="19" width="120" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <constraints>
-                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="11" id="06C-Ss-9Mu"/>
-                    <constraint firstItem="Qga-65-h5u" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="GNK-0L-a86"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Qga-65-h5u" secondAttribute="trailing" constant="41" id="Vsa-ed-AbB"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="EQ6-6l-yhP" secondAttribute="bottom" constant="14" id="flX-Zn-0hJ"/>
-                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="22" id="hdo-gR-OEg"/>
-                    <constraint firstItem="EQ6-6l-yhP" firstAttribute="top" secondItem="Qga-65-h5u" secondAttribute="top" id="tsy-KY-TyG"/>
-                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="lblPracticeDesc" destination="Qga-65-h5u" id="Tcw-hu-RDq"/>
@@ -50,4 +37,9 @@
             <point key="canvasLocation" x="403" y="214"/>
         </tableViewCell>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

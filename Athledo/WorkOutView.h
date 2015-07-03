@@ -13,7 +13,7 @@
 @interface WorkOutView : UIViewController<UITableViewDataSource,UITableViewDelegate,WorkOutDelegate,SWTableViewCellDelegate>
 {
     IBOutlet UITableView *tblList;
-     IBOutlet UISearchBar *SearchBar;
+    IBOutlet UISearchBar *SearchBar;
 }
 @property(nonatomic,strong)id notificationData;
 @end

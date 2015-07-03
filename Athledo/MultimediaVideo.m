@@ -34,14 +34,12 @@
 @implementation MultimediaVideo
 
 #pragma mark - ViewController life cycle method
--(void)viewDidAppear:(BOOL)animated
-{
+-(void)viewDidAppear:(BOOL)animated{
      [super viewDidAppear:animated];
     isCancelNotification = FALSE;
    
 }
--(void)viewWillAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated{
      [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
    
@@ -58,7 +56,6 @@
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.height : kbSize.height)+22)):toolBar];
             keyboardHeight=kbSize.height > 310 ? kbSize.height : kbSize.height ;
         }
-        
         [UIView animateWithDuration:0.27f
                          animations:^{
                              int dif=0;
@@ -67,7 +64,6 @@
                                  self.uploadView.frame=CGRectMake(self.uploadView.frame.origin.x, self.uploadView.frame.origin.y, self.uploadView.frame.size.width,  self.uploadView.frame.size.height);
                                  CGRect frame = self.uploadView.frame;
                                  frame.origin.y = self.uploadView.frame.origin.y - (currentText.frame.size.height/2+70);
-                                 NSLog(@"frame %@",NSStringFromCGRect(frame));
                                  if (frame.origin.y >= -146) {
                                      self.uploadView.frame = frame;
                                  }
@@ -97,8 +93,7 @@
     UITabBarItem *tabBarItem = [_tabBar.items objectAtIndex:0];
     [_tabBar setSelectedItem:tabBarItem];
 }
--(void)viewWillDisappear:(BOOL)animated
-{
+-(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:NO];
     if (!isCancelNotification) {
         [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
@@ -123,18 +118,14 @@
     _tfDescription.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _tfTitle.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _tfSeason.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    
     [super viewDidLoad];
-    
     if (isIPAD) {
-        
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
     }
-    
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:18],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
@@ -189,10 +180,8 @@
 - (void)movieFinishedCallback:(NSNotification*)aNotification{
     // Obtain the reason why the movie playback finished
     NSNumber *finishReason = [[aNotification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey];
-    
     // Dismiss the view controller ONLY when the reason is not "playback ended"
-    if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded)
-    {
+    if ([finishReason intValue] != MPMovieFinishReasonPlaybackEnded){
         MPMoviePlayerController *moviePlayer = [aNotification object];
         // Remove this class from the observers
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -236,23 +225,18 @@
                          }];
     }
 }
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{
     NSArray *arrController=[self.navigationController viewControllers];
     switch (item.tag) {
-        case 1:
-        {
+        case 1:{
             BOOL Status=FALSE;
-            for (id object in arrController)
-            {
-                if ([object isKindOfClass:[Multimedia class]])
-                {
+            for (id object in arrController){
+                if ([object isKindOfClass:[Multimedia class]]){
                     Status=TRUE;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            if (Status==FALSE)
-            {
+            if (Status==FALSE){
                 Multimedia *arichive=[[Multimedia alloc] initWithNibName:@"Multimedia" bundle:nil];
                 [self.navigationController pushViewController:arichive animated:NO];
             }
@@ -331,19 +315,15 @@
 - (IBAction)UploadVideo{
     if (urlvideo) {
         NSString *strError = EMPTYSTRING;
-        if(_tfSeason.text.length < 1 )
-        {
+        if(_tfSeason.text.length < 1 ){
             strError = @"Please select season";
         }
-        else if(_tfTitle.text.length < 1 )
-        {
+        else if(_tfTitle.text.length < 1 ){
             strError = @"Please enter title";
-        } else if(_tfDescription.text.length < 1 )
-        {
+        } else if(_tfDescription.text.length < 1 ){
             strError = @"Please enter description";
         }
-        if(strError.length > 2 )
-        {
+        if(strError.length > 2 ){
          [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
         }
@@ -430,7 +410,6 @@
     }
 }
 -(void)getMultimediaVideos{
-    
     if ([SingletonClass  CheckConnectivity]) {
         webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
@@ -444,13 +423,11 @@
     }
 }
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
-   
     self.navigationController.navigationItem.rightBarButtonItem.enabled = YES ;
     switch (Tag){
         case getPicDataTag :{
             [multimediaData removeAllObjects];
-            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 AllMultimediaData=[[MyResults valueForKey:DATA] copy];
                 for (int i=0; i< AllMultimediaData.count; i++) {
                     NSDictionary *temp=[AllMultimediaData objectAtIndex:i];
@@ -466,14 +443,11 @@
             }
             [SingletonClass RemoveActivityIndicator:self.view];
             break;
-        } case getSeasonTag:
-        {
-            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {
+        } case getSeasonTag:{
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 DicData=[MyResults  objectForKey:DATA];
                 arrSeasons=[[NSMutableArray alloc] init];
                 NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues];
-                
                 for (int i=0;i<arrtemp.count; i++) {
                     if (![[arrtemp objectAtIndex:i] isEqualToString:KEY_OFF_SEASON]) {
                         [arrSeasons addObject:[arrtemp objectAtIndex:i]];
@@ -512,7 +486,6 @@
     UIButton *btn=(UIButton *)sender;
     // Pass your file path
     NSURL *vedioURL =[NSURL URLWithString:[[multimediaData objectAtIndex:btn.tag] valueForKey:@"filename1"]];
-    
     if ([EMPTYSTRING isEqualToString:[NSString stringWithFormat:@"%@",vedioURL]]) {
         [SingletonClass initWithTitle:EMPTYSTRING message:@"Video file format doesn't support" delegate:nil btn1:@"Ok"];
         return;
@@ -606,8 +579,7 @@
     NSArray *arrkeys=[[DicData objectForKey:superKey] allKeys];
     NSString *strValue=EMPTYSTRING;
     for (int i=0; i<arrValues.count; i++) {
-        if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
-        {
+        if ([[arrValues objectAtIndex:i] isEqualToString:SubKey]){
             strValue=[arrkeys objectAtIndex:i];
             break;
         }
@@ -617,7 +589,6 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [[touches anyObject] locationInView:listPicker];
 }
-
 #pragma mark - TextView Delegate
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
      textView.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -625,15 +596,12 @@
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView{
     [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-        
         if (iosVersion < 8) {
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
         }else{
-            
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
         }
     }completion:^(BOOL finished){
-        
     }];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
@@ -663,7 +631,8 @@
             }
         }completion:^(BOOL finished){}];
         return YES;
-}}
+}
+}
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {}
 -(void)textFieldDidEndEditing:(UITextField *)textField

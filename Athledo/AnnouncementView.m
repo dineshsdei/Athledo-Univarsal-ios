@@ -455,7 +455,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     int DesendingIndex=(int)(indexPath.section);
     cell.lblSenderName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"sender"];
     cell.lblSenderName.font=Textfont;
-    cell.lblAnnoName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:@"name"];
+    cell.lblAnnoName.text=[[arrAnnouncements objectAtIndex:DesendingIndex] objectForKey:Key_name];
     cell.lblAnnoName.tag=10;
     cell.lblAnnoName.font=SmallTextfont;
     
@@ -488,7 +488,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 {
     UpdateDetails *updateDetails=[[UpdateDetails alloc] init];
     updateDetails.obj=[arrAnnouncements objectAtIndex:indexPath.section];
-    updateDetails.strName=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"name"];
+    updateDetails.strName=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:Key_name];
     updateDetails.strDate=[[[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_date"] stringByAppendingString:@" " ] stringByAppendingString:[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_time"]];
     updateDetails.strDes=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"description"];
     NSArray *arrtemp=[notificationData valueForKey:@"announcements"];

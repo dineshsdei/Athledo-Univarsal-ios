@@ -75,12 +75,12 @@
                     [txtField addSubview:imageview];
                     if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] || [[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_EXERCISE_TYPE] ){
                         UIButton *btnAdd=[UIButton buttonWithType:UIButtonTypeCustom];
-                        [btnAdd setBackgroundImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
+                        [btnAdd setImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
                         btnAdd.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 40 : 17), txtField.frame.size.height/2-((Add_Delete_Size)/2),(Add_Delete_Size),(Add_Delete_Size));
                         [self addSubview:btnAdd];
                         UIButton *btnDelete=[UIButton buttonWithType:UIButtonTypeCustom];
-                        [btnDelete setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
-                        btnDelete.frame=CGRectMake(txtField.frame.size.width+btnAdd.frame.size.width+((isIPAD) ? 50 : 20), txtField.frame.size.height/2-14,(Add_Delete_Size+5),(Add_Delete_Size+5));
+                        [btnDelete setImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
+                        btnDelete.frame=CGRectMake(txtField.frame.size.width+btnAdd.frame.size.width+((isIPAD) ? 50 : 20),btnAdd.frame.origin.y-5 ,(Add_Delete_Size+5),(Add_Delete_Size+5));
                         
                         if([[arrfixCellFields objectAtIndex:indexPath.section] isEqualToString:KEY_CUSTOM_TAG] ){
                             [btnAdd addTarget:self action:@selector(addCustomTag:) forControlEvents:UIControlEventTouchUpInside];
@@ -132,73 +132,68 @@
                     for (int i=0; i< arrlblText.count; i++) {
                         int lblWight=(isIPAD) ? ((CellWeight)/(arrlblText.count)-15): i ==0 ? 85: ((CellWeight)/(arrlblText.count)-15);
                         btnWholeTeam=[UIButton buttonWithType:UIButtonTypeCustom];
-                        if (i==0 )
-                        {
+                        if (i==0 ){
                             // Athletes section
                             if ((arrlblText.count== 3 || arrlblText.count== 4) && ([[WorkOutDic objectForKey:STR_WHOLE_TEAM] isEqual:@"1"]) ) {
                                 btnWholeTeam.selected=YES;
-                                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                                [btnWholeTeam setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                             }else if ((arrlblText.count== 3 || arrlblText.count== 4)){
                                 
                                 btnWholeTeam.selected=NO;
-                                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                                [btnWholeTeam setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                             }
                             // if Email Section section
                             if (arrlblText.count== 2 && [[WorkOutDic objectForKey:STR_EMAIL_NOTIFICATION] isEqual:@"Yes"]) {
                                 btnWholeTeam.selected=YES;
-                                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                                [btnWholeTeam setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                             }
                             else if (arrlblText.count== 2 && [[WorkOutDic objectForKey:STR_EMAIL_NOTIFICATION] isEqual:@"No"]){
                                 
                                 btnWholeTeam.selected=NO;
-                                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                                [btnWholeTeam setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                             }
                         }else{
                             switch (i) {
-                                case 0:
-                                {
+                                case 0:{
                                     btnWholeTeam.selected=NO;
-                                    [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                                    [btnWholeTeam setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                                     break;
                                 }
-                                case 1:
-                                {
+                                case 1:{
                                     if (![[WorkOutDic objectForKey:STR_ATHLETES] isEqual:EMPTYSTRING] && (arrlblText.count== 3 || arrlblText.count== 4))
                                     {
                                         btnWholeTeam.selected=YES;
-                                        [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                                        [btnWholeTeam setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                                     }else{
                                         if (arrlblText.count== 2 && [[WorkOutDic objectForKey:STR_EMAIL_NOTIFICATION] isEqual:@"No"]) {
                                             btnWholeTeam.selected=YES;
-                                            [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                                            [btnWholeTeam setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                                         }else{
                                             btnWholeTeam.selected=NO;
-                                            [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                                            [btnWholeTeam setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                                         }
                                     }
                                     break;
                                 }
-                                case 2:
-                                {
+                                case 2:{
                                     if (![[WorkOutDic objectForKey:STR_GROUPS] isEqual:EMPTYSTRING])
                                     {
                                         btnWholeTeam.selected=YES;
-                                        [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                                        [btnWholeTeam setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                                         
                                     }else{
                                         btnWholeTeam.selected=NO;
-                                        [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                                        [btnWholeTeam setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                                     }
                                     break;
                                 }
-                                case 3:
-                                {
+                                case 3:{
                                     if ([[WorkOutDic objectForKey:STR_BOATS] isKindOfClass:[NSMutableArray class]]){
                                         btnWholeTeam.selected=YES;
-                                        [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnEnable.png"] forState:UIControlStateNormal];
+                                        [btnWholeTeam setBackgroundImage:BTNEnableImage forState:UIControlStateNormal];
                                     }else{
                                         btnWholeTeam.selected=NO;
-                                        [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"btnDissable.png"] forState:UIControlStateNormal];
+                                        [btnWholeTeam setBackgroundImage:BTNDisableImage forState:UIControlStateNormal];
                                     }
                                     break;
                                 }
@@ -234,7 +229,7 @@
                 // This code unsed to show save button below of list but now it in top that why code will not run.
                 
                 UIButton *btnSave=[UIButton buttonWithType:UIButtonTypeCustom];
-                [btnSave setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
+                [btnSave setImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
                 btnSave.frame=CGRectMake(CellWeight/3, 10,CellWeight/3,30);
                 [btnSave setBackgroundImage:[UIImage imageNamed:@"login_btn.png"] forState:UIControlStateNormal];
                 [btnSave setTitle:@"Save" forState:UIControlStateNormal];
@@ -273,16 +268,15 @@
             btnWholeTeam=[UIButton buttonWithType:UIButtonTypeCustom];
             btnWholeTeam.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 50:20), txtField.frame.origin.y+1, Add_Delete_Size, Add_Delete_Size);
             if (arrfixCellFields.count-(count)==indexPath.section){
-                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
+                [btnWholeTeam setImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
                 [btnWholeTeam addTarget:self action:@selector(addExerciseSection:) forControlEvents:UIControlEventTouchUpInside];
             }
             else{
                 
-                [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
+                [btnWholeTeam setImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
                 [btnWholeTeam addTarget:self action:@selector(deleteExerciseSection:) forControlEvents:UIControlEventTouchUpInside];
             }
             btnWholeTeam.tag=indexPath.section-(arrfixCellFields.count-(count));
-            
             ////////////////
             UIImage *image;
             image=[UIImage imageNamed:@"arrow.png"];
@@ -363,7 +357,7 @@
     UIButton *btnWholeTeam;
     btnWholeTeam=[UIButton buttonWithType:UIButtonTypeCustom];
     btnWholeTeam.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 50:20), (txtField.frame.origin.y+1), Add_Delete_Size, Add_Delete_Size);
-    [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
+    [btnWholeTeam setImage:[UIImage imageNamed:@"deleteBtn_icon.png"] forState:UIControlStateNormal];
     btnWholeTeam.tag = tag-1;
     [btnWholeTeam addTarget:self action:@selector(deleteBoat:) forControlEvents:UIControlEventTouchUpInside];
     ////////////////
@@ -480,7 +474,7 @@
     UIButton *btnWholeTeam;
     btnWholeTeam=[UIButton buttonWithType:UIButtonTypeCustom];
     btnWholeTeam.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 50:20), (txtField.frame.origin.y+1), Add_Delete_Size, Add_Delete_Size);
-    [btnWholeTeam setBackgroundImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
+    [btnWholeTeam setImage:[UIImage imageNamed:@"plus_icon.png"] forState:UIControlStateNormal];
     btnWholeTeam.tag = 0;
     [btnWholeTeam addTarget:self action:@selector(addBoat:) forControlEvents:UIControlEventTouchUpInside];
     ////////////////
@@ -497,8 +491,6 @@
         if (arrTemp.count >= txtField.tag) {
             
             if (![[[[dicData valueForKey:STR_BOATS] objectAtIndex:txtField.tag] valueForKey:STRKEY_SETLINEUP] isEqualToString:EMPTYSTRING]) {
-                
-                
                 tfAthleteOrGroup = [[UITextField alloc] initWithFrame:CGRectMake(CellX,(txtField.frame.origin.y+txtFieldBoatName.frame.size.height/2 + FIELD_GAP), CellWeight, TextFeildHeight)];
                 tfAthleteOrGroup.backgroundColor = [UIColor whiteColor];
                 tfAthleteOrGroup.borderStyle = UITextBorderStyleRoundedRect;
@@ -506,9 +498,6 @@
                 tfAthleteOrGroup.delegate = del;
                 tfAthleteOrGroup.tag = 0;
                 tfAthleteOrGroup.textColor = TextFieldColor;
-                
-                ///////
-                
                 ///////////
                 tfAthleteOrGroup.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
                 NSMutableArray *arrTemp = [dicData valueForKey:STR_BOATS];
@@ -524,9 +513,7 @@
                             }
                             tfAthleteOrGroup.text = strAthleteName;
                         }
-                        
                     }else{
-                        
                         tfAthleteOrGroup.attributedPlaceholder = [[NSAttributedString alloc] initWithString:STR_ENTER_GROUPNAME attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                         if([[[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_GROUPS] isKindOfClass:[NSArray class]])
                         {
@@ -539,10 +526,7 @@
                             }
                         }
                     }
-                    
                 }
-                
-                
                 [self addSubview:tfAthleteOrGroup];
             }
         }

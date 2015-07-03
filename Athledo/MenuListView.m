@@ -743,8 +743,7 @@
 }
 -(void)ChangeOrientation{
     UIDeviceOrientation deviceOrientation = [[SingletonClass ShareInstance] CurrentOrientation:self];
-    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight || deviceOrientation==UIDeviceOrientationFaceUp)))
-    {
+    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight || deviceOrientation==UIDeviceOrientationFaceUp))){
         _btnLanscapLogout.hidden=NO;
     }else{
         _btnLanscapLogout.hidden=YES;
@@ -753,10 +752,8 @@
 }
 #pragma mark Utility method
 //this method, enable or disable touch on frontview in swip inout viewcontroller
--(void)EnableDisableTouch :(BOOL)status
-{
+-(void)EnableDisableTouch :(BOOL)status{
     NSArray *navArray=[[[self.revealViewController childViewControllers] objectAtIndex:1] viewControllers];
-    
     for (UIViewController * viewCotroller in navArray) {
         WorkOutView *WorkviewCntrler  = (WorkOutView *)viewCotroller;
         NSArray *arrSubViews = (NSArray *) [WorkviewCntrler.view subviews];

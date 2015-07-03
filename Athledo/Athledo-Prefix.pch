@@ -27,12 +27,16 @@
 #import "SWRevealViewController.h"
 #import "UIImageView+WebCache.h"
 #import "SWTableViewCell.h"
-#import "AAttendanceBO.h"
 
+#define UNCHECK_IMAGE @"uncheck.png"
 #define UNIT_HEARTRATE @"Heart Rate"
 #define UNIT_WATTS @"Watts"
+#define PLACEHOLDER_TOTAL_WATTS @"Total Watts"
+#define KEY_TOTAL_WATTS @"TOTAL_WATTS"
 #define UNIT_METERS @"Meters"
 #define UNIT_RATE @"Rate"
+#define PLACEHOLDER_TOTAL_RATE @"Total Rate"
+#define KEY_TOTAL_RATE @"TOTAL_RATE"
 #define UNIT_KILOMETERS @"Kilometers"
 #define UNIT_MILES @"Miles"
 #define UNIT_HH_MM_SS_SSS @"HH:mm:ss.SSS"
@@ -40,7 +44,7 @@
 #define UNIT_SS_SSS @"ss.SSS"
 #define UNIT_MM_SS_S @"mm:ss.S"
 
-#define STR_WORKOUTTYPE KEY_WORKOUT_TYPE
+#define STR_WORKOUTTYPE @"Workout Type"
 #define WORKOUTTYPE_CARDIO @"Cardio"
 #define WORKOUTTYPE_INTERVAL @"Interval"
 #define WORKOUTTYPE_CORE @"Core"
@@ -67,7 +71,9 @@
 #define STR_ROWING @"Rowing"
 #define STATUS_SELECTED @"1"
 #define STATUS_UNSELECTED @""
-#define EXERCISE_TYPE KEY_EXERCISE_TYPE
+#define EXERCISE_TYPE @"Exercise Type"
+#define Key_name @"name"
+#define Key_discription @"desc"
 
 #define KEY_COOLDOWN_TIME @"CoolDown Time"
 #define KEY_WARMUP_TIME @"WarmUp Time"
@@ -76,6 +82,9 @@
 #define KEY_SEASON @"season"
 #define KEY_WORKOUT_TYPE @"Workout Type"
 #define KEY_DATE @"Date"
+#define KEY_date @"date"
+#define KEY_time @"time"
+
 #define KEY_CREATED_BY @"createdby"
 #define KEY_OFF_SEASON @"Off Season"
 #define KEY_USER_ID @"user_id"
@@ -104,12 +113,17 @@
 #define KEY_UNITS @"Units"
 #define KEY_INTERVAL_COUNT @"intervalCount"
 #define KEY_DISTANCE @"Distance"
+#define KEY_TOTAL_DISTANCE @"TOTAL_DISTANCE"
+#define PLACEHOLDER_TOTAL_DISTANCE @"Total Distance(Meters)"
 #define KEY_TIME @"Time"
+#define KEY_TOTAL_TIME_HHMMSS @"Total Time(hh:mm:ss:SSS)"
+#define TOTAL_TIME @"TOTAL_TIME"
 #define KEY_INTERVAL @"Interval"
 #define KEY_WORKOUTATHLETE @"WorkoutAthlete"
 #define KEY_ATHLETENAME @"athleteName"
 #define KEY_EXERCISENAME @"exerciseName"
 #define KEY_ATHLETEEXERCISE @"athleteExercise"
+#define KEY_BAOTNAME @"boat_name"
 
 
 #define NAVIGATIONBAR_COLOR [UIColor colorWithRed:149/255.0 green:19/255.0 blue:27/255.0 alpha:1]
@@ -130,7 +144,21 @@
 #define STR_MONTH_UNDERSCORE @"month_"
 #define STR_YEAR_UNDERSCORE @"year_"
 #define EMPTYSTRING @""
-
+#define KEY_SPLIT @"Split"
+#define KEY_TOTAL_HEARTRATE @"TOTAL_HEARTRATE"
+#define PLACEHOLDER_TOTAL_HEARTRATE @"Total Heart Rate"
+#define AVG_SPLIT @"AVG_SPLIT"
+#define PLACEHOLDER_AVG_SPLIT @"Average Split(mm:ss.S)"
+#define AVG_DISTANCE @"AVG_DISTANCE"
+#define PLACEHOLDER_AVG_DISTANCE @"Average Distance(Meters)"
+#define AVG_TIME @"AVG_TIME"
+#define PLACEHOLDER_AVG_TIME @"Average Time(hh:mm:ss:SSS)"
+#define AVG_RATE @"AVG_RATE"
+#define PLACEHOLDER_AVG_RATE @"Average Rate"
+#define AVG_WATTS @"AVG_WATTS"
+#define PLACEHOLDER_AVG_WATTS @"Average Watts"
+#define AVG_HEARTRATE @"AVG_HEARTRATE"
+#define PLACEHOLDER_AVG_HEARTRATE @"Average Heart Rate"
 #define STR_UNDERSCORE @"_"
 #define STR_HASH @"#"
 
@@ -183,6 +211,8 @@
 
 #define UncheckImage [UIImage imageNamed:@"uncheck.png"]
 #define CheckImage [UIImage imageNamed:@"selectedCheck.png"]
+#define BTNEnableImage [UIImage imageNamed:@"btnEnable.png"]
+#define BTNDisableImage [UIImage imageNamed:@"btnDissable.png"]
 
 #define OtherField_X isIPAD ? 30:20
 #define OtherField_W isIPAD ? 354:140
@@ -405,7 +435,7 @@
 #define webServiceWorkoutInfo [@"http://192.155.246.146:8020/webservices/"  stringByAppendingString:@"coachWorkoutList"]
 #define webServiceDeleteWorkOut [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"deleteWorkout"]
 #define webServiceReAssignWorkOut [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"coach_reassign"]
-#define webServiceGetWorkOutdropdownList [BaseUrl stringByAppendingString:@"workout_dropdown_data"]
+#define webServiceGetWorkOutdropdownList [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_dropdown_data"]
 #define webServiceGetWorkOutUnitList [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_unit"]
 
 #define webUrlAddCustomTag [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_customtag_add"]
@@ -418,12 +448,14 @@
 #define WebServiceWorkoutDetails [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workout_view"]
 
 #define webServiceSaveWorkOutDetails [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"workoutAthleteData"]
+#define webserviceGetGroupsAthlete [@"http://192.155.246.146:8020/webservices/" stringByAppendingString:@"getGroupsAthlete"]
+
 
 #define webserviceShareNotes [BaseUrl stringByAppendingString:@"sendNotesMail"]
 #define webservicePDFLink [BaseUrl stringByAppendingString:@"downloadNotes"]
 #define webserviceNotesList [BaseUrl stringByAppendingString:@"getAthleteNotes"]
 #define webserviceAddNotes [BaseUrl stringByAppendingString:@"addNotes"]
-#define webserviceGetGroupsAthlete [BaseUrl stringByAppendingString:@"getGroupsAthlete"]
+
 //http://172.24.2.222:8024/webservices/getGroupsAthlete
 
 //Calender

@@ -215,7 +215,7 @@
                     [dicttemp setObject:EMPTYSTRING forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"event_pid"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"event_id"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"id"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"location"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"location"]];
-                    [dicttemp setObject:[_eventDetailsDic valueForKey:@"name"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"name"]];
+                    [dicttemp setObject:[_eventDetailsDic valueForKey:Key_name] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,Key_name]];
                     [dicttemp setObject:EMPTYSTRING forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_pattern"]];
                     [dicttemp setObject:EMPTYSTRING forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_type"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"text"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"text"]];
@@ -237,7 +237,7 @@
                     [dicttemp setObject:@"0" forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"event_pid"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"event_id"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"id"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"location"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"location"]];
-                    [dicttemp setObject:[_eventDetailsDic valueForKey:@"name"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"name"]];
+                    [dicttemp setObject:[_eventDetailsDic valueForKey:Key_name] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,Key_name]];
                     [dicttemp setObject:[[[_eventDetailsDic valueForKey:@"rec_type"] componentsSeparatedByString:@"#"] objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_pattern"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"rec_type"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_type"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"text"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"text"]];
@@ -264,7 +264,7 @@
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"location"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"location"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"lat"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"lat"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"lng"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"lng"]];
-                    [dicttemp setObject:[_eventDetailsDic valueForKey:@"name"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"name"]];
+                    [dicttemp setObject:[_eventDetailsDic valueForKey:Key_name] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,Key_name]];
                     [dicttemp setObject:@"none" forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_pattern"]];
                     [dicttemp setObject:@"none" forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"rec_type"]];
                     [dicttemp setObject:[_eventDetailsDic valueForKey:@"text"] forKey:[NSString stringWithFormat:@"%@%@",strAddBeforeParameter,@"text"]];
@@ -410,7 +410,7 @@
             strLat.length > 0 ? [dicttemp setObject:strLat forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lat"]] : [dicttemp setObject:EMPTYSTRING forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lat"]] ;
             strLong.length > 0 ? [dicttemp setObject:strLong forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lng"]] :[dicttemp setObject:EMPTYSTRING forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"lng"]] ;
             [dicttemp setObject:[NSString stringWithFormat:@"%@",_tfTitle.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"text"]];
-            [dicttemp setObject:[NSString stringWithFormat:@"%@",_texviewDescription.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"name"]];
+            [dicttemp setObject:[NSString stringWithFormat:@"%@",_texviewDescription.text] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,Key_name]];
             [dicttemp setObject:[self CalculateStartdate] forKey:[NSString stringWithFormat:@"%@%@", strAddBeforeTag,@"start_date"]];
             [dicttemp setObject:[strAddBeforeTag stringByReplacingOccurrencesOfString:@"_" withString:EMPTYSTRING] forKey:[NSString stringWithFormat:@"%@",@"ids"]];
             
@@ -734,16 +734,16 @@
         _tfRepeat.text=[CalendarEvent ShareInstance].strEventType;
         if (![[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"])
         {
-            [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnEnable.png"]];
+            [_EnableDesableBtn setImage:BTNEnableImage];
             
         }else{
-            [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnDissable.png"]];
+            [_EnableDesableBtn setImage:BTNDisableImage];
         }
         
     }else
     {
         _tfRepeat.text=@"Never";
-        [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnDissable.png"]];
+        [_EnableDesableBtn setImage:BTNDisableImage];
     }
     
     self.keyboardAppear = [[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -857,7 +857,7 @@
         df.dateFormat =DATE_FORMAT_Y_M_D_H_M_S;
         _tfTitle.text=[_eventDetailsDic valueForKey:@"text"];
         _tfLocation.text=[_eventDetailsDic valueForKey:@"location"];
-        _texviewDescription.text=[_eventDetailsDic valueForKey:@"name"];
+        _texviewDescription.text=[_eventDetailsDic valueForKey:Key_name];
         _texviewDescription.textColor=[UIColor grayColor];
         
         NSString *str=[_eventDetailsDic valueForKey:@"rec_type"] ?[_eventDetailsDic valueForKey:@"rec_type"] : EMPTYSTRING;
@@ -1395,7 +1395,7 @@
         
         if (![[CalendarEvent ShareInstance].strEventEditBy isEqualToString:@"Edit Occurrence"]){
             
-            [_EnableDesableBtn setImage:[UIImage imageNamed:@"btnEnable.png"]];
+            [_EnableDesableBtn setImage:BTNEnableImage];
             NSArray *arrController=[self.navigationController viewControllers];
             BOOL Status=FALSE;
             for (id object in arrController)

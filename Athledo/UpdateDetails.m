@@ -167,8 +167,7 @@
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Announcement has been deleted successfully" delegate:self btn1:@"Ok" btn2:nil tagNumber:10];
             }
         }
-        case deleteNotificationTag:
-        {
+        case deleteNotificationTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
             }
@@ -176,11 +175,8 @@
         }
     }
 }
-
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end

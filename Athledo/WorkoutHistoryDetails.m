@@ -24,14 +24,14 @@
     
     if (_obj) {
         
-        NSDate *date=[_obj valueForKey:@"date"] ?[formatter dateFromString:[_obj valueForKey:@"date"]]:nil;
+        NSDate *date=[_obj valueForKey:KEY_date] ?[formatter dateFromString:[_obj valueForKey:KEY_date]]:nil;
         [formatter setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
-        _lblName.text=[_obj valueForKey:@"name"] ?[_obj valueForKey:@"name"] : EMPTYSTRING;
+        _lblName.text=[_obj valueForKey:Key_name] ?[_obj valueForKey:Key_name] : EMPTYSTRING;
         //  _lblCreatedBy.text=[_obj valueForKey:@"name"];
         _lblseason.text=[[_obj valueForKey:KEY_SEASON] isEqualToString:EMPTYSTRING] ? KEY_OFF_SEASON :[_obj valueForKey:KEY_SEASON] ;
         _lblworkoutType.text=[_obj valueForKey:@"type"] ? [_obj valueForKey:@"type"]:EMPTYSTRING ;
         _lbldate.text=[formatter stringFromDate:date] ? [formatter stringFromDate:date] : EMPTYSTRING;
-        _lbldescription.text=[_obj valueForKey:@"desc"] ? [_obj valueForKey:@"desc"] :EMPTYSTRING;
+        _lbldescription.text=[_obj valueForKey:Key_discription] ? [_obj valueForKey:Key_discription] :EMPTYSTRING;
         _lblName.font=Textfont;
         _lblseason.font=SmallTextfont;
         _lbldescription.font=SmallTextfont;

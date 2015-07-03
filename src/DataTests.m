@@ -90,7 +90,7 @@
 	
 	SampleItem *item = [SampleItem createObject:dict];
 	
-	XCTAssertEqualObjects(dict[@"name"], item.name, @"%@ isn't equal to %@",dict[@"name"],item.name);
+	XCTAssertEqualObjects(dict[Key_name], item.name, @"%@ isn't equal to %@",dict[Key_name],item.name);
 	XCTAssertEqualObjects(dict[@"id"], item.identifier, @"%@ isn't equal to %@",dict[@"id"],item.identifier);
 	XCTAssertNotNil(item.createdAt, @"SampleItem createdAt should not be nil");
 	XCTAssertNotNil(item.updatedAt, @"SampleItem updatedAt should not be nil");

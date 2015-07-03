@@ -84,7 +84,7 @@
     
     if (multimediaData.count > 2*indexPath.row ) {
         [cell.First_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
-        [cell.First_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:(2*indexPath.row)]];
+        [cell.First_lblName setText:[[multimediaData valueForKey:Key_name] objectAtIndex:(2*indexPath.row)]];
         [cell.First_textViewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row)]];
     }else
     {
@@ -97,7 +97,7 @@
     if (multimediaData.count > 2*indexPath.row+1) {
         
         [cell.Second_imageview setImageWithURL:[[multimediaData valueForKey:@"img"] objectAtIndex:(2*indexPath.row+1)] placeholderImage:[UIImage imageNamed:@"profile_icon.png"]];
-        [cell.Second_lblName setText:[[multimediaData valueForKey:@"name"] objectAtIndex:indexPath.row+1]];
+        [cell.Second_lblName setText:[[multimediaData valueForKey:Key_name] objectAtIndex:indexPath.row+1]];
         [cell.SecondTextviewDes setText:[[multimediaData valueForKey:@"description"] objectAtIndex:(2*indexPath.row+1)]];
         
     }else

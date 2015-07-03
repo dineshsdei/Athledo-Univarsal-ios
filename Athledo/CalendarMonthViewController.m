@@ -381,7 +381,7 @@ UIBarButtonItem *revealButtonItem;;
     [df setDateFormat:TIME_FORMAT_h_m_A];
     cell.textLabel.text = [[df stringFromDate:displaydate] stringByAppendingString:[NSString stringWithFormat:@" %@", [[ar objectAtIndex:indexPath.row]valueForKey:@"text"] ] ];
     cell.textLabel.font = Textfont;
-    cell.detailTextLabel.text=[[ar objectAtIndex:indexPath.row]valueForKey:@"name"];
+    cell.detailTextLabel.text=[[ar objectAtIndex:indexPath.row]valueForKey:Key_name];
     cell.backgroundColor=[UIColor clearColor];
     cell.textLabel.textColor=[UIColor grayColor];
     cell.detailTextLabel.textColor=[UIColor lightGrayColor];

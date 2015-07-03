@@ -267,8 +267,8 @@
         cell.btnarchive.tag=indexPath.section;
     }
    cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"sender"];
-    cell.lblReceivingDate.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"date"];
-    cell.lblDescription.text=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"desc"];
+    cell.lblReceivingDate.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:KEY_date];
+    cell.lblDescription.text=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:Key_discription];
     cell.lblDescription.text  =[cell.lblDescription.text  stringByReplacingOccurrencesOfString:@"/n" withString:EMPTYSTRING];
     cell.lblSenderName.font=Textfont;
     cell.lblDescription.font=SmallTextfont;

@@ -22,5 +22,11 @@
 @property (strong, nonatomic) id keyboardAppear;
 @property (strong, nonatomic) id keyboardHide;
 - (IBAction)GetPickerTime:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *lblDescription;
+@property (weak, nonatomic) IBOutlet UILabel *lblDrill;
+@property (weak, nonatomic) IBOutlet UILabel *lblNotes;
+@property (weak, nonatomic) IBOutlet UILabel *lblStartTime;
+@property (weak, nonatomic) IBOutlet UILabel *lblEndTime;
+@property (weak, nonatomic) IBOutlet UILabel *lblnotes;
 
 @end

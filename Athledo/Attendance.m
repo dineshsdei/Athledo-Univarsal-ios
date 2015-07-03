@@ -99,9 +99,9 @@
         cell.rightUserImage.layer.cornerRadius = (cell.rightUserImage.frame.size.width)/2;
         cell.rightUserImage.layer.borderWidth = 2.0f;
         cell.rightUserImage.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        cell.leftLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:@"name"];
+        cell.leftLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:Key_name];
         cell.leftLblName.font = Textfont;
-        cell.rightLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:@"name"];
+        cell.rightLblName.text = [[dicListData objectAtIndex:indexPath.row] valueForKey:Key_name];
         cell.rightLblName.font = Textfont;
         cell.leftUserImage.hidden = YES;
         cell.rightUserImage.hidden = YES;
@@ -203,7 +203,6 @@
     currentTextField.text=[arrAbsenceReason objectAtIndex:row];
     if ([currentTextField.text isEqualToString:@"Other"]) {
         [[dicListData objectAtIndex:AbsentReasonIndex] setValue:[self GetReasonId:currentTextField.text] forKey:REASON_ID];
-        //[alertViewReason removeFromSuperview];
         UITextField *otherReasonField = (UITextField *)[ReasonAlertBG viewWithTag:OtherReasonTextField_Tag];
         otherReasonField.hidden = NO;
     }else{
@@ -255,7 +254,7 @@
             }else{
                 dicListData = nil;
                 [self showHideFields:YES];
-                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice now":_tableView]];
+                [_tableView addSubview:[SingletonClass ShowEmptyMessage:@"No practice scheduled today":_tableView]];
                 [_tableView reloadData];
             }
              [SingletonClass RemoveActivityIndicator:self.view];
@@ -274,8 +273,8 @@
 #pragma mark Class Utility method Method
 -(void)RemoveOldReason:(id)sender{
     SWTableViewCell *cell = (SWTableViewCell *)sender;
-    [[dicListData objectAtIndex:cell.tag] setObject:@"" forKey:REASON_ID];
-    [[dicListData objectAtIndex:cell.tag] setObject:@"" forKey:REASON_TEXT];
+    [[dicListData objectAtIndex:cell.tag] setObject:EMPTYSTRING forKey:REASON_ID];
+    [[dicListData objectAtIndex:cell.tag] setObject:EMPTYSTRING forKey:REASON_TEXT];
 }
 -(NSString *)GetReasonId:(NSString *)reason{
     NSDictionary *dicReasonData = ABSENT_REASONS;

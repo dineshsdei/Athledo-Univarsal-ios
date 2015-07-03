@@ -7,6 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WorkOutDetails">
             <connections>
+                <outlet property="boatView" destination="tWq-0G-Gia" id="Mae-qG-PFw"/>
+                <outlet property="btnAthletes" destination="pa5-hJ-Pxd" id="hsV-Tq-5RU"/>
+                <outlet property="btnBoats" destination="qh8-tT-7gq" id="AEz-Io-0xL"/>
                 <outlet property="btnSave" destination="ccn-qy-5Sa" id="AXP-VD-cV0"/>
                 <outlet property="dropdownImageview" destination="gbe-Eu-fIC" id="jzz-Kp-eaX"/>
                 <outlet property="lblCreatedBy" destination="8qf-42-mBv" id="AVB-E1-59a"/>
@@ -130,6 +133,41 @@
                                     <rect key="frame" x="711" y="298" width="15" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                 </imageView>
+                                <view contentMode="scaleToFill" id="tWq-0G-Gia">
+                                    <rect key="frame" x="0.0" y="290" width="768" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pa5-hJ-Pxd">
+                                            <rect key="frame" x="158" y="-1" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <state key="normal" image="btnDissable.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qh8-tT-7gq">
+                                            <rect key="frame" x="33" y="-1" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <state key="normal" image="btnEnable.png">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boats" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x6N-tK-Xkh">
+                                            <rect key="frame" x="76" y="4" width="60" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Athletes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S0P-jX-QSq">
+                                            <rect key="frame" x="201" y="4" width="80" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OJY-0G-5MV">
                                     <rect key="frame" x="0.0" y="329" width="768" height="690"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -174,6 +212,8 @@
     <resources>
         <image name="arrow.png" width="35" height="23"/>
         <image name="bottomBorder.png" width="640" height="7"/>
+        <image name="btnDissable.png" width="25" height="25"/>
+        <image name="btnEnable.png" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

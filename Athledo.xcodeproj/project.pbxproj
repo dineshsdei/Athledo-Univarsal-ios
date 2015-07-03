@@ -296,7 +296,6 @@
 		71A5F3FC1AE8CBFE00BBA5ED /* UnTick.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A5F3FA1AE8CBFE00BBA5ED /* UnTick.png */; };
 		71A5F3FF1AE8E57200BBA5ED /* Tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A5F3FD1AE8E57200BBA5ED /* Tick@2x.png */; };
 		71A5F4001AE8E57200BBA5ED /* UnTick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71A5F3FE1AE8E57200BBA5ED /* UnTick@2x.png */; };
-		71A5F4051AE9171E00BBA5ED /* AAttendanceBO.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A5F4041AE9171E00BBA5ED /* AAttendanceBO.m */; };
 		71A63E131A259DFB00D0DA99 /* WorkOutView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */; };
 		71A63E151A25A06D00D0DA99 /* AddWorkOut~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */; };
 		71A63E171A25A29F00D0DA99 /* WorkOutListCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */; };
@@ -465,6 +464,7 @@
 		71BEF75C1B035A2600041F42 /* navDeleteBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BEF7591B035A2600041F42 /* navDeleteBtn@2x.png */; };
 		71BEF75D1B035A2600041F42 /* navDeleteBtn~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BEF75A1B035A2600041F42 /* navDeleteBtn~ipad@2x.png */; };
 		71BEF7601B035EFB00041F42 /* addPractice.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BEF75F1B035EFB00041F42 /* addPractice.png */; };
+		71C0072F1B3BC63D00744863 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71C0072E1B3BC63C00744863 /* View.xib */; };
 		71C9A89419ECE2B6001A4017 /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C9A89319ECE2B6001A4017 /* MyAnnotation.m */; };
 		71C9A89719ECE93A001A4017 /* CalendarMonthView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */; };
 		71D66E301A7BA7FD00B75F86 /* AddWorkOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D66E2F1A7BA7FD00B75F86 /* AddWorkOut.m */; };
@@ -908,7 +908,7 @@
 		71A4173F1A84D4B100A41981 /* deleteBtn~ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "deleteBtn~ipad@2x.png"; sourceTree = "<group>"; };
 		71A421E21B007A9300BCA3BD /* PracticeLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticeLog.h; sourceTree = "<group>"; };
 		71A421E31B007A9300BCA3BD /* PracticeLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PracticeLog.m; sourceTree = "<group>"; };
-		71A421E41B007A9300BCA3BD /* PracticeLog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PracticeLog.xib; sourceTree = "<group>"; };
+		71A421E41B007A9300BCA3BD /* PracticeLog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PracticeLog.xib; path = "Practice Log/PracticeLog.xib"; sourceTree = "<group>"; };
 		71A421F51B00A27500BCA3BD /* PracticeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticeCell.h; sourceTree = "<group>"; };
 		71A421F61B00A27500BCA3BD /* PracticeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PracticeCell.m; sourceTree = "<group>"; };
 		71A421F71B00A27500BCA3BD /* PracticeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PracticeCell.xib; sourceTree = "<group>"; };
@@ -933,8 +933,6 @@
 		71A5F3FA1AE8CBFE00BBA5ED /* UnTick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnTick.png; sourceTree = "<group>"; };
 		71A5F3FD1AE8E57200BBA5ED /* Tick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tick@2x.png"; sourceTree = "<group>"; };
 		71A5F3FE1AE8E57200BBA5ED /* UnTick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UnTick@2x.png"; sourceTree = "<group>"; };
-		71A5F4031AE9171E00BBA5ED /* AAttendanceBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAttendanceBO.h; sourceTree = "<group>"; };
-		71A5F4041AE9171E00BBA5ED /* AAttendanceBO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAttendanceBO.m; sourceTree = "<group>"; };
 		71A63E121A259DFB00D0DA99 /* WorkOutView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutView~ipad.xib"; sourceTree = "<group>"; };
 		71A63E141A25A06D00D0DA99 /* AddWorkOut~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddWorkOut~iphone.xib"; sourceTree = "<group>"; };
 		71A63E161A25A29F00D0DA99 /* WorkOutListCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutListCell~ipad.xib"; sourceTree = "<group>"; };
@@ -1008,9 +1006,9 @@
 		71A9759B1AC037F900463455 /* AddManagerSportInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddManagerSportInfo.m; sourceTree = "<group>"; };
 		71A9759C1AC037F900463455 /* AddManagerSportInfo~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddManagerSportInfo~iphone.xib"; sourceTree = "<group>"; };
 		71A99E131A4AB7BB00CFE3A6 /* ComposeMessage~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ComposeMessage~ipad.xib"; sourceTree = "<group>"; };
-		71AAF8351B0AEF9A004DB37C /* AddPracticeLog~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddPracticeLog~ipad.xib"; sourceTree = "<group>"; };
-		71AAF8381B0AFD8E004DB37C /* PracticeLogDetail~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "PracticeLogDetail~ipad.xib"; sourceTree = "<group>"; };
-		71AAF83C1B0B1113004DB37C /* AddPracticeNoteByAthlete~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddPracticeNoteByAthlete~ipad.xib"; sourceTree = "<group>"; };
+		71AAF8351B0AEF9A004DB37C /* AddPracticeLog~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AddPracticeLog~ipad.xib"; path = "Practice Log/AddPracticeLog~ipad.xib"; sourceTree = "<group>"; };
+		71AAF8381B0AFD8E004DB37C /* PracticeLogDetail~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "PracticeLogDetail~ipad.xib"; path = "Practice Log/PracticeLogDetail~ipad.xib"; sourceTree = "<group>"; };
+		71AAF83C1B0B1113004DB37C /* AddPracticeNoteByAthlete~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AddPracticeNoteByAthlete~ipad.xib"; path = "Practice Log/AddPracticeNoteByAthlete~ipad.xib"; sourceTree = "<group>"; };
 		71AB4C9E1B0DAD6000AA13B2 /* AthletePracticeNotesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AthletePracticeNotesCell.h; sourceTree = "<group>"; };
 		71AB4C9F1B0DAD6000AA13B2 /* AthletePracticeNotesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AthletePracticeNotesCell.m; sourceTree = "<group>"; };
 		71AB4CA01B0DAD6000AA13B2 /* AthletePracticeNotesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AthletePracticeNotesCell.xib; sourceTree = "<group>"; };
@@ -1023,10 +1021,10 @@
 		71ACB4FE198A140B007C5AFA /* AddCoachingHistory~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddCoachingHistory~iphone.xib"; sourceTree = "<group>"; };
 		71ACB501198A187E007C5AFA /* AddCoachongHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCoachongHistoryCell.h; sourceTree = "<group>"; };
 		71ACB502198A187E007C5AFA /* AddCoachongHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCoachongHistoryCell.m; sourceTree = "<group>"; };
-		71ACF5BB1B05EFF100FC1E93 /* AddPracticeNoteByAthlete~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddPracticeNoteByAthlete~iphone.xib"; sourceTree = "<group>"; };
+		71ACF5BB1B05EFF100FC1E93 /* AddPracticeNoteByAthlete~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AddPracticeNoteByAthlete~iphone.xib"; path = "Practice Log/AddPracticeNoteByAthlete~iphone.xib"; sourceTree = "<group>"; };
 		71ACF5BE1B05FB5300FC1E93 /* PracticeLogDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticeLogDetail.h; sourceTree = "<group>"; };
 		71ACF5BF1B05FB5300FC1E93 /* PracticeLogDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PracticeLogDetail.m; sourceTree = "<group>"; };
-		71ACF5C01B05FB5300FC1E93 /* PracticeLogDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PracticeLogDetail.xib; sourceTree = "<group>"; };
+		71ACF5C01B05FB5300FC1E93 /* PracticeLogDetail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PracticeLogDetail.xib; path = "Practice Log/PracticeLogDetail.xib"; sourceTree = "<group>"; };
 		71ADF1941A70F1B200457FB9 /* bubble-default-incoming-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble-default-incoming-green.png"; sourceTree = "<group>"; };
 		71ADF1951A70F1B200457FB9 /* bubble-default-incoming-green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble-default-incoming-green@2x.png"; sourceTree = "<group>"; };
 		71ADF1961A70F1B200457FB9 /* bubble-default-incoming-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble-default-incoming-selected.png"; sourceTree = "<group>"; };
@@ -1059,7 +1057,7 @@
 		71ADF1B11A70F1B200457FB9 /* send@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "send@2x.png"; sourceTree = "<group>"; };
 		71AE60F21B0219220093C89F /* AddPracticeLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPracticeLog.h; sourceTree = "<group>"; };
 		71AE60F31B0219220093C89F /* AddPracticeLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPracticeLog.m; sourceTree = "<group>"; };
-		71AE60F41B0219220093C89F /* AddPracticeLog~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddPracticeLog~iphone.xib"; sourceTree = "<group>"; };
+		71AE60F41B0219220093C89F /* AddPracticeLog~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AddPracticeLog~iphone.xib"; path = "Practice Log/AddPracticeLog~iphone.xib"; sourceTree = "<group>"; };
 		71AFF5CA1B0C67A6000DAC2F /* Navadd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Navadd@2x.png"; sourceTree = "<group>"; };
 		71AFF5CD1B0C68E3000DAC2F /* compose_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compose_icon@2x.png"; sourceTree = "<group>"; };
 		71AFF5CF1B0C6B20000DAC2F /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
@@ -1150,6 +1148,7 @@
 		71BEF7591B035A2600041F42 /* navDeleteBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "navDeleteBtn@2x.png"; path = "../../navDeleteBtn@2x.png"; sourceTree = "<group>"; };
 		71BEF75A1B035A2600041F42 /* navDeleteBtn~ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "navDeleteBtn~ipad@2x.png"; path = "../../navDeleteBtn~ipad@2x.png"; sourceTree = "<group>"; };
 		71BEF75F1B035EFB00041F42 /* addPractice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addPractice.png; sourceTree = "<group>"; };
+		71C0072E1B3BC63C00744863 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
 		71C9A89219ECE2B6001A4017 /* MyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnnotation.h; sourceTree = "<group>"; };
 		71C9A89319ECE2B6001A4017 /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		71C9A89619ECE93A001A4017 /* CalendarMonthView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "CalendarMonthView~iphone.xib"; sourceTree = "<group>"; };
@@ -1219,7 +1218,6 @@
 			isa = PBXGroup;
 			children = (
 				7197E864197E8B160086DA2E /* Athledo Basic Info.strings */,
-				71A5F4011AE9165000BBA5ED /* BusinessLayer */,
 				71A909001A5E8ED100AFB6AC /* Model */,
 				71A908EA1A5E894100AFB6AC /* Views */,
 				3D9E050A197BCF7D005CCB10 /* Controllers */,
@@ -2152,17 +2150,10 @@
 				71A421F41B00A25D00BCA3BD /* PracticeCustomCell */,
 				71A421E21B007A9300BCA3BD /* PracticeLog.h */,
 				71A421E31B007A9300BCA3BD /* PracticeLog.m */,
-				71A421E41B007A9300BCA3BD /* PracticeLog.xib */,
 				71AE60F21B0219220093C89F /* AddPracticeLog.h */,
 				71AE60F31B0219220093C89F /* AddPracticeLog.m */,
-				71AAF8351B0AEF9A004DB37C /* AddPracticeLog~ipad.xib */,
-				71AE60F41B0219220093C89F /* AddPracticeLog~iphone.xib */,
-				71AAF83C1B0B1113004DB37C /* AddPracticeNoteByAthlete~ipad.xib */,
-				71ACF5BB1B05EFF100FC1E93 /* AddPracticeNoteByAthlete~iphone.xib */,
 				71ACF5BE1B05FB5300FC1E93 /* PracticeLogDetail.h */,
 				71ACF5BF1B05FB5300FC1E93 /* PracticeLogDetail.m */,
-				71AAF8381B0AFD8E004DB37C /* PracticeLogDetail~ipad.xib */,
-				71ACF5C01B05FB5300FC1E93 /* PracticeLogDetail.xib */,
 			);
 			path = "Practice Log";
 			sourceTree = "<group>";
@@ -2193,6 +2184,43 @@
 			name = CustomCell;
 			sourceTree = "<group>";
 		};
+		71A48F991B4272ED00106577 /* PracticeLog */ = {
+			isa = PBXGroup;
+			children = (
+				71AAF8351B0AEF9A004DB37C /* AddPracticeLog~ipad.xib */,
+				71AAF83C1B0B1113004DB37C /* AddPracticeNoteByAthlete~ipad.xib */,
+				71AAF8381B0AFD8E004DB37C /* PracticeLogDetail~ipad.xib */,
+			);
+			name = PracticeLog;
+			sourceTree = "<group>";
+		};
+		71A48F9B1B42734B00106577 /* PracticeLog */ = {
+			isa = PBXGroup;
+			children = (
+				71A421E41B007A9300BCA3BD /* PracticeLog.xib */,
+				71AE60F41B0219220093C89F /* AddPracticeLog~iphone.xib */,
+				71ACF5BB1B05EFF100FC1E93 /* AddPracticeNoteByAthlete~iphone.xib */,
+				71ACF5C01B05FB5300FC1E93 /* PracticeLogDetail.xib */,
+			);
+			name = PracticeLog;
+			sourceTree = "<group>";
+		};
+		71A48F9C1B42737800106577 /* Attendance */ = {
+			isa = PBXGroup;
+			children = (
+				71B4987F1AE62538007CCAF1 /* Attendance~iphone.xib */,
+			);
+			name = Attendance;
+			sourceTree = "<group>";
+		};
+		71A48F9D1B4273BC00106577 /* Attendance */ = {
+			isa = PBXGroup;
+			children = (
+				71A59ADA1AE9FBA4009E7C86 /* Attendance~ipad.xib */,
+			);
+			name = Attendance;
+			sourceTree = "<group>";
+		};
 		71A582E61AC9166700F8E614 /* SMSAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -2211,24 +2239,6 @@
 				71A5F3FA1AE8CBFE00BBA5ED /* UnTick.png */,
 			);
 			path = attendance;
-			sourceTree = "<group>";
-		};
-		71A5F4011AE9165000BBA5ED /* BusinessLayer */ = {
-			isa = PBXGroup;
-			children = (
-				71A5F4021AE9167400BBA5ED /* EntitiesBO */,
-			);
-			name = BusinessLayer;
-			path = Athledo;
-			sourceTree = "<group>";
-		};
-		71A5F4021AE9167400BBA5ED /* EntitiesBO */ = {
-			isa = PBXGroup;
-			children = (
-				71A5F4031AE9171E00BBA5ED /* AAttendanceBO.h */,
-				71A5F4041AE9171E00BBA5ED /* AAttendanceBO.m */,
-			);
-			name = EntitiesBO;
 			sourceTree = "<group>";
 		};
 		71A6E75E19EFD2C1002416B4 /* MJGeocoder */ = {
@@ -2290,6 +2300,7 @@
 			children = (
 				71A908EF1A5E8A5400AFB6AC /* iPad */,
 				71A908EC1A5E895500AFB6AC /* iphone */,
+				71C0072E1B3BC63C00744863 /* View.xib */,
 			);
 			name = Views;
 			path = Athledo;
@@ -2298,6 +2309,8 @@
 		71A908EC1A5E895500AFB6AC /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				71A48F9C1B42737800106577 /* Attendance */,
+				71A48F9B1B42734B00106577 /* PracticeLog */,
 				71A996301ACC056D00252A0C /* sms */,
 				71B3205C1AC5286E00412C40 /* Notes */,
 				71A908ED1A5E8A0400AFB6AC /* Profile */,
@@ -2336,6 +2349,8 @@
 		71A908EF1A5E8A5400AFB6AC /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				71A48F9D1B4273BC00106577 /* Attendance */,
+				71A48F991B4272ED00106577 /* PracticeLog */,
 				71A996311ACC058900252A0C /* sms */,
 				71A7BA821A9C6FBF00C75ABA /* Notes */,
 				71A908FD1A5E8D7500AFB6AC /* Profile */,
@@ -2659,8 +2674,6 @@
 				71B498821AE628ED007CCAF1 /* CustomCell */,
 				71B4987D1AE62538007CCAF1 /* Attendance.h */,
 				71B4987E1AE62538007CCAF1 /* Attendance.m */,
-				71B4987F1AE62538007CCAF1 /* Attendance~iphone.xib */,
-				71A59ADA1AE9FBA4009E7C86 /* Attendance~ipad.xib */,
 			);
 			name = Attendance;
 			sourceTree = "<group>";
@@ -2919,6 +2932,7 @@
 				71ADF1CE1A70F1B200457FB9 /* send.png in Resources */,
 				71A368AF1A6E191200DDF05C /* tabmap_icon1.png in Resources */,
 				71BEF75B1B035A2600041F42 /* navDeleteBtn.png in Resources */,
+				71C0072F1B3BC63D00744863 /* View.xib in Resources */,
 				71A368AC1A6E191200DDF05C /* placeholder.png in Resources */,
 				71A713B41AD402B400512585 /* SMSCustomCell~ipad.xib in Resources */,
 				71A461C019F4C97D00CD2C13 /* RepeatEventCell~iphone.xib in Resources */,
@@ -3313,7 +3327,6 @@
 				7111F6041A9F26C4004F58E8 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				71977E241990DEBE00477EAF /* AddAthleteHistoryCell.m in Sources */,
 				710C634519B9E8A400F11983 /* MAEventKitDataSource.m in Sources */,
-				71A5F4051AE9171E00BBA5ED /* AAttendanceBO.m in Sources */,
 				71999537197CEBF000C0F77F /* ActiveIndicator.m in Sources */,
 				71A7B5AE197F762100038A15 /* Awards.m in Sources */,
 				710C635219B9E8FA00F11983 /* MAEvent.m in Sources */,

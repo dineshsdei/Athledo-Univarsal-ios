@@ -266,7 +266,7 @@
             cell = [arrNib objectAtIndex:0];
             cell.contentView.userInteractionEnabled =YES;
         }
-        cell.lblAthleteName.text = [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:@"name"] != nil ? [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:@"name"] : @"";
+        cell.lblAthleteName.text = [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:Key_name] != nil ? [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:Key_name] : @"";
         cell.textviewNotes.text = [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:@"notes"] != nil ? [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:@"notes"] : @"";
         cell.textviewNotes.textColor = LightGrayColor;
         cell.lblAthleteName.font = Textfont;

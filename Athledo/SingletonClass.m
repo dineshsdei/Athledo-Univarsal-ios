@@ -184,7 +184,7 @@ static SingletonClass *objSingaltonClass=nil;
     lblShowEmptyMessage.text=text;
     lblShowEmptyMessage.tag=emptyLableMessagesTag;
     lblShowEmptyMessage.textAlignment=NSTextAlignmentCenter;
-    lblShowEmptyMessage.font=(isIPAD )?[UIFont systemFontOfSize:25] : [UIFont systemFontOfSize:20] ;
+    lblShowEmptyMessage.font=(isIPAD )?[UIFont systemFontOfSize:20] : [UIFont systemFontOfSize:18] ;
     lblShowEmptyMessage.textColor=[UIColor grayColor];
     
     return lblShowEmptyMessage;

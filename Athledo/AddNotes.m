@@ -200,7 +200,7 @@
         cell.cellTextView.font = Textfont;
         cell.cellTextView.textColor=[UIColor lightGrayColor];
         [formatter setDateFormat:DATE_TIME_FORMAT_MESSAGE];
-        NSDate *date = [formatter dateFromString:[[arrNotesData objectAtIndex:indexPath.row] valueForKey:@"date"]];
+        NSDate *date = [formatter dateFromString:[[arrNotesData objectAtIndex:indexPath.row] valueForKey:KEY_date]];
         [formatter setDateFormat:DATE_FORMAT_dd_MMM_yyyy];
         cell.lblDate.text = [formatter stringFromDate:date];
         cell.lblDate.font = Textfont;
