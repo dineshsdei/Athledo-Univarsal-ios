@@ -388,7 +388,7 @@
     // Do any additional setup after loading the view from its nib.
     tblAnnouncementRecods.backgroundColor=[UIColor clearColor];
     tblUpdatesRecods.backgroundColor=[UIColor clearColor];
-    arrAnnouncements=[[NSMutableArray alloc] init];
+    arrAnnouncements=MUTABLEARRAY;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
@@ -489,7 +489,7 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     UpdateDetails *updateDetails=[[UpdateDetails alloc] init];
     updateDetails.obj=[arrAnnouncements objectAtIndex:indexPath.section];
     updateDetails.strName=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:Key_name];
-    updateDetails.strDate=[[[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_date"] stringByAppendingString:@" " ] stringByAppendingString:[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_time"]];
+    updateDetails.strDate=[[[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_date"] stringByAppendingString:STR_SPACE ] stringByAppendingString:[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"schedule_time"]];
     updateDetails.strDes=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"description"];
     NSArray *arrtemp=[notificationData valueForKey:@"announcements"];
     if ([arrtemp containsObject:[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:@"id"]]) {

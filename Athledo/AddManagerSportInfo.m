@@ -72,7 +72,7 @@
     _ScrollView.scrollEnabled =YES;
     arrFeets = @[@"4",@"5",@"6",@"7",@"8"];
     arrInches = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11"];
-    arrYear=[[NSMutableArray alloc] init];
+    arrYear=MUTABLEARRAY;
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = @"YYYY";
     NSString *currentYesr= [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];

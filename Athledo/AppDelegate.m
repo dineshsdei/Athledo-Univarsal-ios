@@ -48,7 +48,7 @@
     
     
 	self.window = window;
-     _arrCellFieldTag=[[NSMutableArray alloc] init];
+     _arrCellFieldTag=MUTABLEARRAY;
     
     AnnouncementView *frontViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
 	MenuListView *rearViewController = [[MenuListView alloc] initWithNibName:@"MenuListView" bundle:nil];

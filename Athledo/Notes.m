@@ -52,7 +52,7 @@
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    arrFilterdData=[[NSMutableArray alloc] init];
+    arrFilterdData=MUTABLEARRAY;
     self.title=@"Notes";
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];

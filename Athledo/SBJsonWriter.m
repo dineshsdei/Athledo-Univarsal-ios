@@ -89,7 +89,7 @@ static NSMutableCharacterSet *kEscapeChars;
 
 
 - (NSString*)indent {
-    return [@"\n" stringByPaddingToLength:1 + 2 * depth withString:@" " startingAtIndex:0];
+    return [@"\n" stringByPaddingToLength:1 + 2 * depth withString:STR_SPACE startingAtIndex:0];
 }
 
 - (BOOL)appendValue:(id)fragment into:(NSMutableString*)json {

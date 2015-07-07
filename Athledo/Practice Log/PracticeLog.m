@@ -33,9 +33,9 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    eventArrDic=[[NSMutableArray alloc] init];
-    startDateArr=[[NSMutableArray alloc] init];
-    endDateArr=[[NSMutableArray alloc] init];
+    eventArrDic=MUTABLEARRAY;
+    startDateArr=MUTABLEARRAY;
+    endDateArr=MUTABLEARRAY;
     strCurrentMonth = EMPTYSTRING;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.monthView selectDate:[NSDate date]];
@@ -130,7 +130,7 @@
     formatter.dateFormat=DATE_FORMAT_dd_MMM_yyyy;
     NSDate *newDate1 = [lastDate dateByAddingTimeInterval:60*60*24*12];
     NSString *strLastdate = [formatter stringFromDate:newDate1];
-    NSArray *arrComponents = [strLastdate componentsSeparatedByString:@" "];
+    NSArray *arrComponents = [strLastdate componentsSeparatedByString:STR_SPACE];
     if (![[arrComponents objectAtIndex:1] isEqualToString:strCurrentMonth]) {
         formatter.dateFormat = DATE_FORMAT_Y_M_D;
         NSString *strStartDate = [formatter stringFromDate:startDate];

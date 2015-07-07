@@ -138,11 +138,7 @@
 	_alerts = [[NSMutableArray alloc] init];
 	_alertView = [[TKAlertView alloc] init];
 	_active = NO;
-	
-	
 	_alertFrame = [UIScreen mainScreen].applicationFrame;
-
-	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillDisappear:) name:UIKeyboardDidHideNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationWillChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];

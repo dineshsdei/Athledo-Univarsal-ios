@@ -142,7 +142,7 @@
         else if(_txtTo.text.length < 1 )
         {
             strError = @"Please enter receiver";
-        }else if(_textviewDesc.text.length < 1 )
+        }else if([_textviewDesc.text isEqualToString:@"Enter Text"] )
         {
             strError = @"Please enter message text";
         }
@@ -165,7 +165,7 @@
     {
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *strURL = [NSString stringWithFormat:@"{\"option_id\":\"%d\",\"user_id\":\"%d\",\"team_id\":\"%d\"}",optionId,userInfo.userId,userInfo.userSelectedTeamid];
-        //[SingaltonClass addActivityIndicator:self.view];
+        [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceGetUserType :strURL :getUserTypeTag];
     }else
     {
@@ -207,7 +207,7 @@
                 _textviewDesc.text=EMPTYSTRING;
                 _txtTo.text=EMPTYSTRING;
                  [m_ScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message has been send successfully" delegate:nil btn1:@"Ok"];
+                [SingletonClass initWithTitle:EMPTYSTRING message:@"Message has been sent successfully" delegate:nil btn1:@"Ok"];
             }
             
             break;
@@ -406,6 +406,7 @@
     if ([textField.placeholder isEqualToString:@"To"]) {
          [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
+        [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+500) :toolBar];
         
         if (ToDataArray.count > 0) {
             
@@ -414,7 +415,7 @@
             
         }else{
             
-            [SingletonClass initWithTitle:EMPTYSTRING message:@"Selected user type are not available " delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:@"Members don't exist" delegate:nil btn1:@"Ok"];
         }
         return NO;
         
@@ -635,6 +636,7 @@
 {
     if ([currentText.placeholder isEqualToString:@"To"] && isTo==YES)
     {
+        currentText.text = EMPTYSTRING;
         currentText.text = [self PickerSlectedValues:ToSelectedData];
         receiver_ids=[self PickerSlectedIds :ToSelectedData:userToData];
     }
@@ -663,17 +665,14 @@
     NSArray *arrKeys=[pickerData allKeys];
     NSArray *arrValues=[pickerData allValues];
     NSString *values=EMPTYSTRING;
-    
+    NSMutableArray *arrTemp = [[NSMutableArray alloc] init];
     for (int i=0; i<arrValues.count; i++) {
-        
-        if ([[arrValues objectAtIndex:i] intValue]==1)
-        {
-            if (i < arrValues.count-1 )
-                values =[values stringByAppendingString:[NSString stringWithFormat:@"%@,", arrKeys[i] ] ];
-            else
-                values =[values stringByAppendingString:[NSString stringWithFormat:@"%@", arrKeys[i] ] ];
+        if ([[arrValues objectAtIndex:i] intValue]==1){
+            [arrTemp addObject:arrKeys[i]];
         }
     }
+    values = [arrTemp componentsJoinedByString:@","];
+    values = [values stringByReplacingOccurrencesOfString:@"," withString:@", "];
     return values;
 }
 - (void)didReceiveMemoryWarning
@@ -681,7 +680,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 - (IBAction)SendMessage:(id)sender {
     [SingletonClass ShareInstance].isMessangerSent =TRUE;
     [self WebServiceComposeMessage];

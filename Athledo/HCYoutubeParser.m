@@ -44,7 +44,7 @@
 @implementation NSString (QueryString)
 
 - (NSString *)stringByDecodingURLFormat {
-    NSString *result = [self stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    NSString *result = [self stringByReplacingOccurrencesOfString:@"+" withString:STR_SPACE];
     result = [result stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return result;
 }

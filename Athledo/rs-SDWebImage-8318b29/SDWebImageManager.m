@@ -18,12 +18,12 @@ static SDWebImageManager *instance;
 {
     if ((self = [super init]))
     {
-        downloadDelegates = [[NSMutableArray alloc] init];
-        downloaders = [[NSMutableArray alloc] init];
-        cacheDelegates = [[NSMutableArray alloc] init];
-        cacheURLs = [[NSMutableArray alloc] init];
+        downloadDelegates = MUTABLEARRAY;
+        downloaders = MUTABLEARRAY;
+        cacheDelegates = MUTABLEARRAY;
+        cacheURLs = MUTABLEARRAY;
         downloaderForURL = [[NSMutableDictionary alloc] init];
-        failedURLs = [[NSMutableArray alloc] init];
+        failedURLs = MUTABLEARRAY;
     }
     return self;
 }

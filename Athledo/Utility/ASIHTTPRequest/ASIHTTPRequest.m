@@ -3025,7 +3025,7 @@ static NSOperationQueue *sharedQueue = nil;
 {
 	[sessionCredentialsLock lock];
 	if (!sessionProxyCredentialsStore) {
-		sessionProxyCredentialsStore = [[NSMutableArray alloc] init];
+		sessionProxyCredentialsStore = MUTABLEARRAY;
 	}
 	[sessionCredentialsLock unlock];
 	return sessionProxyCredentialsStore;
@@ -3035,7 +3035,7 @@ static NSOperationQueue *sharedQueue = nil;
 {
 	[sessionCredentialsLock lock];
 	if (!sessionCredentialsStore) {
-		sessionCredentialsStore = [[NSMutableArray alloc] init];
+		sessionCredentialsStore = MUTABLEARRAY;
 	}
 	[sessionCredentialsLock unlock];
 	return sessionCredentialsStore;
@@ -3188,8 +3188,7 @@ static NSOperationQueue *sharedQueue = nil;
 	return sessionCookies;
 }
 
-+ (void)setSessionCookies:(NSMutableArray *)newSessionCookies
-{
++ (void)setSessionCookies:(NSMutableArray *)newSessionCookies{
 	[sessionCookiesLock lock];
 	// Remove existing cookies from the persistent store
 	for (NSHTTPCookie *cookie in sessionCookies) {
@@ -3200,8 +3199,7 @@ static NSOperationQueue *sharedQueue = nil;
 	[sessionCookiesLock unlock];
 }
 
-+ (void)addSessionCookie:(NSHTTPCookie *)newCookie
-{
++ (void)addSessionCookie:(NSHTTPCookie *)newCookie{
 	[sessionCookiesLock lock];
 	NSHTTPCookie *cookie;
 	NSUInteger i;
@@ -3218,8 +3216,7 @@ static NSOperationQueue *sharedQueue = nil;
 }
 
 // Dump all session data (authentication and cookies)
-+ (void)clearSession
-{
++ (void)clearSession{
 	[sessionCredentialsLock lock];
 	[[[self class] sessionCredentialsStore] removeAllObjects];
 	[sessionCredentialsLock unlock];
@@ -3233,10 +3230,8 @@ static NSOperationQueue *sharedQueue = nil;
 // Contributed by Shaun Harrison of Enormego, see: http://developers.enormego.com/view/asihttprequest_gzip
 // Based on this: http://deusty.blogspot.com/2007/07/gzip-compressiondecompression.html
 //
-+ (NSData *)uncompressZippedData:(NSData*)compressedData
-{
++ (NSData *)uncompressZippedData:(NSData*)compressedData{
 	if ([compressedData length] == 0) return compressedData;
-	
 	NSUInteger full_length = [compressedData length];
 	NSUInteger half_length = [compressedData length] / 2;
 	

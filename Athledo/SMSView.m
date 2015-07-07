@@ -60,8 +60,8 @@
     toolBar = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
     self.title = @"Send SMS";
     _textview.text = @"Compose new SMS";
-    arrFilterdData = [[NSMutableArray alloc] init];
-    arrGroupFilterdData = [[NSMutableArray alloc] init];
+    arrFilterdData = MUTABLEARRAY;
+    arrGroupFilterdData = MUTABLEARRAY;
     _textview.layer.borderWidth = .5;
     _textview.layer.cornerRadius = 9;
     _textview.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -317,7 +317,7 @@
         [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"sender_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",_textview.text] forKey:@"message"];
         
-        NSMutableArray *arrReceiverData = [[NSMutableArray alloc] init];
+        NSMutableArray *arrReceiverData = MUTABLEARRAY;
         for (int i=0; i<arrFilterdData.count ; i++ ) {
             if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
                 NSDictionary *tosDic = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"id"]],[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"cellphone"]],EMPTYSTRING] forKeys:@[KEY_USER_ID,@"phone",@"group_id",]];
@@ -542,7 +542,7 @@
             [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
         }
-        NSMutableArray *arrIndividualPhones = [[NSMutableArray alloc] init];
+        NSMutableArray *arrIndividualPhones = MUTABLEARRAY;
         for (int i=0; i<arrFilterdData.count ; i++ ) {
             if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
                 NSString *phoneNumber = [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] ? [[arrFilterdData objectAtIndex:i]valueForKey:@"cellphone"] :EMPTYSTRING ;
@@ -611,7 +611,7 @@
             ShowOnceSuccessAlert=FALSE;
             [responseDict valueForKey:@"message"] ? [SingletonClass initWithTitle:EMPTYSTRING message:[responseDict valueForKey:@"message"]  delegate:nil btn1:@"Ok"] :EMPTYSTRING;
             if([[responseDict valueForKey:STATUS] isEqualToString:@"queued"]){
-                [[responseDict valueForKey:STATUS] isEqualToString:@"queued"] ? [SingletonClass initWithTitle:EMPTYSTRING message:@"SMS has been send successfully"  delegate:nil btn1:@"Ok"] :EMPTYSTRING;
+                [[responseDict valueForKey:STATUS] isEqualToString:@"queued"] ? [SingletonClass initWithTitle:EMPTYSTRING message:@"SMS has been sent successfully"  delegate:nil btn1:@"Ok"] :EMPTYSTRING;
                 [self getSaveSMSDataOnWeb];
                 [self RefreshSMSView];
             }

@@ -368,6 +368,9 @@
 #define SmallTextfont [UIFont fontWithName:fontName size:SmallfontSize] ;
 #define MenuTextfont isIPAD ?[UIFont boldSystemFontOfSize:20]  : [UIFont boldSystemFontOfSize:17] ;
 //#define  pickerHeight isIPAD ? 216 : 162
+#define TIME_INTERVAL [[NSArray alloc] initWithObjects:@"05",@"10",@"15",@"20",@"30",@"25",@"35",@"40",@"45",@"50",@"55", nil]
+
+#define MUTABLEARRAY [[NSMutableArray alloc] init];
 
 #define dateFormatMonthDateYearSlash @"MM/dd/yyyy"
 #define dateFormatDateMonthYearHiphen @"dd-MMM-yyyy"

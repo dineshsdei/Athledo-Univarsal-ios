@@ -139,7 +139,7 @@ UIBarButtonItem *revealButtonItem;;
     }
     
     [super viewDidLoad];
-    self.data=[[NSMutableArray alloc] init];
+    self.data=MUTABLEARRAY;
     self.title = NSLocalizedString(@"Day Events", EMPTYSTRING);
     self.view.backgroundColor=[UIColor whiteColor];
     revealController = [self revealViewController];
@@ -164,7 +164,7 @@ UIBarButtonItem *revealButtonItem;;
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    _eventDic=[[NSMutableArray alloc] init];
+    _eventDic=MUTABLEARRAY;
     
     // Last value for event tag for show in details
     
@@ -191,7 +191,7 @@ UIBarButtonItem *revealButtonItem;;
         }
     }
     
-    NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
+    NSMutableArray *tabBarItems = MUTABLEARRAY;
     UITabBarItem *tabBarItem1 = [[UITabBarItem alloc] initWithTitle:@"Month" image:[UIImage imageNamed:@"mnth_icon2.png"] tag:0];
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Week" image:[UIImage imageNamed:@"week_icon1.png"] tag:1];
     UITabBarItem *tabBarItem3 = [[UITabBarItem alloc] initWithTitle:@"Today" image:[UIImage imageNamed:@"today_icon.png"] tag:2];;

@@ -127,7 +127,7 @@ UIBarButtonItem *revealButtonItem;;
     //WeekStartDate=nil;
     
     revealController = [self revealViewController];
-    _eventDic=[[NSMutableArray alloc] init];
+    _eventDic=MUTABLEARRAY;
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
@@ -150,7 +150,7 @@ UIBarButtonItem *revealButtonItem;;
     
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnAddNew];
     self.navigationItem.rightBarButtonItem = ButtonItem;
-    NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
+    NSMutableArray *tabBarItems = MUTABLEARRAY;
     
     UITabBarItem *tabBarItem1 = [[UITabBarItem alloc] initWithTitle:@"Month" image:[UIImage imageNamed:@"mnth_icon2.png"] tag:0];
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Week" image:[UIImage imageNamed:@"week_icon1.png"] tag:1];
@@ -339,7 +339,7 @@ UIBarButtonItem *revealButtonItem;;
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:DATE_FORMAT_Y_M_D_H_M_S];
-    NSMutableArray *arr=[[NSMutableArray alloc] init];
+    NSMutableArray *arr=MUTABLEARRAY;
     for (int i=0; i< _eventDic.count; i++) {
         
         //        NSDate *fromDate=[dateFormatter dateFromString: [[_eventDic objectAtIndex:i] valueForKey:@"start_date"]];
@@ -350,14 +350,14 @@ UIBarButtonItem *revealButtonItem;;
         //        NSTimeInterval toTime = [toDate timeIntervalSinceReferenceDate];
         //        NSTimeInterval currTime = [CurrentDate timeIntervalSinceReferenceDate];
         
-        NSString *startdate=[[[[_eventDic objectAtIndex:i] valueForKey:@"start_date"] componentsSeparatedByString:@" "] objectAtIndex:0];;
+        NSString *startdate=[[[[_eventDic objectAtIndex:i] valueForKey:@"start_date"] componentsSeparatedByString:STR_SPACE] objectAtIndex:0];;
         
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         NSDateComponents *components = [[NSDateComponents alloc] init];
         components.day =1;
         NSDate *newDate = [calendar dateByAddingComponents:components toDate:startDate options:0];
         NSString *CalenderStartDate=[NSString stringWithFormat:@"%@",newDate];
-        CalenderStartDate=[[CalenderStartDate componentsSeparatedByString:@" "] objectAtIndex:0];
+        CalenderStartDate=[[CalenderStartDate componentsSeparatedByString:STR_SPACE] objectAtIndex:0];
         if([CalenderStartDate isEqualToString:startdate]){
             [arr addObject:[self event :i : startDate ]];
         }
@@ -407,13 +407,13 @@ UIBarButtonItem *revealButtonItem;;
   
     //Event Time
     
-    NSArray *startTimeComp=[[[[[_eventDic objectAtIndex:index] valueForKey:@"start_date"] componentsSeparatedByString:@" "] objectAtIndex:1] componentsSeparatedByString:@":"];
+    NSArray *startTimeComp=[[[[[_eventDic objectAtIndex:index] valueForKey:@"start_date"] componentsSeparatedByString:STR_SPACE] objectAtIndex:1] componentsSeparatedByString:@":"];
     NSDateComponents *components = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:date];
     [components setHour:[[startTimeComp objectAtIndex:0] intValue]];
     [components setMinute:[[startTimeComp objectAtIndex:1] intValue]];
     [components setSecond:[[startTimeComp objectAtIndex:2] intValue]];
     event.start = [CURRENT_CALENDAR dateFromComponents:components];
-    NSArray *endTimeComp=[[[[[_eventDic objectAtIndex:index] valueForKey:@"end_date"] componentsSeparatedByString:@" "] objectAtIndex:1] componentsSeparatedByString:@":"];
+    NSArray *endTimeComp=[[[[[_eventDic objectAtIndex:index] valueForKey:@"end_date"] componentsSeparatedByString:STR_SPACE] objectAtIndex:1] componentsSeparatedByString:@":"];
     [components setHour:[[endTimeComp objectAtIndex:0] intValue]];
     [components setMinute:[[endTimeComp objectAtIndex:1] intValue]];
     [components setSecond:[[endTimeComp objectAtIndex:1] intValue]];

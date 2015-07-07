@@ -778,7 +778,7 @@ UIDeviceOrientation CurrentOrientation;
             NSMutableString *groupIdString=[[NSMutableString alloc]init];
             NSArray *arrKeys=[selectedGroups allKeys];
             NSArray *arrValues=[selectedGroups allValues];
-            NSMutableArray *temp1=[[NSMutableArray alloc] init];
+            NSMutableArray *temp1=MUTABLEARRAY;
             for (int i=0; i<arrValues.count; i++) {
                 if ([[arrValues objectAtIndex:i] intValue]==1){
                     NSArray *temp = [AllGroupData allKeysForObject:[arrKeys objectAtIndex:i]];
@@ -862,7 +862,6 @@ UIDeviceOrientation CurrentOrientation;
 
 // Check whether all rows are checked or only one
 - (void)pickerView:(ALPickerView *)pickerView didCheckRow:(NSInteger)row {
-    
     if (row == -1)
         for (id key in [selectedGroups allKeys])
             [selectedGroups setObject:[NSNumber numberWithBool:YES] forKey:key];
@@ -870,24 +869,19 @@ UIDeviceOrientation CurrentOrientation;
         [selectedGroups setObject:[NSNumber numberWithBool:YES] forKey:[groupArray objectAtIndex:row]];
     [self showBtnGroupStatus];
 }
-
--(void)showBtnGroupStatus
-{
+-(void)showBtnGroupStatus{
     BOOL status=FALSE;
-    for (id key in [selectedGroups allKeys])
-    {
+    for (id key in [selectedGroups allKeys]){
         if ([[selectedGroups objectForKey:key] intValue] == 1) {
             status=TRUE;
         }
     }
     if (status) {
         [selectGroupBtn setImage:CheckImage forState:UIControlStateNormal];
-    }else
-    {
+    }else{
         [selectGroupBtn setImage:UncheckImage forState:UIControlStateNormal];
     }
 }
-
 // Check whether all rows are unchecked or only one
 - (void)pickerView:(ALPickerView *)pickerView didUncheckRow:(NSInteger)row {
     
@@ -906,21 +900,14 @@ UIDeviceOrientation CurrentOrientation;
     {
         CheckboxButton *button=(CheckboxButton*)sender;
         if (button.tag == 1000 && button.selected==NO) {
-            
-            for (int i=0; i<5; i++)
-            {
+            for (int i=0; i<5; i++){
                 int a = i;
-                
                 CheckboxButton *btn = (CheckboxButton*)[scrollView viewWithTag:(a+1000)];
                 [btn setImage:CheckImage forState:UIControlStateNormal];
-                
                 btn.selected=YES;
                 if (a!=0) {
-                    
                     NSString *str =[NSString stringWithFormat:@"%i",a];
-                    if ([settingArray containsObject:str])
-                    {
-                        
+                    if (([settingArray containsObject:str])){
                     }else
                         [settingArray addObject:str];
                 }
@@ -938,17 +925,11 @@ UIDeviceOrientation CurrentOrientation;
                 btnGroup.selected=NO;
                 [self ChangeAllGroupStatus : NO];
             }
-            
-            
         }else if (button.tag == 1000 && button.selected==YES){
-            
-            for (int i=0; i<5; i++)
-            {
+            for (int i=0; i<5; i++){
                 int a = i;
-                
                 CheckboxButton *btn = (CheckboxButton*)[scrollView viewWithTag:(a+1000)];
                 [btn setImage:UncheckImage forState:UIControlStateNormal];
-                
                 btn.selected=NO;
                 if (a!=0) {
                     NSString *str =[NSString stringWithFormat:@"%i",a];
@@ -959,15 +940,11 @@ UIDeviceOrientation CurrentOrientation;
         }
     }
 }
-
 - (IBAction)CoachButtonEvent:(id)sender {
     [self ClickCheckBoxHideControll];
-    if ([sender isKindOfClass:[CheckboxButton class]])
-    {
+    if ([sender isKindOfClass:[CheckboxButton class]]){
         CheckboxButton *button=(CheckboxButton*)sender;
-        
-        if (button.tag == 1001 && button.selected==YES)
-        {
+        if (button.tag == 1001 && button.selected==YES){
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
             if (Allbtn.selected==YES) {
                 [Allbtn setImage:UncheckImage forState:UIControlStateNormal];
@@ -983,24 +960,16 @@ UIDeviceOrientation CurrentOrientation;
                 [settingArray removeObject:str1];
             }
             
-        }else if (button.tag == 1001 && button.selected==NO)
-        {
+        }else if (button.tag == 1001 && button.selected==NO){
             [button setImage:CheckImage forState:UIControlStateNormal];
-            
             button.selected=YES;
-            
             int count=0;
-            
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1002)];
-            
-            if (btnAthlete.selected==YES) {
-                
+            if (btnAthlete.selected == YES) {
                 count++;
             }
             CheckboxButton *btnAlumini = (CheckboxButton*)[scrollView viewWithTag:(1003)];
-            
             if (btnAlumini.selected==YES) {
-                
                 count++;
             }
             CheckboxButton *btnManager = (CheckboxButton*)[scrollView viewWithTag:(1004)];
@@ -1008,10 +977,8 @@ UIDeviceOrientation CurrentOrientation;
                 count++;
             }
             if (count==3) {
-                
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
                 [Allbtn setImage:CheckImage forState:UIControlStateNormal];
-                
                 Allbtn.selected=YES;
             }
             //Add values for use
@@ -1027,23 +994,17 @@ UIDeviceOrientation CurrentOrientation;
 - (IBAction)AthleteButtonEvent:(id)sender {
     [self ClickCheckBoxHideControll];
     
-    if ([sender isKindOfClass:[CheckboxButton class]])
-    {
+    if ([sender isKindOfClass:[CheckboxButton class]]){
         CheckboxButton *button=(CheckboxButton*)sender;
         
-        if (button.tag == 1002 && button.selected==YES)
-        {
+        if (button.tag == 1002 && button.selected==YES){
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-            
             if (Allbtn.selected==YES) {
-                
                 [Allbtn setImage:UncheckImage forState:UIControlStateNormal];
                 Allbtn.selected=NO;
                 [button setImage:UncheckImage forState:UIControlStateNormal];
                 button.selected=NO;
-                
             }else{
-                
                 [button setImage:UncheckImage forState:UIControlStateNormal];
                 button.selected=NO;
             }
@@ -1058,21 +1019,17 @@ UIDeviceOrientation CurrentOrientation;
             int count=0;
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1001)];
             if (btnAthlete.selected==YES) {
-                
                 count++;
             }
             CheckboxButton *btnAlumini = (CheckboxButton*)[scrollView viewWithTag:(1003)];
             if (btnAlumini.selected==YES) {
-                
                 count++;
             }
             CheckboxButton *btnManager = (CheckboxButton*)[scrollView viewWithTag:(1004)];
             if (btnManager.selected==YES) {
                 count++;
             }
-            
             if (count==3) {
-                
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
                 [Allbtn setImage:CheckImage forState:UIControlStateNormal];
                 Allbtn.selected=YES;
@@ -1095,16 +1052,15 @@ UIDeviceOrientation CurrentOrientation;
             }
         }
     }
-    
 }
 - (IBAction)ManagerButtonEvent:(id)sender
 {
     [self ClickCheckBoxHideControll];
-    if ([sender isKindOfClass:[CheckboxButton class]])
-    {
+    if ([sender isKindOfClass:[CheckboxButton class]]){
+        
         CheckboxButton *button=(CheckboxButton*)sender;
-        if (button.tag == 1004 && button.selected==YES)
-        {
+        if (button.tag == 1004 && button.selected==YES){
+        
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
             if (Allbtn.selected==YES) {
                 [Allbtn setImage:UncheckImage forState:UIControlStateNormal];
@@ -1121,7 +1077,7 @@ UIDeviceOrientation CurrentOrientation;
                 [settingArray removeObject:str1];
             }
             
-        }else if (button.tag == 1004 && button.selected==NO)
+        }else if (button.tag == 1004 && button.selected == NO)
         {
             [button setImage:CheckImage forState:UIControlStateNormal];
             button.selected=YES;
@@ -1139,7 +1095,6 @@ UIDeviceOrientation CurrentOrientation;
                 count++;
             }
             if (count==3) {
-                
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
                 [Allbtn setImage:CheckImage forState:UIControlStateNormal];
                 Allbtn.selected=YES;
@@ -1151,25 +1106,19 @@ UIDeviceOrientation CurrentOrientation;
             }
         }
     }
-    
 }
 - (IBAction)AluminiButtonEvent:(id)sender {
     [self ClickCheckBoxHideControll];
-    if ([sender isKindOfClass:[CheckboxButton class]])
-    {
+    if ([sender isKindOfClass:[CheckboxButton class]]){
         CheckboxButton *button=(CheckboxButton*)sender;
-        
-        if (button.tag == 1003 && button.selected==YES)
-        {
+        if (button.tag == 1003 && button.selected==YES){
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
             if (Allbtn.selected==YES) {
                 [Allbtn setImage:UncheckImage forState:UIControlStateNormal];
                 Allbtn.selected=NO;
                 [button setImage:UncheckImage forState:UIControlStateNormal];
                 button.selected=NO;
-                
             }else{
-                
                 [button setImage:UncheckImage forState:UIControlStateNormal];
                 button.selected=NO;
             }
@@ -1177,11 +1126,9 @@ UIDeviceOrientation CurrentOrientation;
             if ([settingArray containsObject:str1]) {
                 [settingArray removeObject:str1];
             }
-            
         }else if (button.tag == 1003 && button.selected==NO)
         {
             [button setImage:CheckImage forState:UIControlStateNormal];
-            
             button.selected=YES;
             int count=0;
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1001)];
@@ -1221,12 +1168,10 @@ UIDeviceOrientation CurrentOrientation;
     if ([sender isKindOfClass:[CheckboxButton class]])
     {
         CheckboxButton *button=(CheckboxButton*)sender;
-        if (button.tag == 1005 && button.selected==YES)
-        {
+        if (button.tag == 1005 && button.selected==YES){
             [button setImage:UncheckImage forState:UIControlStateNormal];
             button.selected=NO;
-        }else if (button.tag == 1005 && button.selected==NO)
-        {
+        }else if (button.tag == 1005 && button.selected==NO){
             [button setImage:CheckImage forState:UIControlStateNormal];
             
             button.selected=YES;

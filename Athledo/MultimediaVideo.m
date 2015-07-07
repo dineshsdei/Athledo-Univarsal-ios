@@ -151,9 +151,9 @@
     [self.view addSubview:toolBar];
     
     seasonId=EMPTYSTRING;
-    multimediaData=[[NSMutableArray alloc] init];
+    multimediaData=MUTABLEARRAY;
     AllMultimediaData=[[NSArray alloc] init];
-    arrVisitedIndex=[[NSMutableArray alloc] init];
+    arrVisitedIndex=MUTABLEARRAY;
     
     UIButton *btnAddWorkout = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageAdd=[UIImage imageNamed:@"Navadd.png"];
@@ -339,7 +339,7 @@
         [request addPostValue:seasonId forKey:@"season_id"];
         [request addPostValue:[NSString stringWithFormat:@"%d", userInfo.userType ] forKey:@"type"];
         [request addPostValue:_tfTitle.text forKey:@"title"];
-        [request addPostValue:[_tfDescription.text stringByReplacingOccurrencesOfString:@"\n" withString:@" "] forKey:@"description"];
+        [request addPostValue:[_tfDescription.text stringByReplacingOccurrencesOfString:@"\n" withString:STR_SPACE] forKey:@"description"];
         [request setPostValue:videoName forKey:@"Filename"];
         [request setFile:urlString forKey:@"videoFile"];
         [request incrementUploadSizeBy:5000];
@@ -446,7 +446,7 @@
         } case getSeasonTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 DicData=[MyResults  objectForKey:DATA];
-                arrSeasons=[[NSMutableArray alloc] init];
+                arrSeasons=MUTABLEARRAY;
                 NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues];
                 for (int i=0;i<arrtemp.count; i++) {
                     if (![[arrtemp objectAtIndex:i] isEqualToString:KEY_OFF_SEASON]) {

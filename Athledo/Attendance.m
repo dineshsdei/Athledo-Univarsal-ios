@@ -36,7 +36,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    dicListData = [[NSMutableArray alloc] init];
+    dicListData = MUTABLEARRAY;
     arrAbsenceReason = @[@"Injured",@"Sick",@"Emergency",@"Class/Exam",@"InExcused",@"Other"];
     if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];

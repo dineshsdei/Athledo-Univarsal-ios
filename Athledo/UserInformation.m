@@ -17,11 +17,11 @@ static UserInformation *objUserInfo=nil;
         
         objUserInfo=[[UserInformation alloc] init];
         
-        objUserInfo.arrUserTeam=[[NSMutableArray alloc] init];
-        objUserInfo.arrAthleteHistory=[[NSMutableArray alloc] init];
-        objUserInfo.arrAwards=[[NSMutableArray alloc] init];
-        objUserInfo.arrCoachingHistory=[[NSMutableArray alloc] init];
-        objUserInfo.arrSports=[[NSMutableArray alloc] init];
+        objUserInfo.arrUserTeam=MUTABLEARRAY;
+        objUserInfo.arrAthleteHistory=MUTABLEARRAY;
+        objUserInfo.arrAwards=MUTABLEARRAY;
+        objUserInfo.arrCoachingHistory=MUTABLEARRAY;
+        objUserInfo.arrSports=MUTABLEARRAY;
         
     }
     

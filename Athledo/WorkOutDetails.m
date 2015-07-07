@@ -13,6 +13,7 @@
 #import "WorkOutDetailCell.h"
 #define BTNBOAT_TAG 1000
 #define BTNATHLETE_TAG 2000
+#define BTNREASSIGN_TAG 1123450
 @interface WorkOutDetails ()
 {
     NSMutableArray *arrWorkOuts;
@@ -91,7 +92,7 @@
                     }
                     if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
                         //Reload table after select athlete name
-                        arrAllAthleteData=[[NSMutableArray alloc] init];
+                        arrAllAthleteData=MUTABLEARRAY;
                         arrAllAthleteData=[arrWorkOuts copy];
                     }else{
                         [table reloadData];
@@ -245,15 +246,15 @@
     toolBar.items = [NSArray arrayWithObjects:flex,flex,btnDone,nil];
     [self.view addSubview:toolBar];
     
-    arrTime=[[NSArray alloc] initWithObjects:@"05",@"10",@"15",@"20",@"30",@"25",@"35",@"40",@"45",@"50",@"55", nil];
+    arrTime = TIME_INTERVAL;
     
-    arrNoOfRowInSection=[[NSMutableArray alloc] init];
-    arrAthleteName=[[NSMutableArray alloc] init];
-    arrAthleteExerciseName=[[NSMutableArray alloc] init];
-    arrAthleteExerciseSets=[[NSMutableArray alloc] init];
-    arrAvarageTimeDistance=[[NSMutableArray alloc] init];
-    arrRateTimeDistanceStatus=[[NSMutableArray alloc] init];
-    arrTempWorkOuts = [[NSMutableArray alloc] init];
+    arrNoOfRowInSection=MUTABLEARRAY;
+    arrAthleteName=MUTABLEARRAY;
+    arrAthleteExerciseName=MUTABLEARRAY;
+    arrAthleteExerciseSets=MUTABLEARRAY;
+    arrAvarageTimeDistance=MUTABLEARRAY;
+    arrRateTimeDistanceStatus=MUTABLEARRAY;
+    arrTempWorkOuts = MUTABLEARRAY;
     
     listPicker.frame = CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag = listPickerTag;
@@ -283,7 +284,7 @@
     [btnReassign setImage:imageReassign forState:UIControlStateNormal];
     
     UIBarButtonItem *BarItemReassign = [[UIBarButtonItem alloc] initWithCustomView:btnReassign];
-    arrAvgTotalStatus = [[NSMutableArray alloc] init];
+    arrAvgTotalStatus = MUTABLEARRAY;
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemEdit,BarItemReassign,BarItemDelete,nil];
     }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[_obj  objectForKey:KEY_USER_ID] intValue]){
@@ -317,7 +318,7 @@
     if (([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) && [[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
         _tfSelectUserType.hidden=NO;
         _dropdownImageview.hidden=NO;
-        arrAllAthlete=[[NSMutableArray alloc] init];
+        arrAllAthlete=MUTABLEARRAY;
     }else{
         _tfSelectUserType.hidden=YES;
         _dropdownImageview.hidden=YES;
@@ -370,9 +371,9 @@
         NSString *boatName = EMPTYSTRING;
         for (int i=0; i<arrWorkOuts.count; i++) {
             boatName = [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_BAOTNAME] ? [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_BAOTNAME]: EMPTYSTRING;
-            for (int j=i+1; j< arrWorkOuts.count; j++) {
+            for (int j=0; j< arrWorkOuts.count; j++) {
                 NSString *tempboatName = [[arrWorkOuts objectAtIndex:j] valueForKey:KEY_BAOTNAME] ? [[arrWorkOuts objectAtIndex:j] valueForKey:KEY_BAOTNAME]: EMPTYSTRING;
-                if ([boatName isEqualToString:tempboatName]) {
+                if ([boatName isEqualToString:tempboatName] && !(i == j)) {
                     [arrWorkOuts removeObjectAtIndex:j];
                 }
             }
@@ -500,7 +501,7 @@
 }
 -(void)UpdateCelldata{
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:currentText.SectionIndex] valueForKey:KEY_UNITS];
-    NSString*strPlaceholder=EMPTYSTRING;
+    NSString*strPlaceholder = EMPTYSTRING;
     NSString *myString = currentText.placeholder;
     NSRange startRange = [myString rangeOfString:@"("];
     NSRange endRange = [myString rangeOfString:@")"];
@@ -552,7 +553,7 @@
         NSRange endRange = [myString rangeOfString:@")"];
         if (startRange.location != NSNotFound && endRange.location != NSNotFound && endRange.location > startRange.location) {
             value = [myString substringWithRange:NSMakeRange(0,startRange.location)];
-            value=[value stringByReplacingOccurrencesOfString:@" " withString:EMPTYSTRING];
+            value=[value stringByReplacingOccurrencesOfString:STR_SPACE withString:EMPTYSTRING];
         }
         if ([StrValues isEqualToString:UNIT_RATE] &&[myString isEqualToString:StrValues ] ){
             status=TRUE;
@@ -577,7 +578,7 @@
         NSRange endRange = [myString rangeOfString:@")"];
         if (startRange.location != NSNotFound && endRange.location != NSNotFound && endRange.location > startRange.location) {
             value = [myString substringWithRange:NSMakeRange(0,startRange.location)];
-            value=[value stringByReplacingOccurrencesOfString:@" " withString:EMPTYSTRING];
+            value=[value stringByReplacingOccurrencesOfString:STR_SPACE withString:EMPTYSTRING];
         }
         if (([value isEqualToString:KEY_TIME] ) && isTime==FALSE) {
             count=count+1;
@@ -621,7 +622,7 @@
     
     NSString *TotalTime;
     NSString *TimeAVG;
-    NSMutableArray *arrTotalTimeComponenet=[[NSMutableArray alloc] init];
+    NSMutableArray *arrTotalTimeComponenet=MUTABLEARRAY;
     [arrTotalTimeComponenet removeAllObjects];
     [arrTotalTimeComponenet addObjectsFromArray:@[@"0",@"0",@"0",@"0"]];
     TotalTime=@"00:00:00:000";
@@ -632,7 +633,7 @@
     TotalDistance=0;
     int splitTimeCount=0;
     NSString *SplitTimeAVG=@"00:00:0";
-    NSMutableArray *arrTotalSplitTimeComponenet=[[NSMutableArray alloc] init];
+    NSMutableArray *arrTotalSplitTimeComponenet=MUTABLEARRAY;
     [arrTotalSplitTimeComponenet removeAllObjects];
     [arrTotalSplitTimeComponenet addObjectsFromArray:@[@"0",@"0",@"0"]];
     NSArray *arrTemp=[[arrWorkOuts objectAtIndex:section] valueForKey:KEY_UNITS];
@@ -889,15 +890,28 @@
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
     if ([SingletonClass  CheckConnectivity]) {
         if (_obj) {
-            
-            UserInformation *userInfo= [UserInformation shareInstance];
+            UserInformation *userInfo = [UserInformation shareInstance];
             NSString *strURL = [NSString stringWithFormat:@"{\"type\":\"%d\",\"parent_id\":\"%d\",\"team_id\":\"%d\",\"user_id\":\"%d\"}",3,[[_obj objectForKey:KEY_WORKOUT_ID] intValue],userInfo.userSelectedTeamid,userInfo.userId];
             [webservice WebserviceCall:webServiceDeleteNotification :strURL :deleteNotificationTag];
         }
     }
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 1 && alertView.tag==1) {
+    
+    if ((alertView.tag == BTNREASSIGN_TAG) && (buttonIndex == 1)) {
+        
+        if ([SingletonClass  CheckConnectivity]) {
+            if (_obj) {
+                UserInformation *userInfo= [UserInformation shareInstance];
+                NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"workout_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\"}",userInfo.userSelectedTeamid,[[_obj objectForKey:KEY_WORKOUT_ID] intValue],userInfo.userSelectedSportid,[[_obj objectForKey:KEY_USER_ID] intValue]];
+                [SingletonClass addActivityIndicator:self.view];
+                [webservice WebserviceCall:webServiceReAssignWorkOut :strURL :ReassignWorkoutTag];
+            }
+        }else{
+            [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
+        }
+        
+    }else if (buttonIndex == 1 && alertView.tag==1) {
         [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
         [self DeleteFromWeb];
         
@@ -936,22 +950,14 @@
     }
 }
 -(void)ReassignWorkout:(id)sender{
-    if ([SingletonClass  CheckConnectivity]) {
-        if (_obj) {
-            UserInformation *userInfo= [UserInformation shareInstance];
-            NSString *strURL = [NSString stringWithFormat:@"{\"team_id\":\"%d\",\"workout_id\":\"%d\",\"sport_id\":\"%d\",\"user_id\":\"%d\"}",userInfo.userSelectedTeamid,[[_obj objectForKey:KEY_WORKOUT_ID] intValue],userInfo.userSelectedSportid,[[_obj objectForKey:KEY_USER_ID] intValue]];
-            [SingletonClass addActivityIndicator:self.view];
-            [webservice WebserviceCall:webServiceReAssignWorkOut :strURL :ReassignWorkoutTag];
-        }
-    }else{
-        [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-    }
+    
+     [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to reassign workout?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:BTNREASSIGN_TAG];
 }
 #pragma mark- TableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     int noOfSection=0;
     if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
-        // NSMutableArray *arrTemp=[[NSMutableArray alloc] init];
+        // NSMutableArray *arrTemp=MUTABLEARRAY;
         for (int i=0; i< arrWorkOuts.count; i++) {
             NSArray *AthleteExercise=  [[arrWorkOuts objectAtIndex:i] valueForKey:KEY_ATHLETEEXERCISE] ;
             for (int j=0; j < AthleteExercise.count; j++) {
@@ -973,10 +979,10 @@
     if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_LIFT]) {
         return [[arrNoOfRowInSection objectAtIndex:section] intValue];
     }else if ([[_obj valueForKey:KEY_WORKOUT_TYPE] isEqualToString:WORKOUTTYPE_INTERVAL]){
-        isDistance=FALSE;
-        isTime=FALSE;
-        isRate=FALSE;
-        isSplit=FALSE;
+        isDistance = FALSE;
+        isTime = FALSE;
+        isRate = FALSE;
+        isSplit = FALSE;
         isWatts = FALSE;
         isHeartRate = FALSE;
         
@@ -988,8 +994,8 @@
             
             [arrAvgTotalStatus addObject:temp];
             [arrAvgTotalStatus addObject:temp];
-            temp=nil;
-            increaseCount = increaseCount+2;
+            temp = nil;
+            increaseCount = increaseCount + 2;
         }
         if (isTime) {
             NSDictionary *temp = [[NSDictionary alloc] initWithObjects:@[[NSNumber numberWithBool:NO],[NSNumber numberWithBool:isTime],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO],[NSNumber numberWithBool:NO]] forKeys:@[KEY_DISTANCE,KEY_TIME,KEY_SPLIT,UNIT_RATE,UNIT_WATTS,UNIT_HEARTRATE]];
@@ -1033,7 +1039,6 @@
         return units.count+2;
     }
 }
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];

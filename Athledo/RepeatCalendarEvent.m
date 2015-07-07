@@ -254,7 +254,7 @@ UIDeviceOrientation CurrentOrientation;
             str=DEFAULTSETTING_DAILY;
         }
         
-        arrEventSting=[[NSMutableArray alloc] init];
+        arrEventSting=MUTABLEARRAY;
         [self SpliteEventString:str];
         const char *c = str.length > 0 ? [str UTF8String] : [EMPTYSTRING  UTF8String];
         if (c[0]=='d') {
@@ -297,14 +297,14 @@ UIDeviceOrientation CurrentOrientation;
                 segment.selectedSegmentIndex=3;
                 
             }
-            arrEventSting=[[NSMutableArray alloc] init];
+            arrEventSting=MUTABLEARRAY;
             [self SpliteEventString:str];
             
             [_tableview reloadData];
             
         }
         
-        arrEventSting=[[NSMutableArray alloc] init];
+        arrEventSting=MUTABLEARRAY;
         [self SpliteEventString:str];
         
     }

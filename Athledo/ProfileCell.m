@@ -84,7 +84,7 @@ int iconleftPosition;
             ///   Coach / Athlete Genral info section
             
             int Fsection=1;
-            NSMutableArray *arrIndex=[[NSMutableArray alloc] init];
+            NSMutableArray *arrIndex=MUTABLEARRAY;
             
             UITextField *txtFName = [[UITextField alloc] initWithFrame:CGRectMake(((GenralInfoX)-((FName_W)+5)), 0, FName_W, 30)];
             txtFName.tag = (indexPath.section+1)*1000+Fsection;
@@ -353,7 +353,7 @@ int iconleftPosition;
         else if(indexPath.section < (1+ ([UserInformation shareInstance].userType == isCoach ? coachingInfo.count : coachingInfo.count)) )
         {
             int Ssection=1;
-            NSMutableArray *arrIndex=[[NSMutableArray alloc] init];
+            NSMutableArray *arrIndex=MUTABLEARRAY;
             
             if ([UserInformation shareInstance].userType == 1)
             {
@@ -652,7 +652,7 @@ int iconleftPosition;
             
             long int index=indexPath.section-(1+([UserInformation shareInstance].userType == isCoach ? coachingInfo.count : coachingInfo.count));
             int Thsection=1;
-            NSMutableArray *arrIndex=[[NSMutableArray alloc] init];
+            NSMutableArray *arrIndex=MUTABLEARRAY;
             if ([UserInformation shareInstance].userType == 1)
             {
                 ///   Coach Awards info section

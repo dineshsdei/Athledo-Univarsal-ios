@@ -186,7 +186,7 @@
     // Do any additional setup after loading the view from its nib.
     arrWorkOut =[[NSArray alloc] init];
     arrSeasons =[[NSArray alloc] init];
-    arrSearchData=[[NSMutableArray alloc] init];
+    arrSearchData=MUTABLEARRAY;
     listPicker.frame =CGRectMake(0, self.view.frame.size.height+50, self.view.frame.size.width, 216);
     listPicker.tag=listPickerTag;
     listPicker.delegate=self;

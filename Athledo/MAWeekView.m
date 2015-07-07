@@ -615,7 +615,7 @@ static NSString const * const HOURS_24[] = {
 	NSDateComponents *components2 = [[NSDateComponents alloc] init];
 	[components2 setDay:1];
 	
-	_weekdays = [[NSMutableArray alloc] init];
+	_weekdays = MUTABLEARRAY;
 	
 	for (register unsigned int i=0; i < DAYS_IN_WEEK; i++) {
 		[_weekdays addObject:date];

@@ -66,11 +66,7 @@
     }else{
         
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
-    
-    
-    
 }
 -(void)archiveMessageEvent :(int)webmail_parent_id{
     
@@ -88,9 +84,6 @@
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
         
     }
-    
-    
-    
 }
 
 
@@ -100,12 +93,9 @@
     [SingletonClass deleteUnUsedLableFromTable:table];
     switch (Tag)
     {
-        case getMessagesTag:
-        {
-            
+        case getMessagesTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
-        
                 messageArrDic =[MyResults objectForKey:DATA];
                 messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]]):[SingletonClass deleteUnUsedLableFromTable:table];
                 [table reloadData];
@@ -116,9 +106,7 @@
              [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
-        case deleteMessagesTag:
-        {
-            
+        case deleteMessagesTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 

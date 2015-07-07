@@ -100,11 +100,11 @@
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     
-    arrCountryList=[[NSMutableArray alloc] init];
-    arrCountryCode=[[NSMutableArray alloc] init];;
+    arrCountryList=MUTABLEARRAY;
+    arrCountryCode=MUTABLEARRAY;;
     
-    arrStateList=[[NSMutableArray alloc] init];;
-    arrStateCode=[[NSMutableArray alloc] init];;
+    arrStateList=MUTABLEARRAY;;
+    arrStateCode=MUTABLEARRAY;;
     
     
     self.title=@"Genral Info";

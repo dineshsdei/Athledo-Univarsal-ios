@@ -47,7 +47,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    arrWorkOutData=[[NSMutableArray alloc] init];
+    arrWorkOutData=MUTABLEARRAY;
     btnAddNew = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *imageAdd=[UIImage imageNamed:@"Navadd.png"];
     btnAddNew.bounds = CGRectMake( 0, 0, imageAdd.size.width, imageAdd.size.height );
@@ -65,7 +65,7 @@
     UIBarButtonItem *BarItemHistory = [[UIBarButtonItem alloc] initWithCustomView:btnHistory];
     
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:BarItemAdd,BarItemHistory, nil];
-    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
 }
 -(void)doneClicked{
     [self setToolbarVisibleAt:CGPointMake(160, self.view.bounds.size.height+50)];
@@ -99,7 +99,7 @@
     tblList.userInteractionEnabled=YES;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                  NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor = NAVIGATION_COMPONENT_COLOR;
     SWRevealViewController *revealController = [self revealViewController];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
@@ -151,12 +151,9 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         [NSURLConnection sendAsynchronousRequest:request
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                                   
-                                   if (data!=nil)
-                                   {
+                                   if (data!=nil){
                                        [self httpResponseReceived:data :GetWorkOutListTag];
                                    }else{
-                                       
                                        self.navigationItem.rightBarButtonItem.enabled=YES;
                                        self.navigationItem.leftBarButtonItem.enabled=YES;
                                        [SingletonClass RemoveActivityIndicator:self.view];
@@ -210,7 +207,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     if (tagNumber == GetWorkOutListTag){
         [SingletonClass ShareInstance].isWorkOutSectionUpdate =FALSE;
         NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
-        
         if ([[myResults objectForKey:STATUS] isEqualToString:SUCCESS]){
             [arrWorkOutData removeAllObjects];
             NSArray *data=[myResults objectForKey:DATA] ;
@@ -318,21 +314,21 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         cell.del=self;
         // [cell.contentView setUserInteractionEnabled:NO];
     }
-    cell.lblWorkoutName.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_NAME];
-    cell.lblWorkoutName.font=SmallTextfont;
-    cell.lblWorkoutSeason.text=[[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_SEASON] isEqual:EMPTYSTRING] ? KEY_OFF_SEASON :[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_SEASON]  ;
-    cell.lblWorkoutSeason.font=SmallTextfont;
-    cell.lblWorkoutType.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_TYPE] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_TYPE] :EMPTYSTRING;
-    cell.lblWorkoutType.font=SmallTextfont;
+    cell.lblWorkoutName.text = [[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_NAME];
+    cell.lblWorkoutName.font = SmallTextfont;
+    cell.lblWorkoutSeason.text = [[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_SEASON] isEqual:EMPTYSTRING] ? KEY_OFF_SEASON :[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_SEASON]  ;
+    cell.lblWorkoutSeason.font = SmallTextfont;
+    cell.lblWorkoutType.text = [[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_TYPE] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_TYPE] :EMPTYSTRING;
+    cell.lblWorkoutType.font = SmallTextfont;
     
-    cell.lblWorkoutDate.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_DATE] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_DATE] :EMPTYSTRING ;
-    cell.lblWorkoutDate.font=SmallTextfont;
-    cell.lblWorkoutCratedBy.text=[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_CREATED_BY] ;
-    cell.lblWorkoutCratedBy.font=Textfont;
+    cell.lblWorkoutDate.text = [[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_DATE] ?[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_DATE] :EMPTYSTRING ;
+    cell.lblWorkoutDate.font = SmallTextfont;
+    cell.lblWorkoutCratedBy.text = [[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_CREATED_BY] ;
+    cell.lblWorkoutCratedBy.font = Textfont;
     
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
         cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
-        cell.delegate=self;
+        cell.delegate = self;
     }else if ([UserInformation shareInstance].userType == isAthlete && [UserInformation shareInstance].userId == [[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_USER_ID] intValue]){
         cell.rightUtilityButtons = [self rightButtons :(int)(indexPath.section)];
         cell.delegate=self;
@@ -361,21 +357,21 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     for (id object in arrController){
         if ([object isKindOfClass:[WorkOutDetails class]]){
             Status=TRUE;
-            WorkOutDetails *workoutDetails=(WorkOutDetails *)object;
-            workoutDetails.obj=[[arrWorkOutData objectAtIndex:indexPath.section] copy];
+            WorkOutDetails *workoutDetails = (WorkOutDetails *)object;
+            workoutDetails.obj = [[arrWorkOutData objectAtIndex:indexPath.section] copy];
             if (_notificationData){
-                NSArray *arrTemp=(NSArray *)_notificationData;
+                NSArray *arrTemp = (NSArray *)_notificationData;
                 if ([arrTemp containsObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_ID]]){
                     [_notificationData removeObject:[[arrWorkOutData objectAtIndex:indexPath.section] objectForKey:KEY_WORKOUT_ID]];
-                    workoutDetails.NotificationStataus=TRUE;
+                    workoutDetails.NotificationStataus = TRUE;
                 }else{
-                    workoutDetails.NotificationStataus=FALSE;
+                    workoutDetails.NotificationStataus = FALSE;
                 }
             }
             [self.navigationController popToViewController:workoutDetails animated:NO];
         }
     }
-    if (Status==FALSE){
+    if (Status == FALSE){
         WorkOutDetails *workoutDetails=[[WorkOutDetails alloc] initWithNibName:@"WorkOutDetails" bundle:nil];
         workoutDetails.obj=[[arrWorkOutData objectAtIndex:indexPath.section] copy];
         if (_notificationData) {
@@ -390,7 +386,6 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
         [self.navigationController pushViewController:workoutDetails animated:YES];
     }
 }
-
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
@@ -406,13 +401,13 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
     }
 }
 -(void)EditWorkOut:(id)sender{
-    UIButton *btn=sender;
-    AddWorkOut *edit=[[AddWorkOut alloc] init];
-    edit.objEditModeData=[arrWorkOutData objectAtIndex:btn.tag];
+    UIButton *btn = sender;
+    AddWorkOut *edit = [[AddWorkOut alloc] init];
+    edit.objEditModeData = [arrWorkOutData objectAtIndex:btn.tag];
     [self.navigationController pushViewController:edit animated:YES];
 }
 -(IBAction)WorkoutHistory:(id)sender{
-    NSArray *arrController=[self.navigationController viewControllers];
+    NSArray *arrController = [self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController) {
         if ([object isKindOfClass:[WorkOutHistory class]]){
@@ -420,8 +415,8 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
             [self.navigationController popToViewController:object animated:NO];
         }
     }
-    if (Status==FALSE){
-        WorkOutHistory *addNew=[[WorkOutHistory alloc] init];
+    if (Status == FALSE){
+        WorkOutHistory *addNew = [[WorkOutHistory alloc] init];
         [self.navigationController pushViewController:addNew animated:NO];
     }
 }

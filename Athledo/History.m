@@ -39,7 +39,7 @@
     }
     
     self.title = @"SMS History";
-    arrFilterdData = [[NSMutableArray alloc] init];
+    arrFilterdData = MUTABLEARRAY;
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;

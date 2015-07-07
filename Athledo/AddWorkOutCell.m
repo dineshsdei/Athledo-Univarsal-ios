@@ -578,7 +578,7 @@
     }else if ([temp isKindOfClass:[NSDictionary class]]){
         NSArray *arrkeys=[temp allKeys];
         NSArray *arrValues=[temp allValues];
-        NSMutableArray *arrTemp=[[NSMutableArray alloc] init];
+        NSMutableArray *arrTemp=MUTABLEARRAY;
         for (int i=0; i<arrValues.count; i++) {
             if ([[arrValues objectAtIndex:i] intValue]==1){
                 [arrTemp addObject:[arrkeys objectAtIndex:i] ];

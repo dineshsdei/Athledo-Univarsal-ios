@@ -150,7 +150,7 @@ UIDeviceOrientation CurrentOrientation;
     arrCoachongInfo=[[NSArray alloc] initWithObjects:@"Enter School Name",@"Enter Sport Name",@"Enter Description",@"From Date",@"To Date", nil];
     arrAwardsInfo=[[NSArray alloc] initWithObjects:@"Enter Award Title",@"Enter year when awarded",@"Enter Description", nil];
     
-    arrAwardsYear=[[NSMutableArray alloc] init];
+    arrAwardsYear=MUTABLEARRAY;
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     df.dateFormat = @"YYYY";
     NSString *currentYesr= [NSString stringWithFormat:@"%@", [df stringFromDate:[NSDate date]]];
@@ -281,7 +281,7 @@ UIDeviceOrientation CurrentOrientation;
 
     if ( _SectionTag==1)
     {
-         NSMutableArray *arrdata=[[NSMutableArray alloc] init];
+         NSMutableArray *arrdata=MUTABLEARRAY;
         UserInformation *userInfo=[UserInformation shareInstance];
         [arrdata addObject:[NSString stringWithFormat:@"%d",userInfo.userId ]];
         
@@ -350,7 +350,7 @@ UIDeviceOrientation CurrentOrientation;
     }
     else
     {
-        NSMutableArray *arrdata=[[NSMutableArray alloc] init];
+        NSMutableArray *arrdata=MUTABLEARRAY;
         UserInformation *userInfo=[UserInformation shareInstance];
         [arrdata addObject:[NSString stringWithFormat:@"%d",userInfo.userId ]];
         

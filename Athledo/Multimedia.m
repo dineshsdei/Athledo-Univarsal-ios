@@ -90,7 +90,7 @@
     
     seasonId=EMPTYSTRING;
     AlbumId=EMPTYSTRING;
-    multimediaData=[[NSMutableArray alloc] init];
+    multimediaData=MUTABLEARRAY;
     AllMultimediaData=[[NSArray alloc] init];
     [self getMultimediaPic];
     [self getSeasonData];
@@ -304,7 +304,7 @@
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 DicData=[MyResults  objectForKey:DATA];
-                arrSeasons=[[NSMutableArray alloc] init];
+                arrSeasons=MUTABLEARRAY;
                 NSArray *arrtemp=(NSMutableArray *)[[[MyResults  objectForKey:DATA] objectForKey:@"Season"] allValues];
                 //To remove off season
                 for (int i=0;i<arrtemp.count; i++) {

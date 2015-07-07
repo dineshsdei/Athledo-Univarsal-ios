@@ -295,7 +295,7 @@
     self.navigationController.navigationItem.leftBarButtonItem.enabled=NO;
     self.navigationItem.rightBarButtonItem.enabled=NO;
     
-    NSMutableArray *arrdata=[[NSMutableArray alloc] init];
+    NSMutableArray *arrdata = MUTABLEARRAY;
     UserInformation *userInfo=[UserInformation shareInstance];
     
     if ([SingletonClass  CheckConnectivity])

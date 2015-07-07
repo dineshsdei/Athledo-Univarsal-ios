@@ -96,9 +96,9 @@ UIBarButtonItem *revealButtonItem;;
     [super viewDidLoad];
     strCurrentMonth=EMPTYSTRING;
     self.title=NSLocalizedString(@"Month Events", EMPTYSTRING);
-    eventArrDic=[[NSMutableArray alloc] init];
-    startDateArr=[[NSMutableArray alloc] init];
-    endDateArr=[[NSMutableArray alloc] init];
+    eventArrDic=MUTABLEARRAY;
+    startDateArr=MUTABLEARRAY;
+    endDateArr=MUTABLEARRAY;
     revealController = [self revealViewController];
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
@@ -139,7 +139,7 @@ UIBarButtonItem *revealButtonItem;;
         self.tableView.frame=CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.view.frame.size.width, self.tableView.frame.size.height-tabBar.frame.size.height);
     }
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
+    NSMutableArray *tabBarItems = MUTABLEARRAY;
     
     UITabBarItem *tabBarItem1 = [[UITabBarItem alloc] initWithTitle:@"Month" image:[UIImage imageNamed:@"mnth_icon2.png"] tag:0];
     UITabBarItem *tabBarItem2 = [[UITabBarItem alloc] initWithTitle:@"Week" image:[UIImage imageNamed:@"week_icon1.png"] tag:1];
@@ -291,7 +291,7 @@ UIBarButtonItem *revealButtonItem;;
     formatter.dateFormat=DATE_FORMAT_dd_MMM_yyyy;
     NSDate *newDate1 = [lastDate dateByAddingTimeInterval:60*60*24*12];
     NSString *strLastdate=[formatter stringFromDate:newDate1];
-    NSArray *arrComponents=[strLastdate componentsSeparatedByString:@" "];
+    NSArray *arrComponents=[strLastdate componentsSeparatedByString:STR_SPACE];
     
     if (![[arrComponents objectAtIndex:1] isEqualToString:strCurrentMonth]) {
         strCurrentMonth=[arrComponents objectAtIndex:1];
@@ -445,7 +445,7 @@ UIBarButtonItem *revealButtonItem;;
 
 -(NSMutableArray *)DatesBetween : (NSString *)startdate :(NSString *)enddate
 {
-    NSMutableArray *arrdates=[[NSMutableArray alloc] init];
+    NSMutableArray *arrdates=MUTABLEARRAY;
     NSArray *arr=[startdate componentsSeparatedByString:@"-"];
     for (int i=0; i< [self NoOFDaysBetween: startdate:enddate]; i++) {
         [arrdates addObject:[NSString stringWithFormat:@"%@-%d-%@",[arr objectAtIndex:0],[[arr objectAtIndex:1] intValue]+i,[arr objectAtIndex:2]]];

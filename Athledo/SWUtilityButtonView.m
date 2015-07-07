@@ -128,7 +128,7 @@
 
 - (void)pushBackgroundColors
 {
-    self.buttonBackgroundColors = [[NSMutableArray alloc] init];
+    self.buttonBackgroundColors = MUTABLEARRAY;
     
     for (UIButton *button in self.utilityButtons)
     {

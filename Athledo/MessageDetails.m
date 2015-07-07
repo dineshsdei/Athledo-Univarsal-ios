@@ -46,7 +46,7 @@
     
     self.navigationController.navigationItem.leftItemsSupplementBackButton = NO;
     
-    self.messages = [[NSMutableArray alloc] init];
+    self.messages = MUTABLEARRAY;
     
     self.timestamps = [[NSMutableArray alloc] initWithObjects:
                        [NSDate distantPast],

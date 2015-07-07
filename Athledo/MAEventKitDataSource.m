@@ -106,7 +106,7 @@
 
 - (NSArray *)eventKitEventsToMAEvents:(NSArray *)eventKitEvents
 {
-    NSMutableArray *events = [[NSMutableArray alloc] init];
+    NSMutableArray *events = MUTABLEARRAY;
     for (EKEvent *event in eventKitEvents) {
         MAEvent *maEvent = [[MAEvent alloc] init];
         maEvent.title  = event.title;
