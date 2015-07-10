@@ -38,7 +38,7 @@ UIBarButtonItem *revealButtonItem;;
         UserInformation *userInfo=[UserInformation shareInstance];
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
         [SingletonClass addActivityIndicator:self.view];
-        [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
+        [webservice WebserviceCall:webServiceGetEvents :strURL :getMapEventTag];
     }else{
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
@@ -49,7 +49,7 @@ UIBarButtonItem *revealButtonItem;;
     [SingletonClass RemoveActivityIndicator:self.view];
     switch (Tag)
     {
-        case getEventTag:
+        case getMapEventTag:
         {
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {

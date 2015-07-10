@@ -73,7 +73,7 @@ UIBarButtonItem *revealButtonItem;;
         
         [SingletonClass addActivityIndicator:self.view];
         
-        [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
+        [webservice WebserviceCall:webServiceGetEvents :strURL :getWeekEventTag];
         
         
     }else{
@@ -89,7 +89,7 @@ UIBarButtonItem *revealButtonItem;;
     
     switch (Tag)
     {
-        case getEventTag:
+        case getWeekEventTag:
         {
             [_eventDic removeAllObjects];
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])

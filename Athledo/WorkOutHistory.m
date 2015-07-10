@@ -49,8 +49,7 @@
     return self;
 }
 #pragma mark- UIPickerView Delegate method
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
@@ -60,15 +59,13 @@
             seasonId=[self KeyForValue:History_key_season:currentText.text];
         }
         return [arrSeasons count];
-    }else if (isWorkOutType)
-    {
+    }else if (isWorkOutType){
         if (currentText.text.length==0) {
             currentText.text=[arrWorkOut objectAtIndex:0];
             workoutId=[self KeyForValue:KEY_WORKOUT_TYPE:currentText.text];
         }
         return [arrWorkOut count];
-    }else if (isAthletes)
-    {
+    }else if (isAthletes){
         if (currentText.text.length==0) {
             currentText.text=[arrAthletes objectAtIndex:0];
             AthleteId=[self KeyForValue:STR_ATHLETES:currentText.text];
@@ -142,8 +139,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (isIPAD)
-    {
+    if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
@@ -231,8 +227,7 @@
     
     NSString *strValue=EMPTYSTRING;
     for (int i=0; i<arrValues.count; i++) {
-        if ([[arrValues objectAtIndex:i] isEqualToString:SubKey])
-        {
+        if ([[arrValues objectAtIndex:i] isEqualToString:SubKey]){
             strValue=[arrkeys objectAtIndex:i];
             break;
         }
@@ -333,8 +328,7 @@
     }else if(isSeasons){
         isPicker=TRUE;
         arrSeasons.count > 0 ? EMPTYSTRING:[SingletonClass initWithTitle:EMPTYSTRING message:@"Seasons data are not exist" delegate:nil btn1:@"Ok"];
-        if (arrSeasons.count==0)
-        {
+        if (arrSeasons.count==0){
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+50):toolBar];
             [SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
         }else{

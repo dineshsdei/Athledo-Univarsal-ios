@@ -392,11 +392,10 @@
                         tfAthleteOrGroup.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter Athlete Name" attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                         if([[[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_ATHLETES] isKindOfClass:[NSArray class]])
                         {
-                            NSString *strAthleteName = EMPTYSTRING;
-                            for (NSString *strName in [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_ATHLETES]) {
-                                strAthleteName = strName.length > 0 ? [strAthleteName stringByAppendingString:[NSString stringWithFormat:@"%@,",strName]] : EMPTYSTRING;
-                            }
-                            tfAthleteOrGroup.text = strAthleteName;
+
+                            NSArray *arrtempName = [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_ATHLETES];
+                            tfAthleteOrGroup.text = [arrtempName componentsJoinedByString:@","];
+                            tfAthleteOrGroup.text = [tfAthleteOrGroup.text stringByReplacingOccurrencesOfString:@"," withString:@", "];
                         }
                         
                     }else{
@@ -405,11 +404,9 @@
                         if([[[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_GROUPS] isKindOfClass:[NSArray class]])
                         {
                             {
-                                NSString *strGroupName = EMPTYSTRING;
-                                for (NSString *strName in [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_GROUPS]) {
-                                    strGroupName = strName.length > 0 ? [strGroupName stringByAppendingString:[NSString stringWithFormat:@"%@,",strName]] : EMPTYSTRING;
-                                }
-                                tfAthleteOrGroup.text = strGroupName;
+                                NSArray *arrtempName = [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_GROUPS];
+                                tfAthleteOrGroup.text = [arrtempName componentsJoinedByString:@","];
+                                tfAthleteOrGroup.text = [tfAthleteOrGroup.text stringByReplacingOccurrencesOfString:@"," withString:@", "];
                             }
                         }
                     }
@@ -466,11 +463,9 @@
     txtField.tag = 0;
     txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     if ([[dicData valueForKey:STR_BOATS] isKindOfClass:[NSMutableArray class]]) {
-        
         NSMutableArray *arrTemp = [dicData valueForKey:STR_BOATS];
         txtField.text = arrTemp.count > txtField.tag ? [[[dicData valueForKey:STR_BOATS] objectAtIndex: txtField.tag]valueForKey:STRKEY_SETLINEUP] : EMPTYSTRING;
     }
-    
     UIButton *btnWholeTeam;
     btnWholeTeam=[UIButton buttonWithType:UIButtonTypeCustom];
     btnWholeTeam.frame=CGRectMake(txtField.frame.size.width+((isIPAD) ? 50:20), (txtField.frame.origin.y+1), Add_Delete_Size, Add_Delete_Size);
@@ -507,22 +502,17 @@
                         tfAthleteOrGroup.attributedPlaceholder = [[NSAttributedString alloc] initWithString:STR_ENTER_ATHLETENAME attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                         if([[[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_ATHLETES] isKindOfClass:[NSArray class]])
                         {
-                            NSString *strAthleteName = EMPTYSTRING;
-                            for (NSString *strName in [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_ATHLETES]) {
-                                strAthleteName = strName.length > 0 ? [strAthleteName stringByAppendingString:[NSString stringWithFormat:@"%@,",strName]] : EMPTYSTRING;
-                            }
-                            tfAthleteOrGroup.text = strAthleteName;
-                        }
+                            NSArray *arrtempName = [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_ATHLETES];
+                            tfAthleteOrGroup.text = [arrtempName componentsJoinedByString:@","];
+                            tfAthleteOrGroup.text = [tfAthleteOrGroup.text stringByReplacingOccurrencesOfString:@"," withString:@", "];                        }
                     }else{
                         tfAthleteOrGroup.attributedPlaceholder = [[NSAttributedString alloc] initWithString:STR_ENTER_GROUPNAME attributes:@{NSForegroundColorAttributeName: PlaceHolderColor}];
                         if([[[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_GROUPS] isKindOfClass:[NSArray class]])
                         {
                             {
-                                NSString *strGroupName = EMPTYSTRING;
-                                for (NSString *strName in [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_GROUPS]) {
-                                    strGroupName = strName.length > 0 ? [strGroupName stringByAppendingString:[NSString stringWithFormat:@"%@,",strName]] : EMPTYSTRING;
-                                }
-                                tfAthleteOrGroup.text = strGroupName;
+                                NSArray *arrtempName = [[[dicData valueForKey:STR_BOATS] objectAtIndex:tfAthleteOrGroup.tag] valueForKey:STR_GROUPS];
+                                tfAthleteOrGroup.text = [arrtempName componentsJoinedByString:@","];
+                                tfAthleteOrGroup.text = [tfAthleteOrGroup.text stringByReplacingOccurrencesOfString:@"," withString:@", "];
                             }
                         }
                     }
@@ -584,12 +574,10 @@
                 [arrTemp addObject:[arrkeys objectAtIndex:i] ];
             }
         }
-        for (int i=0; i<arrTemp.count; i++) {
-            if (i < arrTemp.count-1 )
-                strVales= [strVales stringByAppendingString:[NSString stringWithFormat:@"%@,",arrTemp[i]]];
-            else
-                strVales=[strVales stringByAppendingString:[NSString stringWithFormat:@"%@",arrTemp[i]]];
-        }
+        
+        strVales = [arrTemp componentsJoinedByString:@","];
+        strVales = [strVales stringByReplacingOccurrencesOfString:@"," withString:@", "];
+        
     }else if ([temp isKindOfClass:[NSNumber class]]) {
         strVales=[NSString stringWithFormat:@"%@",temp];
     }

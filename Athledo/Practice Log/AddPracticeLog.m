@@ -387,6 +387,28 @@
 #pragma mark UIAlertView Delegate menthod
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [SingletonClass ShareInstance].isPracticeLogUpdate = YES;
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
+    if (buttonIndex == 0) {
+        NSArray *arrController=[self.navigationController viewControllers];
+        BOOL Status=FALSE;
+        for (id object in arrController)
+        {
+            if ([object isKindOfClass:[PracticeLog class]])
+            {
+                Status=TRUE;
+                [self.navigationController popToViewController:object animated:NO];
+            }
+        }
+        
+        if (Status==FALSE)
+        {
+            PracticeLog *practiceView=[[PracticeLog alloc] init];
+            [self.navigationController pushViewController:practiceView animated:NO];
+        }
+        
+    }else{
+        
+    }
+
 }
 @end

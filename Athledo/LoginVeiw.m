@@ -14,6 +14,10 @@
 #import "AppDelegate.h"
 #import "CalendarMonthViewController.h"
 
+#define FieldHeight isIPAD ? 60 : 40
+#define FieldWidth isIPAD ? 400 : 280
+#define FieldPaiding isIPAD ? 20 : 10
+
 @interface LoginVeiw ()
 {
     UITextField *txtFieldUserId;
@@ -34,30 +38,22 @@
     return self;
 }
 - (IBAction)MoveToDashBoard:(id)sender {
-    
-   // NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-   // NSString * build = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
-    
     [[NSUserDefaults standardUserDefaults] setObject:txtFieldUserId.text forKey:@"USERNAME"];
     [[NSUserDefaults standardUserDefaults] setObject:txtFieldPassword.text forKey:@"PASSWORD"];
     
     if ([SingletonClass  CheckConnectivity]) {
         //Check for empty Text box
         NSString *strError = EMPTYSTRING;
-        if(txtFieldUserId.text.length < 1 )
-        {
+        if(txtFieldUserId.text.length < 1 ){
             strError = @"Please enter User Id";
         }
-        else if(txtFieldPassword.text.length < 1 )
-        {
+        else if(txtFieldPassword.text.length < 1 ){
             strError = @"Please enter password";
         }
-        if(strError.length>2)
-        {
-            [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
+        if(strError.length>2){
+        [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
-            
-        }else{
+       }else{
             BOOL emailValid=[SingletonClass emailValidate:txtFieldUserId.text];
             if (emailValid) {
                 [SingletonClass addActivityIndicator:self.view];
@@ -66,12 +62,9 @@
                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceLogin]];
                 [request setHTTPMethod:@"POST"];
                 [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-                
                 NSMutableData *data = [NSMutableData data];
-                //[data appendData:[[NSString stringWithFormat: @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"] dataUsingEncoding: NSUTF8StringEncoding]];
                 [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
                 [request setHTTPBody:data];
-
                 [NSURLConnection sendAsynchronousRequest:request
                                                    queue:[NSOperationQueue mainQueue]
                                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -82,13 +75,10 @@
                                            }else
                                            {
                                                [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-                                               //[SingletonClass RemoveActivityIndicator:self.view];
-                                               
-                                           }
+                                          }
                                            
                                        }];
-            }else
-            {
+            }else{
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
              }
         }
@@ -98,14 +88,12 @@
     }
 }
 #pragma mark-  Http call back
--(void)httpResponseReceived:(NSData *)webResponse
-{
+-(void)httpResponseReceived:(NSData *)webResponse{
     // Now we Need to decrypt data
     NSError *error=nil;
     NSMutableDictionary* myResults = [NSJSONSerialization JSONObjectWithData:webResponse options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:&error];
     // ***Tag 100 for Log in web service
-    if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS])
-    {
+    if([[myResults objectForKey:STATUS] isEqualToString:SUCCESS]){
         NSMutableDictionary *user=[[myResults objectForKey:DATA] objectForKey:@"User"];
         UserInformation *userdata=[UserInformation shareInstance];
         userdata.arrUserTeam=[[myResults objectForKey:DATA] objectForKey:@"UserTeam"];
@@ -118,10 +106,8 @@
         SingletonClass *obj=[SingletonClass ShareInstance];
         [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :EMPTYSTRING :EMPTYSTRING];
         NSArray *arrController=[self.navigationController viewControllers];
-        if (userdata.arrUserTeam.count==1)
-        {
+        if (userdata.arrUserTeam.count==1){
             @try {
-                
                 NSDictionary *team = [[UserInformation shareInstance].arrUserTeam objectAtIndex:0] ;
                 [UserInformation shareInstance].userSelectedTeamid =[[team objectForKey:KEY_TEAM_ID] intValue];
                 [UserInformation shareInstance].userSelectedSportid =[[team objectForKey:KEY_SPORT_ID] intValue];
@@ -129,18 +115,15 @@
                 NSDictionary *user=[obj GetUSerSaveData];
                 
                 [obj  SaveUserInformation:[user objectForKey:@"email"] :[user objectForKey:@"id"] :[user objectForKey:@"type"] :[user valueForKey:@"image"] :[user valueForKey:@"sender"] :[team objectForKey:KEY_TEAM_ID] :[team objectForKey:KEY_SPORT_ID]];
-                for (id object in arrController)
-                {
+                for (id object in arrController){
                     if ([object isKindOfClass:[SWRevealViewController class]])
                         [self.navigationController popToViewController:object animated:NO];
                 }
             }
             @catch (NSException *exception) {
-                
             }
             @finally
             {
-                
             }
         }else{
             BOOL Status=FALSE;
@@ -198,25 +181,19 @@
         frame.origin.y = 0;
         self.view.frame = frame;
         [UIView commitAnimations];
-        
     }];
-
 }
--(void)viewDidDisappear:(BOOL)animated
-{
+-(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     //if (isIPAD)
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardAppear];
     [[NSNotificationCenter defaultCenter] removeObserver: self.keyboardHide];
 }
-- (void)orientationChanged
-{
+- (void)orientationChanged{
     [SingletonClass RemoveActivityIndicator:self.view];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged)
@@ -227,41 +204,24 @@
     }else{
         [AppDelegate restrictRotation:YES];
     }
-    
     [super viewDidLoad];
     self.loginTableView.backgroundColor=[UIColor clearColor];
 }
 #pragma mark- TableviewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     return 2;
 }
-
--(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellId = @"cellId";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if(cell== nil){
         cell =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
-    int FieldHeight=0,FieldWeight=0,FieldPaiding=0;
-    if (isIPAD) {
-        FieldHeight=60;
-        FieldWeight=400;
-        FieldPaiding=20;
-    }else{
-        FieldHeight=40;
-        FieldWeight=280;
-        FieldPaiding=10;
-    }
-    
     if (indexPath.section==0) {
-        txtFieldUserId = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
+        txtFieldUserId = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWidth, FieldHeight)];
         txtFieldUserId.borderStyle = UITextBorderStyleNone;
         UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FieldPaiding, 20)];
         txtFieldUserId.leftView = paddingView;
@@ -281,7 +241,7 @@
         [cell addSubview:txtFieldUserId];
     }
     else{
-        txtFieldPassword = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWeight, FieldHeight)];
+        txtFieldPassword = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, FieldWidth, FieldHeight)];
         txtFieldPassword.backgroundColor = [UIColor clearColor];
         txtFieldPassword.borderStyle = UITextBorderStyleNone;
         UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FieldPaiding, 20)];

@@ -1226,7 +1226,7 @@ static int LiftExerciseCount=0;
             //NSMakeRange method used for remove , at the last position of string otherwise one blank object added in arry
             NSString *strAthletes =  textField.text;
             NSArray *componentsString = [strAthletes componentsSeparatedByString:@","];
-            strAthletes = componentsString.count > 1 ? [textField.text stringByReplacingCharactersInRange:NSMakeRange(textField.text.length-1, 1) withString:@""] : textField.text;
+            //strAthletes = componentsString.count > 1 ? [textField.text stringByReplacingCharactersInRange:NSMakeRange(textField.text.length-1, 1) withString:@""] : textField.text;
             componentsString = strAthletes.length > 0 ?[strAthletes componentsSeparatedByString:@","] : @[];
             
             [[[workOutDic valueForKey:STR_BOATS] objectAtIndex:textField.tag] setValue:componentsString forKey:STR_GROUPS];
@@ -1236,7 +1236,7 @@ static int LiftExerciseCount=0;
             //NSMakeRange method used for remove , at the last position of string otherwise one blank object added in arry
             NSString *strAthletes =  textField.text;
             NSArray *componentsString = [strAthletes componentsSeparatedByString:@","];
-            strAthletes = componentsString.count > 1 ? [textField.text stringByReplacingCharactersInRange:NSMakeRange(textField.text.length-1, 1) withString:@""] : textField.text;
+            //strAthletes = componentsString.count > 1 ? [textField.text stringByReplacingCharactersInRange:NSMakeRange(textField.text.length-1, 1) withString:@""] : textField.text;
             componentsString =strAthletes.length > 0 ? [strAthletes componentsSeparatedByString:@","] : @[];
             
             [[[workOutDic valueForKey:STR_BOATS] objectAtIndex:textField.tag] setValue:componentsString forKey:STR_ATHLETES];
@@ -2375,7 +2375,7 @@ static int LiftExerciseCount=0;
                 NSArray *arrAthleteData = [GroupsAthleteDic valueForKey:ATHLETEDATA];
                 for (int l = 0 ; l< arrAthleteData.count; l++) {
                     
-                    if ([[arrAthletes objectAtIndex:j] isEqualToString:[[arrAthleteData objectAtIndex:l] valueForKey:ATHLETE_NAME]]) {
+                    if ([[[arrAthletes objectAtIndex:j] stringByReplacingOccurrencesOfString:STR_SPACE withString:EMPTYSTRING] isEqualToString:[[[arrAthleteData objectAtIndex:l] valueForKey:ATHLETE_NAME] stringByReplacingOccurrencesOfString:STR_SPACE withString:EMPTYSTRING]]) {
                         strIds = [strIds stringByAppendingFormat:@"%@,",[[arrAthleteData objectAtIndex:l] valueForKey:@"id"]];
                     }
                 }
@@ -2399,7 +2399,7 @@ static int LiftExerciseCount=0;
             for (int j=0; j< arrGroups.count; j++) {
                 NSArray *arrGroupData = [GroupsAthleteDic valueForKey:GROUPDATA];
                 for (int l = 0 ; l< arrGroupData.count; l++) {
-                    if ([[arrGroups objectAtIndex:j] isEqualToString:[[arrGroupData objectAtIndex:l] valueForKey:KEY_NAME ]]) {
+                    if ([[[arrGroups objectAtIndex:j] stringByReplacingOccurrencesOfString:STR_SPACE withString:EMPTYSTRING] isEqualToString:[[[arrGroupData objectAtIndex:l] valueForKey:KEY_NAME ] stringByReplacingOccurrencesOfString:STR_SPACE withString:EMPTYSTRING]]) {
                         strIds = [strIds stringByAppendingFormat:@"%@,",[[arrGroupData objectAtIndex:l] valueForKey:@"id"]];
                     }
                 }

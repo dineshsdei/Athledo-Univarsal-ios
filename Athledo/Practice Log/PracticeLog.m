@@ -31,7 +31,7 @@
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
-- (void)viewDidLoad {
+-(void)viewDidLoad {
     [super viewDidLoad];
     eventArrDic=MUTABLEARRAY;
     startDateArr=MUTABLEARRAY;
@@ -94,15 +94,20 @@
 -(void)addPracticeLog{
     
     BOOL seasonStatus =FALSE;
-    NSDate *selectedDate =currentSelectedDate;
+    NSDate *selectedDate =[self.monthView dateSelected];
     if (selectedDate !=nil ) {
         seasonStatus=[self CheckDateIsBetweenSeason:selectedDate];
-    }
-    if(!(seasonStatus && ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger ))){
-        [SingletonClass initWithTitle:@"No practice season" message:@"Please create practice season from web end" delegate:nil btn1:@"Ok"];
+        if(!(seasonStatus && ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger ))){
+            [SingletonClass initWithTitle:@"No practice season" message:@"Please create practice season from web end" delegate:nil btn1:@"Ok"];
+            return;
+        }
+    }else
+    {
+     [SingletonClass initWithTitle:EMPTYSTRING message:@"Please select practice date" delegate:nil btn1:@"Ok"];
         return;
     }
-    currentSelectedDate = [self.monthView dateSelected];
+    
+    currentSelectedDate =[self.monthView dateSelected];
     if (currentSelectedDate != nil) {
         AddPracticeLog *addPracticeView = [[AddPracticeLog alloc] initWithNibName:@"AddPracticeLog" bundle:nil];
         addPracticeView.strScreenTitle = @"Add Practice";
@@ -110,7 +115,8 @@
         addPracticeView.addPracticeOnDate = currentSelectedDate;
         [self.navigationController pushViewController:addPracticeView animated:YES];
     }else{
-        [SingletonClass initWithTitle:EMPTYSTRING message:@"Please select practice date" delegate:self btn1:@"Ok"];
+        [SingletonClass initWithTitle:EMPTYSTRING message:@"Please select practice date" delegate:nil btn1:@"Ok"];
+        return;
     }
 }
 -(void)SetNavigationBarProperty{
@@ -157,7 +163,10 @@
 }
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray *ar = [self.dataDictionary valueForKey:[NSString stringWithFormat:@"%@", [self.monthView dateSelected] ] ];
-    if(ar == nil) return 0;
+    if(ar == nil)
+    {
+        return 0;
+    }
     return [ar count];
 }
 - (UITableViewCell *) tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {

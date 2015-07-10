@@ -69,7 +69,7 @@
                 <constraint firstAttribute="trailing" secondItem="CpS-DB-VM5" secondAttribute="trailing" id="nq5-Ji-DVC"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="8" y="58"/>
+            <point key="canvasLocation" x="-189" y="32"/>
         </view>
     </objects>
     <resources>

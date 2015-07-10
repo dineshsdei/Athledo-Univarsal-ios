@@ -131,8 +131,7 @@
     [self.navigationItem setHidesBackButton:YES animated:NO];
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:1];
     [tabBar setSelectedItem:tabBarItem];
-    if([SingletonClass ShareInstance].isMessangerSent==TRUE)
-    {
+    if([SingletonClass ShareInstance].isMessangerSent==TRUE){
         [self getMessages];
         [SingletonClass ShareInstance].isMessangerSent=FALSE;
     }
@@ -140,23 +139,18 @@
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
--(void)orientationChanged
-{
+-(void)orientationChanged{
     [SingletonClass deleteUnUsedLableFromTable:table];
 }
--(void)viewDidDisappear:(BOOL)animated
-{
+-(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     messageArrDic=[[NSArray alloc] init];
-    
     self.title = NSLocalizedString(@"Sent Messages", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
@@ -184,42 +178,30 @@
     [self getMessages];
 }
 
--(void)ComposeMessage:(id)sender
-{
+-(void)ComposeMessage:(id)sender{
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
-    for (id object in arrController)
-    {
-        if ([object isKindOfClass:[ComposeMessage class]])
-        {
+    for (id object in arrController){
+        if ([object isKindOfClass:[ComposeMessage class]]){
             Status=TRUE;
             [self.navigationController popToViewController:object animated:NO];
         }
     }
-    if (Status==FALSE)
-    {
+    if (Status==FALSE){
         ComposeMessage *compose=[[ComposeMessage alloc] initWithNibName:@"ComposeMessage" bundle:nil];
         [self.navigationController pushViewController:compose animated:NO];
     }
-    
 }
-
-
 #pragma mark- TableviewDelegate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     messageArrDic=[messageArrDic copy];
     return messageArrDic.count;
 }
-
--(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"MessageInboxCell";
     static NSString *CellNib = @"MessageInboxCell";
     MessageInboxCell *cell = (MessageInboxCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -235,7 +217,7 @@
         cell.btnarchive.hidden=YES;
     }
     cell.backgroundColor=[UIColor clearColor];
-    cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"sender"];
+    cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"reciever"];
     cell.lblReceivingDate.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:KEY_date];
     cell.lblDescription.text=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:Key_discription];
     cell.lblDescription.text  =[cell.lblDescription.text  stringByReplacingOccurrencesOfString:@"/n" withString:EMPTYSTRING];
@@ -245,12 +227,9 @@
     cell.senderPic.layer.borderWidth=2.0f;
     cell.senderPic.layer.borderColor=[UIColor lightGrayColor].CGColor;
     
-    if ([[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"sender_type"] intValue] == 1) {
-        cell.senderTypePic.image=[UIImage imageNamed:@"Coach.png"];
-    }else
-    {
-        cell.senderTypePic.image=[UIImage imageNamed:@"Athlete.png"];
+    if ([[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"reciever_type"] isKindOfClass:[NSString class]]) {
         
+        cell.senderTypePic.image=[[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"reciever_type"] intValue] == 1 ? [UIImage imageNamed:@"Coach.png"] : [UIImage imageNamed:@"Athlete.png"];
     }
     cell.lblSenderName.font=Textfont;
     cell.lblDescription.font=SmallTextfont;
@@ -278,15 +257,13 @@
     return cell;
 }
 
-- (NSArray *)rightButtons :(int)btnTag
-{
+- (NSArray *)rightButtons :(int)btnTag{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:149/255.0 green:29/255.0 blue:27/255.0 alpha:1.0f] icon:[UIImage imageNamed:@"deleteBtn.png"] :btnTag];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:41/255.0 green:58/255.0 blue:71/255.0 alpha:1.0] icon:[UIImage imageNamed:@"update_icon.png"] :btnTag];
     return rightUtilityButtons;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return CELLHEIGHT;
 }
 

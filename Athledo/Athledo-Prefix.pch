@@ -295,6 +295,10 @@
 
 #define getConversationTag 3110
 #define sendConversationTag 3120
+#define getDayEventTag 4411120
+#define getWeekEventTag 4411230
+#define getMonthEventTag 4411340
+#define getMapEventTag 4411450
 #define getEventTag 44110
 //#define CellHeight 4490
 #define getUserTypeTag 55120

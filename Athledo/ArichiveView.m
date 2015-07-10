@@ -39,20 +39,16 @@
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
     }
-
+    
     [super viewWillAppear:animated];
     [self.navigationItem setHidesBackButton:YES animated:NO];
-    
-   
-    
     UITabBarItem *tabBarItem = [tabBar.items objectAtIndex:2];
-    
     [tabBar setSelectedItem:tabBarItem];
-     if([SingletonClass ShareInstance].isMessangerArchive==TRUE)
-     {
-         [self getMessages];
-         [SingletonClass ShareInstance].isMessangerArchive=FALSE;
-     }
+    if([SingletonClass ShareInstance].isMessangerArchive==TRUE)
+    {
+        [self getMessages];
+        [SingletonClass ShareInstance].isMessangerArchive=FALSE;
+    }
 }
 
 #pragma mark Webservice call event
@@ -66,37 +62,24 @@
         
         [SingletonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceArchiveMessage :strURL :getMessagesTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
-  
 }
 -(void)deleteMessageEvent:(NSInteger)index{
     
     if ([SingletonClass  CheckConnectivity]) {
-    
         NSString *strURL=EMPTYSTRING;
-        
-        if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"inbox"])
-        {
-             strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\"}",[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_receiver_id"] intValue],[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_id"] intValue]];
+        if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"inbox"]){
+            strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\"}",[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_receiver_id"] intValue],[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_id"] intValue]];
             
-        }else if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"sent"])
-        {
+        }else if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"sent"]){
             strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"webmail_id\":\"%d\"}",[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_sender_id"] intValue],[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_id"] intValue]];
-
         }
         //[SingaltonClass addActivityIndicator:self.view];
-        
         [webservice WebserviceCall:webServiceDeleteMessage :strURL :deleteMessagesTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)archiveMessageMoveToInboxEvent:(int)index{
@@ -104,50 +87,33 @@
     if ([SingletonClass  CheckConnectivity]) {
         
         NSString *strURL=EMPTYSTRING;
-        
-        if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"inbox"])
-        {
+        if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"inbox"]){
             strURL = [NSString stringWithFormat:@"{\"status\":\"%@\",\"webmail_parent_id\":\"%d\"}",@"move_to_inbox",[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_parent_id"] intValue]];
-            
-        }else if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"sent"])
-        {
+        }else if([[[messageArrDic objectAtIndex:index] valueForKey:@"mail_from"] isEqualToString:@"sent"]){
             strURL = [NSString stringWithFormat:@"{\"status\":\"%@\",\"webmail_parent_id\":\"%d\"}",@"move_to_sent",[[[messageArrDic objectAtIndex:index] valueForKey:@"webmail_parentsender_id"] intValue]];
-            
         }
-
-       // [SingaltonClass addActivityIndicator:self.view];
-        
+        // [SingaltonClass addActivityIndicator:self.view];
         [webservice WebserviceCall:webServiceMessageStatus:strURL :archiveMessagesTag];
-        
     }else{
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
 }
-
--(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
-{
-    switch (Tag)
-    {
-        case getMessagesTag:
-        {
-            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {
+-(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
+    switch (Tag){
+        case getMessagesTag:{
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 messageArrDic =[MyResults objectForKey:DATA];
                 messageArrDic.count == 0 ? ([table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]]):[SingletonClass deleteUnUsedLableFromTable:table];
                 [table reloadData];
-            }else
-            {
+            }else{
                 [table addSubview:[SingletonClass ShowEmptyMessage:@"No messages":table]];
             }
             [SingletonClass RemoveActivityIndicator:self.view];
             break;
         }
-        case deleteMessagesTag:
-        {
-            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
-            {// Now we Need to decrypt data
+        case deleteMessagesTag:{
+            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                // Now we Need to decrypt data
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message deleted successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
@@ -162,8 +128,8 @@
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {// Now we Need to decrypt data
                 [SingletonClass ShareInstance].isMessangerInbox = TRUE;
-                 [SingletonClass ShareInstance].isMessangerSent = TRUE;
-                 [SingletonClass ShareInstance].isMessangerArchive = TRUE;
+                [SingletonClass ShareInstance].isMessangerSent = TRUE;
+                [SingletonClass ShareInstance].isMessangerArchive = TRUE;
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Message restored successully" delegate:nil btn1:@"Ok"];
                 [self getMessages];
             }else{
@@ -185,7 +151,7 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-   // if (isIPAD)
+    // if (isIPAD)
     //[[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 #pragma mark - View lifecycle
@@ -197,7 +163,7 @@
     
     messageArrDic=[[NSArray alloc] init];
     
-   self.title = NSLocalizedString(@"Archive", EMPTYSTRING);
+    self.title = NSLocalizedString(@"Archive", EMPTYSTRING);
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
@@ -224,7 +190,7 @@
     
     SWRevealViewController *revealController = [self revealViewController];
     [self.view addGestureRecognizer:revealController.panGestureRecognizer];
-     [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
+    [self.view addGestureRecognizer:revealController.tapGestureRecognizer];
     
     [self.navigationController.navigationBar addGestureRecognizer:revealController.panGestureRecognizer];
     
@@ -232,13 +198,13 @@
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-
+    
     
     self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [self getMessages];
-       
+    
     
 }
 
@@ -258,7 +224,7 @@
     
     if (Status==FALSE)
     {
-         ComposeMessage *compose=[[ComposeMessage alloc] initWithNibName:@"ComposeMessage" bundle:nil];
+        ComposeMessage *compose=[[ComposeMessage alloc] initWithNibName:@"ComposeMessage" bundle:nil];
         [self.navigationController pushViewController:compose animated:NO];
     }
     
@@ -278,8 +244,7 @@
     return 1;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *CellIdentifier = @"MessageInboxCell";
     static NSString *CellNib = @"MessageInboxCell";
@@ -291,16 +256,12 @@
         cell = (MessageInboxCell *)[nib objectAtIndex:0];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         [cell.contentView setUserInteractionEnabled:YES];
-        
         cell.delegate=self;
-        
         cell.btndelete.tag=indexPath.section;
         cell.btnarchive.tag=indexPath.section;
     }
-    
-    
     cell.backgroundColor=[UIColor clearColor];
-    cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"sender"];
+     cell.lblSenderName.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"reciever"];
     cell.lblReceivingDate.text=[[messageArrDic objectAtIndex:indexPath.section] objectForKey:KEY_date];
     cell.lblDescription.text=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:Key_discription];
     cell.lblDescription.text  =[cell.lblDescription.text  stringByReplacingOccurrencesOfString:@"/n" withString:EMPTYSTRING];
@@ -309,57 +270,44 @@
     cell.lblDescription.font=SmallTextfont;
     cell.lblReceivingDate.font=SmallTextfont;
     
-     [cell.senderPic setImageWithURL:[NSURL URLWithString:[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
+    [cell.senderPic setImageWithURL:[NSURL URLWithString:[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageCacheMemoryOnly];
     cell.senderPic.layer.masksToBounds = YES;
     cell.senderPic.layer.cornerRadius=(cell.senderPic.frame.size.width)/2;
     cell.senderPic.layer.borderWidth=1.0f;
     cell.senderPic.layer.borderColor=[UIColor lightGrayColor].CGColor;
     
-    if ([[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"sender_type"] intValue] == 1) {
-        cell.senderTypePic.image=[UIImage imageNamed:@"Coach.png"];
-    }else
-    {
-        cell.senderTypePic.image=[UIImage imageNamed:@"Athlete.png"];
+    if ([[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"reciever_type"] isKindOfClass:[NSString class]]) {
         
+        cell.senderTypePic.image=[[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"reciever_type"] intValue] == 1 ? [UIImage imageNamed:@"Coach.png"] : [UIImage imageNamed:@"Athlete.png"];
     }
     
     if ([[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"is_read"] intValue] == 1) {
-        
-       // cell.lblSenderName.textColor=[UIColor lightGrayColor];
-        
-        
-    }else
-    {    cell.lblSenderName.font = [UIFont boldSystemFontOfSize:15];
-       // cell.lblSenderName.textColor=[UIColor lightGrayColor];
+        // cell.lblSenderName.textColor=[UIColor lightGrayColor];
+    }else{
+        cell.lblSenderName.font = [UIFont boldSystemFontOfSize:15];
+        // cell.lblSenderName.textColor=[UIColor lightGrayColor];
     }
     tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    
     UIImageView *img1;
     if (isIPAD) {
         img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-3, cell.frame.size.width, 1)];
-        
     }else{
         img1 =[[UIImageView alloc] initWithFrame:CGRectMake(0,cell.frame.size.height-3, cell.frame.size.width, 1)];
     }
     img1.image=[UIImage imageNamed:@"menu_sep.png"];
     
-   // [cell addSubview:img1];
+    // [cell addSubview:img1];
     
     cell.rightUtilityButtons = [self rightButtons :(int)indexPath.section];
     cell.delegate=self;
-
+    
     cell.backgroundColor=[UIColor clearColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
-    
-    
     return cell;
 }
 
-- (NSArray *)rightButtons :(int)btnTag
-{
+- (NSArray *)rightButtons :(int)btnTag{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:149/255.0 green:29/255.0 blue:27/255.0 alpha:1.0f] icon:[UIImage imageNamed:@"deleteBtn.png"] : btnTag];
     
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:41/255.0 green:58/255.0 blue:71/255.0 alpha:1.0] icon:[UIImage imageNamed:@"update_icon.png"] :btnTag];
@@ -383,8 +331,7 @@
     [self.navigationController pushViewController:details animated:NO];
 }
 
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
@@ -393,9 +340,7 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     @try {
         NSArray *arrButtons=cell.rightUtilityButtons;
-        
         UIButton *btn=(UIButton *)[arrButtons objectAtIndex:0];
-        
         switch (index) {
             case 0:
             {
@@ -415,7 +360,7 @@
     }
     @finally {
     }
-  }
+}
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex==1) {
@@ -432,51 +377,37 @@
 }
 -(void)archiveMessage:(id)sender;
 {
-   UIButton *btn=sender;
-  [self archiveMessageMoveToInboxEvent:(int)btn.tag];
+    UIButton *btn=sender;
+    [self archiveMessageMoveToInboxEvent:(int)btn.tag];
 }
--(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{
+    
     NSArray *arrController=[self.navigationController viewControllers];
     switch (item.tag) {
-        case 0:
-        {
+        case 0:{
             BOOL Status=FALSE;
-            for (id object in arrController)
-            {
-                
-                if ([object isKindOfClass:[MessangerView class]])
-                {
+            for (id object in arrController){
+                if ([object isKindOfClass:[MessangerView class]]){
                     Status=TRUE;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
-            if (Status==FALSE)
-            {
+            if (Status==FALSE){
                 MessangerView *sentItems=[[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
-                
                 [self.navigationController pushViewController:sentItems animated:NO];
             }
-
+            
             break;
-        } case 1:
-        {
+        } case 1:{
             BOOL Status=FALSE;
-            for (id object in arrController)
-            {
-                
-                if ([object isKindOfClass:[SentItemsView class]])
-                {
+            for (id object in arrController){
+                if ([object isKindOfClass:[SentItemsView class]]){
                     Status=TRUE;
                     [self.navigationController popToViewController:object animated:NO];
                 }
             }
-            
-            if (Status==FALSE)
-            {
+            if (Status==FALSE){
                 SentItemsView *compose=[[SentItemsView alloc] initWithNibName:@"SentItemsView" bundle:nil];
-                
                 [self.navigationController pushViewController:compose animated:NO];
             }
             break;

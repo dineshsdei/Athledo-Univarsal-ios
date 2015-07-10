@@ -434,8 +434,8 @@ int Box_W;
 	self.currentDay.text = [numberFormatter stringFromNumber:@(day)];
 	
 	if (self.marks.count > 0) {
-		
-		if([self.marks[row * 7 + column] boolValue]){
+        BOOL *status = self.marks.count > (row * 7 + column)? [self.marks[row * 7 + column]boolValue] : NO;
+		if(status){
 			hasDot = YES;
 			[self.selectedImageView addSubview:self.dot];
 		}else
@@ -456,7 +456,9 @@ int Box_W;
 	
 }
 - (NSDate*) dateSelected{
-	if(selectedDay < 1 || selectedPortion != 1) return nil;
+	
+    if(selectedDay < 1 || selectedPortion != 1)
+        return nil;
 	
 	NSDateComponents *info = [_monthDate dateComponentsWithTimeZone:self.timeZone];
 	info.hour = 0;
@@ -464,9 +466,7 @@ int Box_W;
 	info.second = 0;
 	info.day = selectedDay;
 	NSDate *d = [NSDate dateWithDateComponents:info];
-	
-		
-	
+
 	return d;
 	
 }
@@ -1010,16 +1010,13 @@ int Box_W;
 	newTile.frame = CGRectMakeWithSize(0, y, newTile.frame.size);
 	newTile.alpha = 0;
 	[self.tileBox addSubview:newTile];
-	
-	
+
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:0.1];
 	newTile.alpha = 1;
 
 	[UIView commitAnimations];
-	
-	
-	
+
 	self.userInteractionEnabled = NO;
 	
 	[UIView beginAnimations:nil context:nil];
@@ -1028,9 +1025,7 @@ int Box_W;
 	[UIView setAnimationDidStopSelector:@selector(animationEnded)];
 	[UIView setAnimationDelay:0.1];
 	[UIView setAnimationDuration:0.4];
-	
-	
-	
+
 	if(isNext){
 		self.currentTile.frame = CGRectMakeWithSize(0, -1 * CGRectGetHeight(self.currentTile.frame) + overlap + 2,  self.currentTile.frame.size);
 		newTile.frame = CGRectMakeWithSize(0, 1, newTile.frame.size);

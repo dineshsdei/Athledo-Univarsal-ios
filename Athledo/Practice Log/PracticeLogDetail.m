@@ -9,10 +9,13 @@
 #import "PracticeLogDetail.h"
 #import "PracticeCell.h"
 #import "AthletePracticeNotesCell.h"
+#import "AddPracticeLog.h"
+
 #define BORDERWEIGHT 2
 #define ICON_HEIGHT_WEIGHT 30
 #define PRACTICENOTE_CELL_HEIGHT isIPAD ? 70 : 60
 #define VIEW_ATHLETE_NOTE_BG [UIColor colorWithRed:210/255.0 green:210/255.0 blue:210/255.0 alpha:1]
+#define ADD_PRACTICE_ICON_SIZE (isIPAD) ? 35 : 35
 
 @interface PracticeLogDetail ()
 {
@@ -73,6 +76,9 @@
     _PracticeDetailScrollView.scrollEnabled = YES;
     if (_objEditPracticeData) {
         if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
+                UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self EditPracticeLogButton]];
+            self.navigationItem.rightBarButtonItem = ButtonItem;
+        
             if([[_objEditPracticeData valueForKey:@"athleteNotes"] isKindOfClass:[NSArray class]])
             {
                  arrAthletesNotes =  [_objEditPracticeData valueForKey:@"athleteNotes"] ;
@@ -116,6 +122,24 @@
     [super didReceiveMemoryWarning];
 }
 #pragma mark Class Utility Method
+-(UIButton *)EditPracticeLogButton{
+    UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-((ADD_PRACTICE_ICON_SIZE)+((isIPAD )? 10 :5)),2,ADD_PRACTICE_ICON_SIZE,ADD_PRACTICE_ICON_SIZE)];
+    [btnSave addTarget:self action:@selector(editPracticeLog:) forControlEvents:UIControlEventTouchUpInside];
+    [btnSave setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+    return btnSave;
+}
+-(void)editPracticeLog:(UIButton *)btn{
+    AddPracticeLog *addPracticeView;
+    if ([UserInformation shareInstance].userType == isManeger || [UserInformation shareInstance].userType == isCoach) {
+        addPracticeView = [[AddPracticeLog alloc] initWithNibName:@"AddPracticeLog" bundle:nil];
+    }else{
+        addPracticeView = [[AddPracticeLog alloc] initWithNibName:@"AddPracticeNoteByAthlete" bundle:nil];
+    }
+    addPracticeView.strScreenTitle = @"Edit Practice";
+    addPracticeView.objEditPracticeData = _objEditPracticeData;
+    [self.navigationController pushViewController:addPracticeView animated:YES];
+}
+
 -(void)Done{
     [[arrAthletesNotes objectAtIndex:EditIndex] setValue:txtViewCurrent.text forKey:@"notes"];
     [tblAthleteNotes reloadData];
@@ -295,7 +319,7 @@
     return PRACTICENOTE_CELL_HEIGHT;
 }
 #pragma mark WebService Comunication Method
--(void)EditAthleteNote:(int)index{
+-(void)EditAthleteNote:(NSInteger)index{
     if ([SingletonClass  CheckConnectivity]) {
         self.navigationItem.rightBarButtonItem.enabled=NO;
         WebServiceClass *webservice =[WebServiceClass shareInstance];
@@ -325,5 +349,6 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 @end

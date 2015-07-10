@@ -275,12 +275,10 @@
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
                 arrNotesData =[MyResults objectForKey:DATA];
-                
                 for (int i=0; i<arrNotesData.count; i++) {
                     NSDictionary *profile =[[arrNotesData objectAtIndex:i] valueForKey:@"UserProfile"];
                      [arrFilterdData addObject:profile];
                 }
-               
                arrFilterdData.count == 0 ? [tableview addSubview:[SingletonClass ShowEmptyMessage:@"No Athletes":tableview]] :[SingletonClass deleteUnUsedLableFromTable:tableview];
                 [tableview reloadData];
             }else{
@@ -377,15 +375,12 @@
     NSArray *arrButtons=cell.rightUtilityButtons;
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:index];
     switch (index) {
-        case 0:
-        {
+        case 0:{
             [self ShareSelectedUserNotes:btn.tag];
             break;
         }
-        case 1:
-        {
+        case 1:{
             pdfNameIndex = (int)btn.tag;
-            
             [self DownloadSelectedUserPDF:[[[arrFilterdData objectAtIndex:pdfNameIndex] valueForKey:KEY_USER_ID] intValue]];
             break;
         }
@@ -393,13 +388,10 @@
             break;
     }
 }
--(void)DownloadSelectedUserPDF :(NSInteger)userTag
-{
+-(void)DownloadSelectedUserPDF :(NSInteger)userTag{
     [self getPdfLink:[NSString stringWithFormat:@"%li",(long)userTag]];
 }
-
--(void)ShareSelectedUserNotes :(NSInteger)userTag
-{
+-(void)ShareSelectedUserNotes :(NSInteger)userTag{
     [self ShareNotes:[[arrFilterdData objectAtIndex:userTag] valueForKey:KEY_USER_ID]];
 }
 #pragma SearchBar Delegate
@@ -489,7 +481,6 @@
     NSError *error;
     NSURLResponse *response;
     NSData *receivedData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
     // Handle the received data
     if (error) {
         NSLog(@"Error: %@", error);

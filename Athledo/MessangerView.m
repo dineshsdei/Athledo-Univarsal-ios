@@ -89,7 +89,6 @@
 
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag
 {
-   
     [SingletonClass deleteUnUsedLableFromTable:table];
     switch (Tag)
     {
@@ -141,10 +140,8 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    if (isIPAD)
-    {
+-(void)viewWillAppear:(BOOL)animated{
+    if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orientationChanged)
@@ -158,15 +155,12 @@
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
     self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
     [super viewWillAppear:animated];
-    if([SingletonClass ShareInstance].isMessangerInbox==TRUE)
-    {
+    if([SingletonClass ShareInstance].isMessangerInbox==TRUE){
         [self getMessages];
         [SingletonClass ShareInstance].isMessangerInbox=FALSE;
     }
-
 }
--(void)viewDidDisappear:(BOOL)animated
-{
+-(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:NO];
     if (isIPAD)
      [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -177,14 +171,11 @@
     return UIStatusBarStyleLightContent;
 }
 
--(void)orientationChanged
-{
+-(void)orientationChanged{
     [SingletonClass deleteUnUsedLableFromTable:table];
 }
 #pragma mark - View lifecycle
-- (void)viewDidLoad
-{
-  
+- (void)viewDidLoad{
     [super viewDidLoad];
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
@@ -209,48 +200,32 @@
     
     self.navigationItem.leftBarButtonItem = revealButtonItem;
     
-    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-      self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-      self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.leftBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+      self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+      self.navigationController.navigationBar.tintColor = NAVIGATION_COMPONENT_COLOR;
     
     [self getMessages];
     [SingletonClass ShareInstance].isMessangerInbox =FALSE;
 }
-
-
-
 #pragma mark- TableviewDelegate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView;{
     messageArrDic=[messageArrDic copy];
-    
     return messageArrDic.count;
 }
-
--(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    
+-(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
-    
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"MessageInboxCell";
     static NSString *CellNib = @"MessageInboxCell";
-    
     MessageInboxCell *cell = (MessageInboxCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     if (cell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
         cell = (MessageInboxCell *)[nib objectAtIndex:0];
        // cell.selectionStyle=UITableViewCellSelectionStyleNone;
         [cell.contentView setUserInteractionEnabled:NO];
-        
         cell.delegate=self;
-        
         cell.btndelete.tag=indexPath.section;
         cell.btnarchive.tag=indexPath.section;
     }
@@ -271,17 +246,12 @@
     
     if ([[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"sender_type"] intValue] == 1) {
          cell.senderTypePic.image=[UIImage imageNamed:@"Coach.png"];
-    }else
-    {
+    }else{
          cell.senderTypePic.image=[UIImage imageNamed:@"Athlete.png"];
-        
     }
    
-    if ([[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"is_read"] intValue] == 1)
-    {
+    if ([[[messageArrDic objectAtIndex:indexPath.section] objectForKey:@"is_read"] intValue] == 1){
         //cell.imgStatus.image=[UIImage imageNamed:@"check.png"];
-        
-        
     }else
     {    cell.lblSenderName.font = [UIFont boldSystemFontOfSize:15];
     }
@@ -315,18 +285,14 @@
     
     return rightUtilityButtons;
 }
-+ (BOOL)requiresConstraintBasedLayout
-{
++ (BOOL)requiresConstraintBasedLayout{
     return YES;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return CELLHEIGHT;
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     MessageDetails *details=[[MessageDetails alloc] init];
     details.webmail_id=[[messageArrDic  objectAtIndex:indexPath.section] valueForKey:@"webmail_id"];
     details.webmail_parent_id=[[messageArrDic objectAtIndex:indexPath.section] valueForKey:@"webmail_parent_id"];
@@ -345,17 +311,12 @@
     UIButton *btn=(UIButton *)[arrButtons objectAtIndex:0];
 
     switch (index) {
-        case 0:
-        {
+        case 0:{
             [self deleteMessage:btn];
-
             break;
         }
-        case 1:
-        {
-
+        case 1:{
              [self archiveMessage:btn];
-            
             break;
         }
         default:
@@ -363,8 +324,7 @@
     }
 }
 
--(void)ComposeMessage:(id)sender
-{
+-(void)ComposeMessage:(id)sender{
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController)

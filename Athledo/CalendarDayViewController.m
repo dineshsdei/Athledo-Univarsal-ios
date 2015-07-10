@@ -40,12 +40,10 @@ UIBarButtonItem *revealButtonItem;;
     
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
-        
-        [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"type\":\"%d\",\"team_id\":\"%d\",\"start_date\":\"%@\",\"last_date\":\"%@\"}",userInfo.userId,userInfo.userType,userInfo.userSelectedTeamid,startDate,endDate];
         
         [SingletonClass addActivityIndicator:self.view];
-        [webservice WebserviceCall:webServiceGetEvents :strURL :getEventTag];
+        [webservice WebserviceCall:webServiceGetEvents :strURL :getDayEventTag];
     }else{
         
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
@@ -58,13 +56,12 @@ UIBarButtonItem *revealButtonItem;;
     
     switch (Tag)
     {
-        case getEventTag:
+        case getDayEventTag:
         {
-            eventData=nil;
-            [_eventDic removeAllObjects];
-            
-            if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
+           if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS])
             {
+                eventData=nil;
+                [_eventDic removeAllObjects];
                 // Now we Need to decrypt data
                 eventData =[MyResults objectForKey:DATA];
                 NSArray *arrKeys=[eventData allKeys ];
@@ -139,7 +136,7 @@ UIBarButtonItem *revealButtonItem;;
     }
     
     [super viewDidLoad];
-    self.data=MUTABLEARRAY;
+    self.data=[[NSMutableArray alloc] init];
     self.title = NSLocalizedString(@"Day Events", EMPTYSTRING);
     self.view.backgroundColor=[UIColor whiteColor];
     revealController = [self revealViewController];
@@ -218,6 +215,7 @@ UIBarButtonItem *revealButtonItem;;
         NSString *strdate=[formater stringFromDate:_CalendarDisplayDate];
         
         [self getEvents:[NSString stringWithFormat:@"%@ 00:00:00",strdate]:[NSString stringWithFormat:@"%@ 24:00:00",strdate]];
+         [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
     }else{
         
         NSDate *todayDate=[NSDate date];
@@ -226,6 +224,7 @@ UIBarButtonItem *revealButtonItem;;
         enddate=[enddate stringByAppendingString:@" 00:00:00"];
         
         [self getEvents:enddate:[enddate stringByReplacingOccurrencesOfString:@"00:00:00" withString:@"24:00:00"]];
+         [SingletonClass ShareInstance].isCalendarUpdate=FALSE;
         
     }
 }
@@ -433,6 +432,7 @@ UIBarButtonItem *revealButtonItem;;
 }
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [SingletonClass RemoveActivityIndicator:self.view];
     self.navigationController.navigationBar.hairlineDividerView.hidden = NO;
     if (isIPAD)
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -491,7 +491,7 @@ UIBarButtonItem *revealButtonItem;;
         {
             Status=TRUE;
             CalenderEventDetails *eventDetails=(CalenderEventDetails*)(object);
-            eventDetails.eventDetailsDic=[_eventDic objectAtIndex:eventView.EventTag];
+            eventDetails.eventDetailsDic=eventView.EventTag < _eventDic.count ? [_eventDic objectAtIndex:eventView.EventTag] : [NSDictionary dictionary];
             eventDetails.strMoveControllerName=@"CalendarDayViewController";
             if (_objNotificationData) {
                 eventDetails.objNotificationData=_objNotificationData;
@@ -503,7 +503,7 @@ UIBarButtonItem *revealButtonItem;;
     if (Status==FALSE)
     {
         CalenderEventDetails *eventDetails=[[CalenderEventDetails alloc] init];
-        eventDetails.eventDetailsDic=[_eventDic objectAtIndex:eventView.EventTag];
+        eventDetails.eventDetailsDic=eventView.EventTag < _eventDic.count ? [_eventDic objectAtIndex:eventView.EventTag] : [NSDictionary dictionary];
         eventDetails.strMoveControllerName=@"CalendarDayViewController";
         if (_objNotificationData) {
             eventDetails.objNotificationData=_objNotificationData;
