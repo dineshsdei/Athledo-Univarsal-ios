@@ -1,121 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="enb-FJ-uBI">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="64" id="RKX-2b-GNR"/>
-                    </constraints>
-                </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6iC-Gd-2WO">
-                    <rect key="frame" x="30" y="72" width="110" height="30"/>
-                    <color key="backgroundColor" red="0.72810218979999997" green="0.0" blue="0.080776687959999996" alpha="1" colorSpace="deviceRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="1rZ-az-jCY"/>
-                        <constraint firstAttribute="height" constant="30" id="qrP-7O-gzk"/>
-                    </constraints>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSc-6y-LLe">
-                    <rect key="frame" x="180" y="72" width="110" height="30"/>
-                    <color key="backgroundColor" red="0.67350022809999999" green="0.0" blue="0.080776687959999996" alpha="1" colorSpace="deviceRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="RdK-l9-8IT"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="Uip-lO-LC4"/>
-                    </constraints>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lwL-1e-P0p">
-                    <rect key="frame" x="30" y="128" width="260" height="29"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="28" id="XCC-xl-yqi"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="260" id="dtt-oN-Cdf"/>
-                    </constraints>
-                    <segments>
-                        <segment title="First"/>
-                        <segment title="Second"/>
-                        <segment title="Third"/>
-                        <segment title="Four"/>
-                    </segments>
-                </segmentedControl>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S7V-P7-pvZ">
-                    <rect key="frame" x="30" y="176" width="260" height="300"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VqF-ak-aHX">
-                            <rect key="frame" x="18" y="35" width="65" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="65" id="enA-MZ-dOY"/>
-                                <constraint firstAttribute="height" constant="21" id="t0e-rF-fdj"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sNW-0g-Imn">
-                            <rect key="frame" x="93" y="29" width="150" height="30"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HO1-D7-nKf">
-                            <rect key="frame" x="93" y="70" width="150" height="30"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lgm-hB-KAf">
-                            <rect key="frame" x="18" y="74" width="65" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="65" id="e0b-RJ-J1r"/>
-                                <constraint firstAttribute="height" constant="21" id="vcp-Be-vFm"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <constraints>
-                        <constraint firstItem="VqF-ak-aHX" firstAttribute="leading" secondItem="Lgm-hB-KAf" secondAttribute="leading" id="779-dg-cgZ"/>
-                        <constraint firstItem="Lgm-hB-KAf" firstAttribute="top" secondItem="VqF-ak-aHX" secondAttribute="bottom" constant="18" id="7dp-dQ-i3D"/>
-                        <constraint firstItem="VqF-ak-aHX" firstAttribute="leading" secondItem="S7V-P7-pvZ" secondAttribute="leading" constant="18" id="AwA-me-W1F"/>
-                        <constraint firstItem="VqF-ak-aHX" firstAttribute="top" secondItem="S7V-P7-pvZ" secondAttribute="top" constant="35" id="aFj-Uy-w3o"/>
-                    </constraints>
-                </scrollView>
-            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="lwL-1e-P0p" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="3ko-GA-aAs"/>
-                <constraint firstItem="enb-FJ-uBI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Aey-hB-87p"/>
-                <constraint firstAttribute="trailing" secondItem="cSc-6y-LLe" secondAttribute="trailing" constant="30" id="GIP-iA-xAO"/>
-                <constraint firstItem="S7V-P7-pvZ" firstAttribute="top" secondItem="lwL-1e-P0p" secondAttribute="bottom" constant="20" id="GKN-h8-olf"/>
-                <constraint firstItem="6iC-Gd-2WO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="L2K-3e-RAh"/>
-                <constraint firstItem="lwL-1e-P0p" firstAttribute="top" secondItem="6iC-Gd-2WO" secondAttribute="bottom" constant="26" id="MEs-B6-Klm"/>
-                <constraint firstItem="S7V-P7-pvZ" firstAttribute="trailing" secondItem="lwL-1e-P0p" secondAttribute="trailing" id="RKZ-aK-sAh"/>
-                <constraint firstAttribute="trailing" secondItem="lwL-1e-P0p" secondAttribute="trailing" constant="30" id="TOK-2v-t4k"/>
-                <constraint firstItem="cSc-6y-LLe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="72" id="dY3-VW-PXO"/>
-                <constraint firstAttribute="bottom" secondItem="S7V-P7-pvZ" secondAttribute="bottom" constant="4" id="dxu-ib-g24"/>
-                <constraint firstItem="enb-FJ-uBI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ifY-Pp-JDS"/>
-                <constraint firstItem="6iC-Gd-2WO" firstAttribute="width" secondItem="cSc-6y-LLe" secondAttribute="width" id="s1D-tn-Kgs"/>
-                <constraint firstItem="cSc-6y-LLe" firstAttribute="leading" secondItem="6iC-Gd-2WO" secondAttribute="trailing" constant="40" id="tkn-6U-944"/>
-                <constraint firstAttribute="trailing" secondItem="enb-FJ-uBI" secondAttribute="trailing" id="wHb-Xe-DPZ"/>
-                <constraint firstItem="6iC-Gd-2WO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="72" id="x1v-FQ-ivp"/>
-                <constraint firstItem="S7V-P7-pvZ" firstAttribute="leading" secondItem="lwL-1e-P0p" secondAttribute="leading" id="yvd-fu-DIH"/>
-            </constraints>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="162" y="-109"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="244.5" y="-180.5"/>
         </view>
     </objects>
 </document>

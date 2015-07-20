@@ -60,7 +60,8 @@
         [self.monthView selectDate:[NSDate date]];
         [self orientationChanged];
     }
-    currentSelectedDate = [NSDate date];
+    currentSelectedDate = currentSelectedDate == nil ? [NSDate date] :currentSelectedDate;
+    
     [super viewWillAppear:animated];
     //[self.monthView addGestureRecognizer:revealController.panGestureRecognizer];
     //[self.monthView addGestureRecognizer:revealController.tapGestureRecognizer];

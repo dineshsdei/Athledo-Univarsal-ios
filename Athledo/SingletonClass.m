@@ -125,10 +125,8 @@ static SingletonClass *objSingaltonClass = nil;
     UILabel *lblShowEmptyMessage;
     float SCREENWIDTH;
     float SCREENHEIGHT;
-
     SCREENWIDTH=messageView.frame.size.width;
     SCREENHEIGHT=messageView.frame.size.height;
-    
     lblShowEmptyMessage=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/2-150, SCREENHEIGHT/2-50,300, 100)];
     lblShowEmptyMessage.text=text;
     lblShowEmptyMessage.tag=emptyLableMessagesTag;
@@ -227,10 +225,7 @@ static SingletonClass *objSingaltonClass = nil;
             pickerView.center = point;
         }
     }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
+    @catch (NSException *exception) {}@finally {}
 }
 +(void)setToolbarVisibleAt:(CGPoint)point :(id)toolbar{
     @try {
@@ -253,18 +248,12 @@ static SingletonClass *objSingaltonClass = nil;
         UIToolbar *toolBar=(UIToolbar *)toolbar;
         toolBar.frame=CGRectMake(SCREENWIDTH/2, SCREENHEIGHT+50, SCREENWIDTH, toolBar.frame.size.height);
         toolBar.center = point;
-    }@catch (NSException *exception) {
-        
-    }@finally {
-        
-    }
+    }@catch (NSException *exception) {}@finally {}
 }
-
 -(NSDictionary *)GetUSerSaveData{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:@"USERINFORMATION"];
     NSDictionary *Dic = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-    
     return Dic;
 }
 -(void)SaveUserInformation :(NSString *)email :(NSString *)user_id :(NSString *)type :(NSString *)imageUrl :(NSString *)sender :(NSString *)team_id :(NSString *)sport_id{
@@ -272,14 +261,12 @@ static SingletonClass *objSingaltonClass = nil;
     if (![team_id isEqualToString:EMPTYSTRING]) {
         Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,team_id,sport_id] forKeys:@[@"email",@"id",@"type",@"image",@"sender",KEY_TEAM_ID,KEY_SPORT_ID]];
     }else{
-        
         Userdata =[[NSMutableDictionary alloc] initWithObjects:@[email,user_id,type,imageUrl,sender,] forKeys:@[@"email",@"id",@"type",@"image",@"sender"]];
     }
     NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:Userdata];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:encodedObject forKey:@"USERINFORMATION"];
     [defaults synchronize];
-    
 }
 
 +(UIDeviceOrientation )getOrientation{
@@ -289,22 +276,16 @@ static SingletonClass *objSingaltonClass = nil;
 -(UIDeviceOrientation )CurrentOrientation :(id)controller{
     UIViewController *viewcontroller=(UIViewController *)controller;
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    // NSString *device = [[UIDevice currentDevice]localizedModel];
     UIInterfaceOrientation cachedOrientation = [viewcontroller preferredInterfaceOrientationForPresentation];
-    
     if (orientation == UIDeviceOrientationUnknown ||
         orientation == UIDeviceOrientationFaceUp ||
         orientation == UIDeviceOrientationFaceDown) {
-        
         orientation = (UIDeviceOrientation)cachedOrientation;
     }
-    
     if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
-        
         orientation=UIDeviceOrientationLandscapeLeft;
     }
     if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown) {
-        
         orientation=UIDeviceOrientationPortrait;
     }
     _GloableOreintation=orientation;

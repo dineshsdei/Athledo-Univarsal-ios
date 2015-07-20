@@ -85,7 +85,7 @@
             
         }];
     }];
-
+    
     [self getCountryList];
 }
 - (void)viewDidLoad
@@ -206,17 +206,12 @@
     // Now we Need to decrypt data
     switch (tagNumber) {
             
-        case CONTRYLISTNUMBER:
-        {
+        case CONTRYLISTNUMBER:{
             arrCountryList=[myResults allValues];
             arrCountryCode=[myResults allKeys];
-            
-            
-            
             break;
         }
-        case STATELISTNUMBER:
-        {
+        case STATELISTNUMBER:{
             arrStateList=[myResults allValues];
             arrStateCode=[myResults allKeys];
             break;
@@ -224,11 +219,9 @@
         default:
             break;
     }
-    
 }
 #pragma mark EditGenralInfo Utility method
-- (void)orientationChanged
-{
+- (void)orientationChanged{
     if (CurrentOrientation == [[SingletonClass ShareInstance] CurrentOrientation:self]) {
         return;
     }
@@ -238,7 +231,6 @@
         [table reloadData];
     }
 }
-
 - (void)getCountryList{
     if ([SingletonClass  CheckConnectivity]) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetCountryList]];
@@ -258,22 +250,16 @@
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
-
-- (void)getStateList : (int )CountryCode{
-    
+-(void)getStateList : (int )CountryCode{
     self.navigationItem.leftBarButtonItem.enabled=NO;
     if ([SingletonClass  CheckConnectivity]) {
         NSString *strURL = [NSString stringWithFormat:@"{\"country_id\":\"%d\"}",CountryCode];
-        
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:webServiceGetStateList]];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
         NSMutableData *data = [NSMutableData data];
-        
         [data appendData:[[NSString stringWithString:strURL] dataUsingEncoding: NSUTF8StringEncoding]];
         [request setHTTPBody:data];
-        
         [NSURLConnection sendAsynchronousRequest:request
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -286,9 +272,7 @@
                                }];
         
     }else{
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-        
     }
 }
 -(void)SendGenralInfo:(id)sender
@@ -382,7 +366,7 @@
             NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userType] forKey:@"type"];
             [dict setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:KEY_USER_ID];
-        
+            
             [dict setObject:temp forKey:@"UserProfile"];
             [dict setObject:EMPTYSTRING forKey:@"cochng_hstry"];
             [dict setObject:EMPTYSTRING forKey:@"awards"];
@@ -392,34 +376,23 @@
         }else{
         }
     }else{
-        
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
--(void)doneClicked
-{
+-(void)doneClicked{
     @try {
         [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-        
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
             [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2, (self.view.frame.size.height)+350) : toolBar];
             //[SingletonClass setListPickerDatePickerMultipickerVisible:NO :listPicker :toolBar];
             listPicker.center=CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height+500);
-        
         }completion:^(BOOL finished){
-            
         }];
         [self setContentOffsetDown:currentText table:table];
-        
     }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
+    @catch (NSException *exception) {}@finally {}
 }
-
--(void)setToolbarVisibleAt:(CGPoint)point
-{
+-(void)setToolbarVisibleAt:(CGPoint)point{
     [UIView beginAnimations:@"tblViewMove" context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:0.27f];
@@ -431,45 +404,60 @@
     [m_TableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 - (void)setContentOffset:(id)textField table:(UITableView*)m_TableView {
-    if (iosVersion <= 8) {
-        int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
-        UIView* txt = textField;
-        
-        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-        
-        // Get the text fields location
-        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-        // Scroll to cell
-        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
-    }else{
-        
-        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
-        
-        NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
-        
-        // Get the text fields location
-        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
-        
-        if (point.y > 250) {
-            
-            CGSize keyboardSize = CGSizeMake(320,scrollHeight+44);
-            UIEdgeInsets contentInsets;
-            if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
-            } else {
-                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
-            }
-            
-            m_TableView.contentInset = contentInsets;
-            m_TableView.scrollIndicatorInsets = contentInsets;
-            [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        }
+    
+    UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+    NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
+    if (scrollHeight==0) {
+        scrollHeight=216;
     }
+    CGSize keyboardSize = CGSizeMake(310,scrollHeight+70);
+    UIEdgeInsets contentInsets;
+    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+    } else {
+        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+    }
+    m_TableView.contentInset = contentInsets;
+    m_TableView.scrollIndicatorInsets = contentInsets;
+    [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    //    if (iosVersion <= 8) {
+    //        int  moveUp = (([[UIScreen mainScreen] bounds].size.height >= 568)?170:100);
+    //        UIView* txt = textField;
+    //
+    //        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+    //
+    //        // Get the text fields location
+    //        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
+    //        // Scroll to cell
+    //        [m_TableView setContentOffset:CGPointMake(0, point.y + (txt.frame.origin.y+txt.frame.size.height)-(moveUp)) animated: YES];
+    //    }else{
+    //
+    //        UITableViewCell *theTextFieldCell = (UITableViewCell *)[textField superview];
+    //
+    //        NSIndexPath *indexPath = [m_TableView indexPathForCell:theTextFieldCell];
+    //
+    //        // Get the text fields location
+    //        CGPoint point = [theTextFieldCell convertPoint:theTextFieldCell.frame.origin toView:m_TableView];
+    //
+    //        if (point.y > 250) {
+    //
+    //            CGSize keyboardSize = CGSizeMake(320,scrollHeight+44);
+    //            UIEdgeInsets contentInsets;
+    //            if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+    //                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+    //            } else {
+    //                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.width), 0.0);
+    //            }
+    //
+    //            m_TableView.contentInset = contentInsets;
+    //            m_TableView.scrollIndicatorInsets = contentInsets;
+    //            [m_TableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    //        }
+    //    }
 }
 #pragma mark- UITextfield Delegate
 
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     textField.autocorrectionType = UITextAutocorrectionTypeNo;
     currentText=textField;
     if (textField.tag > 1005 ) {
@@ -477,195 +465,139 @@
     }
     if (textField.tag > 1003 && IS_IPHONE_5) {
         [self setContentOffset:textField table:table];
-    }else if (textField.tag > 1001 )
+    }
+    else if (textField.tag > 1001 )
     {
         [self setContentOffset:textField table:table];
     }
     if (textField.tag==1003 || textField.tag==1004) {
-        
         if (textField.tag==1003) {
-            
             isState=FALSE;
             [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-            
             [listPicker reloadComponent:0];
             [self ShowPickerValueSelected:arrCountryList];
             arrCountryList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : EMPTYSTRING;
-            
             return NO;
-            
-        }else{
-            
+        }
+        else{
             [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-            
             if (arrStateList.count == 0) {
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Please select country name" delegate:nil btn1:@"Ok"];
-                
                 return NO;
             }
-            
             isState=TRUE;
             [listPicker reloadComponent:0];
             [self ShowPickerValueSelected:arrStateList];
             arrStateList.count > 0 ?  [SingletonClass setListPickerDatePickerMultipickerVisible:YES :listPicker :toolBar] : EMPTYSTRING;
             return NO;
         }
-    }else
-    {
+    }
+    else{
         [self setPickerVisibleAt:NO :arrStateList];
     }
     return YES;
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
 }
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
+-(void)textFieldDidEndEditing:(UITextField *)textField{
     [arrTextFieldText replaceObjectAtIndex:(textField.tag-1000) withObject:textField.text];
 }
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self doneClicked];
     [textField resignFirstResponder];
     return YES;
 }
 
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([textView.text isEqualToString:@"Enter Description"]) {
-        
         textView.text=EMPTYSTRING;
     }
-    
     return YES;
 }
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
-        for (id object in arrController)
-        {
-            if ([object isKindOfClass:[ProfileView class]])
-            {
+        for (id object in arrController){
+            if ([object isKindOfClass:[ProfileView class]]){
                 Status=TRUE;
                 [self.navigationController popToViewController:object animated:NO];
             }
         }
-        if (Status==FALSE)
-        {
+        if (Status==FALSE){
             ProfileView *annView=[[ProfileView alloc] init];
             [self.navigationController pushViewController:annView animated:NO];
         }
-        
-    }else{
-        
     }
-    
 }
-
 #pragma mark- UITableview Delegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return arrPlaceHolder.count;
-    
 }
-
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     if (textField.text.length > 15 && textField.tag == 10008) {
         return NO;
     }else{
-        
         return YES;
     }
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
 }
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     AddAthleteHistoryCell *cell = nil;
-    if(cell == nil)
-    {
-     
+    if(cell == nil){
         cell = [[AddAthleteHistoryCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"strIdentifier" indexPath:indexPath delegate:self textData:arrPlaceHolder:arrTextFieldText.count > 0 ? [arrTextFieldText objectAtIndex:indexPath.section]:EMPTYSTRING];
-        
     }
-    
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
     return cell;
-    
 }
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return CellLocHeight;
 }
 
 #pragma mark- UIPickerView
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1;
 }
 
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     if (isState) {
         if (arrStateList.count > 0 && currentText.text.length == 0) {
             //currentText.text=EMPTYSTRING;
             currentText.text=[arrStateList objectAtIndex:0];
         }
-        
         return [arrStateList count];
-    }else
-    {
+    }
+    else{
         if (arrCountryList.count > 0 && currentText.text.length == 0) {
             //currentText.text=EMPTYSTRING;
             currentText.text=[arrCountryList objectAtIndex:0];
         }
-        
         if (arrStateList.count ==0 && arrCountryCode.count > 0 ) {
             [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
         }
-        
         return [arrCountryList count];
     }
-    
 }
-
 #pragma mark- Picker delegate method
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     @try {
-        
         NSString *str=EMPTYSTRING;
         if (isState) {
             str= row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];
-        }else
-        {
+        }
+        else{
             str= row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
         }
-        
         NSArray *arr =[str componentsSeparatedByString:KEY_TRIPLE_STAR]; //For State, But will not effect to other
-        
         return [arr objectAtIndex:0];
     }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
-    
+    @catch (NSException *exception) {}@finally {}
 }
 - (void)pickerView :(UIPickerView *)pickerView didSelectRow :(NSInteger)row inComponent :(NSInteger)component
 {

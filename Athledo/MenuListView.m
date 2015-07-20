@@ -46,6 +46,8 @@
     UILabel *lblLoginName;
     NSDictionary *notificationData;
     
+    BOOL isPayment;
+    
 }
 
 @end
@@ -176,6 +178,9 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(isPayment == false){
+        return;
+    }
     lblLoginName.text=[UserInformation shareInstance].userFullName;
     [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
     //[SingaltonClass ShareInstance].isAnnouncementUpdate=TRUE;
@@ -620,6 +625,9 @@
             notificationData=nil;
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
                 notificationData=[MyResults objectForKey:DATA];
+            }else if([[MyResults objectForKey:STATUS] isEqualToString:@"failed"]){
+               // isPayment = false;
+               // [SingletonClass initWithTitle:EMPTYSTRING message:[MyResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
             }
             [_rearTableView reloadData];
             break;
@@ -641,6 +649,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:NO];
+    isPayment = true;
     if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -713,7 +722,6 @@
     tableHeight = (SCREEN_HEIGHT == 480 && !(isIPAD)) ? 300 : (SCREEN_HEIGHT == 568 ? 460 : (orentation == UIDeviceOrientationPortrait) ? 970 : 700);
     self.rearTableView.frame = CGRectMake(self.rearTableView.frame.origin.x
                                           , self.rearTableView.frame.origin.y, self.rearTableView.frame.size.width, tableHeight);
-    
     
     SWRevealViewController *parentRevealController = self.revealViewController;
     SWRevealViewController *grandParentRevealController = parentRevealController.revealViewController;

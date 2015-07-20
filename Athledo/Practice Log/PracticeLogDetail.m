@@ -76,12 +76,12 @@
     _PracticeDetailScrollView.scrollEnabled = YES;
     if (_objEditPracticeData) {
         if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
-                UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self EditPracticeLogButton]];
+            UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self EditPracticeLogButton]];
             self.navigationItem.rightBarButtonItem = ButtonItem;
-        
+            
             if([[_objEditPracticeData valueForKey:@"athleteNotes"] isKindOfClass:[NSArray class]])
             {
-                 arrAthletesNotes =  [_objEditPracticeData valueForKey:@"athleteNotes"] ;
+                arrAthletesNotes =  [_objEditPracticeData valueForKey:@"athleteNotes"] ;
             }
             if (arrAthletesNotes.count == 0) {
                 _btnViewNotes.hidden = YES;
@@ -210,7 +210,7 @@
 -(void)setFieldsProperty{
     self.navigationController.navigationBar.titleTextAttributes= [NSDictionary dictionaryWithObjectsAndKeys:
                                                                   NAVIGATION_COMPONENT_COLOR,NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:NavFontSize],NSFontAttributeName,nil];
-    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor= NAVIGATION_COMPONENT_COLOR;
     _lblDescriptionHeading.font = Textfont;
     _lblDrillHeading.font = Textfont;
     _lblNotesHeading.font = Textfont;
@@ -265,7 +265,7 @@
     [UIView animateWithDuration:0.20f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
         [athleteNotesView addSubview:tblAthleteNotes];
         [athleteNotesView addSubview:btnRemoveView];
-       [self.view addSubview:athleteNotesView];
+        [self.view addSubview:athleteNotesView];
     } completion:^(BOOL finished){
     } ];
 }
@@ -288,7 +288,7 @@
         if (cell == nil){
             NSArray *arrNib = [[NSBundle mainBundle] loadNibNamed:CellNibName owner:self options:nil];
             cell = [arrNib objectAtIndex:0];
-            cell.contentView.userInteractionEnabled =YES;
+            cell.contentView.userInteractionEnabled = YES;
         }
         cell.lblAthleteName.text = [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:Key_name] != nil ? [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:Key_name] : @"";
         cell.textviewNotes.text = [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:@"notes"] != nil ? [[arrAthletesNotes objectAtIndex:indexPath.row] valueForKey:@"notes"] : @"";
@@ -349,6 +349,6 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [self.navigationController popViewControllerAnimated:YES];
-    
+
 }
 @end

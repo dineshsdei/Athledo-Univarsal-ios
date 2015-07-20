@@ -48,8 +48,8 @@ NSInteger MAEvent_sortByStartTime(id ev1, id ev2, void *keyForSorting) {
 	} else {
 		/* Event start time is the same, compare by duration.
 		 */
-		int d1 = [event1 durationInMinutes];
-		int d2 = [event2 durationInMinutes];
+	unsigned long d1 = [event1 durationInMinutes];
+    unsigned long d2 = [event2 durationInMinutes];
 		
 		if (d1 < d2) {
 			/*
@@ -101,8 +101,8 @@ NSInteger MAEvent_sortByStartTime(id ev1, id ev2, void *keyForSorting) {
 	return fromMidnight;
 }
 
-- (unsigned int)durationInMinutes {
-	unsigned int duration = 0;
+- (unsigned long)durationInMinutes {
+	unsigned long duration = 0;
 	
 	NSDateComponents *displayComponents = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:_displayDate];
 	NSDateComponents *startComponents = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:_start];

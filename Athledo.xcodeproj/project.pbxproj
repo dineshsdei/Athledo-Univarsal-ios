@@ -88,6 +88,8 @@
 		712397AA1AD40C5400506565 /* NoteCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 712397A41AD40C5400506565 /* NoteCell~iphone.xib */; };
 		712397AD1AD40E0900506565 /* AddNotes~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 712397AB1AD40E0900506565 /* AddNotes~iphone.xib */; };
 		712397AE1AD40E0900506565 /* Notes~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 712397AC1AD40E0900506565 /* Notes~iphone.xib */; };
+		713B5F181B55340400B2EC8C /* MultimediaVideo~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713B5F171B55340400B2EC8C /* MultimediaVideo~ipad.xib */; };
+		713B5F1A1B55342C00B2EC8C /* MultimediaVideo~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713B5F191B55342C00B2EC8C /* MultimediaVideo~iphone.xib */; };
 		7142C6E019D2BD330047373C /* WorkOutDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7142C6DE19D2BD330047373C /* WorkOutDetails.m */; };
 		7142C6E119D2BD330047373C /* WorkOutDetails~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7142C6DF19D2BD330047373C /* WorkOutDetails~iphone.xib */; };
 		7157961C19C07AF00086E193 /* MessageDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 7157961B19C07AF00086E193 /* MessageDetails.m */; };
@@ -423,8 +425,6 @@
 		71B15AC21A47CDB1008C0C71 /* MultimediaCell~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B15AB21A47CDB1008C0C71 /* MultimediaCell~iphone.xib */; };
 		71B15AC31A47CDB1008C0C71 /* MultimediaCell~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B15AB31A47CDB1008C0C71 /* MultimediaCell~ipad.xib */; };
 		71B15AC41A47CDB1008C0C71 /* MultimediaVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B15AB51A47CDB1008C0C71 /* MultimediaVideo.m */; };
-		71B15AC51A47CDB1008C0C71 /* MultimediaVideo~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B15AB61A47CDB1008C0C71 /* MultimediaVideo~iphone.xib */; };
-		71B15AC61A47CDB1008C0C71 /* MultimediaVideo~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B15AB71A47CDB1008C0C71 /* MultimediaVideo~ipad.xib */; };
 		71B15ACD1A47DA7F008C0C71 /* CalendarEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B15ACC1A47DA7F008C0C71 /* CalendarEvent.m */; };
 		71B15AD11A48008B008C0C71 /* CalenderEventDetails~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B15AD01A48008B008C0C71 /* CalenderEventDetails~ipad.xib */; };
 		71B15AD31A482603008C0C71 /* AddCalendarEvent~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71B15AD21A482603008C0C71 /* AddCalendarEvent~ipad.xib */; };
@@ -651,6 +651,8 @@
 		712397A41AD40C5400506565 /* NoteCell~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "NoteCell~iphone.xib"; sourceTree = "<group>"; };
 		712397AB1AD40E0900506565 /* AddNotes~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AddNotes~iphone.xib"; sourceTree = "<group>"; };
 		712397AC1AD40E0900506565 /* Notes~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Notes~iphone.xib"; sourceTree = "<group>"; };
+		713B5F171B55340400B2EC8C /* MultimediaVideo~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MultimediaVideo~ipad.xib"; sourceTree = "<group>"; };
+		713B5F191B55342C00B2EC8C /* MultimediaVideo~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MultimediaVideo~iphone.xib"; sourceTree = "<group>"; };
 		7142C6DD19D2BD330047373C /* WorkOutDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkOutDetails.h; sourceTree = "<group>"; };
 		7142C6DE19D2BD330047373C /* WorkOutDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkOutDetails.m; sourceTree = "<group>"; };
 		7142C6DF19D2BD330047373C /* WorkOutDetails~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WorkOutDetails~iphone.xib"; sourceTree = "<group>"; };
@@ -1092,8 +1094,6 @@
 		71B15AB31A47CDB1008C0C71 /* MultimediaCell~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MultimediaCell~ipad.xib"; sourceTree = "<group>"; };
 		71B15AB41A47CDB1008C0C71 /* MultimediaVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultimediaVideo.h; sourceTree = "<group>"; };
 		71B15AB51A47CDB1008C0C71 /* MultimediaVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultimediaVideo.m; sourceTree = "<group>"; };
-		71B15AB61A47CDB1008C0C71 /* MultimediaVideo~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MultimediaVideo~iphone.xib"; sourceTree = "<group>"; };
-		71B15AB71A47CDB1008C0C71 /* MultimediaVideo~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MultimediaVideo~ipad.xib"; sourceTree = "<group>"; };
 		71B15ACB1A47DA7F008C0C71 /* CalendarEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarEvent.h; sourceTree = "<group>"; };
 		71B15ACC1A47DA7F008C0C71 /* CalendarEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarEvent.m; sourceTree = "<group>"; };
 		71B15AD01A48008B008C0C71 /* CalenderEventDetails~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "CalenderEventDetails~ipad.xib"; sourceTree = "<group>"; };
@@ -2377,9 +2377,9 @@
 		71A908F11A5E8AE100AFB6AC /* Multimedia */ = {
 			isa = PBXGroup;
 			children = (
+				713B5F191B55342C00B2EC8C /* MultimediaVideo~iphone.xib */,
 				71B15AA71A47CDB1008C0C71 /* DisplayFolderContant.xib */,
 				71B15AAE1A47CDB1008C0C71 /* Multimedia~iphone.xib */,
-				71B15AB61A47CDB1008C0C71 /* MultimediaVideo~iphone.xib */,
 			);
 			name = Multimedia;
 			sourceTree = "<group>";
@@ -2387,9 +2387,9 @@
 		71A908F21A5E8B0C00AFB6AC /* Multimedia */ = {
 			isa = PBXGroup;
 			children = (
+				713B5F171B55340400B2EC8C /* MultimediaVideo~ipad.xib */,
 				71B15AA81A47CDB1008C0C71 /* DisplayFolderContant~ipad.xib */,
 				71B15AAF1A47CDB1008C0C71 /* Multimedia~ipad.xib */,
-				71B15AB71A47CDB1008C0C71 /* MultimediaVideo~ipad.xib */,
 			);
 			name = Multimedia;
 			sourceTree = "<group>";
@@ -2967,7 +2967,6 @@
 				71A3696C1A6E1DA300DDF05C /* btnEnable.png in Resources */,
 				71A369011A6E1B8E00DDF05C /* week_icon@2x.png in Resources */,
 				71A713F11AD407FF00512585 /* SMSHistoryCell~iphone.xib in Resources */,
-				71B15AC51A47CDB1008C0C71 /* MultimediaVideo~iphone.xib in Resources */,
 				71ADF1C61A70F1B200457FB9 /* bubble-typing.png in Resources */,
 				71A7BD261A8B77E0001E0263 /* edit~ipad.png in Resources */,
 				719B07A7199C95FA00461F0E /* AddWorkOutCell.xib in Resources */,
@@ -3077,11 +3076,11 @@
 				71AB4CA21B0DAD6000AA13B2 /* AthletePracticeNotesCell.xib in Resources */,
 				71D66E401A7BA9C100B75F86 /* reveal-icon@2x.png in Resources */,
 				3D9E051F197BD0FA005CCB10 /* MenuListView~iphone.xib in Resources */,
-				71B15AC61A47CDB1008C0C71 /* MultimediaVideo~ipad.xib in Resources */,
 				71A369351A6E1CAD00DDF05C /* schedule_icon.png in Resources */,
 				71A3698B1A6E1DA400DDF05C /* selectedCheck.png in Resources */,
 				71D66E3B1A7BA9C100B75F86 /* btnCamera@2x.png in Resources */,
 				71A5F3FB1AE8CBFE00BBA5ED /* Tick.png in Resources */,
+				713B5F181B55340400B2EC8C /* MultimediaVideo~ipad.xib in Resources */,
 				71AFF5D41B0CAEB1000DAC2F /* Navadd~ipad@2x.png in Resources */,
 				710C633E19B9E41C00F11983 /* WeekViewController~iphone.xib in Resources */,
 				71A6E75C19EF78DF002416B4 /* AddCalendarEvent~iphone.xib in Resources */,
@@ -3140,6 +3139,7 @@
 				71A368BC1A6E19F000DDF05C /* youtubePlaceholder.jpg in Resources */,
 				71A369231A6E1C5F00DDF05C /* compose_icon@2x.png in Resources */,
 				71B15AC31A47CDB1008C0C71 /* MultimediaCell~ipad.xib in Resources */,
+				713B5F1A1B55342C00B2EC8C /* MultimediaVideo~iphone.xib in Resources */,
 				71A369321A6E1CAD00DDF05C /* multimedia_icon.png in Resources */,
 				71BEF75C1B035A2600041F42 /* navDeleteBtn@2x.png in Resources */,
 				71A368EA1A6E1AAD00DDF05C /* Default~ipad.png in Resources */,

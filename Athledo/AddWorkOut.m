@@ -2308,7 +2308,7 @@ static int LiftExerciseCount=0;
     NSArray *tempBoats =[objEditModeData valueForKey:STR_BOATS];
     //NSArray *tempBoats =@[[NSDictionary dictionaryWithObjects:@[@"27,183",@"Boat A",@[],@"2",@"13"] forKeys:@[@"Athletes",@"BoatName",@"Groups",@"SetLineup",@"id"]],[NSDictionary dictionaryWithObjects:@[@"",@"Boat B",@"9",@"1",@"13"] forKeys:@[@"Athletes",@"BoatName",@"Groups",@"SetLineup",@"id"]]];
     NSMutableArray *arrData =MUTABLEARRAY;
-    boatCount = tempBoats.count;
+    boatCount = (int)tempBoats.count;
     for (id temp in tempBoats) {
         [arrData addObject:[temp mutableCopy]];
     }

@@ -76,21 +76,20 @@
     UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"reveal-icon.png"]
                                                                          style:UIBarButtonItemStyleBordered target:revealController action:@selector(revealToggle:)];
     self.navigationItem.leftBarButtonItem = revealButtonItem;
-    self.navigationItem.leftBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-    self.navigationItem.rightBarButtonItem.tintColor=NAVIGATION_COMPONENT_COLOR;
-    self.navigationController.navigationBar.tintColor=NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.leftBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationItem.rightBarButtonItem.tintColor = NAVIGATION_COMPONENT_COLOR;
+    self.navigationController.navigationBar.tintColor = NAVIGATION_COMPONENT_COLOR;
     
     UIButton *btnSave = [[UIButton alloc] initWithFrame:CGRectMake(160, 0, 50, 30)];
     [btnSave addTarget:self action:@selector(SendSMS:) forControlEvents:UIControlEventTouchUpInside];
     [btnSave setTitle:@"Send" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     self.navigationItem.rightBarButtonItem = ButtonItem;
     [SingletonClass ShareInstance].delegate = self;
     toolBar = [[SingletonClass ShareInstance] toolBarWithDoneButton:self.view];
     [self.view addSubview:toolBar];
-    btnAllcheck = (UIButton *)[self.view viewWithTag:AllSelectedTag];
+    btnAllcheck = (UIButton *)[self.view viewWithTag : AllSelectedTag];
     [btnAllcheck setImage:UncheckImage forState:UIControlStateNormal];
     [btnAllcheck setImage:CheckImage forState:UIControlStateSelected];
 }
@@ -101,9 +100,9 @@
 #pragma mark CellDelegate
 -(void)CheckBoxEvent:(id)sender{
     CheckboxButton *button=(CheckboxButton*)sender;
-    if ([[button imageForState:UIControlStateNormal] isEqual:CheckImage]) {
+    if ([[button imageForState:UIControlStateNormal] isEqual : CheckImage]) {
         [button setImage:UncheckImage forState:UIControlStateNormal];
-        if ( _ObjSegment.selectedSegmentIndex ==0) {
+        if ( _ObjSegment.selectedSegmentIndex == 0) {
             [[arrFilterdData objectAtIndex:button.tag] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
         }else{
             [[arrGroupFilterdData objectAtIndex:button.tag] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
@@ -185,10 +184,7 @@
         {
         }
     }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
+    @catch (NSException *exception) {}@finally {}
     cell.cellDelegate=self;
     cell.btnSelectContact.tag = indexPath.row;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -246,10 +242,7 @@
             }
         }
     }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
+    @catch (NSException *exception) {}@finally {}
 }
 #pragma mark UITextview Delegate
 -(void)textViewDidBeginEditing:(UITextView *)textView{
@@ -316,7 +309,6 @@
         [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userSelectedSportid] forKey:KEY_SPORT_ID];
         [dicttemp setObject:[NSString stringWithFormat:@"%d",userInfo.userId] forKey:@"sender_id"];
         [dicttemp setObject:[NSString stringWithFormat:@"%@",_textview.text] forKey:@"message"];
-        
         NSMutableArray *arrReceiverData = MUTABLEARRAY;
         for (int i=0; i<arrFilterdData.count ; i++ ) {
             if ([[[arrFilterdData objectAtIndex:i] valueForKey:@"isCheck"] boolValue] == YES) {
@@ -330,8 +322,7 @@
                 if (phoneDic.count > 0) {
                     NSArray *arrKeyTemp = [phoneDic allKeys];
                     NSArray *arrPhoneTemp = [phoneDic allValues];
-                    
-                    for (int i=0; i < phoneDic.count; i++) {
+                for (int i=0; i < phoneDic.count; i++) {
                         NSDictionary *tosDic = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%@",[arrKeyTemp objectAtIndex:i]],[NSString stringWithFormat:@"%@",[arrPhoneTemp objectAtIndex:i]],[NSString stringWithFormat:@"%@",[[arrFilterdData objectAtIndex:i] valueForKey:@"id"]]] forKeys:@[KEY_USER_ID,@"phone",@"group_id",]];
                         [arrReceiverData addObject:tosDic];
                     }
@@ -344,13 +335,9 @@
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
     }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
+    @catch (NSException *exception) {}@finally{}
 }
 -(void)getSMSListData{
-    
     if ([SingletonClass  CheckConnectivity]) {
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
@@ -385,7 +372,7 @@
     }
 }
 #pragma mark Class Utility
-- (void)orientationChanged{
+-(void)orientationChanged{
     [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height +(keyboardHeight+200)):toolBar];
     [SingletonClass deleteUnUsedLableFromTable:_tableview];
 }
@@ -468,18 +455,14 @@
             }
         }
     }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
+    @catch (NSException *exception) {}@finally {}
 }
 - (IBAction)selectAllCheckBox:(id)sender {
     CheckboxButton *button=(CheckboxButton*)sender;
     
     if (button.isSelected) {
         [button setSelected:NO];
-        if ( _ObjSegment.selectedSegmentIndex == 0)
-        {
+        if ( _ObjSegment.selectedSegmentIndex == 0){
             for (int i=0; i<arrFilterdData.count; i++) {
                 [[arrFilterdData objectAtIndex:i] setValue:[NSNumber numberWithBool:NO] forKey:@"isCheck"];
             }
@@ -518,8 +501,7 @@
         ShowOnceSuccessAlert = TRUE;
         BOOL selectedNumber = NO;
         NSString *strError = EMPTYSTRING;
-        if(_textview.text.length < 1 || [_textview.text isEqualToString:@"Compose new SMS"] )
-        {
+        if(_textview.text.length < 1 || [_textview.text isEqualToString:@"Compose new SMS"] ){
             strError = @"Please enter sms text";
         }else if(selectedNumber == NO ){
             for (int i=0; i<arrFilterdData.count ; i++) {
@@ -593,18 +575,13 @@
             }
         }
         [SingletonClass addActivityIndicator:self.view];
-    }@catch (NSException *exception) {
-    }
-    @finally{
-    }
+    }@catch (NSException *exception){}@finally{}
 }
 #pragma mark- ASIHTTPRequest class delegate
-- (void)requestStarted:(ASIHTTPRequest *)theRequest {
-}
+- (void)requestStarted:(ASIHTTPRequest *)theRequest {}
 - (void)requestFinished:(ASIHTTPRequest *)theRequest {
     @try {
         [SingletonClass RemoveActivityIndicator:self.view];
-        
         SBJsonParser *parser = [[SBJsonParser alloc] init];
         NSDictionary *responseDict = [parser objectWithString:[theRequest responseString ]];
         if ( ShowOnceSuccessAlert==TRUE ) {
@@ -617,12 +594,7 @@
             }
         }
     }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
+    @catch (NSException *exception) {}@finally {}
 }
-- (void)requestFailed:(ASIHTTPRequest *)theRequest {
-
-}
+- (void)requestFailed:(ASIHTTPRequest *)theRequest {}
 @end

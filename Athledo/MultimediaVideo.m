@@ -34,6 +34,14 @@
 @implementation MultimediaVideo
 
 #pragma mark - ViewController life cycle method
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 -(void)viewDidAppear:(BOOL)animated{
      [super viewDidAppear:animated];
     isCancelNotification = FALSE;

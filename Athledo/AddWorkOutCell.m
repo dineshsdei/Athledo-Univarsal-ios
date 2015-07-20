@@ -324,7 +324,7 @@
     }
     return self;
 }
--(void)addBoatFieldsWithDeleteButton :(int)tag :(id)del :(NSMutableDictionary *)dicData{
+-(void)addBoatFieldsWithDeleteButton :(NSInteger)tag :(id)del :(NSMutableDictionary *)dicData{
     UITextField *txtFieldBoatName;
     UITextField *tfAthleteOrGroup;
     txtFieldBoatName = [[UITextField alloc] initWithFrame:CGRectMake(CellX,FIRST_BOAT_Y, CellWeight, TextFeildHeight)];

@@ -51,9 +51,9 @@
             strError = @"Please enter password";
         }
         if(strError.length>2){
-        [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
+            [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
             return;
-       }else{
+        }else{
             BOOL emailValid=[SingletonClass emailValidate:txtFieldUserId.text];
             if (emailValid) {
                 [SingletonClass addActivityIndicator:self.view];
@@ -69,18 +69,15 @@
                                                    queue:[NSOperationQueue mainQueue]
                                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                            
-                                           if (data!=nil)
-                                           {
+                                           if (data!=nil){
                                                [self httpResponseReceived : data];
-                                           }else
-                                           {
+                                           }else{
                                                [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
-                                          }
-                                           
+                                           }
                                        }];
             }else{
                 [SingletonClass initWithTitle:EMPTYSTRING message:@"Please enter valid user id" delegate:nil btn1:@"Ok"];
-             }
+            }
         }
     }else{
         
@@ -138,9 +135,9 @@
                 [self.navigationController pushViewController:Dashboard animated:NO];
             }
         }
-     [SingletonClass RemoveActivityIndicator:self.view];
-    
-    }else  if([[myResults objectForKey:STATUS] isEqualToString:@"failed"]){
+        [SingletonClass RemoveActivityIndicator:self.view];
+    }
+    else  if([[myResults objectForKey:STATUS] isEqualToString:@"failed"]){
         [SingletonClass RemoveActivityIndicator:self.view];
         txtFieldPassword.text=EMPTYSTRING;
         [SingletonClass initWithTitle:EMPTYSTRING message:@"Invalid User" delegate:nil btn1:@"Ok"];
@@ -257,12 +254,12 @@
         txtFieldPassword.clearButtonMode = UITextFieldViewModeWhileEditing;
         txtFieldPassword.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         txtFieldPassword.font=Textfont;
-       [cell addSubview:txtFieldPassword];
+        [cell addSubview:txtFieldPassword];
         cell.backgroundView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"login_txtfld.png"]];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-     txtFieldUserId.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] :EMPTYSTRING;
+    txtFieldUserId.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"USERNAME"] :EMPTYSTRING;
     
     txtFieldPassword.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] != nil ?[[NSUserDefaults standardUserDefaults] objectForKey:@"PASSWORD"] :EMPTYSTRING;
     
@@ -294,8 +291,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-- (IBAction)ForgotPasswordClick:(id)sender {
+-(IBAction)ForgotPasswordClick:(id)sender {
     NSArray *arrController=[self.navigationController viewControllers];
     BOOL Status=FALSE;
     for (id object in arrController) {

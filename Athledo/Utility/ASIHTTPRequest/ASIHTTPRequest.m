@@ -1223,18 +1223,12 @@ static NSOperationQueue *sharedQueue = nil;
 				#endif
 			}
 		}
-			
 		[self updateProgressIndicators];
-
 	}
-	
 	[[self cancelledLock] unlock];
 }
-
-
 // Cancel loading and clean up. DO NOT USE THIS TO CANCEL REQUESTS - use [request cancel] instead
-- (void)cancelLoad
-{
+- (void)cancelLoad{
     [self destroyReadStream];
 	
 	[[self postBodyReadStream] close];
@@ -1260,10 +1254,7 @@ static NSOperationQueue *sharedQueue = nil;
 	
 	[self setResponseHeaders:nil];
 }
-
-
-- (void)removeTemporaryDownloadFile
-{
+- (void)removeTemporaryDownloadFile{
 	if ([self temporaryFileDownloadPath]) {
 		if ([[NSFileManager defaultManager] fileExistsAtPath:[self temporaryFileDownloadPath]]) {
 			NSError *removeError = nil;
@@ -1275,9 +1266,7 @@ static NSOperationQueue *sharedQueue = nil;
 		[self setTemporaryFileDownloadPath:nil];
 	}
 }
-
-- (void)removePostDataFile
-{
+- (void)removePostDataFile{
 	if ([self postBodyFilePath]) {
 		NSError *removeError = nil;
 		[[NSFileManager defaultManager] removeItemAtPath:[self postBodyFilePath] error:&removeError];
@@ -1295,14 +1284,10 @@ static NSOperationQueue *sharedQueue = nil;
 		[self setCompressedPostBodyFilePath:nil];
 	}
 }
-
 #pragma mark HEAD request
-
 // Used by ASINetworkQueue to create a HEAD request appropriate for this request with the same headers (though you can use it yourself)
-- (ASIHTTPRequest *)HEADRequest
-{
+- (ASIHTTPRequest *)HEADRequest{
 	ASIHTTPRequest *headRequest = [[self class] requestWithURL:[self url]];
-	
 	// Copy the properties that make sense for a HEAD request
 	[headRequest setRequestHeaders:[[[self requestHeaders] mutableCopy] autorelease]];
 	[headRequest setRequestCookies:[[[self requestCookies] mutableCopy] autorelease]];
@@ -1335,13 +1320,8 @@ static NSOperationQueue *sharedQueue = nil;
 	[headRequest setRequestMethod:@"HEAD"];
 	return headRequest;
 }
-
-
 #pragma mark upload/download progress
-
-
-- (void)updateProgressIndicators
-{
+- (void)updateProgressIndicators{
 	//Only update progress if this isn't a HEAD request used to preset the content-length
 	if (![self mainRequest]) {
 		if ([self showAccurateProgress] || ([self complete] && ![self updatedProgress])) {
@@ -1350,20 +1330,15 @@ static NSOperationQueue *sharedQueue = nil;
 		}
 	}
 }
-
-- (id)uploadProgressDelegate
-{
+- (id)uploadProgressDelegate{
 	[[self cancelledLock] lock];
 	id d = [[uploadProgressDelegate retain] autorelease];
 	[[self cancelledLock] unlock];
 	return d;
 }
-
-- (void)setUploadProgressDelegate:(id)newDelegate
-{
+- (void)setUploadProgressDelegate:(id)newDelegate{
 	[[self cancelledLock] lock];
 	uploadProgressDelegate = newDelegate;
-
 	#if !TARGET_OS_IPHONE
 	// If the uploadProgressDelegate is an NSProgressIndicator, we set its MaxValue to 1.0 so we can update it as if it were a UIProgressView
 	double max = 1.0;
@@ -1371,20 +1346,15 @@ static NSOperationQueue *sharedQueue = nil;
 	#endif
 	[[self cancelledLock] unlock];
 }
-
-- (id)downloadProgressDelegate
-{
+- (id)downloadProgressDelegate{
 	[[self cancelledLock] lock];
 	id d = [[downloadProgressDelegate retain] autorelease];
 	[[self cancelledLock] unlock];
 	return d;
 }
-
-- (void)setDownloadProgressDelegate:(id)newDelegate
-{
+- (void)setDownloadProgressDelegate:(id)newDelegate{
 	[[self cancelledLock] lock];
 	downloadProgressDelegate = newDelegate;
-
 	#if !TARGET_OS_IPHONE
 	// If the downloadProgressDelegate is an NSProgressIndicator, we set its MaxValue to 1.0 so we can update it as if it were a UIProgressView
 	double max = 1.0;
@@ -1392,18 +1362,13 @@ static NSOperationQueue *sharedQueue = nil;
 	#endif
 	[[self cancelledLock] unlock];
 }
-
-
-- (void)updateDownloadProgress
-{
+- (void)updateDownloadProgress{
 	// We won't update download progress until we've examined the headers, since we might need to authenticate
 	if (![self responseHeaders] || [self needsRedirect] || !([self contentLength] || [self complete])) {
 		return;
 	}
-		
 	unsigned long long bytesReadSoFar = [self totalBytesRead]+[self partialDownloadSize];
 	unsigned long long value = 0;
-	
 	if ([self showAccurateProgress] && [self contentLength]) {
 		value = bytesReadSoFar-[self lastBytesRead];
 		if (value == 0) {
@@ -1423,14 +1388,10 @@ static NSOperationQueue *sharedQueue = nil;
 		
 	[self setLastBytesRead:bytesReadSoFar];
 }
-
-
-- (void)updateUploadProgress
-{
+- (void)updateUploadProgress{
 	if ([self isCancelled] || [self totalBytesSent] == 0) {
 		return;
 	}
-	
 	// If this is the first time we've written to the buffer, totalBytesSent will be the size of the buffer (currently seems to be 128KB on both Leopard and iPhone 2.2.1, 32KB on iPhone 3.0)
 	// If request body is less than the buffer size, totalBytesSent will be the total size of the request body
 	// We will remove this from any progress display, as kCFStreamPropertyHTTPRequestBytesWrittenCount does not tell us how much data has actually be written
@@ -1460,33 +1421,21 @@ static NSOperationQueue *sharedQueue = nil;
 	[ASIHTTPRequest performSelector:@selector(request:didSendBytes:) onTarget:[self uploadProgressDelegate] withObject:self amount:&value];
 	[ASIHTTPRequest updateProgressIndicator:[self uploadProgressDelegate] withProgress:[self totalBytesSent]-[self uploadBufferSize] ofTotal:[self postLength]-[self uploadBufferSize]];
 }
-
-
-- (void)incrementDownloadSizeBy:(long long)length
-{
+- (void)incrementDownloadSizeBy:(long long)length{
 	[ASIHTTPRequest performSelector:@selector(request:incrementDownloadSizeBy:) onTarget:[self queue] withObject:self amount:&length];
 	[ASIHTTPRequest performSelector:@selector(request:incrementDownloadSizeBy:) onTarget:[self downloadProgressDelegate] withObject:self amount:&length];
 }
-
-
-- (void)incrementUploadSizeBy:(long long)length
-{
+- (void)incrementUploadSizeBy:(long long)length{
 	[ASIHTTPRequest performSelector:@selector(request:incrementUploadSizeBy:) onTarget:[self queue] withObject:self amount:&length];
 	[ASIHTTPRequest performSelector:@selector(request:incrementUploadSizeBy:) onTarget:[self uploadProgressDelegate] withObject:self amount:&length];
 }
-
-
--(void)removeUploadProgressSoFar
-{
+-(void)removeUploadProgressSoFar{
 	long long progressToRemove = -[self totalBytesSent];
 	[ASIHTTPRequest performSelector:@selector(request:didSendBytes:) onTarget:[self queue] withObject:self amount:&progressToRemove];
 	[ASIHTTPRequest performSelector:@selector(request:didSendBytes:) onTarget:[self uploadProgressDelegate] withObject:self amount:&progressToRemove];
 	[ASIHTTPRequest updateProgressIndicator:[self uploadProgressDelegate] withProgress:0 ofTotal:[self postLength]];
 }
-
-
-+ (void)performSelector:(SEL)selector onTarget:(id)target withObject:(id)object amount:(void *)amount
-{
++ (void)performSelector:(SEL)selector onTarget:(id)target withObject:(id)object amount:(void *)amount{
 	if ([target respondsToSelector:selector]) {
 		NSMethodSignature *signature = nil;
 		signature = [[target class] instanceMethodSignatureForSelector:selector];
@@ -1510,10 +1459,7 @@ static NSOperationQueue *sharedQueue = nil;
 		[invocation performSelectorOnMainThread:@selector(invokeWithTarget:) withObject:target waitUntilDone:[NSThread isMainThread]];
 	}
 }
-	
-	
-+ (void)updateProgressIndicator:(id)indicator withProgress:(unsigned long long)progress ofTotal:(unsigned long long)total
-{
++ (void)updateProgressIndicator:(id)indicator withProgress:(unsigned long long)progress ofTotal:(unsigned long long)total{
 	#if TARGET_OS_IPHONE
 		// Cocoa Touch: UIProgressView
 		SEL selector = @selector(setProgress:);
@@ -1601,8 +1547,7 @@ static NSOperationQueue *sharedQueue = nil;
 	NSLog(@"Request %@: %@",self,(theError == ASIRequestCancelledError ? @"Cancelled" : @"Failed"));
 #endif
 	[self setComplete:YES];
-	
-	// Invalidate the current connection so subsequent requests don't attempt to reuse it
+	//Invalidate the current connection so subsequent requests don't attempt to reuse it
 	if (theError && [theError code] != ASIAuthenticationErrorType && [theError code] != ASITooMuchRedirectionErrorType) {
 		[connectionsLock lock];
 		#if DEBUG_PERSISTENT_CONNECTIONS

@@ -752,12 +752,9 @@ int Box_W;
     
     NSInteger i = 0;
     
-    for(NSString *s in ar){
+    for(int j=0; j<ar.count ; j++)
+    {
         UILabel *label =(UILabel *)[self.arrLable objectAtIndex:i];
-        if (isIPad) {
-           // label = [[UILabel alloc] initWithFrame:CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15)] s;
-        }
-    
         label.frame = CGRectMake((Box_W)*i + (i==0?0:-1), 30, Box_W, 15);
         i++;
     }

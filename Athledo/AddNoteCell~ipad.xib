@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddNoteCell"/>
@@ -15,15 +14,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_sep.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZkB-SC-sRb">
-                        <rect key="frame" x="0.0" y="84" width="768" height="1"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="5T9-kx-WG6"/>
-                        </constraints>
-                    </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xa4-JU-KOE">
                         <rect key="frame" x="8" y="1" width="620" height="80"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="fFR-6E-lUb"/>
+                        </constraints>
                         <string key="text">. Lorem ipsum dolor sit er elit lamet, .consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut </string>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -32,24 +28,29 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdt-cf-JTZ">
                         <rect key="frame" x="634" y="30" width="120" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="120" id="jRb-jo-qhE"/>
+                            <constraint firstAttribute="width" constant="120" id="JOC-gk-p5d"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_sep.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZkB-SC-sRb">
+                        <rect key="frame" x="0.0" y="84" width="768" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="WPe-f1-nnJ"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="xa4-JU-KOE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-7" id="2Tw-kx-yIl"/>
-                    <constraint firstItem="bdt-cf-JTZ" firstAttribute="leading" secondItem="xa4-JU-KOE" secondAttribute="trailing" constant="6" id="3zg-iJ-HMA"/>
-                    <constraint firstItem="ZkB-SC-sRb" firstAttribute="top" secondItem="bdt-cf-JTZ" secondAttribute="bottom" constant="33" id="6Mf-Mv-IVH"/>
-                    <constraint firstItem="ZkB-SC-sRb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="AH4-3X-KNP"/>
-                    <constraint firstItem="ZkB-SC-sRb" firstAttribute="top" secondItem="xa4-JU-KOE" secondAttribute="bottom" constant="3" id="Jk9-4H-419"/>
-                    <constraint firstAttribute="bottom" secondItem="ZkB-SC-sRb" secondAttribute="bottom" id="TER-81-lo3"/>
-                    <constraint firstItem="bdt-cf-JTZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="22" id="V3h-4H-h9f"/>
-                    <constraint firstAttribute="trailing" secondItem="ZkB-SC-sRb" secondAttribute="trailing" id="ZRh-BZ-NZe"/>
-                    <constraint firstItem="xa4-JU-KOE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="hoB-eT-FA3"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="bdt-cf-JTZ" secondAttribute="trailing" constant="6" id="iRZ-Uk-NI2"/>
+                    <constraint firstAttribute="bottom" secondItem="bdt-cf-JTZ" secondAttribute="bottom" constant="34" id="07N-LU-mLE"/>
+                    <constraint firstItem="xa4-JU-KOE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="4G2-Ug-oTt"/>
+                    <constraint firstAttribute="bottom" secondItem="ZkB-SC-sRb" secondAttribute="bottom" id="LuJ-Ne-yQt"/>
+                    <constraint firstAttribute="trailing" secondItem="bdt-cf-JTZ" secondAttribute="trailing" constant="14" id="VyP-rb-EhQ"/>
+                    <constraint firstItem="xa4-JU-KOE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="mlp-kE-qSf"/>
+                    <constraint firstAttribute="trailing" secondItem="xa4-JU-KOE" secondAttribute="trailing" constant="140" id="nbB-Nw-g91"/>
+                    <constraint firstItem="bdt-cf-JTZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="30" id="pap-tq-cYg"/>
+                    <constraint firstAttribute="trailing" secondItem="ZkB-SC-sRb" secondAttribute="trailing" id="s7c-zJ-7Az"/>
+                    <constraint firstItem="ZkB-SC-sRb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="zS7-2R-ZZz"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

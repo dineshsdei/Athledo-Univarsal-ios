@@ -17,20 +17,17 @@
 @implementation UpdateDetails
 @synthesize strDate,strDes,strName;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
     return self;
 }
-
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     webservice =[WebServiceClass shareInstance];
     webservice.delegate=self;
     self.title=@"Detail";
@@ -89,17 +86,14 @@
     [super viewDidLoad];
     //Do any additional setup after loading the view from its nib.
 }
--(void)EditAnnouncement:(id)sender
-{
+-(void)EditAnnouncement:(id)sender{
     AddNewAnnouncement *addNew=[[AddNewAnnouncement alloc] initWithNibName:@"AddNewAnnouncement" bundle:nil];
     addNew.obj = _obj;
     addNew.ScreenTitle=@"Edit Announcement";
     [self.navigationController pushViewController:addNew animated:YES];
 }
--(void)DeleteNotificationFromWeb
-{
+-(void)DeleteNotificationFromWeb{
     //NOTE ---  type=(1=>announcement, 2=>event, 3=>workout)
-    
     if ([SingletonClass  CheckConnectivity]) {
         if (_obj) {
             UserInformation *userInfo= [UserInformation shareInstance];
@@ -111,13 +105,11 @@
         //[SingaltonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
--(void)DeleteAnnouncement:(id)sender
-{
+-(void)DeleteAnnouncement:(id)sender{
     [SingletonClass initWithTitle:EMPTYSTRING message: @"Do you want to delete announcement?" delegate:self btn1:@"No" btn2:@"Yes" tagNumber:1];
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
         [self deletCellFromWeb];
@@ -125,26 +117,20 @@
         
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
-        for (id object in arrController)
-        {
-            if ([object isKindOfClass:[AnnouncementView class]])
-            {
+        for (id object in arrController){
+            if ([object isKindOfClass:[AnnouncementView class]]){
                 Status=TRUE;
                 [self.navigationController popToViewController:object animated:NO];
             }
         }
-        if (Status==FALSE)
-        {
+        if (Status==FALSE){
             AnnouncementView *annView=[[AnnouncementView alloc] init];
             [self.navigationController pushViewController:annView animated:NO];
         }
     }
 }
-
-- (void)deletCellFromWeb
-{
+- (void)deletCellFromWeb{
     if ([SingletonClass  CheckConnectivity]) {
-        
         int Ann_id=[[_obj valueForKey:@"id"] intValue];
         NSString *strURL = [NSString stringWithFormat:@"{\"ancmnt_id\":\"%d\"}",Ann_id];
         [SingletonClass addActivityIndicator:self.view];

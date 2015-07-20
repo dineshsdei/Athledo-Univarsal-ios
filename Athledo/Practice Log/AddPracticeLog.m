@@ -173,7 +173,7 @@
     [gregorian setFirstWeekday:0];
     NSDateComponents *components = [gregorian components:NSWeekdayCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:today];
     
-    int Enddayofweek = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:today] weekday];// this will give you current day of week
+    NSInteger Enddayofweek = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:today] weekday];// this will give you current day of week
     [components setDay:([components day]+(7-Enddayofweek))];// for end day of the week
     NSDate *endOfWeek = [gregorian dateFromComponents:components];
     NSString *strEndOfWeek = [dateFormat stringFromDate:endOfWeek];
@@ -320,9 +320,8 @@
 #pragma mark WebService Comunication Method
 -(void)SavePracticeData{
     if ([SingletonClass  CheckConnectivity]) {
-        self.navigationItem.rightBarButtonItem.enabled=NO;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
         NSString *strError = EMPTYSTRING;
-        
         if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
             
             if((_txtViewDescription.text.length > 0) && ([_txtViewDescription.text isEqualToString:@"Enter Description"]) ){
@@ -345,7 +344,7 @@
             return;
         }
         WebServiceClass *webservice =[WebServiceClass shareInstance];
-        webservice.delegate=self;
+        webservice.delegate = self;
         UserInformation *userInfo=[UserInformation shareInstance];
         [SingletonClass addActivityIndicator:self.view];
         // practice_user_id ,case 1(add practice)->>(login user id) >> case 2(Edit practice)->>(Existing user id)
@@ -391,24 +390,17 @@
     if (buttonIndex == 0) {
         NSArray *arrController=[self.navigationController viewControllers];
         BOOL Status=FALSE;
-        for (id object in arrController)
-        {
-            if ([object isKindOfClass:[PracticeLog class]])
-            {
+        for (id object in arrController){
+            if ([object isKindOfClass:[PracticeLog class]]){
                 Status=TRUE;
                 [self.navigationController popToViewController:object animated:NO];
             }
         }
-        
-        if (Status==FALSE)
-        {
+        if (Status==FALSE){
             PracticeLog *practiceView=[[PracticeLog alloc] init];
             [self.navigationController pushViewController:practiceView animated:NO];
         }
         
-    }else{
-        
     }
-
 }
 @end
