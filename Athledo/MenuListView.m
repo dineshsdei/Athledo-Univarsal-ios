@@ -45,26 +45,17 @@
     UIImageView *ProfilePic;
     UILabel *lblLoginName;
     NSDictionary *notificationData;
-    
-    BOOL isPayment;
-    
 }
-
 @end
-
 @implementation MenuListView
 @synthesize rearTableView = _rearTableView;
-
 #pragma mark Tableview Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return arrMenuList.count;
 }
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     int cellHeight;
     cellHeight = (SCREEN_HEIGHT == 480 && !(isIPAD)) ? 38 : (SCREEN_HEIGHT == 568 ? 45 : ((SCREEN_HEIGHT > 568 && !(isIPAD)) ? 50 : (SCREEN_HEIGHT == 1024 ? 60 : 60)));
-    
     if(isIPAD){
         return cellHeight;
     }else{
@@ -74,9 +65,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (nil == cell)
-    {
+    if (nil == cell){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
         cell.backgroundColor=[UIColor clearColor];
         UIImageView *cellImageView;
@@ -89,15 +78,15 @@
         profileLbl.textAlignment=NSTextAlignmentLeft;
         profileLbl.tag=100;
         profileLbl.font=[UIFont boldSystemFontOfSize:18];
-        profileLbl.textColor=NAVIGATION_COMPONENT_COLOR;
+        profileLbl.textColor = NAVIGATION_COMPONENT_COLOR;
         profileLbl.backgroundColor=[UIColor clearColor];
         [cell addSubview:profileLbl];
-        
+    
         UILabel *lblShowUpdate=[[UILabel alloc] initWithFrame:CGRectMake(200,(cell.frame.size.height/2)-(isIPAD ? 0: 10),40,20)];
         lblShowUpdate.textAlignment=NSTextAlignmentCenter;
         lblShowUpdate.tag=110;
         lblShowUpdate.font=[UIFont boldSystemFontOfSize:13];
-        lblShowUpdate.textColor=NAVIGATION_COMPONENT_COLOR;
+        lblShowUpdate.textColor = NAVIGATION_COMPONENT_COLOR;
         lblShowUpdate.backgroundColor=[UIColor colorWithRed:148/255.0 green:18/255.0 blue:27/255.0 alpha:1];
         [lblShowUpdate.layer setCornerRadius:5];
         lblShowUpdate.layer.masksToBounds=YES;
@@ -106,8 +95,8 @@
     UILabel *lbl=(UILabel *)[cell viewWithTag:100];
     UILabel *lblShowUpdate=(UILabel *)[cell viewWithTag:110];
     [lbl setTextAlignment:NSTextAlignmentLeft];
-    lbl.text=[arrMenuList objectAtIndex:indexPath.row];
-    lbl.font=MenuTextfont;
+    lbl.text = [arrMenuList objectAtIndex:indexPath.row];
+    lbl.font = MenuTextfont;
     switch (indexPath.row) {
         case 0:{
             lblShowUpdate.hidden=NO;
@@ -178,7 +167,7 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(isPayment == false){
+    if([SingletonClass ShareInstance].isPayment == false){
         return;
     }
     lblLoginName.text=[UserInformation shareInstance].userFullName;
@@ -204,18 +193,15 @@
     
     if ( [frontViewController isKindOfClass:[UINavigationController class]] )
         frontNavigationController = (id)frontViewController;
-    if (row == 0)
-    {
-        if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] )
-        {
+    if (row == 0){
+        if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] ){
             AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
-        else
-        {
+        else{
             if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                 [SingletonClass ShareInstance].isUserLogOut = FALSE;
                 AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
@@ -226,11 +212,9 @@
             }else{
                  [revealController revealToggleAnimated:YES];
             }
-           
         }
     }
     else if (row == 1){
-        
         if ( ![frontNavigationController.topViewController isKindOfClass:[WorkOutView class]] ){
             WorkOutView *workoutViewController = [[WorkOutView alloc] initWithNibName:@"WorkOutView" bundle:nil];
             workoutViewController.notificationData=[notificationData valueForKey:@"workouts"];
@@ -248,16 +232,13 @@
                 [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                 [navigationController.navigationBar setTranslucent:NO];
                 [revealController pushFrontViewController:navigationController animated:YES];
-               
             }else{
                 [revealController revealToggleAnimated:YES];
             }
-
         }
     }
     else if (row == 2){
-        if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] )
-        {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[MessangerView class]] ){
             MessangerView *ViewController = [[MessangerView alloc] initWithNibName:@"MessangerView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:ViewController];
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
@@ -272,14 +253,12 @@
                 [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                 [navigationController.navigationBar setTranslucent:NO];
                 [revealController pushFrontViewController:navigationController animated:YES];
-                
             }else{
                 [revealController revealToggleAnimated:YES];
             }
         }
     }else if (row == 3){
-
-        if ( ![frontNavigationController.topViewController isKindOfClass:[PracticeLog class]] ){
+        if (![frontNavigationController.topViewController isKindOfClass:[PracticeLog class]] ){
             PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
              vc.comesFromMenuStatus = TRUE;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -288,7 +267,6 @@
             [revealController pushFrontViewController:navigationController animated:YES];
         }
         else{
-            
             if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                 [SingletonClass ShareInstance].isUserLogOut = FALSE;
                 PracticeLog   *vc =  [[PracticeLog alloc] initWithSunday:YES];
@@ -306,12 +284,10 @@
                     [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                     [navigationController.navigationBar setTranslucent:NO];
                     [revealController pushFrontViewController:navigationController animated:YES];
-                    
                 }else{
                     [revealController revealToggleAnimated:YES];
                 }
             }
-           
         }
     }else if (row == 4){
         if ( ![frontNavigationController.topViewController isKindOfClass:[CalendarMainViewController class]] ){
@@ -331,15 +307,12 @@
                 [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                 [navigationController.navigationBar setTranslucent:NO];
                 [revealController pushFrontViewController:navigationController animated:YES];
-
-                
             }else{
                 [revealController revealToggleAnimated:YES];
             }
         }
     }else if (row == 5){
-        if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] )
-        {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[MultimediaVideo class]] ){
             MultimediaVideo *frontViewController = [[MultimediaVideo alloc] initWithNibName:@"MultimediaVideo" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:frontViewController];
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
@@ -390,40 +363,33 @@
     
     if ( [frontViewController isKindOfClass:[UINavigationController class]] )
         frontNavigationController = (id)frontViewController;
-    if (row == 2)
-    {
-        if ( ![frontNavigationController.topViewController isKindOfClass:[Notes class]] )
-        {
+    if (row == 2){
+        if ( ![frontNavigationController.topViewController isKindOfClass:[Notes class]] ){
             Notes *notesViewController = [[Notes alloc] initWithNibName:@"Notes" bundle:nil];            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
-        else
-        {
+        else{
             if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                 [SingletonClass ShareInstance].isUserLogOut = FALSE;
                 Notes *notesViewController = [[Notes alloc] initWithNibName:@"Notes" bundle:nil];            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
                 [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
                 [navigationController.navigationBar setTranslucent:NO];
                 [revealController pushFrontViewController:navigationController animated:YES];
-
             }else{
                 [revealController revealToggleAnimated:YES];
-  
             }
                     }
     }else if (row == 0){
-        if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] )
-        {
+        if ( ![frontNavigationController.topViewController isKindOfClass:[AnnouncementView class]] ){
             AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mapViewController];
             [navigationController.navigationBar setBarTintColor:NAVIGATIONBAR_COLOR];
             [navigationController.navigationBar setTranslucent:NO];
             [revealController pushFrontViewController:navigationController animated:YES];
         }
-        else
-        {
+        else{
             if ([SingletonClass ShareInstance].isUserLogOut == TRUE){
                 [SingletonClass ShareInstance].isUserLogOut = FALSE;
                 AnnouncementView *mapViewController = [[AnnouncementView alloc] initWithNibName:@"AnnouncementView" bundle:nil];
@@ -621,13 +587,14 @@
 -(void)WebserviceResponse:(NSMutableDictionary *)MyResults :(int)Tag{
     // [SingaltonClass RemoveActivityIndicator:self.view];
     switch (Tag){
-        case getNotificationTag:{
+        case getNotificationMenuTag:{
             notificationData=nil;
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                [SingletonClass ShareInstance].isPayment = true;
                 notificationData=[MyResults objectForKey:DATA];
             }else if([[MyResults objectForKey:STATUS] isEqualToString:@"failed"]){
-               // isPayment = false;
-               // [SingletonClass initWithTitle:EMPTYSTRING message:[MyResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
+                [SingletonClass ShareInstance].isPayment = false;
+                [SingletonClass initWithTitle:EMPTYSTRING message:[MyResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
             }
             [_rearTableView reloadData];
             break;
@@ -644,12 +611,12 @@
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [SingletonClass RemoveActivityIndicator:self.view];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [self EnableDisableTouch:YES];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:NO];
-    isPayment = true;
     if (isIPAD){
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -673,11 +640,11 @@
             break;
         }
         case isManeger:{
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Practice Log",@"Calendar",@"Multimedia",@"Profile", nil];
+            arrMenuList = [[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Notes",@"SMS",@"Messenger",@"Attendance",@"Practice Log",@"Calendar",@"Multimedia",@"Profile", nil];
             break;
         }
         default:
-            arrMenuList=[[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Practice Log",@"Schedule",@"Multimedia",@"Profile", nil];
+            arrMenuList = [[NSArray alloc] initWithObjects:@"Announcements",@"Workouts",@"Messenger",@"Practice Log",@"Schedule",@"Multimedia",@"Profile", nil];
             break;
     }
     if ([UserInformation shareInstance].userType == isCoach || [UserInformation shareInstance].userType == isManeger) {
@@ -691,7 +658,7 @@
     [self getNotificationData];
     lblLoginName.text=[UserInformation shareInstance].userFullName;
 }
-- (void)viewDidLoad{
+-(void)viewDidLoad{
     if (!(isIPAD)) {
         [AppDelegate restrictRotation:YES];
     }
@@ -701,7 +668,7 @@
     [self setNeedsStatusBarAppearanceUpdate];
     ProfilePic= [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
     ProfilePic.layer.masksToBounds = YES;
-    ProfilePic.layer.cornerRadius=15;
+    ProfilePic.layer.cornerRadius = 15;
     
     UserInformation *userdata=[UserInformation shareInstance];
     UIBarButtonItem *BarItemEdit = [[UIBarButtonItem alloc] initWithCustomView:ProfilePic];
@@ -717,7 +684,7 @@
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"profileBg.png"] forBarMetrics:UIBarMetricsDefault];
     self.rearTableView.backgroundColor=[UIColor clearColor];
     self.rearTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    int tableHeight =0;
+    int tableHeight = 0;
     UIDeviceOrientation orentation = [[SingletonClass ShareInstance] CurrentOrientation:self];
     tableHeight = (SCREEN_HEIGHT == 480 && !(isIPAD)) ? 300 : (SCREEN_HEIGHT == 568 ? 460 : (orentation == UIDeviceOrientationPortrait) ? 970 : 700);
     self.rearTableView.frame = CGRectMake(self.rearTableView.frame.origin.x
@@ -744,17 +711,17 @@
     if ([SingletonClass  CheckConnectivity]) {
         userInfo=[UserInformation shareInstance];
         NSString *strURL = [NSString stringWithFormat:@"{\"user_id\":\"%d\",\"team_id\":\"%d\"}",userInfo.userId,userInfo.userSelectedTeamid];
-        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationTag];
+        [webservice WebserviceCall:webServiceGetNotification :strURL :getNotificationMenuTag];
     }else{
         [SingletonClass initWithTitle:EMPTYSTRING message:INTERNET_NOT_AVAILABLE delegate:nil btn1:@"Ok"];
     }
 }
 -(void)ChangeOrientation{
     UIDeviceOrientation deviceOrientation = [[SingletonClass ShareInstance] CurrentOrientation:self];
-    if ((isIPAD) && ((deviceOrientation==UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight || deviceOrientation==UIDeviceOrientationFaceUp))){
-        _btnLanscapLogout.hidden=NO;
+    if ((isIPAD) && ((deviceOrientation == UIDeviceOrientationLandscapeLeft) || (deviceOrientation==UIDeviceOrientationLandscapeRight || deviceOrientation == UIDeviceOrientationFaceUp))){
+        _btnLanscapLogout.hidden = NO;
     }else{
-        _btnLanscapLogout.hidden=YES;
+        _btnLanscapLogout.hidden = YES;
     }
     [self.rearTableView reloadData];
 }
@@ -771,36 +738,36 @@
                 table.userInteractionEnabled=status;
             }
             if ([object isKindOfClass:[UISearchBar class]]) {
-                UISearchBar *searchBar= (UISearchBar *)object;
-                searchBar.userInteractionEnabled=status;
+                UISearchBar *searchBar = (UISearchBar *)object;
+                searchBar.userInteractionEnabled = status;
             }
             if ([object isKindOfClass:[UITextField class]]) {
-                UITextField *textField= (UITextField *)object;
-                textField.userInteractionEnabled=status;
+                UITextField *textField = (UITextField *)object;
+                textField.userInteractionEnabled = status;
             }
             if ([object isKindOfClass:[UISegmentedControl class]]) {
-                UISegmentedControl *segmentControll= (UISegmentedControl *)object;
-                segmentControll.userInteractionEnabled=status;
+                UISegmentedControl *segmentControll = (UISegmentedControl *)object;
+                segmentControll.userInteractionEnabled = status;
             }
             if ([object isKindOfClass:[TKCalendarMonthView class]]) {
-                TKCalendarMonthView *Controll= (TKCalendarMonthView *)object;
-                Controll.userInteractionEnabled=status;
+                TKCalendarMonthView *Controll = (TKCalendarMonthView *)object;
+                Controll.userInteractionEnabled = status;
             }
             if ([object isKindOfClass:[TKCalendarDayView class]]) {
-                TKCalendarDayView *Controll= (TKCalendarDayView *)object;
-                Controll.userInteractionEnabled=status;
+                TKCalendarDayView *Controll = (TKCalendarDayView *)object;
+                Controll.userInteractionEnabled = status;
             }
             if ([object isKindOfClass:[MAWeekView class]]) {
                 MAWeekView *Controll= (MAWeekView *)object;
-                Controll.userInteractionEnabled=status;
+                Controll.userInteractionEnabled = status;
             }
             if ([object isKindOfClass:[UITextView class]]) {
-                UITextView *table= (UITextView *)object;
-                table.userInteractionEnabled=status;
+                UITextView *table = (UITextView *)object;
+                table.userInteractionEnabled = status;
             }
             if ([object isKindOfClass:[MKMapView class]]) {
-                MKMapView *Controll= (MKMapView *)object;
-                Controll.userInteractionEnabled=status;
+                MKMapView *Controll = (MKMapView *)object;
+                Controll.userInteractionEnabled = status;
             }
         }
     }
@@ -808,7 +775,6 @@
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
 // This method, Add tableview cell images
 -(UIImage *)SetImage:(NSInteger)index{
     UIImage *image;
@@ -817,16 +783,16 @@
     return image;
 }
 - (IBAction)logout:(id)sender {
-    [SingletonClass ShareInstance].isProfileSectionUpdate=TRUE;
-    [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
-    [SingletonClass ShareInstance].isMessangerInbox=TRUE;
-    [SingletonClass ShareInstance].isMessangerSent=TRUE;
-    [SingletonClass ShareInstance].isWorkOutSectionUpdate=TRUE;
+    [SingletonClass ShareInstance].isProfileSectionUpdate = TRUE;
+    [SingletonClass ShareInstance].isAnnouncementUpdate = TRUE;
+    [SingletonClass ShareInstance].isMessangerInbox = TRUE;
+    [SingletonClass ShareInstance].isMessangerSent = TRUE;
+    [SingletonClass ShareInstance].isWorkOutSectionUpdate = TRUE;
     [SingletonClass ShareInstance].isUserLogOut = TRUE;
-
-    notificationData=nil;
+    
+    notificationData = nil;
     [UserInformation resetSharedInstance];
-    BOOL isLoginView=FALSE;
+    BOOL isLoginView = FALSE;
     NSArray *arrController=[self.navigationController viewControllers];
     for (id object in arrController){
         if ([object isKindOfClass:[LoginVeiw class]]){

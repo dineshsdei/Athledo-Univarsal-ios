@@ -76,7 +76,6 @@
                                      self.uploadView.frame = frame;
                                  }
                              }
-                             
                          }
                          completion:^(BOOL finished){
                          }];
@@ -631,7 +630,6 @@
     }else{
         
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            
             if (iosVersion < 8) {
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-(keyboardHeight+22)):toolBar];
             }else{

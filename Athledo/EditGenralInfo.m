@@ -288,60 +288,37 @@
             UITextField *textfield=(UITextField *)[table viewWithTag:tag];
             
             NSString *strError = EMPTYSTRING;
-            if(textfield.text.length < 1 && tag==1000)
-            {
+            if(textfield.text.length < 1 && tag==1000){
                 strError = @"Please enter first name";
             }
-            else if(textfield.text.length < 1 && tag==1001)
-            {
+            else if(textfield.text.length < 1 && tag==1001){
                 strError =@"Please enter last name";
-                
-                
-            } else if(textfield.text.length < 1 && tag==1002)
-            {
+            } else if(textfield.text.length < 1 && tag==1002){
                 strError = @"Please enter Address";
-                
-            }else if(textfield.text.length < 1 && tag==1003)
-            {
+            }else if(textfield.text.length < 1 && tag==1003){
                 strError = @"Please enter Country";
-                
-            }else if(textfield.text.length < 1 && tag==1004)
-            {
+            }else if(textfield.text.length < 1 && tag==1004){
                 strError = @"Please enter State";
-                
-            }else if(textfield.text.length < 1 && tag==1005)
-            {
+            }else if(textfield.text.length < 1 && tag==1005){
                 strError = @"Please enter City";
-                
-            }else if(textfield.text.length < 1 && tag==1003)
-            {
+            }else if(textfield.text.length < 1 && tag==1003){
                 strError = @"Please enter Unit No.";
-                
-            }else if(textfield.text.length < 1 && tag==1003)
-            {
+            }else if(textfield.text.length < 1 && tag==1003){
                 strError = @"Please enter Zip code";
-                
-            }else if(textfield.text.length < 1 && tag==1003)
-            {
+            }else if(textfield.text.length < 1 && tag==1003){
                 strError = @"Please enter Phone No";
-                
             }
-            if(strError.length > 1)
-            {
+            if(strError.length > 1){
                 [SingletonClass initWithTitle:EMPTYSTRING message:strError delegate:nil btn1:@"Ok"];
                 return;
             }
         }
-        
         UserInformation *userInfo=[UserInformation shareInstance];
-        
         // ObjData in case edit
         if (_objData) {
-            
             NSMutableDictionary *temp=[[NSMutableDictionary alloc] initWithObjectsAndKeys:[_objData valueForKey:@"id"],@"id",[arrTextFieldText objectAtIndex:0],@"firstname",[arrTextFieldText objectAtIndex:1],@"lastname",[arrTextFieldText objectAtIndex:2],@"address",[arrTextFieldText objectAtIndex:3],@"country_name",[arrTextFieldText objectAtIndex:4],@"state_name",[arrTextFieldText objectAtIndex:5],@"city",[arrTextFieldText objectAtIndex:6],@"apt_no",[arrTextFieldText objectAtIndex:7],@"zip",[arrTextFieldText objectAtIndex:8],@"cellphone", nil];
             
             if (arrStateCode.count > 0) {
-                
                 [temp setObject:[arrStateCode objectAtIndex:stateCodeIndex] forKey:@"state_id"];
                 [temp setObject:[arrCountryCode objectAtIndex:CountryCodeIndex] forKey:@"country_id"];
             }else
@@ -543,8 +520,7 @@
     }
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -599,38 +575,30 @@
     }
     @catch (NSException *exception) {}@finally {}
 }
-- (void)pickerView :(UIPickerView *)pickerView didSelectRow :(NSInteger)row inComponent :(NSInteger)component
-{
+- (void)pickerView :(UIPickerView *)pickerView didSelectRow :(NSInteger)row inComponent :(NSInteger)component{
     
     if (isState) {
-        
         currentText.text=row > arrStateList.count ? [arrStateList objectAtIndex:arrStateList.count-1]:  [arrStateList objectAtIndex:row];;
         stateCodeIndex=row > arrStateList.count ? arrStateList.count-1: row;;
-    }else
-    {
+    }else{
         currentText.text=row > arrCountryList.count ? [arrCountryList objectAtIndex:arrCountryList.count-1]:  [arrCountryList objectAtIndex:row];
         CountryCodeIndex=row > arrCountryList.count ? arrCountryList.count-1: row;;
         [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
         
     }
 }
--(void)ShowPickerValueSelected : (NSArray *)data
-{
+-(void)ShowPickerValueSelected : (NSArray *)data{
     if (data.count > 0) {
-        
         if (currentText.text.length > 0) {
             for (int i=0; i< data.count; i++) {
                 
                 if ([[data objectAtIndex:i] isEqual:currentText.text]) {
-                    
                     if (currentText.tag==1003 && arrStateList.count==0) {
                         CountryCodeIndex=i;
                         [self getStateList :[[arrCountryCode objectAtIndex:CountryCodeIndex] intValue] ];
                         [listPicker reloadAllComponents];
                     }
-                    
-                    [listPicker selectRow:i inComponent:0 animated:YES];
-                    
+                       [listPicker selectRow:i inComponent:0 animated:YES];
                     break;
                 }
             }

@@ -33,6 +33,7 @@
     // First time call webservice or buffer data
     
     [SingletonClass ShareInstance].isAnnouncementUpdate=TRUE;
+    [SingletonClass ShareInstance].isPayment = true;
     
     
     [[UINavigationBar appearance] setTitleTextAttributes:

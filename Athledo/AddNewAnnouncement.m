@@ -119,7 +119,6 @@ UIDeviceOrientation CurrentOrientation;
         [SingletonClass setListPickerDatePickerMultipickerVisible:NO :pickerView :toolbar];
         
         [UIView animateKeyframesWithDuration:.27f delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState | UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-            
             if (iosVersion < 8) {
                 [SingletonClass setToolbarVisibleAt:CGPointMake(self.view.frame.size.width/2,self.view.frame.size.height-((kbSize.height > 310 ? kbSize.width : kbSize.height)+22)):toolbar];
                 scrollHeight=kbSize.height > 310 ? kbSize.width : kbSize.height ;
@@ -198,13 +197,12 @@ UIDeviceOrientation CurrentOrientation;
     [btnSave addTarget:self action:@selector(saveAnnouncement:) forControlEvents:UIControlEventTouchUpInside];
     [btnSave setTitle:@"Save" forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
     UIBarButtonItem *ButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnSave];
     self.navigationItem.rightBarButtonItem = ButtonItem;
     
     //set pickerView
     [self getGroupList];
-    if (((orientation==UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight))){
+    if (((orientation == UIDeviceOrientationLandscapeLeft) || (orientation==UIDeviceOrientationLandscapeRight))){
         if (iosVersion < 8) {
             pickerView=[[ALPickerView alloc]initWithFrame:CGRectMake(0,[[UIScreen mainScreen] bounds].size.width+350, [[UIScreen mainScreen] bounds].size.width, 216)];
         }else{
@@ -230,11 +228,11 @@ UIDeviceOrientation CurrentOrientation;
             emailBtn1.userInteractionEnabled=YES;
             emailNotification=@"0";
         }else{
-            emailBtn1.userInteractionEnabled=NO;
+            emailBtn1.userInteractionEnabled = NO;
             [emailBtn1 setImage:BTNEnableImage forState:UIControlStateNormal];
             [emailBtn2 setImage:BTNDisableImage forState:UIControlStateNormal];
-            emailBtn2.userInteractionEnabled=YES;
-            emailNotification=@"1";
+            emailBtn2.userInteractionEnabled = YES;
+            emailNotification = @"1";
         }
         NSString *settingStr = [obj valueForKey:@"privacy_setting"];
         NSArray *array = [settingStr componentsSeparatedByString:@","];
@@ -244,17 +242,17 @@ UIDeviceOrientation CurrentOrientation;
                 [privacySetting appendString:@","];
             }
         }
-        if ([array count]==4 && [array containsObject:@"2"]) {
+        if ([array count] == 4 && [array containsObject:@"2"]) {
             UIButton *btn = (UIButton*)[scrollView viewWithTag:1000];
             [btn setImage:CheckImage forState:UIControlStateNormal];
             btn.selected=YES;
         }
-        for (int i=0; i<array.count; i++){
+        for (int i = 0; i<array.count; i++){
             int a = [[array objectAtIndex:i]intValue];
             [settingArray addObject:[array objectAtIndex:i]];
             if ([settingArray[i] intValue] == 5) {
                 [settingArray replaceObjectAtIndex:i withObject:@"5"];
-                a=4;
+                a = 4;
             }
             UIButton *btn = (UIButton*)[scrollView viewWithTag:(a+1000)];
             [btn setImage:CheckImage forState:UIControlStateNormal];
@@ -263,9 +261,7 @@ UIDeviceOrientation CurrentOrientation;
     }
     [scrollView setContentOffset:CGPointMake(0,scrollHeight+100) animated: YES];
 }
-
 // this method used to get list of groups, Athletes to send Announcement to them
-
 -(void)getGroupList{
     if ([SingletonClass  CheckConnectivity]) {
         UserInformation *userInfo=[UserInformation shareInstance];
@@ -280,11 +276,9 @@ UIDeviceOrientation CurrentOrientation;
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                    tagNumber=GetGroupsTag;
-                                   if (data!=nil)
-                                   {
+                                   if (data!=nil){
                                        [self httpResponseReceived : data];
                                    }else{
-                                       
 //                                       ActiveIndicator *acti = (ActiveIndicator *)[self.view viewWithTag:50];
 //                                       if(acti)
 //                                           [acti removeFromSuperview];
@@ -685,7 +679,7 @@ UIDeviceOrientation CurrentOrientation;
             if (temp1.count > 0) {
                 tepmSetting=[tepmSetting stringByAppendingString:@",4"];
             }
-            temp1=nil;
+            temp1 = nil;
             NSString *description=descTxt.text;
             NSMutableDictionary* dicttemp = [[NSMutableDictionary alloc] init];
             [dicttemp setObject:[NSString stringWithFormat:@"%@",announcementId] forKey:@"id"];
@@ -709,14 +703,11 @@ UIDeviceOrientation CurrentOrientation;
                                                queue:[NSOperationQueue mainQueue]
                                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                        tagNumber=AddAnnouncementTag;
-                                       if (data!=nil)
-                                       {
+                                       if (data!=nil){
                                            [self httpResponseReceived : data];
                                        }else{
-                                        
                                            [SingletonClass RemoveActivityIndicator:self.view];
-                                        
-                                       }
+                                        }
                                    }];
         }else{
             self.navigationItem.rightBarButtonItem.enabled=YES;
@@ -734,7 +725,6 @@ UIDeviceOrientation CurrentOrientation;
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionGroupForRow:(NSInteger)row {
       return [[selectedGroups objectForKey:[groupArray objectAtIndex:row]] boolValue];
 }
-
 - (BOOL)pickerView:(ALPickerView *)pickerView selectionStateForRow:(NSInteger)row {
     return [[selectedGroups objectForKey:[groupArray objectAtIndex:row]] boolValue];
 }
@@ -816,17 +806,17 @@ UIDeviceOrientation CurrentOrientation;
 - (IBAction)CoachButtonEvent:(id)sender {
     [self ClickCheckBoxHideControll];
     if ([sender isKindOfClass:[CheckboxButton class]]){
-        CheckboxButton *button=(CheckboxButton*)sender;
+        CheckboxButton *button = (CheckboxButton*)sender;
         if (button.tag == 1001 && button.selected==YES){
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-            if (Allbtn.selected==YES) {
+            if (Allbtn.selected == YES) {
                 [Allbtn setImage:UncheckImage forState:UIControlStateNormal];
-                Allbtn.selected=NO;
+                Allbtn.selected = NO;
                 [button setImage:UncheckImage forState:UIControlStateNormal];
-                button.selected=NO;
+                button.selected = NO;
             }else{
                 [button setImage:UncheckImage forState:UIControlStateNormal];
-                button.selected=NO;
+                button.selected = NO;
             }
             NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
             if ([settingArray containsObject:str1]) {
@@ -834,21 +824,21 @@ UIDeviceOrientation CurrentOrientation;
             }
         }else if (button.tag == 1001 && button.selected==NO){
             [button setImage:CheckImage forState:UIControlStateNormal];
-            button.selected=YES;
-            int count=0;
+            button.selected = YES;
+            int count = 0;
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1002)];
             if (btnAthlete.selected == YES) {
                 count++;
             }
             CheckboxButton *btnAlumini = (CheckboxButton*)[scrollView viewWithTag:(1003)];
-            if (btnAlumini.selected==YES) {
+            if (btnAlumini.selected == YES) {
                 count++;
             }
             CheckboxButton *btnManager = (CheckboxButton*)[scrollView viewWithTag:(1004)];
-            if (btnManager.selected==YES) {
+            if (btnManager.selected == YES) {
                 count++;
             }
-            if (count==3) {
+            if (count == 3) {
                 CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
                 [Allbtn setImage:CheckImage forState:UIControlStateNormal];
                 Allbtn.selected=YES;
@@ -882,7 +872,7 @@ UIDeviceOrientation CurrentOrientation;
             }
         }else if (button.tag == 1002 && button.selected==NO){
             [button setImage:CheckImage forState:UIControlStateNormal];
-            button.selected=YES;
+            button.selected = YES;
             int count=0;
             CheckboxButton *btnAthlete = (CheckboxButton*)[scrollView viewWithTag:(1001)];
             if (btnAthlete.selected==YES) {
@@ -974,14 +964,14 @@ UIDeviceOrientation CurrentOrientation;
         CheckboxButton *button=(CheckboxButton*)sender;
         if (button.tag == 1003 && button.selected==YES){
             CheckboxButton *Allbtn = (CheckboxButton*)[scrollView viewWithTag:(1000)];
-            if (Allbtn.selected==YES) {
+            if (Allbtn.selected == YES) {
                 [Allbtn setImage:UncheckImage forState:UIControlStateNormal];
-                Allbtn.selected=NO;
+                Allbtn.selected = NO;
                 [button setImage:UncheckImage forState:UIControlStateNormal];
-                button.selected=NO;
+                button.selected = NO;
             }else{
                 [button setImage:UncheckImage forState:UIControlStateNormal];
-                button.selected=NO;
+                button.selected = NO;
             }
             NSString *str1=[NSString stringWithFormat:@"%d",(int)(button.tag-1000)];
             if ([settingArray containsObject:str1]) {

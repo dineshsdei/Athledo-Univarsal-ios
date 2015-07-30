@@ -52,11 +52,6 @@
             _lblemail.text = [_objAthleteDetails valueForKey:@"email"] != nil ? [_objAthleteDetails valueForKey:@"email"] : EMPTYSTRING;
         }
     }
-    @catch (NSException *exception) {
-        
-    }
-    @finally {
-        
-    }
+    @catch (NSException *exception) {}@finally {}
 }
 @end

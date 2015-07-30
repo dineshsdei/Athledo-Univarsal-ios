@@ -20,7 +20,7 @@ typedef enum
 
 @interface SingletonClass : NSObject
 {
-    
+    BOOL isPayment;
 }
 @property(nonatomic,retain) id <SingletonClassDelegate> delegate;
 @property(nonatomic)BOOL isWorkOutSectionUpdate;
@@ -33,6 +33,7 @@ typedef enum
 @property(nonatomic)BOOL isPracticeLogUpdate;
 
 @property(nonatomic)BOOL isUserLogOut;
+@property(nonatomic)BOOL isPayment;
 
 @property(nonatomic,strong)NSString *strCalendarEventType;
 @property(nonatomic,strong)NSString *strCalendarRepeatSting;

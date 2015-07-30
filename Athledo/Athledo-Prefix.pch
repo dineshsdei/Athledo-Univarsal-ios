@@ -268,6 +268,7 @@
 #define getAnnouncementTag 7000
 #define searchAnnouncementTag 7001
 #define getNotificationTag 7002
+#define getNotificationMenuTag 700122
 #define getMessagesTag 7003
 #define deleteMessagesTag 7004
 #define archiveMessagesTag 7005

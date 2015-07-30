@@ -575,7 +575,7 @@
             }
         }
         [SingletonClass addActivityIndicator:self.view];
-    }@catch (NSException *exception){}@finally{}
+    }@catch(NSException *exception){}@finally{}
 }
 #pragma mark- ASIHTTPRequest class delegate
 - (void)requestStarted:(ASIHTTPRequest *)theRequest {}

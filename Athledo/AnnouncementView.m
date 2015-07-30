@@ -57,7 +57,11 @@
 - (void)awakeFromNib
 {
 }
-
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [SingletonClass RemoveActivityIndicator:self.view];
+}
 - (void)orientationChanged:(NSNotification *)notification
 {
     [SingletonClass deleteUnUsedLableFromTable:tblAnnouncementRecods];
@@ -66,6 +70,9 @@
 
 -(void)AddNewAnnouncement
 {
+    if ( [SingletonClass ShareInstance].isPayment == false) {
+        return;
+    }
     AddNewAnnouncement *addNew=[[AddNewAnnouncement alloc] initWithNibName:@"AddNewAnnouncement" bundle:nil];
     addNew.obj=nil;
     addNew.ScreenTitle=@"Add Announcement";
@@ -95,6 +102,9 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar*)theSearchBar
 {
+    if ([SingletonClass ShareInstance].isPayment == false) {
+        return;
+    }
     @try {
         
         if(theSearchBar.text.length>0)
@@ -157,12 +167,16 @@
     switch (Tag){
         case getNotificationTag:{
             if([[MyResults objectForKey:STATUS] isEqualToString:SUCCESS]){
+                [SingletonClass ShareInstance].isPayment = true;
                 notificationData=[MyResults objectForKey:DATA];
                 if (userInfo.userType==1 || userInfo.userType==4) {
                     [tblAnnouncementRecods reloadData];
                 }else{
                     [tblUpdatesRecods reloadData];
                 }
+            }else if([[MyResults objectForKey:STATUS] isEqualToString:@"failed"]){
+                [SingletonClass ShareInstance].isPayment = false;
+                [SingletonClass initWithTitle:EMPTYSTRING message:[MyResults objectForKey:@"message"] delegate:nil btn1:@"Ok"];
             }
            break;
         }
@@ -273,8 +287,7 @@
 
 - (void)SearchAnnouncement :(NSString *)searchText
 {
-    if ([SingletonClass  CheckConnectivity])
-    {
+    if ([SingletonClass  CheckConnectivity]){
         userInfo=[UserInformation shareInstance];
         WebServiceClass *webservice =[WebServiceClass shareInstance];
         webservice.delegate=self;
@@ -295,6 +308,10 @@
 -(IBAction)searchData:(NSString *)searchText{
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
+    if ([SingletonClass ShareInstance].isPayment == false) {
+        [searchBar resignFirstResponder];
+        return;
+    }
     if (searchBar.text.length==0) {
         [self getList];
     }
@@ -486,6 +503,10 @@ panGestureRecognizerShouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestur
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([SingletonClass ShareInstance].isPayment == false) {
+        return;
+    }
+    
     UpdateDetails *updateDetails=[[UpdateDetails alloc] init];
     updateDetails.obj=[arrAnnouncements objectAtIndex:indexPath.section];
     updateDetails.strName=[[arrAnnouncements objectAtIndex:indexPath.section] objectForKey:Key_name];

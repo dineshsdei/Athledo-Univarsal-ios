@@ -18,8 +18,7 @@
 
 #define HISTORYCELL_HEIGHT isIPAD ? 60 :50
 
-@interface WorkOutHistory ()
-{
+@interface WorkOutHistory (){
     BOOL isSeasons;
     BOOL isWorkOutType;
     BOOL isAthletes;
@@ -365,8 +364,8 @@
     }
     cell.lblWorkoutName.textColor=[UIColor grayColor];
     cell.lblWorkoutName.font = Textfont;
-    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:History_key_name] isKindOfClass:[NSNull class]]) {
         cell.lblWorkoutName.text=[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:History_key_name];
+    if (![[[[arrSearchData objectAtIndex:indexPath.section ]valueForKey:KEY_WORKOUT] valueForKey:History_key_name] isKindOfClass:[NSNull class]]) {
     }
     cell.lblWorkoutDate.textColor=[UIColor lightGrayColor];
    cell.lblWorkoutDate.font = SmallTextfont;
